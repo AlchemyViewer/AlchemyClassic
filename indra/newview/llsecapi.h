@@ -33,12 +33,9 @@
 #include "llsdutil.h"
 
 #include <vector>
-#include "llwin32headerslean.h"
 #include <ostream>
 
-#ifdef LL_WINDOWS
-#pragma warning(disable:4250)
-#endif // LL_WINDOWS
+
 
 #define BASIC_SECHANDLER "BASIC_SECHANDLER"
 

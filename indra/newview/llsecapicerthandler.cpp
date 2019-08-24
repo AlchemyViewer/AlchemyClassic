@@ -65,7 +65,7 @@ bool valueCompareLLSD(const LLSD& lhs, const LLSD& rhs)
         // values that the left hand side has.
         for (LLSD::map_const_iterator litt = lhs.beginMap();
              litt != lhs.endMap();
-             litt++)
+             ++litt)
         {
             if (!rhs.has(litt->first))
             {
@@ -77,7 +77,7 @@ bool valueCompareLLSD(const LLSD& lhs, const LLSD& rhs)
         // right hand side has, and that the values are equal.
         for (LLSD::map_const_iterator ritt = rhs.beginMap();
              ritt != rhs.endMap();
-             ritt++)
+             ++ritt)
         {
             if (!lhs.has(ritt->first))
             {
@@ -96,13 +96,13 @@ bool valueCompareLLSD(const LLSD& lhs, const LLSD& rhs)
         // iterate through the array, comparing
         for (LLSD::array_const_iterator litt = lhs.beginArray();
              litt != lhs.endArray();
-             litt++)
+             ++litt)
         {
             if (!valueCompareLLSD(*ritt, *litt))
             {
                 return FALSE;
             }
-            ritt++;
+            ++ritt;
         }
         
         return (ritt == rhs.endArray());
@@ -123,7 +123,7 @@ LLBasicCertificate::LLBasicCertificate(const std::string& pem_cert,
 {
     // BIO_new_mem_buf returns a read only bio, but takes a void* which isn't const
     // so we need to cast it.
-    BIO * pem_bio = BIO_new_mem_buf((void*)pem_cert.c_str(), pem_cert.length());
+    BIO * pem_bio = BIO_new_mem_buf(reinterpret_cast<const void*>(pem_cert.c_str()), pem_cert.length());
     if(pem_bio == NULL)
     {
         LL_WARNS("SECAPI") << "Could not allocate an openssl memory BIO." << LL_ENDL;
@@ -234,7 +234,7 @@ LLSD& LLBasicCertificate::_initLLSD()
     mLLSDInfo[CERT_BASIC_CONSTRAINTS] = _basic_constraints_ext(mCert);
     mLLSDInfo[CERT_KEY_USAGE] = _key_usage_ext(mCert);
     mLLSDInfo[CERT_EXTENDED_KEY_USAGE] = _ext_key_usage_ext(mCert);
-    mLLSDInfo[CERT_SUBJECT_KEY_IDENTFIER] = _subject_key_identifier(mCert);
+    mLLSDInfo[CERT_SUBJECT_KEY_IDENTIFIER] = _subject_key_identifier(mCert);
     mLLSDInfo[CERT_AUTHORITY_KEY_IDENTIFIER] = _authority_key_identifier(mCert);
     return mLLSDInfo;
 }
@@ -243,12 +243,13 @@ LLSD& LLBasicCertificate::_initLLSD()
 LLSD _basic_constraints_ext(X509* cert)
 {
     LLSD result;
-    BASIC_CONSTRAINTS *bs = (BASIC_CONSTRAINTS *)X509_get_ext_d2i(cert, NID_basic_constraints, NULL, NULL);
+    BASIC_CONSTRAINTS *bs = static_cast<BASIC_CONSTRAINTS *>(
+        X509_get_ext_d2i(cert, NID_basic_constraints, NULL, NULL));
     if(bs)
     {
         result = LLSD::emptyMap();
         // Determines whether the cert can be used as a CA
-        result[CERT_BASIC_CONSTRAINTS_CA] = (bool)bs->ca;
+        result[CERT_BASIC_CONSTRAINTS_CA] = static_cast<bool>(bs->ca);
         
         if(bs->pathlen)
         {
@@ -261,7 +262,7 @@ LLSD _basic_constraints_ext(X509* cert)
             }
             else
             {
-                result[CERT_BASIC_CONSTRAINTS_PATHLEN] = (int)ASN1_INTEGER_get(bs->pathlen);
+                result[CERT_BASIC_CONSTRAINTS_PATHLEN] = static_cast<int>(ASN1_INTEGER_get(bs->pathlen));
             }
         }
         
@@ -275,7 +276,8 @@ LLSD _basic_constraints_ext(X509* cert)
 LLSD _key_usage_ext(X509* cert)
 {
     LLSD result;
-    ASN1_STRING *usage_str = (ASN1_STRING *)X509_get_ext_d2i(cert, NID_key_usage, NULL, NULL);
+    ASN1_STRING *usage_str = static_cast<ASN1_STRING *>(
+        X509_get_ext_d2i(cert, NID_key_usage, NULL, NULL));
     if(usage_str)
     {
         result = LLSD::emptyArray();
@@ -291,15 +293,15 @@ LLSD _key_usage_ext(X509* cert)
         ASN1_STRING_free(usage_str);
         if(usage)
         {
-            if(usage & KU_DIGITAL_SIGNATURE) result.append(LLSD((std::string)CERT_KU_DIGITAL_SIGNATURE));
-            if(usage & KU_NON_REPUDIATION) result.append(LLSD((std::string)CERT_KU_NON_REPUDIATION));
-            if(usage & KU_KEY_ENCIPHERMENT) result.append(LLSD((std::string)CERT_KU_KEY_ENCIPHERMENT));
-            if(usage & KU_DATA_ENCIPHERMENT) result.append(LLSD((std::string)CERT_KU_DATA_ENCIPHERMENT));
-            if(usage & KU_KEY_AGREEMENT) result.append(LLSD((std::string)CERT_KU_KEY_AGREEMENT));
-            if(usage & KU_KEY_CERT_SIGN) result.append(LLSD((std::string)CERT_KU_CERT_SIGN));
-            if(usage & KU_CRL_SIGN) result.append(LLSD((std::string)CERT_KU_CRL_SIGN));
-            if(usage & KU_ENCIPHER_ONLY) result.append(LLSD((std::string)CERT_KU_ENCIPHER_ONLY));
-            if(usage & KU_DECIPHER_ONLY) result.append(LLSD((std::string)CERT_KU_DECIPHER_ONLY));
+            if(usage & KU_DIGITAL_SIGNATURE) result.append(LLSD(CERT_KU_DIGITAL_SIGNATURE));
+            if(usage & KU_NON_REPUDIATION) result.append(LLSD(CERT_KU_NON_REPUDIATION));
+            if(usage & KU_KEY_ENCIPHERMENT) result.append(LLSD(CERT_KU_KEY_ENCIPHERMENT));
+            if(usage & KU_DATA_ENCIPHERMENT) result.append(LLSD(CERT_KU_DATA_ENCIPHERMENT));
+            if(usage & KU_KEY_AGREEMENT) result.append(LLSD(CERT_KU_KEY_AGREEMENT));
+            if(usage & KU_KEY_CERT_SIGN) result.append(LLSD(CERT_KU_CERT_SIGN));
+            if(usage & KU_CRL_SIGN) result.append(LLSD(CERT_KU_CRL_SIGN));
+            if(usage & KU_ENCIPHER_ONLY) result.append(LLSD(CERT_KU_ENCIPHER_ONLY));
+            if(usage & KU_DECIPHER_ONLY) result.append(LLSD(CERT_KU_DECIPHER_ONLY));
         }
     }
     return result;
@@ -309,7 +311,8 @@ LLSD _key_usage_ext(X509* cert)
 LLSD _ext_key_usage_ext(X509* cert)
 {
     LLSD result;
-    EXTENDED_KEY_USAGE *eku = (EXTENDED_KEY_USAGE *)X509_get_ext_d2i(cert, NID_ext_key_usage, NULL, NULL);
+    EXTENDED_KEY_USAGE *eku = static_cast<EXTENDED_KEY_USAGE *>(
+        X509_get_ext_d2i(cert, NID_ext_key_usage, NULL, NULL));
     if(eku)
     {
         result = LLSD::emptyArray();
@@ -337,7 +340,8 @@ LLSD _ext_key_usage_ext(X509* cert)
 std::string _subject_key_identifier(X509 *cert)
 {
     std::string result;
-    ASN1_OCTET_STRING *skeyid = (ASN1_OCTET_STRING *)X509_get_ext_d2i(cert, NID_subject_key_identifier, NULL, NULL);
+    ASN1_OCTET_STRING *skeyid = static_cast<ASN1_OCTET_STRING *>(
+        X509_get_ext_d2i(cert, NID_subject_key_identifier, NULL, NULL));
     if(skeyid)
     {
         result = cert_string_from_octet_string(skeyid);
@@ -350,7 +354,8 @@ std::string _subject_key_identifier(X509 *cert)
 LLSD _authority_key_identifier(X509* cert)
 {
     LLSD result;
-    AUTHORITY_KEYID *akeyid = (AUTHORITY_KEYID *)X509_get_ext_d2i(cert, NID_authority_key_identifier, NULL, NULL);
+    AUTHORITY_KEYID *akeyid = static_cast<AUTHORITY_KEYID *>(
+        X509_get_ext_d2i(cert, NID_authority_key_identifier, NULL, NULL));
     if(akeyid)
     {
         result = LLSD::emptyMap();
@@ -381,7 +386,7 @@ X509* LLBasicCertificate::getOpenSSLX509() const
 // name of the cert.
 std::string cert_string_name_from_X509_NAME(X509_NAME* name)
 {
-    char * name_bio_chars = NULL;
+    char * name_bio_chars = nullptr;
     // get a memory bio
     BIO *name_bio = BIO_new(BIO_s_mem());
     // stream the name into the bio.  The name will be in the 'short name' format
@@ -410,7 +415,7 @@ LLSD cert_name_from_X509_NAME(X509_NAME* name)
         {
             unsigned char* out_utf8_str;
             int len = ASN1_STRING_to_UTF8(&out_utf8_str, tmp);
-            name_value = std::string((char*) out_utf8_str, len);
+            name_value = std::string(reinterpret_cast<char*>(out_utf8_str), len);
             OPENSSL_free(out_utf8_str);
         }
         else
@@ -464,7 +469,7 @@ std::string cert_string_from_octet_string(ASN1_OCTET_STRING* value)
         {
             result << ":";
         }
-        result  << std::setfill('0') << std::setw(2) << (int)value->data[i];
+        result  << std::setfill('0') << std::setw(2) << static_cast<int>(value->data[i]);
     }
     return result.str();
 }
@@ -523,9 +528,9 @@ LLDate cert_date_from_asn1_time(ASN1_TIME* asn1_time)
     timestruct.tm_sec = (asn1_time->data[10]-'0') * 10 + (asn1_time->data[11]-'0');
     
 #if LL_WINDOWS
-    return LLDate((F64)_mkgmtime(&timestruct));
+    return LLDate(static_cast<F64>(_mkgmtime(&timestruct)));
 #else // LL_WINDOWS
-    return LLDate((F64)timegm(&timestruct));
+    return LLDate(static_cast<F64>(timegm(&timestruct)));
 #endif // LL_WINDOWS
 }
 
@@ -551,17 +556,17 @@ LLBasicCertificateVector::iterator LLBasicCertificateVector::find(const LLSD& pa
         (*cert)->getLLSD(cert_info);
         for (LLSD::map_const_iterator param = params.beginMap();
              found && param != params.endMap();
-             param++)
+             ++param)
         {
-            if (   !cert_info.has((std::string)param->first)
-                || !valueCompareLLSD(cert_info[(std::string)param->first], param->second))
+            if (   !cert_info.has(static_cast<std::string>(param->first))
+                || !valueCompareLLSD(cert_info[static_cast<std::string>(param->first)], param->second))
             {
                 found = false;
             }
         }
         if (!found)
         {
-            cert++;
+            ++cert;
         }
     }
     return cert;
@@ -574,10 +579,10 @@ void  LLBasicCertificateVector::insert(iterator _iter,
 {
     LLSD cert_info;
     cert->getLLSD(cert_info);
-    if (cert_info.isMap() && cert_info.has(CERT_SUBJECT_KEY_IDENTFIER))
+    if (cert_info.isMap() && cert_info.has(CERT_SUBJECT_KEY_IDENTIFIER))
     {
         LLSD existing_cert_info = LLSD::emptyMap();
-        existing_cert_info[CERT_SUBJECT_KEY_IDENTFIER] = cert_info[CERT_SUBJECT_KEY_IDENTFIER];
+        existing_cert_info[CERT_SUBJECT_KEY_IDENTIFIER] = cert_info[CERT_SUBJECT_KEY_IDENTIFIER];
         if(find(existing_cert_info) == end())
         {
             BasicIteratorImpl *basic_iter = dynamic_cast<BasicIteratorImpl*>(_iter.mImpl.get());
@@ -587,7 +592,7 @@ void  LLBasicCertificateVector::insert(iterator _iter,
             }
             else
             {
-                LL_WARNS("SECAPI") << "Invalid certificate postion vector"
+                LL_WARNS("SECAPI") << "Invalid certificate position vector"
                 << LL_ENDL;
             }
         }
@@ -694,11 +699,6 @@ void LLBasicCertificateStore::load_from_file(const std::string& filename)
 }
 
 
-LLBasicCertificateStore::~LLBasicCertificateStore()
-{
-}
-
-
 // persist the store
 void LLBasicCertificateStore::save()
 {
@@ -707,7 +707,7 @@ void LLBasicCertificateStore::save()
     {
         for(iterator cert = begin();
             cert != end();
-            cert++)
+            ++cert)
         {
             std::string pem = (*cert)->getPem();
             if(!pem.empty())
@@ -820,7 +820,7 @@ bool _cert_subdomain_wildcard_match(const std::string& subdomain,
     
     // as the portion of the wildcard string before the * matched, we need to check the
     // portion afterwards.  Grab that portion.
-    std::string new_wildcard_string = wildcard.substr( wildcard_pos+1, wildcard.npos);
+    const std::string new_wildcard_string = wildcard.substr( wildcard_pos+1, wildcard.npos);
     if(new_wildcard_string.empty())
     {
         // we had nothing after the *, so it's an automatic match
@@ -829,7 +829,7 @@ bool _cert_subdomain_wildcard_match(const std::string& subdomain,
     
     // grab the portion of the remaining wildcard string before the next '*'.  We need to find this
     // within the remaining subdomain string. and then recursively check.
-    std::string new_wildcard_match_string = new_wildcard_string.substr(0, new_wildcard_string.find_first_of('*'));
+    const std::string new_wildcard_match_string = new_wildcard_string.substr(0, new_wildcard_string.find_first_of('*'));
     
     // grab the portion of the subdomain after the part that matched the initial wildcard portion
     std::string new_subdomain = subdomain.substr(wildcard_pos, subdomain.npos);
@@ -916,7 +916,7 @@ bool _LLSDArrayIncludesValue(const LLSD& llsd_set, LLSD llsd_value)
 {
     for(LLSD::array_const_iterator set_value = llsd_set.beginArray();
         set_value != llsd_set.endArray();
-        set_value++)
+        ++set_value)
     {
         if(valueCompareLLSD((*set_value), llsd_value))
         {
@@ -949,7 +949,7 @@ void _validateCert(int validation_policy,
     {
         LLTHROW(LLCertException(current_cert_info, "Cert doesn't have an expiration period"));
     }
-    if (!current_cert_info.has(CERT_SUBJECT_KEY_IDENTFIER))
+    if (!current_cert_info.has(CERT_SUBJECT_KEY_IDENTIFIER))
     {
         LLTHROW(LLCertException(current_cert_info, "Cert doesn't have a Subject Key Id"));
     }
@@ -972,16 +972,16 @@ void _validateCert(int validation_policy,
     {
         if (current_cert_info.has(CERT_KEY_USAGE) && current_cert_info[CERT_KEY_USAGE].isArray() &&
             (!(_LLSDArrayIncludesValue(current_cert_info[CERT_KEY_USAGE],
-                                       LLSD((std::string)CERT_KU_DIGITAL_SIGNATURE))) ||
+                                       LLSD(static_cast<std::string>(CERT_KU_DIGITAL_SIGNATURE)))) ||
              !(_LLSDArrayIncludesValue(current_cert_info[CERT_KEY_USAGE],
-                                       LLSD((std::string)CERT_KU_KEY_ENCIPHERMENT)))))
+                                       LLSD(static_cast<std::string>(CERT_KU_KEY_ENCIPHERMENT))))))
         {
             LLTHROW(LLCertKeyUsageValidationException(current_cert_info));
         }
         // only validate EKU if the cert has it
         if(current_cert_info.has(CERT_EXTENDED_KEY_USAGE) && current_cert_info[CERT_EXTENDED_KEY_USAGE].isArray() &&
            (!_LLSDArrayIncludesValue(current_cert_info[CERT_EXTENDED_KEY_USAGE],
-                                     LLSD((std::string)CERT_EKU_SERVER_AUTH))))
+                                     LLSD(static_cast<std::string>(CERT_EKU_SERVER_AUTH)))))
         {
             LLTHROW(LLCertKeyUsageValidationException(current_cert_info));
         }
@@ -990,7 +990,7 @@ void _validateCert(int validation_policy,
     {
         if (current_cert_info.has(CERT_KEY_USAGE) && current_cert_info[CERT_KEY_USAGE].isArray() &&
             (!_LLSDArrayIncludesValue(current_cert_info[CERT_KEY_USAGE],
-                                      (std::string)CERT_KU_CERT_SIGN)))
+                                      static_cast<std::string>(CERT_KU_CERT_SIGN))))
         {
             LLTHROW(LLCertKeyUsageValidationException(current_cert_info));
         }
@@ -1124,10 +1124,10 @@ void LLBasicCertificateStore::validate(int validation_policy,
     {
         LLTHROW(LLInvalidCertificate(current_cert_info));
     }
-    
-    
-    std::string subject_name(cert_string_name_from_X509_NAME(X509_get_subject_name(cert_x509)));
-    std::string skeyid(_subject_key_identifier(cert_x509));
+
+
+    const std::string subject_name(cert_string_name_from_X509_NAME(X509_get_subject_name(cert_x509)));
+    const std::string skeyid(_subject_key_identifier(cert_x509));
     
     LL_DEBUGS("SECAPI") << "attempting to validate cert "
     << " for '" << (validation_params.has(CERT_HOSTNAME) ? validation_params[CERT_HOSTNAME].asString() : "(unknown hostname)") << "'"
@@ -1141,8 +1141,8 @@ void LLBasicCertificateStore::validate(int validation_policy,
     {
         LLTHROW(LLCertException(current_cert_info, "No Subject Key Id"));
     }
-    
-    t_cert_cache::iterator cache_entry = mTrustedCertCache.find(skeyid);
+
+    const t_cert_cache::iterator cache_entry = mTrustedCertCache.find(skeyid);
     if(cache_entry != mTrustedCertCache.end())
     {
         // this cert is in the cache, so validate the time.
@@ -1209,7 +1209,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
         // look for a CA in the CA store that may belong to this chain.
         LLSD cert_search_params = LLSD::emptyMap();
         // is the cert itself in the store?
-        cert_search_params[CERT_SUBJECT_KEY_IDENTFIER] = current_cert_info[CERT_SUBJECT_KEY_IDENTFIER];
+        cert_search_params[CERT_SUBJECT_KEY_IDENTIFIER] = current_cert_info[CERT_SUBJECT_KEY_IDENTIFIER];
         LLCertificateStore::iterator found_store_cert = find(cert_search_params);
         if(found_store_cert != end())
         {
@@ -1217,10 +1217,10 @@ void LLBasicCertificateStore::validate(int validation_policy,
             LL_DEBUGS("SECAPI") << "Valid cert "
             << " for '" << (validation_params.has(CERT_HOSTNAME) ? validation_params[CERT_HOSTNAME].asString() : "(unknown hostname)") << "'";
             X509* cert_x509 = (*found_store_cert)->getOpenSSLX509();
-            std::string found_cert_subject_name(cert_string_name_from_X509_NAME(X509_get_subject_name(cert_x509)));
+            const std::string found_cert_subject_name(cert_string_name_from_X509_NAME(X509_get_subject_name(cert_x509)));
             X509_free(cert_x509);
             LL_CONT << " as '" << found_cert_subject_name << "'"
-            << " skeyid '" << current_cert_info[CERT_SUBJECT_KEY_IDENTFIER].asString() << "'"
+            << " skeyid '" << current_cert_info[CERT_SUBJECT_KEY_IDENTIFIER].asString() << "'"
             << " found in cert store"
             << LL_ENDL;
             return;
@@ -1235,7 +1235,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
             LLSD cert_aki = current_cert_info[CERT_AUTHORITY_KEY_IDENTIFIER];
             if(cert_aki.has(CERT_AUTHORITY_KEY_IDENTIFIER_ID))
             {
-                cert_search_params[CERT_SUBJECT_KEY_IDENTFIER] = cert_aki[CERT_AUTHORITY_KEY_IDENTIFIER_ID];
+                cert_search_params[CERT_SUBJECT_KEY_IDENTIFIER] = cert_aki[CERT_AUTHORITY_KEY_IDENTIFIER_ID];
             }
             if(cert_aki.has(CERT_AUTHORITY_KEY_IDENTIFIER_SERIAL))
             {
@@ -1264,13 +1264,13 @@ void LLBasicCertificateStore::validate(int validation_policy,
             << " as '" << subject_name << "'"
             << " id '" << skeyid << "'"
             << " using CA '" << cert_search_params[CERT_SUBJECT_NAME_STRING] << "'"
-            << " with id '" <<  cert_search_params[CERT_SUBJECT_KEY_IDENTFIER].asString() << "' found in cert store"
+            << " with id '" <<  cert_search_params[CERT_SUBJECT_KEY_IDENTIFIER].asString() << "' found in cert store"
             << LL_ENDL;
             return;
         }
         previous_cert = (*current_cert);
-        current_cert++;
-        depth++;
+        ++current_cert;
+        ++depth;
         if(current_cert != cert_chain->end())
         {
             (*current_cert)->getLLSD(current_cert_info);
@@ -1306,7 +1306,7 @@ LLSecAPIBasicCertHandler::LLSecAPIBasicCertHandler()
     
     // grab the application ca-bundle.crt file that contains the well-known certs shipped
     // with the product
-    std::string ca_file_path = gDirUtilp->getCAFile();
+    const std::string& ca_file_path = gDirUtilp->getCAFile();
     LL_INFOS("SECAPI") << "Loading application certificate store from " << ca_file_path << LL_ENDL;
     LLPointer<LLBasicCertificateStore> app_ca_store = new LLBasicCertificateStore(ca_file_path);
     
@@ -1314,7 +1314,7 @@ LLSecAPIBasicCertHandler::LLSecAPIBasicCertHandler()
     // updated
     for(LLCertificateVector::iterator i = app_ca_store->begin();
         i != app_ca_store->end();
-        i++)
+        ++i)
     {
         mStore->add(*i);
     }

@@ -31,46 +31,51 @@
 #include "llexception.h"
 #include "llsdutil.h"
 #include <openssl/x509.h>
+#include <utility>
 
-#define CERT_SUBJECT_NAME "subject_name"
-#define CERT_ISSUER_NAME "issuer_name"
-#define CERT_NAME_CN "commonName"
+#ifdef LL_WINDOWS
+#pragma warning(disable:4250)
+#endif // LL_WINDOWS
 
-#define CERT_SUBJECT_NAME_STRING "subject_name_string"
-#define CERT_ISSUER_NAME_STRING "issuer_name_string"
+constexpr auto CERT_SUBJECT_NAME = "subject_name";
+constexpr auto CERT_ISSUER_NAME = "issuer_name";
+constexpr auto CERT_NAME_CN = "commonName";
 
-#define CERT_SERIAL_NUMBER "serial_number"
+constexpr auto CERT_SUBJECT_NAME_STRING = "subject_name_string";
+constexpr auto CERT_ISSUER_NAME_STRING = "issuer_name_string";
 
-#define CERT_VALID_FROM "valid_from"
-#define CERT_VALID_TO "valid_to"
-#define CERT_SHA1_DIGEST "sha1_digest"
-#define CERT_MD5_DIGEST "md5_digest"
-#define CERT_HOSTNAME "hostname"
-#define CERT_BASIC_CONSTRAINTS "basicConstraints"
-#define CERT_BASIC_CONSTRAINTS_CA "CA"
-#define CERT_BASIC_CONSTRAINTS_PATHLEN "pathLen"
+constexpr auto CERT_SERIAL_NUMBER = "serial_number";
 
-#define CERT_KEY_USAGE "keyUsage"
-#define CERT_KU_DIGITAL_SIGNATURE    "digitalSignature"
-#define CERT_KU_NON_REPUDIATION      "nonRepudiation"
-#define CERT_KU_KEY_ENCIPHERMENT     "keyEncipherment"
-#define CERT_KU_DATA_ENCIPHERMENT    "dataEncipherment"
-#define CERT_KU_KEY_AGREEMENT        "keyAgreement"
-#define CERT_KU_CERT_SIGN        "certSigning"
-#define CERT_KU_CRL_SIGN             "crlSigning"
-#define CERT_KU_ENCIPHER_ONLY        "encipherOnly"
-#define CERT_KU_DECIPHER_ONLY        "decipherOnly"
+constexpr auto CERT_VALID_FROM = "valid_from";
+constexpr auto CERT_VALID_TO = "valid_to";
+constexpr auto CERT_SHA1_DIGEST = "sha1_digest";
+constexpr auto CERT_MD5_DIGEST = "md5_digest";
+constexpr auto CERT_HOSTNAME = "hostname";
+constexpr auto CERT_BASIC_CONSTRAINTS = "basicConstraints";
+constexpr auto CERT_BASIC_CONSTRAINTS_CA = "CA";
+constexpr auto CERT_BASIC_CONSTRAINTS_PATHLEN = "pathLen";
 
-#define CERT_VALIDATION_DATE "validation_date"
+constexpr auto CERT_KEY_USAGE = "keyUsage";
+constexpr auto CERT_KU_DIGITAL_SIGNATURE = "digitalSignature";
+constexpr auto CERT_KU_NON_REPUDIATION = "nonRepudiation";
+constexpr auto CERT_KU_KEY_ENCIPHERMENT = "keyEncipherment";
+constexpr auto CERT_KU_DATA_ENCIPHERMENT = "dataEncipherment";
+constexpr auto CERT_KU_KEY_AGREEMENT = "keyAgreement";
+constexpr auto CERT_KU_CERT_SIGN = "certSigning";
+constexpr auto CERT_KU_CRL_SIGN = "crlSigning";
+constexpr auto CERT_KU_ENCIPHER_ONLY = "encipherOnly";
+constexpr auto CERT_KU_DECIPHER_ONLY = "decipherOnly";
 
-#define CERT_EXTENDED_KEY_USAGE "extendedKeyUsage"
+constexpr auto CERT_VALIDATION_DATE = "validation_date";
+
+constexpr auto CERT_EXTENDED_KEY_USAGE = "extendedKeyUsage";
 #define CERT_EKU_SERVER_AUTH SN_server_auth
 
-#define CERT_SUBJECT_KEY_IDENTFIER "subjectKeyIdentifier"
-#define CERT_AUTHORITY_KEY_IDENTIFIER "authorityKeyIdentifier"
-#define CERT_AUTHORITY_KEY_IDENTIFIER_ID "authorityKeyIdentifierId"
-#define CERT_AUTHORITY_KEY_IDENTIFIER_NAME "authorityKeyIdentifierName"
-#define CERT_AUTHORITY_KEY_IDENTIFIER_SERIAL "authorityKeyIdentifierSerial"
+constexpr auto CERT_SUBJECT_KEY_IDENTIFIER = "subjectKeyIdentifier";
+constexpr auto CERT_AUTHORITY_KEY_IDENTIFIER = "authorityKeyIdentifier";
+constexpr auto CERT_AUTHORITY_KEY_IDENTIFIER_ID = "authorityKeyIdentifierId";
+constexpr auto CERT_AUTHORITY_KEY_IDENTIFIER_NAME = "authorityKeyIdentifierName";
+constexpr auto CERT_AUTHORITY_KEY_IDENTIFIER_SERIAL = "authorityKeyIdentifierSerial";
 
 // validate the current time lies within
 // the validation period of the cert
@@ -113,10 +118,10 @@ class LLCertificate : public LLThreadSafeRefCount
 {
     LOG_CLASS(LLCertificate);
 public:
-    LLCertificate() {}
-    
-    virtual ~LLCertificate() {}
-    
+    LLCertificate() = default;
+
+    virtual ~LLCertificate() = default;
+
     // return a PEM encoded certificate.  The encoding
     // includes the -----BEGIN CERTIFICATE----- and end certificate elements
     virtual std::string getPem() const=0;
@@ -141,17 +146,16 @@ class LLCertificateVector : public LLThreadSafeRefCount
 {
     
 public:
-    
-    LLCertificateVector() {};
-    virtual ~LLCertificateVector() {};
+    LLCertificateVector() = default;
+    virtual ~LLCertificateVector() = default;
     
     // base iterator implementation class, providing
     // the functionality needed for the iterator class.
     class iterator_impl : public LLThreadSafeRefCount
     {
     public:
-        iterator_impl() {};
-        virtual ~iterator_impl() {};
+        iterator_impl() = default;;
+        virtual ~iterator_impl() = default;;
         virtual void seek(bool incr)=0;
         virtual LLPointer<iterator_impl> clone() const=0;
         virtual bool equals(const LLPointer<iterator_impl>& _iter) const=0;
@@ -162,10 +166,10 @@ public:
     class iterator
     {
     public:
-        iterator(LLPointer<iterator_impl> impl) : mImpl(impl) {}
-        iterator() : mImpl(NULL) {}
+        iterator(const LLPointer<iterator_impl>& impl) : mImpl(impl) {}
+        iterator() : mImpl(nullptr) {}
         iterator(const iterator& _iter) {mImpl = _iter.mImpl->clone(); }
-        ~iterator() {}
+        ~iterator() = default;
         iterator& operator++() { if(mImpl.notNull()) mImpl->seek(true); return *this;}
         iterator& operator--() { if(mImpl.notNull()) mImpl->seek(false); return *this;}
         
@@ -210,10 +214,9 @@ class LLCertificateChain : virtual public LLCertificateVector
 {
     
 public:
-    LLCertificateChain() {}
-    
-    virtual ~LLCertificateChain() {}
-    
+    LLCertificateChain() = default;
+
+    virtual ~LLCertificateChain() = default;
 };
 
 // class LLCertificateStore
@@ -226,9 +229,9 @@ class LLCertificateStore : virtual public LLCertificateVector
     
 public:
     
-    LLCertificateStore() {}
-    virtual ~LLCertificateStore() {}
-    
+    LLCertificateStore() = default;
+    virtual ~LLCertificateStore() = default;
+
     // persist the store
     virtual void save()=0;
     
@@ -272,8 +275,8 @@ public:
     LOG_CLASS(LLBasicCertificate);
     
     // The optional validation_params allow us to make the unit test time-invariant
-    LLBasicCertificate(const std::string& pem_cert, const LLSD* validation_params = NULL);
-    LLBasicCertificate(X509* openSSLX509, const LLSD* validation_params = NULL);
+    LLBasicCertificate(const std::string& pem_cert, const LLSD* validation_params = nullptr);
+    LLBasicCertificate(X509* pCert, const LLSD* validation_params = nullptr);
     
     virtual ~LLBasicCertificate();
     
@@ -284,7 +287,7 @@ public:
     X509* getOpenSSLX509() const override;
     
     // set llsd elements for testing
-    void setLLSD(const std::string name, const LLSD& value) { mLLSDInfo[name] = value; }
+    void setLLSD(const std::string& name, const LLSD& value) { mLLSDInfo[name] = value; }
     
 protected:
     // certificates are stored as X509 objects, as validation and
@@ -303,10 +306,10 @@ class LLBasicCertificateVector : virtual public LLCertificateVector
 {
     
 public:
-    LLBasicCertificateVector() {}
-    
-    virtual ~LLBasicCertificateVector() {}
-    
+    LLBasicCertificateVector() = default;
+
+    virtual ~LLBasicCertificateVector() = default;
+
     // Implementation of the basic iterator implementation.
     // The implementation uses a vector iterator derived from
     // the vector in the LLBasicCertificateVector class
@@ -314,7 +317,7 @@ public:
     {
     public:
         BasicIteratorImpl(std::vector<LLPointer<LLCertificate> >::iterator _iter) { mIter = _iter;}
-        virtual ~BasicIteratorImpl() {};
+        virtual ~BasicIteratorImpl() = default;;
         // seek forward or back.  Used by the operator++/operator-- implementations
         void seek(bool incr) override
         {
@@ -388,7 +391,7 @@ public:
     LLBasicCertificateStore(const std::string& filename);
     void load_from_file(const std::string& filename);
     
-    virtual ~LLBasicCertificateStore();
+    virtual ~LLBasicCertificateStore() = default;
     
     // persist the store
     void save() override;
@@ -399,7 +402,7 @@ public:
     // validate a certificate chain against a certificate store, using the
     // given validation policy.
     void validate(int validation_policy,
-                  LLPointer<LLCertificateChain> ca_chain,
+                  LLPointer<LLCertificateChain> cert_chain,
                   const LLSD& validation_params) override;
     
 protected:
@@ -423,12 +426,11 @@ class LLBasicCertificateChain : virtual public LLBasicCertificateVector, public 
 public:
     LLBasicCertificateChain(X509_STORE_CTX * store);
     
-    virtual ~LLBasicCertificateChain() {}
-    
+    virtual ~LLBasicCertificateChain() = default;
 };
 
 // All error handling is via exceptions.
-class LLCertException: public LLException
+class LLCertException : public LLException
 {
 public:
     LLCertException(const LLSD& cert_data, const std::string& msg): LLException(msg),
@@ -438,7 +440,7 @@ public:
         LL_CONT << " in certificate: \n";
         LL_CONT << ll_pretty_print_sd(cert_data) << LL_ENDL;
     }
-    virtual ~LLCertException() throw() {}
+    virtual ~LLCertException() noexcept = default;
     LLSD getCertData() const { return mCertData; }
 protected:
     LLSD mCertData;
@@ -450,8 +452,7 @@ public:
     LLInvalidCertificate(const LLSD& cert_data) : LLCertException(cert_data, "CertInvalid")
     {
     }
-    virtual ~LLInvalidCertificate() throw() {}
-protected:
+    virtual ~LLInvalidCertificate() noexcept = default;
 };
 
 class LLCertValidationTrustException : public LLCertException
@@ -460,8 +461,7 @@ public:
     LLCertValidationTrustException(const LLSD& cert_data) : LLCertException(cert_data, "CertUntrusted")
     {
     }
-    virtual ~LLCertValidationTrustException() throw() {}
-protected:
+    virtual ~LLCertValidationTrustException() noexcept = default;
 };
 
 class LLCertValidationHostnameException : public LLCertException
@@ -470,10 +470,10 @@ public:
     LLCertValidationHostnameException(std::string hostname,
                                       const LLSD& cert_data) : LLCertException(cert_data, "CertInvalidHostname")
     {
-        mHostname = hostname;
+        mHostname = std::move(hostname);
     }
-    virtual ~LLCertValidationHostnameException() throw() {}
-    std::string getHostname() { return mHostname; }
+    virtual ~LLCertValidationHostnameException() noexcept = default;
+    std::string getHostname() const { return mHostname; }
 protected:
     std::string mHostname;
 };
@@ -481,13 +481,13 @@ protected:
 class LLCertValidationExpirationException : public LLCertException
 {
 public:
-    LLCertValidationExpirationException(const LLSD& cert_data,
-                                        LLDate current_time) : LLCertException(cert_data, "CertExpired")
+    LLCertValidationExpirationException(const LLSD& cert_data, const LLDate& current_time) 
+    : LLCertException(cert_data, "CertExpired")
     {
         mTime = current_time;
     }
-    virtual ~LLCertValidationExpirationException() throw() {}
-    LLDate GetTime() { return mTime; }
+    virtual ~LLCertValidationExpirationException() noexcept = default;
+    LLDate GetTime() const { return mTime; }
 protected:
     LLDate mTime;
 };
@@ -498,8 +498,7 @@ public:
     LLCertKeyUsageValidationException(const LLSD& cert_data) : LLCertException(cert_data, "CertKeyUsage")
     {
     }
-    virtual ~LLCertKeyUsageValidationException() throw() {}
-protected:
+    virtual ~LLCertKeyUsageValidationException() noexcept = default;
 };
 
 class LLCertBasicConstraintsValidationException : public LLCertException
@@ -508,8 +507,7 @@ public:
     LLCertBasicConstraintsValidationException(const LLSD& cert_data) : LLCertException(cert_data, "CertBasicConstraints")
     {
     }
-    virtual ~LLCertBasicConstraintsValidationException() throw() {}
-protected:
+    virtual ~LLCertBasicConstraintsValidationException() noexcept = default;
 };
 
 class LLCertValidationInvalidSignatureException : public LLCertException
@@ -518,8 +516,7 @@ public:
     LLCertValidationInvalidSignatureException(const LLSD& cert_data) : LLCertException(cert_data, "CertInvalidSignature")
     {
     }
-    virtual ~LLCertValidationInvalidSignatureException() throw() {}
-protected:
+    virtual ~LLCertValidationInvalidSignatureException() noexcept = default;
 };
 
 /**
@@ -530,9 +527,9 @@ protected:
 class LLSecAPICertHandler : public LLThreadSafeRefCount
 {
 public:
-    LLSecAPICertHandler() {}
-    virtual ~LLSecAPICertHandler() {}
-    
+    LLSecAPICertHandler() = default;
+    virtual ~LLSecAPICertHandler() = default;
+
     // instantiate a certificate from a pem string
     virtual LLPointer<LLCertificate> getCertificate(const std::string& pem_cert) = 0;
     
@@ -548,12 +545,12 @@ public:
     virtual LLPointer<LLCertificateStore> getCertificateStore(const std::string& store_id) = 0;
 };
 
-class LLSecAPIBasicCertHandler : public LLSecAPICertHandler
+class LLSecAPIBasicCertHandler final : public LLSecAPICertHandler
 {
 public:
     LLSecAPIBasicCertHandler();
-    virtual ~LLSecAPIBasicCertHandler() {}
-    
+    virtual ~LLSecAPIBasicCertHandler() = default;
+
     // instantiate a certificate from a pem string
     LLPointer<LLCertificate> getCertificate(const std::string& pem_cert) final;
     

@@ -10,8 +10,8 @@ else (USESYSTEMLIBS)
   use_prebuilt_binary(curl)
   if (WINDOWS)
     set(CURL_LIBRARIES 
-    debug libcurl_a_debug.lib
-    optimized libcurl_a.lib)
+    debug libcurl_a_debug.lib Normaliz.lib
+    optimized libcurl_a.lib Normaliz.lib)
   elseif (LINUX)
     set(CURL_LIBRARIES curl)
   else (DARWIN)

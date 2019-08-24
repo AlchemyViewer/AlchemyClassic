@@ -17,13 +17,21 @@ if (WINDOWS)
         optimized llprimitive
         debug libcollada14dom23-sd
         optimized libcollada14dom23-s
+        minizip
+        ${LIBXML2_LIBRARIES}
+        ${BOOST_REGEX_LIBRARY}
         ${BOOST_SYSTEM_LIBRARIES}
+        ${ZLIB_LIBRARIES}
         )
 elseif (DARWIN)
     set(LLPRIMITIVE_LIBRARIES
         llprimitive
         collada14dom
         minizip
+        ${LIBXML2_LIBRARIES}
+        ${BOOST_REGEX_LIBRARY}
+        ${BOOST_SYSTEM_LIBRARIES}
+        ${ZLIB_LIBRARIES}
         )
 elseif (LINUX)
     set(LLPRIMITIVE_LIBRARIES 
@@ -31,8 +39,10 @@ elseif (LINUX)
         debug collada14dom-d
         optimized collada14dom
         minizip
+        ${LIBXML2_LIBRARIES}
+        ${BOOST_REGEX_LIBRARY}
+        ${BOOST_SYSTEM_LIBRARIES}
+        ${ZLIB_LIBRARIES}
         )
 endif (WINDOWS)
-LIST(APPEND LLPRIMITIVE_LIBRARIES
-     ${LIBXML2_LIBRARIES}
-     )
+

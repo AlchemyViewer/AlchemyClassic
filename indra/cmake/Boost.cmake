@@ -24,39 +24,44 @@ else (USESYSTEMLIBS)
   set(BOOST_VERSION "1.69")
 
   if (WINDOWS)
+    if (ADDRESS_SIZE EQUAL 64)
+      set(BOOST_LIB_POSTFIX "-x64")
+    else()
+      set(BOOST_LIB_POSTFIX "-x32")
+    endif()
     set(BOOST_CHRONO_LIBRARY
-        optimized libboost_chrono-mt
-        debug libboost_chrono-mt-gd)
+        optimized libboost_chrono-mt${BOOST_LIB_POSTFIX}
+        debug libboost_chrono-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_CONTEXT_LIBRARY
-        optimized libboost_context-mt
-        debug libboost_context-mt-gd)
+        optimized libboost_context-mt${BOOST_LIB_POSTFIX}
+        debug libboost_context-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_COROUTINE_LIBRARY
-        optimized libboost_coroutine-mt
-        debug libboost_coroutine-mt-gd)
+        optimized libboost_coroutine-mt${BOOST_LIB_POSTFIX}
+        debug libboost_coroutine-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_DATE_TIME_LIBRARY
-        optimized libboost_date_time-mt
-        debug libboost_date_time-mt-gd)
+        optimized libboost_date_time-mt${BOOST_LIB_POSTFIX}
+        debug libboost_date_time-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_FILESYSTEM_LIBRARY
-        optimized libboost_filesystem-mt
-        debug libboost_filesystem-mt-gd)
+        optimized libboost_filesystem-mt${BOOST_LIB_POSTFIX}
+        debug libboost_filesystem-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_IOSTREAMS_LIBRARY
-        optimized libboost_iostreams-mt
-        debug libboost_iostreams-mt-gd)
+        optimized libboost_iostreams-mt${BOOST_LIB_POSTFIX}
+        debug libboost_iostreams-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_PROGRAM_OPTIONS_LIBRARY
-        optimized libboost_program_options-mt
-        debug libboost_program_options-mt-gd)
+        optimized libboost_program_options-mt${BOOST_LIB_POSTFIX}
+        debug libboost_program_options-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_REGEX_LIBRARY
-        optimized libboost_regex-mt
-        debug libboost_regex-mt-gd)
+        optimized libboost_regex-mt${BOOST_LIB_POSTFIX}
+        debug libboost_regex-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_SIGNALS_LIBRARY
-        optimized libboost_signals-mt
-        debug libboost_signals-mt-gd)
+        optimized libboost_signals-mt${BOOST_LIB_POSTFIX}
+        debug libboost_signals-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_SYSTEM_LIBRARY
-        optimized libboost_system-mt
-        debug libboost_system-mt-gd)
+        optimized libboost_system-mt${BOOST_LIB_POSTFIX}
+        debug libboost_system-mt-gd${BOOST_LIB_POSTFIX})
     set(BOOST_THREAD_LIBRARY
-        optimized libboost_thread-mt
-        debug libboost_thread-mt-gd)
+        optimized libboost_thread-mt${BOOST_LIB_POSTFIX}
+        debug libboost_thread-mt-gd${BOOST_LIB_POSTFIX})
   elseif (LINUX)
     set(BOOST_CHRONO_LIBRARY
         optimized boost_chrono-mt

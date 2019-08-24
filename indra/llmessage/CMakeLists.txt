@@ -14,6 +14,7 @@ include(Python)
 include(Tut)
 include(Python)
 include(Json)
+include(NGHTTP2)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -217,6 +218,7 @@ target_link_libraries(
   ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}
+  ${NGHTTP2_LIBRARIES}
   ${XMLRPCEPI_LIBRARIES}
   ${BOOST_COROUTINE_LIBRARY}
   ${BOOST_CONTEXT_LIBRARY}
@@ -242,6 +244,7 @@ if (LL_TESTS)
     ${LLVFS_LIBRARIES}
     ${LLMATH_LIBRARIES}
     ${CURL_LIBRARIES}
+    ${NGHTTP2_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}

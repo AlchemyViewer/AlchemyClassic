@@ -272,11 +272,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ae0998e5d108c77c5cea2a68ad928151</string>
+              <string>fbf781b3cec20e13fd1b132136ef0653</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/boost-1.63.0-windows-201703281813.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/boost/windows/boost-1.71-windows-7.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -286,18 +286,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6faba32dcfb80c26bafd4a3e06cff268</string>
+              <string>2aff6af54844e93fb3fa7e6f96875eb0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/boost-1.66.0-windows64-201712260832.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/boost/windows64/boost-1.71-windows64-7.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.69</string>
+        <string>1.71</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -356,11 +356,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>60bd2dbac5559141e05be6c424cf9cd0</string>
+              <string>cddb83d50ce5b77761c8947d08499162</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/colladadom-2.3-windows-201703281922.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/colladadom/windows/colladadom-2.3.5-windows-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -370,18 +370,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>65628150b732274f0bdd0fa33d6ca650</string>
+              <string>0f966d6fbdb762ea9ebab35c30dad139</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/colladadom-2.3-windows64-201712260938.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/colladadom/windows64/colladadom-2.3.5-windows64-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.3.192281729</string>
+        <string>2.3.5</string>
       </map>
       <key>curl</key>
       <map>
@@ -442,11 +442,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>da5be630ca350a7ed4c0e99250451d41</string>
+              <string>5f05a56e40c6bd658c5c9a762c40eb59</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.56.1-windows-201711241310.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows/curl-7.65.3.3-windows-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -456,18 +456,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>567076de810bcfff359c4779a68bb758</string>
+              <string>52deaa499ae3319ab45654dce045458b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/curl-7.59.0-windows64-201804071723.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows64/curl-7.65.3.3-windows64-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.65.3.192281403</string>
+        <string>7.65.3.3</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -942,11 +942,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bdbfc3b58cfc2f125881be748d092645</string>
+              <string>05575400f81e7429ed0c60109f7479d2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/freetype-2.8.0-windows-201710192344.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/freetype/windows/freetype-2.10.1.1-windows-1.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -956,18 +956,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7c028ec152b1dee1313c084d96a5d276</string>
+              <string>412d418a3948ea845ef3820c5961244b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/freetype-2.8.1-windows64-201712260751.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/freetype/windows64/freetype-2.10.1.1-windows64-1.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.10.0.192281432</string>
+        <string>2.10.1.1</string>
       </map>
       <key>glew</key>
       <map>
@@ -1782,11 +1782,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9aad0afaf2c1895224454c1dc433f481</string>
+              <string>7f467fcb009931127914a0602623dabd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/libpng-1.6.34-windows-201710172201.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/png/windows/libpng-1.6.37.1-windows-1.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1796,18 +1796,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>528889464c0766d762bd528cf82558db</string>
+              <string>50a6b6e2504197e4472e4629074c7ad7</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/libpng-1.6.34-windows64-201712260746.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/png/windows64/libpng-1.6.37.1-windows64-1.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.36.192261912</string>
+        <string>1.6.37.1</string>
       </map>
       <key>libxml2</key>
       <map>
@@ -1868,11 +1868,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a3f7c3421e9e4921dda3558c3b36dc59</string>
+              <string>37611f690502d83516dd7ba7a4d4b4bc</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/libxml2-2.9.4-windows-201703090740.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/libxml2/windows/libxml2-2.9.9.3-windows-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1882,18 +1882,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f69b1d4ec7ffdeec4429413ea640583d</string>
+              <string>0b1d5c218bdf180b83f23c31f0deccc8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/libxml2-2.9.7-windows64-201712260755.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/libxml2/windows64/libxml2-2.9.9.3-windows64-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.9.9.192281647</string>
+        <string>2.9.9.3</string>
       </map>
       <key>llappearance_utility</key>
       <map>
@@ -2237,11 +2237,39 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>name</key>
             <string>darwin</string>
           </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>dd879ffe07d5649c1c7a5f30aa473b96</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/windows/nghttp2-1.39.2.3-windows-3.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9d352514cdc27540218bbbf2dfce2921</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/windows64/nghttp2-1.39.2.3-windows64-3.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
         <key>source_type</key>
         <string>hg</string>
         <key>version</key>
-        <string>1.37.0.192270331</string>
+        <string>1.39.2.3</string>
       </map>
       <key>nvapi</key>
       <map>
@@ -2606,11 +2634,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0d25e1794f5d86b675484bf5eda799e4</string>
+              <string>94f5f29a33bbe07bbd543cc911457d67</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/openssl-1.1.0g-windows-201711200028.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/windows/openssl-1.1.1c.3-windows-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2620,18 +2648,18 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bd35903f309ccf026a2c448fd8613cc0</string>
+              <string>6d65c27ab8a4bd80e6b47c4bcca078a3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/openssl-1.1.0g-windows64-201712260729.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/windows64/openssl-1.1.1c.3-windows64-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.1c.192261901</string>
+        <string>1.1.1c.3</string>
       </map>
       <key>slvoice</key>
       <map>
@@ -3116,11 +3144,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>75651f8b2fa45545461f73ba583180bb</string>
+              <string>674c7be799bc3b41b7f03704bde4beba</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/zlib-1.2.11-windows-201703090604.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/zlib/windows/zlib-1.2.11.2-windows-2.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3130,18 +3158,18 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ed6da4296e2fdfc132b4f12d35890ada</string>
+              <string>a21631d6f5b3fd28951814d140c5f25b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/zlib-1.2.11-windows64-201712260711.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/zlib/windows64/zlib-1.2.11.2-windows64-2.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.2.11.192261216</string>
+        <string>1.2.11.2</string>
       </map>
     </map>
     <key>package_description</key>

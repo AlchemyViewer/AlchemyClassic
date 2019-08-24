@@ -496,6 +496,9 @@ class WindowsManifest(ViewerManifest):
                     self.path("libcrypto-1_1.pdb")
                     self.path("libssl-1_1.pdb")
 
+            # HTTP/2
+            self.path("nghttp2.dll")
+
             # Hunspell
             self.path("libhunspell.dll")
 

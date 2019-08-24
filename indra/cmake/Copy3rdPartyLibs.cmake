@@ -52,6 +52,7 @@ if(WINDOWS)
     set(release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
     set(release_files
         openjpeg.dll
+        nghttp2.dll
         glod.dll
         libhunspell.dll
         libhunspell.pdb

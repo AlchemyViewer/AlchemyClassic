@@ -591,6 +591,7 @@ set(viewer_SOURCE_FILES
     llsearchhistory.cpp
     llsecapi.cpp
     llsechandler_basic.cpp
+    llsecapicerthandler.cpp
     llselectmgr.cpp
     llshareavatarhandler.cpp
     llsidepanelappearance.cpp
@@ -1251,6 +1252,7 @@ set(viewer_HEADER_FILES
     llsearchhistory.h
     llsecapi.h
     llsechandler_basic.h
+    llsecapicerthandler.h
     llselectmgr.h
     llsidepanelappearance.h
     llsidepanelinventory.h
@@ -1461,11 +1463,13 @@ else ()
 endif ()
 
 if (DARWIN)
-  LIST(APPEND viewer_SOURCE_FILES llappviewermacosx.cpp)
-  LIST(APPEND viewer_SOURCE_FILES llappviewermacosx-objc.mm)
-  LIST(APPEND viewer_HEADER_FILES llappviewermacosx-objc.h)
-  LIST(APPEND viewer_SOURCE_FILES llfilepicker_mac.mm)
-  LIST(APPEND viewer_HEADER_FILES llfilepicker_mac.h)
+  LIST(APPEND viewer_SOURCE_FILES
+       llappviewermacosx.cpp
+       llappviewermacosx-objc.mm
+       llfilepicker_mac.mm)
+  LIST(APPEND viewer_HEADER_FILES
+       llappviewermacosx-objc.h
+       llfilepicker_mac.h)
 
   # This should be compiled with the viewer.
   LIST(APPEND viewer_SOURCE_FILES llappdelegate-objc.mm)

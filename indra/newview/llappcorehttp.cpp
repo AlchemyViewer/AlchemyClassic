@@ -35,7 +35,7 @@
 
 #include <openssl/x509_vfy.h>
 #include <openssl/ssl.h>
-#include "llsecapi.h"
+#include "llsecapicerthandler.h"
 #include <curl/curl.h>
 
 #include "llcorehttputil.h"
@@ -531,8 +531,8 @@ LLCore::HttpStatus LLAppCoreHttp::sslVerify(const std::string &url,
 {
 	X509_STORE_CTX *ctx = static_cast<X509_STORE_CTX *>(appdata);
 	LLCore::HttpStatus result;
-	LLPointer<LLCertificateStore> store = gSecAPIHandler->getCertificateStore("");
-	LLPointer<LLCertificateChain> chain = gSecAPIHandler->getCertificateChain(ctx);
+	LLPointer<LLCertificateStore> store = gSecAPICertHandler->getCertificateStore("");
+	LLPointer<LLCertificateChain> chain = gSecAPICertHandler->getCertificateChain(ctx);
 	LLSD validation_params = LLSD::emptyMap();
 	LLURI uri(url);
 

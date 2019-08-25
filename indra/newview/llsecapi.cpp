@@ -28,6 +28,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llsecapi.h"
+#include "llsecapicerthandler.h"
 
 #include "llsechandler_basic.h"
 #include "llexception.h"
@@ -46,6 +47,8 @@ void initializeSecHandler()
 	// mac keyring handler, with fallback to the basic sechandler
 	gSecAPIHandler = gHandlerMap[BASIC_SECHANDLER];
 
+    gSecAPICertHandler = new LLSecAPIBasicCertHandler();
+    
 	// initialize all SecAPIHandlers
 	std::string exception_msg;
 	for(std::map<std::string, LLPointer<LLSecAPIHandler> >::const_iterator itr = gHandlerMap.begin();
@@ -71,6 +74,7 @@ void initializeSecHandler()
 void cleanupSecHandler()
 {
 	gSecAPIHandler = nullptr;
+    gSecAPICertHandler = nullptr;
 	gHandlerMap.clear();
 }
 

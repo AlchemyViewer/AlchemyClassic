@@ -114,18 +114,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>60ccb6f8f35aeb590f6314dfbc854b8a</string>
+              <string>677ea245e8f61c22a20a1a777f33c405</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/abseil-cpp/common/abseil_cpp-9ee91d3.192210734-common-192210734.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/abseil-cpp/common/abseil_cpp-2d2d7fb.192362115-common-192362115.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
           </map>
         </map>
         <key>version</key>
-        <string>9ee91d3.192210734</string>
+        <string>2d2d7fb.192362115</string>
       </map>
       <key>apr_suite</key>
       <map>
@@ -2548,11 +2548,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1dd583ca386e5c324fe2ec2046919153</string>
+              <string>cced6c1449ba8e91d62a6cb65252969d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/openjpeg-1.5.1-windows-201705200855.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openjpeg/windows/openjpeg-1.5.1.2-windows-2.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2562,18 +2562,18 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6cbcbc24c65fca2a432a263e8466c7f6</string>
+              <string>ad09a061de666f954b038e6e257dda66</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.dl.alchemyviewer.org/openjpeg/openjpeg-1.5.1.192101717-windows64-192101717.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openjpeg/windows64/openjpeg-1.5.1.2-windows64-2.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.5.1</string>
+        <string>1.5.1.2</string>
       </map>
       <key>openssl</key>
       <map>

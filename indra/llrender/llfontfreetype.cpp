@@ -32,6 +32,7 @@
 // Freetype stuff
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include FT_MODULE_H
 #include FT_SYSTEM_H
 
 #include "llerror.h"
@@ -73,6 +74,10 @@ LLFontManager::LLFontManager()
 		LL_ERRS() << "Freetype initialization failure!" << LL_ENDL;
 		FT_Done_FreeType(gFTLibrary);
 	}
+
+	FT_Bool     no_stem_darkening = TRUE;
+	FT_Property_Set(gFTLibrary, "cff",
+		"no-stem-darkening", &no_stem_darkening);
 }
 
 LLFontManager::~LLFontManager()

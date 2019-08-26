@@ -1910,7 +1910,7 @@ bool LLAvatarActions::handleEstateBan(const LLSD & notification, const LLSD & re
 			}
 
 			LLFloaterRegionInfo::nextInvoice();
-			LLPanelEstateInfo::sendEstateAccessDelta(flags, id);
+			LLPanelEstateAccess::sendEstateAccessDelta(flags, id);
 		}
 	}
 	return false;

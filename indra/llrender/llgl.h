@@ -253,6 +253,7 @@ void clear_glerror();
 */
 
 #include "boost/function.hpp"
+#include <absl/container/flat_hash_map.h>
 
 class LLGLState
 {
@@ -267,7 +268,7 @@ public:
 	static void checkClientArrays(const std::string& msg = "", U32 data_mask = 0);
 	
 protected:
-	static boost::unordered_map<LLGLenum, LLGLboolean> sStateMap;
+	static absl::flat_hash_map<LLGLenum, LLGLboolean> sStateMap;
 	
 public:
 	enum { CURRENT_STATE = -2 };

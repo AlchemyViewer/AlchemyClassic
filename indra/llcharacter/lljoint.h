@@ -54,7 +54,7 @@ const F32 LL_MAX_PELVIS_OFFSET = 5.f;
 class LLVector3OverrideMap
 {
 public:
-	LLVector3OverrideMap() {}
+	LLVector3OverrideMap() = default;
 	bool findActiveOverride(LLUUID& mesh_id, LLVector3& pos) const;
 	void showJointVector3Overrides(std::ostringstream& os) const;
 	U32 count() const;

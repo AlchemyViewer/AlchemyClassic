@@ -355,9 +355,10 @@ const char *LLAnimationLibrary::animStateToString( const LLUUID& state )
 	{
 		return nullptr;
 	}
-	if (mAnimMap.count(state))
+	auto iter = mAnimMap.find(state);
+	if (iter != mAnimMap.end())
 	{
-		return mAnimMap[state];
+		return iter->second;
 	}
 
 	return nullptr;

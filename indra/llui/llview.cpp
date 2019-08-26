@@ -1315,9 +1315,9 @@ void LLView::drawDebugRect()
 		gGL.end();
 
 		// Draw the name if it's not a leaf node or not in editing or preview mode
-		if (mChildList.size()
-			&& preview_iter == sPreviewHighlightedElements.end()
-			&& sDebugRectsShowNames)
+		if (sDebugRectsShowNames 
+			&& mChildList.size()
+			&& preview_iter == sPreviewHighlightedElements.end())
 		{
 			S32 x, y;
 			gGL.color4fv( border_color.mV );

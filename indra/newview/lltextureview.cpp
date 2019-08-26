@@ -462,7 +462,7 @@ void LLAvatarTexBar::draw()
 	line_num++;
 	std::string section_text = "Avatar Textures Information:";
 	LLFontGL::getFontMonospace()->renderUTF8(section_text, 0, 0, v_offset + line_height*line_num,
-											 header_color, LLFontGL::LEFT, LLFontGL::TOP, LLFontGL::BOLD, LLFontGL::DROP_SHADOW_SOFT);
+											 header_color, LLFontGL::LEFT, LLFontGL::TOP, LLFontGL::BOLD, LLFontGL::DROP_SHADOW);
 }
 
 BOOL LLAvatarTexBar::handleMouseDown(S32 x, S32 y, MASK mask)

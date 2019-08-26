@@ -36,6 +36,7 @@
 #define LL_LLPOUNCEABLE_H
 
 #include "llsingleton.h"
+#include <absl/container/node_hash_map.h>
 #include <boost/call_traits.hpp>
 #include <boost/type_traits/remove_pointer.hpp>
 #include <boost/utility/value_init.hpp>
@@ -85,7 +86,7 @@ class LLPounceableQueueSingleton:
     // instance will call on the SAME LLPounceableQueueSingleton instance --
     // given how class statics work. We must keep a separate queue for each
     // LLPounceable instance. Use a hash map for that.
-    typedef boost::unordered_map<owner_ptr, signal_t> map_t;
+    typedef absl::node_hash_map<owner_ptr, signal_t> map_t;
 
 public:
     // Disambiguate queues belonging to different LLPounceables.

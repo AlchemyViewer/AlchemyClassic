@@ -34,6 +34,8 @@
 #include "llsortedvector.h"
 #include "v4color.h"
 
+#include <absl/container/flat_hash_map.h>
+
 class LLMD5;
 class LLVisualParam;
 class LLTexGlobalColorInfo;
@@ -136,7 +138,7 @@ protected:
 #if USE_LL_APPEARANCE_CODE
 	typedef std::map<S32, LLVisualParam *>    visual_param_index_map_t;
 #else
-	typedef LLSortedVector<S32, LLVisualParam *>    visual_param_index_map_t;
+	typedef absl::flat_hash_map<S32, LLVisualParam *>    visual_param_index_map_t;
 #endif
 	visual_param_index_map_t mVisualParamIndexMap;
 

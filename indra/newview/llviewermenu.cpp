@@ -134,13 +134,13 @@
 #include "llcleanup.h"
 #include "llweb.h"
 
-#include <boost/unordered_map.hpp>
+#include <absl/container/flat_hash_map.h>
 
 using namespace LLAvatarAppearanceDefines;
 
 typedef LLPointer<LLViewerObject> LLViewerObjectPtr;
 
-static boost::unordered_map<std::string, LLStringExplicit> sDefaultItemLabels;
+static absl::flat_hash_map<std::string, LLStringExplicit> sDefaultItemLabels;
 
 BOOL enable_land_build(void*);
 BOOL enable_object_build(void*);
@@ -2614,7 +2614,7 @@ void handle_object_touch()
 
 static void init_default_item_label(LLUICtrl* ctrl, const std::string& item_name)
 {
-	boost::unordered_map<std::string, LLStringExplicit>::iterator it = sDefaultItemLabels.find(item_name);
+	auto it = sDefaultItemLabels.find(item_name);
 	if (it == sDefaultItemLabels.end())
 	{
 		// *NOTE: This will not work for items of type LLMenuItemCheckGL because they return boolean value
@@ -2630,7 +2630,7 @@ static void init_default_item_label(LLUICtrl* ctrl, const std::string& item_name
 static LLStringExplicit get_default_item_label(const std::string& item_name)
 {
 	LLStringExplicit res("");
-	boost::unordered_map<std::string, LLStringExplicit>::iterator it = sDefaultItemLabels.find(item_name);
+	auto it = sDefaultItemLabels.find(item_name);
 	if (it != sDefaultItemLabels.end())
 	{
 		res = it->second;

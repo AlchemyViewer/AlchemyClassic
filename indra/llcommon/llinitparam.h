@@ -31,7 +31,7 @@
 #include <vector>
 #include <list>
 #include <boost/function.hpp>
-#include <boost/unordered_map.hpp>
+#include <absl/container/flat_hash_map.h>
 
 #include "llerror.h"
 #include "llstl.h"
@@ -645,7 +645,7 @@ namespace LLInitParam
 		void aggregateBlockData(BlockDescriptor& src_block_data);
 		void addParam(ParamDescriptorPtr param, const char* name);
 
-		typedef boost::unordered_map<const std::string, ParamDescriptorPtr>						param_map_t; 
+		typedef absl::flat_hash_map<const std::string, ParamDescriptorPtr>						param_map_t; 
 		typedef std::vector<ParamDescriptorPtr>													param_list_t; 
 		typedef std::list<ParamDescriptorPtr>													all_params_list_t;
 		typedef std::vector<std::pair<param_handle_t, ParamDescriptor::validation_func_t> >		param_validation_list_t;

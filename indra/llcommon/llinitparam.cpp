@@ -29,6 +29,7 @@
 
 #include "llinitparam.h"
 #include "llformat.h"
+#include "llfasttimer.h"
 
 
 namespace LLInitParam
@@ -141,7 +142,7 @@ namespace LLInitParam
 		else
 		{
 			// don't use insert, since we want to overwrite existing entries
-			mNamedParams[name] = param;
+			mNamedParams.insert_or_assign(name, param);
 		}
 
 		if (param->mValidationFunc)
@@ -249,13 +250,11 @@ namespace LLInitParam
 			}
 		}
 
-		for(BlockDescriptor::param_map_t::const_iterator it = block_data.mNamedParams.begin();
-			it != block_data.mNamedParams.end();
-			++it)
+		for (const auto& [param_name, param_desc] : block_data.mNamedParams)
 		{
-			param_handle_t param_handle = it->second->mParamHandle;
+			param_handle_t param_handle = param_desc->mParamHandle;
 			const Param* param = getParamFromHandle(param_handle);
-			ParamDescriptor::serialize_func_t serialize_func = it->second->mSerializeFunc;
+			ParamDescriptor::serialize_func_t serialize_func = param_desc->mSerializeFunc;
 			if (serialize_func && predicate_rule.check(ll_make_predicate(PROVIDED, param->anyProvided())))
 			{
 				// Ensure this param has not already been serialized
@@ -279,7 +278,7 @@ namespace LLInitParam
 					continue;
 				}
 
-				name_stack.push_back(std::make_pair(it->first, !duplicate));
+				name_stack.push_back(std::make_pair(param_name, !duplicate));
 				const Param* diff_param = diff_block ? diff_block->getParamFromHandle(param_handle) : NULL;
 				serialized |= serialize_func(*param, parser, name_stack, predicate_rule, diff_param);
 				name_stack.pop_back();
@@ -315,13 +314,11 @@ namespace LLInitParam
 			}
 		}
 
-		for(BlockDescriptor::param_map_t::const_iterator it = block_data.mNamedParams.begin();
-			it != block_data.mNamedParams.end();
-			++it)
+		for(const auto&[param_name, param_desc] : block_data.mNamedParams)
 		{
-			param_handle_t param_handle = it->second->mParamHandle;
+			param_handle_t param_handle = param_desc->mParamHandle;
 			const Param* param = getParamFromHandle(param_handle);
-			ParamDescriptor::inspect_func_t inspect_func = it->second->mInspectFunc;
+			ParamDescriptor::inspect_func_t inspect_func = param_desc->mInspectFunc;
 			if (inspect_func)
 			{
 				// Ensure this param has not already been inspected
@@ -337,8 +334,8 @@ namespace LLInitParam
 					}
 				}
 
-				name_stack.push_back(std::make_pair(it->first, !duplicate));
-				inspect_func(*param, parser, name_stack, it->second->mMinCount, it->second->mMaxCount);
+				name_stack.push_back(std::make_pair(param_name, !duplicate));
+				inspect_func(*param, parser, name_stack, param_desc->mMinCount, param_desc->mMaxCount);
 				name_stack.pop_back();
 			}
 		}
@@ -429,7 +426,7 @@ namespace LLInitParam
 				}
 				else
 				{
-					block_data.mNamedParams[synonym] = param_descriptor;
+					block_data.mNamedParams.insert_or_assign(synonym, param_descriptor);
 				}
 			}
 		}
@@ -438,11 +435,11 @@ namespace LLInitParam
 	const std::string& BaseBlock::getParamName(const BlockDescriptor& block_data, const Param* paramp) const
 	{
 		param_handle_t handle = getHandleFromParam(paramp);
-		for (BlockDescriptor::param_map_t::const_iterator it = block_data.mNamedParams.begin(); it != block_data.mNamedParams.end(); ++it)
+		for (const auto&[param_name, param_ptr] : block_data.mNamedParams)
 		{
-			if (it->second->mParamHandle == handle)
+			if (param_ptr->mParamHandle == handle)
 			{
-				return it->first;
+				return param_name;
 			}
 		}
 

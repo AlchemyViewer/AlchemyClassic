@@ -3891,7 +3891,7 @@ void LLMeshRepository::notifyLoadedMeshes()
 				//calculate "score" for pending requests
 
 				//create score map
-				boost::unordered_map<LLUUID, F32> score_map;
+				absl::flat_hash_map<LLUUID, F32> score_map;
 
 				for (auto& lod : mLoadingMeshes)
 				{

@@ -43,7 +43,6 @@
 #include <queue>
 
 #include <absl/container/flat_hash_map.h>
-#include <boost/container/flat_map.hpp>
 
 #define SG_STATE_INHERIT_MASK (OCCLUDED)
 #define SG_INITIAL_STATE_MASK (DIRTY | GEOM_DIRTY)

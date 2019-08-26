@@ -309,7 +309,7 @@ private:
 #else
 	// visual parameter stuff
 	//typedef std::map<S32, LLVisualParam *> 		visual_param_index_map_t;
-	typedef boost::unordered_map<S32, LLVisualParam *> 		visual_param_index_map_t;	//Hash map for fast lookup.
+	typedef absl::flat_hash_map<S32, LLVisualParam *> 		visual_param_index_map_t;	//Hash map for fast lookup.
 	typedef LLSortedVector<S32,LLVisualParam *>				visual_param_sorted_vec_t;	//Contiguous sorted array.
 	typedef std::map<char *, LLVisualParam *> 				visual_param_name_map_t;	
 

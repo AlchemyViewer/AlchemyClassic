@@ -1352,7 +1352,8 @@ void LLFastTimerView::drawHelp( S32 y )
 
 	y -= ((texth * 2) - 4);
 
-	mFontMonospace->renderUTF8(std::string("[Right-Click log selected]"),
+	static const LLWString help_text(utf8string_to_wstring("[Right-Click log selected]"));
+	mFontMonospace->render(help_text,
 		0, MARGIN, y, LLColor4::white, LLFontGL::LEFT, LLFontGL::TOP);
 }
 

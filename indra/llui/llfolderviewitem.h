@@ -87,14 +87,14 @@ protected:
 
 	LLFolderViewItem(const Params& p);
 
-	std::string					mLabel;
+	LLUIString					mLabel;
 	S32							mLabelWidth;
 	bool						mLabelWidthDirty;
     S32                         mLabelPaddingRight;
 	LLFolderViewFolder*			mParentFolder;
 	LLPointer<LLFolderViewModelItem> mViewModelItem;
 	LLFontGL::StyleFlags		mLabelStyle;
-	std::string					mLabelSuffix;
+	LLWString					mLabelSuffix;
 	LLUIImagePtr				mIcon,
 								mIconOpen,
 								mIconOverlay;

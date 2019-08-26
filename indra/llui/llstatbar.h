@@ -107,6 +107,7 @@ private:
 		const LLTrace::StatType<LLTrace::MemAccumulator>*		memStatp;
 	} mStat;
 
+	LLFontGL*	 mFontMono;
 	LLUIString   mLabel;
 	std::string  mUnitLabel;
 	std::string	 mNAString;

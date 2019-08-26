@@ -188,14 +188,14 @@ public:
 		std::vector<LLVector3d>* positions = nullptr, 
 		const LLVector3d& relative_to = LLVector3d(), F32 radius = FLT_MAX) const;
 	
-	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
+	typedef absl::flat_hash_map<LLUUID, LLVector3d> pos_map_t;
 	void getAvatars(pos_map_t* map = nullptr,
 					const LLVector3d& relative_to = LLVector3d(),
 					F32 radius = FLT_MAX) const;
 
 	// Returns list of avatar ids with region pointer and global position
 	typedef std::pair<LLViewerRegion*, LLVector3d > regionp_gpos_pair_t;
-	typedef boost::unordered_map<LLUUID, regionp_gpos_pair_t > region_gpos_map_t;
+	typedef absl::flat_hash_map<LLUUID, regionp_gpos_pair_t > region_gpos_map_t;
 	void getAvatars(region_gpos_map_t* map = nullptr,
 		const LLVector3d& relative_to = LLVector3d(),
 		F32 radius = FLT_MAX) const;

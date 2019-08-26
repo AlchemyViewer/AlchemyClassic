@@ -172,7 +172,7 @@ public:
     
 private:
 	void showInspector(const LLUUID& avatar_id, bool is_group, bool is_experience = false);
-	void onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name, std::string suffix, std::string prefix, LLHandle<LLNameListItem> item);
+	void onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name, std::string suffix, LLHandle<LLNameListItem> item);
 	void onGroupNameCache(const LLUUID& group_id, const std::string name, LLHandle<LLNameListItem> item);
 
 private:

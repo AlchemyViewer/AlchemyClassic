@@ -45,7 +45,7 @@ class LLPose
 {
 	friend class LLPoseBlender;
 protected:
-	typedef std::map<std::string, LLPointer<LLJointState> > joint_map;
+	typedef absl::flat_hash_map<std::string, LLPointer<LLJointState> > joint_map;
 	typedef joint_map::iterator joint_map_iterator;
 	typedef joint_map::value_type joint_map_value_type;
 	

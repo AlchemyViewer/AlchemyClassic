@@ -38,8 +38,7 @@
 
 
 #ifdef LL_WINDOWS
-const DWORD MS_VC_EXCEPTION=0x406D1388;
-
+const DWORD MS_VC_EXCEPTION = 0x406D1388;
 #pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO
 {
@@ -91,7 +90,7 @@ void set_thread_name( DWORD dwThreadID, const char* threadName)
 
 LL_COMMON_API void assert_main_thread()
 {
-	static boost::thread::id s_thread_id = LLThread::currentID();
+	static std::thread::id s_thread_id = LLThread::currentID();
 	if (LLThread::currentID() != s_thread_id)
 	{
 		LL_WARNS() << "Illegal execution from thread id " << LLThread::currentID()
@@ -139,11 +138,13 @@ void LLThread::threadRun()
 
     // We're done with the run function, this thread is done executing now.
     //NB: we are using this flag to sync across threads...we really need memory barriers here
+    // Todo: add LLMutex per thread instead of flag?
+    // We are using "while (mStatus != STOPPED) {ms_sleep();}" everywhere.
     mStatus = STOPPED;
 }
 
 LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
-    mPaused(FALSE),
+    mPaused(false),
     mName(name),
 	mRunCondition(std::make_unique<LLCondition>()),
 	mDataLock(std::make_unique<LLMutex>()),
@@ -195,6 +196,8 @@ void LLThread::shutdown()
 			{
 				break;
 			}
+            // Sleep for a tenth of a second
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			yield();
 		}
 
@@ -204,50 +207,21 @@ void LLThread::shutdown()
 		}
 	}
 
-	if (mThread.joinable())
-	{
-		try
-		{
-			bool joined = false;
-			constexpr U32 MAX_WAIT = 100;
-			for(U32 count = 0; count < MAX_WAIT; count++)
-			{
-				// Try to join for a tenth of a second
-				if (mThread.try_join_for(boost::chrono::milliseconds(100)))
-				{
-					LL_INFOS() << "Successfully joined thread: \"" << mName << "\"" << LL_ENDL;
-					joined = true;
-					break;
-				}
-				yield();
-			}
-
-			if (!joined)
-			{
-				// This thread just wouldn't join, even though we gave it time
-				LL_WARNS() << "Forcefully terminating thread: \"" << mName << "\" with id: " << mThread.get_id() << " before clean exit!" << LL_ENDL;
-				// Put a stake in its heart.
-				boost::thread::native_handle_type thread(mThread.native_handle());
-#if LL_WINDOWS
-				TerminateThread(thread, 0);
+    if (!isStopped())
+    {
+		LL_WARNS("THREAD") << "Forced to terminated thread: " << mName << LL_ENDL;
+        // This thread just wouldn't stop, even though we gave it time
+        //LL_WARNS() << "LLThread::~LLThread() exiting thread before clean exit!" << LL_ENDL;
+        // Put a stake in its heart. (A very hostile method to force a thread to quit)
+#if	LL_WINDOWS
+		TerminateThread(mNativeHandle, 0);
 #else
-				pthread_cancel(thread);
+		pthread_cancel(mNativeHandle);
 #endif
-			}
-		}
-		catch (const boost::thread_interrupted&)
-		{
-			LL_WARNS() << "Failed to join thread: \"" << mName << "\" with id: " << mThread.get_id() << " and interrupted exception" << LL_ENDL;
-		}
+		mStatus = CRASHED;
 	}
 
-	mRecorder.reset();
-
-	if (mIsLocalPool && mAPRPoolp)
-	{
-		apr_pool_destroy(mAPRPoolp);
-		mAPRPoolp = nullptr;
-	}
+	mRecorder.reset(nullptr);
 }
 
 
@@ -258,17 +232,17 @@ void LLThread::start()
     // Set thread state to running
     mStatus = RUNNING;
 
-    try
-    {
-        mThreadp = new std::thread(std::bind(&LLThread::threadRun, this));
-        mNativeHandle = mThreadp->native_handle();
-    }
-    catch (const std::system_error& ex)
-    {
-        mStatus = CRASHED;
-        LL_WARNS() << "failed to start thread " << mName << " " << ex.what() << LL_ENDL;
-    }
-
+	try
+	{
+		mThread = std::thread::thread(std::bind(&LLThread::threadRun, this));
+		mNativeHandle = mThread.native_handle();
+		mThread.detach();
+	}
+	catch (const std::system_error& err)
+	{
+		mStatus = CRASHED;
+		LL_WARNS() << "Failed to start thread: \"" << mName << "\" due to error: " << err.what() << LL_ENDL;
+	}
 }
 
 //============================================================================
@@ -281,7 +255,7 @@ void LLThread::pause()
     if (!mPaused)
     {
         // this will cause the thread to stop execution as soon as checkPause() is called
-        mPaused = 1;        // Does not need to be atomic since this is only set/unset from the main thread
+        mPaused = true;        // Does not need to be atomic since this is only set/unset from the main thread
     }   
 }
 
@@ -289,7 +263,7 @@ void LLThread::unpause()
 {
     if (mPaused)
     {
-        mPaused = 0;
+        mPaused = false;
     }
 
     wake(); // wake up the thread if necessary
@@ -335,15 +309,15 @@ void LLThread::setQuitting()
 }
 
 // static
-boost::thread::id LLThread::currentID()
+std::thread::id LLThread::currentID()
 {
-	return boost::this_thread::get_id();
+	return std::this_thread::get_id();
 }
 
 // static
 void LLThread::yield()
 {
-    apr_thread_yield();
+    std::this_thread::yield();
 }
 
 void LLThread::wake()
@@ -395,9 +369,9 @@ LLThreadSafeRefCount::LLThreadSafeRefCount() :
 {
 }
 
-LLThreadSafeRefCount::LLThreadSafeRefCount(const LLThreadSafeRefCount& src)
+LLThreadSafeRefCount::LLThreadSafeRefCount(const LLThreadSafeRefCount& src) :
+	mRef(0)
 {
-    mRef = 0;
 }
 
 LLThreadSafeRefCount::~LLThreadSafeRefCount()

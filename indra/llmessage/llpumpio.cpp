@@ -159,9 +159,9 @@ LLPumpIO::LLPumpIO(apr_pool_t* pool) :
 	mPollsetClientID(0),
 	mNextLock(0),
 	mCurrentChain(mRunningChains.end()),
-	mPool(NULL),
-	mCurrentPool(NULL),
-	mCurrentPoolReallocCount(0),
+	mPool(nullptr),
+	mCurrentPool(nullptr),
+	mCurrentPoolReallocCount(0)
 {
 	mCurrentChain = mRunningChains.end();
 

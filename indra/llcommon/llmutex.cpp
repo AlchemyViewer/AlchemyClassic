@@ -32,7 +32,7 @@
 
 LLMutex::LLMutex() :
  mCount(0),
- mLockingThread(NO_THREAD)
+ mLockingThread()
 {
 }
 
@@ -79,7 +79,7 @@ void LLMutex::unlock()
 	mIsLocked[id] = FALSE;
 #endif
 
-	mLockingThread = NO_THREAD;
+	mLockingThread = std::thread::id();
 	mMutex.unlock();
 }
 
@@ -101,7 +101,7 @@ bool LLMutex::isSelfLocked()
 	return mLockingThread == LLThread::currentID();
 }
 
-U32 LLMutex::lockingThread() const
+std::thread::id LLMutex::lockingThread() const
 {
 	return mLockingThread;
 }
@@ -190,38 +190,6 @@ LLMutexTrylock::~LLMutexTrylock()
 {
     if (mMutex && mLocked)
         mMutex->unlock();
-}
-
-
-//---------------------------------------------------------------------
-//
-// LLScopedLock
-//
-LLScopedLock::LLScopedLock(std::mutex* mutex) : mMutex(mutex)
-{
-	if(mutex)
-	{
-		mutex->lock();
-		mLocked = true;
-	}
-	else
-	{
-		mLocked = false;
-	}
-}
-
-LLScopedLock::~LLScopedLock()
-{
-	unlock();
-}
-
-void LLScopedLock::unlock()
-{
-	if(mLocked)
-	{
-		mMutex->unlock();
-		mLocked = false;
-	}
 }
 
 //============================================================================

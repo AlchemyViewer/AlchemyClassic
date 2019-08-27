@@ -62,7 +62,7 @@ public:
     bool isStopped() const { return (STOPPED == mStatus) || (CRASHED == mStatus); }
     bool isCrashed() const { return (CRASHED == mStatus); } 
     
-    static boost::thread::id currentID(); // Return ID of current thread
+    static std::thread::id currentID(); // Return ID of current thread
     static void yield(); // Static because it can be called by the main thread, which doesn't have an LLThread data structure.
     
 public:
@@ -86,20 +86,22 @@ public:
 
     LLVolatileAPRPool* getLocalAPRFilePool() { return mLocalAPRFilePoolp ; }
 
+    std::thread::id getID() const { return mID; }
 private:
     bool                mPaused;
     std::thread::native_handle_type mNativeHandle; // for termination in case of issues
     
-    // static function passed to APR thread creation routine
-    void threadRun();
+    // function passed to std::thread creation routine
+	void threadRun();
 
 protected:
-    std::string         mName;
+	std::string						mName;
 	std::unique_ptr<LLCondition>	mRunCondition;
 	std::unique_ptr<LLMutex>		mDataLock;
 
-    std::thread        *mThreadp;
+	std::thread        mThread;
     EThreadStatus       mStatus;
+    std::thread::id                 mID;
 	std::unique_ptr<LLTrace::ThreadRecorder> mRecorder;
 
     //a local apr_pool for APRFile operations in this thread. If it exists, LLAPRFile::sAPRFilePoolp should not be used.

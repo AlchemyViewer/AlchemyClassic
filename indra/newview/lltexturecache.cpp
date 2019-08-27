@@ -1037,12 +1037,12 @@ U64 LLTextureCache::initCache(ELLPath location, U64 max_size, BOOL texture_cache
 	llassert_always(getPending() == 0) ; //should not start accessing the texture cache before initialized.
 
 	U64 entries_size = (max_size * 36) / 100; //0.36 * max_size
-	U32 max_entries = header_size / (TEXTURE_CACHE_ENTRY_SIZE + TEXTURE_FAST_CACHE_ENTRY_SIZE);
+	U32 max_entries = entries_size / (TEXTURE_CACHE_ENTRY_SIZE + TEXTURE_FAST_CACHE_ENTRY_SIZE);
 	sCacheMaxEntries = (llmin(sCacheMaxEntries, max_entries));
-	header_size = sCacheMaxEntries * TEXTURE_CACHE_ENTRY_SIZE;
-	max_size -= header_size;
+	entries_size = sCacheMaxEntries * (TEXTURE_CACHE_ENTRY_SIZE + TEXTURE_FAST_CACHE_ENTRY_SIZE);
+	max_size -= entries_size;
 	if (sCacheMaxTexturesSize > 0)
-		sCacheMaxTexturesSize = (U32)llmin((U64)sCacheMaxTexturesSize, max_size);
+		sCacheMaxTexturesSize = (S64)llmin((U64)sCacheMaxTexturesSize, max_size);
 	else
 		sCacheMaxTexturesSize = max_size;
 	max_size -= sCacheMaxTexturesSize;

@@ -122,6 +122,7 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 {
     U32 request_flags;
 	U32 total_count;
+	U64 total_memory = 0;
 
 	msg->getU32Fast(_PREHASH_RequestData, _PREHASH_RequestFlags, request_flags);
 	msg->getU32Fast(_PREHASH_RequestData, _PREHASH_TotalObjectCount, total_count);

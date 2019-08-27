@@ -82,6 +82,8 @@ static const std::string RECENT_TAB_NAME	= "recent_panel";
 static const std::string BLOCKED_TAB_NAME	= "blocked_panel"; // blocked avatars
 static const std::string COLLAPSED_BY_USER  = "collapsed_by_user";
 
+const S32 BASE_MAX_AGENT_GROUPS = 42;
+const S32 PREMIUM_MAX_AGENT_GROUPS = 60;
 
 extern S32 gMaxAgentGroups;
 
@@ -969,8 +971,10 @@ void LLPanelPeople::updateButtons()
 		}
 
 		mGroupMinusBtn->setEnabled(item_selected && selected_id.notNull()); // a real group selected
-		mGroupCountText->setTextArg("[COUNT]", std::to_string(gAgent.mGroups.size()));
-		mGroupCountText->setTextArg("[REMAINING]", std::to_string(gMaxAgentGroups-gAgent.mGroups.size()));
+		U32 groups_count = gAgent.mGroups.size();
+		U32 groups_ramaining = gMaxAgentGroups > groups_count ? gMaxAgentGroups - groups_count : 0;
+		mGroupCountText->setTextArg("[COUNT]", std::to_string(groups_count));
+		mGroupCountText->setTextArg("[REMAINING]", std::to_string(groups_ramaining));
 	}
 	else
 	{

@@ -562,11 +562,8 @@ void LLLogChat::findTranscriptFiles(const std::string& pattern, std::vector<std:
 	{
 		std::string fullname = gDirUtilp->add(dirname, filename);
 		if (isTranscriptFileFound(fullname))
-		if (NULL != filep)
 		{
 			list_of_transcriptions.push_back(fullname);
-			S32 bytes_to_read = ftell(filep);	// get current file pointer
-			if (bytes_to_read > 0 && NULL != fgets(buffer, bytes_to_read, filep))
 		}		
 	}
 }
@@ -740,13 +737,13 @@ bool LLLogChat::isNearbyTranscriptExist()
 	return isTranscriptFileFound(makeLogFileName("chat"));;
 }
 
-bool LLLogChat::isAdHocTranscriptExist(std::string file_name)
+bool LLLogChat::isAdHocTranscriptExist(const std::string& file_name)
 {
-	return isTranscriptFileFound(makeLogFileName(file_name));;
+	return isTranscriptFileFound(makeLogFileName(file_name));
 }
 
 // static
-bool LLLogChat::isTranscriptFileFound(std::string fullname)
+bool LLLogChat::isTranscriptFileFound(const std::string& fullname)
 {
 	bool result = false;
 	LLFILE * filep = LLFile::fopen(fullname, "rb");

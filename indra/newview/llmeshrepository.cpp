@@ -2592,7 +2592,7 @@ void LLMeshUploadThread::generateHulls()
 		// on isDiscarded() prevents that.
 		while (! mPhysicsComplete && ! isDiscarded())
 		{
-			boost::this_thread::sleep_for(boost::chrono::microseconds(100));
+			std::this_thread::sleep_for(std::chrono::microseconds(100));
 		}
 	}	
 }
@@ -2890,7 +2890,7 @@ void LLMeshRepoThread::notifyLoadedMeshes()
 
 	if (!mSkinInfoQ.empty())
 	{
-		if (mMutex->try_lock())
+		if (mMutex->trylock())
 		{
 			std::queue<LLMeshSkinInfo> skin_info_q;
 			if (! mSkinInfoQ.empty())
@@ -2910,7 +2910,7 @@ void LLMeshRepoThread::notifyLoadedMeshes()
 
 	if (!mSkinUnavailableQ.empty())
 	{
-		if (mMutex->try_lock())
+		if (mMutex->trylock())
 		{
 			std::queue<UUIDBasedRequest> skin_info_unavail_q;
 			if (!mSkinUnavailableQ.empty())
@@ -2930,7 +2930,7 @@ void LLMeshRepoThread::notifyLoadedMeshes()
 
 	if (!mDecompositionQ.empty())
 	{
-		if (mMutex->try_lock())
+		if (mMutex->trylock())
 		{
 			std::list<LLModel::Decomposition*> decomp_q;
 			if (! mDecompositionQ.empty())
@@ -3526,7 +3526,7 @@ void LLMeshRepository::init()
 
 	while (!mDecompThread->mInited)
 	{ //wait for physics decomp thread to init
-		boost::this_thread::sleep_for(boost::chrono::microseconds(100));
+		std::this_thread::sleep_for(std::chrono::microseconds(100));
 	}
 
 	metrics_teleport_started_signal = LLViewerMessage::getInstance()->setTeleportStartedCallback(teleport_started);
@@ -3553,7 +3553,7 @@ void LLMeshRepository::shutdown()
 	
 	while (!mThread->isStopped())
 	{
-		boost::this_thread::sleep_for(boost::chrono::microseconds(10));
+		std::this_thread::sleep_for(std::chrono::microseconds(10));
 	}
 	delete mThread;
 	mThread = nullptr;
@@ -3563,7 +3563,7 @@ void LLMeshRepository::shutdown()
 		LL_INFOS(LOG_MESH) << "Waiting for pending mesh upload " << (i + 1) << "/" << mUploads.size() << LL_ENDL;
 		while (!mUploads[i]->isStopped())
 		{
-			boost::this_thread::sleep_for(boost::chrono::microseconds(10));
+			std::this_thread::sleep_for(std::chrono::microseconds(10));
 		}
 		delete mUploads[i];
 	}
@@ -4755,7 +4755,7 @@ void LLPhysicsDecomp::shutdown()
 
 		while (!isStopped())
 		{
-			boost::this_thread::sleep_for(boost::chrono::microseconds(10));
+			std::this_thread::sleep_for(std::chrono::microseconds(10));
 		}
 	}
 }

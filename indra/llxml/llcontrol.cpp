@@ -558,7 +558,7 @@ LLControlVariable* LLControlGroup::declareLLSD(const std::string& name, const LL
 	return declareControl(name, TYPE_LLSD, initial_val, comment, persist);
 }
 
-void LLControlGroup::incrCount(const std::string& name)
+void LLControlGroup::incrCount(const std::string& name) const
 {
 	if (0.0 == start_time)
 	{

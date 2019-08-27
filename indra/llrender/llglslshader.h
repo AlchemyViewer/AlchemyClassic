@@ -157,7 +157,7 @@ public:
 		{
 			if (uniform >= 0)
 			{
-				typename std::vector<std::pair<GLint, T> >::iterator iter = std::find_if(cache.begin(), cache.end(), boost::bind(&std::pair<GLint, T>::first, _1) == uniform);
+				typename std::vector<std::pair<GLint, T> >::iterator iter = std::find_if(cache.begin(), cache.end(), [&](const auto& pair) { return pair.first == uniform; });
 				if (iter == cache.cend())
 				{
 					T tmp;

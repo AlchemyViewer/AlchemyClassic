@@ -99,10 +99,13 @@ LL_COMMON_API void assert_main_thread()
 	}
 }
 
-void LLThread::runWrapper()
+//
+// Handed to the APR thread creation function
+//
+void LLThread::threadRun()
 {
 #ifdef LL_WINDOWS
-	set_thread_name(-1, mName.c_str());
+    set_thread_name(-1, mName.c_str());
 #endif
 
 	// for now, hard code all LLThreads to report to single master thread recorder, which is known to be running on main thread
@@ -146,19 +149,6 @@ LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
 	mDataLock(std::make_unique<LLMutex>()),
     mStatus(STOPPED)
 {
-
-
-    // Thread creation probably CAN be paranoid about APR being initialized, if necessary
-    if (poolp)
-    {
-        mIsLocalPool = FALSE;
-        mAPRPoolp = poolp;
-    }
-    else
-    {
-        mIsLocalPool = TRUE;
-        apr_pool_create(&mAPRPoolp, NULL); // Create a subpool for this thread
-    }
 	mLocalAPRFilePoolp = nullptr;
 }
 
@@ -268,15 +258,17 @@ void LLThread::start()
     // Set thread state to running
     mStatus = RUNNING;
 
-	try
-	{
-		mThread = boost::thread(std::bind(&LLThread::runWrapper, this));
-	}
-	catch (const boost::thread_resource_error& err)
-	{
-		mStatus = CRASHED;
-		LL_WARNS() << "Failed to start thread: \"" << mName << "\" due to error: " << err.what() << LL_ENDL;
-	}
+    try
+    {
+        mThreadp = new std::thread(std::bind(&LLThread::threadRun, this));
+        mNativeHandle = mThreadp->native_handle();
+    }
+    catch (const std::system_error& ex)
+    {
+        mStatus = CRASHED;
+        LL_WARNS() << "failed to start thread " << mName << " " << ex.what() << LL_ENDL;
+    }
+
 }
 
 //============================================================================
@@ -351,7 +343,7 @@ boost::thread::id LLThread::currentID()
 // static
 void LLThread::yield()
 {
-	boost::this_thread::yield();
+    apr_thread_yield();
 }
 
 void LLThread::wake()

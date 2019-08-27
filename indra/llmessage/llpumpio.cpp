@@ -50,11 +50,7 @@
 
 // constants for poll timeout. if we are threading, we want to have a
 // longer poll timeout.
-#if LL_THREADS_PUMPIO
-static const S32 DEFAULT_POLL_TIMEOUT = 1000;
-#else
 static const S32 DEFAULT_POLL_TIMEOUT = 0;
-#endif
 
 // The default (and fallback) expiration time for chains
 const F32 DEFAULT_CHAIN_EXPIRY_SECS = 30.0f;
@@ -163,13 +159,9 @@ LLPumpIO::LLPumpIO(apr_pool_t* pool) :
 	mPollsetClientID(0),
 	mNextLock(0),
 	mCurrentChain(mRunningChains.end()),
-	mPool(nullptr),
-	mCurrentPool(nullptr),
-	mCurrentPoolReallocCount(0)
-#if LL_THREADS_PUMPIO
-	mChainsMutex(NULL),
-	mCallbackMutex(NULL)
-#endif
+	mPool(NULL),
+	mCurrentPool(NULL),
+	mCurrentPoolReallocCount(0),
 {
 	mCurrentChain = mRunningChains.end();
 
@@ -192,9 +184,6 @@ bool LLPumpIO::addChain(const chain_t& chain, F32 timeout, bool has_curl_request
 {
 	if(chain.empty()) return false;
 
-#if LL_THREADS_PUMPIO
-	LLMutexLock lock(mChainsMutex);
-#endif
 	LLChainInfo info;
 	info.mHasCurlRequest = has_curl_request;
 	info.setTimeoutSeconds(timeout);
@@ -232,9 +221,6 @@ bool LLPumpIO::addChain(
 	if(!data) return false;
 	if(links.empty()) return false;
 
-#if LL_THREADS_PUMPIO
-	LLMutexLock lock(mChainsMutex);
-#endif
 #if LL_DEBUG_PIPE_TYPE_IN_PUMP
 	LL_DEBUGS() << "LLPumpIO::addChain() " << links[0].mPipe << " '"
 		<< typeid(*(links[0].mPipe)).name() << "'" << LL_ENDL;
@@ -389,9 +375,6 @@ void LLPumpIO::clearLock(S32 key)
 	// therefore won't be treading into deleted memory. I think we can
 	// also clear the lock on the chain safely since the pump only
 	// reads that value.
-#if LL_THREADS_PUMPIO
-	LLMutexLock lock(mChainsMutex);
-#endif
 	mClearLocks.insert(key);
 }
 
@@ -455,9 +438,6 @@ void LLPumpIO::pump(const S32& poll_timeout)
 	PUMP_DEBUG;
 	if(true)
 	{
-#if LL_THREADS_PUMPIO
-		LLMutexLock lock(mChainsMutex);
-#endif
 		// bail if this pump is paused.
 		if(PAUSING == mState)
 		{
@@ -722,25 +702,10 @@ void LLPumpIO::pump(const S32& poll_timeout)
 	END_PUMP_DEBUG;
 }
 
-//bool LLPumpIO::respond(const chain_t& pipes)
-//{
-//#if LL_THREADS_PUMPIO
-//	LLMutexLock lock(mCallbackMutex);
-//#endif
-//	LLChainInfo info;
-//	links_t links;
-//	
-//	mPendingCallbacks.push_back(info);
-//	return true;
-//}
-
 bool LLPumpIO::respond(LLIOPipe* pipe)
 {
 	if(nullptr == pipe) return false;
 
-#if LL_THREADS_PUMPIO
-	LLMutexLock lock(mCallbackMutex);
-#endif
 	LLChainInfo info;
 	LLLinkInfo link;
 	link.mPipe = pipe;
@@ -759,10 +724,6 @@ bool LLPumpIO::respond(
 	if(!data) return false;
 	if(links.empty()) return false;
 
-#if LL_THREADS_PUMPIO
-	LLMutexLock lock(mCallbackMutex);
-#endif
-
 	// Add the callback response
 	LLChainInfo info;
 	info.mChainLinks = links;
@@ -779,9 +740,6 @@ void LLPumpIO::callback()
 	//LL_INFOS() << "LLPumpIO::callback()" << LL_ENDL;
 	if(true)
 	{
-#if LL_THREADS_PUMPIO
-		LLMutexLock lock(mCallbackMutex);
-#endif
 		std::copy(
 			mPendingCallbacks.begin(),
 			mPendingCallbacks.end(),
@@ -807,9 +765,6 @@ void LLPumpIO::callback()
 
 void LLPumpIO::control(LLPumpIO::EControl op)
 {
-#if LL_THREADS_PUMPIO
-	LLMutexLock lock(mChainsMutex);
-#endif
 	switch(op)
 	{
 	case PAUSE:
@@ -827,19 +782,11 @@ void LLPumpIO::control(LLPumpIO::EControl op)
 void LLPumpIO::initialize(apr_pool_t* pool)
 {
 	if(!pool) return;
-#if LL_THREADS_PUMPIO
-	mChainsMutex = new LLMutex(pool);
-	mCallbackMutex = new LLMutex(pool);
-#endif
 	mPool = pool;
 }
 
 void LLPumpIO::cleanup()
 {
-#if LL_THREADS_PUMPIO
-	delete_and_clear(mChainsMutex);
-	delete_and_clear(mCallbackMutex);
-#endif
 	if(mPollset)
 	{
 //		LL_DEBUGS() << "cleaning up pollset" << LL_ENDL;

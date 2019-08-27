@@ -156,7 +156,7 @@ void LLWatchdogTimeout::ping(const std::string& state)
 
 // LLWatchdog
 LLWatchdog::LLWatchdog() :
-	mSuspectsAccessMutex(nullptr),
+	mSuspectsAccessMutex(),
 	mTimer(nullptr),
 	mLastClockCount(0),
 	mKillerCallback(&default_killer_callback)

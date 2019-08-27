@@ -92,6 +92,7 @@ public:
 	void setHighlightState(bool hihglight_state);
 
 	LLFloater* getSessionFloater() const;
+	bool isInActiveVoiceChannel() { return mIsInActiveVoiceChannel; }
 
 private:
 
@@ -139,6 +140,7 @@ public:
     virtual ~LLConversationViewParticipant( void );
 
     bool hasSameValue(const LLUUID& uuid) { return (uuid == mUUID); }
+    /*virtual*/ void refresh() override;
     void addToFolder(LLFolderViewFolder* folder) override;
 	void addToSession(const LLUUID& session_id);
 
@@ -147,7 +149,7 @@ public:
 
     /*virtual*/ S32 getLabelXPos() override;
     /*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
-	void hideSpeakingIndicator();
+	void allowSpeakingIndicator(bool val);
 
 protected:
 	friend class LLUICtrlFactory;

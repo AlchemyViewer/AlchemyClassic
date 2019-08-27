@@ -27,13 +27,8 @@
 #define LLREFCOUNT_H
 
 #include <boost/intrusive_ptr.hpp>
-#include "llatomic.h"
 #include "llmutex.h"
-
-#define LL_REF_COUNT_DEBUG 0
-#if LL_REF_COUNT_DEBUG
-class LLMutex ;
-#endif
+#include "llatomic.h"
 
 //----------------------------------------------------------------------------
 // RefCount objects should generally only be accessed by way of LLPointer<>'s
@@ -50,10 +45,6 @@ protected:
 public:
 	LLRefCount();
 
-#if LL_REF_COUNT_DEBUG
-	void ref() const ;
-	S32 unref() const ;
-#else
 	inline void ref() const
 	{ 
 		mRef++; 
@@ -68,8 +59,7 @@ public:
 			return 0;
 		}
 		return mRef;
-	}	
-#endif
+	}
 
 	//NOTE: when passing around a const LLRefCount object, this can return different results
 	// at different types, since mRef is mutable
@@ -80,12 +70,6 @@ public:
 
 private: 
 	mutable S32	mRef; 
-
-#if LL_REF_COUNT_DEBUG
-	mutable LLMutex  mMutex ;
-	mutable boost::thread::id  mLockedThreadID ;
-	mutable LLAtomic32<bool> mCrashAtUnlock ; 
-#endif
 };
 
 
@@ -134,12 +118,12 @@ public:
 
 	S32 getNumRefs() const
 	{
-		const S32 currentVal = mRef.load();
+		const S32 currentVal = mRef.CurrentValue();
 		return currentVal;
 	}
 
 private: 
-	LLAtomic32< S32	> mRef; 
+	LLAtomicS32 mRef; 
 };
 
 /**

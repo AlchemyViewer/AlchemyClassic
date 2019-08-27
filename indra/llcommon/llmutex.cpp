@@ -26,15 +26,35 @@
 #include "linden_common.h"
 #include "llmutex.h"
 #include "llthread.h"
+#include "lltimer.h"
 
-void LLMutex::lock()	// blocks
+//============================================================================
+
+LLMutex::LLMutex() :
+ mCount(0),
+ mLockingThread(NO_THREAD)
 {
+}
+
+
+LLMutex::~LLMutex()
+{
+}
+
+
+void LLMutex::lock()
+{
+	if(isSelfLocked())
+	{ //redundant lock
+		mCount++;
+		return;
+	}
 	
-	LLMutexImpl::lock();
+	mMutex.lock();
 	
 #if MUTEX_DEBUG
 	// Have to have the lock before we can access the debug info
-	boost::thread::id id = LLThread::currentID();
+	U32 id = LLThread::currentID();
 	if (mIsLocked[id] != FALSE)
 		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
 	mIsLocked[id] = TRUE;
@@ -45,29 +65,63 @@ void LLMutex::lock()	// blocks
 
 void LLMutex::unlock()
 {
+	if (mCount > 0)
+	{ //not the root unlock
+		mCount--;
+		return;
+	}
+	
 #if MUTEX_DEBUG
 	// Access the debug info while we have the lock
-	boost::thread::id id = LLThread::currentID();
+	U32 id = LLThread::currentID();
 	if (mIsLocked[id] != TRUE)
 		LL_ERRS() << "Not locked in Thread: " << id << LL_ENDL;	
 	mIsLocked[id] = FALSE;
 #endif
 
-	mLockingThread = boost::thread::id();
-	LLMutexImpl::unlock();
+	mLockingThread = NO_THREAD;
+	mMutex.unlock();
 }
 
-// Returns true if lock was obtained successfully.
-bool LLMutex::try_lock()
+bool LLMutex::isLocked()
 {
-	if (!LLMutexImpl::try_lock())
+	if (!mMutex.try_lock())
+	{
+		return true;
+	}
+	else
+	{
+		mMutex.unlock();
+		return false;
+	}
+}
+
+bool LLMutex::isSelfLocked()
+{
+	return mLockingThread == LLThread::currentID();
+}
+
+U32 LLMutex::lockingThread() const
+{
+	return mLockingThread;
+}
+
+bool LLMutex::trylock()
+{
+	if(isSelfLocked())
+	{ //redundant lock
+		mCount++;
+		return true;
+	}
+	
+	if (!mMutex.try_lock())
 	{
 		return false;
 	}
 	
 #if MUTEX_DEBUG
 	// Have to have the lock before we can access the debug info
-	boost::thread::id id = LLThread::currentID();
+	U32 id = LLThread::currentID();
 	if (mIsLocked[id] != FALSE)
 		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
 	mIsLocked[id] = TRUE;
@@ -77,23 +131,97 @@ bool LLMutex::try_lock()
 	return true;
 }
 
-// Returns true if locked not by this thread
-bool LLMutex::isLocked()
+//============================================================================
+
+LLCondition::LLCondition() :
+	LLMutex()
 {
-	if (isSelfLocked())
-		return false;
-	if (LLMutexImpl::try_lock())
-	{
-		LLMutexImpl::unlock();
-		return false;
-	}
-	return true;
 }
 
-// Returns true if locked by this thread.
-bool LLMutex::isSelfLocked() const
+
+LLCondition::~LLCondition()
 {
-	return mLockingThread == LLThread::currentID();
+}
+
+
+void LLCondition::wait()
+{
+	std::unique_lock< std::mutex > lock(mMutex);
+	mCond.wait(lock);
+}
+
+void LLCondition::signal()
+{
+	mCond.notify_one();
+}
+
+void LLCondition::broadcast()
+{
+	mCond.notify_all();
+}
+
+
+
+LLMutexTrylock::LLMutexTrylock(LLMutex* mutex)
+    : mMutex(mutex),
+    mLocked(false)
+{
+    if (mMutex)
+        mLocked = mMutex->trylock();
+}
+
+LLMutexTrylock::LLMutexTrylock(LLMutex* mutex, U32 aTries, U32 delay_ms)
+    : mMutex(mutex),
+    mLocked(false)
+{
+    if (!mMutex)
+        return;
+
+    for (U32 i = 0; i < aTries; ++i)
+    {
+        mLocked = mMutex->trylock();
+        if (mLocked)
+            break;
+        ms_sleep(delay_ms);
+    }
+}
+
+LLMutexTrylock::~LLMutexTrylock()
+{
+    if (mMutex && mLocked)
+        mMutex->unlock();
+}
+
+
+//---------------------------------------------------------------------
+//
+// LLScopedLock
+//
+LLScopedLock::LLScopedLock(std::mutex* mutex) : mMutex(mutex)
+{
+	if(mutex)
+	{
+		mutex->lock();
+		mLocked = true;
+	}
+	else
+	{
+		mLocked = false;
+	}
+}
+
+LLScopedLock::~LLScopedLock()
+{
+	unlock();
+}
+
+void LLScopedLock::unlock()
+{
+	if(mLocked)
+	{
+		mMutex->unlock();
+		mLocked = false;
+	}
 }
 
 //============================================================================

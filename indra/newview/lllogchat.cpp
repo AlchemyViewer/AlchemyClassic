@@ -561,40 +561,13 @@ void LLLogChat::findTranscriptFiles(const std::string& pattern, std::vector<std:
 	while (iter.next(filename))
 	{
 		std::string fullname = gDirUtilp->add(dirname, filename);
-
-		LLFILE * filep = LLFile::fopen(fullname, "rb");
-		if (nullptr != filep)
+		if (isTranscriptFileFound(fullname))
+		if (NULL != filep)
 		{
-			if(makeLogFileName("chat") == fullname)
-			{
-				//Add Nearby chat history to the list of transcriptions
-				list_of_transcriptions.push_back(gDirUtilp->add(dirname, filename));
-				LLFile::close(filep);
-				continue;
-			}
-			char buffer[LOG_RECALL_SIZE];
-
-			fseek(filep, 0, SEEK_END);			// seek to end of file
-			size_t bytes_to_read = ftell(filep);	// get current file pointer
-			fseek(filep, 0, SEEK_SET);			// seek back to beginning of file
-
-			// limit the number characters to read from file
-			if (bytes_to_read >= LOG_RECALL_SIZE)
-			{
-				bytes_to_read = LOG_RECALL_SIZE - 1;
-			}
-
-			if (bytes_to_read > 0 && nullptr != fgets(buffer, bytes_to_read, filep))
-			{
-				//matching a timestamp
-				boost::match_results<std::string::const_iterator> matches;
-				if (boost::regex_match(std::string(buffer), matches, TIMESTAMP))
-				{
-					list_of_transcriptions.push_back(gDirUtilp->add(dirname, filename));
-				}
-			}
-			LLFile::close(filep);
-		}
+			list_of_transcriptions.push_back(fullname);
+			S32 bytes_to_read = ftell(filep);	// get current file pointer
+			if (bytes_to_read > 0 && NULL != fgets(buffer, bytes_to_read, filep))
+		}		
 	}
 }
 
@@ -744,44 +717,70 @@ void LLLogChat::deleteTranscripts()
 // static
 bool LLLogChat::isTranscriptExist(const LLUUID& avatar_id, bool is_group)
 {
-	if (is_group)
+	LLAvatarName avatar_name;
+	LLAvatarNameCache::get(avatar_id, &avatar_name);
+	std::string avatar_user_name = avatar_name.getAccountName();
+	if(!is_group)
 	{
-		std::string file_name;
-		gCacheName->getGroupName(avatar_id, file_name);
-		file_name = makeLogFileName(file_name);
-		return gDirUtilp->fileExists(file_name);
+		std::replace(avatar_user_name.begin(), avatar_user_name.end(), '.', '_');
+		return isTranscriptFileFound(makeLogFileName(avatar_user_name));
 	}
 	else
 	{
 		std::string file_name;
-		LLAvatarName avatar_name;
-		LLAvatarNameCache::get(avatar_id, &avatar_name);
-		if (gSavedSettings.getBOOL("UseLegacyLogNames"))
-		{
-			file_name = avatar_name.getUserName();
-			file_name = file_name.substr(0, file_name.find(" Resident"));
-		}
-		else
-		{
-			file_name = avatar_name.getAccountName();
-			std::replace(file_name.begin(), file_name.end(), '.', '_');
-		}
+		gCacheName->getGroupName(avatar_id, file_name);
 		file_name = makeLogFileName(file_name);
-		return gDirUtilp->fileExists(file_name);
+		return isTranscriptFileFound(makeLogFileName(file_name));
 	}
+	return false;
 }
 
 bool LLLogChat::isNearbyTranscriptExist()
 {
-	std::string file_name;
-	file_name = makeLogFileName("chat");
-	return gDirUtilp->fileExists(file_name);
+	return isTranscriptFileFound(makeLogFileName("chat"));;
 }
 
-bool LLLogChat::isAdHocTranscriptExist(const std::string& chat_name)
+bool LLLogChat::isAdHocTranscriptExist(std::string file_name)
 {
-	std::string file_name = makeLogFileName(chat_name);
-	return gDirUtilp->fileExists(file_name);
+	return isTranscriptFileFound(makeLogFileName(file_name));;
+}
+
+// static
+bool LLLogChat::isTranscriptFileFound(std::string fullname)
+{
+	bool result = false;
+	LLFILE * filep = LLFile::fopen(fullname, "rb");
+	if (NULL != filep)
+	{
+		if (makeLogFileName("chat") == fullname)
+		{
+			LLFile::close(filep);
+			return true;
+		}
+		char buffer[LOG_RECALL_SIZE];
+
+		fseek(filep, 0, SEEK_END);			// seek to end of file
+		S32 bytes_to_read = ftell(filep);	// get current file pointer
+		fseek(filep, 0, SEEK_SET);			// seek back to beginning of file
+
+		// limit the number characters to read from file
+		if (bytes_to_read >= LOG_RECALL_SIZE)
+		{
+			bytes_to_read = LOG_RECALL_SIZE - 1;
+		}
+
+		if (bytes_to_read > 0 && NULL != fgets(buffer, bytes_to_read, filep))
+		{
+			//matching a timestamp
+			boost::match_results<std::string::const_iterator> matches;
+			if (boost::regex_match(std::string(buffer), matches, TIMESTAMP))
+			{
+				result = true;
+			}
+		}
+		LLFile::close(filep);
+	}
+	return result;
 }
 
 //*TODO mark object's names in a special way so that they will be distinguishable form avatar name 

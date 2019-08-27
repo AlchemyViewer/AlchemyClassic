@@ -48,7 +48,15 @@ class LLPanelVolumePulldown;
 class LLPanelAvatarComplexityPulldown;
 class LLPanelNearByMedia;
 class LLIconCtrl;
+class LLSearchEditor;
 
+namespace ll
+{
+	namespace statusbar
+	{
+		struct SearchData;
+	}
+}
 class LLStatusBar
 :	public LLPanel
 {
@@ -104,6 +112,15 @@ private:
 	static void onClickVolume(void* data);
 	static void onClickMediaToggle(void* data);
 	static void onClickBalance(void* data);
+
+	LLSearchEditor *mFilterEdit;
+	LLPanel *mSearchPanel;
+	void onUpdateFilterTerm();
+
+	std::unique_ptr< ll::statusbar::SearchData > mSearchData;
+	void collectSearchableItems();
+	void updateMenuSearchVisibility( const LLSD& data );
+	void updateMenuSearchPosition();
 
 	void onAOStateChanged();
 

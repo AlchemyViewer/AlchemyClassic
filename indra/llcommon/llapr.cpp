@@ -67,7 +67,6 @@ void ll_cleanup_apr()
 	gAPRInitialized = false;
 
 	LL_INFOS("APR") << "Cleaning up APR" << LL_ENDL;
-
 	if (gAPRPoolp)
 	{
 		apr_pool_destroy(gAPRPoolp);
@@ -143,19 +142,19 @@ LLVolatileAPRPool::LLVolatileAPRPool(const std::string& name, BOOL is_local, apr
 				  : LLAPRPool(parent, size, releasePoolFlag),
 				  mName(name),
 				  mNumActiveRef(0),
-				  mNumTotalRef(0),
-				  mMutexp(nullptr)
+				  mNumTotalRef(0)
 {
 	//create mutex
 	if(!is_local) //not a local apr_pool, that is: shared by multiple threads.
 	{
-		mMutexp = new LLMutex();
+		mMutexp.reset(new std::mutex());
 	}
 }
 
 LLVolatileAPRPool::~LLVolatileAPRPool()
 {
-	delete_and_clear(mMutexp);
+	//delete mutex
+    mMutexp.reset();
 }
 
 //
@@ -169,7 +168,7 @@ apr_pool_t* LLVolatileAPRPool::getAPRPool()
 
 apr_pool_t* LLVolatileAPRPool::getVolatileAPRPool() 
 {	
-	LLMutexLock lock(mMutexp);
+	LLMutexLock lock(mMutexp.get());
 
 	mNumTotalRef++ ;
 	mNumActiveRef++ ;
@@ -184,7 +183,7 @@ apr_pool_t* LLVolatileAPRPool::getVolatileAPRPool()
 
 void LLVolatileAPRPool::clearVolatileAPRPool() 
 {
-	LLMutexLock lock(mMutexp) ;
+	LLMutexLock lock(mMutexp.get()) ;
 
 	if(mNumActiveRef > 0)
 	{

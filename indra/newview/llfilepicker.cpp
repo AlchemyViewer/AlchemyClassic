@@ -111,6 +111,8 @@ LLFilePicker::LLFilePicker()
 	mOFN.lpfnHook = nullptr;
 	mOFN.lpTemplateName = nullptr;
 	mFilesW[0] = '\0';
+#elif LL_DARWIN
+	mPickOptions = 0;
 #endif
 
 }

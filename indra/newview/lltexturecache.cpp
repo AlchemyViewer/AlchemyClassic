@@ -1030,13 +1030,13 @@ void LLTextureCache::setReadOnly(BOOL read_only)
 {
 	mReadOnly = read_only ;
 }
-
+// <ALCHEMY> - CHECK ME
 //called in the main thread.
 U64 LLTextureCache::initCache(ELLPath location, U64 max_size, BOOL texture_cache_mismatch)
 {
 	llassert_always(getPending() == 0) ; //should not start accessing the texture cache before initialized.
 
-	U64 header_size = (max_size / 100) * 36; //0.36 * max_size
+	U64 entries_size = (max_size * 36) / 100; //0.36 * max_size
 	U32 max_entries = header_size / (TEXTURE_CACHE_ENTRY_SIZE + TEXTURE_FAST_CACHE_ENTRY_SIZE);
 	sCacheMaxEntries = (llmin(sCacheMaxEntries, max_entries));
 	header_size = sCacheMaxEntries * TEXTURE_CACHE_ENTRY_SIZE;

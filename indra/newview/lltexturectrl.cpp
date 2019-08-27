@@ -182,6 +182,10 @@ void LLTextureCtrl::setVisible( BOOL visible )
 void LLTextureCtrl::setEnabled( BOOL enabled )
 {
 	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
+	if( floaterp )
+	{
+		floaterp->setActive(enabled);
+	}
 	if( enabled )
 	{
 		std::string tooltip;
@@ -194,11 +198,6 @@ void LLTextureCtrl::setEnabled( BOOL enabled )
 		// *TODO: would be better to keep floater open and show
 		// disabled state.
 		closeDependentFloater();
-	}
-
-	if( floaterp )
-	{
-		floaterp->setActive(enabled);
 	}
 
 	mCaption->setEnabled( enabled );
@@ -299,9 +298,10 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 void LLTextureCtrl::closeDependentFloater()
 {
 	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
-	if( floaterp )
+	if( floaterp && floaterp->isInVisibleChain())
 	{
 		floaterp->setOwner(nullptr);
+		floaterp->setVisible(FALSE);
 		floaterp->closeFloater();
 	}
 }

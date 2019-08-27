@@ -1,11 +1,10 @@
 /** 
- * @file llatmomic.h
- * @brief Base classes for atomics.
+ * @file llatomic.h
+ * @brief Base classes for atomic.
  *
- * $LicenseInfo:firstyear=2014&license=viewerlgpl$
+ * $LicenseInfo:firstyear=2018&license=viewerlgpl$
  * Second Life Viewer Source Code
- * Copyright (C) 2012, Linden Research, Inc.
- * Copyright (C) 2014, Alchemy Development Group
+ * Copyright (C) 2018, Linden Research, Inc.
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,21 +24,46 @@
  * $/LicenseInfo$
  */
 
-#pragma once
- 
-#include "stdtypes.h"
-#define AL_BOOST_ATOMICS 1
+#ifndef LL_LLATOMIC_H
+#define LL_LLATOMIC_H
 
-#if AL_BOOST_ATOMICS
-#include <boost/atomic.hpp>
-template<typename Type>
-using LLAtomic32 = boost::atomic<Type>;
-#elif AL_STD_ATOMICS
+#include "stdtypes.h"
+
 #include <atomic>
-template<typename Type>
-using LLAtomic32 = std::atomic<Type>;
+
+template <typename Type, typename AtomicType = std::atomic< Type > > class LLAtomicBase
+{
+public:
+    LLAtomicBase() {};
+    LLAtomicBase(Type x) { mData.store(x); }
+    ~LLAtomicBase() {};
+
+    operator const Type() { return mData; }
+
+    Type	CurrentValue() const { return mData; }
+
+    Type operator =(const Type& x) { mData.store(x); return mData; }
+    void operator -=(Type x) { mData -= x; }
+    void operator +=(Type x) { mData += x; }
+    Type operator ++(int) { return mData++; }
+    Type operator --(int) { return mData--; }
+
+    Type operator ++() { return ++mData; }
+    Type operator --() { return --mData; }
+
+private:
+    AtomicType mData;
+};
+
+// Typedefs for specialized versions. Using std::atomic_(u)int32_t to get the optimzed implementation.
+#ifdef LL_WINDOWS
+typedef LLAtomicBase<U32, std::atomic_uint32_t> LLAtomicU32;
+typedef LLAtomicBase<S32, std::atomic_int32_t> LLAtomicS32;
+#else
+typedef LLAtomicBase<U32, std::atomic_uint> LLAtomicU32;
+typedef LLAtomicBase<S32, std::atomic_int> LLAtomicS32;
 #endif
 
+typedef LLAtomicBase<bool, std::atomic_bool> LLAtomicBool;
 
-typedef LLAtomic32<U32> LLAtomicU32;
-typedef LLAtomic32<S32> LLAtomicS32;
+#endif // LL_LLATOMIC_H

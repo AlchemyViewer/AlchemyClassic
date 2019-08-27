@@ -31,6 +31,7 @@
 #include "llatomic.h"
 #include "llrun.h"
 #include "llsd.h"
+#include <atomic>
 
 #if LL_LINUX || LL_DARWIN
 #include <signal.h>

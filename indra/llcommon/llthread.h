@@ -31,9 +31,7 @@
 #include "llapr.h"
 #include "llmutex.h"
 #include "llrefcount.h"
-
-#include <boost/thread.hpp>
-#include <boost/intrusive_ptr.hpp>
+#include <thread>
 
 LL_COMMON_API void assert_main_thread();
 
@@ -86,24 +84,22 @@ public:
     // this kicks off the apr thread
     void start(void);
 
-    apr_pool_t *getAPRPool() { return mAPRPoolp; }
     LLVolatileAPRPool* getLocalAPRFilePool() { return mLocalAPRFilePoolp ; }
 
 private:
-    BOOL                mPaused;
+    bool                mPaused;
+    std::thread::native_handle_type mNativeHandle; // for termination in case of issues
     
     // static function passed to APR thread creation routine
-	void runWrapper();
+    void threadRun();
 
 protected:
-	std::string						mName;
+    std::string         mName;
 	std::unique_ptr<LLCondition>	mRunCondition;
 	std::unique_ptr<LLMutex>		mDataLock;
 
-	apr_pool_t			*mAPRPoolp;
-	boost::thread	mThread;
-	BOOL				mIsLocalPool;
-	EThreadStatus	mStatus;
+    std::thread        *mThreadp;
+    EThreadStatus       mStatus;
 	std::unique_ptr<LLTrace::ThreadRecorder> mRecorder;
 
     //a local apr_pool for APRFile operations in this thread. If it exists, LLAPRFile::sAPRFilePoolp should not be used.

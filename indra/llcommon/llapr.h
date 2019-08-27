@@ -126,9 +126,8 @@ private:
 	S32 mNumActiveRef ; //number of active pointers pointing to the apr_pool.
 	S32 mNumTotalRef ;  //number of total pointers pointing to the apr_pool since last creating.  
 
-	LLMutex*			mMutexp;
+	std::unique_ptr<std::mutex> mMutexp;
 } ;
-
 // File IO convenience functions.
 // Returns NULL if the file fails to open, sets *sizep to file size if not NULL
 // abbreviated flags

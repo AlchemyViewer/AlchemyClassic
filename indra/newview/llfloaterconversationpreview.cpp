@@ -49,6 +49,7 @@ LLFloaterConversationPreview::LLFloaterConversationPreview(const LLSD& session_i
 	mMessages(nullptr),
 	mAccountName(session_id[LL_FCP_ACCOUNT_NAME]),
 	mCompleteName(session_id[LL_FCP_COMPLETE_NAME]),
+	mMutex(NULL),
 	mShowHistory(false),
 	mHistoryThreadsBusy(false),
 	mOpened(false)

@@ -40,9 +40,6 @@
 #include "lliopipe.h"
 #include "llrun.h"
 
-// Define this to enable use with the APR thread library.
-//#define LL_THREADS_PUMPIO 1
-
 // some simple constants to help with timeouts
 extern const F32 DEFAULT_CHAIN_EXPIRY_SECS;
 extern const F32 SHORT_CHAIN_EXPIRY_SECS;
@@ -392,11 +389,6 @@ protected:
 	apr_pool_t* mPool;
 	apr_pool_t* mCurrentPool;
 	S32 mCurrentPoolReallocCount;
-
-#if LL_THREADS_PUMPIO
-	LLMutex* mChainsMutex;
-	LLMutex* mCallbackMutex;
-#endif
 
 protected:
 	void initialize(apr_pool_t* pool);

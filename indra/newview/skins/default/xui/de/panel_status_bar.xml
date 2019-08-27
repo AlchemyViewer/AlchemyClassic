@@ -7,7 +7,7 @@
 		Bandbreite
 	</panel.string>
 	<panel.string name="time">
-		[hour, datetime, slt]:[min, datetime, slt] [timezone,datetime, slt]
+	<panel.string name="time">[hour12, datetime, slt]:[min, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]</panel.string>
 	</panel.string>
 	<panel.string name="timePrecise">
 		[hour, datetime, slt]:[min, datetime, slt]:[second, datetime, slt] [timezone,datetime, slt]
@@ -18,6 +18,9 @@
 	<panel.string name="buycurrencylabel">
 		[AMT] L$
 	</panel.string>
+	<panel name="menu_search_panel">
+		<search_editor label="Suchmenüs" name="search_menu_edit" tool_tip="Geben Sie hier den gewünschten Suchbegriff ein. Die Ergebnisse werden für teilweise Volltext-Treffer innerhalb des Menüs angezeigt."/>
+	</panel>
 	<panel left="-357" name="balance_bg" width="95">
 		<text name="balance" tool_tip="Klicken, um L$-Guthaben zu aktualisieren" value="-- L$"/>
 		<button width="75" label="L$ kaufen" name="buyL" tool_tip="Hier klicken, um mehr L$ zu kaufen"/>

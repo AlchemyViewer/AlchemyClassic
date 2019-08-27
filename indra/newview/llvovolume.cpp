@@ -1421,8 +1421,8 @@ BOOL LLVOVolume::calcLOD()
     mLODDistance = distance;
     mLODRadius = radius;
 
-	static LLCachedControl<bool> debug_obj_lod(gSavedSettings, "DebugObjectLODs");
-    if (debug_obj_lod)
+    static LLCachedControl<bool> debug_lods(gSavedSettings, "DebugObjectLODs", false);
+    if (debug_lods)
     {
         if (getAvatar() && isRootEdit())
         {
@@ -4319,20 +4319,15 @@ F32 LLVOVolume::getBinRadius()
 	
 	F32 scale = 1.f;
 
-	//S32 size_factor = llmax(gSavedSettings.getS32("OctreeStaticObjectSizeFactor"), 1);
-	//S32 attachment_size_factor = llmax(gSavedSettings.getS32("OctreeAttachmentSizeFactor"), 1);
-	//LLVector3 distance_factor = gSavedSettings.getVector3("OctreeDistanceFactor");
-	//LLVector3 alpha_distance_factor = gSavedSettings.getVector3("OctreeAlphaDistanceFactor");
-	// <alchemy> - LLCachedControl
-	static LLCachedControl<S32> size_factor_setting(gSavedSettings, "OctreeStaticObjectSizeFactor");
-	static LLCachedControl<S32> attachment_size_factor_setting(gSavedSettings, "OctreeAttachmentSizeFactor");
-	static LLCachedControl<LLVector3> distance_factor_setting(gSavedSettings, "OctreeDistanceFactor");
-	static LLCachedControl<LLVector3> alpha_distance_factor_setting(gSavedSettings, "OctreeAlphaDistanceFactor");
-	const S32 size_factor = llmax((S32)size_factor_setting, 1);
-	const S32 attachment_size_factor = llmax((S32)attachment_size_factor_setting, 1);
-	const LLVector3 distance_factor = distance_factor_setting;
-	const LLVector3 alpha_distance_factor = alpha_distance_factor_setting;
-	// </alchemy>
+	static LLCachedControl<S32> octree_size_factor(gSavedSettings, "OctreeStaticObjectSizeFactor", 3);
+	static LLCachedControl<S32> octree_attachment_size_factor(gSavedSettings, "OctreeAttachmentSizeFactor", 4);
+	static LLCachedControl<LLVector3> octree_distance_factor(gSavedSettings, "OctreeDistanceFactor", LLVector3(0.01f, 0.f, 0.f));
+	static LLCachedControl<LLVector3> octree_alpha_distance_factor(gSavedSettings, "OctreeAlphaDistanceFactor", LLVector3(0.1f, 0.f, 0.f));
+
+	S32 size_factor = llmax((S32)octree_size_factor, 1);
+	S32 attachment_size_factor = llmax((S32)octree_attachment_size_factor, 1);
+	LLVector3 distance_factor = octree_distance_factor;
+	LLVector3 alpha_distance_factor = octree_alpha_distance_factor;
 
 	const LLVector4a* ext = mDrawable->getSpatialExtents();
 	
@@ -5456,9 +5451,9 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 	U32 useage = group->getSpatialPartition()->mBufferUsage;
 
-	static LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize", 512);
-	static LLCachedControl<S32> max_node_size(gSavedSettings, "RenderMaxNodeSize", 65536);
-	U32 max_vertices = (max_vbo_size * 1024) / LLVertexBuffer::calcVertexSize(group->getSpatialPartition()->mVertexDataMask);
+	LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize", 512);
+	LLCachedControl<S32> max_node_size(gSavedSettings, "RenderMaxNodeSize", 65536);
+	U32 max_vertices = (max_vbo_size * 1024)/LLVertexBuffer::calcVertexSize(group->getSpatialPartition()->mVertexDataMask);
 	U32 max_total = (max_node_size * 1024) / LLVertexBuffer::calcVertexSize(group->getSpatialPartition()->mVertexDataMask);
 	max_vertices = llmin(max_vertices, (U32) 65535);
 
@@ -6472,8 +6467,6 @@ U32 LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace
 {
 	LL_RECORD_BLOCK_TIME(FTM_REBUILD_VOLUME_GEN_DRAW_INFO);
 
-	static LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize");
-	static LLCachedControl<U32> max_texture_index(gSavedSettings, "RenderMaxTextureIndex");
 	U32 geometryBytes = 0;
 	U32 buffer_usage = group->mBufferUsage;
 	
@@ -6489,6 +6482,7 @@ U32 LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace
 #endif
 	
 	//calculate maximum number of vertices to store in a single buffer
+	static LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize", 512);
 	U32 max_vertices = (max_vbo_size * 1024) / LLVertexBuffer::calcVertexSize(group->getSpatialPartition()->mVertexDataMask);
 	max_vertices = llmin(max_vertices, (U32) 65535);
 
@@ -6524,6 +6518,7 @@ U32 LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace
 		texture_index_channels = gDeferredAlphaProgram.mFeatures.mIndexedTextureChannels;
 	}
 
+	static LLCachedControl<U32> max_texture_index(gSavedSettings, "RenderMaxTextureIndex", 16);
 	texture_index_channels = llmin(texture_index_channels, (S32)max_texture_index);
 	
 	//NEVER use more than 16 texture index channels (workaround for prevalent driver bug)

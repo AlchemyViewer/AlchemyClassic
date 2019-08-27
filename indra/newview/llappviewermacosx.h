@@ -41,10 +41,6 @@ public:
 	// Main application logic
 	//
 	virtual bool init();			// Override to do application initialization
-    
-    // mute/unmute the system's master audio
-    virtual void setMasterSystemAudioMute(bool mute);
-    virtual bool getMasterSystemAudioMute();
 
 protected:
 	virtual bool restoreErrorTrap();

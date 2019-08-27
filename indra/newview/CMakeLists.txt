@@ -304,6 +304,7 @@ set(viewer_SOURCE_FILES
     llfloatermessagerewriter.cpp
     llfloatermodelpreview.cpp
     llfloatermodeluploadbase.cpp
+    llfloatermyscripts.cpp
     llfloaternamedesc.cpp
     llfloaternotificationsconsole.cpp
     llfloaternotificationstabbed.cpp
@@ -588,6 +589,7 @@ set(viewer_SOURCE_FILES
     llscrollingpanelparam.cpp
     llscrollingpanelparambase.cpp
     llsculptidsize.cpp
+    llsearchableui.cpp
     llsearchcombobox.cpp
     llsearchhistory.cpp
     llsecapi.cpp
@@ -974,6 +976,7 @@ set(viewer_HEADER_FILES
     llfloatermessagerewriter.h
     llfloatermodelpreview.h
     llfloatermodeluploadbase.h
+    llfloatermyscripts.h
     llfloaternamedesc.h
     llfloaternotificationsconsole.h
     llfloaternotificationstabbed.h
@@ -1250,6 +1253,7 @@ set(viewer_HEADER_FILES
     llscrollingpanelparam.h
     llscrollingpanelparambase.h
     llsculptidsize.h
+    llsearchableui.h
     llsearchcombobox.h
     llsearchhistory.h
     llsecapi.h
@@ -1685,6 +1689,7 @@ endif (WINDOWS)
 # from within the IDE.
 set(viewer_XUI_FILES
     skins/default/colors.xml
+    skins/default/default_languages.xml
     skins/default/textures/textures.xml
     )
 file(GLOB DEFAULT_XUI_FILE_GLOB_LIST

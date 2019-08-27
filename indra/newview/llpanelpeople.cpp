@@ -64,6 +64,7 @@
 #include "llrecentpeople.h"
 #include "llviewercontrol.h"		// for gSavedSettings
 #include "llviewermenu.h"			// for gMenuHolder
+#include "llviewerregion.h"
 #include "llvoiceclient.h"
 #include "llworld.h"
 #include "llspeakers.h"
@@ -631,6 +632,16 @@ void LLPanelPeople::removePicker()
 
 BOOL LLPanelPeople::postBuild()
 {
+	S32 max_premium = PREMIUM_MAX_AGENT_GROUPS; 
+	if (gAgent.getRegion())
+	{
+		LLSD features;
+		gAgent.getRegion()->getSimulatorFeatures(features);
+		if (features.has("MaxAgentGroupsPremium"))
+		{
+			max_premium = features["MaxAgentGroupsPremium"].asInteger();
+		}
+	}
 	LLPanel* nearby_tab = getChild<LLPanel>(NEARBY_TAB_NAME);
 	LLPanel* friends_tab = getChild<LLPanel>(FRIENDS_TAB_NAME);
 	LLPanel* groups_tab = getChild<LLPanel>(GROUP_TAB_NAME);
@@ -651,6 +662,12 @@ BOOL LLPanelPeople::postBuild()
 	mRecentGearBtn = recent_tab->getChild<LLButton>("gear_btn");
 	mRecentAddFriendBtn = recent_tab->getChild<LLButton>("add_friend_btn");
 	mRecentDelFriendBtn = recent_tab->findChild<LLButton>("friends_del_btn");
+	
+	if(gMaxAgentGroups < max_premium)
+	{
+	    mGroupCountText->setText(getString("GroupCountWithInfo"));
+	    mGroupCountText->setURLClickedCallback(boost::bind(&LLPanelPeople::onGroupLimitInfo, this));
+	}
 
 	mTabContainer = getChild<LLTabContainer>("tabs");
 	mTabContainer->setCommitCallback(boost::bind(&LLPanelPeople::onTabSelected, this, _2));
@@ -1184,6 +1201,31 @@ void LLPanelPeople::onFilterEdit(const std::string& search_string)
 	{
 		mRecentList->setNameFilter(filter);
 	}
+}
+
+void LLPanelPeople::onGroupLimitInfo()
+{
+	LLSD args;
+
+	S32 max_basic = BASE_MAX_AGENT_GROUPS;
+	S32 max_premium = PREMIUM_MAX_AGENT_GROUPS;
+	if (gAgent.getRegion())
+	{
+		LLSD features;
+		gAgent.getRegion()->getSimulatorFeatures(features);
+		if (features.has("MaxAgentGroupsBasic"))
+		{
+			max_basic = features["MaxAgentGroupsBasic"].asInteger();
+		}
+		if (features.has("MaxAgentGroupsPremium"))
+		{
+			max_premium = features["MaxAgentGroupsPremium"].asInteger();
+		}
+	}
+	args["MAX_BASIC"] = max_basic; 
+	args["MAX_PREMIUM"] = max_premium; 
+
+	LLNotificationsUtil::add("GroupLimitInfo", args);
 }
 
 void LLPanelPeople::onTabSelected(const LLSD& param)

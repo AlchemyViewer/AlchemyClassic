@@ -32,7 +32,6 @@
 #include "lluuid.h"
 #include "llworkerthread.h"
 #include "lltextureinfo.h"
-#include "llapr.h"
 #include "llimageworker.h"
 #include "httprequest.h"
 #include "httpoptions.h"

@@ -571,10 +571,11 @@ public:
     /// Generate a distinct name for a listener -- see listen()
     static std::string inventName(const std::string& pfx="listener");
 
-private:
-    friend class LLEventPumps;
     /// flush queued events
     virtual void flush() {}
+
+private:
+    friend class LLEventPumps;
 
     virtual void reset();
 
@@ -664,10 +665,12 @@ public:
     virtual ~LLEventMailDrop() {}
     
     /// Post an event to all listeners
-	bool post(const LLSD& event) override;
+    bool post(const LLSD& event) override;
     
+    /// Remove any history stored in the mail drop.
+    void flush() override { mEventHistory.clear(); LLEventStream::flush(); };
 protected:
-	LLBoundListener listen_impl(const std::string& name, const LLEventListener&,
+    LLBoundListener listen_impl(const std::string& name, const LLEventListener&,
                                         const NameList& after,
                                         const NameList& before) override;
 
@@ -692,7 +695,6 @@ public:
     /// Post an event to all listeners
 	bool post(const LLSD& event) override;
 
-private:
     /// flush queued events
 	void flush() override;
 

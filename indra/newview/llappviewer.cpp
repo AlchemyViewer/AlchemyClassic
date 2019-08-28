@@ -3112,7 +3112,7 @@ LLSD LLAppViewer::getViewerInfo() const
     }
 
 	// return a URL to the release notes for this viewer, such as:
-	// http://wiki.secondlife.com/wiki/Release_Notes/Second Life Beta Viewer/2.1.0.123456
+	// https://releasenotes.secondlife.com/viewer/2.1.0.123456.html
 	std::string url = LLTrans::getString("RELEASE_NOTES_BASE_URL");
 	if (! LLStringUtil::endsWith(url, "/"))
 		url += "/";

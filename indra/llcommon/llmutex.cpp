@@ -29,19 +29,6 @@
 #include "lltimer.h"
 
 //============================================================================
-
-LLMutex::LLMutex() :
- mCount(0),
- mLockingThread()
-{
-}
-
-
-LLMutex::~LLMutex()
-{
-}
-
-
 void LLMutex::lock()
 {
 	if(isSelfLocked())
@@ -126,70 +113,6 @@ bool LLMutex::trylock()
 		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
 	mIsLocked[id] = TRUE;
 #endif
-
 	mLockingThread = LLThread::currentID();
 	return true;
 }
-
-//============================================================================
-
-LLCondition::LLCondition() :
-	LLMutex()
-{
-}
-
-
-LLCondition::~LLCondition()
-{
-}
-
-
-void LLCondition::wait()
-{
-	std::unique_lock< std::mutex > lock(mMutex);
-	mCond.wait(lock);
-}
-
-void LLCondition::signal()
-{
-	mCond.notify_one();
-}
-
-void LLCondition::broadcast()
-{
-	mCond.notify_all();
-}
-
-
-
-LLMutexTrylock::LLMutexTrylock(LLMutex* mutex)
-    : mMutex(mutex),
-    mLocked(false)
-{
-    if (mMutex)
-        mLocked = mMutex->trylock();
-}
-
-LLMutexTrylock::LLMutexTrylock(LLMutex* mutex, U32 aTries, U32 delay_ms)
-    : mMutex(mutex),
-    mLocked(false)
-{
-    if (!mMutex)
-        return;
-
-    for (U32 i = 0; i < aTries; ++i)
-    {
-        mLocked = mMutex->trylock();
-        if (mLocked)
-            break;
-        ms_sleep(delay_ms);
-    }
-}
-
-LLMutexTrylock::~LLMutexTrylock()
-{
-    if (mMutex && mLocked)
-        mMutex->unlock();
-}
-
-//============================================================================

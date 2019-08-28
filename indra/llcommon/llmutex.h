@@ -35,6 +35,7 @@
 #pragma warning (disable:4265)
 #endif
 // 'std::_Pad' : class has virtual functions, but destructor is not virtual
+#include <shared_mutex>
 #include <mutex>
 #include <condition_variable>
 
@@ -53,14 +54,14 @@
 class LL_COMMON_API LLMutex
 {
 public:
-	typedef enum
+	LLMutex::LLMutex() :
+	 mCount(0),
+	 mLockingThread()
 	{
-		NO_THREAD = 0xFFFFFFFF
-	} e_locking_thread;
+	}
 
-	LLMutex();
-	virtual ~LLMutex();
-	
+	~LLMutex() = default;
+
 	void lock();		// blocks
 	bool trylock();		// non-blocking, returns true if lock held.
 	void unlock();		// undefined behavior when called on mutex not being held
@@ -69,7 +70,7 @@ public:
 	std::thread::id lockingThread() const; //get ID of locking thread
 	
 protected:
-	std::mutex			mMutex;
+	std::shared_mutex			mMutex;
 	mutable U32			mCount;
 	mutable std::thread::id			mLockingThread;
 	
@@ -82,15 +83,27 @@ protected:
 class LL_COMMON_API LLCondition : public LLMutex
 {
 public:
-	LLCondition();
-	~LLCondition();
-	
-	void wait();		// blocks
-	void signal();
-	void broadcast();
+	LLCondition() = default;
+	~LLCondition() = default;
+
+	void wait()
+	{
+		std::unique_lock<std::shared_mutex> lock(mMutex);
+		mCond.wait(lock);
+	}
+
+	void signal()
+	{
+		mCond.notify_one();
+	}
+
+	void broadcast()
+	{
+		mCond.notify_all();
+	}
 	
 protected:
-	std::condition_variable mCond;
+	std::condition_variable_any mCond;
 };
 
 class LLMutexLock
@@ -125,9 +138,35 @@ private:
 class LLMutexTrylock
 {
 public:
-	LLMutexTrylock(LLMutex* mutex);
-	LLMutexTrylock(LLMutex* mutex, U32 aTries, U32 delay_ms = 10);
-	~LLMutexTrylock();
+	LLMutexTrylock(LLMutex* mutex)
+		: mMutex(mutex),
+		mLocked(false)
+	{
+		if (mMutex)
+			mLocked = mMutex->trylock();
+	}
+
+	LLMutexTrylock(LLMutex* mutex, U32 aTries, U32 delay_ms = 10U)
+		: mMutex(mutex),
+		mLocked(false)
+	{
+		if (!mMutex)
+			return;
+
+		for (U32 i = 0; i < aTries; ++i)
+		{
+			mLocked = mMutex->trylock();
+			if (mLocked)
+				break;
+			std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+		}
+	}
+
+	~LLMutexTrylock()
+	{
+		if (mMutex && mLocked)
+			mMutex->unlock();
+	}
 
 	bool isLocked() const
 	{
@@ -137,44 +176,6 @@ public:
 private:
 	LLMutex*	mMutex;
 	bool		mLocked;
-};
-
-/**
-* @class LLScopedLock
-* @brief Small class to help lock and unlock mutexes.
-*
-* The constructor handles the lock, and the destructor handles
-* the unlock. Instances of this class are <b>not</b> thread safe.
-*/
-class LL_COMMON_API LLScopedLock : private boost::noncopyable
-{
-public:
-    /**
-    * @brief Constructor which accepts a mutex, and locks it.
-    *
-    * @param mutex An allocated mutex. If you pass in NULL,
-    * this wrapper will not lock.
-    */
-    LLScopedLock(std::mutex* mutex);
-
-    /**
-    * @brief Destructor which unlocks the mutex if still locked.
-    */
-    ~LLScopedLock();
-
-    /**
-    * @brief Check lock.
-    */
-    bool isLocked() const { return mLocked; }
-
-    /**
-    * @brief This method unlocks the mutex.
-    */
-    void unlock();
-
-protected:
-    bool mLocked;
-    std::mutex* mMutex;
 };
 
 #endif // LL_LLMUTEX_H

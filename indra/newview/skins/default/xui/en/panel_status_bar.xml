@@ -37,10 +37,29 @@
      name="buycurrencylabel">
         L$ [AMT]
     </panel.string>
-  <panel
+<layout_stack
+ animate="true"
+ layout="topleft"
+ orientation="horizontal"
+ height="18"
+ left="-564"
+ width="564"
+ top="0"
+ follows="right|top"
+ name="status_ls">
+  <layout_panel
+   auto_resize="true"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="left_pad_lp"
+   width="1" />
+  <layout_panel
+   auto_resize="false"
+   user_resize="false"
 	 height="18"
-	 left="-458"
-	 top="0"
 	 width="120"
 	 follows="right|top"
 	 name="menu_search_panel"
@@ -49,7 +68,7 @@
 	 bg_opaque_color="MouseGray">
 		<search_editor
 		 clear_button_visible="true"
-		 follows="left|top"
+                 follows="top|right"
 		 height="18"
 		 label="Search Menus"
 		 layout="topleft"
@@ -76,26 +95,7 @@
 			 pad_left="4"
 			 width="12"/>
 		</search_editor>
-  </panel>
-<layout_stack
- animate="true"
- layout="topleft"
- orientation="horizontal"
- height="18"
- left="-424"
- width="424"
- top="0"
- follows="right|top"
- name="status_ls">
-  <layout_panel
-   auto_resize="true"
-   user_resize="false"
-   follows="top|right"
-   height="18"
-   visible="true"
-   layout="topleft"
-   name="left_pad_lp"
-   width="1" />
+  </layout_panel>
   <layout_panel
    visibility_control="ShowStatusBarCurrency"
    auto_resize="false"
@@ -170,7 +170,7 @@
      name="TimeText"
      tool_tip="Current time (Pacific)"
      width="135">
-        24:00 AM PST
+        24:00:00 AM PST
     </text>
     <button
      follows="right|top"

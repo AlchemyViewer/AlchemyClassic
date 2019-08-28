@@ -29,6 +29,9 @@
 #include "llstl.h"
 #include "lltimer.h"	// ms_sleep()
 #include "lltracethreadrecorder.h"
+#include "llthread.h"
+
+using namespace std::chrono_literals;
 
 //============================================================================
 
@@ -76,7 +79,8 @@ void LLQueuedThread::shutdown()
 			{
 				break;
 			}
-			ms_sleep(100);
+
+			std::this_thread::sleep_for(100ms);
 			LLThread::yield();
 		}
 		if (timeout == 0)
@@ -466,7 +470,7 @@ S32 LLQueuedThread::processNextRequest()
 			unlockData();
 			if (mThreaded && start_priority < PRIORITY_NORMAL)
 			{
-				ms_sleep(1); // sleep the thread a little
+				std::this_thread::sleep_for(1ms); // sleep the thread a little
 			}
 		}
 		
@@ -516,7 +520,7 @@ void LLQueuedThread::run()
 		if (pending_work == 0)
 		{
 			mIdleThread = true;
-			ms_sleep(1);
+			std::this_thread::sleep_for(1ms);
 		}
 		//LLThread::yield(); // thread should yield after each request		
 	}

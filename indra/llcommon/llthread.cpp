@@ -35,7 +35,7 @@
 #include "llexception.h"
 
 #include <chrono>
-
+using namespace std::chrono_literals;
 
 #ifdef LL_WINDOWS
 const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -197,7 +197,7 @@ void LLThread::shutdown()
 				break;
 			}
             // Sleep for a tenth of a second
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(100ms);
 			yield();
 		}
 

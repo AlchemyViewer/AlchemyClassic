@@ -59,13 +59,13 @@
  * rand*g=g, which is not the desired result. As above, we clamp to 0
  * to restore uniform distribution.
  */
-static boost::thread_specific_ptr<std::ranlux48> __generator;
+static thread_local std::unique_ptr<std::ranlux48> __generator;
 inline std::ranlux48* _generator()
 {
 	if (!__generator.get())
 	{
 		std::random_device seeder;
-		__generator.reset(new std::ranlux48(seeder()));
+		__generator = std::make_unique<std::ranlux48>(seeder());
 	}
 	return __generator.get();
 }

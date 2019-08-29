@@ -121,7 +121,11 @@ public:
     static void		onBtnUpload(void* userdata);
     void			onLocalScrollCommit();
 
+	static void		onBakeTextureSelect(LLUICtrl* ctrl, void *userdata);
+	static void		onHideBaseMeshRegionCheck(LLUICtrl* ctrl, void *userdata);
+
     void 			setLocalTextureEnabled(BOOL enabled);
+	void 			setBakeTextureEnabled(BOOL enabled);
 
 protected:
     LLPointer<LLViewerTexture> mTexturep;
@@ -169,6 +173,7 @@ private:
     floater_commit_callback mOnFloaterCommitCallback;
     set_image_asset_id_callback mSetImageAssetIDCallback;
     set_on_update_image_stats_callback mOnUpdateImageStatsCallback;
+	BOOL mBakeTextureEnabled;
 };
 
 #endif // LL_FLOATERTEXTUREPICKER_H

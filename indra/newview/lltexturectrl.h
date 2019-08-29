@@ -202,6 +202,8 @@ public:
 
 	LLViewerFetchedTexture* getTexture() const { return mTexturep; }
 
+	void setBakeTextureEnabled(BOOL enabled);
+
 private:
 	BOOL allowDrop(LLInventoryItem* item);
 	BOOL doDrop(LLInventoryItem* item);

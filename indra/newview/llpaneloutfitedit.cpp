@@ -480,6 +480,7 @@ BOOL LLPanelOutfitEdit::postBuild()
 	mListViewItemTypes.push_back(new LLFilterItem(LLTrans::getString("alpha"), new LLFindActualWearablesOfType(LLWearableType::WT_ALPHA)));
 	mListViewItemTypes.push_back(new LLFilterItem(LLTrans::getString("tattoo"), new LLFindActualWearablesOfType(LLWearableType::WT_TATTOO)));
 	mListViewItemTypes.push_back(new LLFilterItem(LLTrans::getString("physics"), new LLFindActualWearablesOfType(LLWearableType::WT_PHYSICS)));
+	mListViewItemTypes.push_back(new LLFilterItem(LLTrans::getString("universal"), new LLFindActualWearablesOfType(LLWearableType::WT_UNIVERSAL)));
 
 	mOutfitNameStatusPanel = getChild<LLPanel>("outfit_name_and_status");
 	mOutfitLoadingIndicator = getChild<LLLoadingIndicator>("edit_outfit_loading_indicator");

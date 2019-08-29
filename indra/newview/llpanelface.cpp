@@ -893,7 +893,7 @@ void LLPanelFace::refresh()
 		mComboAlphaMode->selectNthItem(alpha_mode);
 
 		updateAlphaControls();
-		
+			
 		if (identical_diffuse)
 		{
 			mTextureCtrl->setTentative( FALSE );
@@ -903,6 +903,22 @@ void LLPanelFace::refresh()
 			getChildView("label alphamode")->setEnabled(editable && mIsAlpha);
 			getChildView("maskcutoff")->setEnabled(editable && mIsAlpha);
 			getChildView("label maskcutoff")->setEnabled(editable && mIsAlpha);
+
+			bool allAttachments = true;
+			for (LLObjectSelection::iterator iter = LLSelectMgr::getInstance()->getSelection()->begin();
+				iter != LLSelectMgr::getInstance()->getSelection()->end();iter++)
+			{
+				LLSelectNode* node = *iter;
+				LLViewerObject* object = node->getObject();
+				if (!object->isAttachment())
+				{
+					allAttachments = false;
+					break;
+				}
+			}
+
+			mTextureCtrl->setBakeTextureEnabled(allAttachments);
+					
 		}
 		else if (id.isNull())
 		{
@@ -914,6 +930,8 @@ void LLPanelFace::refresh()
 			getChildView("label alphamode")->setEnabled( FALSE );
 			getChildView("maskcutoff")->setEnabled( FALSE);
 			getChildView("label maskcutoff")->setEnabled( FALSE );
+
+			mTextureCtrl->setBakeTextureEnabled(false);
 		}
 		else
 		{
@@ -925,7 +943,23 @@ void LLPanelFace::refresh()
 			getChildView("label alphamode")->setEnabled(editable && mIsAlpha);
 			getChildView("maskcutoff")->setEnabled(editable && mIsAlpha);
 			getChildView("label maskcutoff")->setEnabled(editable && mIsAlpha);
+
+			bool allAttachments = true;
+			for (LLObjectSelection::iterator iter = LLSelectMgr::getInstance()->getSelection()->begin();
+				iter != LLSelectMgr::getInstance()->getSelection()->end();iter++)
+			{
+				LLSelectNode* node = *iter;
+				LLViewerObject* object = node->getObject();
+				if (!object->isAttachment())
+				{
+					allAttachments = false;
+					break;
+				}
+			}
+
+			mTextureCtrl->setBakeTextureEnabled(allAttachments);
 		}
+				
 		
 		mShinyTextureCtrl->setTentative( !identical_spec );
 		mShinyTextureCtrl->setEnabled( editable );
@@ -2098,6 +2132,16 @@ void LLPanelFace::LLSelectedTE::getTexId(LLUUID& id, bool& identical)
 	{
 		LLUUID get(LLViewerObject* object, S32 te_index) override
 		{
+			LLTextureEntry *te = object->getTE(te_index);
+			if (te)
+			{
+				if ((te->getID() == IMG_USE_BAKED_EYES) || (te->getID() == IMG_USE_BAKED_HAIR) || (te->getID() == IMG_USE_BAKED_HEAD) || (te->getID() == IMG_USE_BAKED_LOWER) || (te->getID() == IMG_USE_BAKED_SKIRT) || (te->getID() == IMG_USE_BAKED_UPPER)
+					|| (te->getID() == IMG_USE_BAKED_LEFTARM) || (te->getID() == IMG_USE_BAKED_LEFTLEG) || (te->getID() == IMG_USE_BAKED_AUX1) || (te->getID() == IMG_USE_BAKED_AUX2) || (te->getID() == IMG_USE_BAKED_AUX3))
+				{
+					return te->getID();
+				}
+			}
+
 			LLUUID id;
 			LLViewerTexture* image = object->getTEImage(te_index);
 			if (image)
@@ -2107,7 +2151,6 @@ void LLPanelFace::LLSelectedTE::getTexId(LLUUID& id, bool& identical)
 
 			if (!id.isNull() && LLViewerMedia::textureHasMedia(id))
 			{
-				LLTextureEntry *te = object->getTE(te_index);
 				if (te)
 				{
 					LLViewerTexture* tex = te->getID().notNull() ? gTextureList.findImage(te->getID(), TEX_LIST_STANDARD) : NULL;

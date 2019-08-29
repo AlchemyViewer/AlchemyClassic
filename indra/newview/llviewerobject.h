@@ -591,6 +591,10 @@ public:
 	friend class LLViewerMediaList;
 
 public:
+	LLViewerTexture* getBakedTextureForMagicId(const LLUUID& id);
+	void updateAvatarMeshVisibility(const LLUUID& id, const LLUUID& old_id);
+	void refreshBakeTexture();
+public:
 	static void unpackVector3(LLDataPackerBinaryBuffer* dp, LLVector3& value, const std::string& name);
 	static void unpackUUID(LLDataPackerBinaryBuffer* dp, LLUUID& value, const std::string& name);
 	static void unpackU32(LLDataPackerBinaryBuffer* dp, U32& value, const std::string& name);

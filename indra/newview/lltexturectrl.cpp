@@ -30,6 +30,7 @@
 #include "lltexturectrl.h"
 
 #include "llbutton.h"
+#include "llselectmgr.h"
 #include "llcombobox.h"
 #include "lldraghandle.h"
 #include "llerror.h"
@@ -80,7 +81,8 @@ LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 	mNeedsRawImageData( FALSE ),
 	mValid( TRUE ),
 	mShowLoadingPlaceholder( TRUE ),
-	mPreview(!p.enabled)
+	mPreview(!p.enabled),
+	mBakeTextureEnabled(FALSE)
 {
 
 	// <alchemy>
@@ -275,7 +277,9 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 			}
 			texture_floaterp->setOnFloaterCommitCallback(boost::bind(&LLTextureCtrl::onFloaterCommit, this, _1, _2));
 			texture_floaterp->setSetImageAssetIDCallback(boost::bind(&LLTextureCtrl::setImageAssetID, this, _1));
+			texture_floaterp->setBakeTextureEnabled(mBakeTextureEnabled);
 		}
+
 		LLFloater* root_floater = gFloaterView->getParentFloater(this);
 		if (root_floater)
 			root_floater->addDependentFloater(floaterp);
@@ -461,6 +465,16 @@ void LLTextureCtrl::setImageAssetID( const LLUUID& asset_id )
 	}
 }
 
+void LLTextureCtrl::setBakeTextureEnabled(BOOL enabled)
+{
+	mBakeTextureEnabled = enabled;
+	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+	if (floaterp)
+	{
+		floaterp->setBakeTextureEnabled(enabled);
+	}
+}
+
 BOOL LLTextureCtrl::handleDragAndDrop(S32 x, S32 y, MASK mask,
 					  BOOL drop, EDragAndDropType cargo_type, void *cargo_data,
 					  EAcceptance *accept,
@@ -515,7 +529,23 @@ void LLTextureCtrl::draw()
 	}
 	else if (!mImageAssetID.isNull())
 	{
-		LLPointer<LLViewerFetchedTexture> texture = LLViewerTextureManager::getFetchedTexture(mImageAssetID, FTT_DEFAULT, MIPMAP_YES,LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE);
+		LLPointer<LLViewerFetchedTexture> texture = NULL;
+
+		if (LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::isBakedImageId(mImageAssetID))
+		{
+			LLViewerObject* obj = LLSelectMgr::getInstance()->getSelection()->getFirstObject();
+			if (obj)
+			{
+				LLViewerTexture* viewerTexture = obj->getBakedTextureForMagicId(mImageAssetID);
+				texture = viewerTexture ? dynamic_cast<LLViewerFetchedTexture*>(viewerTexture) : NULL;
+			}
+			
+		}
+
+		if (texture.isNull())
+		{
+			texture = LLViewerTextureManager::getFetchedTexture(mImageAssetID, FTT_DEFAULT, MIPMAP_YES, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE);
+		}
 		
 		texture->setBoostLevel(LLGLTexture::BOOST_PREVIEW);
 		texture->forceToSaveRawImage(0) ;

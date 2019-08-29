@@ -3387,6 +3387,12 @@ bool LLViewerRegion::meshUploadEnabled() const
 		mSimulatorFeatures["MeshUploadEnabled"].asBoolean());
 }
 
+bool LLViewerRegion::bakesOnMeshEnabled() const
+{
+	return (mSimulatorFeatures.has("BakesOnMeshEnabled") &&
+		mSimulatorFeatures["BakesOnMeshEnabled"].asBoolean());
+}
+
 bool LLViewerRegion::meshRezEnabled() const
 {
 	return (mSimulatorFeatures.has("MeshRezEnabled") &&

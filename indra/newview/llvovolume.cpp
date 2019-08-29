@@ -5632,6 +5632,11 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 									U32 mask = mat->getShaderMask(alpha_mode);
 									pool->addRiggedFace(facep, mask);
 								}
+
+								if(vobj->isAnimatedObject() && vobj->isRiggedMesh())
+								{
+									pool->updateRiggedVertexBuffers(vobj->getAvatar());
+								}
 							}
 							else if (mat)
 							{
@@ -5742,6 +5747,10 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 											mask = mat->getShaderMask();
 									}
 									pool->addRiggedFace(facep, mask);
+									if(vobj->isAnimatedObject() && vobj->isRiggedMesh())
+									{
+										pool->updateRiggedVertexBuffers(vobj->getAvatar());
+									}
 								}
 							}
 							else if (!LLPipeline::sRenderDeferred)
@@ -5773,6 +5782,10 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 								if (type == LLDrawPool::POOL_MATERIALS || ((type == LLDrawPool::POOL_ALPHA_MASK || type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK) && mat))
 								{
 									pool->addRiggedFace(facep, mat->getShaderMask());
+									if(vobj->isAnimatedObject() && vobj->isRiggedMesh())
+									{
+										pool->updateRiggedVertexBuffers(vobj->getAvatar());
+									}
 								}
 								else if (type == LLDrawPool::POOL_FULLBRIGHT || type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK)
 								{

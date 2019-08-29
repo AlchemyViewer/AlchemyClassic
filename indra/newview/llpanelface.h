@@ -123,6 +123,7 @@ protected:
 	void	sendFullbright(const LLSD& userdata);	// applies and sends full bright
 	void	sendBump(U32 bumpiness);				// applies and sends bump map
 	void	sendShiny(U32 shininess);				// applies and sends shininess
+    void            alignTestureLayer();
 
 	// this function is to return TRUE if the drag should succeed.
 	static BOOL onDragTexture(LLUICtrl* ctrl, LLInventoryItem* item);
@@ -175,6 +176,7 @@ protected:
 	void		onClickAutoFix();
 	void		onClickAlignMats(const LLSD& userdata);
 	void		alignMaterialProperties();
+    static void		onAlignTexture(void*);
 
 	static F32     valueGlow(LLViewerObject* object, S32 face);
 

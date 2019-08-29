@@ -212,7 +212,7 @@ LLFontGL* LLViewerChat::getChatFont()
 //static
 S32 LLViewerChat::getChatFontSize()
 {
-	LLCachedControl<S32> font_size(gSavedSettings, "ChatFontSize", 1);
+	static LLCachedControl<S32> font_size(gSavedSettings, "ChatFontSize", 1);
 	return font_size;
 }
 

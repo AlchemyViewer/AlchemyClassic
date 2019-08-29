@@ -735,11 +735,6 @@ void LLPanelFace::alignTestureLayer()
     LLSelectMgr::getInstance()->getSelection()->applyToTEs(&setfunc);
 }
 
-void LLPanelFace::getState()
-{
-	updateUI();
-}
-
 void LLPanelFace::refresh()
 {
 	LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getFirstObject();

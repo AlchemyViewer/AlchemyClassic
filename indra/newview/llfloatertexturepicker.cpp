@@ -28,12 +28,14 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llagent.h"
+#include "llcombobox.h"
 #include "lldraghandle.h"
 #include "llfiltereditor.h"
 #include "llfloaterreg.h"
 #include "llfloatertexturepicker.h"
 #include "llinventoryfunctions.h"
 #include "llinventorypanel.h"
+#include "llselectmgr.h"
 #include "llscrolllistctrl.h"
 #include "lltoolmgr.h"
 #include "lltoolpipette.h"
@@ -112,7 +114,7 @@ void LLFloaterTexturePicker::setImageID(const LLUUID& image_id, bool set_selecti
 			if ( mBakeTextureEnabled && mModeSelector->getSelectedIndex() != 2)
 			{
 				mModeSelector->setSelectedIndex(2, 0);
-				onModeSelect(0,this);
+				onModeSelect();
 			}
 		}
 		else
@@ -120,7 +122,7 @@ void LLFloaterTexturePicker::setImageID(const LLUUID& image_id, bool set_selecti
 			if (mModeSelector->getSelectedIndex() == 2)
 			{
 				mModeSelector->setSelectedIndex(0, 0);
-				onModeSelect(0,this);
+				onModeSelect();
 			}
 			
 			LLUUID item_id = findItemID(mImageAssetID, FALSE);
@@ -797,16 +799,16 @@ void LLFloaterTexturePicker::onModeSelect()
     getChild<LLButton>("l_upl_btn")->setVisible(mode == 1);
     getChild<LLScrollListCtrl>("l_name_list")->setVisible(mode == 1);
 
-	self->getChild<LLComboBox>("l_bake_use_texture_combo_box")->setVisible(mode == 2);
-	self->getChild<LLCheckBoxCtrl>("hide_base_mesh_region")->setVisible(false);// mode == 2);
+	getChild<LLComboBox>("l_bake_use_texture_combo_box")->setVisible(mode == 2);
+	getChild<LLCheckBoxCtrl>("hide_base_mesh_region")->setVisible(false);// mode == 2);
 
 	if (mode == 2)
 	{
-		self->stopUsingPipette();
+		stopUsingPipette();
 
 		S8 val = -1;
 
-		LLUUID imageID = self->mImageAssetID;
+		LLUUID imageID = mImageAssetID;
 		if (imageID == IMG_USE_BAKED_HEAD)
 		{
 			val = 0;
@@ -853,7 +855,7 @@ void LLFloaterTexturePicker::onModeSelect()
 		}
 
 
-		self->getChild<LLComboBox>("l_bake_use_texture_combo_box")->setSelectedByValue(val, TRUE);
+		getChild<LLComboBox>("l_bake_use_texture_combo_box")->setSelectedByValue(val, TRUE);
 	}
 }
 
@@ -1125,7 +1127,7 @@ void LLFloaterTexturePicker::setBakeTextureEnabled(BOOL enabled)
 			mModeSelector->setSelectedIndex(2, 0);
 		}
 	}
-	onModeSelect(0, this);
+	onModeSelect();
 }
 
 void LLFloaterTexturePicker::onTextureSelect( const LLTextureEntry& te )

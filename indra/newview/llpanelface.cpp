@@ -80,6 +80,8 @@ const S32 ALPHAMODE_MASK = 2;		// Alpha masking mode
 const S32 BUMPY_TEXTURE = 18;		// use supplied normal map
 const S32 SHINY_TEXTURE = 4;		// use supplied specular map
 
+BOOST_STATIC_ASSERT(MATTYPE_DIFFUSE == LLRender::DIFFUSE_MAP && MATTYPE_NORMAL == LLRender::NORMAL_MAP && MATTYPE_SPECULAR == LLRender::SPECULAR_MAP);
+
 template<class T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
 T normalize(const T value, const T start, const T end)
 {
@@ -87,7 +89,7 @@ T normalize(const T value, const T start, const T end)
 	const T offset_val = value - start;
 	return (offset_val - ((offset_val / width) * width)) + start;
 }
-BOOST_STATIC_ASSERT(MATTYPE_DIFFUSE == LLRender::DIFFUSE_MAP && MATTYPE_NORMAL == LLRender::NORMAL_MAP && MATTYPE_SPECULAR == LLRender::SPECULAR_MAP);
+
 template<class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
 T normalize(const T value, const T start, const T end)
 {
@@ -399,9 +401,9 @@ struct LLPanelFaceSetTEFunctor : public LLSelectedTEFunctor
 		BOOL valid;
 		F32 value;
 
-        LLRadioGroup * radio_mat_type = mPanel->getChild<LLRadioGroup>("radio_material_type");
+        LLComboBox * combo_mat_type = mPanel->getChild<LLComboBox>("combobox mattype");
         std::string prefix;
-        switch (radio_mat_type->getSelectedIndex())
+        switch (combo_mat_type->getCurrentIndex())
         {
         case MATTYPE_DIFFUSE:
             prefix = "Tex";
@@ -730,8 +732,7 @@ void LLPanelFace::alignTestureLayer()
     bool identical_face = false;
     LLSelectedTE::getFace(last_face, identical_face);
 
-    LLRadioGroup * radio_mat_type = getChild<LLRadioGroup>("radio_material_type");
-    LLPanelFaceSetAlignedConcreteTEFunctor setfunc(this, last_face, static_cast<LLRender::eTexIndex>(radio_mat_type->getSelectedIndex()));
+    LLPanelFaceSetAlignedConcreteTEFunctor setfunc(this, last_face, static_cast<LLRender::eTexIndex>(mComboMatType->getCurrentIndex()));
     LLSelectMgr::getInstance()->getSelection()->applyToTEs(&setfunc);
 }
 
@@ -1347,11 +1348,8 @@ void LLPanelFace::refresh()
 		mColorSwatch->setFallbackImage(LLUI::getUIImage("locked_image.j2c") );
 		mColorSwatch->setValid(FALSE);
 
-		LLRadioGroup* radio_mat_type = getChild<LLRadioGroup>("radio_material_type");
-		if (radio_mat_type)
-		{
-			radio_mat_type->setSelectedIndex(0);
-		}
+		mComboMatType->setCurrentByIndex(0);
+
 		mLabelColorTransp->setEnabled(FALSE);
 		getChildView("rptctrl")->setEnabled(FALSE);
 		getChildView("tex gen")->setEnabled(FALSE);

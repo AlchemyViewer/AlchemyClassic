@@ -75,7 +75,7 @@ protected:
 	mutable std::thread::id			mLockingThread;
 	
 #if MUTEX_DEBUG
-	std::map<U32, BOOL> mIsLocked;
+	std::map<std::thread::id, BOOL> mIsLocked;
 #endif
 };
 

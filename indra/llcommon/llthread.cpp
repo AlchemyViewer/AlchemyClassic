@@ -234,7 +234,7 @@ void LLThread::start()
 
 	try
 	{
-		mThread = std::thread::thread(std::bind(&LLThread::threadRun, this));
+		mThread = std::thread(std::bind(&LLThread::threadRun, this));
 		mNativeHandle = mThread.native_handle();
 		mThread.detach();
 	}

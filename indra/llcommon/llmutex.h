@@ -28,7 +28,6 @@
 #define LL_LLMUTEX_H
 
 #include "stdtypes.h"
-#include <boost/noncopyable.hpp>
 
 #if LL_WINDOWS
 #pragma warning (push)
@@ -38,6 +37,7 @@
 #include <shared_mutex>
 #include <mutex>
 #include <condition_variable>
+#include <thread>
 
 #if LL_WINDOWS
 #pragma warning (pop)
@@ -54,7 +54,7 @@
 class LL_COMMON_API LLMutex
 {
 public:
-	LLMutex::LLMutex() :
+	LLMutex() :
 	 mCount(0),
 	 mLockingThread()
 	{

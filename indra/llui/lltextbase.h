@@ -614,7 +614,7 @@ protected:
 	S32 normalizeUri(std::string& uri);
 	
 protected:
-	virtual std::string _getSearchText() const
+	std::string _getSearchText() const override
 	{
 		return mLabel.getString() + getToolTip();
 	}

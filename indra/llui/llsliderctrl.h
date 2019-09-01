@@ -134,14 +134,14 @@ public:
 	static void		onEditorChangeFocus(LLUICtrl* caller, S32 direction, void *userdata);
 
 protected:
-	virtual std::string _getSearchText() const
+	std::string _getSearchText() const override
 	{
 		std::string strLabel;
 		if( mLabelBox )
 			strLabel = mLabelBox->getLabel();
 		return strLabel + getToolTip();
 	}
-	virtual void onSetHighlight() const  // When highlight, really do highlight the label
+	void onSetHighlight() const override  // When highlight, really do highlight the label
 	{
 		if( mLabelBox )
 			mLabelBox->ll::ui::SearchableControl::setHighlighted( ll::ui::SearchableControl::getHighlighted() );

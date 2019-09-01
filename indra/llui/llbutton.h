@@ -384,7 +384,7 @@ protected:
 	bool						mHandleRightMouse;
 
 protected:
-	virtual std::string _getSearchText() const
+	std::string _getSearchText() const override
 	{
 		return getLabelUnselected() + getToolTip();
 	}

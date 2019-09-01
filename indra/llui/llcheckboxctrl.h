@@ -110,12 +110,12 @@ public:
 	void		resetDirty() override;			// Clear dirty state
 
 protected:
-	virtual std::string _getSearchText() const
+	std::string _getSearchText() const override
 	{
 		return getLabel() + getToolTip();
 	}
 
-	virtual void onSetHighlight() const // When highlight, really do highlight the label
+	void onSetHighlight() const  override // When highlight, really do highlight the label
 	{
 		if( mLabel )
 			mLabel->ll::ui::SearchableControl::setHighlighted( ll::ui::SearchableControl::getHighlighted() );

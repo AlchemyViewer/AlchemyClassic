@@ -175,7 +175,7 @@ protected:
 	// the current accelerator key and mask to the provided string.
 	void appendAcceleratorString( std::string& st ) const;
 
-	virtual std::string _getSearchText() const
+	std::string _getSearchText() const override
 	{
 		return mLabel.getString();
 	}

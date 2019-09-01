@@ -235,7 +235,7 @@ public:
 	// This method returns the label displayed on the view. This
 	// method was primarily added to allow sorting on the folder
 	// contents possible before the entire view has been constructed.
-	const std::string& getLabel() const { return mLabel; }
+	const LLUIString& getLabel() const { return mLabel; }
 
 	LLFolderViewFolder* getParentFolder( void ) { return mParentFolder; }
 	const LLFolderViewFolder* getParentFolder( void ) const { return mParentFolder; }

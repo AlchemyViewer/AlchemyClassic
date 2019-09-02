@@ -11766,13 +11766,18 @@ The LSL script to create this particle system has been copied to your clipboard.
   </notification>
   
     <notification
-   icon="alertmodal.tga"
-   name="ChangeSoundQuality"
-   type="alertmodal">
+     icon="alertmodal.tga"
+     name="ChangeSoundQuality"
+     type="alertmodal">
 Changing sound quality will take effect after you restart [APP_NAME].
   </notification>
-
   <notification
+    icon="notifytip.tga"
+    name="SnapshotDetected"
+    type="notifytip">
+    [NAME] took a snapshot!
+  </notification>
+<notification
     icon="alertmodal.tga"
     label="Warn on insecure login"
     name="InsecureLogin"

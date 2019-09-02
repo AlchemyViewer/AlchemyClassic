@@ -37,12 +37,6 @@
 #  include <IOKit/IOKitLib.h>
 #endif
 
-#if defined(LL_DARWIN)
-/* static */ const U32 LLMachineID::UNIQUE_ID_BYTES = 12;
-#else
-/* static */ const U32 LLMachineID::UNIQUE_ID_BYTES = 6;
-#endif
-
 unsigned char static_unique_id[LLMachineID::UNIQUE_ID_BYTES] =  { 0 };
 bool static has_static_unique_id = false;
 

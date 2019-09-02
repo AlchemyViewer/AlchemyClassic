@@ -35,7 +35,11 @@ public:
     static S32 getUniqueID(unsigned char *unique_id, size_t len);
     static S32 init();
 
-    static const U32 UNIQUE_ID_BYTES;
+#if defined(LL_DARWIN)
+	static constexpr U32 UNIQUE_ID_BYTES = 12;
+#else
+	static constexpr U32 UNIQUE_ID_BYTES = 6;
+#endif
     
 protected:
 

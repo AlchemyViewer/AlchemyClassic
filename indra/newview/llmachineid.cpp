@@ -27,17 +27,26 @@
 #include "llviewerprecompiledheaders.h"
 #include "lluuid.h"
 #include "llmachineid.h"
-#if	LL_WINDOWS
-#define _WIN32_DCOM
-#include <iostream>
-#include <comdef.h>
-#include <Wbemidl.h>
+#if	defined(LL_WINDOWS)
+#  define _WIN32_DCOM
+#  include <iostream>
+#  include <comdef.h>
+#  include <Wbemidl.h>
+#elif defined(LL_DARWIN)
+#  include <CoreFoundation/CoreFoundation.h>
+#  include <IOKit/IOKitLib.h>
 #endif
-unsigned char static_unique_id[] =  {0,0,0,0,0,0};
+
+#if defined(LL_DARWIN)
+/* static */ const U32 LLMachineID::UNIQUE_ID_BYTES = 12;
+#else
+/* static */ const U32 LLMachineID::UNIQUE_ID_BYTES = 6;
+#endif
+
+unsigned char static_unique_id[LLMachineID::UNIQUE_ID_BYTES] =  { 0 };
 bool static has_static_unique_id = false;
 
-#if	LL_WINDOWS
-
+#ifdef LL_WINDOWS
 class LLComInitialize
 {
     HRESULT mHR;
@@ -60,20 +69,20 @@ public:
 
 // get an unique machine id.
 // NOT THREAD SAFE - do before setting up threads.
-// MAC Address doesn't work for Windows 7 since the first returned hardware MAC address changes with each reboot,  Go figure??
+// Keying on MAC address for this is stupid. lol
 
 S32 LLMachineID::init()
 {
-    memset(static_unique_id,0,sizeof(static_unique_id));
+    memset(static_unique_id, 0, sizeof(static_unique_id));
     S32 ret_code = 0;
-#if	LL_WINDOWS
+#ifdef LL_WINDOWS
 # pragma comment(lib, "wbemuuid.lib")
         size_t len = sizeof(static_unique_id);
 
         // algorithm to detect BIOS serial number found at:
         // http://msdn.microsoft.com/en-us/library/aa394077%28VS.85%29.aspx
         // we can't use the MAC address since on Windows 7, the first returned MAC address changes with every reboot.
-
+        // we shouldn't have ever done it that way in the first place. lol. so unreasonably silly.
 
         HRESULT hres;
 
@@ -248,7 +257,33 @@ S32 LLMachineID::init()
         if (pEnumerator)
             pEnumerator->Release();
         ret_code=0;
-#else
+#elif defined(LL_DARWIN)
+    // Apple best practice is to key to the system's serial number
+    // https://developer.apple.com/library/archive/technotes/tn1103/_index.html
+    //
+    // Apple use a 12 char serial number formatted as:
+    // P - manufacturing location, Y - year manufactured, W - week manufactured,
+    // S - unique id, C - model number
+    // PPYWWSSSCCCC
+    //
+    
+    io_service_t expert = IOServiceGetMatchingService(kIOMasterPortDefault,
+                                        IOServiceMatching("IOPlatformExpertDevice"));
+    if (expert != 0)
+    {
+        CFTypeRef cf_prop = IORegistryEntryCreateCFProperty(
+                                        expert, CFSTR(kIOPlatformSerialNumberKey),
+                                        kCFAllocatorDefault, 0);
+        if (cf_prop) {
+            char buffer[32] = {0};
+            CFStringRef serial = (CFStringRef)cf_prop;
+            if (CFStringGetCString(serial, buffer, sizeof(buffer), kCFStringEncodingUTF8)) {
+                memcpy(static_unique_id, buffer, sizeof(static_unique_id));
+            }
+        }
+        IOObjectRelease(expert);
+    }
+#else // that means you leenox!
         unsigned char * staticPtr = (unsigned char *)(&static_unique_id[0]);
         ret_code = LLUUID::getNodeID(staticPtr);
 #endif

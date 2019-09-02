@@ -34,7 +34,7 @@ bool llHashedUniqueID(unsigned char id[MD5HEX_STR_SIZE])
 {
 	bool idIsUnique = true;
 	LLMD5 hashed_unique_id;
-	unsigned char unique_id[MAC_ADDRESS_BYTES];
+	unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
 	if (   LLUUID::getNodeID(unique_id)
 		|| LLMachineID::getUniqueID(unique_id, sizeof(unique_id))
 		)

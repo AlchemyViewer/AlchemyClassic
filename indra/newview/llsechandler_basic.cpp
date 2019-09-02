@@ -98,7 +98,7 @@ void compat_rc4(llifstream &protected_data_stream, std::string &decrypted_data)
 	U8 buffer[BUFFER_READ_SIZE];
 	U8 decrypted_buffer[BUFFER_READ_SIZE];
 	int decrypted_length;
-	unsigned char unique_id[MAC_ADDRESS_BYTES];
+	unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
 	LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
 	LLXORCipher cipher(unique_id, sizeof(unique_id));
 
@@ -141,7 +141,7 @@ void LLSecAPIBasicHandler::_readProtectedData()
 		U8 buffer[BUFFER_READ_SIZE];
 		U8 decrypted_buffer[BUFFER_READ_SIZE];
 		int decrypted_length;	
-		unsigned char unique_id[MAC_ADDRESS_BYTES];
+		unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
         LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
 		LLXORCipher cipher(unique_id, sizeof(unique_id));
 
@@ -236,7 +236,7 @@ void LLSecAPIBasicHandler::_writeProtectedData()
 		
 		EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
 		EVP_CipherInit_ex(ctx, EVP_chacha20(), NULL, salt, NULL, 1); // 1 is encrypt
-		unsigned char unique_id[MAC_ADDRESS_BYTES];
+		unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
         LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
 		LLXORCipher cipher(unique_id, sizeof(unique_id));
 		cipher.encrypt(salt, STORE_SALT_SIZE);
@@ -495,7 +495,7 @@ std::string LLSecAPIBasicHandler::_legacyLoadPassword()
 	}
 	
 	// Decipher with MAC address
-	unsigned char unique_id[MAC_ADDRESS_BYTES];
+	unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
     LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
 	LLXORCipher cipher(unique_id, sizeof(unique_id));
 	cipher.decrypt(&buffer[0], buffer.size());

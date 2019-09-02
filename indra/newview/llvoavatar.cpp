@@ -2922,6 +2922,8 @@ void LLVOAvatar::idleUpdateLoadingEffect()
 				{
 					LL_INFOS("Avatar") << avString() << "self isFullyLoaded, mFirstFullyVisible" << LL_ENDL;
 					LLAppearanceMgr::instance().onFirstFullyVisible();
+
+					LLAOEngine::instance().onLoginComplete();
 				}
 				else
 				{
@@ -3506,7 +3508,7 @@ void LLVOAvatar::idleUpdateBelowWater()
 
 	BOOL was_below_water = mBelowWater;
 	mBelowWater = avatar_height < water_height;
-	if (mBelowWater != was_below_water)
+	if (isSelf() && mBelowWater != was_below_water)
 		LLAOEngine::instance().checkBelowWater(mBelowWater);
 }
 

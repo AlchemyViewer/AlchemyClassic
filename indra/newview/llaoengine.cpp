@@ -41,9 +41,8 @@
 #include "llvfs.h"
 #include "llviewercontrol.h"
 #include "llviewerinventory.h"
+#include "llviewerobjectlist.h"
 #include "llvoavatarself.h"
-
-#include <boost/graph/graph_concepts.hpp>
 
 const F32 INVENTORY_POLLING_INTERVAL = 5.0f;
 
@@ -77,7 +76,7 @@ LLAOEngine::~LLAOEngine()
 
 void LLAOEngine::init()
 {
-	enable(mEnabled);
+	enable(gSavedPerAccountSettings.getBool("UseAO"));
 }
 
 // static
@@ -162,14 +161,36 @@ void LLAOEngine::setLastOverriddenMotion(const LLUUID& motion)
 
 bool LLAOEngine::foreignAnimations(const LLUUID& seat)
 {
+	LL_DEBUGS("AOEngine") << "Checking for foreign animation on seat " << seat << LL_ENDL;
+
 	for (LLVOAvatar::AnimSourceIterator sourceIterator = gAgentAvatarp->mAnimationSources.begin();
 		sourceIterator != gAgentAvatarp->mAnimationSources.end(); ++sourceIterator)
 	{
+		LL_DEBUGS("AOEngine") << "Source " << sourceIterator->first << " runs animation " << sourceIterator->second << LL_ENDL;
+
 		if (sourceIterator->first != gAgentID)
 		{
-			if (seat.isNull() || sourceIterator->first == seat)
+			// special case when the AO gets disabled while sitting
+			if (seat.isNull())
 			{
 				return true;
+			}
+
+			// find the source object where the animation came from
+			LLViewerObject* source=gObjectList.findObject(sourceIterator->first);
+
+			// proceed if it's not an attachment
+			if(!source->isAttachment())
+			{
+				// get the source's root prim
+				LLViewerObject* sourceRoot=dynamic_cast<LLViewerObject*>(source->getRoot());
+
+				// if the root prim is the same as the animation source, report back as TRUE
+				if (sourceRoot && source->getID() == seat)
+				{
+					LL_DEBUGS("AOEngine") << "foreign animation " << sourceIterator->second << " found on seat." << LL_ENDL;
+					return true;
+				}
 			}
 		}
 	}
@@ -762,14 +783,17 @@ bool LLAOEngine::createAnimationLink(const LLAOSet* set, LLAOSet::AOState* state
 		LLInventoryModel::cat_array_t* cats;
 		gInventory.getDirectDescendentsOf(set->getInventoryUUID(), cats, items);
 
-		for (S32 index = 0; index < cats->size(); ++index)
+		if (cats)
 		{
-			if (cats->at(index)->getName().compare(state->mName) == 0)
+			for (S32 index = 0; index < cats->size(); ++index)
 			{
-				LL_DEBUGS("AOEngine") << "UUID found!" << LL_ENDL;
-				newStateFolderUUID = cats->at(index)->getUUID();
-				state->mInventoryUUID = newStateFolderUUID;
-				break;
+				if (cats->at(index)->getName().compare(state->mName) == 0)
+				{
+					LL_DEBUGS("AOEngine") << "UUID found!" << LL_ENDL;
+					newStateFolderUUID = cats->at(index)->getUUID();
+					state->mInventoryUUID = newStateFolderUUID;
+					break;
+				}
 			}
 		}
 	}
@@ -1483,6 +1507,17 @@ void LLAOEngine::setSmart(LLAOSet* set, const bool smart)
 {
 	set->setSmart(smart);
 	set->setDirty(TRUE);
+
+	if (smart)
+	{
+		// make sure to restart the sit cancel timer to fix sit overrides when the object we are
+		// sitting on is playing its own animation
+		const LLViewerObject* agentRoot = dynamic_cast<LLViewerObject*>(gAgentAvatarp->getRoot());
+		if (agentRoot && agentRoot->getID() != gAgentID)
+		{
+			mSitCancelTimer.oneShot();
+		}
+	}
 }
 
 void LLAOEngine::setDisableStands(LLAOSet* set, const bool disable)

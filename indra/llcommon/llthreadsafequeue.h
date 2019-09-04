@@ -30,18 +30,9 @@
 #include "llexception.h"
 #include <deque>
 #include <string>
-
-#if LL_WINDOWS
-#pragma warning (push)
-#pragma warning (disable:4265)
-#endif
-// 'std::_Pad' : class has virtual functions, but destructor is not virtual
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
-
-#if LL_WINDOWS
-#pragma warning (pop)
-#endif
 
 //
 // A general queue exception.
@@ -83,7 +74,7 @@ public:
 	
 	// If the pool is set to NULL one will be allocated and managed by this
 	// queue.
-	LLThreadSafeQueue(U32 capacity = 1024);
+	LLThreadSafeQueue(size_t capacity = 1024U);
 	
 	// Add an element to the front of queue (will block if the queue has
 	// reached capacity).
@@ -112,18 +103,22 @@ public:
 
 private:
 	std::deque< ElementT > mStorage;
-	U32 mCapacity;
+	size_t mCapacity;
 
+#if LL_WINDOWS // This is an SRWLock in win32
+	std::shared_mutex mLock;
+#else
 	std::mutex mLock;
-	std::condition_variable mCapacityCond;
-	std::condition_variable mEmptyCond;
+#endif
+	std::condition_variable_any mCapacityCond;
+	std::condition_variable_any mEmptyCond;
 };
 
 // LLThreadSafeQueue
 //-----------------------------------------------------------------------------
 
 template<typename ElementT>
-LLThreadSafeQueue<ElementT>::LLThreadSafeQueue(U32 capacity) :
+LLThreadSafeQueue<ElementT>::LLThreadSafeQueue(size_t capacity) :
 mCapacity(capacity)
 {
 }
@@ -134,7 +129,7 @@ void LLThreadSafeQueue<ElementT>::pushFront(ElementT const & element)
 {
     while (true)
     {
-        std::unique_lock<std::mutex> lock1(mLock);
+        std::unique_lock<decltype(mLock)> lock1(mLock);
 
         if (mStorage.size() < mCapacity)
         {
@@ -152,7 +147,7 @@ void LLThreadSafeQueue<ElementT>::pushFront(ElementT const & element)
 template<typename ElementT>
 bool LLThreadSafeQueue<ElementT>::tryPushFront(ElementT const & element)
 {
-    std::unique_lock<std::mutex> lock1(mLock, std::defer_lock);
+    std::unique_lock<decltype(mLock)> lock1(mLock, std::defer_lock);
     if (!lock1.try_lock())
         return false;
 
@@ -170,7 +165,7 @@ ElementT LLThreadSafeQueue<ElementT>::popBack(void)
 {
     while (true)
     {
-        std::unique_lock<std::mutex> lock1(mLock);
+        std::unique_lock<decltype(mLock)> lock1(mLock);
 
         if (!mStorage.empty())
         {
@@ -189,7 +184,7 @@ ElementT LLThreadSafeQueue<ElementT>::popBack(void)
 template<typename ElementT>
 bool LLThreadSafeQueue<ElementT>::tryPopBack(ElementT & element)
 {
-    std::unique_lock<std::mutex> lock1(mLock, std::defer_lock);
+    std::unique_lock<decltype(mLock)> lock1(mLock, std::defer_lock);
     if (!lock1.try_lock())
         return false;
 
@@ -206,7 +201,7 @@ bool LLThreadSafeQueue<ElementT>::tryPopBack(ElementT & element)
 template<typename ElementT>
 size_t LLThreadSafeQueue<ElementT>::size(void)
 {
-    std::lock_guard<std::mutex> lock(mLock);
+    std::unique_lock<decltype(mLock)> lock(mLock);
     return mStorage.size();
 }
 

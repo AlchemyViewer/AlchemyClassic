@@ -40,7 +40,6 @@
 #include "lltransactionflags.h"
 #include "llsdutil_math.h"
 #include "message.h"
-#include "u64.h"
 #include "llregionflags.h"
 #include <boost/range/adaptor/map.hpp>
 

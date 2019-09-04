@@ -28,8 +28,6 @@
 
 #include "lltimer.h"
 
-#include "u64.h"
-
 #if LL_WINDOWS
 #	include "llwin32headerslean.h"
 #elif LL_LINUX || LL_DARWIN
@@ -311,7 +309,7 @@ U64MicrosecondsImplicit LLTimer::getTotalTime()
 // static
 F64SecondsImplicit LLTimer::getTotalSeconds()
 {
-	return F64Microseconds(U64_to_F64(getTotalTime()));
+	return F64Microseconds(static_cast<F64>(getTotalTime()));
 }
 
 void LLTimer::reset()

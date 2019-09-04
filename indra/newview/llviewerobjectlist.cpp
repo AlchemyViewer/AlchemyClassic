@@ -65,7 +65,6 @@
 #include "lltoolmgr.h"
 #include "lltoolpie.h"
 #include "llkeyboard.h"
-#include "u64.h"
 #include "llviewertexturelist.h"
 #include "lldatapacker.h"
 #include "llcallstack.h"

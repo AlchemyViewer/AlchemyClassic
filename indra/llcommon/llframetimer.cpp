@@ -25,8 +25,6 @@
 
 #include "linden_common.h"
 
-#include "u64.h"
-
 #include "llframetimer.h"
 
 // Static members
@@ -45,8 +43,8 @@ void LLFrameTimer::updateFrameTime()
 	U64 total_time = totalTime();
 	sFrameDeltaTime = total_time - sTotalTime;
 	sTotalTime = total_time;
-	sTotalSeconds = U64_to_F64(sTotalTime) * USEC_TO_SEC_F64;
-	sFrameTime = U64_to_F64(sTotalTime - sStartTotalTime) * USEC_TO_SEC_F64;
+	sTotalSeconds = static_cast<F64>(sTotalTime) * USEC_TO_SEC_F64;
+	sFrameTime = static_cast<F64>(sTotalTime - sStartTotalTime) * USEC_TO_SEC_F64;
 } 
 
 void LLFrameTimer::start()
@@ -107,7 +105,7 @@ void LLFrameTimer::setExpiryAt(F64 seconds_since_epoch)
 
 F64 LLFrameTimer::expiresAt() const
 {
-	F64 expires_at = U64_to_F64(sStartTotalTime) * USEC_TO_SEC_F64;
+	F64 expires_at = static_cast<F64>(sStartTotalTime) * USEC_TO_SEC_F64;
 	expires_at += mExpiry;
 	return expires_at;
 }
@@ -131,7 +129,7 @@ BOOL LLFrameTimer::checkExpirationAndReset(F32 expiration)
 // static
 F32 LLFrameTimer::getFrameDeltaTimeF32()
 {
-	return (F32)(U64_to_F64(sFrameDeltaTime) * USEC_TO_SEC_F64); 
+	return (F32)(static_cast<F64>(sFrameDeltaTime) * USEC_TO_SEC_F64);
 }
 
 
@@ -140,7 +138,7 @@ F32 LLFrameTimer::getFrameDeltaTimeF32()
 F32  LLFrameTimer::getCurrentFrameTime()
 {
 	U64 frame_time = totalTime() - sTotalTime;
-	return (F32)(U64_to_F64(frame_time) * USEC_TO_SEC_F64); 
+	return (F32)(static_cast<F64>(frame_time) * USEC_TO_SEC_F64);
 }
 
 // Glue code to avoid full class .h file #includes

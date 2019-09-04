@@ -33,7 +33,6 @@
 #include "llmath.h"
 #include "llquaternion.h"
 #include "message.h"
-#include "u64.h"
 #include "v3dmath.h"
 #include "v3math.h"
 #include "v4math.h"

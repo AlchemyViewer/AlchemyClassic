@@ -28,7 +28,6 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llagent.h"
-#include "llcombobox.h"
 #include "lldraghandle.h"
 #include "llfiltereditor.h"
 #include "llfloaterreg.h"
@@ -37,6 +36,7 @@
 #include "llinventorypanel.h"
 #include "llselectmgr.h"
 #include "llscrolllistctrl.h"
+#include "lltabcontainer.h"
 #include "lltoolmgr.h"
 #include "lltoolpipette.h"
 #include "lltrans.h"
@@ -111,17 +111,17 @@ void LLFloaterTexturePicker::setImageID(const LLUUID& image_id, bool set_selecti
 
 		if (LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::isBakedImageId(mImageAssetID))
 		{
-			if ( mBakeTextureEnabled && mModeSelector->getSelectedIndex() != 2)
+			if ( mBakeTextureEnabled && mModeSelector->getCurrentPanelIndex() != 2)
 			{
-				mModeSelector->setSelectedIndex(2, 0);
+				mModeSelector->selectTab(2);
 				onModeSelect();
 			}
 		}
 		else
 		{
-			if (mModeSelector->getSelectedIndex() == 2)
+			if (mModeSelector->getCurrentPanelIndex() == 2)
 			{
-				mModeSelector->setSelectedIndex(0, 0);
+				mModeSelector->selectTab(0);
 				onModeSelect();
 			}
 			
@@ -366,9 +366,9 @@ BOOL LLFloaterTexturePicker::postBuild()
 		}
 	}
 
-    mModeSelector = getChild<LLRadioGroup>("mode_selection");
+    mModeSelector = getChild<LLTabContainer>("mode_selection");
     mModeSelector->setCommitCallback(boost::bind(&LLFloaterTexturePicker::onModeSelect, this));
-    mModeSelector->setSelectedIndex(0, 0);
+    mModeSelector->selectTab(0);
 
 	childSetAction("l_add_btn", LLFloaterTexturePicker::onBtnAdd, this);
 	childSetAction("l_rem_btn", LLFloaterTexturePicker::onBtnRemove, this);
@@ -401,7 +401,7 @@ BOOL LLFloaterTexturePicker::postBuild()
 
 	LLToolPipette::getInstance()->setToolSelectCallback(boost::bind(&LLFloaterTexturePicker::onTextureSelect, this, _1));
 	
-	getChild<LLComboBox>("l_bake_use_texture_combo_box")->setCommitCallback(onBakeTextureSelect, this);
+	getChild<LLUICtrl>("l_bake_use_texture_combo_box")->setCommitCallback(onBakeTextureSelect, this);
 	getChild<LLCheckBoxCtrl>("hide_base_mesh_region")->setCommitCallback(onHideBaseMeshRegionCheck, this);
 
 	setBakeTextureEnabled(FALSE);
@@ -779,83 +779,12 @@ void LLFloaterTexturePicker::onSelectionChange(const std::deque<LLFolderViewItem
 
 void LLFloaterTexturePicker::onModeSelect()
 {
-    S32 mode = mModeSelector->getSelectedIndex();
-
-    getChild<LLButton>("Default")->setVisible(mode == 0);
-    getChild<LLButton>("Transparent")->setVisible(mode == 0); // <alchemy/>
-    getChild<LLButton>("Blank")->setVisible(mode == 0);
-    getChild<LLButton>("None")->setVisible(mode == 0);
-    getChild<LLButton>("Pipette")->setVisible(mode == 0);
-    getChild<LLFilterEditor>("inventory search editor")->setVisible(mode == 0);
-    getChild<LLInventoryPanel>("inventory panel")->setVisible(mode == 0);
-    getChild<LLLineEditor>("uuid_editor")->setVisible(mode == 0);
-    getChild<LLButton>("apply_uuid_btn")->setVisible(mode == 0);
-
-	/*self->getChild<LLCheckBox>("show_folders_check")->setVisible(mode);
-	  no idea under which conditions the above is even shown, needs testing. */
-
-    getChild<LLButton>("l_add_btn")->setVisible(mode == 1);
-    getChild<LLButton>("l_rem_btn")->setVisible(mode == 1);
-    getChild<LLButton>("l_upl_btn")->setVisible(mode == 1);
-    getChild<LLScrollListCtrl>("l_name_list")->setVisible(mode == 1);
-
-	getChild<LLComboBox>("l_bake_use_texture_combo_box")->setVisible(mode == 2);
-	getChild<LLCheckBoxCtrl>("hide_base_mesh_region")->setVisible(false);// mode == 2);
+    S32 mode = mModeSelector->getCurrentPanelIndex();
 
 	if (mode == 2)
 	{
 		stopUsingPipette();
-
-		S8 val = -1;
-
-		LLUUID imageID = mImageAssetID;
-		if (imageID == IMG_USE_BAKED_HEAD)
-		{
-			val = 0;
-		}
-		else if (imageID == IMG_USE_BAKED_UPPER)
-		{
-			val = 1;
-		}
-		else if (imageID == IMG_USE_BAKED_LOWER)
-		{
-			val = 2;
-		}
-		else if (imageID == IMG_USE_BAKED_EYES)
-		{
-			val = 3;
-		}
-		else if (imageID == IMG_USE_BAKED_SKIRT)
-		{
-			val = 4;
-		}
-		else if (imageID == IMG_USE_BAKED_HAIR)
-		{
-			val = 5;
-		}
-		else if (imageID == IMG_USE_BAKED_LEFTARM)
-		{
-			val = 6;
-		}
-		else if (imageID == IMG_USE_BAKED_LEFTLEG)
-		{
-			val = 7;
-		}
-		else if (imageID == IMG_USE_BAKED_AUX1)
-		{
-			val = 8;
-		}
-		else if (imageID == IMG_USE_BAKED_AUX2)
-		{
-			val = 9;
-		}
-		else if (imageID == IMG_USE_BAKED_AUX3)
-		{
-			val = 10;
-		}
-
-
-		getChild<LLComboBox>("l_bake_use_texture_combo_box")->setSelectedByValue(val, TRUE);
+		getChild<LLScrollListCtrl>("l_bake_use_texture_combo_box")->setSelectedByValue(mImageAssetID, TRUE);
 	}
 }
 
@@ -977,55 +906,10 @@ void LLFloaterTexturePicker::onApplyImmediateCheck(LLUICtrl* ctrl, void *user_da
 void LLFloaterTexturePicker::onBakeTextureSelect(LLUICtrl* ctrl, void *user_data)
 {
 	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*)user_data;
-	LLComboBox* combo_box = (LLComboBox*)ctrl;
 
-	S8 type = combo_box->getValue().asInteger();
+	auto val = ctrl->getValue();
 	
-	LLUUID imageID = self->mDefaultImageAssetID;
-	if (type == 0)
-	{
-		imageID = IMG_USE_BAKED_HEAD;
-	}
-	else if (type == 1)
-	{
-		imageID = IMG_USE_BAKED_UPPER;
-	}
-	else if (type == 2)
-	{
-		imageID = IMG_USE_BAKED_LOWER;
-	}
-	else if (type == 3)
-	{
-		imageID = IMG_USE_BAKED_EYES;
-	}
-	else if (type == 4)
-	{
-		imageID = IMG_USE_BAKED_SKIRT;
-	}
-	else if (type == 5)
-	{
-		imageID = IMG_USE_BAKED_HAIR;
-	}
-	else if (type == 6)
-	{
-		imageID = IMG_USE_BAKED_LEFTARM;
-	}
-	else if (type == 7)
-	{
-		imageID = IMG_USE_BAKED_LEFTLEG;
-	}
-	else if (type == 8)
-	{
-		imageID = IMG_USE_BAKED_AUX1;
-	}
-	else if (type == 9)
-	{
-		imageID = IMG_USE_BAKED_AUX2;
-	}
-	else if (type == 10)
-	{
-		imageID = IMG_USE_BAKED_AUX3;
-	}
+	LLUUID imageID = val.asUUID();
 
 	self->setImageID(imageID);
 	self->mViewModel->setDirty(); // *TODO: shouldn't we be using setValue() here?
@@ -1105,7 +989,7 @@ void LLFloaterTexturePicker::onFilterEdit(const std::string& search_string )
 
 void LLFloaterTexturePicker::setLocalTextureEnabled(BOOL enabled)
 {
-	mModeSelector->setIndexEnabled(1,enabled);
+	mModeSelector->enableTabButton(1,enabled);
 }
 
 void LLFloaterTexturePicker::setBakeTextureEnabled(BOOL enabled)
@@ -1113,18 +997,18 @@ void LLFloaterTexturePicker::setBakeTextureEnabled(BOOL enabled)
 	BOOL changed = (enabled != mBakeTextureEnabled);
 
 	mBakeTextureEnabled = enabled;
-	mModeSelector->setIndexEnabled(2, enabled);
+	mModeSelector->enableTabButton(2, enabled);
 
-	if (!mBakeTextureEnabled && (mModeSelector->getSelectedIndex() == 2))
+	if (!mBakeTextureEnabled && (mModeSelector->getCurrentPanelIndex() == 2))
 	{
-		mModeSelector->setSelectedIndex(0, 0);
+		mModeSelector->selectTab(0);
 	}
 	
 	if (changed && mBakeTextureEnabled && LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::isBakedImageId(mImageAssetID))
 	{
-		if (mModeSelector->getSelectedIndex() != 2)
+		if (mModeSelector->getCurrentPanelIndex() != 2)
 		{
-			mModeSelector->setSelectedIndex(2, 0);
+			mModeSelector->selectTab(2);
 		}
 	}
 	onModeSelect();

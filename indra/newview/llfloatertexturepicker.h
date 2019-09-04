@@ -33,6 +33,7 @@
 #include "llfloater.h"
 
 class LLFilterEditor;
+class LLTabContainer;
 
 typedef std::function<void(LLTextureCtrl::ETexturePickOp op, LLUUID id)> floater_commit_callback;
 typedef std::function<void()> floater_close_callback;
@@ -160,7 +161,7 @@ protected:
     LLSaveFolderState	mSavedFolderState;
     BOOL				mSelectedItemPinned;
 
-    LLRadioGroup*		mModeSelector;
+    LLTabContainer*		mModeSelector;
     LLScrollListCtrl*	mLocalScrollCtrl;
 
 private:

@@ -46,6 +46,8 @@
 #include "SDL2/SDL_syswm.h"
 
 #if LL_WINDOWS
+#include <commdlg.h>
+#include <shellapi.h>
 #include "../newview/res/resource.h"
 #endif
 
@@ -1766,8 +1768,7 @@ void LLWindowSDL2::spawnWebBrowser(const std::string& escaped_url, bool async)
 	// reliablly on Vista.
 
 	// this is madness.. no, this is..
-	LLWString url_wstring = utf8str_to_wstring(escaped_url);
-	llutf16string url_utf16 = wstring_to_utf16str(url_wstring);
+	auto url_wstring = ll_convert_string_to_wide(escaped_url);
 
 	// let the OS decide what to use to open the URL
 	SHELLEXECUTEINFO sei = { sizeof(sei) };
@@ -1779,7 +1780,7 @@ void LLWindowSDL2::spawnWebBrowser(const std::string& escaped_url, bool async)
 	}
 	sei.nShow = SW_SHOWNORMAL;
 	sei.lpVerb = L"open";
-	sei.lpFile = url_utf16.c_str();
+	sei.lpFile = url_wstring.c_str();
 	ShellExecuteEx(&sei);
 #endif
 }

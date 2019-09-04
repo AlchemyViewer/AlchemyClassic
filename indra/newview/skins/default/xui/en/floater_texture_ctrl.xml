@@ -47,45 +47,6 @@
         Multiple textures
     </text>
 	
-	<!-- mode selector -->
-	   <radio_group
-     control_name="mode_selection"
-     height="20"
-     layout="topleft"
-     left="0"
-     top_pad="80"
-     name="mode_selection"
-     follows="left|top">
-        <radio_item
-         label="Inventory"
-         name="inventory"
-         top_delta="20" 
-         layout="topleft"
-         height="16" 
-         left="0" 
-         value="0"
-         width="70" />
-        <radio_item
-         label="Local"
-         left_pad="0"
-         layout="topleft"
-         top_delta="0" 
-         height="16" 
-         name="local"
-         value="1"
-         width="50" />
-       <radio_item
-         label="Bake"
-         left_pad="0"
-         layout="topleft"
-         top_delta="0"
-         height="16"
-         name="bake"
-         value="2"
-         width="50" />
-    </radio_group>
-	<!-- -->
-	
     <text
      type="string"
      length="1"
@@ -94,11 +55,210 @@
      layout="topleft"
      left_delta="12"
      name="unknown"
-     top_pad="4">
+     top_pad="80">
         Size: [DIMENSIONS]
     </text>
     
+	<!-- mode selector -->
+	   <tab_container
+     bottom="-60"
+     layout="topleft"
+     left="171"
+     right="-5"
+     top="20"
+     name="mode_selection"
+     follows="all">
 <!--  middle: inventory mode -->
+        <panel
+         label="Inventory"
+         name="inventory"
+         top="0" 
+         layout="topleft"
+         follows="all"
+	       bottom="0"
+         left="0" 
+         right="-1">
+    <filter_editor
+     follows="left|top|right"
+     height="20"
+     label="Filter Textures"
+     layout="topleft"
+     left="0"
+     name="inventory search editor"
+     top_delta="3"
+     right="-1" />
+    <inventory_panel
+     allow_multi_select="false"
+     bg_visible="true"
+     bg_alpha_color="DkGray2"
+     border="false"
+     follows="all"
+     height="262"
+     layout="topleft"
+     left="0"
+     name="inventory panel"
+     top_pad="4"
+     right="-1" />
+     <check_box
+        visible="false"
+     height="0"
+     initial_value="false"
+     label="Show folders"
+     layout="topleft"
+     name="show_folders_check"
+     top_pad="0"
+     left_delta="-3"
+     width="0" />
+        </panel>
+<!--  middle: local mode -->
+        <panel
+         label="Local"
+         left="0"
+         layout="topleft"
+         follows="all"
+         top="0" 
+         bottom="0" 
+         name="local"
+         right="-1">
+    <scroll_list
+     name="l_name_list"
+     left="0"
+     top_delta="0"
+		 height="262"
+     follows="all"
+     column_padding="0"
+     draw_heading="true"
+     multi_select="true"
+     search_column="1"
+		 right="-1">
+        <column name="unit_name" label="Name" dynamicwidth="true" />
+        <column name="unit_id_HIDDEN" label="ID" width="0" />
+    </scroll_list>
+    <button
+     follows="left|bottom"
+     height="20"
+     label="Add"
+     label_selected="Add"
+     layout="topleft"
+     left="0"
+     top_pad="5"
+     name="l_add_btn"
+     width="74"/>
+    <button
+     enabled="false"
+     follows="left|bottom"
+     height="20"
+     label="Remove"
+     label_selected="Remove"
+     layout="topleft"
+     left_pad="5"
+     name="l_rem_btn"
+     top_delta="0"
+     width="74"/>
+    <button
+     enabled="false"
+     follows="left|bottom"
+     height="20"
+     label="Upload"
+     label_selected="Upload"
+     layout="topleft"
+     left_pad="5"
+     name="l_upl_btn"
+     top_delta="0"
+     width="74"/>
+        </panel>
+       <panel
+         label="Bake"
+         left="0"
+         layout="topleft"
+         follows="all"
+         top="0"
+         name="bake"
+	       bottom="0"
+         right="-1">
+<!-- middle: bake mode -->
+  <scroll_list
+         left="0"
+         top_delta="0"
+         height="262"
+			   layout="topleft"
+			   follows="all"
+			   name="l_bake_use_texture_combo_box"
+			   tool_tip="Choose the bake texture"
+	       draw_heading="true"
+			   right="-1">
+        <scroll_list.column name="type" label="Type"/>
+        <scroll_list.row
+         name="BAKED_HEAD"
+         value="5a9f4a74-30f2-821c-b88d-70499d3e7183">
+         <column name="type" value="BAKED_HEAD"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_UPPER"
+         value="ae2de45c-d252-50b8-5c6e-19f39ce79317">
+         <column name="type" value="BAKED_UPPER"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_LOWER"
+         value="24daea5f-0539-cfcf-047f-fbc40b2786ba">
+         <column name="type" value="BAKED_LOWER"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_EYES"
+         value="52cc6bb6-2ee5-e632-d3ad-50197b1dcb8a">
+         <column name="type" value="BAKED_EYES"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_SKIRT"
+         value="43529ce8-7faa-ad92-165a-bc4078371687">
+         <column name="type" value="BAKED_SKIRT"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_HAIR"
+         value="09aac1fb-6bce-0bee-7d44-caac6dbb6c63">
+         <column name="type" value="BAKED_HAIR"/>
+        </scroll_list.row>
+        <scroll_list.row
+          name="BAKED_LEFTARM"
+          value="ff62763f-d60a-9855-890b-0c96f8f8cd98">
+         <column name="type" value="BAKED_LEFTARM"/>
+        </scroll_list.row>
+        <scroll_list.row
+          name="BAKED_LEFTLEG"
+          value="8e915e25-31d1-cc95-ae08-d58a47488251">
+         <column name="type" value="BAKED_LEFTLEG"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_AUX1"
+         value="9742065b-19b5-297c-858a-29711d539043">
+         <column name="type" value="BAKED_AUX1"/>
+        </scroll_list.row>
+        <scroll_list.row
+           name="BAKED_AUX2"
+           value="03642e83-2bd1-4eb9-34b4-4c47ed586d2d">
+         <column name="type" value="BAKED_AUX2"/>
+        </scroll_list.row>
+        <scroll_list.row
+         name="BAKED_AUX3"
+         value="edd51b77-fc10-ce7a-4b3d-011dfc349e4f">
+         <column name="type" value="BAKED_AUX3"/>
+        </scroll_list.row>
+  </scroll_list>
+  <check_box
+     follows="left|top"
+     height="20"
+     initial_value="false"
+     label="Hide Base Mesh Region"
+     layout="topleft"
+     name="hide_base_mesh_region"
+     left_delta="0"
+     top_pad="10"
+     top_delta="0"
+     width="120" 
+     visible="false"/>
+        </panel>
+    </tab_container>
+	<!-- -->
 
     <button
      enabled="false"
@@ -108,8 +268,8 @@
      label_selected="Default"
      layout="topleft"
      name="Default"
-     width="73"
-	 left="94"
+     width="80"
+     left="87"
      top="215"/>
     <button
      follows="left|top"
@@ -120,7 +280,7 @@
      left_delta="0"
      name="Transparent"
      top_pad="5"
-     width="73" />
+     width="80" />
     <button
      follows="left|top"
      height="20"
@@ -130,9 +290,8 @@
      left_delta="0"
      name="Blank"
      top_pad="5"
-     width="73" />
+     width="80" />
      <button
-     enabled="false"
      follows="left|top"
      height="20"
      label="None"
@@ -141,14 +300,14 @@
      left_delta="0"
      name="None"
      top_pad="5"
-     width="73" />
+     width="80" />
     <button
      follows="left|top"
      height="28"
      image_selected="eye_button_active.tga"
      image_unselected="eye_button_inactive.tga"
      layout="topleft"
-     left_delta="-80"
+     left_delta="-73"
      top_delta="-25"
      name="Pipette"
      width="28" />
@@ -162,44 +321,15 @@
      value="Preview Disabled"
      visible="false"
      width="120" />
-    <filter_editor
-     follows="left|top|right"
-     height="23"
-     label="Filter Textures"
-     layout="topleft"
-     left="175"
-     name="inventory search editor"
-     top="20"
-     width="231" />
-    <inventory_panel
-     allow_multi_select="false"
-     bg_visible="true"
-     bg_alpha_color="DkGray2"
-     border="false"
-     follows="all"
-     height="262"
-     layout="topleft"
-     left_delta="0"
-     name="inventory panel"
-     top_pad="4"
-     width="231" />
-     <check_box
-        visible="false"
-     height="0"
-     initial_value="false"
-     label="Show folders"
-     layout="topleft"
-     name="show_folders_check"
-     top_pad="0"
-     left_delta="-3"
-     width="0" />
+
+<!-- bottom static -->
     <line_editor
      follows="left|bottom|right"
      layout="topleft"
      name="uuid_editor"
      label="Enter Texture UUID"
      max_length_chars="36"
-     top_pad="7"
+     top="-55"
      height="20"
      width="296"
      left="5" />
@@ -212,133 +342,6 @@
      top_delta="0"
      height="20"
      width="100" />
-
-<!--  middle: local mode -->
-    <button
-     follows="left|bottom"
-     height="18"
-     label="Add"
-     label_selected="Add"
-     layout="topleft"
-     left="94"
-     top="272"
-     name="l_add_btn"
-     width="73"
-     visible="false"/>
-    <button
-     enabled="false"
-     follows="left|bottom"
-     height="20"
-     label="Remove"
-     label_selected="Remove"
-     layout="topleft"
-     left_delta="0"
-     name="l_rem_btn"
-     top_pad="5"
-     width="73"
-     visible="false"/>
-    <button
-     enabled="false"
-     follows="left|bottom"
-     height="20"
-     label="Upload"
-     label_selected="Upload"
-     layout="topleft"
-     left_delta="0"
-     name="l_upl_btn"
-     top_pad="5"
-     width="73"
-     visible="false"/>
-    <scroll_list
-     name="l_name_list"
-     left="170"
-     top="20"
-     width="235"
-     height="320"
-     follows="left|top|right|bottom"
-     column_padding="0"
-     draw_heading="true"
-     multi_select="true"
-     search_column="1"
-     visible="false">
-        <column name="unit_name" label="Name" dynamicwidth="true" />
-        <column name="unit_id_HIDDEN" label="ID" width="0" />
-    </scroll_list>
-
-<!-- middle: bake mode -->
-  <combo_box
-         left="180"
-         top="30"
-			   height="19"
-			   top_delta="15"
-			   layout="topleft"
-			   follows="left|top"
-			   name="l_bake_use_texture_combo_box"
-			   tool_tip="Choose the bake texture"
-			   width="118"
-         visible="false">
-        <combo_box.item
-         label="None"
-         name="None"
-         value="-1" />
-        <combo_box.item
-         label="BAKED_HEAD"
-         name="BAKED_HEAD"
-         value="0" />
-        <combo_box.item
-         label="BAKED_UPPER"
-         name="BAKED_UPPER"
-         value="1" />
-        <combo_box.item
-         label="BAKED_LOWER"
-         name="BAKED_LOWER"
-         value="2" />
-        <combo_box.item
-         label="BAKED_EYES"
-         name="BAKED_EYES"
-         value="3" />
-        <combo_box.item
-         label="BAKED_SKIRT"
-         name="BAKED_SKIRT"
-         value="4" />
-        <combo_box.item
-         label="BAKED_HAIR"
-         name="BAKED_HAIR"
-         value="5" />
-        <combo_box.item
-          label="BAKED_LEFTARM"
-          name="BAKED_LEFTARM"
-          value="6" />
-        <combo_box.item
-          label="BAKED_LEFTLEG"
-          name="BAKED_LEFTLEG"
-          value="7" />
-        <combo_box.item
-         label="BAKED_AUX1"
-         name="BAKED_AUX1"
-         value="8" />
-        <combo_box.item
-           label="BAKED_AUX2"
-           name="BAKED_AUX2"
-           value="9" />
-        <combo_box.item
-         label="BAKED_AUX3"
-         name="BAKED_AUX3"
-         value="10" />
-  </combo_box>
-  <check_box
-     follows="left|top"
-     height="20"
-     initial_value="false"
-     label="Hide Base Mesh Region"
-     layout="topleft"
-     name="hide_base_mesh_region"
-     left_delta="0"
-     top_pad="10"
-     top_delta="0"
-     width="120" 
-     visible="false"/>
-<!-- bottom static -->
     <button
      follows="bottom|right"
      height="20"

@@ -70,7 +70,11 @@ public:
 	std::thread::id lockingThread() const; //get ID of locking thread
 	
 protected:
+#if LL_WINDOWS // This is an SRWLock in win32
 	std::shared_mutex			mMutex;
+#else
+	std::mutex			mMutex;
+#endif
 	mutable U32			mCount;
 	mutable std::thread::id			mLockingThread;
 	
@@ -88,7 +92,7 @@ public:
 
 	void wait()
 	{
-		std::unique_lock<std::shared_mutex> lock(mMutex);
+		std::unique_lock<decltype(mMutex)> lock(mMutex);
 		mCond.wait(lock);
 	}
 

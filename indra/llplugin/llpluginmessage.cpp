@@ -30,7 +30,6 @@
 
 #include "llpluginmessage.h"
 #include "llsdserialize.h"
-#include "u64.h"
 
 /**
  * Constructor.

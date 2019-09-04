@@ -35,7 +35,6 @@
 
 #include "llerror.h"
 #include "lluuid.h"
-#include "u64.h"
 
 const F32 LL_XFER_REGISTRATION_TIMEOUT = 60.0f;  // timeout if a registered transfer hasn't been requested in 60 seconds
 const F32 LL_PACKET_TIMEOUT = 3.0f;             // packet timeout at 3 s

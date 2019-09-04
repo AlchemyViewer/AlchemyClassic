@@ -49,7 +49,11 @@ class LLMutex ;
 #endif
 
 #if LL_WINDOWS
-#define LL_DEFAULT_HEAP_ALIGN 8
+	#if ADDRESS_SIZE == 64
+		#define LL_DEFAULT_HEAP_ALIGN 16
+	#else
+		#define LL_DEFAULT_HEAP_ALIGN 8
+	#endif
 #elif LL_DARWIN
 #define LL_DEFAULT_HEAP_ALIGN 16
 #elif LL_LINUX
@@ -148,7 +152,11 @@ template <typename T> T* LL_NEXT_ALIGNED_ADDRESS_64(T* address)
 inline void* ll_aligned_malloc_16(size_t size) // returned hunk MUST be freed with ll_aligned_free_16().
 {
 #if defined(LL_WINDOWS)
+#if ADDRESS_SIZE == 64
+	return malloc(size); // default windows x64 malloc is 16 byte aligned.
+#else
 	return _aligned_malloc(size, 16);
+#endif
 #elif defined(LL_DARWIN)
 	return malloc(size); // default osx malloc is 16 byte aligned.
 #else
@@ -163,7 +171,11 @@ inline void* ll_aligned_malloc_16(size_t size) // returned hunk MUST be freed wi
 inline void ll_aligned_free_16(void *p)
 {
 #if defined(LL_WINDOWS)
+#if ADDRESS_SIZE == 64
+	free(p); // default windows x64 malloc is 16 byte aligned.
+#else
 	_aligned_free(p);
+#endif
 #elif defined(LL_DARWIN)
 	return free(p);
 #else
@@ -174,7 +186,11 @@ inline void ll_aligned_free_16(void *p)
 inline void* ll_aligned_realloc_16(void* ptr, size_t size, size_t old_size) // returned hunk MUST be freed with ll_aligned_free_16().
 {
 #if defined(LL_WINDOWS)
+#if ADDRESS_SIZE == 64
+	return realloc(ptr, size); // default windows x64 malloc is 16 byte aligned.
+#else
 	return _aligned_realloc(ptr, size, 16);
+#endif
 #elif defined(LL_DARWIN)
 	return realloc(ptr,size); // default osx malloc is 16 byte aligned.
 #else

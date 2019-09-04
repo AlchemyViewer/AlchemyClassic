@@ -30,7 +30,6 @@
 #include "lluuid.h"
 #include "llerror.h"
 #include "llmath.h"
-#include "u64.h"
 
 //number of bytes sent in each message
 const U32 LL_XFER_CHUNK_SIZE = 1000;

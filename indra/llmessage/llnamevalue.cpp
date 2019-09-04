@@ -31,7 +31,6 @@
 
 #include "llnamevalue.h"
 
-#include "u64.h"
 #include "llstring.h"
 #include "llstringtable.h"
 

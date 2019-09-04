@@ -130,7 +130,6 @@ set(llcommon_SOURCE_FILES
     lluuid.cpp
     llworkerthread.cpp
     timing.cpp
-    u64.cpp
     StackWalker.cpp
     )
     
@@ -261,7 +260,6 @@ set(llcommon_HEADER_FILES
     stdtypes.h
     stringize.h
     timer.h
-    u64.h
     StackWalker.h
     )
 

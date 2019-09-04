@@ -34,7 +34,6 @@
 #include "llsdutil.h"
 #include "llsdutil_math.h"
 #include "llsdserialize.h"
-#include "u64.h"
 #include "v3dmath.h"
 #include "v3math.h"
 #include "v4math.h"

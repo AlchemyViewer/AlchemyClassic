@@ -27,29 +27,19 @@
 #ifndef LL_LLMACHINEID_H
 #define LL_LLMACHINEID_H
 
+#include "stdtypes.h"
+
 class LLMachineID 
 {
 public:
 	LLMachineID();
-	virtual	~LLMachineID();
-    static S32 getUniqueID(unsigned char *unique_id, size_t len);
-    static S32 init();
-
-#if defined(LL_DARWIN)
-	static constexpr U32 UNIQUE_ID_BYTES = 12;
-#else
-	static constexpr U32 UNIQUE_ID_BYTES = 6;
-#endif
-    
-protected:
+	virtual	~LLMachineID() = default;
+    U32 getUniqueID(U8 unique_id[32], size_t len) const;
+    bool init();
 
 private:
-
-
+    U32 mIdLength;
+    U8 mUniqueId[32];
 };
-
-
-
-
 
 #endif // LL_LLMACHINEID_H

@@ -26,20 +26,17 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llhasheduniqueid.h"
-#include "llviewernetwork.h"
-#include "lluuid.h"
-#include "llmachineid.h"
+#include "llappviewer.h"
 
 bool llHashedUniqueID(unsigned char id[MD5HEX_STR_SIZE])
 {
 	bool idIsUnique = true;
 	LLMD5 hashed_unique_id;
-	unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
-	if (   LLUUID::getNodeID(unique_id)
-		|| LLMachineID::getUniqueID(unique_id, sizeof(unique_id))
-		)
+	U8 unique_id[32];
+	U32 id_length = LLAppViewer::instance()->getMachineID().getUniqueID(unique_id, sizeof(unique_id));
+	if (id_length)
 	{
-		hashed_unique_id.update(unique_id, MAC_ADDRESS_BYTES);
+		hashed_unique_id.update(unique_id, id_length);
 		hashed_unique_id.finalize();
 		hashed_unique_id.hex_digest((char*)id);
 		LL_INFOS_ONCE("AppInit") << "System ID " << id << LL_ENDL;

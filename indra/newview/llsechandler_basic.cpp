@@ -31,19 +31,17 @@
 #include "llsechandler_basic.h"
 
 #include "llsdserialize.h"
-#include "llviewernetwork.h"
 #include "llxorcipher.h"
 #include "llfile.h"
 #include "lldir.h"
 #include "llviewercontrol.h"
 #include "llexception.h"
 #include "stringize.h"
-#include "llmachineid.h"
+#include "llappviewer.h"
 
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <vector>
-#include <iostream>
 #include <iomanip>
 #include <ctime>
 
@@ -98,9 +96,9 @@ void compat_rc4(llifstream &protected_data_stream, std::string &decrypted_data)
 	U8 buffer[BUFFER_READ_SIZE];
 	U8 decrypted_buffer[BUFFER_READ_SIZE];
 	int decrypted_length;
-	unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
-	LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
-	LLXORCipher cipher(unique_id, sizeof(unique_id));
+	U8 unique_id[32];
+	U32 id_len = LLAppViewer::instance()->getMachineID().getUniqueID(unique_id, sizeof(unique_id));
+	LLXORCipher cipher(unique_id, id_len);
 
 	// read in the salt and key
 	protected_data_stream.read((char *)salt, COMPAT_STORE_SALT_SIZE);
@@ -141,9 +139,9 @@ void LLSecAPIBasicHandler::_readProtectedData()
 		U8 buffer[BUFFER_READ_SIZE];
 		U8 decrypted_buffer[BUFFER_READ_SIZE];
 		int decrypted_length;	
-		unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
-        LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
-		LLXORCipher cipher(unique_id, sizeof(unique_id));
+		U8 unique_id[32];
+        U32 id_len = LLAppViewer::instance()->getMachineID().getUniqueID(unique_id, sizeof(unique_id));
+		LLXORCipher cipher(unique_id, id_len);
 
 		// read in the salt and key
 		protected_data_stream.read((char *)salt, STORE_SALT_SIZE);
@@ -236,9 +234,9 @@ void LLSecAPIBasicHandler::_writeProtectedData()
 		
 		EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
 		EVP_CipherInit_ex(ctx, EVP_chacha20(), NULL, salt, NULL, 1); // 1 is encrypt
-		unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
-        LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
-		LLXORCipher cipher(unique_id, sizeof(unique_id));
+		U8 unique_id[32];
+        U32 id_len = LLAppViewer::instance()->getMachineID().getUniqueID(unique_id, sizeof(unique_id));
+		LLXORCipher cipher(unique_id, id_len);
 		cipher.encrypt(salt, STORE_SALT_SIZE);
 		protected_data_stream.write((const char *)salt, STORE_SALT_SIZE);
 
@@ -495,9 +493,9 @@ std::string LLSecAPIBasicHandler::_legacyLoadPassword()
 	}
 	
 	// Decipher with MAC address
-	unsigned char unique_id[LLMachineID::UNIQUE_ID_BYTES];
-    LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
-	LLXORCipher cipher(unique_id, sizeof(unique_id));
+	U8 unique_id[32];
+    U32 id_len = LLAppViewer::instance()->getMachineID().getUniqueID(unique_id, sizeof(unique_id));
+	LLXORCipher cipher(unique_id, id_len);
 	cipher.decrypt(&buffer[0], buffer.size());
 	
 	return std::string(reinterpret_cast<const char*>(&buffer[0]), buffer.size());

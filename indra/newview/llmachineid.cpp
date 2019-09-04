@@ -25,20 +25,19 @@
  */
 
 #include "llviewerprecompiledheaders.h"
-#include "lluuid.h"
 #include "llmachineid.h"
+#include <system_error>
+
 #if	defined(LL_WINDOWS)
 #  define _WIN32_DCOM
-#  include <iostream>
 #  include <comdef.h>
 #  include <Wbemidl.h>
 #elif defined(LL_DARWIN)
 #  include <CoreFoundation/CoreFoundation.h>
 #  include <IOKit/IOKitLib.h>
+#else
+#  include "lluuid.h"
 #endif
-
-unsigned char static_unique_id[LLMachineID::UNIQUE_ID_BYTES] =  { 0 };
-bool static has_static_unique_id = false;
 
 #ifdef LL_WINDOWS
 class LLComInitialize
@@ -48,14 +47,16 @@ public:
     LLComInitialize()
     {
         mHR = CoInitializeEx(0, COINIT_MULTITHREADED);
-        if (FAILED(mHR))
+        if (FAILED(mHR)) {
             LL_DEBUGS("AppInit") << "Failed to initialize COM library. Error code = 0x" << std::hex << mHR << std::dec << LL_ENDL;
+        }
     }
 
     ~LLComInitialize()
     {
-        if (SUCCEEDED(mHR))
+        if (SUCCEEDED(mHR)) {
             CoUninitialize();
+        }
     }
 };
 
@@ -65,13 +66,18 @@ public:
 // NOT THREAD SAFE - do before setting up threads.
 // Keying on MAC address for this is stupid. lol
 
-S32 LLMachineID::init()
+LLMachineID::LLMachineID() : mIdLength(0)
 {
-    memset(static_unique_id, 0, sizeof(static_unique_id));
-    S32 ret_code = 0;
+    memset(mUniqueId, 0, sizeof(mUniqueId));
+}
+
+bool LLMachineID::init()
+{
+    mIdLength = 0;
+    memset(mUniqueId, 0, sizeof(mUniqueId));
+    
 #ifdef LL_WINDOWS
 # pragma comment(lib, "wbemuuid.lib")
-        size_t len = sizeof(static_unique_id);
 
         // algorithm to detect BIOS serial number found at:
         // http://msdn.microsoft.com/en-us/library/aa394077%28VS.85%29.aspx
@@ -107,8 +113,8 @@ S32 LLMachineID::init()
                           
         if (FAILED(hres))
         {
-            LL_WARNS("AppInit") << "Failed to initialize security. Error code = 0x"  << std::hex << hres << std::dec << LL_ENDL;
-            return 1;                    // Program has failed.
+            LL_WARNS("AppInit") << "Failed to initialize security: " << std::system_category().message(hres) << LL_ENDL;
+            return false;                    // Program has failed.
         }
         
         // Step 3: ---------------------------------------------------
@@ -120,12 +126,12 @@ S32 LLMachineID::init()
             CLSID_WbemLocator,             
             nullptr, 
             CLSCTX_INPROC_SERVER, 
-            IID_IWbemLocator, (LPVOID *) &pLoc);
+            IID_IWbemLocator, reinterpret_cast<LPVOID*>(&pLoc));
      
         if (FAILED(hres))
         {
-            LL_WARNS("AppInit") << "Failed to create IWbemLocator object." << " Err code = 0x" << std::hex << hres << std::dec << LL_ENDL;
-            return 1;                 // Program has failed.
+            LL_WARNS("AppInit") << "Failed to create IWbemLocator object: " << std::system_category().message(hres) << LL_ENDL;
+            return false;                 // Program has failed.
         }
 
         // Step 4: -----------------------------------------------------
@@ -149,9 +155,9 @@ S32 LLMachineID::init()
         
         if (FAILED(hres))
         {
-            LL_WARNS("AppInit") << "Could not connect. Error code = 0x"  << std::hex << hres << std::dec << LL_ENDL;
+            LL_WARNS("AppInit") << "Could not connect:" << std::system_category().message(hres) << LL_ENDL;
             pLoc->Release();     
-            return 1;                // Program has failed.
+            return false;                // Program has failed.
         }
 
         LL_DEBUGS("AppInit") << "Connected to ROOT\\CIMV2 WMI namespace" << LL_ENDL;
@@ -173,10 +179,10 @@ S32 LLMachineID::init()
 
         if (FAILED(hres))
         {
-            LL_WARNS("AppInit") << "Could not set proxy blanket. Error code = 0x"   << std::hex << hres << std::dec << LL_ENDL;
+            LL_WARNS("AppInit") << "Could not set proxy blanket: " << std::system_category().message(hres) << LL_ENDL;
             pSvc->Release();
             pLoc->Release();     
-            return 1;               // Program has failed.
+            return false;               // Program has failed.
         }
 
         // Step 6: --------------------------------------------------
@@ -193,10 +199,10 @@ S32 LLMachineID::init()
         
         if (FAILED(hres))
         {
-            LL_WARNS("AppInit") << "Query for operating system name failed." << " Error code = 0x"  << std::hex << hres << std::dec << LL_ENDL;
+            LL_WARNS("AppInit") << "Query for operating system name failed: " << std::system_category().message(hres) << LL_ENDL;
             pSvc->Release();
             pLoc->Release();
-            return 1;               // Program has failed.
+            return false;               // Program has failed.
         }
 
         // Step 7: -------------------------------------------------
@@ -220,19 +226,11 @@ S32 LLMachineID::init()
             // Get the value of the Name property
             hr = pclsObj->Get(L"SerialNumber", 0, &vtProp, nullptr, nullptr);
             LL_INFOS("AppInit") << " Serial Number : " << vtProp.bstrVal << LL_ENDL;
-            // use characters in the returned Serial Number to create a byte array of size len
+            // use characters in the returned Serial Number to create a byte array
             BSTR serialNumber ( vtProp.bstrVal);
-            unsigned int j = 0;
-            while( vtProp.bstrVal[j] != 0)
+            for (; mIdLength < sizeof(mUniqueId) && vtProp.bstrVal[mIdLength] != 0; ++mIdLength)
             {
-                for (unsigned int i = 0; i < len; i++)
-                {
-                    if (vtProp.bstrVal[j] == 0)
-                        break;
-                    
-                    static_unique_id[i] = (unsigned int)(static_unique_id[i] + serialNumber[j]);
-                    j++;
-                }
+                mUniqueId[mIdLength] = serialNumber[mIdLength];
             }
             VariantClear(&vtProp);
 
@@ -244,13 +242,10 @@ S32 LLMachineID::init()
         // Cleanup
         // ========
         
-        if (pSvc)
-            pSvc->Release();
-        if (pLoc)
-            pLoc->Release();
-        if (pEnumerator)
-            pEnumerator->Release();
-        ret_code=0;
+        if (pSvc) { pSvc->Release(); }
+        if (pLoc) { pLoc->Release(); }
+        if (pEnumerator) { pEnumerator->Release(); }
+
 #elif defined(LL_DARWIN)
     // Apple best practice is to key to the system's serial number
     // https://developer.apple.com/library/archive/technotes/tn1103/_index.html
@@ -269,42 +264,51 @@ S32 LLMachineID::init()
                                         expert, CFSTR(kIOPlatformSerialNumberKey),
                                         kCFAllocatorDefault, 0);
         if (cf_prop) {
-            char buffer[32] = {0};
+            char buffer[sizeof(mUniqueId)] = {0};
             CFStringRef serial = (CFStringRef)cf_prop;
             if (CFStringGetCString(serial, buffer, sizeof(buffer), kCFStringEncodingUTF8)) {
-                memcpy(static_unique_id, buffer, sizeof(static_unique_id));
+                for (; mIdLength < sizeof(mUniqueId) && buffer != '\0'; ++mIdLength)
+                {
+                    mUniqueId[mIdLength] = serialNumber[mIdLength];
+                }
             }
         }
         IOObjectRelease(expert);
     }
-#else // that means you leenox!
-        unsigned char * staticPtr = (unsigned char *)(&static_unique_id[0]);
-        ret_code = LLUUID::getNodeID(staticPtr);
+#else
+    if (LLUUID::getNodeID(mUniqueId) == 1)
+    {
+        mIdLength = 6; // getNodeID output is always 6 bytes
+    }
 #endif
-        has_static_unique_id = true;
-        return ret_code;
+    return (mIdLength != 0);
 }
 
 
-S32 LLMachineID::getUniqueID(unsigned char *unique_id, size_t len)
+U32 LLMachineID::getUniqueID(U8 unique_id[32], size_t len) const
 {
-    if (has_static_unique_id)
+    size_t length = 0;
+    if (mIdLength)
     {
-        memcpy ( unique_id, &static_unique_id, len);
+        memset(unique_id, 0, len);
+        for (; length < len && length < mIdLength; ++length)
+        {
+            unique_id[length] = mUniqueId[length];
+        }
+
         LL_INFOS_ONCE("AppInit") << "UniqueID: 0x";
         // Code between here and LL_ENDL is not executed unless the LL_DEBUGS
         // actually produces output
-        for (size_t i = 0; i < len; ++i)
+        for (size_t i = 0; i < length; ++i)
         {
             // Copy each char to unsigned int to hexify. Sending an unsigned
             // char to a std::ostream tries to represent it as a char, not
             // what we want here.
-            unsigned byte = unique_id[i];
+            U32 byte = static_cast<U32>(unique_id[i]);
             LL_CONT << std::hex << std::setw(2) << std::setfill('0') << byte;
         }
         // Reset default output formatting to avoid nasty surprises!
         LL_CONT << std::dec << std::setw(0) << std::setfill(' ') << LL_ENDL;
-        return 1;
     }
-    return 0;
+    return length;
 }

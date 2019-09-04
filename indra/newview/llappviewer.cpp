@@ -218,8 +218,6 @@
 #include "llgesturemgr.h"
 #include "llsky.h"
 #include "llvlmanager.h"
-#include "llviewercamera.h"
-#include "lldrawpoolbump.h"
 #include "llvieweraudio.h"
 #include "llimview.h"
 #include "llviewerthrottle.h"
@@ -231,7 +229,6 @@
 // Include for security api initialization
 #include "llsecapi.h"
 #include "llsecapicerthandler.h"
-#include "llmachineid.h"
 #include "llmainlooprepeater.h"
 #include "llcleanup.h"
 
@@ -397,7 +394,7 @@ const char* const VIEWER_WINDOW_CLASSNAME = "Alchemy";
  * Tasks added to this list will be executed in the next LLAppViewer::idle() iteration.
  * All tasks are executed only once.
  */
-class LLDeferredTaskList: public LLSingleton<LLDeferredTaskList>
+class LLDeferredTaskList : public LLSingleton<LLDeferredTaskList>
 {
 	LLSINGLETON(LLDeferredTaskList);
 	LOG_CLASS(LLDeferredTaskList);
@@ -833,7 +830,7 @@ bool LLAppViewer::init()
 
 	LL_INFOS("InitInfo") << "LLCore::Http initialized." << LL_ENDL ;
 
-    LLMachineID::init();
+    mMachineId.init();
 
 	{
 		if (gSavedSettings.getBool("QAModeMetrics"))

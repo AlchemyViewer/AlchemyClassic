@@ -49,6 +49,7 @@
 #include "llsys.h"			// for LLOSInfo
 #include "lltimer.h"
 #include "llappcorehttp.h"
+#include "llmachineid.h"
 #include "lltrace.h"
 
 class LLCommandLineParser;
@@ -197,6 +198,9 @@ public:
 
 	// llcorehttp init/shutdown/config information.
 	LLAppCoreHttp & getAppCoreHttp()			{ return mAppCoreHttp; }
+
+    // LLMachineID instance
+    LLMachineID& getMachineID()                 { return mMachineId; }
 	
 protected:
 	virtual bool initWindow(); // Initialize the viewer's window.
@@ -303,7 +307,9 @@ private:
 	// llcorehttp library init/shutdown helper
 	LLAppCoreHttp mAppCoreHttp;
 
-        bool mIsFirstRun;
+    LLMachineID mMachineId;
+
+    bool mIsFirstRun;
 	U64 mMinMicroSecPerFrame; // frame throttling
 
 

@@ -41,13 +41,6 @@ class LLMutex ;
 #define LL_CHECK_MEMORY 
 #endif
 
-
-#if LL_WINDOWS
-#define LL_ALIGN_OF __alignof
-#else
-#define LL_ALIGN_OF __align_of__
-#endif
-
 #if LL_WINDOWS
 	#if ADDRESS_SIZE == 64
 		#define LL_DEFAULT_HEAP_ALIGN 16

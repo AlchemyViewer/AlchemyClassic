@@ -387,14 +387,6 @@ public:
 	S32 getMemFootprint() const	{ return mMemFootprint; }
 #endif
 
-	void* operator new(size_t size) 
-	{
-#if LL_TRACE_ENABLED
-		claim_alloc(sMemStat, size);
-#endif
-		return ll_aligned_malloc<ALIGNMENT>(size);
-	}
-
 	template<int CUSTOM_ALIGNMENT>
 	static void* aligned_new(size_t size)
 	{
@@ -402,14 +394,6 @@ public:
 		claim_alloc(sMemStat, size);
 #endif
 		return ll_aligned_malloc<CUSTOM_ALIGNMENT>(size);
-	}
-
-	void operator delete(void* ptr, size_t size)
-	{
-#if LL_TRACE_ENABLED
-		disclaim_alloc(sMemStat, size);
-#endif
-		ll_aligned_free<ALIGNMENT>(ptr);
 	}
 
 	template<int CUSTOM_ALIGNMENT>
@@ -421,7 +405,7 @@ public:
 		ll_aligned_free<CUSTOM_ALIGNMENT>(ptr);
 	}
 
-	void* operator new [](size_t size)
+	void* operator new(std::size_t size)
 	{
 #if LL_TRACE_ENABLED
 		claim_alloc(sMemStat, size);
@@ -429,7 +413,23 @@ public:
 		return ll_aligned_malloc<ALIGNMENT>(size);
 	}
 
-	void operator delete[](void* ptr, size_t size)
+	void operator delete(void* ptr, std::size_t size)
+	{
+#if LL_TRACE_ENABLED
+		disclaim_alloc(sMemStat, size);
+#endif
+		ll_aligned_free<ALIGNMENT>(ptr);
+	}
+
+	void* operator new[](std::size_t size)
+	{
+#if LL_TRACE_ENABLED
+		claim_alloc(sMemStat, size);
+#endif
+		return ll_aligned_malloc<ALIGNMENT>(size);
+	}
+
+	void operator delete[](void* ptr, std::size_t size)
 	{
 #if LL_TRACE_ENABLED
 		disclaim_alloc(sMemStat, size);

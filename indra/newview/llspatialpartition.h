@@ -197,28 +197,30 @@ class LLSpatialGroup : public LLOcclusionCullingGroup
 	friend class LLOctreeStateCheck;
 public:
 
+	LLSpatialGroup(const LLSpatialGroup& rhs) = delete;
+	const LLSpatialGroup& operator=(const LLSpatialGroup& rhs) = delete;
+
 	// <alchemy>
-	void* operator new(size_t size)
+	void* operator new(std::size_t size)
 	{
-		return ll_aligned_malloc<64>(size);
+		return aligned_new<64>(size);
 	}
 
-	void operator delete(void* ptr)
+	void operator delete(void* ptr, std::size_t size)
 	{
-		ll_aligned_free<64>(ptr);
+		aligned_delete<64>(ptr, size);
+	}
+
+	void* operator new[](std::size_t size)
+	{
+		return aligned_new<64>(size);
+	}
+
+	void operator delete[](void* ptr, std::size_t size)
+	{
+		aligned_delete<64>(ptr, size);
 	}
 	// </alchemy>
-
-	LLSpatialGroup(const LLSpatialGroup& rhs) : LLOcclusionCullingGroup(rhs)
-	{
-		*this = rhs;
-	}
-
-	const LLSpatialGroup& operator=(const LLSpatialGroup& rhs)
-	{
-		LL_ERRS() << "Illegal operation!" << LL_ENDL;
-		return *this;
-	}
 
 	static U32 sNodeCount;
 	static BOOL sNoDelete; //deletion of spatial groups and draw info not allowed if TRUE

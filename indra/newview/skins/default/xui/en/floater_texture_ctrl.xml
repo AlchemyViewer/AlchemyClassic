@@ -67,24 +67,25 @@
      right="-5"
      top="20"
      name="mode_selection"
-     follows="left|top">
+     follows="all">
 <!--  middle: inventory mode -->
         <panel
          label="Inventory"
          name="inventory"
          top="0" 
          layout="topleft"
-	 bottom="0"
+         follows="all"
+	       bottom="0"
          left="0" 
          right="-1">
     <filter_editor
      follows="left|top|right"
-     height="23"
+     height="20"
      label="Filter Textures"
      layout="topleft"
      left="0"
      name="inventory search editor"
-     top_delta="0"
+     top_delta="3"
      right="-1" />
     <inventory_panel
      allow_multi_select="false"
@@ -114,6 +115,7 @@
          label="Local"
          left="0"
          layout="topleft"
+         follows="all"
          top="0" 
          bottom="0" 
          name="local"
@@ -122,13 +124,13 @@
      name="l_name_list"
      left="0"
      top_delta="0"
-     width="235"
-     bottom_delta="20"
-     follows="left|top|right|bottom"
+		 height="262"
+     follows="all"
      column_padding="0"
      draw_heading="true"
      multi_select="true"
-     search_column="1">
+     search_column="1"
+		 right="-1">
         <column name="unit_name" label="Name" dynamicwidth="true" />
         <column name="unit_id_HIDDEN" label="ID" width="0" />
     </scroll_list>
@@ -169,17 +171,18 @@
          label="Bake"
          left="0"
          layout="topleft"
+         follows="all"
          top="0"
          name="bake"
-	 bottom="0"
+	       bottom="0"
          right="-1">
 <!-- middle: bake mode -->
   <scroll_list
          left="0"
-         top="0"
-			   height="262"
+         top_delta="0"
+         height="262"
 			   layout="topleft"
-			   follows="left|top"
+			   follows="all"
 			   name="l_bake_use_texture_combo_box"
 			   tool_tip="Choose the bake texture"
 	       draw_heading="true"

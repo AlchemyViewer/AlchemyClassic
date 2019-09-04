@@ -45,6 +45,10 @@ LLScrollListItem::LLScrollListItem( const Params& p )
 	mUserRemovable(p.user_removable),
 	mItemValue(p.value)
 {
+	for (const auto& cell : p.contents.columns)
+		addColumn(cell);
+	for (const auto& cell : p.columns)
+		addColumn(cell);
 }
 
 

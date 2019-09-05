@@ -41,7 +41,6 @@
 #include "../llmemorystream.h"
 #include "../llsd.h"
 #include "../llsdserialize.h"
-#include "../u64.h"
 
 #include "../test/lltut.h"
 
@@ -466,51 +465,6 @@ namespace tut
 
 namespace tut
 {
-	struct U64_data
-	{
-	};
-	typedef test_group<U64_data> U64_test;
-	typedef U64_test::object U64_object;
-	tut::U64_test U64_testcase("U64_conversion");
-
-
-	// U64_to_F64
-	template<> template<>
-	void U64_object::test<1>()
-	{
-		F64 val;
-		F64 result;
-
-		result = 18446744073709551610.0;
-		val = U64_to_F64(U64L(18446744073709551610));
-		ensure_equals("U64_to_F64 converted 3.1", val, result);
-
-		result = 18446744073709551615.0; // 0xFFFFFFFFFFFFFFFF
-		val = U64_to_F64(U64L(18446744073709551615));
-		ensure_equals("U64_to_F64 converted 3.2", val, result);
-
-		result = 0.0; // overflow 0xFFFFFFFFFFFFFFFF + 1 == 0
-		// overflow - will result in warning at compile time
-		val = U64_to_F64(U64L(18446744073709551615)+1);
-		ensure_equals("U64_to_F64 converted 3.3", val, result);
-
-		result = 0.0; // 0
-		val = U64_to_F64(U64L(0));
-		ensure_equals("U64_to_F64 converted 3.4", val, result);
-
-		result = 1.0; // odd
-		val = U64_to_F64(U64L(1));
-		ensure_equals("U64_to_F64 converted 3.5", val, result);
-
-		result = 2.0; // even
-		val = U64_to_F64(U64L(2));
-		ensure_equals("U64_to_F64 converted 3.6", val, result);
-
-		result = U64L(0x7FFFFFFFFFFFFFFF) * 1.0L; // 0x7FFFFFFFFFFFFFFF
-		val = U64_to_F64(U64L(0x7FFFFFFFFFFFFFFF));
-		ensure_equals("U64_to_F64 converted 3.7", val, result);
-	}
-
 	// llstrtou64 
 	// seems to be deprecated - could not find it being used 
 	// anywhere in the tarball - skipping unit tests for now

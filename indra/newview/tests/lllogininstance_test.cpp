@@ -305,10 +305,10 @@ S32 LLNotification::getSelectedOption(const LLSD& notification, const LLSD& resp
 #include "../llmachineid.h"
 unsigned char gMACAddress[MAC_ADDRESS_BYTES] = {77,21,46,31,89,2};
 
-S32 LLMachineID::getUniqueID(unsigned char *unique_id, size_t len)
+U32 LLMachineID::getUniqueID(U8 unique_id[32], size_t len) const
 {
 	memcpy(unique_id, gMACAddress, len);
-	return 1;
+	return 6;
 }
 //-----------------------------------------------------------------------------
 // misc

@@ -663,7 +663,7 @@ void LLImageFilter::computeHistograms()
 void LLImageFilter::filterGrayScale()
 {
     LLMatrix3 gray_scale;
-    LLVector3 luminosity(0.2125, 0.7154, 0.0721);
+    LLVector3 luminosity(0.2125f, 0.7154f, 0.0721f);
     gray_scale.setRows(luminosity, luminosity, luminosity);
     gray_scale.transpose();
     colorTransform(gray_scale);
@@ -672,9 +672,9 @@ void LLImageFilter::filterGrayScale()
 void LLImageFilter::filterSepia()
 {
     LLMatrix3 sepia;
-    sepia.setRows(LLVector3(0.3588, 0.7044, 0.1368),
-                  LLVector3(0.2990, 0.5870, 0.1140),
-                  LLVector3(0.2392, 0.4696, 0.0912));
+    sepia.setRows(LLVector3(0.3588f, 0.7044f, 0.1368f),
+                  LLVector3(0.2990f, 0.5870f, 0.1140f),
+                  LLVector3(0.2392f, 0.4696f, 0.0912f));
     sepia.transpose();
     colorTransform(sepia);
 }
@@ -692,9 +692,9 @@ void LLImageFilter::filterSaturate(F32 saturation)
     // 54.73 degre rotation around y
     float oo_sqrt3 = 1.0f / F_SQRT3;
     float sin_54 = F_SQRT2 * oo_sqrt3;
-    r_b.setRows(LLVector3(oo_sqrt3, 0.0, -sin_54),
-                LLVector3(0.0,      1.0,  0.0),
-                LLVector3(sin_54,   0.0,  oo_sqrt3));
+    r_b.setRows(LLVector3(oo_sqrt3, 0.0f, -sin_54),
+                LLVector3(0.0f,     1.0f,  0.0f),
+                LLVector3(sin_54,   0.0f,  oo_sqrt3));
     
     // Coordinate conversion
     LLMatrix3 Lij = r_b * r_a;
@@ -703,9 +703,9 @@ void LLImageFilter::filterSaturate(F32 saturation)
     
     // Local saturation transform
     LLMatrix3 s;
-    s.setRows(LLVector3(saturation, 0.0,  0.0),
-              LLVector3(0.0,  saturation, 0.0),
-              LLVector3(0.0,        0.0,  1.0));
+    s.setRows(LLVector3(saturation, 0.0f,  0.0f),
+              LLVector3(0.0f,  saturation, 0.0f),
+              LLVector3(0.0f,        0.0f, 1.0f));
     
     // Global saturation transform
     LLMatrix3 transfo = Lij_inv * s * Lij;

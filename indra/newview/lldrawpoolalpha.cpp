@@ -490,7 +490,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 
 					if (mat)
 					{
-						current_shader->uniform4f(LLShaderMgr::SPECULAR_COLOR, params.mSpecColor.mV[0], params.mSpecColor.mV[1], params.mSpecColor.mV[2], params.mSpecColor.mV[3]);						
+						current_shader->uniform4fv(LLShaderMgr::SPECULAR_COLOR, 1, params.mSpecColor.mV);						
 						current_shader->uniform1f(LLShaderMgr::ENVIRONMENT_INTENSITY, params.mEnvIntensity);
 						current_shader->uniform1f(LLShaderMgr::EMISSIVE_BRIGHTNESS, params.mFullbright ? 1.f : 0.f);
 

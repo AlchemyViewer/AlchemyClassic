@@ -2052,7 +2052,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 				BOOL fullbright = tex_entry->getFullbright();
 
 				sVertexProgram->uniform1f(LLShaderMgr::EMISSIVE_BRIGHTNESS, fullbright ? 1.f : 0.f);
-				sVertexProgram->uniform4f(LLShaderMgr::SPECULAR_COLOR, specColor.mV[0], specColor.mV[1], specColor.mV[2], specColor.mV[3]);
+				sVertexProgram->uniform4fv(LLShaderMgr::SPECULAR_COLOR, 1, specColor.mV);
 				sVertexProgram->uniform1f(LLShaderMgr::ENVIRONMENT_INTENSITY, env);
 
 				if (mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)

@@ -140,7 +140,7 @@ public:
 		return ret;
 	}
 
-	GLint getUniformLocation(U32 index)
+	inline GLint getUniformLocation(U32 index)
 	{
 		if (mUniform.size() <= index)
 		{
@@ -151,7 +151,7 @@ public:
 	}
 
 	template <typename T, int N>
-	bool updateUniform(std::vector<std::pair<GLint, T> >& cache, S32 uniform, const F32* val)
+	inline bool updateUniform(std::vector<std::pair<GLint, T> >& cache, S32 uniform, const F32* val)
 	{
 		if (mProgramObject > 0)
 		{
@@ -175,7 +175,7 @@ public:
 		return false;
 	}
 
-	void uniform1i(U32 index, GLint i)
+	inline void uniform1i(U32 index, GLint i)
 	{
 		F32 val = i;
 		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), &val))
@@ -184,7 +184,7 @@ public:
 		}
 	}
 
-	void uniform1f(U32 index, GLfloat v)
+	inline void uniform1f(U32 index, GLfloat v)
 	{
 
 		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), &v))
@@ -193,7 +193,7 @@ public:
 		}
 	}
 
-	void uniform2f(U32 index, GLfloat x, GLfloat y)
+	inline void uniform2f(U32 index, GLfloat x, GLfloat y)
 	{
 		F32 val [] = { x, y };
 		if (updateUniform<LLVector4, 2>(mValueVec4, getUniformLocation(index), val))
@@ -202,7 +202,7 @@ public:
 		}
 	}
 
-	void uniform3f(U32 index, GLfloat x, GLfloat y, GLfloat z)
+	inline void uniform3f(U32 index, GLfloat x, GLfloat y, GLfloat z)
 	{
 		F32 val [] = { x, y, z };
 		if (updateUniform<LLVector4, 3>(mValueVec4, getUniformLocation(index), val))
@@ -211,7 +211,7 @@ public:
 		}
 	}
 
-	void uniform4f(U32 index, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+	inline void uniform4f(U32 index, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
 	{
 		F32 val [] = { x, y, z, w };
 		if (updateUniform<LLVector4, 4>(mValueVec4, getUniformLocation(index), val))
@@ -220,7 +220,7 @@ public:
 		}
 	}
 
-	void uniform1iv(U32 index, U32 count, const GLint* i)
+	inline void uniform1iv(U32 index, U32 count, const GLint* i)
 	{
 		F32 val [] = { static_cast<const F32>(i[0]) };
 		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), val) || count > 1)
@@ -229,7 +229,7 @@ public:
 		}
 	}
 
-	void uniform1fv(U32 index, U32 count, const GLfloat* v)
+	inline void uniform1fv(U32 index, U32 count, const GLfloat* v)
 	{
 
 		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), v) || count > 1)
@@ -238,7 +238,7 @@ public:
 		}
 	}
 
-	void uniform2fv(U32 index, U32 count, const GLfloat* v)
+	inline void uniform2fv(U32 index, U32 count, const GLfloat* v)
 	{
 
 		if (updateUniform<LLVector4, 2>(mValueVec4, getUniformLocation(index), v) || count > 1)
@@ -247,7 +247,7 @@ public:
 		}
 	}
 
-	void uniform3fv(U32 index, U32 count, const GLfloat* v)
+	inline void uniform3fv(U32 index, U32 count, const GLfloat* v)
 	{
 
 		if (updateUniform<LLVector4, 3>(mValueVec4, getUniformLocation(index), v) || count > 1)
@@ -256,7 +256,7 @@ public:
 		}
 	}
 
-	void uniform4fv(U32 index, U32 count, const GLfloat* v)
+	inline void uniform4fv(U32 index, U32 count, const GLfloat* v)
 	{
 
 		if (updateUniform<LLVector4, 4>(mValueVec4, getUniformLocation(index), v) || count > 1)
@@ -265,7 +265,7 @@ public:
 		}
 	}
 
-	void uniformMatrix3fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
+	inline void uniformMatrix3fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
 	{
 		if (updateUniform<LLMatrix3, 9>(mValueMat3, getUniformLocation(index), v) || count > 1)
 		{
@@ -273,7 +273,7 @@ public:
 		}
 	}
 
-	void uniformMatrix3x4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
+	inline void uniformMatrix3x4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
 	{
 		if (updateUniform<LLMatrix4, 12>(mValueMat4, getUniformLocation(index), v) || count > 1)
 		{
@@ -281,7 +281,7 @@ public:
 		}
 	}
 
-	void uniformMatrix4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
+	inline void uniformMatrix4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
 	{
 		if (updateUniform<LLMatrix4, 16>(mValueMat4, getUniformLocation(index), v) || count > 1)
 		{
@@ -289,7 +289,7 @@ public:
 		}
 	}
 
-	void uniform1i(const LLStaticHashedString& uniform, GLint i)
+	inline void uniform1i(const LLStaticHashedString& uniform, GLint i)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -302,7 +302,7 @@ public:
 		}
 	}
 
-	void uniform1f(const LLStaticHashedString& uniform, GLfloat v)
+	inline void uniform1f(const LLStaticHashedString& uniform, GLfloat v)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -314,7 +314,7 @@ public:
 		}
 	}
 
-	void uniform2f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y)
+	inline void uniform2f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -327,7 +327,7 @@ public:
 		}
 	}
 
-	void uniform3f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y, GLfloat z)
+	inline void uniform3f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y, GLfloat z)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -340,7 +340,7 @@ public:
 		}
 	}
 
-	void uniform1fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	inline void uniform1fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -352,7 +352,7 @@ public:
 		}
 	}
 
-	void uniform2fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	inline void uniform2fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -364,7 +364,7 @@ public:
 		}
 	}
 
-	void uniform3fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	inline void uniform3fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -376,7 +376,7 @@ public:
 		}
 	}
 
-	void uniform4fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	inline void uniform4fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
 	{
 		GLint location = getUniformLocation(uniform);
 
@@ -388,7 +388,7 @@ public:
 		}
 	}
 
-	void uniformMatrix4fv(const LLStaticHashedString& uniform, U32 count, GLboolean transpose, const GLfloat *v)
+	inline void uniformMatrix4fv(const LLStaticHashedString& uniform, U32 count, GLboolean transpose, const GLfloat *v)
 	{
 		GLint location = getUniformLocation(uniform);
 

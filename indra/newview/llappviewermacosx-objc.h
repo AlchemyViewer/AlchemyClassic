@@ -31,6 +31,6 @@
 #include <vector>
 
 //Why?  Because BOOL
-void launchApplication(const std::string* app_name, const std::vector<std::string>* args);
+void launchApplication(const std::string& app_name, const std::vector<std::string>& args);
 
 #endif // LL_LLAPPVIEWERMACOSX_OBJC_H

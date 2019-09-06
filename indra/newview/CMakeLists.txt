@@ -1477,14 +1477,6 @@ if (DARWIN)
        llappviewermacosx-objc.h
        llfilepicker_mac.h)
 
-  # This should be compiled with the viewer.
-  LIST(APPEND viewer_SOURCE_FILES llappdelegate-objc.mm)
-  set_source_files_properties(
-    llappdelegate-objc.mm
-    PROPERTIES
-    COMPILE_DEFINITIONS "${VIEWER_CHANNEL_VERSION_DEFINES}"
-    )
-
   find_library(AGL_LIBRARY AGL)
   find_library(APPKIT_LIBRARY AppKit)
   find_library(COCOA_LIBRARY Cocoa)
@@ -2456,38 +2448,50 @@ if (LL_TESTS)
     ${RT_LIBRARY}
     ${BOOST_COROUTINE_LIBRARY}
     ${BOOST_CONTEXT_LIBRARY}
-  )
+    )
 
-  LL_ADD_INTEGRATION_TEST(llsechandler_basic
+  add_library(secapi_object OBJECT
+    llmachineid.cpp
+    llsecapi.cpp
+    llsecapicerthandler.cpp
     llsechandler_basic.cpp
-    "${test_libs}"
+    )
+
+  set(secapi_libs
+    ${secapi_object}
+#    ${test_libs}
+    )
+message("${secapi_libs}")
+  LL_ADD_INTEGRATION_TEST(llsechandler_basic
+    ""
+    "${secapi_libs}"
     )
 
   LL_ADD_INTEGRATION_TEST(llsecapi
-     llsecapi.cpp
-    "${test_libs}"
+    ""
+    "${secapi_libs}"
     )
 
   set(llslurl_test_sources
-      llslurl.cpp
-      llviewernetwork.cpp
-  )
+    llslurl.cpp
+    llviewernetwork.cpp
+    )
 
 
   LL_ADD_INTEGRATION_TEST(llslurl
-     "${llslurl_test_sources}"
+    "${llslurl_test_sources}"
     "${test_libs}"
     )
 
   set(llviewernetwork_test_sources
-      llviewernetwork.cpp
-      lllogininstance.cpp
-  )
+    llviewernetwork.cpp
+    lllogininstance.cpp
+    )
 	
-  #LL_ADD_INTEGRATION_TEST(llviewernetwork
-  #  "${llviewernetwork_test_sources}"
-  #  "${test_libs}"
-  #  )
+  LL_ADD_INTEGRATION_TEST(llviewernetwork
+    "${llviewernetwork_test_sources}"
+    "${test_libs}"
+    )
 
   LL_ADD_INTEGRATION_TEST(llviewerassetstats
     llviewerassetstats.cpp

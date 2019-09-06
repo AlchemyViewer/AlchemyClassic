@@ -28,6 +28,7 @@
 #include "../llviewerprecompiledheaders.h"
 #include "../test/lltut.h"
 #include "../llsecapi.h"
+#include "../llsecapicerthandler.h"
 #include "../llsechandler_basic.h"
 #include "../../llxml/llcontrol.h"
 #include "../llviewernetwork.h"
@@ -100,18 +101,19 @@ void LLCredential::identifierType(std::string &idType) {}
 void LLCredential::authenticatorType(std::string &idType) { }
 LLSD LLCredential::asLLSD(bool save_authenticator) { return LLSD(); }
 /*static*/ std::string LLCredential::userIDFromIdentifier(const LLSD& sdIdentifier) { return std::string(); }
-/*static*/ std::string LLCredential::userNameFromIdentifier(const LLSD& sdIdentifier) { return std::string(); }
+/*static*/ std::string LLCredential::usernameFromIdentifier(const LLSD& identifier) { return std::string(); }
 
 LLControlGroup gSavedSettings("test");
 unsigned char gMACAddress[MAC_ADDRESS_BYTES] = {77,21,46,31,89,2};
 
 
-S32 LLMachineID::getUniqueID(unsigned char *unique_id, size_t len)
+U32 LLMachineID::getUniqueID(U8 unique_id[32], size_t len) const
 {
 	memcpy(unique_id, gMACAddress, len);
 	return 1;
 }
-S32 LLMachineID::init() { return 1; }
+
+bool LLMachineID::init() { return true; }
 	
 
 // -------------------------------------------------------------------------------------------
@@ -594,11 +596,9 @@ namespace tut
         
 		sechandler_basic_test()
 		{
-            LLMachineID::init();
-			OpenSSL_add_all_algorithms();
-			OpenSSL_add_all_ciphers();
-			OpenSSL_add_all_digests();	
-			ERR_load_crypto_strings();
+            LLMachineID machineId;
+            machineId.init();
+            
 			gFirstName = "";
 			gLastName = "";
             mValidationDate[CERT_VALIDATION_DATE] = LLDate("2017-04-11T00:00:00.00Z");
@@ -716,6 +716,8 @@ namespace tut
 	template<> template<>
 	void sechandler_basic_test_object::test<3>()
 	{
+        LLMachineID machineId;
+        machineId.init();
 		std::string protected_data = "sUSh3wj77NG9oAMyt3XIhaej3KLZhLZWFZvI6rIGmwUUOmmelrRg0NI9rkOj8ZDpTPxpwToaBT5u"
 		"GQhakdaGLJznr9bHr4/6HIC1bouKj4n2rs4TL6j2WSjto114QdlNfLsE8cbbE+ghww58g8SeyLQO"
 		"nyzXoz+/PBz0HD5SMFDuObccoPW24gmqYySz8YoEWhSwO0pUtEEqOjVRsAJgF5wLAtJZDeuilGsq"
@@ -727,9 +729,9 @@ namespace tut
 
 		LLXORCipher cipher(gMACAddress, MAC_ADDRESS_BYTES);
 		cipher.decrypt(&binary_data[0], 16);
-		unsigned char unique_id[MAC_ADDRESS_BYTES];
-        LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
-		LLXORCipher cipher2(unique_id, sizeof(unique_id));
+		U8 unique_id[32];
+        U32 id_len = machineId.getUniqueID(unique_id, sizeof(unique_id));
+		LLXORCipher cipher2(unique_id, sizeof(id_len));
 		cipher2.encrypt(&binary_data[0], 16);
 		std::ofstream temp_file("sechandler_settings.tmp", std::ofstream::binary);
 		temp_file.write((const char *)&binary_data[0], binary_data.size());

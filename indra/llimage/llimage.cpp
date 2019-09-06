@@ -682,7 +682,7 @@ void LLImageBase::deleteData()
 U8* LLImageBase::allocateData(S32 size)
 {
 	//make this function thread-safe.
-	static const U32 MAX_BUFFER_SIZE = 4096 * 4096 * 16; //256 MB
+	static constexpr U32 MAX_BUFFER_SIZE = 4096 * 4096 * 16; //256 MB
 	mBadBufferAllocation = false;
 
 	if (size < 0)

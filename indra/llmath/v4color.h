@@ -38,9 +38,9 @@ class LLVector4;
 
 //  LLColor4 = |x y z w|
 
-static const U32 LENGTHOFCOLOR4 = 4;
+static constexpr U32 LENGTHOFCOLOR4 = 4;
 
-static const U32 MAX_LENGTH_OF_COLOR_NAME = 15; //Give plenty of room for additional colors...
+static constexpr U32 MAX_LENGTH_OF_COLOR_NAME = 15; //Give plenty of room for additional colors...
 
 class LLColor4
 {

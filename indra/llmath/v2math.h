@@ -36,7 +36,7 @@ class LLQuaternion;
 
 //  Llvector2 = |x y z w|
 
-static const U32 LENGTHOFVECTOR2 = 2;
+static constexpr U32 LENGTHOFVECTOR2 = 2;
 
 class LLVector2
 {

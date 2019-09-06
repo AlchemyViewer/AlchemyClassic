@@ -31,15 +31,15 @@
 
 class LLUUID;
 
-static const F32 REGION_WIDTH_METERS = 256.f;
-static const S32 REGION_WIDTH_UNITS = 256;
-static const U32 REGION_WIDTH_U32 = 256;
+static constexpr F32 REGION_WIDTH_METERS = 256.f;
+static constexpr S32 REGION_WIDTH_UNITS = 256;
+static constexpr U32 REGION_WIDTH_U32 = 256;
 
-const F32 REGION_HEIGHT_METERS = 4096.f;
+constexpr F32 REGION_HEIGHT_METERS = 4096.f;
 
-const 	F32 	DEFAULT_AGENT_DEPTH 	= 0.45f;
-const 	F32 	DEFAULT_AGENT_WIDTH 	= 0.60f;
-const 	F32 	DEFAULT_AGENT_HEIGHT	= 1.9f;
+constexpr 	F32 	DEFAULT_AGENT_DEPTH 	= 0.45f;
+constexpr 	F32 	DEFAULT_AGENT_WIDTH 	= 0.60f;
+constexpr 	F32 	DEFAULT_AGENT_HEIGHT	= 1.9f;
 
 enum ETerrainBrushType
 {

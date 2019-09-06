@@ -137,7 +137,7 @@ LLColor4::LLColor4(const LLColor3 &vec, F32 a)
 
 LLColor4::LLColor4(const LLColor4U& color4u)
 {
-	const F32 SCALE = 1.f/255.f;
+	constexpr F32 SCALE = 1.f/255.f;
 	mV[VX] = color4u.mV[VX] * SCALE;
 	mV[VY] = color4u.mV[VY] * SCALE;
 	mV[VZ] = color4u.mV[VZ] * SCALE;
@@ -154,7 +154,7 @@ LLColor4::LLColor4(const LLVector4& vector4)
 
 const LLColor4&	LLColor4::set(const LLColor4U& color4u)
 {
-	const F32 SCALE = 1.f/255.f;
+	constexpr F32 SCALE = 1.f/255.f;
 	mV[VX] = color4u.mV[VX] * SCALE;
 	mV[VY] = color4u.mV[VY] * SCALE;
 	mV[VZ] = color4u.mV[VZ] * SCALE;
@@ -186,7 +186,7 @@ const LLColor4&	LLColor4::set(const LLColor3 &vec, F32 a)
 // deprecated -- use set()
 const LLColor4&	LLColor4::setVec(const LLColor4U& color4u)
 {
-	const F32 SCALE = 1.f/255.f;
+	constexpr F32 SCALE = 1.f/255.f;
 	mV[VX] = color4u.mV[VX] * SCALE;
 	mV[VY] = color4u.mV[VY] * SCALE;
 	mV[VZ] = color4u.mV[VZ] * SCALE;

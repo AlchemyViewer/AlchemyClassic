@@ -40,7 +40,7 @@ class LLQuaternion;
 
 //  LLvector3 = |x y z w|
 
-static const U32 LENGTHOFVECTOR3 = 3;
+static constexpr U32 LENGTHOFVECTOR3 = 3;
 
 class LLVector3
 {

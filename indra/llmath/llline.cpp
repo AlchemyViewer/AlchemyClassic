@@ -30,7 +30,7 @@
 #include "llline.h"
 #include "llrand.h"
 
-const F32 SOME_VERY_SMALL_NUMBER = 1.0e-8f;
+constexpr F32 SOME_VERY_SMALL_NUMBER = 1.0e-8f;
 
 LLLine::LLLine()
 :	mPoint(0.f, 0.f, 0.f),

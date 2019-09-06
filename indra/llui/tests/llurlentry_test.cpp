@@ -36,6 +36,11 @@
 
 #include <boost/regex.hpp>
 
+// Little Caesars Stub Cruft
+bool pumpMainLoop() { return true; }
+void constructViewer() { }
+void cleanupViewer() { }
+void handleUrl(const char*) { }
 
 // namespace LLExperienceCache
 // {

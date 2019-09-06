@@ -24,33 +24,31 @@
  * $/LicenseInfo$
  */ 
 
-#if !defined LL_DARWIN
-	#error "Use only with Mac OS X"
+#ifndef LL_DARWIN
+#  error "Use only with Mac OS X"
 #endif
 
-#import <Cocoa/Cocoa.h>
-#include <iostream>
-
 #include "llappviewermacosx-objc.h"
+#import <Cocoa/Cocoa.h>
 
-void launchApplication(const std::string* app_name, const std::vector<std::string>* args)
+void launchApplication(const std::string& app_name, const std::vector<std::string>& args)
 {
-	if (app_name->empty()) return;
+	if (app_name.empty()) return;
 
 	NSMutableString* app_name_ns = [NSMutableString
                                     stringWithString:[[NSBundle mainBundle]
                                                       resourcePath]];	//Path to resource dir
-	[app_name_ns appendFormat:@"/%@", [NSString stringWithCString:app_name->c_str() 
+	[app_name_ns appendFormat:@"/%@", [NSString stringWithCString:app_name.c_str()
 								encoding:[NSString defaultCStringEncoding]]];
 
 	NSMutableArray *args_ns = nil;
 	args_ns = [[NSMutableArray alloc] init];
 
-	for (int i=0; i < args->size(); ++i)
+	for (int i=0; i < args.size(); ++i)
 	{
-        NSLog(@"Adding string %s", (*args)[i].c_str());
+        NSLog(@"Adding string %s", args[i].c_str());
 		[args_ns addObject:
-			[NSString stringWithCString:(*args)[i].c_str()
+			[NSString stringWithCString:args[i].c_str()
 						encoding:[NSString defaultCStringEncoding]]];
 	}
 

@@ -36,7 +36,6 @@
 #include "llappviewermacosx-objc.h"
 
 #include "llappviewermacosx.h"
-#include "llappviewermacosx-for-objc.h"
 #include "llwindowmacosx-objc.h"
 #include "llcommandlineparser.h"
 #include "llsdserialize.h"
@@ -147,74 +146,13 @@ void cleanupViewer()
 {
 	if(!LLApp::isError())
 	{
-        if (gViewerAppPtr)
+        if (gViewerAppPtr) {
             gViewerAppPtr->cleanup();
+        }
 	}
 	
 	delete gViewerAppPtr;
 	gViewerAppPtr = NULL;
-}
-
-// The BugsplatMac API is structured as a number of different method
-// overrides, each returning a different piece of metadata. But since we
-// obtain such metadata by opening and parsing a file, it seems ridiculous to
-// reopen and reparse it for every individual string desired. What we want is
-// to open and parse the file once, retaining the data for subsequent
-// requests. That's why this is an LLSingleton.
-// Another approach would be to provide a function that simply returns
-// CrashMetadata, storing the struct in LLAppDelegate, but nat doesn't know
-// enough Objective-C++ to code that. We'd still have to detect which of the
-// method overrides is called first so that the results are order-insensitive.
-class CrashMetadataSingleton: public CrashMetadata, public LLSingleton<CrashMetadataSingleton>
-{
-    LLSINGLETON(CrashMetadataSingleton);
-
-    // convenience method to log each metadata field retrieved by constructor
-    std::string get_metadata(const LLSD& info, const LLSD::String& key) const
-    {
-        std::string data(info[key].asString());
-        LL_INFOS() << "  " << key << "='" << data << "'" << LL_ENDL;
-        return data;
-    }
-};
-
-// Populate the fields of our public base-class struct.
-CrashMetadataSingleton::CrashMetadataSingleton()
-{
-    // Note: we depend on being able to read the static_debug_info.log file
-    // from the *previous* run before we overwrite it with the new one for
-    // *this* run. LLAppViewer initialization must happen in the Right Order.
-    staticDebugPathname = *gViewerAppPtr->getStaticDebugFile();
-    std::ifstream static_file(staticDebugPathname);
-    LLSD info;
-    if (! static_file.is_open())
-    {
-        LL_INFOS() << "Can't open '" << staticDebugPathname
-                   << "'; no metadata about previous run" << LL_ENDL;
-    }
-    else if (! LLSDSerialize::deserialize(info, static_file, LLSDSerialize::SIZE_UNLIMITED))
-    {
-        LL_INFOS() << "Can't parse '" << staticDebugPathname
-                   << "'; no metadata about previous run" << LL_ENDL;
-    }
-    else
-    {
-        LL_INFOS() << "Metadata from '" << staticDebugPathname << "':" << LL_ENDL;
-        logFilePathname      = get_metadata(info, "SLLog");
-        userSettingsPathname = get_metadata(info, "SettingsFilename");
-        OSInfo               = get_metadata(info, "OSInfo");
-        agentFullname        = get_metadata(info, "LoginName");
-        // Translate underscores back to spaces
-        LLStringUtil::replaceChar(agentFullname, '_', ' ');
-        regionName           = get_metadata(info, "CurrentRegion");
-        fatalMessage         = get_metadata(info, "FatalMessage");
-    }
-}
-
-// Avoid having to compile all of our LLSingleton machinery in Objective-C++.
-CrashMetadata& CrashMetadata_instance()
-{
-    return CrashMetadataSingleton::instance();
 }
 
 void infos(const std::string& message)
@@ -242,7 +180,7 @@ bool LLAppViewerMacOSX::init()
 {
 	bool success = LLAppViewer::init();
     
-#if LL_SEND_CRASH_REPORTS
+#if 0 //LL_SEND_CRASH_REPORTS
     if (success)
     {
         LLAppViewer* pApp = LLAppViewer::instance();
@@ -360,9 +298,7 @@ void LLAppViewerMacOSX::initCrashReporting(bool reportFreeze)
     std::string appname = gDirUtilp->getExecutableFilename();
     std::string str[] = { "-pid", pid_str.str(), "-dumpdir", logdir, "-procname", appname.c_str() };
     std::vector< std::string > args( str, str + ( sizeof ( str ) /  sizeof ( std::string ) ) );
-    LL_WARNS() << "about to launch mac-crash-logger" << pid_str.str()
-               << " " << logdir << " " << appname << LL_ENDL;
-    launchApplication(&command_str, &args);
+    launchApplication(command_str, args);
 }
 
 std::string LLAppViewerMacOSX::generateSerialNumber()
@@ -413,12 +349,19 @@ void dispatchUrl(std::string url)
     // Safari 3.2 silently mangles secondlife:///app/ URLs into
     // secondlife:/app/ (only one leading slash).
     // Fix them up to meet the URL specification. JC
-    const std::string prefix = "secondlife:/app/";
-    std::string test_prefix = url.substr(0, prefix.length());
-    LLStringUtil::toLower(test_prefix);
-    if (test_prefix == prefix)
+    const std::string sl_prefix = "secondlife:/app/";
+    const std::string xgrid_prefix = "x-grid-info:/app/";
+    std::string test_sl_prefix = url.substr(0, sl_prefix.length());
+    std::string test_xgrid_prefix = url.substr(0, xgrid_prefix.length());
+    LLStringUtil::toLower(test_sl_prefix);
+    LLStringUtil::toLower(test_xgrid_prefix);
+    if (test_sl_prefix == sl_prefix)
     {
-        url.replace(0, prefix.length(), "secondlife:///app/");
+        url.replace(0, sl_prefix.length(), "secondlife:///app/");
+    }
+    else if (test_xgrid_prefix == xgrid_prefix)
+    {
+        url.replace(0, xgrid_prefix.length(), "x-grid-info:///app/");
     }
     
     LLMediaCtrl* web = NULL;

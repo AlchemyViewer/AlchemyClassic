@@ -28,6 +28,7 @@
 #include "../llviewerprecompiledheaders.h"
 #include "../test/lltut.h"
 #include "../llsecapi.h"
+#include "../llsecapicerthandler.h"
 #include "../llsechandler_basic.h"
 #include "../../llxml/llcontrol.h"
 
@@ -54,10 +55,11 @@ LLControlGroup gSavedSettings("test");
 LLSecAPIBasicHandler::LLSecAPIBasicHandler() {}
 void LLSecAPIBasicHandler::init() {}
 LLSecAPIBasicHandler::~LLSecAPIBasicHandler() {}
-LLPointer<LLCertificate> LLSecAPIBasicHandler::getCertificate(const std::string& pem_cert) { return nullptr; }
-LLPointer<LLCertificate> LLSecAPIBasicHandler::getCertificate(X509* openssl_cert) { return nullptr; }
-LLPointer<LLCertificateChain> LLSecAPIBasicHandler::getCertificateChain(X509_STORE_CTX* chain) { return nullptr; }
-LLPointer<LLCertificateStore> LLSecAPIBasicHandler::getCertificateStore(const std::string& store_id) { return nullptr; }
+LLPointer<LLCertificate> LLSecAPIBasicCertHandler::getCertificate(const std::string& pem_cert) { return nullptr; }
+LLPointer<LLCertificate> LLSecAPIBasicCertHandler::getCertificate(X509* openssl_cert) { return nullptr; }
+LLPointer<LLCertificateChain> LLSecAPIBasicCertHandler::getCertificateChain(X509_STORE_CTX* chain) { return nullptr; }
+LLPointer<LLCertificateStore> LLSecAPIBasicCertHandler::getCertificateStore(const std::string& store_id) { return nullptr; }
+
 void LLSecAPIBasicHandler::setProtectedData(const std::string& data_type, const std::string& data_id, const LLSD& data) { }
 LLSD LLSecAPIBasicHandler::getProtectedData(const std::string& data_type, const std::string& data_id) { return LLSD(); }
 void LLSecAPIBasicHandler::deleteProtectedData(const std::string& data_type, const std::string& data_id) { }

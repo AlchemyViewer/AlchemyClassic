@@ -301,6 +301,7 @@ if(LL_TESTS)
   set(test_libs llui llmessage llcorehttp llcommon
       ${HUNSPELL_LIBRARY}
       ${LLCOMMON_LIBRARIES}
+      ${LLWINDOW_LIBRARIES}
       ${BOOST_COROUTINE_LIBRARY} ${BOOST_CONTEXT_LIBRARY} ${BOOST_SYSTEM_LIBRARY}
       ${WINDOWS_LIBRARIES})
   if(NOT LINUX)

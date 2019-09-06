@@ -25,18 +25,11 @@
  */
 
 #import "llappdelegate-objc.h"
-#if defined(LL_BUGSPLAT)
-#include <boost/filesystem.hpp>
-#include <vector>
-@import BugsplatMac;
-// derived from BugsplatMac's BugsplatTester/AppDelegate.m
-@interface LLAppDelegate () <BugsplatStartupManagerDelegate>
-@end
-#endif
 #include "llwindowmacosx-objc.h"
-#include "llappviewermacosx-for-objc.h"
+
 #include <Carbon/Carbon.h> // Used for Text Input Services ("Safe" API - it's supported)
 
+extern void constructViewer(); // found in newview/llappviewermacosx.cpp
 
 @implementation LLNSApplication
 
@@ -64,24 +57,14 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-	// Call constructViewer() first so our logging subsystem is in place. This
-	// risks missing crashes in the LLAppViewerMacOSX constructor, but for
-	// present purposes it's more important to get the startup sequence
-	// properly logged.
-	// Someday I would like to modify the logging system so that calls before
-	// it's initialized are cached in a std::ostringstream and then, once it's
-	// initialized, "played back" into whatever handlers have been set up.
-	constructViewer();
-
-#if defined(LL_BUGSPLAT)
-	// Engage BugsplatStartupManager *before* calling initViewer() to handle
-	// any crashes during initialization.
-	// https://www.bugsplat.com/docs/platforms/os-x#initialization
-	[BugsplatStartupManager sharedManager].autoSubmitCrashReport = YES;
-	[BugsplatStartupManager sharedManager].askUserDetails = NO;
-	[BugsplatStartupManager sharedManager].delegate = self;
-	[[BugsplatStartupManager sharedManager] start];
-#endif
+    // Call constructViewer() first so our logging subsystem is in place. This
+    // risks missing crashes in the LLAppViewerMacOSX constructor, but for
+    // present purposes it's more important to get the startup sequence
+    // properly logged.
+    // Someday I would like to modify the logging system so that calls before
+    // it's initialized are cached in a std::ostringstream and then, once it's
+    // initialized, "played back" into whatever handlers have been set up.
+    constructViewer();
 
 	frameTimer = nil;
 
@@ -218,6 +201,22 @@
     }
 	
     return ret;
+}
+
+@end
+
+@implementation LLNSMenu
+
+- (IBAction)toggleOSXNotification:(id)sender; {
+	NSLog(@"Toggling Notifications");
+}
+
+- (IBAction)toggleOSXNotificationScripts:(id)sender {
+	NSLog(@"Toggling Script notifications");
+}
+
+- (IBAction)toggleOSXNotificationSounds:(id)sender {
+	NSLog(@"Toggling notification sounds");
 }
 
 @end

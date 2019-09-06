@@ -109,6 +109,7 @@ if (DARWIN)
     llwindowmacosx.cpp
     llwindowmacosx-objc.mm
     llopenglview-objc.mm
+    llappdelegate-objc.mm
     )
   list(APPEND llwindow_HEADER_FILES
     llkeyboardmacosx.h

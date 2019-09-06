@@ -105,8 +105,6 @@ public:
 	/*virtual*/ void beforeDialog();
 	/*virtual*/ void afterDialog();
 
-	/*virtual*/ BOOL dialogColorPicker(F32 *r, F32 *g, F32 *b);
-
 	/*virtual*/ void *getPlatformWindow();
 	/*virtual*/ void bringToFront() {};
 	

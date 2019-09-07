@@ -64,10 +64,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-#if LL_WINDOWS
-#pragma warning(disable: 4355)      // 'this' used in initializer list
-#endif  // LL_WINDOWS
-
 #include "llsdserialize.h"
 
 LLPanelLogin *LLPanelLogin::sInstance = nullptr;

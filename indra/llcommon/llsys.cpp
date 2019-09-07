@@ -1,4 +1,4 @@
-/** 
+/**
  * @file llsys.cpp
  * @brief Implementation of the basic system query functions.
  *
@@ -23,10 +23,6 @@
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
-
-#if LL_WINDOWS
-#pragma warning (disable : 4355) // 'this' used in initializer list: yes, intentionally
-#endif
 
 #include "linden_common.h"
 
@@ -88,10 +84,6 @@ static const F32 MEM_INFO_THROTTLE = 20;
 // If we only triggered FrameWatcher logging when the session framerate
 // dropped below the login framerate, we'd have very little additional data.
 static const F32 MEM_INFO_WINDOW = 10*60;
-
-#if LL_WINDOWS
-#pragma warning(disable : 4996)
-#endif // LL_WINDOWS
 
 // Wrap boost::regex_match() with a function that doesn't throw.
 template <typename S, typename M, typename R>
@@ -209,6 +201,10 @@ LLOSInfo::LLOSInfo() :
 		mOSStringSimple += "32-bit ";
 	}
 
+#if LL_WINDOWS
+#pragma warning (push)
+#pragma warning (disable : 4996) // compiler thinks might use uninitialized var, but no
+#endif
 	OSVERSIONINFOEX osvi;
 	BOOL bOsVersionInfoEx;
 	// Try calling GetVersionEx using the OSVERSIONINFOEX structure.
@@ -220,7 +216,9 @@ LLOSInfo::LLOSInfo() :
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
 	}
-
+#if LL_WINDOWS
+#pragma warning (pop)
+#endif
 	
 	std::string tmpstr;
 	if (bOsVersionInfoEx)

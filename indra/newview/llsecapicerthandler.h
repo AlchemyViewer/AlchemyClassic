@@ -34,6 +34,7 @@
 #include <utility>
 
 #ifdef LL_WINDOWS
+#pragma warning(push)
 #pragma warning(disable:4250)
 #endif // LL_WINDOWS
 
@@ -570,5 +571,9 @@ protected:
 };
 
 extern LLPointer<LLSecAPICertHandler> gSecAPICertHandler;
+
+#ifdef LL_WINDOWS
+#pragma warning(pop)
+#endif // LL_WINDOWS
 
 #endif // LLSECHAPICERTHANDLER_H

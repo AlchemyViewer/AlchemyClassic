@@ -29,19 +29,10 @@
 
 #include "stdtypes.h"
 
-#if LL_WINDOWS
-#pragma warning (push)
-#pragma warning (disable:4265)
-#endif
-// 'std::_Pad' : class has virtual functions, but destructor is not virtual
 #include <shared_mutex>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
-
-#if LL_WINDOWS
-#pragma warning (pop)
-#endif
 
 //============================================================================
 

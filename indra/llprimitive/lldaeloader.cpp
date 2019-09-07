@@ -26,11 +26,6 @@
 
 #include "linden_common.h"
 
-#if LL_MSVC
-#pragma warning (push)
-#pragma warning (disable : 4263)
-#pragma warning (disable : 4264)
-#endif
 #include <dae.h>
 #include <dom/domAsset.h>
 #include <dom/domBind_material.h>
@@ -51,9 +46,6 @@
 #include <dom/domScale.h>
 #include <dom/domTranslate.h>
 #include <dom/domVisual_scene.h>
-#if LL_MSVC
-#pragma warning (pop)
-#endif
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>

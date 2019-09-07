@@ -90,7 +90,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #pragma comment(lib, "version.lib")  // for "VerQueryValue"
-#pragma warning(disable:4826)
 
 #include "StackWalker.h"
 
@@ -1338,8 +1337,6 @@ void StackWalker::OnDbgHelpErr(LPCSTR szFuncName, DWORD gle, DWORD64 addr)
   }
 }
 
-#pragma warning (disable : 4996)
-
 void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUserName)
 {
   CHAR buffer[STACKWALK_MAX_NAMELEN];
@@ -1364,6 +1361,10 @@ void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUser
     }
   }
 #else
+#if LL_WINDOWS
+#pragma warning (push)
+#pragma warning (disable : 4996) // supress deprecated
+#endif
   OSVERSIONINFOEXA ver;
   ZeroMemory(&ver, sizeof(OSVERSIONINFOEXA));
   ver.dwOSVersionInfoSize = sizeof(ver);
@@ -1377,6 +1378,9 @@ void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUser
         OnOutput(buffer);
     }
   }
+#if LL_WINDOWS
+#pragma warning (pop)
+#endif
 #endif
 }
 

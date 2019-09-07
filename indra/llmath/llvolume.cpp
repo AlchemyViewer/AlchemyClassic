@@ -5384,7 +5384,7 @@ bool LLVolumeFace::cacheOptimize()
 	{
 		new_idx.resize(mNumVertices, -1);
 	}
-	catch (std::bad_alloc)
+	catch (const std::bad_alloc&)
 	{
 		allocateVertices(0);
 		allocateWeights(0);

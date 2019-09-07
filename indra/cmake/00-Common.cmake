@@ -132,6 +132,7 @@ if (WINDOWS)
       /Zc:referenceBinding
       /Zc:rvalueCast
       /Zc:strictStrings
+      /Zc:ternary
       /Zc:throwingNew
       /Zc:wchar_t
       /nologo

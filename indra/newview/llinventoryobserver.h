@@ -44,7 +44,7 @@ public:
 	// This enumeration is a way to refer to what changed in a more
 	// human readable format. You can mask the value provided by
 	// chaged() to see if the observer is interested in the change.
-	enum 
+	enum EObserverMask : U32
 	{
 		NONE 			= 0,
 		LABEL 			= 1,	// Name changed

@@ -273,7 +273,7 @@ void LLVBOPool::seedPool()
 		{ 
 			U32 size = i*LL_VBO_BLOCK_SIZE;
 		
-			S32 count = mMissCount[i] - mFreeList[i].size();
+			U32 count = mMissCount[i] - mFreeList[i].size();
 			for (U32 j = 0; j < count; ++j)
 			{
 				allocate(dummy_name, size, true);
@@ -750,7 +750,7 @@ void LLVertexBuffer::drawRange(U32 mode, U32 start, U32 end, U32 count, U32 indi
 		GLint elem = 0;
 		glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING_ARB, &elem);
 
-		if (elem != mGLIndices)
+		if (elem != static_cast<GLint>(mGLIndices))
 		{
 			LL_ERRS() << "Wrong index buffer bound!" << LL_ENDL;
 		}
@@ -1311,7 +1311,7 @@ bool LLVertexBuffer::updateNumVerts(S32 nverts)
 		nverts = 65536;
 	}
 
-	U32 needed_size = calcOffsets(mTypeMask, mOffsets, nverts);
+	S32 needed_size = calcOffsets(mTypeMask, mOffsets, nverts);
 
 	if (needed_size > mSize || needed_size <= mSize/2)
 	{
@@ -1331,7 +1331,7 @@ bool LLVertexBuffer::updateNumIndices(S32 nindices)
 
 	bool sucsess = true;
 
-	U32 needed_size = sizeof(U16) * nindices;
+	S32 needed_size = sizeof(U16) * nindices;
 
 	if (needed_size > mIndicesSize || needed_size <= mIndicesSize/2)
 	{
@@ -1794,7 +1794,7 @@ volatile U8* LLVertexBuffer::mapIndexBuffer(S32 index, S32 count, bool map_range
 				GLint elem = 0;
 				glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING_ARB, &elem);
 
-				if (elem != mGLIndices)
+				if (elem != static_cast<GLint>(mGLIndices))
 				{
 					LL_ERRS() << "Wrong index buffer bound!" << LL_ENDL;
 				}

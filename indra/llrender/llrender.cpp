@@ -1696,7 +1696,7 @@ void LLRender::setAlphaRejectSettings(eCompareFunc func, F32 value)
 			func = CF_GREATER;
 		}
 
-		if (cur_func != sGLCompareFunc[func])
+		if (static_cast<GLenum>(cur_func) != sGLCompareFunc[func])
 		{
 			LL_ERRS() << "Alpha test function corrupted!" << LL_ENDL;
 		}

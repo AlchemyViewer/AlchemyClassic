@@ -1925,7 +1925,7 @@ void LLGLDepthTest::checkState()
 
 		if (glIsEnabled(GL_DEPTH_TEST) != sDepthEnabled ||
 			sWriteEnabled != mask ||
-			sDepthFunc != func)
+			sDepthFunc != (GLenum)func)
 		{
 			if (gDebugSession)
 			{

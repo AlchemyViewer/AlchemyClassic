@@ -77,7 +77,7 @@ public:
 
 	struct gl_uniform_data_t {
 		std::string name;
-		GLenum type = -1;
+		GLenum type = (GLenum)-1;
 		GLint size = -1;
 		U32 texunit_priority = UINT_MAX; // Lower gets earlier texunits indices.
 	};

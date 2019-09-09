@@ -233,7 +233,7 @@ class LLConversationFilter : public LLFolderViewFilter
 {
 public:
 		
-	enum ESortOrderType
+	enum ESortOrderType : U32
 	{
 		SO_NAME = 0,						// Sort by name
 		SO_DATE = 0x1,						// Sort by date (most recent)

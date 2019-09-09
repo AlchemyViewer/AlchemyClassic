@@ -119,7 +119,7 @@ void LLImageGL::checkTexSize(bool forced) const
 		GLint texname;
 		glGetIntegerv(GL_TEXTURE_BINDING_2D, &texname);
 		BOOL error = FALSE;
-		if (texname != mTexName)
+		if (static_cast<LLGLenum>(texname) != mTexName)
 		{
 			LL_INFOS() << "Bound: " << texname << " Should bind: " << mTexName << " Default: " << LLImageGL::sDefaultGLTexture->getTexName() << LL_ENDL;
 

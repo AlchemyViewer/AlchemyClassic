@@ -1548,7 +1548,7 @@ const char *LLXMLNode::parseFloat(const char *str, F64 *dest, U32 precision, Enc
 		}
 		if (strncmp(str, "-inf", 4) == 0)
 		{
-			*(U64 *)dest = 0xFFF0000000000000ll;
+			*(U64 *)dest = 0xFFF0000000000000ull;
 			return str + 4;
 		}
 		if (strncmp(str, "1.#INF", 6) == 0)
@@ -1558,7 +1558,7 @@ const char *LLXMLNode::parseFloat(const char *str, F64 *dest, U32 precision, Enc
 		}
 		if (strncmp(str, "-1.#INF", 7) == 0)
 		{
-			*(U64 *)dest = 0xFFF0000000000000ll;
+			*(U64 *)dest = 0xFFF0000000000000ull;
 			return str + 7;
 		}
 

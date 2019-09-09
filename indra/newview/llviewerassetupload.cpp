@@ -441,7 +441,7 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
 		else
 		{
 			auto file_buffer = std::make_unique<char[]>(file_size + 1);
-			if (infile.read(file_buffer.get(), file_size) == file_size)
+			if (infile.read(file_buffer.get(), file_size) == (apr_size_t)file_size)
 			{
 				file_buffer[file_size] = '\0';
 				LL_INFOS() << "Loading BVH file " << getFileName() << LL_ENDL;

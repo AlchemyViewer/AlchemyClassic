@@ -326,7 +326,7 @@ void LLSpatialPartition::rebuildGeom(LLSpatialGroup* group)
 			group->mBuilt = 1.f;
 			if (group->mVertexBuffer.isNull() ||
 				!group->mVertexBuffer->isWriteable() ||
-				(group->mBufferUsage != group->mVertexBuffer->getUsage() && LLVertexBuffer::sEnableVBOs))
+				(group->mBufferUsage != (U32)group->mVertexBuffer->getUsage() && LLVertexBuffer::sEnableVBOs))
 			{
 				group->mVertexBuffer = createVertexBuffer(mVertexDataMask, group->mBufferUsage);
 				if (!group->mVertexBuffer->allocateBuffer(vertex_count, index_count, true))
@@ -3306,7 +3306,7 @@ public:
 			
 			if (gDebugGL)
 			{
-				for (U32 i = 0; i < drawable->getNumFaces(); ++i)
+				for (S32 i = 0; i < drawable->getNumFaces(); ++i)
 				{
 					LLFace* facep = drawable->getFace(i);
 					if (facep)

@@ -456,7 +456,7 @@ public:
 		
 		if (mElementCount > 0)
 		{
-			if (mElementCount != i)
+			if ((S32)mElementCount != i)
 			{
 				mData[i] = mData[mElementCount]; //might unref data, do not access data after this point
 				mData[i]->setBinIndex(i);
@@ -481,7 +481,7 @@ public:
 	{
 		S32 i = data->getBinIndex();
 
-		if (i >= 0 && i < mElementCount)
+		if (i >= 0 && i < (S32)mElementCount)
 		{
 			if (mData[i] == data)
 			{ //found it

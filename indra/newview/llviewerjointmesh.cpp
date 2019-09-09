@@ -439,7 +439,7 @@ void LLViewerJointMesh::updateFaceData(LLFace *face, F32 pixel_area, BOOL damp_w
 				LLVector4a::memcpyNonAliased16(cw, (F32*) mMesh->getClothingWeights(), num_verts*4*sizeof(F32));	
 			}
 
-			const U32 idx_count = mMesh->getNumFaces()*3;
+			const S32 idx_count = mMesh->getNumFaces()*3;
 
 			indicesp += mMesh->mFaceIndexOffset;
 

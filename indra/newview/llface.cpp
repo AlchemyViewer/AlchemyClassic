@@ -1227,7 +1227,7 @@ void LLFace::cacheFaceInVRAM(const LLVolumeFace& vf)
 	buff->getNormalStrider(f_norm);
 	buff->getTexCoord0Strider(f_tc);
 
-	for (U32 i = 0; i < vf.mNumVertices; ++i)
+	for (S32 i = 0; i < vf.mNumVertices; ++i)
 	{
 		*f_vert++ = vf.mPositions[i];
 		*f_tangent++ = vf.mTangents[i];
@@ -1639,7 +1639,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 
 							U32 count = num_vertices/2 + num_vertices%2;
 
-							for (S32 i = 0; i < count; i++)
+							for (U32 i = 0; i < count; i++)
 							{	
 								LLVector4a res = *src++;
 								xform4a(res, trans, mask, rot0, rot1, offset, scale);

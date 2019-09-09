@@ -235,7 +235,7 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 
 	for (S32 lod = 0; lod < LLModel::NUM_LODS; ++lod)
 	{
-		for (U32 i = 0; i < mesh.size(); ++i)
+		for (S32 i = 0; i < mesh.size(); ++i)
 		{
 			std::stringstream str(mesh[i].asString());
 			LLPointer<LLModel> loaded_model = new LLModel(volume_params, (F32) lod);
@@ -270,7 +270,7 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 
 	LLSD& instance = data["instance"];
 
-	for (U32 i = 0; i < instance.size(); ++i)
+	for (S32 i = 0; i < instance.size(); ++i)
 	{
 		//deserialize instance list
 		instance_list.push_back(LLModelInstance(instance[i]));

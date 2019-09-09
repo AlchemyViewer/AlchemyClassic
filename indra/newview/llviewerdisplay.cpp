@@ -999,7 +999,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 
 		{
 			LL_RECORD_BLOCK_TIME(FTM_TEXTURE_UNBIND);
-			for (U32 i = 0; i < gGLManager.mNumTextureImageUnits; i++)
+			for (S32 i = 0; i < gGLManager.mNumTextureImageUnits; i++)
 			{ //dummy cleanup of any currently bound textures
 				if (gGL.getTexUnit(i)->getCurrType() != LLTexUnit::TT_NONE)
 				{

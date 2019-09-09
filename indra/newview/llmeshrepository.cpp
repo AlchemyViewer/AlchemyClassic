@@ -446,7 +446,7 @@ U32 get_volume_memory_size(const LLVolume* volume)
 	U32 indices = 0;
 	U32 vertices = 0;
 
-	for (U32 i = 0; i < volume->getNumVolumeFaces(); ++i)
+	for (S32 i = 0; i < volume->getNumVolumeFaces(); ++i)
 	{
 		const LLVolumeFace& face = volume->getVolumeFace(i);
 		indices += face.mNumIndices;
@@ -3079,7 +3079,7 @@ void LLMeshHandlerBase::onCompleted(LLCore::HttpHandle handle, LLCore::HttpRespo
 		LLCore::BufferArray * body(response->getBody());
 		S32 body_offset(0);
 		U8 * data(nullptr);
-		S32 data_size(body ? body->size() : 0);
+		size_t data_size(body ? body->size() : 0);
 
 		if (data_size > 0)
 		{
@@ -5177,7 +5177,7 @@ void LLPhysicsDecomp::Request::assignData(LLModel* mdl)
 			continue;
 		}
 
-		for (U32 j = 0; j < face.mNumVertices; ++j)
+		for (S32 j = 0; j < face.mNumVertices; ++j)
 		{
 			mPositions.push_back(LLVector3(face.mPositions[j].getF32ptr()));
 			for(U32 k = 0 ; k < 3 ; k++)
@@ -5189,7 +5189,7 @@ void LLPhysicsDecomp::Request::assignData(LLModel* mdl)
 
 		updateTriangleAreaThreshold() ;
 
-		for (U32 j = 0; j+2 < face.mNumIndices; j += 3)
+		for (S32 j = 0; j+2 < face.mNumIndices; j += 3)
 		{
 			tri[0] = face.mIndices[j] + index_offset ;
 			tri[1] = face.mIndices[j + 1] + index_offset ;

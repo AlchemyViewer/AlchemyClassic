@@ -494,7 +494,7 @@ public:
 					LLViewerRegion* region = gAgent.getRegion();
 					if (region)
 					{
-						for (U32 i = 0; i < gObjectList.getNumObjects(); ++i)
+						for (S32 i = 0; i < gObjectList.getNumObjects(); ++i)
 						{
 							LLViewerObject* object = gObjectList.getObject(i);
 							if (object && 
@@ -764,7 +764,7 @@ public:
 
 		if(log_texture_traffic)
 		{	
-			U32 old_y = ypos ;
+			S32 old_y = ypos;
 			for(S32 i = LLViewerTexture::BOOST_NONE; i < LLViewerTexture::MAX_GL_IMAGE_CATEGORY; i++)
 			{
 				if(gTotalTextureBytesPerBoostLevel[i] > (S32Bytes)0)

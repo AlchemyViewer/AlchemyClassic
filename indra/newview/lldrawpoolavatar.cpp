@@ -1782,7 +1782,7 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(
         LLSkinningUtil::checkSkinWeights(weights, buffer->getNumVerts(), skin);
 
         const U32 max_joints = LLSkinningUtil::getMaxJointCount();
-		for (U32 j = 0; j < buffer->getNumVerts(); ++j)
+		for (S32 j = 0; j < buffer->getNumVerts(); ++j)
 		{
 			LLMatrix4a final_mat;
             LLSkinningUtil::getPerVertexSkinMatrix(weights[j], mat, false, final_mat, max_joints);

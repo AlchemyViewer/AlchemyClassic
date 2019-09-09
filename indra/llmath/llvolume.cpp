@@ -426,7 +426,7 @@ public:
 			LL_ERRS() << "Empty leaf" << LL_ENDL;
 		}
 
-		for (S32 i = 0; i < branch->getChildCount(); ++i)
+		for (U32 i = 0; i < branch->getChildCount(); ++i)
 		{  //stretch by child extents
 			LLVolumeOctreeListener* child = (LLVolumeOctreeListener*) branch->getChild(i)->getListener(0);
 			min.setMin(min, child->mExtents[0]);
@@ -2631,7 +2631,7 @@ bool LLVolume::unpackVolumeFaces(std::istream& is, S32 size)
 
 			if (do_reverse_triangles)
 			{
-				for (U32 j = 0; j < face.mNumIndices; j += 3)
+				for (S32 j = 0; j < face.mNumIndices; j += 3)
 				{
 					// swap the 2nd and 3rd index
 					S32 swap = face.mIndices[j+1];
@@ -2668,7 +2668,7 @@ bool LLVolume::unpackVolumeFaces(std::istream& is, S32 size)
 					min_tc = face.mTexCoords[0];
 					max_tc = face.mTexCoords[0];
 
-					for (U32 j = 1; j < face.mNumVertices; ++j)
+					for (S32 j = 1; j < face.mNumVertices; ++j)
 					{
 						update_min_max(min_tc, max_tc, face.mTexCoords[j]);
 					}
@@ -3744,7 +3744,7 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 			LLVector4a* v = (LLVector4a*)face.mPositions;
 			LLVector4a* n = (LLVector4a*)face.mNormals;
 
-			for (U32 j = 0; j < face.mNumIndices / 3; j++)
+			for (S32 j = 0; j < face.mNumIndices / 3; j++)
 			{
 				for (S32 k = 0; k < 3; k++)
 				{
@@ -3871,7 +3871,7 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 			LLVector4a* v = (LLVector4a*) face.mPositions;
 			LLVector4a* n = (LLVector4a*) face.mNormals;
 
-			for (U32 j = 0; j < face.mNumIndices/3; j++) 
+			for (S32 j = 0; j < face.mNumIndices/3; j++) 
 			{
 				//approximate normal
 				S32 v1 = face.mIndices[j*3+0];
@@ -3908,7 +3908,7 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 			}
 			
 			//for each triangle
-			for (U32 j = 0; j < face.mNumIndices/3; j++) 
+			for (S32 j = 0; j < face.mNumIndices/3; j++) 
 			{
 				if (fFacing[j] == (AWAY | TOWARDS)) 
 				{ //this is a degenerate triangle
@@ -4859,7 +4859,7 @@ void LLVolumeFace::optimize(F32 angle_cutoff)
 	range.setSub(mExtents[1],mExtents[0]);
 
 	//remove redundant vertices
-	for (U32 i = 0; i < mNumIndices; ++i)
+	for (S32 i = 0; i < mNumIndices; ++i)
 	{
 		U16 index = mIndices[i];
 
@@ -5235,7 +5235,7 @@ bool LLVolumeFace::cacheOptimize()
 		return false;
 	}
 
-	for (U32 i = 0; i < mNumIndices; i++)
+	for (S32 i = 0; i < mNumIndices; i++)
 	{ //populate vertex data and triangle data arrays
 		U16 idx = mIndices[i];
 		U32 tri_idx = i/3;
@@ -5262,7 +5262,7 @@ bool LLVolumeFace::cacheOptimize()
 		pre_acmr = (F32) test_cache.mMisses/(mNumIndices/3);
 	}*/
 
-	for (U32 i = 0; i < mNumVertices; i++)
+	for (S32 i = 0; i < mNumVertices; i++)
 	{ //initialize score values (no cache -- might try a fifo cache here)
 		LLVCacheVertexData& data = vertex_data[i];
 
@@ -5291,14 +5291,14 @@ bool LLVolumeFace::cacheOptimize()
 	tri->complete();
 
 	U32 breaks = 0;
-	for (U32 i = 1; i < mNumIndices/3; ++i)
+	for (S32 i = 1; i < mNumIndices/3; ++i)
 	{
 		cache.updateScores();
 		tri = cache.mBestTriangle;
 		if (!tri)
 		{
 			breaks++;
-			for (U32 j = 0; j < triangle_data.size(); ++j)
+			for (size_t j = 0; j < triangle_data.size(); ++j)
 			{
 				if (triangle_data[j].mActive)
 				{
@@ -5315,7 +5315,7 @@ bool LLVolumeFace::cacheOptimize()
 		tri->complete();
 	}
 
-	for (U32 i = 0; i < mNumIndices; ++i)
+	for (S32 i = 0; i < mNumIndices; ++i)
 	{
 		mIndices[i] = new_indices[i];
 	}
@@ -5394,7 +5394,7 @@ bool LLVolumeFace::cacheOptimize()
 	}
 
 	S32 cur_idx = 0;
-	for (U32 i = 0; i < mNumIndices; ++i)
+	for (S32 i = 0; i < mNumIndices; ++i)
 	{
 		U16 idx = mIndices[i];
 		if (new_idx[idx] == -1)
@@ -5418,7 +5418,7 @@ bool LLVolumeFace::cacheOptimize()
 		}
 	}
 
-	for (U32 i = 0; i < mNumIndices; ++i)
+	for (S32 i = 0; i < mNumIndices; ++i)
 	{
 		mIndices[i] = new_idx[mIndices[i]];
 	}
@@ -5445,7 +5445,7 @@ void LLVolumeFace::createOctree(F32 scaler, const LLVector4a& center, const LLVe
 	mOctree = new LLOctreeRoot<LLVolumeTriangle>(center, size, nullptr);
 	new LLVolumeOctreeListener(mOctree);
 
-	for (U32 i = 0; i < mNumIndices; i+= 3)
+	for (S32 i = 0; i < mNumIndices; i+= 3)
 	{ //for each triangle
 		LLPointer<LLVolumeTriangle> tri = new LLVolumeTriangle();
 				
@@ -6230,7 +6230,7 @@ void LLVolumeFace::createTangents()
 		CalculateTangentArray(mNumVertices, mPositions, mNormals, mTexCoords, mNumIndices/3, mIndices, mTangents);
 
 		//normalize tangents
-		for (U32 i = 0; i < mNumVertices; i++) 
+		for (S32 i = 0; i < mNumVertices; i++)
 		{
 			//binorm[i].normalize3fast();
 			//bump map/planar projection code requires normals to be normalized

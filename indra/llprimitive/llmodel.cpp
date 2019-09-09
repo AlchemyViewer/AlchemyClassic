@@ -100,7 +100,7 @@ void LLModel::offsetMesh( const LLVector3& pivotPoint )
 		LLVolumeFace& face = *currentFaceIt;
 		LLVector4a *pos = (LLVector4a*) face.mPositions;
 		
-		for (U32 i=0; i<face.mNumVertices; ++i )
+		for (S32 i=0; i<face.mNumVertices; ++i )
 		{
 			pos[i].add( pivot );
 		}
@@ -109,7 +109,7 @@ void LLModel::offsetMesh( const LLVector3& pivotPoint )
 
 void LLModel::optimizeVolumeFaces()
 {
-	for (U32 i = 0; i < getNumVolumeFaces(); ++i)
+	for (S32 i = 0; i < getNumVolumeFaces(); ++i)
 	{
 		mVolumeFaces[i].optimize();
 	}
@@ -215,7 +215,7 @@ void LLModel::normalizeVolumeFaces()
 				min_tc = face.mTexCoords[0];
 				max_tc = face.mTexCoords[0];
 
-				for (U32 j = 1; j < face.mNumVertices; ++j)
+				for (S32 j = 1; j < face.mNumVertices; ++j)
 				{
 					update_min_max(min_tc, max_tc, face.mTexCoords[j]);
 				}
@@ -289,7 +289,7 @@ void LLModel::normalizeVolumeFaces()
 			LLVector4a* pos = (LLVector4a*) face.mPositions;
 			LLVector4a* norm = (LLVector4a*) face.mNormals;
 
-			for (U32 j = 0; j < face.mNumVertices; ++j)
+			for (S32 j = 0; j < face.mNumVertices; ++j)
 			{
 			 	pos[j].add(trans);
 				pos[j].mul(scale);
@@ -339,7 +339,7 @@ LLVector3 LLModel::getTransformedCenter(const LLMatrix4& mat)
 		{
 			LLVolumeFace& face = mVolumeFaces[i];
 
-			for (U32 j = 0; j < face.mNumVertices; ++j)
+			for (S32 j = 0; j < face.mNumVertices; ++j)
 			{
 				m.affineTransform(face.mPositions[j],t);
 				update_min_max(minv, maxv, t);
@@ -449,7 +449,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		faceted.resizeVertices(vol_face.mNumIndices);
 		faceted.resizeIndices(vol_face.mNumIndices);
 		//bake out triangles into temporary face, clearing texture coordinates
-		for (U32 i = 0; i < vol_face.mNumIndices; ++i)
+		for (S32 i = 0; i < vol_face.mNumIndices; ++i)
 		{
 			U32 idx = vol_face.mIndices[i];
 		
@@ -459,7 +459,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		}
 
 		//generate normals for temporary face
-		for (U32 i = 0; i < faceted.mNumIndices; i += 3)
+		for (S32 i = 0; i < faceted.mNumIndices; i += 3)
 		{ //for each triangle
 			U16 i0 = faceted.mIndices[i+0];
 			U16 i1 = faceted.mIndices[i+1];
@@ -488,12 +488,12 @@ void LLModel::generateNormals(F32 angle_cutoff)
 
 		//generate normals for welded face based on new topology (step 3)
 
-		for (U32 i = 0; i < faceted.mNumVertices; i++)
+		for (S32 i = 0; i < faceted.mNumVertices; i++)
 		{
 			faceted.mNormals[i].clear();
 		}
 
-		for (U32 i = 0; i < faceted.mNumIndices; i += 3)
+		for (S32 i = 0; i < faceted.mNumIndices; i += 3)
 		{ //for each triangle
 			U16 i0 = faceted.mIndices[i+0];
 			U16 i1 = faceted.mIndices[i+1];
@@ -522,7 +522,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		//normalize normals and build point map
 		LLVolumeFace::VertexMapData::PointMap point_map;
 
-		for (U32 i = 0; i < faceted.mNumVertices; ++i)
+		for (S32 i = 0; i < faceted.mNumVertices; ++i)
 		{
 			faceted.mNormals[i].normalize3();
 
@@ -540,7 +540,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		new_face.resizeIndices(vol_face.mNumIndices);
 		new_face.resizeVertices(vol_face.mNumIndices);
 		
-		for (U32 i = 0; i < vol_face.mNumIndices; ++i)
+		for (S32 i = 0; i < vol_face.mNumIndices; ++i)
 		{
 			U32 idx = vol_face.mIndices[i];
 			LLVolumeFace::VertexData v;
@@ -551,7 +551,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 
 		if (vol_face.mTexCoords)
 		{
-			for (U32 i = 0; i < vol_face.mNumIndices; i++)
+			for (S32 i = 0; i < vol_face.mNumIndices; i++)
 			{
 				U32 idx = vol_face.mIndices[i];
 				new_face.mTexCoords[i] = vol_face.mTexCoords[idx];
@@ -564,7 +564,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		}
 
 		//generate normals for new face
-		for (U32 i = 0; i < new_face.mNumIndices; i += 3)
+		for (S32 i = 0; i < new_face.mNumIndices; i += 3)
 		{ //for each triangle
 			U16 i0 = new_face.mIndices[i+0];
 			U16 i1 = new_face.mIndices[i+1];
@@ -589,7 +589,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		}
 
 		//swap out normals in new_face with best match from point map (step 5)
-		for (U32 i = 0; i < new_face.mNumVertices; ++i)
+		for (S32 i = 0; i < new_face.mNumVertices; ++i)
 		{
 			//LLVolumeFace::VertexData v = new_face.mVertices[i];
 
@@ -699,7 +699,7 @@ LLSD LLModel::writeModel(
 			for (S32 i = 0; i < model[idx]->getNumVolumeFaces(); ++i)
 			{ //for each face
 				const LLVolumeFace& face = model[idx]->getVolumeFace(i);
-				for (U32 j = 0; j < face.mNumVertices; ++j)
+				for (S32 j = 0; j < face.mNumVertices; ++j)
 				{
 					update_min_max(min_pos, max_pos, face.mPositions[j].getF32ptr());
 				}
@@ -734,7 +734,7 @@ LLSD LLModel::writeModel(
 					max_tc = min_tc;
 					
 					//get texture coordinate domain
-					for (U32 j = 0; j < face.mNumVertices; ++j)
+					for (S32 j = 0; j < face.mNumVertices; ++j)
 					{
 						update_min_max(min_tc, max_tc, ftc[j]);
 					}
@@ -742,7 +742,7 @@ LLSD LLModel::writeModel(
 
 				LLVector2 tc_range = max_tc - min_tc;
 
-				for (U32 j = 0; j < face.mNumVertices; ++j)
+				for (S32 j = 0; j < face.mNumVertices; ++j)
 				{ //for each vert
 		
 					F32* pos = face.mPositions[j].getF32ptr();
@@ -794,7 +794,7 @@ LLSD LLModel::writeModel(
 				}
 
 				U32 idx_idx = 0;
-				for (U32 j = 0; j < face.mNumIndices; ++j)
+				for (S32 j = 0; j < face.mNumIndices; ++j)
 				{
 					U8* buff = (U8*) &(face.mIndices[j]);
 					indices[idx_idx++] = buff[0];
@@ -831,7 +831,7 @@ LLSD LLModel::writeModel(
 
 					std::stringstream ostr;
 
-					for (U32 j = 0; j < face.mNumVertices; ++j)
+					for (S32 j = 0; j < face.mNumVertices; ++j)
 					{
 						LLVector3 pos(face.mPositions[j].getF32ptr());
 
@@ -1109,7 +1109,7 @@ bool LLModel::loadModel(std::istream& is)
 	if (header.has("material_list"))
 	{ //load material list names
 		mMaterialList.clear();
-		for (U32 i = 0; i < header["material_list"].size(); ++i)
+		for (S32 i = 0; i < header["material_list"].size(); ++i)
 		{
 			mMaterialList.push_back(header["material_list"][i].asString());
 		}
@@ -1201,14 +1201,14 @@ bool LLModel::loadModel(std::istream& is)
 
 bool LLModel::isMaterialListSubset( LLModel* ref )
 {
-	int refCnt = ref->mMaterialList.size();
-	int modelCnt = mMaterialList.size();
+	size_t refCnt = ref->mMaterialList.size();
+	size_t modelCnt = mMaterialList.size();
 	
-	for (U32 src = 0; src < modelCnt; ++src)
+	for (size_t src = 0; src < modelCnt; ++src)
 	{				
 		bool foundRef = false;
 		
-		for (U32 dst = 0; dst < refCnt; ++dst)
+		for (size_t dst = 0; dst < refCnt; ++dst)
 		{
 			//LL_INFOS()<<mMaterialList[src]<<" "<<ref->mMaterialList[dst]<<LL_ENDL;
 			foundRef = mMaterialList[src] == ref->mMaterialList[dst];									
@@ -1374,7 +1374,7 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 {
 	if (skin.has("joint_names"))
 	{
-		for (U32 i = 0; i < skin["joint_names"].size(); ++i)
+		for (S32 i = 0; i < skin["joint_names"].size(); ++i)
 		{
 			mJointNames.push_back(skin["joint_names"][i]);
             mJointNums.push_back(-1);
@@ -1383,7 +1383,7 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 
 	if (skin.has("inverse_bind_matrix"))
 	{
-		for (U32 i = 0; i < skin["inverse_bind_matrix"].size(); ++i)
+		for (S32 i = 0; i < skin["inverse_bind_matrix"].size(); ++i)
 		{
 			LLMatrix4 mat;
 			for (U32 j = 0; j < 4; j++)
@@ -1415,7 +1415,7 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 
 	if (skin.has("alt_inverse_bind_matrix"))
 	{
-		for (U32 i = 0; i < skin["alt_inverse_bind_matrix"].size(); ++i)
+		for (S32 i = 0; i < skin["alt_inverse_bind_matrix"].size(); ++i)
 		{
 			LLMatrix4 mat;
 			for (U32 j = 0; j < 4; j++)
@@ -1843,7 +1843,7 @@ bool ll_is_degenerate(const LLVector4a& a, const LLVector4a& b, const LLVector4a
 
 bool validate_face(const LLVolumeFace& face)
 {
-	for (U32 i = 0; i < face.mNumIndices; ++i)
+	for (S32 i = 0; i < face.mNumIndices; ++i)
 	{
 		if (face.mIndices[i] >= face.mNumVertices)
 		{
@@ -1918,7 +1918,7 @@ LLModelInstance::LLModelInstance(LLSD& data)
 	mLabel = data["label"].asString();
 	mTransform.setValue(data["transform"]);
 
-	for (U32 i = 0; i < data["material"].size(); ++i)
+	for (S32 i = 0; i < data["material"].size(); ++i)
 	{
 		LLImportMaterial mat(data["material"][i]);
 		mMaterial[mat.mBinding] = mat;

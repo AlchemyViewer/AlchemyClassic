@@ -149,8 +149,10 @@ accumulate_locstring(const char *str, FL_Locale *l) {
   return 0;
 }
 
-static int
-accumulate_env(const char *name, FL_Locale *l) {
+#ifdef LL_WINDOWS
+#pragma warning(suppress: 4505)
+#endif
+static int accumulate_env(const char *name, FL_Locale *l) {
     char *env = getenv(name);
     if (env) {
         return accumulate_locstring(env, l);

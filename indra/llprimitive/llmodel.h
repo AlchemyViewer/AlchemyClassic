@@ -318,9 +318,9 @@ public:
     }
     
     LLImportMaterial(LLSD& data);
-    virtual ~LLImportMaterial();
+    virtual ~LLImportMaterial() = default;
     
-    LLSD asLLSD();
+    LLSD asLLSD() const;
     
     const LLUUID&	getDiffuseMap() const					{ return mDiffuseMapID;		}
     void				setDiffuseMap(const LLUUID& texId)	{ mDiffuseMapID = texId;	}

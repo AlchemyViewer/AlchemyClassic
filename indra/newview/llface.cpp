@@ -431,7 +431,7 @@ void LLFace::setSize(S32 num_vertices, S32 num_indices, bool align)
 	}
 	
 	if (mGeomCount != num_vertices ||
-		mIndicesCount != num_indices)
+		(S32)mIndicesCount != num_indices)
 	{
 		mGeomCount    = num_vertices;
 		mIndicesCount = num_indices;
@@ -472,7 +472,7 @@ void LLFace::setTextureIndex(U8 index)
 
 void LLFace::setIndicesIndex(S32 idx) 
 { 
-	if (mIndicesIndex != idx)
+	if ((S32)mIndicesIndex != idx)
 	{
 		mIndicesIndex = idx; 
 		mVertexBuffer = nullptr;
@@ -2392,7 +2392,7 @@ BOOL LLFace::verify(const U32* indices_array) const
 		LL_INFOS() << "Face has bogus indices count" << LL_ENDL;
 	}
 	
-	if (mIndicesIndex + mIndicesCount > mVertexBuffer->getNumIndices())
+	if (mIndicesIndex + mIndicesCount > (U32)mVertexBuffer->getNumIndices())
 	{
 		ok = FALSE;
 		LL_INFOS() << "Face references invalid indices!" << LL_ENDL;

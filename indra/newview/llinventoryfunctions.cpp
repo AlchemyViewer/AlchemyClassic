@@ -1062,7 +1062,7 @@ bool can_move_item_to_marketplace(const LLInventoryCategory* root_folder, LLInve
         // If the dest folder is a stock folder, we do assume that the incoming items are also stock items (they should anyway)
         int existing_stock_count = (move_in_stock ? bundle_size : 0);
         
-        int existing_folder_count = 0;
+        U32 existing_folder_count = 0;
         
         // Get the version folder: that's where the counts start from
         const LLViewerInventoryCategory * version_folder = ((root_folder && (root_folder != dest_folder)) ? gInventory.getFirstDescendantOf(root_folder->getUUID(), dest_folder->getUUID()) : NULL);
@@ -1092,7 +1092,7 @@ bool can_move_item_to_marketplace(const LLInventoryCategory* root_folder, LLInve
             }
         }
         
-        if (existing_item_count > gSavedSettings.getU32("InventoryOutboxMaxItemCount"))
+        if (existing_item_count > (S32)gSavedSettings.getU32("InventoryOutboxMaxItemCount"))
         {
             LLStringUtil::format_map_t args;
             U32 amount = gSavedSettings.getU32("InventoryOutboxMaxItemCount");
@@ -1100,7 +1100,7 @@ bool can_move_item_to_marketplace(const LLInventoryCategory* root_folder, LLInve
             tooltip_msg = LLTrans::getString("TooltipOutboxTooManyObjects", args);
             accept = false;
         }
-        else if (existing_stock_count > gSavedSettings.getU32("InventoryOutboxMaxStockItemCount"))
+        else if (existing_stock_count > (S32)gSavedSettings.getU32("InventoryOutboxMaxStockItemCount"))
         {
             LLStringUtil::format_map_t args;
             U32 amount = gSavedSettings.getU32("InventoryOutboxMaxStockItemCount");
@@ -1185,7 +1185,7 @@ bool can_move_folder_to_marketplace(const LLInventoryCategory* root_folder, LLIn
         const int total_item_count = existing_item_count + dragged_item_count;
         const int total_stock_count = existing_stock_count + dragged_stock_count;
     
-        if (total_folder_count > gSavedSettings.getU32("InventoryOutboxMaxFolderCount"))
+        if (total_folder_count > (S32)gSavedSettings.getU32("InventoryOutboxMaxFolderCount"))
         {
             LLStringUtil::format_map_t args;
             U32 amount = gSavedSettings.getU32("InventoryOutboxMaxFolderCount");
@@ -1193,7 +1193,7 @@ bool can_move_folder_to_marketplace(const LLInventoryCategory* root_folder, LLIn
             tooltip_msg = LLTrans::getString("TooltipOutboxTooManyFolders", args);
             accept = false;
         }
-        else if (total_item_count > gSavedSettings.getU32("InventoryOutboxMaxItemCount"))
+        else if (total_item_count > (S32)gSavedSettings.getU32("InventoryOutboxMaxItemCount"))
         {
             LLStringUtil::format_map_t args;
             U32 amount = gSavedSettings.getU32("InventoryOutboxMaxItemCount");
@@ -1201,7 +1201,7 @@ bool can_move_folder_to_marketplace(const LLInventoryCategory* root_folder, LLIn
             tooltip_msg = LLTrans::getString("TooltipOutboxTooManyObjects", args);
             accept = false;
         }
-        else if (total_stock_count > gSavedSettings.getU32("InventoryOutboxMaxStockItemCount"))
+        else if (total_stock_count > (S32)gSavedSettings.getU32("InventoryOutboxMaxStockItemCount"))
         {
             LLStringUtil::format_map_t args;
             U32 amount = gSavedSettings.getU32("InventoryOutboxMaxStockItemCount");

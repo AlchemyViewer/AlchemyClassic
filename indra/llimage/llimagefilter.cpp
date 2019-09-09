@@ -779,9 +779,9 @@ void LLImageFilter::filterLinearize(F32 tail, const LLColor3& alpha)
     
     // Compute min and max counts minus tail
     tail = llclampf(tail);
-    S32 total = cumulated_histo[255];
-    S32 min_c = (S32)((F32)(total) * tail);
-    S32 max_c = (S32)((F32)(total) * (1.0 - tail));
+    U32 total = cumulated_histo[255];
+    U32 min_c = (U32)((F32)(total) * tail);
+    U32 max_c = (U32)((F32)(total) * (1.0 - tail));
     
     // Find min and max values
     S32 min_v = 0;
@@ -864,7 +864,7 @@ void LLImageFilter::filterEqualize(S32 nb_classes, const LLColor3& alpha)
         equalize_red_lut[i]   = (U8)((1.0 - alpha.mV[0]) * (float)(i) + alpha.mV[0] * current_value);
         equalize_green_lut[i] = (U8)((1.0 - alpha.mV[1]) * (float)(i) + alpha.mV[1] * current_value);
         equalize_blue_lut[i]  = (U8)((1.0 - alpha.mV[2]) * (float)(i) + alpha.mV[2] * current_value);
-        if (cumulated_histo[i] >= current_count)
+        if (cumulated_histo[i] >= (U32)current_count)
         {
             current_count += delta_count;
             current_value += delta_value;

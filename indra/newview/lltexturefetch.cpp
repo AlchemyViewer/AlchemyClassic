@@ -1753,12 +1753,12 @@ bool LLTextureFetchWorker::doWork(S32 param)
 			S32 total_size(cur_size + append_size);
 			S32 src_offset(0);
 			llassert_always(append_size == mRequestedSize);
-			if (mHttpReplyOffset && mHttpReplyOffset != cur_size)
+			if (mHttpReplyOffset && (S32)mHttpReplyOffset != cur_size)
 			{
 				// In case of a partial response, our offset may
 				// not be trivially contiguous with the data we have.
 				// Get back into alignment.
-				if ( (mHttpReplyOffset > cur_size) || (cur_size > mHttpReplyOffset + append_size))
+				if ( ((S32)mHttpReplyOffset > cur_size) || (cur_size > (S32)mHttpReplyOffset + append_size))
 				{
 					LL_WARNS(LOG_TXT) << "Partial HTTP response produces break in image data for texture "
 									  << mID << ".  Aborting load."  << LL_ENDL;

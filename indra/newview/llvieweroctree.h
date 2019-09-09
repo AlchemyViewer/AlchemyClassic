@@ -158,7 +158,7 @@ public:
 	virtual bool isVisible() const;
 	virtual bool isRecentlyVisible() const;	
 	
-	static S32 getCurrentFrame() { return sCurVisible; }
+	static U32 getCurrentFrame() { return sCurVisible; }
 
 protected:
 	LLVector4a& getGroupPosition()  {return mEntry->mPositionGroup;}
@@ -214,8 +214,8 @@ public:
 	void setVisible();
 	BOOL isVisible() const;
 	virtual BOOL isRecentlyVisible() const;
-	S32  getVisible(LLViewerCamera::eCameraID id) const {return mVisible[id];}
-	S32  getAnyVisible() const {return mAnyVisible;}
+	U32  getVisible(LLViewerCamera::eCameraID id) const {return mVisible[id];}
+	U32  getAnyVisible() const {return mAnyVisible;}
 	bool isEmpty() const { return mOctreeNode->isEmpty(); }
 
 	U32  getState()				   {return mState; }
@@ -261,8 +261,8 @@ protected:
 	LL_ALIGN_16(LLVector4a mExtents[2]);       // extents (min, max) of this node and all its children
 	LL_ALIGN_16(LLVector4a mObjectExtents[2]); // extents (min, max) of objects in this node	
 
-	S32         mAnyVisible; //latest visible to any camera
-	S32         mVisible[LLViewerCamera::NUM_CAMERAS];	
+	U32         mAnyVisible; //latest visible to any camera
+	U32         mVisible[LLViewerCamera::NUM_CAMERAS];	
 
 };//LL_ALIGN_POSTFIX(16);
 
@@ -329,7 +329,7 @@ protected:
 	U32         mOcclusionState[LLViewerCamera::NUM_CAMERAS];
 	U32         mOcclusionIssued[LLViewerCamera::NUM_CAMERAS];
 
-	S32         mLODHash;
+	U32         mLODHash;
 
 	LLViewerOctreePartition* mSpatialPartition;
 	U32		                 mOcclusionQuery[LLViewerCamera::NUM_CAMERAS];

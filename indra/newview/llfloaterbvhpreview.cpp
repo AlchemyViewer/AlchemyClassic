@@ -207,7 +207,7 @@ BOOL LLFloaterBvhPreview::postBuild()
 		{
 			auto file_buffer = std::make_unique<char[]>(file_size + 1);
 
-			if (file_size == infile.read(file_buffer.get(), file_size))
+			if (file_size == (apr_off_t)infile.read(file_buffer.get(), file_size))
 			{
 				file_buffer[file_size] = '\0';
 				LL_INFOS() << "Loading BVH file " << mFilename << LL_ENDL;

@@ -24,8 +24,8 @@
  * $/LicenseInfo$
  */
 
-#include <errno.h>
-#include <signal.h>
+#include <cerrno>
+#include <csignal>
 
 #include "linden_common.h"
 #include "llapp.h"

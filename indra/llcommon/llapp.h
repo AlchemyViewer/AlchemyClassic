@@ -34,7 +34,7 @@
 #include <atomic>
 
 #if LL_LINUX || LL_DARWIN
-#include <signal.h>
+#include <csignal>
 #endif
 
 class LLErrorThread;

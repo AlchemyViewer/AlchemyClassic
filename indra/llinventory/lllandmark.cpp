@@ -27,7 +27,7 @@
 #include "linden_common.h"
 #include "lllandmark.h"
 
-#include <errno.h>
+#include <cerrno>
 
 #include "message.h"
 #include "llregionhandle.h"

@@ -32,7 +32,7 @@
 class LLSD;
 
 #if !LL_WINDOWS	//For non-windows platforms.
-#include <signal.h>
+#include <csignal>
 #endif
 
 //Crash reporter will now be kicked off by the viewer but otherwise

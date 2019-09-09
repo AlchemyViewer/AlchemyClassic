@@ -29,10 +29,10 @@
 
 #if LL_WINDOWS
 #include "llwin32headerslean.h"
-#include <stdlib.h>                 // Windows errno
+#include <cstdlib>                 // Windows errno
 #include <vector>
 #else
-#include <errno.h>
+#include <cerrno>
 #include <sys/file.h>
 #endif
 

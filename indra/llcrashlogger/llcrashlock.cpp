@@ -38,7 +38,7 @@
 #include <boost/filesystem.hpp>  
 #include <string>
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
 
 
 #if LL_WINDOWS   //For windows platform.

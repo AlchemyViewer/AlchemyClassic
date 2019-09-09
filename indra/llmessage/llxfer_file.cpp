@@ -27,7 +27,7 @@
 #include "linden_common.h"
 
 #if !LL_WINDOWS
-#include <errno.h>
+#include <cerrno>
 #include <unistd.h>
 #endif
 

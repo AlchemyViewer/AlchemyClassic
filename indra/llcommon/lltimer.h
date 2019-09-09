@@ -30,7 +30,7 @@
 #if LL_LINUX || LL_DARWIN
 #include <sys/time.h>
 #endif
-#include <limits.h>
+#include <climits>
 
 #include "stdtypes.h"
 

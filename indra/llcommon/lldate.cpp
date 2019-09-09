@@ -29,8 +29,8 @@
 #include "linden_common.h"
 #include "lldate.h"
 
-#include <time.h>
-#include <locale.h>
+#include <ctime>
+#include <clocale>
 #include <string>
 #include <iomanip>
 #include <iostream>

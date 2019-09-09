@@ -26,7 +26,7 @@
 
 #include "linden_common.h"
 #include "stdafx.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include "llcrashloggerwindows.h"
 
 #ifdef _UNICODE

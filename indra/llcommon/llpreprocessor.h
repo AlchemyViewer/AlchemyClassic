@@ -121,31 +121,46 @@
 
 // Deal with VC6 problems
 #if LL_MSVC
-#pragma warning( 3	     : 4701 )	// "local variable used without being initialized"  Treat this as level 3, not level 4.
-#pragma warning( 3	     : 4702 )	// "unreachable code"  Treat this as level 3, not level 4.
-#pragma warning( 3	     : 4189 )	// "local variable initialized but not referenced"  Treat this as level 3, not level 4.
-//#pragma warning( 3	: 4018 )	// "signed/unsigned mismatch"  Treat this as level 3, not level 4.
-#pragma warning( 3      :  4263 )	// 'function' : member function does not override any base class virtual member function
-#pragma warning( 3      :  4264 )	// "'virtual_function' : no override available for virtual member function from base 'class'; function is hidden"
-#pragma warning( 3       : 4265 )	// "class has virtual functions, but destructor is not virtual"
-#pragma warning( 3      :  4266 )	// 'function' : no override available for virtual member function from base 'type'; function is hidden
+#pragma warning ( 3	     : 4701 )	// "local variable used without being initialized"  Treat this as level 3, not level 4.
+#pragma warning ( 3	     : 4702 )	// "unreachable code"  Treat this as level 3, not level 4.
+#pragma warning ( 3	     : 4189 )	// "local variable initialized but not referenced"  Treat this as level 3, not level 4.
 #pragma warning (disable : 4180)	// qualifier applied to function type has no meaning; ignored
-#pragma warning( disable : 4800 )	// 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
 
 // Linker optimization with "extern template" generates these warnings
-#pragma warning( disable : 4506 )   // no definition for inline function
+#pragma warning (disable : 4506)   // no definition for inline function
 
 // level 4 warnings that we need to disable:
-#pragma warning (disable : 4100) // unreferenced formal parameter
-#pragma warning (disable : 4127) // conditional expression is constant (e.g. while(1) )
-#pragma warning (disable : 4244) // possible loss of data on conversions
-#pragma warning (disable : 4396) // the inline specifier cannot be used when a friend declaration refers to a specialization of a function template
-#pragma warning (3		 : 4512) // assignment operator could not be generated
-#pragma warning (disable : 4706) // assignment within conditional (even if((x = y)) )
+#pragma warning (disable : 4100)	// unreferenced formal parameter
+#pragma warning (disable : 4127)	// conditional expression is constant (e.g. while(1) )
+#pragma warning (disable : 4201)	// nonstandard extension used : nameless struct/union
+#pragma warning (disable : 4244)	// possible loss of data on conversions
+#pragma warning (disable : 4324)	// structure was padded due to alignment specifier
+#pragma warning (disable : 4456)	// declaration of 'identifier' hides previous local declaration
+#pragma warning (disable : 4457)	// declaration of 'identifier' hides function parameter
+#pragma warning (disable : 4458)	// declaration of 'identifier' hides class member
+#pragma warning (disable : 4459)	// declaration of 'identifier' hides global declaration
+#pragma warning (disable : 4611)	// interaction between 'function'and C++ object destruction is non - portable
+#pragma warning (disable : 4706)	// assignment within conditional (even if((x = y)) )
+#pragma warning (disable : 4714)	// function 'function' marked as __forceinline not inlined
 
-#pragma warning (disable : 4251) // member needs to have dll-interface to be used by clients of class
-#pragma warning (disable : 4275) // non dll-interface class used as base for dll-interface class
-#pragma warning (disable : 4018) // '<' : signed/unsigned mismatch	
+//Optional Warnings to enable
+#pragma warning (default : 4263)	// 'function': member function does not override any base class virtual member function
+#pragma warning (default : 4264)	// 'virtual_function': no override available for virtual member function from base 'class'; function is hidden
+#pragma warning (default : 4265)	// 'class': class has virtual functions, but destructor is not virtual
+#pragma warning (default : 4266)	// 'function': no override available for virtual member function from base 'type'; function is hidden
+#pragma warning (default : 4287)	// 'operator': unsigned/negative constant mismatch
+#pragma warning (default : 4437)	// dynamic_cast from virtual base 'class1' to 'class2' could fail in some contexts
+#pragma warning (default : 4471)	// a forward declaration of an unscoped enumeration must have an underlying type (int assumed) 
+#pragma warning (default : 4545)	// expression before comma evaluates to a function which is missing an argument list
+#pragma warning (default : 4546)	// function call before comma missing argument list
+#pragma warning (default : 4547)	// 'operator': operator before comma has no effect; expected operator with side-effect
+#pragma warning (default : 4548)	// expression before comma has no effect; expected expression with side-effect
+#pragma warning (default : 4549)	// 'operator1': operator before comma has no effect; did you intend 'operator2'?
+#pragma warning (default : 4654)	// Code placed before include of precompiled header line will be ignored. Add code to precompiled header.
+#pragma warning (default : 4777)	// 'function' : format string 'string' requires an argument of type 'type1', but variadic argument number has type 'type2'
+#pragma warning (default : 4822)	// 'member': local class member function does not have a body
+#pragma warning (default : 4868)	// 'file(line_number)' compiler may not enforce left-to-right evaluation order in braced initialization list
+#pragma warning (default : 4946)	// reinterpret_cast used between related classes: 'class1' and 'class2'
 
 #if _WIN64
 #pragma warning (disable : 4267) // 'var' : conversion from 'size_t' to 'type', possible loss of data

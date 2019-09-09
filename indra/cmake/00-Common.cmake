@@ -124,7 +124,7 @@ if (WINDOWS)
       /EHsc
       /GS
       /TP
-      /W3
+      /W4
       /c
       /Zc:__cplusplus
       /Zc:externConstexpr
@@ -301,10 +301,10 @@ if (LINUX OR DARWIN)
   endif (NOT UNIX_DISABLE_FATAL_WARNINGS)
 
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    set(UNIX_WARNINGS "-Wall -Wno-sign-compare -Wno-unused-variable -Wno-maybe-uninitialized ${UNIX_WARNINGS} ")
+    set(UNIX_WARNINGS "-Wall -Wno-unused-variable -Wno-maybe-uninitialized ${UNIX_WARNINGS} ")
     set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-reorder")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
-    set(UNIX_WARNINGS "-Wall -Wno-sign-compare ${UNIX_WARNINGS} ")
+    set(UNIX_WARNINGS "-Wall ${UNIX_WARNINGS} ")
     set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-reorder -Wno-unused-local-typedef -Wempty-body -Wunreachable-code -Wundefined-bool-conversion -Wenum-conversion -Wassign-enum -Wint-conversion -Wconstant-conversion -Wnewline-eof -Wno-protocol -Wno-deprecated-declarations")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
     set(UNIX_WARNINGS "-w2 -diag-disable remark -wd68 -wd597 -wd780 -wd858 ${UNIX_WARNINGS} ")

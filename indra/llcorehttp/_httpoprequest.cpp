@@ -1293,7 +1293,7 @@ char * os_strtok_r(char *str, const char *delim, char ** savestate)
 
 void os_strlower(char * str)
 {
-	for (char c = 0; c = *str; ++str)
+	for (char c = 0; (c = *str); ++str)
 	{
 		*str = tolower(c);
 	}

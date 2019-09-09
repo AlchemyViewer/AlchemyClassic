@@ -546,7 +546,7 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mMaxTasks(DEFAULT_MAX_REGION_WIDE_PRIM_COUNT),
 	mCentralBakeVersion(0),
 	mLastVisitedEntry(nullptr),
-	mInvisibilityCheckHistory(-1),
+	mInvisibilityCheckHistory(static_cast<U32>(-1)),
 	mClassID(0),
 	mCPURatio(0),
 	mColoName("unknown"),
@@ -1539,7 +1539,7 @@ void LLViewerRegion::calcNewObjectCreationThrottle()
 
 BOOL LLViewerRegion::isViewerCameraStatic()
 {
-	return sLastCameraUpdated < LLViewerOctreeEntryData::getCurrentFrame();
+	return sLastCameraUpdated < (S32)LLViewerOctreeEntryData::getCurrentFrame();
 }
 
 void LLViewerRegion::killInvisibleObjects(F32 max_time)

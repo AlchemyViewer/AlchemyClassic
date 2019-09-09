@@ -1166,14 +1166,17 @@ int parse_content_range_header(char * buffer,
 {
 	static const char * const hdr_whitespace(" \t");
 
-	char * tok_state(NULL), * tok(NULL);
+	char* tok_state(NULL);
 	bool match(true);
 			
-	if (! (tok = os_strtok_r(buffer, hdr_whitespace, &tok_state)))
+	char* tok = os_strtok_r(buffer, hdr_whitespace, &tok_state);
+	if (!tok)
 		match = false;
 	else
 		match = (0 == os_strcasecmp("bytes", tok));
-	if (match && ! (tok = os_strtok_r(NULL, hdr_whitespace, &tok_state)))
+
+	tok = os_strtok_r(NULL, hdr_whitespace, &tok_state);
+	if (match && !tok)
 		match = false;
 	if (match)
 	{
@@ -1290,7 +1293,7 @@ char * os_strtok_r(char *str, const char *delim, char ** savestate)
 
 void os_strlower(char * str)
 {
-	for (char c(0); (c = *str); ++str)
+	for (char c = 0; c = *str; ++str)
 	{
 		*str = tolower(c);
 	}

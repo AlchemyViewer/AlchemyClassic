@@ -66,7 +66,7 @@ LLVOCacheEntry::LLVOCacheEntry(U32 local_id, U32 crc, LLDataPackerBinaryBuffer &
 	mLocalID(local_id),
 	mParentID(0),
 	mCRC(crc),
-	mUpdateFlags(-1),
+	mUpdateFlags(static_cast<U32>(-1)),
 	mHitCount(0),
 	mDupeCount(0),
 	mCRCChangeCount(0),
@@ -87,7 +87,7 @@ LLVOCacheEntry::LLVOCacheEntry()
 	mLocalID(0),
 	mParentID(0),
 	mCRC(0),
-	mUpdateFlags(-1),
+	mUpdateFlags(static_cast<U32>(-1)),
 	mHitCount(0),
 	mDupeCount(0),
 	mCRCChangeCount(0),
@@ -105,7 +105,7 @@ LLVOCacheEntry::LLVOCacheEntry(LLAPRFile* apr_file)
 	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"), 
 	mLastCameraUpdated(0),
 	mParentID(0),
-	mUpdateFlags(-1),
+	mUpdateFlags(static_cast<U32>(-1)),
 	mBuffer(nullptr),
 	mSceneContrib(0.f),
 	mState(INACTIVE),
@@ -257,7 +257,7 @@ void LLVOCacheEntry::setState(U32 state)
 
 	if(getState() == ACTIVE)
 	{
-		const S32 MIN_INTERVAL = 64 + sMinFrameRange;
+		const U32 MIN_INTERVAL = 64 + sMinFrameRange;
 		U32 last_visible = getVisible();
 		
 		setVisible();
@@ -497,7 +497,7 @@ bool LLVOCacheEntry::isAnyVisible(const LLVector4a& camera_origin, const LLVecto
 	//not ready to remove
 	if(!vis)
 	{
-		S32 cur_vis = llmax(group->getAnyVisible(), (S32)getVisible());
+		U32 cur_vis = llmax(group->getAnyVisible(), getVisible());
 		vis = (cur_vis + sMinFrameRange > LLViewerOctreeEntryData::getCurrentFrame());
 	}
 
@@ -682,7 +682,7 @@ LLVOCachePartition::LLVOCachePartition(LLViewerRegion* regionp)
 	{
 		mCulledTime[i] = 0;	
 	}
-	mCullHistory = -1;
+	mCullHistory = static_cast<U32>(-1);
 
 	new LLVOCacheGroup(mOctree, this);
 }

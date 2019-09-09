@@ -241,7 +241,7 @@ bool LLImageTGA::updateData()
 #endif
 	
 	// check to see if there's a colormap since even rgb files can have them
-	S32 color_map_bytes = 0;
+	U32 color_map_bytes = 0;
 	if( (1 == mColorMapType) && (mColorMapDepth > 0) )
 	{
 		mColorMapStart = (S32(mColorMapIndexHi) << 8) + mColorMapIndexLo;
@@ -273,7 +273,7 @@ bool LLImageTGA::updateData()
 			return false;
 		}
 
-		if ((mDataOffset + color_map_bytes <= mDataOffset) || (getDataSize() < mDataOffset + color_map_bytes))
+		if ((mDataOffset + color_map_bytes <= mDataOffset) || (getDataSize() < static_cast<S32>(mDataOffset + color_map_bytes)))
 		{
 			setLastError("Unable to load file.  Color Map Bytes would be out of bounds.");
 			return false;
@@ -485,7 +485,7 @@ bool LLImageTGA::decodeTruecolorNonRle( LLImageRaw* raw_image, bool &alpha_opaqu
 
 	S32 pixels = getWidth() * getHeight();
 	
-	if (pixels * (mIs15Bit ? 2 : getComponents()) > getDataSize() - mDataOffset)
+	if (pixels * (mIs15Bit ? 2 : getComponents()) > getDataSize() - (S32)mDataOffset)
 	{ //here we have situation when data size in src less than actually needed
 		return false;
 	}

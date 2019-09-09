@@ -295,7 +295,7 @@ S32 LLImageJ2C::calcHeaderSize()
 S32 LLImageJ2C::calcDataSize(S32 discard_level)
 {
 	discard_level = llclamp(discard_level, 0, MAX_DISCARD_LEVEL);
-	if ( mAreaUsedForDataSizeCalcs != (getHeight() * getWidth()) 
+	if ( mAreaUsedForDataSizeCalcs != static_cast<U32>(getHeight() * getWidth()) 
 		|| (mDataSizes[0] == 0))
 	{
 		mAreaUsedForDataSizeCalcs = getHeight() * getWidth();

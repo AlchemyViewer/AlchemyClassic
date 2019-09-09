@@ -66,7 +66,7 @@ const F32 LEAF_TOP = 1.0f;
 const F32 LEAF_BOTTOM = 0.52f;
 const F32 LEAF_WIDTH = 1.f;
 
-const S32 LLVOTree::sMAX_NUM_TREE_LOD_LEVELS = 4 ;
+const U32 LLVOTree::sMAX_NUM_TREE_LOD_LEVELS = 4 ;
 
 S32 LLVOTree::sLODVertexOffset[sMAX_NUM_TREE_LOD_LEVELS];
 S32 LLVOTree::sLODVertexCount[sMAX_NUM_TREE_LOD_LEVELS];
@@ -354,10 +354,10 @@ void LLVOTree::idleUpdate(LLAgent &agent, const F64 &time)
 		return;
 	}
 	
-	S32 trunk_LOD = sMAX_NUM_TREE_LOD_LEVELS ;
+	U32 trunk_LOD = sMAX_NUM_TREE_LOD_LEVELS ;
 	F32 app_angle = getAppAngle()*LLVOTree::sTreeFactor;
 
-	for (S32 j = 0; j < sMAX_NUM_TREE_LOD_LEVELS; j++)
+	for (U32 j = 0; j < sMAX_NUM_TREE_LOD_LEVELS; j++)
 	{
 		if (app_angle > LLVOTree::sLODAngles[j])
 		{
@@ -517,7 +517,7 @@ BOOL LLVOTree::updateGeometry(LLDrawable *drawable)
 
 		S32 max_indices = LEAF_INDICES;
 		S32 max_vertices = LEAF_VERTICES;
-		S32 lod;
+		U32 lod;
 
 		LLFace *face = drawable->getFace(0);
 		if (!face) return TRUE;

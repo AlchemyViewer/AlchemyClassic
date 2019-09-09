@@ -580,8 +580,8 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 				break;
 			}
 
-			if (dev_mode.dmPelsWidth == width &&
-				dev_mode.dmPelsHeight == height &&
+			if ((S32)dev_mode.dmPelsWidth == width &&
+				(S32)dev_mode.dmPelsHeight == height &&
 				dev_mode.dmBitsPerPel == BITS_PER_PIXEL)
 			{
 				success = TRUE;
@@ -1016,9 +1016,9 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 				break;
 			}
 
-			if (dev_mode.dmPelsWidth == width &&
-				dev_mode.dmPelsHeight == height &&
-				dev_mode.dmBitsPerPel == BITS_PER_PIXEL)
+			if ((S32)dev_mode.dmPelsWidth == width &&
+				(S32)dev_mode.dmPelsHeight == height &&
+				(S32)dev_mode.dmBitsPerPel == BITS_PER_PIXEL)
 			{
 				success = TRUE;
 				if ((dev_mode.dmDisplayFrequency - current_refresh)
@@ -3092,8 +3092,8 @@ LLWindow::LLWindowResolution* LLWindowWin32::getSupportedResolutions(S32 &num_re
 				BOOL resolution_exists = FALSE;
 				for(S32 i = 0; i < mNumSupportedResolutions; i++)
 				{
-					if (mSupportedResolutions[i].mWidth == dev_mode.dmPelsWidth &&
-						mSupportedResolutions[i].mHeight == dev_mode.dmPelsHeight)
+					if (mSupportedResolutions[i].mWidth == (S32)dev_mode.dmPelsWidth &&
+						mSupportedResolutions[i].mHeight == (S32)dev_mode.dmPelsHeight)
 					{
 						resolution_exists = TRUE;
 					}
@@ -3158,10 +3158,10 @@ BOOL LLWindowWin32::setDisplayResolution(S32 width, S32 height, S32 bits, S32 re
 	// Don't change anything if we don't have to
 	if (EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode))
 	{
-		if (dev_mode.dmPelsWidth        == width &&
-			dev_mode.dmPelsHeight       == height &&
-			dev_mode.dmBitsPerPel       == bits &&
-			dev_mode.dmDisplayFrequency == refresh )
+		if (dev_mode.dmPelsWidth        == (DWORD)width &&
+			dev_mode.dmPelsHeight       == (DWORD)height &&
+			dev_mode.dmBitsPerPel       == (DWORD)bits &&
+			dev_mode.dmDisplayFrequency == (DWORD)refresh )
 		{
 			// ...display mode identical, do nothing
 			return TRUE;
@@ -3767,7 +3767,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 			const LPDWORD data = new DWORD[size / sizeof(DWORD)];
 			size = LLWinImm::getCompositionString(himc, GCS_COMPCLAUSE, data, size);
 			if (size >= sizeof(DWORD) * 2
-				&& data[0] == 0 && data[size / sizeof(DWORD) - 1] == preedit_string_utf16_length)
+				&& data[0] == 0 && data[size / sizeof(DWORD) - 1] == (DWORD)preedit_string_utf16_length)
 			{
 				preedit_segment_lengths.resize(size / sizeof(DWORD) - 1);
 				S32 offset = 0;

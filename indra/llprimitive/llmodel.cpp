@@ -164,7 +164,7 @@ void LLModel::trimVolumeFacesToSize(U32 new_count, LLVolume::face_list_t* remain
 {
 	llassert(new_count <= LL_SCULPT_MESH_MAX_FACES);
 
-	if (new_count && (getNumVolumeFaces() > new_count))
+	if (new_count && (getNumVolumeFaces() > (S32)new_count))
 	{
 		// Copy out remaining volume faces for alternative handling, if provided
 		//

@@ -29,65 +29,55 @@
 //---------------------------------------------------------------------------
 // Parcel Flags (PF) constants
 //---------------------------------------------------------------------------
-const U32 PF_ALLOW_FLY			= 1 << 0;// Can start flying
-const U32 PF_ALLOW_OTHER_SCRIPTS= 1 << 1;// Scripts by others can run.
-const U32 PF_FOR_SALE			= 1 << 2;// Can buy this land
-const U32 PF_FOR_SALE_OBJECTS	= 1 << 7;// Can buy all objects on this land
-const U32 PF_ALLOW_LANDMARK		= 1 << 3;
-const U32 PF_ALLOW_TERRAFORM	= 1 << 4;
-const U32 PF_ALLOW_DAMAGE		= 1 << 5;
-const U32 PF_CREATE_OBJECTS		= 1 << 6;
-// 7 is moved above
-const U32 PF_USE_ACCESS_GROUP	= 1 << 8;
-const U32 PF_USE_ACCESS_LIST	= 1 << 9;
-const U32 PF_USE_BAN_LIST		= 1 << 10;
-const U32 PF_USE_PASS_LIST		= 1 << 11;
-const U32 PF_SHOW_DIRECTORY		= 1 << 12;
-const U32 PF_ALLOW_DEED_TO_GROUP		= 1 << 13;
-const U32 PF_CONTRIBUTE_WITH_DEED		= 1 << 14;
-const U32 PF_SOUND_LOCAL				= 1 << 15;	// Hear sounds in this parcel only
-const U32 PF_SELL_PARCEL_OBJECTS		= 1 << 16;	// Objects on land are included as part of the land when the land is sold
-const U32 PF_ALLOW_PUBLISH				= 1 << 17;	// Allow publishing of parcel information on the web
-const U32 PF_MATURE_PUBLISH				= 1 << 18;	// The information on this parcel is mature
-const U32 PF_URL_WEB_PAGE				= 1 << 19;	// The "media URL" is an HTML page
-const U32 PF_URL_RAW_HTML				= 1 << 20;	// The "media URL" is a raw HTML string like <H1>Foo</H1>
-const U32 PF_RESTRICT_PUSHOBJECT		= 1 << 21;	// Restrict push object to either on agent or on scripts owned by parcel owner
-const U32 PF_DENY_ANONYMOUS				= 1 << 22;	// Deny all non identified/transacted accounts
-// const U32 PF_DENY_IDENTIFIED			= 1 << 23;	// Deny identified accounts
-// const U32 PF_DENY_TRANSACTED			= 1 << 24;	// Deny identified accounts
-const U32 PF_ALLOW_GROUP_SCRIPTS		= 1 << 25;	// Allow scripts owned by group
-const U32 PF_CREATE_GROUP_OBJECTS		= 1 << 26;	// Allow object creation by group members or objects
-const U32 PF_ALLOW_ALL_OBJECT_ENTRY		= 1 << 27;	// Allow all objects to enter a parcel
-const U32 PF_ALLOW_GROUP_OBJECT_ENTRY	= 1 << 28;	// Only allow group (and owner) objects to enter the parcel
-const U32 PF_ALLOW_VOICE_CHAT			= 1 << 29;	// Allow residents to use voice chat on this parcel
-const U32 PF_USE_ESTATE_VOICE_CHAN      = 1 << 30;
-const U32 PF_DENY_AGEUNVERIFIED         = 1 << 31;  // Prevent residents who aren't age-verified 
-// NOTE: At one point we have used all of the bits.
-// We have deprecated two of them in 1.19.0 which *could* be reused,
-// but only after we are certain there are no simstates using those bits.
-
-//const U32 PF_RESERVED			= 1U << 31;
-
-// If any of these are true the parcel is restricting access in some maner.
-const U32 PF_USE_RESTRICTED_ACCESS = PF_USE_ACCESS_GROUP
-										| PF_USE_ACCESS_LIST
-										| PF_USE_BAN_LIST
-										| PF_USE_PASS_LIST
-										| PF_DENY_ANONYMOUS
-										| PF_DENY_AGEUNVERIFIED;
-const U32 PF_NONE = 0x00000000;
-const U32 PF_ALL  = 0xFFFFFFFF;
-const U32 PF_DEFAULT =  PF_ALLOW_FLY
-						| PF_ALLOW_OTHER_SCRIPTS
-						| PF_ALLOW_GROUP_SCRIPTS
-						| PF_ALLOW_LANDMARK
-						| PF_CREATE_OBJECTS
-						| PF_CREATE_GROUP_OBJECTS
-						| PF_USE_BAN_LIST
-						| PF_ALLOW_ALL_OBJECT_ENTRY
-						| PF_ALLOW_GROUP_OBJECT_ENTRY
-                        | PF_ALLOW_VOICE_CHAT
-                        | PF_USE_ESTATE_VOICE_CHAN;
+enum ParcelFlags : U32
+{
+	PF_ALLOW_FLY = 1 << 0, // Can start flying
+	PF_ALLOW_OTHER_SCRIPTS = 1U << 1U,// Scripts by others can run.
+	PF_FOR_SALE = 1U << 2U,// Can buy this land
+	PF_FOR_SALE_OBJECTS = 1U << 7U,// Can buy all objects on this land
+	PF_ALLOW_LANDMARK = 1U << 3U,
+	PF_ALLOW_TERRAFORM = 1U << 4U,
+	PF_ALLOW_DAMAGE = 1U << 5U,
+	PF_CREATE_OBJECTS = 1U << 6U,
+	// 7 is moved above
+	PF_USE_ACCESS_GROUP = 1U << 8U,
+	PF_USE_ACCESS_LIST = 1U << 9U,
+	PF_USE_BAN_LIST = 1U << 10U,
+	PF_USE_PASS_LIST = 1U << 11U,
+	PF_SHOW_DIRECTORY = 1U << 12U,
+	PF_ALLOW_DEED_TO_GROUP = 1U << 13U,
+	PF_CONTRIBUTE_WITH_DEED = 1U << 14U,
+	PF_SOUND_LOCAL = 1U << 15U,	// Hear sounds in this parcel only
+	PF_SELL_PARCEL_OBJECTS = 1U << 16U,	// Objects on land are included as part of the land when the land is sold
+	PF_ALLOW_PUBLISH = 1U << 17U,	// Allow publishing of parcel information on the web
+	PF_MATURE_PUBLISH = 1U << 18U,	// The information on this parcel is mature
+	PF_URL_WEB_PAGE = 1U << 19U,	// The "media URL" is an HTML page
+	PF_URL_RAW_HTML = 1U << 20U,	// The "media URL" is a raw HTML string like <H1>Foo</H1>
+	PF_RESTRICT_PUSHOBJECT = 1U << 21U,	// Restrict push object to either on agent or on scripts owned by parcel owner
+	PF_DENY_ANONYMOUS = 1U << 22U,	// Deny all non identified/transacted accounts
+	//  PF_DENY_IDENTIFIED			= 1U << 23U,	// Deny identified accounts
+	//  PF_DENY_TRANSACTED			= 1U << 24U,	// Deny identified accounts
+	PF_ALLOW_GROUP_SCRIPTS = 1U << 25U,	// Allow scripts owned by group
+	PF_CREATE_GROUP_OBJECTS = 1U << 26U,	// Allow object creation by group members or objects
+	PF_ALLOW_ALL_OBJECT_ENTRY = 1U << 27U,	// Allow all objects to enter a parcel
+	PF_ALLOW_GROUP_OBJECT_ENTRY = 1U << 28U,	// Only allow group (and owner) objects to enter the parcel
+	PF_ALLOW_VOICE_CHAT = 1U << 29U,	// Allow residents to use voice chat on this parcel
+	PF_USE_ESTATE_VOICE_CHAN = 1U << 30U,
+	PF_DENY_AGEUNVERIFIED = 1U << 31U,  // Prevent residents who aren't age-verified 
+	// NOTE: At one point we have used all of the bits.
+	// We have deprecated two of them in 1.19.0 which *could* be reused,
+	// but only after we are certain there are no simstates using those bits.
+	// PF_RESERVED			= 1U << 31,
+	// If any of these are true the parcel is restricting access in some maner.
+	PF_USE_RESTRICTED_ACCESS = PF_USE_ACCESS_GROUP | PF_USE_ACCESS_LIST | PF_USE_BAN_LIST
+							| PF_USE_PASS_LIST | PF_DENY_ANONYMOUS | PF_DENY_AGEUNVERIFIED,
+	PF_NONE = 0x00000000,
+	PF_ALL = 0xFFFFFFFF,
+	PF_DEFAULT = PF_ALLOW_FLY | PF_ALLOW_OTHER_SCRIPTS | PF_ALLOW_GROUP_SCRIPTS
+			  | PF_ALLOW_LANDMARK | PF_CREATE_OBJECTS
+			  | PF_CREATE_GROUP_OBJECTS | PF_USE_BAN_LIST | PF_ALLOW_ALL_OBJECT_ENTRY
+			  | PF_ALLOW_GROUP_OBJECT_ENTRY | PF_ALLOW_VOICE_CHAT | PF_USE_ESTATE_VOICE_CHAN
+};
 
 // Access list flags
 const U32 AL_ACCESS				= (1 << 0);

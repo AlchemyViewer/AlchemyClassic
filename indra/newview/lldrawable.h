@@ -246,7 +246,7 @@ public:
 		}
 	};
 	
-	typedef enum e_drawable_flags
+	typedef enum e_drawable_flags : U32
 	{
  		IN_REBUILD_Q1	= 0x00000001,
  		IN_REBUILD_Q2	= 0x00000002,

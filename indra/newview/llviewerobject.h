@@ -158,7 +158,7 @@ public:
 	enum { MEDIA_NONE = 0, MEDIA_SET = 1 };
 
 	// Return codes for processUpdateMessage
-	enum { 
+	enum : U32 { 
         MEDIA_URL_REMOVED = 0x1, 
         MEDIA_URL_ADDED = 0x2, 
         MEDIA_URL_UPDATED = 0x4, 

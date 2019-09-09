@@ -93,7 +93,7 @@ private:
 		S32 discard;
 		BOOL needs_aux;
 		creation_info(handle_t h, LLImageFormatted* i, U32 p, S32 d, BOOL aux, Responder* r)
-			: handle(h), image(i), priority(p), discard(d), needs_aux(aux), responder(r)
+			: image(i), responder(r), handle(h), priority(p), discard(d), needs_aux(aux)
 		{}
 	};
 	typedef std::list<creation_info> creation_list_t;

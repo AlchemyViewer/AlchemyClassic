@@ -165,6 +165,7 @@ LLAvatarAppearance::LLAvatarXmlInfo* LLAvatarAppearance::sAvatarXmlInfo = nullpt
 
 LLAvatarAppearance::LLAvatarAppearance(LLWearableData* wearable_data) :
 	LLCharacter(),
+	mInitFlags(0),
 	mHeadOffset(),
 	mRoot(nullptr),
 	mIsBuilt(FALSE),
@@ -176,8 +177,7 @@ LLAvatarAppearance::LLAvatarAppearance(LLWearableData* wearable_data) :
     mWearableData(wearable_data),
     mNumBones(0),
     mNumCollisionVolumes(0),
-    mCollisionVolumes(NULL),
-    mInitFlags(0)
+    mCollisionVolumes(NULL)
 {
 	llassert_always(mWearableData);
 	mBakedTextureDatas.resize(LLAvatarAppearanceDefines::BAKED_NUM_INDICES);

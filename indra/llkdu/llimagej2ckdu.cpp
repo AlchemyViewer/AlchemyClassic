@@ -247,11 +247,11 @@ LLImageJ2CKDU::LLImageJ2CKDU() : LLImageJ2CImpl(),
 	mCodeStreamp(),
 	mTPosp(),
 	mTileIndicesp(),
-	mRawImagep(NULL),
-	mDecodeState(),
 	mBlocksSize(-1),
 	mPrecinctsSize(-1),
-	mLevels(0)
+	mLevels(0),
+	mRawImagep(NULL),
+	mDecodeState()
 {
 }
 

@@ -65,6 +65,7 @@ LLOutputMonitorCtrl::LLOutputMonitorCtrl(const LLOutputMonitorCtrl::Params& p)
 :	LLView(p),
 	mPower(0),
 	mIsAgentControl(false),
+	mIsModeratorMuted(false),
 	mShowParticipantsSpeaking(false),
 	mImageMute(p.image_mute),
 	mImageOff(p.image_off),
@@ -74,7 +75,6 @@ LLOutputMonitorCtrl::LLOutputMonitorCtrl(const LLOutputMonitorCtrl::Params& p)
 	mImageLevel3(p.image_level_3),
 	mAutoUpdate(p.auto_update),
 	mSpeakerId(p.speaker_id),
-	mIsModeratorMuted(false),
 	mIndicatorToggled(false),
 	mChannelState(INACTIVE_CHANNEL)
 {

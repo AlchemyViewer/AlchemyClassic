@@ -169,11 +169,11 @@ LLVorbisDecodeState::LLVorbisDecodeState(const LLUUID &uuid, const std::string &
 	mDone(FALSE),
 	mBytesRead(-1),
 	mUUID(uuid),
-	mInFilep(nullptr),
 #if !defined(USE_WAV_VFILE)
 	mOutFilename(out_filename),
 	mFileHandle(LLLFSThread::nullHandle()),
 #endif
+	mInFilep(nullptr),
 	mCurrentSection(0)
 {
 	// No default value for mVF, it's an ogg structure?

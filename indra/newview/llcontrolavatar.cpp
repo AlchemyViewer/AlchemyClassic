@@ -47,8 +47,8 @@ LLControlAvatar::LLControlAvatar(const LLUUID& id, const LLPCode pcode, LLViewer
     LLVOAvatar(id, pcode, regionp),
     mPlaying(false),
     mGlobalScale(1.0f),
-    mMarkedForDeath(false),
-    mRootVolp(NULL),
+	mRootVolp(NULL),
+	mMarkedForDeath(false),
     mScaleConstraintFixup(1.0),
 	mRegionChanged(false)
 {

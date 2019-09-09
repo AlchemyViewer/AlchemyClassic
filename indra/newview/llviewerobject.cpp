@@ -296,11 +296,11 @@ LLViewerObject::LLViewerObject(const LLUUID &id, const LLPCode pcode, LLViewerRe
 	mLinksetPhysicsCost(0.f),
 	mCostStale(true),
 	mPhysicsShapeUnknown(true),
+	mCachedOwnerInMuteList(false),
+	mCachedMuteListUpdateTime(0),
 	mAttachmentItemID(LLUUID::null),
 	mLastUpdateType(OUT_UNKNOWN),
-	mLastUpdateCached(FALSE),
-	mCachedMuteListUpdateTime(0),
-	mCachedOwnerInMuteList(false)
+	mLastUpdateCached(FALSE)
 {
 	if (!is_global)
 	{

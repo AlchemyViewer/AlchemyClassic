@@ -88,6 +88,8 @@ const F32 ICON_TIMER_EXPIRY		= 3.f; // How long the balance and health icons sho
 
 LLStatusBar::LLStatusBar(const LLRect& rect)
 :	LLPanel(),
+	mFilterEdit(nullptr),			// Edit for filtering
+	mSearchPanel(nullptr),			// Panel for filtering
 	mTextTime(nullptr),
 	mTextFPS(nullptr),
 	mSGBandwidth(nullptr),
@@ -106,9 +108,7 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 	mSquareMetersCommitted(0),
 	mImgAvComplex(nullptr),
 	mImgAvComplexWarn(nullptr),
-	mImgAvComplexHeavy(nullptr),
-	mFilterEdit(NULL),			// Edit for filtering
-	mSearchPanel(NULL)			// Panel for filtering
+	mImgAvComplexHeavy(nullptr)
 {
 	LLView::setRect(rect);
 	

@@ -99,12 +99,12 @@ LLMutex* LLFloaterMessageLog::sIncompleteHTTPConvoMutex = nullptr;
 LLFloaterMessageLog::LLFloaterMessageLog(const LLSD& key)
 :	LLFloater(key)
 ,	mMessagelogScrollListCtrl(nullptr)
+,	mStatusText(nullptr)
 ,	mMessageLogFilter(DEFAULT_FILTER)
 ,	mInfoPaneMode(IPANE_NET)
 ,	mBeautifyMessages(true)
 ,	mMessagesLogged(0)
 ,	mEasyMessageReader(new LLEasyMessageReader())
-,   mStatusText(nullptr)
 {
 	mCommitCallbackRegistrar.add("MessageLog.Filter.Action", boost::bind(&LLFloaterMessageLog::onClickFilterMenu, this, _2));
 	if(!sNetListMutex)

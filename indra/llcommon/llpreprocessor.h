@@ -161,6 +161,7 @@
 #pragma warning (default : 4822)	// 'member': local class member function does not have a body
 #pragma warning (default : 4868)	// 'file(line_number)' compiler may not enforce left-to-right evaluation order in braced initialization list
 #pragma warning (default : 4946)	// reinterpret_cast used between related classes: 'class1' and 'class2'
+#pragma warning (default : 5038)	// data member 'member1' will be initialized after data member 'member2'
 
 #if _WIN64
 #pragma warning (disable : 4267) // 'var' : conversion from 'size_t' to 'type', possible loss of data

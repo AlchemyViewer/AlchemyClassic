@@ -200,9 +200,9 @@ struct LLNotificationTemplate
 		Params()
 		:	name("name"),
 			persist("persist", false),
-			fade_toast("fade_toast", true),
 			log_to_im("log_to_im", false),
 			show_toast("show_toast", true),
+			fade_toast("fade_toast", true),
 			log_to_chat("log_to_chat", true),
 			force_urls_external("force_urls_external", false),
 			functor("functor"),

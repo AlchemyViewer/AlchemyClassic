@@ -81,8 +81,8 @@ LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 	mNeedsRawImageData( FALSE ),
 	mValid( TRUE ),
 	mShowLoadingPlaceholder( TRUE ),
-	mPreview(!p.enabled),
-	mBakeTextureEnabled(FALSE)
+	mBakeTextureEnabled(FALSE),
+	mPreview(!p.enabled)
 {
 
 	// <alchemy>

@@ -71,12 +71,12 @@ LLFloaterWebContent::LLFloaterWebContent( const Params& params )
 	mBtnForward(nullptr),
 	mBtnReload(nullptr),
 	mBtnStop(nullptr),
-	mUUID(params.id()),
-	mShowPageTitle(params.show_page_title),
-    mAllowNavigation(true),
     mCurrentURL(""),
     mDisplayURL(""),
-    mDevelopMode(params.dev_mode) // if called from "Develop" Menu, set a flag and change things to be more useful for devs
+	mUUID(params.id()),
+	mShowPageTitle(params.show_page_title),
+	mAllowNavigation(true),
+	mDevelopMode(params.dev_mode) // if called from "Develop" Menu, set a flag and change things to be more useful for devs
 {
 	mCommitCallbackRegistrar.add( "WebContent.Back", boost::bind( &LLFloaterWebContent::onClickBack, this ));
 	mCommitCallbackRegistrar.add( "WebContent.Forward", boost::bind( &LLFloaterWebContent::onClickForward, this ));

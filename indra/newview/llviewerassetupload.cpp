@@ -75,10 +75,10 @@ LLResourceUploadInfo::LLResourceUploadInfo(LLTransactionID transactId,
     mGroupPerms(groupPerms),
     mEveryonePerms(everyonePerms),
     mExpectedUploadCost(expectedCost),
-    mShowInventory(showInventory),
     mFolderId(LLUUID::null),
     mItemId(LLUUID::null),
-    mAssetId(LLAssetID::null)
+    mAssetId(LLAssetID::null),
+	mShowInventory(showInventory)
 { }
 
 
@@ -97,10 +97,10 @@ LLResourceUploadInfo::LLResourceUploadInfo(std::string name,
     mGroupPerms(groupPerms),
     mEveryonePerms(everyonePerms),
     mExpectedUploadCost(expectedCost),
-    mShowInventory(showInventory),
     mFolderId(LLUUID::null),
     mItemId(LLUUID::null),
-    mAssetId(LLAssetID::null)
+    mAssetId(LLAssetID::null),
+	mShowInventory(showInventory)
 { 
     mTransactionId.generate();
 }
@@ -117,10 +117,10 @@ LLResourceUploadInfo::LLResourceUploadInfo(LLAssetID assetId, LLAssetType::EType
     mGroupPerms(0),
     mEveryonePerms(0),
     mExpectedUploadCost(0),
-    mShowInventory(true),
     mFolderId(LLUUID::null),
     mItemId(LLUUID::null),
-    mAssetId(assetId)
+    mAssetId(assetId),
+	mShowInventory(true)
 {
 }
 

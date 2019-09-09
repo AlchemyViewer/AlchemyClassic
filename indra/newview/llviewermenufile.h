@@ -131,7 +131,7 @@ public:
 	}
 
 	LLFilePickerThread(LLFilePicker::ESaveFilter filter, const std::string &proposed_name)
-		: LLThread("file picker"), mSaveFilter(filter), mIsSaveDialog(true), mProposedName(proposed_name)
+		: LLThread("file picker"), mProposedName(proposed_name), mSaveFilter(filter), mIsSaveDialog(true)
 	{
 	}
 

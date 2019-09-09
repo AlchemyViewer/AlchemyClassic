@@ -598,7 +598,7 @@ void LLTextBase::drawText()
 				}
 
 				// Combine adjoining text segments into one
-				U32 seg_start = text_segment->getStart(), seg_end = llmin(text_segment->getEnd(), end);
+				S32 seg_start = text_segment->getStart(), seg_end = llmin(text_segment->getEnd(), end);
 				while (mSegments.end() != ++seg_it)
 				{
 					text_segment = *seg_it;
@@ -610,8 +610,8 @@ void LLTextBase::drawText()
 				}
 
 				// Find the start of the first word
-				U32 word_start = seg_start, word_end = -1;
-				U32 text_length = wstrText.length();
+				S32 word_start = seg_start, word_end = -1;
+				S32 text_length = wstrText.length();
 				while ( (word_start < text_length) && (!LLStringOps::isAlpha(wstrText[word_start])) )
 				{
 					word_start++;
@@ -641,7 +641,7 @@ void LLTextBase::drawText()
 						// Don't process words shorter than 3 characters
 						if ( (word.length() >= 3) && (!LLSpellChecker::instance().checkSpelling(word)) )
 						{
-							mMisspellRanges.push_back(std::pair<U32, U32>(word_start, word_end));
+							mMisspellRanges.emplace_back(word_start, word_end);
 						}
 					}
 
@@ -665,7 +665,7 @@ void LLTextBase::drawText()
 
 	LLTextSegmentPtr cur_segment = *seg_iter;
 
-	std::list<std::pair<U32, U32> >::const_iterator misspell_it = std::lower_bound(mMisspellRanges.begin(), mMisspellRanges.end(), std::pair<U32, U32>(line_start, 0));
+	auto misspell_it = std::lower_bound(mMisspellRanges.cbegin(), mMisspellRanges.cend(), std::pair<S32, S32>(line_start, 0));
 	for (S32 cur_line = first_line; cur_line < last_line; cur_line++)
 	{
 		S32 next_line = cur_line + 1;
@@ -717,13 +717,13 @@ void LLTextBase::drawText()
 			while ( (mMisspellRanges.end() != misspell_it) && (misspell_it->first < seg_end) && (misspell_it->second > seg_start) )
 			{
 				// Skip the current word if the user is still busy editing it
-				if ( (!mSpellCheckTimer.hasExpired()) && (misspell_it->first <= (U32)mCursorPos) && (misspell_it->second >= (U32)mCursorPos) )
+				if ( (!mSpellCheckTimer.hasExpired()) && (misspell_it->first <= mCursorPos) && (misspell_it->second >= mCursorPos) )
 				{
 					++misspell_it;
  					continue;
 				}
 
-				U32 misspell_start = llmax<U32>(misspell_it->first, seg_start), misspell_end = llmin<U32>(misspell_it->second, seg_end);
+				S32 misspell_start = llmax(misspell_it->first, seg_start), misspell_end = llmin(misspell_it->second, seg_end);
 				S32 squiggle_start = 0, squiggle_end = 0, pony = 0;
 				cur_segment->getDimensions(seg_start - cur_segment->getStart(), misspell_start - seg_start, squiggle_start, pony);
 				cur_segment->getDimensions(misspell_start - cur_segment->getStart(), misspell_end - misspell_start, squiggle_end, pony);
@@ -1323,9 +1323,9 @@ U32 LLTextBase::getSuggestionCount() const
 
 void LLTextBase::replaceWithSuggestion(U32 index)
 {
-	for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+	for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 	{
-		if ( (it->first <= (U32)mCursorPos) && (it->second >= (U32)mCursorPos) )
+		if ( (it->first <= mCursorPos) && (it->second >= mCursorPos) )
 		{
 			deselect();
 			// Insert the suggestion in its place
@@ -1371,9 +1371,9 @@ bool LLTextBase::canAddToIgnore() const
 	return (getSpellCheck()) && (isMisspelledWord(mCursorPos));
 }
 
-std::string LLTextBase::getMisspelledWord(U32 pos) const
+std::string LLTextBase::getMisspelledWord(S32 pos) const
 {
-	for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+	for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 	{
 		if ( (it->first <= pos) && (it->second >= pos) )
 		{
@@ -1383,9 +1383,9 @@ std::string LLTextBase::getMisspelledWord(U32 pos) const
 	return LLStringUtil::null;
 }
 
-bool LLTextBase::isMisspelledWord(U32 pos) const
+bool LLTextBase::isMisspelledWord(S32 pos) const
 {
-	for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+	for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 	{
 		if ( (it->first <= pos) && (it->second >= pos) )
 		{

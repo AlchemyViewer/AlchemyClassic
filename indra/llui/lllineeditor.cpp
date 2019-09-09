@@ -572,9 +572,9 @@ U32 LLLineEditor::getSuggestionCount() const
 
 void LLLineEditor::replaceWithSuggestion(U32 index)
 {
-	for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+	for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 	{
-		if ( (it->first <= (U32)mCursorPos) && (it->second >= (U32)mCursorPos) )
+		if ( (it->first <= mCursorPos) && (it->second >= mCursorPos) )
 		{
 			deselect();
 
@@ -618,9 +618,9 @@ bool LLLineEditor::canAddToIgnore() const
 	return (getSpellCheck()) && (isMisspelledWord(mCursorPos));
 }
 
-std::string LLLineEditor::getMisspelledWord(U32 pos) const
+std::string LLLineEditor::getMisspelledWord(S32 pos) const
 {
-	for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+	for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 	{
 		if ( (it->first <= pos) && (it->second >= pos) )
 		{
@@ -630,9 +630,9 @@ std::string LLLineEditor::getMisspelledWord(U32 pos) const
 	return LLStringUtil::null;
 }
 
-bool LLLineEditor::isMisspelledWord(U32 pos) const
+bool LLLineEditor::isMisspelledWord(S32 pos) const
 {
-	for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+	for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 	{
 		if ( (it->first <= pos) && (it->second >= pos) )
 		{
@@ -1950,14 +1950,14 @@ void LLLineEditor::draw()
 	if ( (getSpellCheck()) && (mText.length() > 2) )
 	{
 		// Calculate start and end indices for the first and last visible word
-		U32 start = prevWordPos(mScrollHPos), end = nextWordPos(mScrollHPos + rendered_text);
+		S32 start = prevWordPos(mScrollHPos), end = nextWordPos(mScrollHPos + rendered_text);
 
 		if ( (mSpellCheckStart != start) || (mSpellCheckEnd != end) )
 		{
 			const LLWString& text = mText.getWString().substr(start, end);
 
 			// Find the start of the first word
-			U32 word_start = 0, word_end = 0;
+			S32 word_start = 0, word_end = 0;
 			while ( (word_start < text.length()) && (!LLStringOps::isAlpha(text[word_start])) )
 			{
 				word_start++;
@@ -1985,7 +1985,7 @@ void LLLineEditor::draw()
 				std::string word = wstring_to_utf8str(text.substr(word_start, word_end - word_start));
 				if ( (word.length() >= 3) && (!LLSpellChecker::instance().checkSpelling(word)) )
 				{
-					mMisspellRanges.push_back(std::pair<U32, U32>(start + word_start, start + word_end));
+					mMisspellRanges.emplace_back(start + word_start, start + word_end);
 				}
 
 				// Find the start of the next word
@@ -2001,7 +2001,7 @@ void LLLineEditor::draw()
 		}
 
 		// Draw squiggly lines under any (visible) misspelled words
-		for (std::list<std::pair<U32, U32> >::const_iterator it = mMisspellRanges.begin(); it != mMisspellRanges.end(); ++it)
+		for (auto it = mMisspellRanges.cbegin(); it != mMisspellRanges.cend(); ++it)
 		{
 			// Skip over words that aren't (partially) visible
 			if ( ((it->first < start) && (it->second < start)) || (it->first > end) )
@@ -2010,7 +2010,7 @@ void LLLineEditor::draw()
 			}
 
 			// Skip the current word if the user is still busy editing it
-			if ( (!mSpellCheckTimer.hasExpired()) && (it->first <= (U32)mCursorPos) && (it->second >= (U32)mCursorPos) )
+			if ( (!mSpellCheckTimer.hasExpired()) && (it->first <= mCursorPos) && (it->second >= mCursorPos) )
 			{
  				continue;
 			}

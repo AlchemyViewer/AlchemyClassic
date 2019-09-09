@@ -166,8 +166,8 @@ public:
 	/*virtual*/ bool	canAddToIgnore() const override;
 
 	// Spell checking helper functions
-	std::string			getMisspelledWord(U32 pos) const;
-	bool				isMisspelledWord(U32 pos) const;
+	std::string			getMisspelledWord(S32 pos) const;
+	bool				isMisspelledWord(S32 pos) const;
 	void				onSpellCheckSettingsChange();
 
 	// view overrides
@@ -359,7 +359,7 @@ protected:
 	S32			mSpellCheckStart;
 	S32			mSpellCheckEnd;
 	LLTimer		mSpellCheckTimer;
-	std::list<std::pair<U32, U32> > mMisspellRanges;
+	std::list<std::pair<S32, S32> > mMisspellRanges;
 	std::vector<std::string>		mSuggestionList;
 
 	LLTextValidate::validate_func_t mPrevalidateFunc;

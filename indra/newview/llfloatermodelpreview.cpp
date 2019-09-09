@@ -1920,7 +1920,7 @@ void LLModelPreview::clearIncompatible(S32 lod)
 	// at this point we don't care about sub-models,
 	// different amount of sub-models means face count mismatch, not incompatibility
 	U32 lod_size = countRootModels(mModel[lod]);
-	for (U32 i = 0; i <= LLModel::LOD_HIGH; i++)
+	for (S32 i = 0; i <= LLModel::LOD_HIGH; i++)
 	{ //clear out any entries that aren't compatible with this model
 		if (i != lod)
 		{
@@ -3849,7 +3849,7 @@ BOOL LLModelPreview::render()
 
 						if (textures)
 						{
-							int materialCnt = instance.mModel->mMaterialList.size();
+							U32 materialCnt = instance.mModel->mMaterialList.size();
 							if ( i < materialCnt )
 							{
 								const std::string& binding = instance.mModel->mMaterialList[i];						
@@ -4060,7 +4060,7 @@ BOOL LLModelPreview::render()
 									LLStrider<U16> idx;
 									buffer->getIndexStrider(idx, 0);
 
-									for (U32 i = 0; i < buffer->getNumIndices(); i += 3)
+									for (S32 i = 0; i < buffer->getNumIndices(); i += 3)
 									{
 										LLVector4a v1; v1.setMul(pos[*idx++], scale);
 										LLVector4a v2; v2.setMul(pos[*idx++], scale);
@@ -4125,7 +4125,7 @@ BOOL LLModelPreview::render()
 							LLSkinningUtil::initSkinningMatrixPalette(mat, count,
                                                                         skin, getPreviewAvatar());
                             U32 max_joints = LLSkinningUtil::getMaxJointCount();
-							for (U32 j = 0; j < buffer->getNumVerts(); ++j)
+							for (S32 j = 0; j < buffer->getNumVerts(); ++j)
 							{
                                 LLMatrix4a final_mat;
                                 LLSkinningUtil::getPerVertexSkinMatrix(weight[j], mat, true, final_mat, max_joints);

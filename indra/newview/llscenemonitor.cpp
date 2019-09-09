@@ -201,7 +201,7 @@ LLRenderTarget& LLSceneMonitor::getCaptureTarget()
 		mFrames[1] = cur_target;
 	}
 	
-	if(cur_target->getWidth() != width || cur_target->getHeight() != height) //size changed
+	if(cur_target->getWidth() != (U32)width || cur_target->getHeight() != (U32)height) //size changed
 	{
 		cur_target->resize(width, height);
 	}
@@ -369,7 +369,7 @@ void LLSceneMonitor::compare()
 
 		generateDitheringTexture(width, height);
 	}
-	else if(mDiff->getWidth() != width || mDiff->getHeight() != height)
+	else if(mDiff->getWidth() != (U32)width || mDiff->getHeight() != (U32)height)
 	{
 		LL_RECORD_BLOCK_TIME(FTM_GENERATE_SCENE_LOAD_DITHER_TEXTURE);
 		mDiff->resize(width, height);
@@ -537,7 +537,7 @@ void LLSceneMonitor::dumpToFile(std::string file_name)
 	os << std::setprecision(10);
 
 	PeriodicRecording& scene_load_recording = mSceneLoadRecording.getResults();
-	const U32 frame_count = scene_load_recording.getNumRecordedPeriods();
+	const S32 frame_count = scene_load_recording.getNumRecordedPeriods();
 
 	F64Seconds frame_time;
 

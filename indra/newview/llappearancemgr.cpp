@@ -2408,7 +2408,7 @@ void LLAppearanceMgr::updateAppearanceFromCOF(bool enforce_item_restrictions,
 		// Fault injection: use debug setting to test asset 
 		// fetch failures (should be replaced by new defaults in
 		// lost&found).
-		U32 skip_type = gSavedSettings.getU32("ForceAssetFail");
+		S32 skip_type = static_cast<S32>(gSavedSettings.getU32("ForceAssetFail"));
 
 		if (item && item->getIsLinkType() && linked_item)
 		{

@@ -519,13 +519,13 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 	//get time domain
 	LLSD::Real cur_total_time = 0.0;
 
-	for (U32 i = 0; i < cur_data.size(); ++i)
+	for (S32 i = 0; i < cur_data.size(); ++i)
 	{
 		cur_total_time += cur_data[i]["Total"]["Time"].asReal();
 	}
 
 	LLSD::Real base_total_time = 0.0;
-	for (U32 i = 0; i < base_data.size(); ++i)
+	for (S32 i = 0; i < base_data.size(); ++i)
 	{
 		base_total_time += base_data[i]["Total"]["Time"].asReal();
 	}
@@ -560,7 +560,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 		std::vector<LLSD::Real> base_times;
 		std::vector<LLSD::Integer> base_calls;
 
-		for (U32 i = 0; i < cur_data.size(); ++i)
+		for (S32 i = 0; i < cur_data.size(); ++i)
 		{
 			LLSD::Real time = cur_data[i][label]["Time"].asReal();
 			LLSD::Integer calls = cur_data[i][label]["Calls"].asInteger();
@@ -576,7 +576,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 			cur_calls.push_back(calls);
 		}
 
-		for (U32 i = 0; i < base_data.size(); ++i)
+		for (S32 i = 0; i < base_data.size(); ++i)
 		{
 			LLSD::Real time = base_data[i][label]["Time"].asReal();
 			LLSD::Integer calls = base_data[i][label]["Calls"].asInteger();
@@ -1666,7 +1666,7 @@ S32 LLFastTimerView::drawBar(LLRect bar_rect, TimerBarRow& row, S32 image_width,
 	bool children_visible = visible && !time_block->getTreeNode().mCollapsed;
 
 	bar_index++;
-	const U32 num_bars = LLTrace::BlockTimerStatHandle::instance_tracker_t::instanceCount();
+	const S32 num_bars = LLTrace::BlockTimerStatHandle::instance_tracker_t::instanceCount();
 	if (bar_index < num_bars && row.mBars[bar_index].mFirstChild)
 	{
 		bool is_last = false;

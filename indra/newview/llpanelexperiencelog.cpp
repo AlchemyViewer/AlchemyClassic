@@ -109,7 +109,7 @@ void LLPanelExperienceLog::refresh()
 	LLUUID waiting_id;
 
 	int itemsToSkip = mPageSize*mCurrentPage;
-	int items = 0;
+	U32 items = 0;
 	bool moreItems = false;
 	
 	if (!events.emptyMap())

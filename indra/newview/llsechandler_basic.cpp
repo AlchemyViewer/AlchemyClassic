@@ -487,7 +487,7 @@ std::string LLSecAPIBasicHandler::_legacyLoadPassword()
 	}
 	
 	password_file.read((char*)&buffer[0], buffer.size());
-	if(password_file.gcount() != buffer.size())
+	if(password_file.gcount() != (S32)buffer.size())
 	{
 		return std::string("");
 	}

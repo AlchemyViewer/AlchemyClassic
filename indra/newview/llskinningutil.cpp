@@ -130,7 +130,7 @@ void LLSkinningUtil::initSkinningMatrixPalette(
 {
     initJointNums(const_cast<LLMeshSkinInfo*>(skin), avatar);
 	LLMatrix4a world;
-    for (U32 j = 0; j < count; ++j)
+    for (S32 j = 0; j < count; ++j)
     {
         LLJoint *joint = avatar->getJoint(skin->mJointNums[j]);
         if (joint)

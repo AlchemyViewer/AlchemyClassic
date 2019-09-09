@@ -1306,7 +1306,7 @@ void LLAgentWearables::setWearableOutfit(const LLInventoryItem::item_array_t& it
 	// Check for whether outfit already matches the one requested
 	S32 matched = 0, mismatched = 0;
 	const S32 arr_size = LLWearableType::WT_COUNT;
-	S32 type_counts[arr_size];
+	U32 type_counts[arr_size];
 	BOOL update_inventory = FALSE;
 	std::fill(type_counts,type_counts+arr_size,0);
 	for (S32 i = 0; i < count; i++)
@@ -1321,7 +1321,7 @@ void LLAgentWearables::setWearableOutfit(const LLInventoryItem::item_array_t& it
 			mismatched++;
 			continue;
 		}
-		S32 index = type_counts[type];
+		U32 index = type_counts[type];
 		type_counts[type]++;
 
 		LLViewerWearable *curr_wearable = dynamic_cast<LLViewerWearable*>(getWearable(type,index));

@@ -410,7 +410,7 @@ public:
 	LLVector3			mCurRootToHeadOffset;
 	LLVector3			mTargetRootToHeadOffset;
 
-	S32					mLastSkeletonSerialNum;
+	U32					mLastSkeletonSerialNum;
 
 
 /**                    Skeleton

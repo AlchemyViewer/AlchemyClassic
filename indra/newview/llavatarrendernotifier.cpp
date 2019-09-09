@@ -66,7 +66,7 @@ mLatestOverLimitPct(0.0f),
 mShowOverLimitAgents(false),
 mNotifyOutfitLoading(false),
 mLastCofVersion(LLViewerInventoryCategory::VERSION_UNKNOWN),
-mLastSkeletonSerialNum(-1),
+mLastSkeletonSerialNum(0),
 mLastOutfitRezStatus(-1)
 {
     mPopUpDelayTimer.resetWithExpiry(OVER_LIMIT_UPDATE_DELAY);

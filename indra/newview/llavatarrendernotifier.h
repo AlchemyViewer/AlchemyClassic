@@ -105,7 +105,7 @@ private:
 
     // COF (inventory folder) and Skeleton (voavatar) are used to spot changes in outfit.
     S32 mLastCofVersion;
-    S32 mLastSkeletonSerialNum;
+    U32 mLastSkeletonSerialNum;
     // Used to detect changes in voavatar's rezzed status.
     // If value decreases - there were changes in outfit.
     S32 mLastOutfitRezStatus;

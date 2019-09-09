@@ -3611,7 +3611,7 @@ void  LLInventoryModel::checkTrashOverflow()
 	LLInventoryModel::item_array_t items;
 	const LLUUID trash_id = findCategoryUUIDForType(LLFolderType::FT_TRASH);
 	gInventory.collectDescendents(trash_id, cats, items, LLInventoryModel::INCLUDE_TRASH);
-	S32 item_count = items.size() + cats.size();
+	size_t item_count = items.size() + cats.size();
 
 	if (item_count >= trash_max_capacity)
 	{

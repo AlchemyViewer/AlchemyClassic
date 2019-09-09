@@ -1569,7 +1569,7 @@ LLTexLayerSet* LLAvatarAppearance::getAvatarLayerSet(EBakedTextureIndex baked_in
 //-----------------------------------------------------------------------------
 BOOL LLAvatarAppearance::allocateCollisionVolumes( U32 num )
 {
-    if (mNumCollisionVolumes !=num)
+    if (mNumCollisionVolumes != (S32)num)
     {
         delete_and_clear_array(mCollisionVolumes);
         mNumCollisionVolumes = 0;

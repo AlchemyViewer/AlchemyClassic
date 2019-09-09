@@ -214,7 +214,7 @@ HttpService::ELoopSpeed HttpLibcurl::processTransport()
 // Caller has provided us with a ref count on op.
 void HttpLibcurl::addOp(const HttpOpRequest::ptr_t &op)
 {
-	llassert_always(op->mReqPolicy < mPolicyCount);
+	llassert_always(op->mReqPolicy < (unsigned int)mPolicyCount);
 	llassert_always(mMultiHandles[op->mReqPolicy] != NULL);
 	
 	// Create standard handle

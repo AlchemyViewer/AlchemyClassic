@@ -217,7 +217,7 @@ class ALCheckLocationBar : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata) override
 	{
-		return userdata.asInteger() == gSavedSettings.getU32("NavigationBarStyle");
+		return userdata.asInteger() == (S32)gSavedSettings.getU32("NavigationBarStyle");
 	}
 };
 

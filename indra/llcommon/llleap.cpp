@@ -227,7 +227,7 @@ public:
 |*==========================================================================*/
 
         LL_DEBUGS("EventHost") << "Sending: " << buffer.tellp() << ':';
-        std::string::size_type truncate(80);
+        std::streampos truncate(80);
         if (buffer.tellp() <= truncate)
         {
             LL_CONT << buffer.str();

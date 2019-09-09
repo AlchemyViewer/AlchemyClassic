@@ -317,7 +317,7 @@ S32 LLXfer_File::flush()
 
 		if (mFp)
 		{
-			S32 write_size = fwrite(mBuffer,1,mBufferLength,mFp);
+			size_t write_size = fwrite(mBuffer,1,mBufferLength,mFp);
 			if (write_size != mBufferLength)
 			{
 				LL_WARNS("Xfer") << "Non-matching write size, requested " << mBufferLength

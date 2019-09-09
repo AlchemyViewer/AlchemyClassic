@@ -101,7 +101,7 @@ public:
 	bool hasBlendFunc() const;
 
 	// Masks for the different particle flags
-	enum
+	enum : U32
 	{
 		LL_PART_INTERP_COLOR_MASK =		0x01,
 		LL_PART_INTERP_SCALE_MASK =		0x02,

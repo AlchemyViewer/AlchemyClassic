@@ -120,7 +120,7 @@ private:
 	ESearch mCurrentResultType;
 	LLDirQuery mCurrentQuery;
 	S32 mResultStart;
-	S32 mNumResultsReceived;
+	U32 mNumResultsReceived;
 	LLUUID mQueryID;
 	
 	LLTabContainer*	mTabContainer;

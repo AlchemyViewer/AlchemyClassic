@@ -3890,7 +3890,7 @@ bool LLPanelEstateAccess::accessCoreConfirm(const LLSD& notification, const LLSD
 
 	std::string names;
 	U32 listed_names = 0;
-	for (U32 i = 0; i < notification["payload"]["allowed_ids"].size(); ++i)
+	for (S32 i = 0; i < notification["payload"]["allowed_ids"].size(); ++i)
 	{
 		if (i + 1 != notification["payload"]["allowed_ids"].size())
 		{

@@ -285,7 +285,7 @@ U8 *LLGestureList::serialize(U8 *buffer) const
 	htonmemcpy(buffer, &count, MVT_S32, 4);
 	buffer += sizeof(count);
 
-	for (S32 i = 0; i < count; i++)
+	for (U32 i = 0; i < count; i++)
 	{
 		buffer = mList[i]->serialize(buffer);
 	}

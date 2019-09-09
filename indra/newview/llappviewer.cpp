@@ -1146,7 +1146,13 @@ bool LLAppViewer::init()
 
 	gGLActive = FALSE;
 
+#if LL_WINDOWS
 	std::string updater_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "ALVersionChecker.exe");
+#elif LL_DARWIN
+	std::string updater_path = gDirUtilp->add(gDirUtilp->getAppRODataDir(), "updater", "SLVersionChecker.py");
+#else
+	std::string updater_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "SLVersionChecker");
+#endif
 	if (gDirUtilp->fileExists(updater_path))
 	{
 		LLProcess::Params updater;
@@ -1154,14 +1160,12 @@ bool LLAppViewer::init()
 		// Because it's the updater, it MUST persist beyond the lifespan of the
 		// viewer itself.
 		updater.autokill = false;
-#if LL_WINDOWS
-		updater.executable = updater_path;
-#elif LL_DARWIN
+#if LL_DARWIN
 		// explicitly run the system Python interpreter on SLVersionChecker.py
 		updater.executable = "python";
-		updater.args.add(gDirUtilp->add(gDirUtilp->getAppRODataDir(), "updater", "SLVersionChecker.py"));
+		updater.args.add(updater_path);
 #else
-		updater.executable = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "SLVersionChecker");
+		updater.executable = updater_path;
 #endif
 		// add LEAP mode command-line argument to whichever of these we selected
 		updater.args.add("leap");

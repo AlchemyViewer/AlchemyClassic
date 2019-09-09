@@ -46,6 +46,10 @@
 #include "llexception.h"
 #include "stringize.h"
 
+#if LL_WINDOWS
+#pragma warning(push)
+#pragma warning(disable:4245)
+#endif
 #include "absl/container/flat_hash_map.h"
 #include <map>
 #include <set>
@@ -945,3 +949,6 @@ bool max_age_from_cache_control(const std::string& cache_control, S32 *max_age)
 	return false;
 }
 
+#if LL_WINDOWS
+#pragma warning(pop)
+#endif

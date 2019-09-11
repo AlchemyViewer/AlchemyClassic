@@ -51,10 +51,6 @@ static std::string sPrevLocale = "";
 LLDate::LLDate() : mSecondsSinceEpoch(DATE_EPOCH)
 {}
 
-LLDate::LLDate(const LLDate& date) :
-	mSecondsSinceEpoch(date.mSecondsSinceEpoch)
-{}
-
 LLDate::LLDate(F64SecondsImplicit seconds_since_epoch) :
 	mSecondsSinceEpoch(seconds_since_epoch.value())
 {}
@@ -333,12 +329,6 @@ void LLDate::secondsSinceEpoch(F64 seconds)
 {
 	// time() returns seconds, we want fractions of a second, which LLTimer provides --RN
 	return LLDate(LLTimer::getTotalSeconds());
-}
-
-LLDate& LLDate::operator =(const LLDate& other)
-{
-	mSecondsSinceEpoch = other.mSecondsSinceEpoch;
-	return *this;
 }
 
 bool LLDate::operator<(const LLDate& rhs) const

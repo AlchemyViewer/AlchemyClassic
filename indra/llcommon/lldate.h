@@ -52,7 +52,7 @@ public:
 	/** 
 	 * @brief Construct a date equal to the source date.
 	 */
-	LLDate(const LLDate& date);
+	LLDate(const LLDate& date) = default;
 
 	/** 
 	 * @brief Construct a date from a seconds since epoch value.
@@ -124,7 +124,7 @@ public:
 	*
 	* @param other -- the object being copied
 	*/
-	LLDate& operator =(const LLDate& other);
+	LLDate& operator =(const LLDate& other) = default;
 
 	/** 
 	 * @brief Compare dates using operator< so we can order them using STL.
@@ -156,6 +156,9 @@ public:
 private:
 	F64 mSecondsSinceEpoch;
 };
+
+static_assert(std::is_standard_layout<LLDate>{}, "LLDate must be a standard layout type");
+static_assert(std::is_trivially_copyable<LLDate>{}, "LLDate must be a trivially copyable type");
 
 // Helper function to stream out a date
 LL_COMMON_API std::ostream& operator<<(std::ostream& s, const LLDate& date);

@@ -44,22 +44,18 @@
 template <typename FTYPE>
 inline bool is_approx_equal_fraction_impl(FTYPE x, FTYPE y, U32 frac_bits)
 {
-    FTYPE diff = (FTYPE) fabs(x - y);
+    FTYPE diff = static_cast<FTYPE>(fabs(x - y));
 
-    S32 diffInt = (S32) diff;
-    S32 diffFracTolerance = (S32) ((diff - (FTYPE) diffInt) * (1 << frac_bits));
+    S32 diffInt = static_cast<S32>(diff);
+    S32 diffFracTolerance = static_cast<S32>(
+        (diff - static_cast<FTYPE>(diffInt)) * (static_cast<uint64_t>(1) << frac_bits));
 
     // if integer portion is not equal, not enough bits were used for packing
     // so error out since either the use case is not correct OR there is
     // an issue with pack/unpack. should fail in either case.
     // for decimal portion, make sure that the delta is no more than 1
     // based on the number of bits used for packing decimal portion.
-    if (diffInt != 0 || diffFracTolerance > 1)
-    {
-		return false;
-    }
-
-    return true;
+    return !(diffInt != 0 || diffFracTolerance > 1);
 }
 
 /// F32 flavor

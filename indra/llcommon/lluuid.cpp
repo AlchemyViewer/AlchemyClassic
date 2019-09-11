@@ -613,7 +613,7 @@ S32 LLUUID::getNodeID(unsigned char *node_id)
  */
 #include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
+#include <cerrno>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/stat.h>

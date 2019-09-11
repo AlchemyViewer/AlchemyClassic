@@ -28,9 +28,9 @@
 
 #include "linden_common.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
 
 #ifdef WIN32
 #include "llwin32headers.h"
@@ -188,7 +188,7 @@ canonise_fl(FL_Locale *l) {
 
 
 #ifdef WIN32
-#include <stdio.h>
+#include <cstdio>
 #define ML(pn,sn) MAKELANGID(LANG_##pn, SUBLANG_##pn##_##sn)
 #define MLN(pn) MAKELANGID(LANG_##pn, SUBLANG_DEFAULT)
 #define RML(pn,sn) MAKELANGID(LANG_##pn, SUBLANG_##sn)

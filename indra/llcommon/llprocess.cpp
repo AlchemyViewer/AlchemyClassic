@@ -1210,9 +1210,9 @@ static std::string WindowsErrorString(const std::string& operation)
 *****************************************************************************/
 #else // Mac and linux
 
-#include <signal.h>
+#include <csignal>
 #include <fcntl.h>
-#include <errno.h>
+#include <cerrno>
 #include <sys/wait.h>
 
 void LLProcess::autokill()

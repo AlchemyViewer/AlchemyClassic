@@ -40,11 +40,11 @@
 #include "llformat.h"
 
 #if LL_LINUX
-#include <wctype.h>
-#include <wchar.h>
+#include <cwctype>
+#include <cwchar>
 #endif
 
-#include <string.h>
+#include <cstring>
 #include <boost/scoped_ptr.hpp>
 
 const char LL_UNKNOWN_CHAR = '?';

@@ -30,7 +30,7 @@
 #include "llunits.h"
 #include "stdtypes.h"
 #if !LL_WINDOWS
-#include <stdint.h>
+#include <cstdint>
 #endif
 
 class LLMutex ;

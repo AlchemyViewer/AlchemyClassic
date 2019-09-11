@@ -47,7 +47,7 @@ extern "C" {
 #include <gdk/gdkx.h>
 #endif
 }
-#include <locale.h>
+#include <clocale>
 #endif // LL_GTK
 
 #endif // LL_SDL

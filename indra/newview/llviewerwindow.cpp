@@ -29,7 +29,7 @@
 
 
 // system library includes
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <algorithm>

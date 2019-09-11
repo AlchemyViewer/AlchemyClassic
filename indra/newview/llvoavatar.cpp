@@ -28,8 +28,8 @@
 
 #include "llvoavatar.h"
 
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #include <sstream>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>

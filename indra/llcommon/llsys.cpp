@@ -54,10 +54,10 @@ using namespace llsd;
 #	include <VersionHelpers.h>
 #elif LL_DARWIN
 #   include "llsys_objc.h"
-#	include <errno.h>
+#	include <cerrno>
 #	include <sys/sysctl.h>
 #	include <sys/utsname.h>
-#	include <stdint.h>
+#	include <cstdint>
 #	include <CoreServices/CoreServices.h>
 #   include <stdexcept>
 #	include <mach/host_info.h>
@@ -65,7 +65,7 @@ using namespace llsd;
 #	include <mach/task.h>
 #	include <mach/task_info.h>
 #elif LL_LINUX
-#	include <errno.h>
+#	include <cerrno>
 #	include <sys/utsname.h>
 #	include <unistd.h>
 #	include <sys/sysinfo.h>

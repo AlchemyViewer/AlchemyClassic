@@ -891,6 +891,8 @@ public:
 	class VertexMapData : public LLVolumeFace::VertexData
 	{
 	public:
+        VertexMapData() : mIndex(0) { }
+
 		U16 mIndex;
 
 		bool operator==(const LLVolumeFace::VertexData& rhs) const;

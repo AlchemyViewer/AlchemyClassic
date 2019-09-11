@@ -26,7 +26,7 @@
 #ifndef LL_LLPARCEL_H
 #define LL_LLPARCEL_H
 
-#include <time.h>
+#include <ctime>
 #include <iostream>
 
 #include "lluuid.h"

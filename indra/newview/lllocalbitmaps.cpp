@@ -42,7 +42,7 @@
 #include "llimagepng.h"
 
 /* time headers */
-#include <time.h>
+#include <ctime>
 #include <ctime>
 
 /* misc headers */

@@ -29,7 +29,7 @@
 
 #include <set>
 #if !LL_WINDOWS
-#include <stdint.h>
+#include <cstdint>
 #endif
 
 #include "llerror.h"

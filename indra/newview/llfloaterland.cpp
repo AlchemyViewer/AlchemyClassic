@@ -27,7 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include <sstream>
-#include <time.h>
+#include <ctime>
 
 #include "llfloaterland.h"
 

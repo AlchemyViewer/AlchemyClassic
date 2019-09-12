@@ -431,10 +431,8 @@ void LLModel::generateNormals(F32 angle_cutoff)
 	// 6 - Remove redundant vertices from new faceted (now smooth) copy
 
 	angle_cutoff = cosf(angle_cutoff);
-	for (auto& mVolumeFace : mVolumeFaces)
+	for (auto& vol_face : mVolumeFaces)
     {
-		LLVolumeFace& vol_face = mVolumeFace;
-
 		if (vol_face.mNumIndices > 65535)
 		{
 			LL_WARNS() << "Too many vertices for normal generation to work." << LL_ENDL;
@@ -620,7 +618,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		//remove redundant vertices from new face (step 6)
 		new_face.optimize();
 
-        mVolumeFace = new_face;
+        vol_face = new_face;
 	}
 }
 
@@ -1078,7 +1076,7 @@ void LLModel::updateHullCenters()
 	{
 		LLVector3 cur_center;
 
-		for (const auto j : mPhysics.mHull[i])
+		for (const auto& j : mPhysics.mHull[i])
         {
 			cur_center += j;
 		}
@@ -1377,25 +1375,25 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 {
 	if (skin.has("joint_names"))
 	{
-		const U32 joint_count = 
-            llmin(static_cast<U32>(skin["joint_names"].size()), static_cast<U32>(64));
-		for (U32 i = 0; i < joint_count; ++i)
+		const auto& joint_names = skin["joint_names"];
+		for(auto jnt_nm_iter = joint_names.beginArray(), jnt_nm_end = joint_names.endArray(); jnt_nm_iter != jnt_nm_end; ++jnt_nm_iter)
 		{
-			mJointNames.push_back(skin["joint_names"][i]);
-            mJointNums.push_back(-1);
+			mJointNames.emplace_back(jnt_nm_iter->asString());
+			mJointNums.emplace_back(-1);
 		}
 	}
 
 	if (skin.has("inverse_bind_matrix"))
 	{
-		for (auto i = 0; i < skin["inverse_bind_matrix"].size(); ++i)
+		const auto& inv_bind_mat = skin["inverse_bind_matrix"];
+		for (auto i = 0; i < inv_bind_mat.size(); ++i)
 		{
 			LLMatrix4 mat;
 			for (auto j = 0; j < 4; j++)
 			{
 				for (auto k = 0; k < 4; k++)
 				{
-					mat.mMatrix[j][k] = skin["inverse_bind_matrix"][i][j*4+k].asReal();
+					mat.mMatrix[j][k] = inv_bind_mat[i][j*4+k].asReal();
 				}
 			}
 			LLMatrix4a in_mat;
@@ -1407,12 +1405,13 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 
 	if (skin.has("bind_shape_matrix"))
 	{
+		const auto& bind_shape_mat = skin["bind_shape_matrix"];
 		LLMatrix4 mat;
 		for (auto j = 0; j < 4; j++)
 		{
 			for (auto k = 0; k < 4; k++)
 			{
-				mat.mMatrix[j][k] = skin["bind_shape_matrix"][j*4+k].asReal();
+				mat.mMatrix[j][k] = bind_shape_mat[j*4+k].asReal();
 			}
 		}
 		mBindShapeMatrix.loadu(mat);
@@ -1420,14 +1419,15 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 
 	if (skin.has("alt_inverse_bind_matrix"))
 	{
-		for (auto i = 0; i < skin["alt_inverse_bind_matrix"].size(); ++i)
+		const auto& alt_inv_bind_mat = skin["alt_inverse_bind_matrix"];
+		for (auto i = 0; i < alt_inv_bind_mat.size(); ++i)
 		{
 			LLMatrix4 mat;
 			for (auto j = 0; j < 4; j++)
 			{
 				for (auto k = 0; k < 4; k++)
 				{
-					mat.mMatrix[j][k] = skin["alt_inverse_bind_matrix"][i][j*4+k].asReal();
+					mat.mMatrix[j][k] = alt_inv_bind_mat[i][j*4+k].asReal();
 				}
 			}
 			

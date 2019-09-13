@@ -139,8 +139,6 @@ LLSingletonBase::list_t& LLSingletonBase::get_initializing_from(MasterList* mast
     return master->get_initializing_();
 }
 
-LLSingletonBase::~LLSingletonBase() {}
-
 void LLSingletonBase::push_initializing(const char* name)
 {
     // log BEFORE pushing so logging singletons don't cry circularity

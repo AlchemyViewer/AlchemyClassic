@@ -47,11 +47,6 @@ LLEventTimer::LLEventTimer(const LLDate& time)
 	mPeriod = (F32)(time.secondsSinceEpoch() - LLDate::now().secondsSinceEpoch());
 }
 
-
-LLEventTimer::~LLEventTimer()
-{
-}
-
 //static
 void LLEventTimer::updateClass() 
 {

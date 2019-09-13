@@ -135,12 +135,6 @@ LLParcel::LLParcel(const LLUUID &owner_id,
 }
 
 
-// virtual
-LLParcel::~LLParcel()
-{
-    // user list cleaned up by std::vector destructor.
-}
-
 void LLParcel::init(const LLUUID &owner_id,
                     BOOL modify, BOOL terraform, BOOL damage,
                     time_t claim_date, S32 claim_price_per_meter,

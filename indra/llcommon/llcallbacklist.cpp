@@ -35,16 +35,6 @@ LLCallbackList gIdleCallbacks;
 // Member functions
 //
 
-LLCallbackList::LLCallbackList()
-{
-	// nothing
-}
-
-LLCallbackList::~LLCallbackList()
-{
-}
-
-
 void LLCallbackList::addFunction( callback_t func, void *data)
 {
 	if (!func)

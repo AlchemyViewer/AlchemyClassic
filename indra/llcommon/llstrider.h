@@ -39,7 +39,7 @@ template <class Object> class LLStrider
 public:
 
 	LLStrider()  { mObjectp = NULL; mSkip = sizeof(Object); } 
-	~LLStrider() { } 
+	~LLStrider() = default;
 
 	const LLStrider<Object>& operator =  (Object *first)    { mObjectp = first; return *this;}
 	void setStride (S32 skipBytes)	{ mSkip = (skipBytes ? skipBytes : sizeof(Object));}

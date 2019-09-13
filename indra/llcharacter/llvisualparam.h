@@ -71,7 +71,7 @@ class LLVisualParamInfo
 	friend class LLVisualParam;
 public:
 	LLVisualParamInfo();
-	virtual ~LLVisualParamInfo() {};
+	virtual ~LLVisualParamInfo() = default;
 
 	virtual BOOL parseXml(LLXmlTreeNode *node);
 

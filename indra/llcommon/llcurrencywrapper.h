@@ -41,7 +41,7 @@
 class LLCurrencyWrapper : public LLSingleton<LLCurrencyWrapper>
 {
     LLSINGLETON_EMPTY_CTOR(LLCurrencyWrapper)
-    ~LLCurrencyWrapper() {}
+    ~LLCurrencyWrapper() = default;
 
 public:
     void setCurrency(const std::string& currency);

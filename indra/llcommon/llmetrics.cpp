@@ -36,8 +36,8 @@
 class LLMetricsImpl
 {
 public:
-	LLMetricsImpl() { }
-	~LLMetricsImpl();
+	LLMetricsImpl() = default;
+	~LLMetricsImpl() = default;
 
 	void recordEvent(const std::string& location, const std::string& mesg, bool success);
 	void printTotals(LLSD metadata);
@@ -49,10 +49,6 @@ private:
 	LLFrameTimer mLastPrintTimer;
 	LLSD mMetricsMap;
 };
-
-LLMetricsImpl::~LLMetricsImpl()
-{
-}
 
 void LLMetricsImpl::recordEventDetails(const std::string& location, 
 									const std::string& mesg, 

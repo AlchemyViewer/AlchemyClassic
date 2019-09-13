@@ -75,7 +75,7 @@ protected:
     // constructor, which passes tag<DERIVED_TYPE> for various purposes.
     template <typename DERIVED_TYPE>
     LLSingletonBase(tag<DERIVED_TYPE>);
-    virtual ~LLSingletonBase();
+    virtual ~LLSingletonBase() = default;
 
     LLSingletonBase(const LLSingletonBase&) = delete;
     LLSingletonBase& operator=(const LLSingletonBase&) = delete;

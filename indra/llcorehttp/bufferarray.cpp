@@ -52,7 +52,7 @@ namespace LLCore
 class BufferArray::Block
 {
 public:
-	~Block();
+	~Block() = default;
 
 	void operator delete(void *);
 	void operator delete(void *, size_t len);
@@ -330,14 +330,6 @@ BufferArray::Block::Block(size_t len)
 	memset(mData, 0, len);
 }
 			
-
-BufferArray::Block::~Block()
-{
-	mUsed = 0;
-	mAlloced = 0;
-}
-
-
 void * BufferArray::Block::operator new(size_t len, size_t addl_len)
 {
 	void * mem = new char[len + addl_len + sizeof(void *)];

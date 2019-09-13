@@ -34,9 +34,6 @@
 #include "llleaplistener.h"
 #include "llexception.h"
 
-LLLeap::LLLeap() {}
-LLLeap::~LLLeap() {}
-
 class LLLeapImpl: public LLLeap
 {
     LOG_CLASS(LLLeap);

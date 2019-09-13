@@ -40,10 +40,6 @@ LLLiveAppConfig::LLLiveAppConfig(
 	mPriority(priority)
 { }
 
-
-LLLiveAppConfig::~LLLiveAppConfig()
-{ }
-
 // virtual 
 bool LLLiveAppConfig::loadFile()
 {

@@ -156,8 +156,8 @@ public:
 	static const std::string&	badLookup(); // error string when a lookup fails
 
 protected:
-	LLAssetType() {}
-	~LLAssetType() {}
+	LLAssetType() = default;
+	~LLAssetType() = default;
 };
 
 #endif // LL_LLASSETTYPE_H

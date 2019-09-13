@@ -3744,11 +3744,8 @@ public:
 
 			if (group->getSpatialPartition()->isBridge())
 			{
-				LLMatrix4 local_matrix = group->getSpatialPartition()->asBridge()->mDrawable->getRenderMatrix();
-				local_matrix.invert();
-				
-				LLMatrix4a local_matrix4a;
-				local_matrix4a.loadu(local_matrix);
+				LLMatrix4a local_matrix4a(group->getSpatialPartition()->asBridge()->mDrawable->getRenderMatrix());
+				local_matrix4a.invert();
 
 				local_matrix4a.affineTransform(mStart, local_start);
 				local_matrix4a.affineTransform(mEnd, local_end);

@@ -118,8 +118,8 @@ enum EStepType
 class LLGestureStep
 {
 public:
-	LLGestureStep() {}
-	virtual ~LLGestureStep() {}
+	LLGestureStep() = default;
+	virtual ~LLGestureStep() = default;
 
 	virtual EStepType getType() = 0;
 
@@ -142,7 +142,7 @@ class LLGestureStepAnimation : public LLGestureStep
 {
 public:
 	LLGestureStepAnimation();
-	virtual ~LLGestureStepAnimation();
+	virtual ~LLGestureStepAnimation() = default;
 
 	EStepType getType() override { return STEP_ANIMATION; }
 
@@ -165,7 +165,7 @@ class LLGestureStepSound : public LLGestureStep
 {
 public:
 	LLGestureStepSound();
-	virtual ~LLGestureStepSound();
+	virtual ~LLGestureStepSound() = default;
 
 	EStepType getType() override { return STEP_SOUND; }
 
@@ -188,7 +188,7 @@ class LLGestureStepChat : public LLGestureStep
 {
 public:
 	LLGestureStepChat();
-	virtual ~LLGestureStepChat();
+	virtual ~LLGestureStepChat() = default;
 
 	EStepType getType() override { return STEP_CHAT; }
 
@@ -213,7 +213,7 @@ class LLGestureStepWait : public LLGestureStep
 {
 public:
 	LLGestureStepWait();
-	virtual ~LLGestureStepWait();
+	virtual ~LLGestureStepWait() = default;
 
 	EStepType getType() override { return STEP_WAIT; }
 

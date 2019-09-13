@@ -114,10 +114,7 @@ public:
 
 protected:
 	// Destructor
-	virtual ~LLJointState()
-	{
-	}
-	
+	virtual ~LLJointState() = default;	
 };
 
 #endif // LL_LLJOINTSTATE_H

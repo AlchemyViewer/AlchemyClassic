@@ -42,7 +42,7 @@ public:
 	LLGesture(const LLGesture &gesture);
 	const LLGesture &operator=(const LLGesture &rhs);
 
-	virtual ~LLGesture() {};
+	virtual ~LLGesture() = default;
 
 	// Accessors
 	KEY					getKey() const			{ return mKey; }

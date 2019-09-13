@@ -62,7 +62,7 @@ public:
 	// Constructor
 	LLPose() : mWeight(0.f) {}
 	// Destructor
-	~LLPose();
+	~LLPose() = default;
 	// add a joint state in this pose
 	BOOL addJointState(const LLPointer<LLJointState>& jointState);
 	// remove a joint state from this pose
@@ -87,7 +87,7 @@ protected:
 	BOOL			mAdditiveBlends[JSB_NUM_JOINT_STATES];
 public:
 	LLJointStateBlender();
-	~LLJointStateBlender();
+	~LLJointStateBlender() = default;
 	void blendJointStates(BOOL apply_now = TRUE);
 	BOOL addJointState(const LLPointer<LLJointState>& joint_state, S32 priority, BOOL additive_blend);
 	void interpolate(F32 u);

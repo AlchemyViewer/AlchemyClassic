@@ -49,16 +49,6 @@ LLKeyframeFallMotion::LLKeyframeFallMotion(const LLUUID &id) : LLKeyframeMotion(
 	mCharacter = nullptr;
 }
 
-
-//-----------------------------------------------------------------------------
-// ~LLKeyframeFallMotion()
-// Class Destructor
-//-----------------------------------------------------------------------------
-LLKeyframeFallMotion::~LLKeyframeFallMotion()
-{
-}
-
-
 //-----------------------------------------------------------------------------
 // LLKeyframeFallMotion::onInitialize()
 //-----------------------------------------------------------------------------

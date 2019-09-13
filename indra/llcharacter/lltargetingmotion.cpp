@@ -57,14 +57,6 @@ LLTargetingMotion::LLTargetingMotion(const LLUUID &id)
 
 
 //-----------------------------------------------------------------------------
-// ~LLTargetingMotion()
-// Class Destructor
-//-----------------------------------------------------------------------------
-LLTargetingMotion::~LLTargetingMotion()
-{
-}
-
-//-----------------------------------------------------------------------------
 // LLTargetingMotion::onInitialize(LLCharacter *character)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLTargetingMotion::onInitialize(LLCharacter *character)

@@ -47,7 +47,7 @@ public:
 	LLHeadRotMotion(const LLUUID &id);
 
 	// Destructor
-	virtual ~LLHeadRotMotion();
+	virtual ~LLHeadRotMotion() = default;
 
 public:
 	//-------------------------------------------------------------------------
@@ -131,7 +131,7 @@ public:
 	LLEyeMotion(const LLUUID &id);
 
 	// Destructor
-	virtual ~LLEyeMotion();
+	virtual ~LLEyeMotion() = default;
 
 public:
 	//-------------------------------------------------------------------------

@@ -243,7 +243,7 @@ protected:
 	{
 	public:
 		JointConstraint(JointConstraintSharedData* shared_data);
-		~JointConstraint();
+		~JointConstraint() = default;
 
 		JointConstraintSharedData*	mSharedData;
 		F32							mWeight;

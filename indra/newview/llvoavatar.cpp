@@ -276,7 +276,7 @@ public:
 	}
 
 	// Destructor
-	virtual ~LLBodyNoiseMotion() { }
+	virtual ~LLBodyNoiseMotion() = default;
 
 public:
 	//-------------------------------------------------------------------------
@@ -383,7 +383,7 @@ public:
 	}
 
 	// Destructor
-	virtual ~LLBreatheMotionRot() {}
+	virtual ~LLBreatheMotionRot() = default;
 
 public:
 	//-------------------------------------------------------------------------
@@ -495,7 +495,7 @@ public:
 	}
 
 	// Destructor
-	virtual ~LLPelvisFixMotion() { }
+	virtual ~LLPelvisFixMotion() = default;
 
 public:
 	//-------------------------------------------------------------------------

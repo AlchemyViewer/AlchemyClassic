@@ -82,15 +82,6 @@ LLHeadRotMotion::LLHeadRotMotion(const LLUUID &id)
 	mName = "head_rot";
 }
 
-
-//-----------------------------------------------------------------------------
-// ~LLHeadRotMotion()
-// Class Destructor
-//-----------------------------------------------------------------------------
-LLHeadRotMotion::~LLHeadRotMotion()
-{
-}
-
 //-----------------------------------------------------------------------------
 // LLHeadRotMotion::onInitialize(LLCharacter *character)
 //-----------------------------------------------------------------------------
@@ -291,15 +282,6 @@ LLEyeMotion::LLEyeMotion(const LLUUID &id) : LLMotion(id)
 
 	mRightEyeState = new LLJointState;
 	mAltRightEyeState = new LLJointState;
-}
-
-
-//-----------------------------------------------------------------------------
-// ~LLEyeMotion()
-// Class Destructor
-//-----------------------------------------------------------------------------
-LLEyeMotion::~LLEyeMotion()
-{
 }
 
 //-----------------------------------------------------------------------------

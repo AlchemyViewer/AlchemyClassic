@@ -75,15 +75,6 @@ LLHandMotion::LLHandMotion(const LLUUID &id) : LLMotion(id)
 	mJointSignature[2][LL_HAND_JOINT_NUM] = 0xff;
 }
 
-
-//-----------------------------------------------------------------------------
-// ~LLHandMotion()
-// Class Destructor
-//-----------------------------------------------------------------------------
-LLHandMotion::~LLHandMotion()
-{
-}
-
 //-----------------------------------------------------------------------------
 // LLHandMotion::onInitialize(LLCharacter *character)
 //-----------------------------------------------------------------------------

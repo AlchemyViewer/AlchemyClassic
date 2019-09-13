@@ -73,16 +73,6 @@ LLKeyframeStandMotion::LLKeyframeStandMotion(const LLUUID &id) : LLKeyframeMotio
 	mFrameNum = 0;
 }
 
-
-//-----------------------------------------------------------------------------
-// ~LLKeyframeStandMotion()
-// Class Destructor
-//-----------------------------------------------------------------------------
-LLKeyframeStandMotion::~LLKeyframeStandMotion()
-{
-}
-
-
 //-----------------------------------------------------------------------------
 // LLKeyframeStandMotion::onInitialize()
 //-----------------------------------------------------------------------------

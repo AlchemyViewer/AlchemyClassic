@@ -2501,12 +2501,5 @@ LLKeyframeMotion::JointConstraint::JointConstraint(JointConstraintSharedData* sh
 	}
 }
 
-//-----------------------------------------------------------------------------
-// ~JointConstraint()
-//-----------------------------------------------------------------------------
-LLKeyframeMotion::JointConstraint::~JointConstraint()
-{
-}
-
 // End
 

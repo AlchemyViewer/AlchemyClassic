@@ -65,7 +65,7 @@ public:
 	LLHandMotion(const LLUUID &id);
 
 	// Destructor
-	virtual ~LLHandMotion();
+	virtual ~LLHandMotion() = default;
 
 public:
 	//-------------------------------------------------------------------------

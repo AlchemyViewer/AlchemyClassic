@@ -113,7 +113,7 @@ public:
 	F32				          mBWAOverlap;
 
 protected:
-	~LLVOGrass();
+	~LLVOGrass() = default;
 
 private:
 	void updateSpecies();

@@ -52,7 +52,7 @@ public:
 	LLEmote(const LLUUID &id);
 
 	// Destructor
-	virtual ~LLEmote();
+	virtual ~LLEmote() = default;
 
 public:
 	//-------------------------------------------------------------------------

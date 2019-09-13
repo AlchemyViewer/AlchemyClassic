@@ -180,10 +180,6 @@ LLVOPartGroup::LLVOPartGroup(const LLUUID &id, const LLPCode pcode, LLViewerRegi
 }
 
 
-LLVOPartGroup::~LLVOPartGroup()
-{
-}
-
 BOOL LLVOPartGroup::isActive() const
 {
 	return FALSE;

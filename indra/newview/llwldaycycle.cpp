@@ -37,11 +37,6 @@ LLWLDayCycle::LLWLDayCycle() : mDayRate(120)
 {
 }
 
-
-LLWLDayCycle::~LLWLDayCycle()
-{
-}
-
 void LLWLDayCycle::loadDayCycle(const LLSD& day_data, LLWLParamKey::EScope scope)
 {
 	LL_DEBUGS() << "Loading day cycle (day_data.size() = " << day_data.size() << ", scope = " << scope << ")" << LL_ENDL;

@@ -148,8 +148,8 @@ private:
 class LLImageProviderInterface
 {
 protected:
-	LLImageProviderInterface() {};
-	virtual ~LLImageProviderInterface() {};
+	LLImageProviderInterface() = default;
+	virtual ~LLImageProviderInterface() = default;
 public:
 	virtual LLPointer<LLUIImage> getUIImage(const std::string& name, S32 priority) = 0;
 	virtual LLPointer<LLUIImage> getUIImageByID(const LLUUID& id, S32 priority) = 0;

@@ -169,7 +169,7 @@ struct LLBakedUploadData
 					  LLViewerTexLayerSet* layerset, 
 					  const LLUUID& id,
 					  bool highest_res);
-	~LLBakedUploadData() {}
+	~LLBakedUploadData() = default;
 	const LLUUID				mID;
 	const LLVOAvatarSelf*		mAvatar; // note: backlink only; don't LLPointer 
 	LLViewerTexLayerSet*		mTexLayerSet;

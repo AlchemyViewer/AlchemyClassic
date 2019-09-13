@@ -43,7 +43,7 @@ public:
 	static constexpr F32 WIND_SCALE_HACK = 2.0f; // hack to make wind speeds more realistic
 
 	LLWind();
-	~LLWind();
+	~LLWind() = default;
 	void renderVectors(); // defined in llglsandbox.cpp
 	LLVector3 getVelocity(const LLVector3 &location); // "location" is region-local
 	LLVector3 getVelocityNoisy(const LLVector3 &location, const F32 dim);	// "location" is region-local

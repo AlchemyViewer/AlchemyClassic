@@ -39,7 +39,7 @@ class LLAOTimerCollection : public LLEventTimer
 {
 public:
 	LLAOTimerCollection();
-	~LLAOTimerCollection() {}
+	~LLAOTimerCollection() = default;
 
 	BOOL tick() override;
 
@@ -63,7 +63,7 @@ class LLAOSitCancelTimer : public LLEventTimer
 {
 public:
 	LLAOSitCancelTimer();
-	~LLAOSitCancelTimer() {}
+	~LLAOSitCancelTimer() = default;
 
 	void oneShot();
 	void stop();

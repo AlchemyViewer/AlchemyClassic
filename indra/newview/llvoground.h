@@ -36,7 +36,7 @@
 class LLVOGround : public LLStaticViewerObject
 {
 protected:
-	~LLVOGround();
+	~LLVOGround() = default;
 
 public:
 	LLVOGround(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp);

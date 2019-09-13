@@ -222,7 +222,7 @@ public:
 		mColor.setToBlack();
 		mColorCached.setToBlack();
 	}
-	~LLHeavenBody() {}
+	~LLHeavenBody() = default;
 
 	const LLVector3& getDirection()	const				{ return mDirection; }
 	void setDirection(const LLVector3 &direction)		{ mDirection = direction; }

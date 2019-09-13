@@ -106,7 +106,7 @@ public:
 	LLViewerPartGroup* getViewerPartGroup()	{ return mViewerPartGroupp; }
 
 protected:
-	~LLVOPartGroup();
+	~LLVOPartGroup() = default;
 
 	LLViewerPartGroup *mViewerPartGroupp;
 

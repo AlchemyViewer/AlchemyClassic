@@ -45,10 +45,6 @@ LLVOGround::LLVOGround(const LLUUID &id, const LLPCode pcode, LLViewerRegion *re
 }
 
 
-LLVOGround::~LLVOGround()
-{
-}
-
 void LLVOGround::idleUpdate(LLAgent &agent, const F64 &time)
 {
 }

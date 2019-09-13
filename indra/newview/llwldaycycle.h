@@ -51,7 +51,7 @@ public:
 	LLWLDayCycle();
 
 	/// simple destructor
-	~LLWLDayCycle();
+	~LLWLDayCycle() = default;
 
 	/// load a day cycle
 	void loadDayCycle(const LLSD& llsd, LLEnvKey::EScope scope);

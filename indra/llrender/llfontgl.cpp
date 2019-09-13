@@ -71,14 +71,6 @@ const F32 PAD_UVY = 0.5f; // half of vertical padding between glyphs in the glyp
 const F32 DROP_SHADOW_SOFT_STRENGTH = 0.3f;
 
 const U32 GLYPH_VERTICES = 6;
-LLFontGL::LLFontGL()
-{
-}
-
-LLFontGL::~LLFontGL()
-{
-}
-
 void LLFontGL::reset()
 {
 	mFontFreetype->reset(sVertDPI, sHorizDPI);

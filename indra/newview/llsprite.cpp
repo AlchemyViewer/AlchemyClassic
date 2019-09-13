@@ -69,10 +69,6 @@ LLSprite::LLSprite(const LLUUID &image_uuid) :
 }
 
 //////////////////////////////////////////////////////////////////////
-LLSprite::~LLSprite()
-{
-}
-
 void LLSprite::updateFace(LLFace &face)
 {
 	LLViewerCamera &camera = *LLViewerCamera::getInstance();

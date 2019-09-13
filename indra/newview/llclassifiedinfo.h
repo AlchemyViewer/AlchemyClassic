@@ -35,7 +35,7 @@ class LLMessageSystem;
 class LLClassifiedInfo
 {
 public:
-	LLClassifiedInfo() {}
+	LLClassifiedInfo() = default;
 
 	static void loadCategories(const LLSD& options);
 

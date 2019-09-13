@@ -44,7 +44,7 @@ class LLSprite
 {
 public:
 	LLSprite(const LLUUID &image_uuid);
-	~LLSprite();
+	~LLSprite() = default;
 
 	void render(LLViewerCamera * camerap);
 

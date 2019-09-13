@@ -140,8 +140,8 @@ public:
 	~BufferArrayStream();
 
 protected:
-	BufferArrayStream(const BufferArrayStream &);
-	void operator=(const BufferArrayStream &);
+	BufferArrayStream(const BufferArrayStream &) = delete;
+	void operator=(const BufferArrayStream &) = delete;
 
 protected:
 	BufferArrayStreamBuf		mStreamBuf;

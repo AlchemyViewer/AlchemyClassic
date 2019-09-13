@@ -61,17 +61,8 @@ protected:
 	~LLDrawInfo();	
 	
 public:
-	LLDrawInfo(const LLDrawInfo& rhs)
-	:	LLTrace::MemTrackableNonVirtual<LLDrawInfo, 16>("LLDrawInfo")
-	{
-		*this = rhs;
-	}
-
-	const LLDrawInfo& operator=(const LLDrawInfo& rhs)
-	{
-		LL_ERRS() << "Illegal operation!" << LL_ENDL;
-		return *this;
-	}
+	LLDrawInfo(const LLDrawInfo& rhs) = delete;
+	const LLDrawInfo& operator=(const LLDrawInfo& rhs) = delete;
 
 	LLDrawInfo(U16 start, U16 end, U32 count, U32 offset, 
 				LLViewerTexture* image, LLVertexBuffer* buffer, 

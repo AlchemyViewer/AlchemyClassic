@@ -62,7 +62,7 @@ protected:
  **/
 private:
 	// Hide default constructor.
-	LLAvatarAppearance() {}
+	LLAvatarAppearance() = delete;
 
 public:
 	LLAvatarAppearance(LLWearableData* wearable_data);

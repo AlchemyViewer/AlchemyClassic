@@ -107,18 +107,8 @@ public:
 		MappedRegion(S32 type, S32 index, S32 count);
 	};
 
-	LLVertexBuffer(const LLVertexBuffer& rhs)
-	:	LLTrace::MemTrackable<LLVertexBuffer>("LLVertexBuffer"),
-		mUsage(rhs.mUsage)
-	{
-		*this = rhs;
-	}
-
-	const LLVertexBuffer& operator=(const LLVertexBuffer& rhs)
-	{
-		LL_ERRS() << "Illegal operation!" << LL_ENDL;
-		return *this;
-	}
+	LLVertexBuffer(const LLVertexBuffer& rhs) = delete;
+	const LLVertexBuffer& operator=(const LLVertexBuffer& rhs) = delete;
 
 	static const std::string& getTypeName(U8 i);
 

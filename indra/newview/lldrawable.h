@@ -61,18 +61,8 @@ class LLDrawable
 	public LLTrace::MemTrackable<LLDrawable, 16>
 {
 public:
-	LLDrawable(const LLDrawable& rhs) 
-	:	LLViewerOctreeEntryData(rhs),
-		LLTrace::MemTrackable<LLDrawable, 16>("LLDrawable")
-	{
-		*this = rhs;
-	}
-
-	const LLDrawable& operator=(const LLDrawable& rhs)
-	{
-		LL_ERRS() << "Illegal operation!" << LL_ENDL;
-		return *this;
-	}
+	LLDrawable(const LLDrawable& rhs) = delete;
+	const LLDrawable& operator=(const LLDrawable& rhs) = delete;
 
 	static void initClass();
 

@@ -52,21 +52,9 @@ public:
 		mBinIndex = -1;
 	}
 
-	LLVolumeTriangle(const LLVolumeTriangle& rhs)
-	{
-		*this = rhs;
-	}
-
-	const LLVolumeTriangle& operator=(const LLVolumeTriangle& rhs)
-	{
-		LL_ERRS() << "Illegal operation!" << LL_ENDL;
-		return *this;
-	}
-
-	~LLVolumeTriangle()
-	{
-	
-	}
+	LLVolumeTriangle(const LLVolumeTriangle& rhs) = delete;
+	const LLVolumeTriangle& operator=(const LLVolumeTriangle& rhs) = delete;
+	~LLVolumeTriangle() = default;
 
 	LL_ALIGN_16(LLVector4a mPositionGroup);
 
@@ -103,16 +91,8 @@ public:
 	LLVolumeOctreeListener(LLOctreeNode<LLVolumeTriangle>* node);
 	~LLVolumeOctreeListener();
 	
-	LLVolumeOctreeListener(const LLVolumeOctreeListener& rhs)
-	{
-		*this = rhs;
-	}
-
-	const LLVolumeOctreeListener& operator=(const LLVolumeOctreeListener& rhs)
-	{
-		LL_ERRS() << "Illegal operation!" << LL_ENDL;
-		return *this;
-	}
+	LLVolumeOctreeListener(const LLVolumeOctreeListener& rhs) = delete;
+	const LLVolumeOctreeListener& operator=(const LLVolumeOctreeListener& rhs) = delete;
 
 	 //LISTENER FUNCTIONS
 	void handleChildAddition(const LLOctreeNode<LLVolumeTriangle>* parent, 

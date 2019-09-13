@@ -6287,7 +6287,7 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
 		
 		U32 buffer_count = 0;
 
-		for (LLSpatialGroup::element_iter drawable_iter = group->getDataBegin(); drawable_iter != group->getDataEnd(); ++drawable_iter)
+		for (LLSpatialGroup::element_iter drawable_iter = group->getDataBegin(), drawable_iter_end = group->getDataEnd(); drawable_iter != drawable_iter_end; ++drawable_iter)
 		{
 			LLDrawable* drawablep = (LLDrawable*)(*drawable_iter)->getDrawable();
 
@@ -6352,18 +6352,18 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
 		
 		{
 			LL_RECORD_BLOCK_TIME(FTM_REBUILD_MESH_FLUSH);
-			for (LLVertexBuffer** iter = locked_buffer, ** end_iter = locked_buffer+buffer_count; iter != end_iter; ++iter)
-		{
-			(*iter)->flush();
-		}
+			for (LLVertexBuffer** iter = locked_buffer, **end_iter = locked_buffer + buffer_count; iter != end_iter; ++iter)
+			{
+				(*iter)->flush();
+			}
 
-		// don't forget alpha
-		if(group != NULL && 
-		   !group->mVertexBuffer.isNull() && 
-		   group->mVertexBuffer->isLocked())
-		{
-			group->mVertexBuffer->flush();
-		}
+			// don't forget alpha
+			if (group != NULL &&
+				group->mVertexBuffer.notNull() &&
+				group->mVertexBuffer->isLocked())
+			{
+				group->mVertexBuffer->flush();
+			}
 		}
 
 		//if not all buffers are unmapped

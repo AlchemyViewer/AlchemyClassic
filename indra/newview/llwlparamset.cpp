@@ -64,9 +64,9 @@ static LLTrace::BlockTimerStatHandle FTM_WL_PARAM_UPDATE("WL Param Update");
 void LLWLParamSet::update(LLGLSLShader * shader) const 
 {	
 	LL_RECORD_BLOCK_TIME(FTM_WL_PARAM_UPDATE);
-	LLSD::map_const_iterator i = mParamValues.beginMap();
-	std::vector<LLStaticHashedString>::const_iterator n = mParamHashedNames.begin();
-	for(;(i != mParamValues.endMap()) && (n != mParamHashedNames.end());++i, n++)
+	LLSD::map_const_iterator i = mParamValues.beginMap(), i_end = mParamValues.endMap();
+	std::vector<LLStaticHashedString>::const_iterator n = mParamHashedNames.begin(), n_end = mParamHashedNames.end();
+	for(;(i != i_end) && (n != n_end); ++i, ++n)
 	{
 		const LLStaticHashedString& param = *n;
 		

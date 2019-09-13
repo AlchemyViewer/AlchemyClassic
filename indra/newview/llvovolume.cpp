@@ -4803,9 +4803,7 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 
 
 	//build matrix palette
-	static const size_t kMaxJoints = LL_MAX_JOINTS_PER_MESH_OBJECT;
-
-	LLMatrix4a mat[kMaxJoints];
+	LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
 	U32 maxJoints = LLSkinningUtil::getMeshJointCount(skin);
     LLSkinningUtil::initSkinningMatrixPalette(mat, maxJoints, skin, avatar);
 
@@ -6280,7 +6278,7 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
 
 		group->mBuilt = 1.f;
 		
-		S32 num_mapped_vertex_buffer = LLVertexBuffer::sMappedCount ;
+		S32 num_mapped_vertex_buffer = LLVertexBuffer::sMappedCount;
 
 		const U32 MAX_BUFFER_COUNT = 4096;
 		LLVertexBuffer* locked_buffer[MAX_BUFFER_COUNT];

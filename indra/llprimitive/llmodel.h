@@ -50,10 +50,10 @@ public:
 	LLUUID mMeshID;
 	std::vector<std::string> mJointNames;
     mutable std::vector<S32> mJointNums;
-	std::vector<LLMatrix4a, boost::alignment::aligned_allocator<LLMatrix4a, 64>> mInvBindMatrix;
+	std::vector<LLMatrix4a> mInvBindMatrix;
 	std::vector<LLMatrix4> mAlternateBindMatrix;
 
-	LL_ALIGN_16(LLMatrix4a mBindShapeMatrix);
+	LLMatrix4a mBindShapeMatrix;
 	float mPelvisOffset;
     bool mLockScaleIfJointPosition;
     bool mInvalidJointsScrubbed;

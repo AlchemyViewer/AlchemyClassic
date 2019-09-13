@@ -1963,7 +1963,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 				else
 				{
 					// upload matrix palette to shader
-					LL_ALIGN_16(static LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT]);
+					LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
 					U32 count = LLSkinningUtil::getMeshJointCount(skin);
 					LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
 

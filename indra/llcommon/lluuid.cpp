@@ -967,20 +967,20 @@ LLAssetID LLTransactionID::makeAssetID(const LLUUID& session) const
 // Faster than copying from memory
  void LLUUID::setNull()
 {
-	memset(mData, 0, sizeof(mData) * sizeof(U8)); // <alchemy/>
+	memset(mData, 0, sizeof(mData)); // <alchemy/>
 }
 
 
 // Compare
  bool LLUUID::operator==(const LLUUID& rhs) const
 {
-	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) == 0; // <alchemy/>
+	return memcmp(mData, rhs.mData, sizeof(mData)) == 0; // <alchemy/>
 }
 
 
  bool LLUUID::operator!=(const LLUUID& rhs) const
 {
-	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) != 0; // <alchemy/>
+	return memcmp(mData, rhs.mData, sizeof(mData)) != 0; // <alchemy/>
 }
 
 /*
@@ -995,14 +995,14 @@ LLAssetID LLTransactionID::makeAssetID(const LLUUID& session) const
 
  BOOL LLUUID::notNull() const
 {
-	return memcmp(mData, nullUUID, sizeof(mData) * sizeof(U8)) != 0; // <alchemy/>
+	return memcmp(mData, nullUUID, sizeof(mData)) != 0; // <alchemy/>
 }
 
 // Faster than == LLUUID::null because doesn't require
 // as much memory access.
  BOOL LLUUID::isNull() const
 {
-	return memcmp(mData, nullUUID, sizeof(mData) * sizeof(U8)) == 0; // <alchemy/>
+	return memcmp(mData, nullUUID, sizeof(mData)) == 0; // <alchemy/>
 }
 
 LLUUID::LLUUID(const char *in_string)
@@ -1031,12 +1031,12 @@ LLUUID::LLUUID(const std::string& in_string)
 // IW: this will make me very sad
 bool LLUUID::operator<(const LLUUID &rhs) const
 {
-	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) < 0;
+	return memcmp(mData, rhs.mData, sizeof(mData)) < 0;
 }
 
 bool LLUUID::operator>(const LLUUID &rhs) const
 {
-	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) > 0;
+	return memcmp(mData, rhs.mData, sizeof(mData)) > 0;
 }
 
  U16 LLUUID::getCRC16() const

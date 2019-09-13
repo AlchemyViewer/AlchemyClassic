@@ -46,7 +46,6 @@
 #include <dom/domScale.h>
 #include <dom/domTranslate.h>
 
-#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
 

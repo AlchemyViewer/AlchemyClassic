@@ -85,8 +85,8 @@ public:
 		mScaleChildOffset = FALSE;
 	}
 
-	 LLXform();
-	virtual ~LLXform();
+	LLXform();
+	virtual ~LLXform() = default;
 
 	void getLocalMat4(LLMatrix4 &mat) const { mat.initAll(mScale, mRotation, mPosition); }
 
@@ -138,7 +138,7 @@ class LLXformMatrix : public LLXform
 {
 public:
 	LLXformMatrix() : LLXform() {};
-	virtual ~LLXformMatrix();
+	virtual ~LLXformMatrix() = default;
 
 	const LLMatrix4&    getWorldMatrix() const      { return mWorldMatrix; }
 	void setWorldMatrix (const LLMatrix4& mat)   { mWorldMatrix = mat; }

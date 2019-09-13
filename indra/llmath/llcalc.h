@@ -31,7 +31,7 @@ class LLCalc
 {
 public:
 	LLCalc();
-	~LLCalc();
+	~LLCalc() = default;
 
 	// Variable name constants
 	static const char* X_POS;

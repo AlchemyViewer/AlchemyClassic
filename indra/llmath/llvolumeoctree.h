@@ -133,7 +133,7 @@ public:
 	void traverse(const LLOctreeNode<LLVolumeTriangle>* node) override;
 
 	void visit(const LLOctreeNode<LLVolumeTriangle>* node) override;
-    virtual ~LLOctreeTriangleRayIntersect() {}
+	virtual ~LLOctreeTriangleRayIntersect() = default;
 };
 
 class LLVolumeOctreeValidate : public LLOctreeTraveler<LLVolumeTriangle>
@@ -141,7 +141,7 @@ class LLVolumeOctreeValidate : public LLOctreeTraveler<LLVolumeTriangle>
 	void visit(const LLOctreeNode<LLVolumeTriangle>* branch) override;
     
 public:
-    virtual ~LLVolumeOctreeValidate() {}
+	virtual ~LLVolumeOctreeValidate() = default;
 };
 
 #endif

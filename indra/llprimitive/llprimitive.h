@@ -115,7 +115,7 @@ public:
 	
 public:
 	U16 mType;
-	virtual ~LLNetworkData() {};
+	virtual ~LLNetworkData() = default;
 	virtual BOOL pack(LLDataPacker &dp) const = 0;
 	virtual BOOL unpack(LLDataPacker &dp) = 0;
 	virtual bool operator==(const LLNetworkData& data) const = 0;

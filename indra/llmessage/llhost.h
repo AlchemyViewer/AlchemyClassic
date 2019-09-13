@@ -75,8 +75,7 @@ public:
 
 	explicit LLHost(const std::string& ip_and_port);
 
-	~LLHost()
-	{ }
+	~LLHost() = default;
 
 	// MANIPULATORS
 	void	set( U32 ip, U32 port )				{ mIP = ip; mPort = port; }

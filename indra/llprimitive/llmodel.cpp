@@ -123,8 +123,8 @@ struct MaterialBinding
 
 struct MaterialSort
 {
-	bool operator()(const MaterialBinding& lhs, const MaterialBinding& rhs)
-	{
+	bool operator()(const MaterialBinding& lhs, const MaterialBinding& rhs) const
+    {
 		return LLStringUtil::compareInsensitive(lhs.matName, rhs.matName) < 0;
 	}
 };
@@ -134,7 +134,7 @@ void LLModel::sortVolumeFacesByMaterialName()
 	std::vector<MaterialBinding> bindings;
 	bindings.resize(mVolumeFaces.size());
 
-	for (int i = 0; i < bindings.size(); i++)
+	for (auto i = 0; i < bindings.size(); i++)
 	{
 		bindings[i].index = i;
 		if(i < mMaterialList.size())
@@ -148,7 +148,7 @@ void LLModel::sortVolumeFacesByMaterialName()
 	// remap the faces to be in the same order the mats now are...
 	//
 	new_faces.resize(bindings.size());
-	for (int i = 0; i < bindings.size(); i++)
+	for (auto i = 0; i < bindings.size(); i++)
 	{
 		new_faces[i] = mVolumeFaces[bindings[i].index];
 		if(i < mMaterialList.size())
@@ -164,7 +164,7 @@ void LLModel::trimVolumeFacesToSize(U32 new_count, LLVolume::face_list_t* remain
 {
 	llassert(new_count <= LL_SCULPT_MESH_MAX_FACES);
 
-	if (new_count && (getNumVolumeFaces() > (S32)new_count))
+	if (new_count && (getNumVolumeFaces() > static_cast<S32>(new_count)))
 	{
 		// Copy out remaining volume faces for alternative handling, if provided
 		//
@@ -312,7 +312,7 @@ void LLModel::normalizeVolumeFaces()
 	}
 }
 
-void LLModel::getNormalizedScaleTranslation(LLVector3& scale_out, LLVector3& translation_out)
+void LLModel::getNormalizedScaleTranslation(LLVector3& scale_out, LLVector3& translation_out) const
 {
 	scale_out = mNormalizedScale;
 	translation_out = mNormalizedTranslation;
@@ -1201,8 +1201,8 @@ bool LLModel::loadModel(std::istream& is)
 
 bool LLModel::isMaterialListSubset( LLModel* ref )
 {
-	int refCnt = ref->mMaterialList.size();
-	int modelCnt = mMaterialList.size();
+	auto refCnt = ref->mMaterialList.size();
+	auto modelCnt = mMaterialList.size();
 	
 	for (auto src = 0; src < modelCnt; ++src)
 	{				
@@ -1574,15 +1574,15 @@ void LLModel::Decomposition::fromLLSD(LLSD& decomp)
 		LLVector3 max;
 
         if (decomp.has("Min"))
-		{
-			min.setValue(decomp["Min"]);
-			max.setValue(decomp["Max"]);
-		}
-		else
-		{
-			min.set(-0.5f, -0.5f, -0.5f);
-			max.set(0.5f, 0.5f, 0.5f);
-		}
+        {
+            min.setValue(decomp["Min"]);
+            max.setValue(decomp["Max"]);
+        }
+        else
+        {
+            min.set(-0.5f, -0.5f, -0.5f);
+            max.set(0.5f, 0.5f, 0.5f);
+        }
 
 		LLVector3 range = max - min;
 
@@ -1681,10 +1681,10 @@ LLSD LLModel::Decomposition::asLLSD() const
 
 			llassert(!mHull[i].empty());
 
-			for (auto j = 0; j < i.size(); ++j)
-			{
+			for (auto j : i)
+            {
 				U64 test = 0;
-				const F32* src = i[j].mV;
+				const F32* src = j.mV;
 
 				for (auto k = 0; k < 3; k++)
 				{

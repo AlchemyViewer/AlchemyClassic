@@ -71,20 +71,20 @@ protected:
 
 	material_map getMaterials(LLModel* model, domInstance_geometry* instance_geo, DAE* dae);
 	LLImportMaterial profileToMaterial(domProfile_COMMON* material, DAE* dae);	
-	LLColor4 getDaeColor(daeElement* element);
+	LLColor4 getDaeColor(daeElement* element) const;
 	
-	daeElement* getChildFromElement( daeElement* pElement, std::string const & name );
+	daeElement* getChildFromElement( daeElement* pElement, std::string const & name ) const;
 	
 	bool isNodeAJoint( domNode* pNode );
 	void processJointNode( domNode* pNode, std::map<std::string,LLMatrix4>& jointTransforms );
 	void extractTranslation( domTranslate* pTranslate, LLMatrix4& transform );
 	void extractTranslationViaElement( daeElement* pTranslateElement, LLMatrix4& transform );
-	void extractTranslationViaSID( daeElement* pElement, LLMatrix4& transform );
+	void extractTranslationViaSID( daeElement* pElement, LLMatrix4& transform ) const;
 	void buildJointToNodeMappingFromScene( daeElement* pRoot );
 	void processJointToNodeMapping( domNode* pNode );
 	void processChildJoints( domNode* pParentNode );
 
-	bool verifyCount( int expected, int result );
+	bool verifyCount( int expected, int result ) const;
 
 	//Verify that a controller matches vertex counts
 	bool verifyController( domController* pController );
@@ -97,7 +97,7 @@ protected:
 	// Loads a mesh breaking it into one or more models as necessary
 	// to get around volume face limitations while retaining >8 materials
 	//
-	bool loadModelsFromDomMesh(domMesh* mesh, std::vector<LLModel*>& models_out, U32 submodel_limit);
+	bool loadModelsFromDomMesh(domMesh* mesh, std::vector<LLModel*>& models_out, U32 submodel_limit) const;
 
 	static std::string getElementLabel(daeElement *element);
 	static size_t getSuffixPosition(std::string label);

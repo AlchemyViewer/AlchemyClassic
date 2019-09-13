@@ -49,7 +49,7 @@ public:
 	LLPhysicsMotionController(const LLUUID &id);
 
 	// Destructor
-	virtual ~LLPhysicsMotionController();
+	virtual ~LLPhysicsMotionController() = default;
 
 public:
 	//-------------------------------------------------------------------------
@@ -106,11 +106,11 @@ public:
 	LLCharacter* getCharacter() { return mCharacter; }
 
 protected:
-	void addMotion(LLPhysicsMotion *motion);
+	void addMotion(std::unique_ptr<LLPhysicsMotion> motion);
 private:
 	LLCharacter*		mCharacter;
 
-	typedef std::vector<LLPhysicsMotion *> motion_vec_t;
+	typedef std::vector<std::unique_ptr<LLPhysicsMotion> > motion_vec_t;
 	motion_vec_t mMotions;
 };
 

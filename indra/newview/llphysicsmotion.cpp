@@ -240,16 +240,6 @@ LLPhysicsMotionController::LLPhysicsMotionController(const LLUUID &id) :
         mName = "breast_motion";
 }
 
-LLPhysicsMotionController::~LLPhysicsMotionController()
-{
-        for (motion_vec_t::iterator iter = mMotions.begin();
-             iter != mMotions.end();
-             ++iter)
-        {
-                delete (*iter);
-        }
-}
-
 BOOL LLPhysicsMotionController::onActivate() 
 { 
         return TRUE; 
@@ -275,7 +265,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                 controller["MaxEffect"] = "Breast_Physics_InOut_Max_Effect";
                 controller["Spring"] = "Breast_Physics_InOut_Spring";
                 controller["Gain"] = "Breast_Physics_InOut_Gain";
-                LLPhysicsMotion *motion = new LLPhysicsMotion("Breast_Physics_InOut_Controller",
+				auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_InOut_Controller",
                                                                                                           "mChest",
                                                                                                           character,
                                                                                                           LLVector3(-1,0,0),
@@ -285,7 +275,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                         llassert_always(FALSE);
                         return STATUS_FAILURE;
                 }
-                addMotion(motion);
+                addMotion(std::move(motion));
         }
 
         // Breast Bounce
@@ -298,7 +288,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                 controller["MaxEffect"] = "Breast_Physics_UpDown_Max_Effect";
                 controller["Spring"] = "Breast_Physics_UpDown_Spring";
                 controller["Gain"] = "Breast_Physics_UpDown_Gain";
-                LLPhysicsMotion *motion = new LLPhysicsMotion("Breast_Physics_UpDown_Controller",
+				auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_UpDown_Controller",
                                                                                                           "mChest",
                                                                                                           character,
                                                                                                           LLVector3(0,0,1),
@@ -308,7 +298,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                         llassert_always(FALSE);
                         return STATUS_FAILURE;
                 }
-                addMotion(motion);
+				addMotion(std::move(motion));
         }
 
         // Breast Sway
@@ -321,7 +311,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                 controller["MaxEffect"] = "Breast_Physics_LeftRight_Max_Effect";
                 controller["Spring"] = "Breast_Physics_LeftRight_Spring";
                 controller["Gain"] = "Breast_Physics_LeftRight_Gain";
-                LLPhysicsMotion *motion = new LLPhysicsMotion("Breast_Physics_LeftRight_Controller",
+				auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_LeftRight_Controller",
                                                                                                           "mChest",
                                                                                                           character,
                                                                                                           LLVector3(0,-1,0),
@@ -331,7 +321,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                         llassert_always(FALSE);
                         return STATUS_FAILURE;
                 }
-                addMotion(motion);
+				addMotion(std::move(motion));
         }
         // Butt Bounce
         {
@@ -343,7 +333,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                 controller["MaxEffect"] = "Butt_Physics_UpDown_Max_Effect";
                 controller["Spring"] = "Butt_Physics_UpDown_Spring";
                 controller["Gain"] = "Butt_Physics_UpDown_Gain";
-                LLPhysicsMotion *motion = new LLPhysicsMotion("Butt_Physics_UpDown_Controller",
+				auto motion = std::make_unique<LLPhysicsMotion>("Butt_Physics_UpDown_Controller",
                                                                                                           "mPelvis",
                                                                                                           character,
                                                                                                           LLVector3(0,0,-1),
@@ -353,7 +343,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                         llassert_always(FALSE);
                         return STATUS_FAILURE;
                 }
-                addMotion(motion);
+				addMotion(std::move(motion));
         }
 
         // Butt LeftRight
@@ -366,7 +356,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                 controller["MaxEffect"] = "Butt_Physics_LeftRight_Max_Effect";
                 controller["Spring"] = "Butt_Physics_LeftRight_Spring";
                 controller["Gain"] = "Butt_Physics_LeftRight_Gain";
-                LLPhysicsMotion *motion = new LLPhysicsMotion("Butt_Physics_LeftRight_Controller",
+				auto motion = std::make_unique<LLPhysicsMotion>("Butt_Physics_LeftRight_Controller",
                                                                                                           "mPelvis",
                                                                                                           character,
                                                                                                           LLVector3(0,-1,0),
@@ -376,7 +366,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                         llassert_always(FALSE);
                         return STATUS_FAILURE;
                 }
-                addMotion(motion);
+                addMotion(std::move(motion));
         }
 
         // Belly Bounce
@@ -389,7 +379,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                 controller["MaxEffect"] = "Belly_Physics_UpDown_Max_Effect";
                 controller["Spring"] = "Belly_Physics_UpDown_Spring";
                 controller["Gain"] = "Belly_Physics_UpDown_Gain";
-                LLPhysicsMotion *motion = new LLPhysicsMotion("Belly_Physics_UpDown_Controller",
+                auto motion = std::make_unique<LLPhysicsMotion>("Belly_Physics_UpDown_Controller",
                                                                                                           "mPelvis",
                                                                                                           character,
                                                                                                           LLVector3(0,0,-1),
@@ -399,16 +389,16 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
                         llassert_always(FALSE);
                         return STATUS_FAILURE;
                 }
-                addMotion(motion);
+                addMotion(std::move(motion));
         }
         
         return STATUS_SUCCESS;
 }
 
-void LLPhysicsMotionController::addMotion(LLPhysicsMotion *motion)
+void LLPhysicsMotionController::addMotion(std::unique_ptr<LLPhysicsMotion> motion)
 {
         addJointState(motion->getJointState());
-        mMotions.push_back(motion);
+        mMotions.push_back(std::move(motion));
 }
 
 F32 LLPhysicsMotionController::getMinPixelArea() 
@@ -461,11 +451,8 @@ BOOL LLPhysicsMotionController::onUpdate(F32 time, U8* joint_mask)
         }
         
         BOOL update_visuals = FALSE;
-        for (motion_vec_t::iterator iter = mMotions.begin();
-             iter != mMotions.end();
-             ++iter)
+		for(const auto& motion : mMotions)
         {
-                LLPhysicsMotion *motion = (*iter);
                 update_visuals |= motion->onUpdate(time);
         }
                 

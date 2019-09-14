@@ -321,7 +321,7 @@ public:
 	inline void setRotation(const LLQuaternion& quat, BOOL damped = FALSE);
 
 	/*virtual*/	void	setNumTEs(const U8 num_tes) override;
-	/*virtual*/	void	setTE(const U8 te, const LLTextureEntry &texture_entry) override;
+	/*virtual*/	void	setTE(const U8 te, const LLTextureEntry &texture_entry) final override;
 	/*virtual*/ S32		setTETexture(const U8 te, const LLUUID &uuid) override;
 	/*virtual*/ S32		setTENormalMap(const U8 te, const LLUUID &uuid);
 	/*virtual*/ S32		setTESpecularMap(const U8 te, const LLUUID &uuid);
@@ -333,10 +333,10 @@ public:
 	/*virtual*/ S32		setTEScale(const U8 te, const F32 s, const F32 t) override;
 	/*virtual*/ S32		setTEScaleS(const U8 te, const F32 s) override;
 	/*virtual*/ S32		setTEScaleT(const U8 te, const F32 t) override;
-	/*virtual*/ S32		setTEOffset(const U8 te, const F32 s, const F32 t) override;
-	/*virtual*/ S32		setTEOffsetS(const U8 te, const F32 s) override;
-	/*virtual*/ S32		setTEOffsetT(const U8 te, const F32 t) override;
-	/*virtual*/ S32		setTERotation(const U8 te, const F32 r) override;
+	/*virtual*/ S32		setTEOffset(const U8 te, const F32 s, const F32 t) final override;
+	/*virtual*/ S32		setTEOffsetS(const U8 te, const F32 s) final override;
+	/*virtual*/ S32		setTEOffsetT(const U8 te, const F32 t) final override;
+	/*virtual*/ S32		setTERotation(const U8 te, const F32 r) final override;
 	/*virtual*/	S32		setTEBumpmap(const U8 te, const U8 bump ) override;
 	/*virtual*/	S32		setTETexGen(const U8 te, const U8 texgen ) override;
 	/*virtual*/	S32		setTEMediaTexGen(const U8 te, const U8 media ) override; // *FIXME: this confusingly acts upon a superset of setTETexGen's flags without absorbing its semantics

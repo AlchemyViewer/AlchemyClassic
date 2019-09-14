@@ -58,12 +58,12 @@ struct LLDrivenEntry
 
 //-----------------------------------------------------------------------------
 
-class LLDriverParamInfo : public LLViewerVisualParamInfo
+class LLDriverParamInfo final : public LLViewerVisualParamInfo
 {
 	friend class LLDriverParam;
 public:
 	LLDriverParamInfo();
-	/*virtual*/ ~LLDriverParamInfo() {};
+	/*virtual*/ ~LLDriverParamInfo() = default;
 	
 	/*virtual*/ BOOL parseXml(LLXmlTreeNode* node) override;
 
@@ -78,7 +78,7 @@ protected:
 //-----------------------------------------------------------------------------
 
 LL_ALIGN_PREFIX(16)
-class LLDriverParam : public LLViewerVisualParam
+class LLDriverParam final : public LLViewerVisualParam
 {
 private:
 	// Hide the default constructor.  Force construction with LLAvatarAppearance.

@@ -1901,11 +1901,6 @@ LLViewerObject* LLVOAvatar::lineSegmentIntersectRiggedAttachments(const LLVector
 }
 
 
-LLVOAvatar* LLVOAvatar::asAvatar()
-{
-	return this;
-}
-
 //-----------------------------------------------------------------------------
 // LLVOAvatar::startDefaultMotions()
 //-----------------------------------------------------------------------------

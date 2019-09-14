@@ -56,7 +56,7 @@ struct LLPolySkeletalBoneInfo
 	BOOL mHasPositionDeformation;
 };
 
-class LLPolySkeletalDistortionInfo : public LLViewerVisualParamInfo
+class LLPolySkeletalDistortionInfo final : public LLViewerVisualParamInfo
 {
 	friend class LLPolySkeletalDistortion;
 public:
@@ -76,7 +76,7 @@ protected:
 // A set of joint scale data for deforming the avatar mesh
 //-----------------------------------------------------------------------------
 LL_ALIGN_PREFIX(16)
-class LLPolySkeletalDistortion : public LLViewerVisualParam
+class LLPolySkeletalDistortion final : public LLViewerVisualParam
 {
 public:
 	void* operator new(size_t size)

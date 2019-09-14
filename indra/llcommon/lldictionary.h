@@ -35,7 +35,7 @@
 struct LL_COMMON_API LLDictionaryEntry
 {
 	LLDictionaryEntry(const std::string &name);
-	virtual ~LLDictionaryEntry() {}
+	virtual ~LLDictionaryEntry() = default;
 	const std::string mName;
 	std::string mNameCapitalized;
 };

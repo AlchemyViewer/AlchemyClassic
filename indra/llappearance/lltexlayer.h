@@ -63,7 +63,7 @@ public:
 
 	LLTexLayerInterface(LLTexLayerSet* const layer_set);
 	LLTexLayerInterface(const LLTexLayerInterface &layer, LLWearable *wearable);
-	virtual ~LLTexLayerInterface() {}
+	virtual ~LLTexLayerInterface() = default;
 
 	virtual BOOL			render(S32 x, S32 y, S32 width, S32 height) = 0;
 	virtual void			deleteCaches() = 0;
@@ -115,7 +115,7 @@ protected:
 //
 // Only exists for llvoavatarself.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLTexLayerTemplate : public LLTexLayerInterface
+class LLTexLayerTemplate final : public LLTexLayerInterface
 {
 public:
 	LLTexLayerTemplate(LLTexLayerSet* const layer_set, LLAvatarAppearance* const appearance);
@@ -143,7 +143,7 @@ private:
 //
 // A single texture layer.  Only exists for llvoavatarself.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLTexLayer : public LLTexLayerInterface
+class LLTexLayer final : public LLTexLayerInterface
 {
 public:
 	LLTexLayer(LLTexLayerSet* const layer_set);
@@ -291,7 +291,7 @@ protected:
 // LLTexLayerStaticImageList
 //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLTexLayerStaticImageList : public LLSingleton<LLTexLayerStaticImageList>
+class LLTexLayerStaticImageList final : public LLSingleton<LLTexLayerStaticImageList>
 {
 	LLSINGLETON(LLTexLayerStaticImageList);
 	~LLTexLayerStaticImageList();

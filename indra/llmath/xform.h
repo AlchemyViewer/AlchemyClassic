@@ -137,7 +137,7 @@ public:
 class LLXformMatrix : public LLXform
 {
 public:
-	LLXformMatrix() : LLXform() {};
+	LLXformMatrix() = default;
 	virtual ~LLXformMatrix() = default;
 
 	const LLMatrix4&    getWorldMatrix() const      { return mWorldMatrix; }

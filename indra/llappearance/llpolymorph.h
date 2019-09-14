@@ -129,7 +129,7 @@ struct LLPolyVolumeMorph
 // LLPolyMorphTargetInfo
 // Shared information for LLPolyMorphTargets
 //-----------------------------------------------------------------------------
-class LLPolyMorphTargetInfo : public LLViewerVisualParamInfo
+class LLPolyMorphTargetInfo final : public LLViewerVisualParamInfo
 {
 	friend class LLPolyMorphTarget;
 public:
@@ -151,7 +151,7 @@ protected:
 // These morph targets must be topologically consistent with a given Polymesh
 // (share face sets)
 //-----------------------------------------------------------------------------
-class LLPolyMorphTarget : public LLViewerVisualParam
+class LLPolyMorphTarget final : public LLViewerVisualParam
 {
 public:
 	LLPolyMorphTarget(LLPolyMesh *poly_mesh);

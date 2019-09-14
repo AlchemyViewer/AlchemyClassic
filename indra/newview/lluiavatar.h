@@ -30,15 +30,17 @@
 #include "llvoavatar.h"
 #include "llvovolume.h"
 
-class LLUIAvatar:
+class LLUIAvatar final:
     public LLVOAvatar
 {
     LOG_CLASS(LLUIAvatar);
 
 public:
     LLUIAvatar(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp);
-	virtual void 			initInstance(); // Called after construction to initialize the class.
-	virtual	~LLUIAvatar();
+	void initInstance() override; // Called after construction to initialize the class.
+	virtual	~LLUIAvatar() = default;
+
+	bool isUIAvatar() const override { return true; } // True if this avatar is a supplemental av used in some UI views (no associated user)
 };
 
 #endif //LL_CONTROLAVATAR_H

@@ -958,7 +958,7 @@ public:
 		: LLViewerObject(id,pcode,regionp, is_global)
 	{ }
 
-	void updateDrawable(BOOL force_damped) override;
+	void updateDrawable(BOOL force_damped) final override;
 };
 
 

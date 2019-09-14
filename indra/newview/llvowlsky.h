@@ -29,7 +29,7 @@
 
 #include "llviewerobject.h"
 
-class LLVOWLSky : public LLStaticViewerObject {
+class LLVOWLSky final : public LLStaticViewerObject {
 private:
 	static const F32 DISTANCE_TO_STARS;
 

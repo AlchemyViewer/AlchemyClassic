@@ -57,7 +57,7 @@ enum LLVolumeInterfaceType
 const F32 MAX_LOD_FACTOR = 4.0f;
 
 
-class LLRiggedVolume : public LLVolume
+class LLRiggedVolume final : public LLVolume
 {
 public:
 	LLRiggedVolume(const LLVolumeParams& params)
@@ -93,7 +93,7 @@ public:
 };
 
 // Class which embodies all Volume objects (with pcode LL_PCODE_VOLUME)
-class LLVOVolume : public LLViewerObject
+class LLVOVolume final : public LLViewerObject
 {
 	LOG_CLASS(LLVOVolume);
 protected:
@@ -221,10 +221,6 @@ public:
 				void	updateSculptTexture();
 				void    setIndexInTex(U32 ch, S32 index) { mIndexInTex[ch] = index ;}
 				void	sculpt();
-	 static     void    rebuildMeshAssetCallback(LLVFS *vfs,
-														  const LLUUID& asset_uuid,
-														  LLAssetType::EType type,
-														  void* user_data, S32 status, LLExtStat ext_status);
 					
 				void	updateRelativeXform(bool force_identity = false);
 	/*virtual*/ BOOL	updateGeometry(LLDrawable *drawable) override;

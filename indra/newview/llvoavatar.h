@@ -225,7 +225,7 @@ public:
 	size_t					mLastRiggingInfoKeyHash = 0;
 	
     std::set<LLUUID>		mActiveOverrideMeshes;
-    virtual void			onActiveOverrideMeshesChanged();
+    void					onActiveOverrideMeshesChanged();
     
 	/*virtual*/ const LLUUID&	getID() const override;
 	/*virtual*/ void			addDebugText(const std::string& text) override;
@@ -248,8 +248,8 @@ public:
 public:
 	bool 	isSelf() const override { return false; } // True if this avatar is for this viewer's agent
 
-	virtual bool 	isControlAvatar() const { return mIsControlAvatar; } // True if this avatar is a control av (no associated user)
-	virtual bool 	isUIAvatar() const { return mIsUIAvatar; } // True if this avatar is a supplemental av used in some UI views (no associated user)
+	virtual bool 	isControlAvatar() const { return false; } // True if this avatar is a control av (no associated user)
+	virtual bool 	isUIAvatar() const { return false; } // True if this avatar is a supplemental av used in some UI views (no associated user)
 
 private: //aligned members
 	LL_ALIGN_16(LLVector4a	mImpostorExtents[2]);
@@ -476,8 +476,6 @@ public:
 	// animated object status
 	//--------------------------------------------------------------------
 public:
-    bool mIsControlAvatar;
-    bool mIsUIAvatar;
     bool mEnableDefaultMotions;
 
 	//--------------------------------------------------------------------

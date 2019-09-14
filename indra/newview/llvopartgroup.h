@@ -63,11 +63,11 @@ public:
 
 	LLVOPartGroup(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp);
 
-	/*virtual*/ BOOL    isActive() const override; // Whether this object needs to do an idleUpdate.
-	void idleUpdate(LLAgent &agent, const F64 &time) override;
+	/*virtual*/ BOOL    isActive() const final override; // Whether this object needs to do an idleUpdate.
+	void idleUpdate(LLAgent &agent, const F64 &time) final override;
 
-	F32 getBinRadius() override;
-	void updateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax) override;
+	F32 getBinRadius() final override;
+	void updateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax) final override;
 	U32 getPartitionType() const override;
 	
 	/*virtual*/ BOOL lineSegmentIntersect(const LLVector4a& start, const LLVector4a& end,
@@ -78,13 +78,13 @@ public:
 										  LLVector4a* intersection,
 										  LLVector2* tex_coord,
 										  LLVector4a* normal,
-										  LLVector4a* tangent) override;
+										  LLVector4a* tangent) final override;
 
-	/*virtual*/ void setPixelAreaAndAngle(LLAgent &agent) override;
-	/*virtual*/ void updateTextures() override;
+	/*virtual*/ void setPixelAreaAndAngle(LLAgent &agent) final override;
+	/*virtual*/ void updateTextures() final override;
 
 	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;
-	/*virtual*/ BOOL        updateGeometry(LLDrawable *drawable) override;
+	/*virtual*/ BOOL        updateGeometry(LLDrawable *drawable) final override;
 	void		getGeometry(const LLViewerPart& part,							
 								LLStrider<LLVector4a>& verticesp);
 				
@@ -94,11 +94,11 @@ public:
 								LLStrider<LLVector2>& texcoordsp,
 								LLStrider<LLColor4U>& colorsp, 
 								LLStrider<LLColor4U>& emissivep,
-								LLStrider<U16>& indicesp) override;
+								LLStrider<U16>& indicesp) final override;
 
-	void updateFaceSize(S32 idx) override { }
-	F32 getPartSize(S32 idx) override;
-	void getBlendFunc(S32 idx, U32& src, U32& dst) override;
+	void updateFaceSize(S32 idx) final override { }
+	F32 getPartSize(S32 idx) final override;
+	void getBlendFunc(S32 idx, U32& src, U32& dst) final override;
 	LLUUID getPartOwner(S32 idx);
 	LLUUID getPartSource(S32 idx);
 
@@ -115,7 +115,7 @@ protected:
 };
 
 
-class LLVOHUDPartGroup : public LLVOPartGroup
+class LLVOHUDPartGroup final : public LLVOPartGroup
 {
 public:
 	LLVOHUDPartGroup(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp) : 

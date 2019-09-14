@@ -38,12 +38,6 @@ LLUIAvatar::LLUIAvatar(const LLUUID& id, const LLPCode pcode, LLViewerRegion* re
     LLVOAvatar(id, pcode, regionp)
 {
     mIsDummy = TRUE;
-    mIsUIAvatar = true;
-}
-
-// virtual
-LLUIAvatar::~LLUIAvatar()
-{
 }
 
 // virtual

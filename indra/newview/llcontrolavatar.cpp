@@ -53,7 +53,6 @@ LLControlAvatar::LLControlAvatar(const LLUUID& id, const LLPCode pcode, LLViewer
 	mRegionChanged(false)
 {
     mIsDummy = TRUE;
-    mIsControlAvatar = true;
     mEnableDefaultMotions = false;
 }
 
@@ -172,7 +171,7 @@ void LLControlAvatar::matchVolumeTransform()
                 LLVector3 joint_pos = attach->getWorldPosition();
                 LLQuaternion joint_rot = attach->getWorldRotation();
                 LLVector3 obj_pos = mRootVolp->mDrawable->getPosition();
-                LLQuaternion obj_rot = mRootVolp->mDrawable->getRotation();
+                const LLQuaternion& obj_rot = mRootVolp->mDrawable->getRotation();
                 obj_pos.rotVec(joint_rot);
                 mRoot->setWorldPosition(obj_pos + joint_pos);
                 mRoot->setWorldRotation(obj_rot * joint_rot);
@@ -197,18 +196,8 @@ void LLControlAvatar::matchVolumeTransform()
             // complexity info and such line up better. Should defer
             // this until avatars also get fixed.
 
-            LLQuaternion obj_rot;
-            if (mRootVolp->mDrawable)
-            {
-                obj_rot = mRootVolp->mDrawable->getRotation();
-            }
-            else
-            {
-                obj_rot = mRootVolp->getRotation();
-            }
+            const LLQuaternion& obj_rot = mRootVolp->mDrawable ? mRootVolp->mDrawable->getRotation() : mRootVolp->getRotation();
             
-			LLMatrix3 bind_mat;
-
             LLQuaternion bind_rot;
 #define MATCH_BIND_SHAPE
 #ifdef MATCH_BIND_SHAPE

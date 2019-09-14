@@ -228,9 +228,9 @@ public:
 	void handleInsertion(const TreeNode* node, LLViewerOctreeEntry* obj) override;
 	void handleRemoval(const TreeNode* node, LLViewerOctreeEntry* obj) override;
 	void handleDestruction(const TreeNode* node) override;
-	void handleStateChange(const TreeNode* node) override;
+	void handleStateChange(const TreeNode* node) final override;
 	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) override;
-	void handleChildRemoval(const OctreeNode* parent, const OctreeNode* child) override;
+	void handleChildRemoval(const OctreeNode* parent, const OctreeNode* child) final override;
 
 	OctreeNode*          getOctreeNode() {return mOctreeNode;}
 	LLViewerOctreeGroup* getParent();
@@ -312,12 +312,12 @@ public:
 	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) override;
 
 	//virtual
-	BOOL isRecentlyVisible() const override;
+	BOOL isRecentlyVisible() const final override;
 	LLViewerOctreePartition* getSpatialPartition()const {return mSpatialPartition;}
 	BOOL isAnyRecentlyVisible() const;
 
 	static U32 getNewOcclusionQueryObjectName();
-	static void releaseOcclusionQueryObjectName(U32 name);
+	static void releaseOcclusionQueryObjectName(S32 name);
 
 protected:
 	void releaseOcclusionQueryObjectNames();
@@ -396,7 +396,7 @@ protected:
 	virtual bool checkObjects(const OctreeNode* branch, const LLViewerOctreeGroup* group);
 	virtual void preprocess(LLViewerOctreeGroup* group);
 	virtual void processGroup(LLViewerOctreeGroup* group);
-	void visit(const OctreeNode* branch) override;
+	void visit(const OctreeNode* branch) final override;
 	
 protected:
 	LLCamera *mCamera;
@@ -404,7 +404,7 @@ protected:
 };
 
 //scan the octree, output the info of each node for debug use.
-class LLViewerOctreeDebug : public OctreeTraveler
+class LLViewerOctreeDebug final : public OctreeTraveler
 {
 public:
 	virtual void processGroup(LLViewerOctreeGroup* group);

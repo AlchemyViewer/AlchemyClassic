@@ -74,7 +74,7 @@ public:
 class LLVolumeInterface
 {
 public:
-	virtual ~LLVolumeInterface() { }
+	virtual ~LLVolumeInterface() = default;
 	virtual LLVolumeInterfaceType getInterfaceType() const = 0;
 	virtual void doIdleUpdate() = 0;
 	virtual BOOL doUpdateGeometry(LLDrawable *drawable) = 0;

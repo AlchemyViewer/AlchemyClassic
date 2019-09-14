@@ -38,7 +38,7 @@ class LLDrawInfo;
 class LLGLSLShader;
 class LLViewerFetchedTexture;
 
-class LLDrawPoolBump : public LLRenderPass
+class LLDrawPoolBump final : public LLRenderPass
 {
 protected :
 	LLDrawPoolBump(const U32 type):LLRenderPass(type) { mShiny = FALSE; }

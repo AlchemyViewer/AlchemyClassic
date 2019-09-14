@@ -55,7 +55,7 @@ class LLViewerRegion;
 
 void pushVerts(LLFace* face, U32 mask);
 
-class LLDrawInfo : public LLRefCount, public LLTrace::MemTrackableNonVirtual<LLDrawInfo, 16>
+class LLDrawInfo final : public LLRefCount, public LLTrace::MemTrackableNonVirtual<LLDrawInfo, 16>
 {
 protected:
 	~LLDrawInfo();	
@@ -182,7 +182,7 @@ public:
 };
 
 LL_ALIGN_PREFIX(64)
-class LLSpatialGroup : public LLOcclusionCullingGroup
+class LLSpatialGroup final : public LLOcclusionCullingGroup
 {
 	friend class LLSpatialPartition;
 	friend class LLOctreeStateCheck;
@@ -296,10 +296,10 @@ public:
 	LLSpatialPartition* getSpatialPartition() {return (LLSpatialPartition*)mSpatialPartition;}
 
 	 //LISTENER FUNCTIONS
-	void handleInsertion(const TreeNode* node, LLViewerOctreeEntry* face) override;
-	void handleRemoval(const TreeNode* node, LLViewerOctreeEntry* face) override;
-	void handleDestruction(const TreeNode* node) override;
-	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) override;
+	void handleInsertion(const TreeNode* node, LLViewerOctreeEntry* face) final override;
+	void handleRemoval(const TreeNode* node, LLViewerOctreeEntry* face) final override;
+	void handleDestruction(const TreeNode* node) final override;
+	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) final override;
 
 public:
 	LL_ALIGN_16(LLVector4a mViewAngle);
@@ -339,7 +339,7 @@ class LLGeometryManager
 {
 public:
 	std::vector<LLFace*> mFaceList;
-	virtual ~LLGeometryManager() { }
+	virtual ~LLGeometryManager() = default;
 	virtual void rebuildGeom(LLSpatialGroup* group) = 0;
 	virtual void rebuildMesh(LLSpatialGroup* group) = 0;
 	virtual void getGeometry(LLSpatialGroup* group) = 0;
@@ -379,7 +379,7 @@ public:
 	void rebuildMesh(LLSpatialGroup* group) override;
 
 	BOOL visibleObjectsInFrustum(LLCamera& camera);
-	/*virtual*/ S32 cull(LLCamera &camera, bool do_occlusion=false) override; // Cull on arbitrary frustum
+	/*virtual*/ S32 cull(LLCamera &camera, bool do_occlusion=false) final override; // Cull on arbitrary frustum
 	S32 cull(LLCamera &camera, std::vector<LLDrawable *>* results, BOOL for_select); // Cull on arbitrary frustum
 	
 	BOOL isVisible(const LLVector3& v);
@@ -424,17 +424,17 @@ public:
 	
 	void destroyTree();
 
-	BOOL isSpatialBridge() const override { return TRUE; }
-	void updateSpatialExtents() override;
-	void updateBinRadius() override;
-	void setVisible(LLCamera& camera_in, std::vector<LLDrawable*>* results = nullptr, BOOL for_select = FALSE) override;
-	void updateDistance(LLCamera& camera_in, bool force_update) override;
-	void makeActive() override;
-	void move(LLDrawable *drawablep, LLSpatialGroup *curp, BOOL immediate = FALSE) override;
-	BOOL updateMove() override;
+	BOOL isSpatialBridge() const final override { return TRUE; }
+	void updateSpatialExtents() final override;
+	void updateBinRadius() final override;
+	void setVisible(LLCamera& camera_in, std::vector<LLDrawable*>* results = nullptr, BOOL for_select = FALSE) final override;
+	void updateDistance(LLCamera& camera_in, bool force_update) final override;
+	void makeActive() final override;
+	void move(LLDrawable *drawablep, LLSpatialGroup *curp, BOOL immediate = FALSE) final override;
+	BOOL updateMove() final override;
 	void shiftPos(const LLVector4a& vec) override;
-	void cleanupReferences() override;
-	LLSpatialPartition* asPartition() override { return this; }
+	void cleanupReferences() final override;
+	LLSpatialPartition* asPartition() final override { return this; }
 		
 	virtual LLCamera transformCamera(LLCamera& camera);
 	
@@ -541,19 +541,19 @@ class LLWaterPartition : public LLSpatialPartition
 {
 public:
 	LLWaterPartition(LLViewerRegion* regionp);
-	void getGeometry(LLSpatialGroup* group) override {  }
-	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) override { }
+	void getGeometry(LLSpatialGroup* group) final override {  }
+	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) final override { }
 };
 
 //spatial partition for hole and edge water (implemented in LLVOWater.cpp)
-class LLVoidWaterPartition : public LLWaterPartition
+class LLVoidWaterPartition final : public LLWaterPartition
 {
 public:
 	LLVoidWaterPartition(LLViewerRegion* regionp);
 };
 
 //spatial partition for terrain (impelmented in LLVOSurfacePatch.cpp)
-class LLTerrainPartition : public LLSpatialPartition
+class LLTerrainPartition final : public LLSpatialPartition
 {
 public:
 	LLTerrainPartition(LLViewerRegion* regionp);
@@ -562,7 +562,7 @@ public:
 };
 
 //spatial partition for trees
-class LLTreePartition : public LLSpatialPartition
+class LLTreePartition final : public LLSpatialPartition
 {
 public:
 	LLTreePartition(LLViewerRegion* regionp);
@@ -576,22 +576,22 @@ class LLParticlePartition : public LLSpatialPartition
 {
 public:
 	LLParticlePartition(LLViewerRegion* regionp);
-	void rebuildGeom(LLSpatialGroup* group) override;
-	void getGeometry(LLSpatialGroup* group) override;
-	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) override;
-	F32 calcPixelArea(LLSpatialGroup* group, LLCamera& camera) override;
+	void rebuildGeom(LLSpatialGroup* group) final override;
+	void getGeometry(LLSpatialGroup* group) final override;
+	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) final override;
+	F32 calcPixelArea(LLSpatialGroup* group, LLCamera& camera) final override;
 protected:
 	U32 mRenderPass;
 };
 
-class LLHUDParticlePartition : public LLParticlePartition
+class LLHUDParticlePartition final : public LLParticlePartition
 {
 public:
 	LLHUDParticlePartition(LLViewerRegion* regionp);
 };
 
 //spatial partition for grass (implemented in LLVOGrass.cpp)
-class LLGrassPartition : public LLSpatialPartition
+class LLGrassPartition final : public LLSpatialPartition
 {
 public:
 	LLGrassPartition(LLViewerRegion* regionp);
@@ -635,7 +635,7 @@ private:
 };
 
 //spatial partition that uses volume geometry manager (implemented in LLVOVolume.cpp)
-class LLVolumePartition : public LLSpatialPartition, public LLVolumeGeometryManager
+class LLVolumePartition final : public LLSpatialPartition, public LLVolumeGeometryManager
 {
 public:
 	LLVolumePartition(LLViewerRegion* regionp);
@@ -650,18 +650,18 @@ class LLVolumeBridge : public LLSpatialBridge, public LLVolumeGeometryManager
 {
 public:
 	LLVolumeBridge(LLDrawable* drawable, LLViewerRegion* regionp);
-	void rebuildGeom(LLSpatialGroup* group) override { LLVolumeGeometryManager::rebuildGeom(group); }
-	void getGeometry(LLSpatialGroup* group) override { LLVolumeGeometryManager::getGeometry(group); }
-	void rebuildMesh(LLSpatialGroup* group) override { LLVolumeGeometryManager::rebuildMesh(group); }
-	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) override { LLVolumeGeometryManager::addGeometryCount(group, vertex_count, index_count); }
+	void rebuildGeom(LLSpatialGroup* group) final override { LLVolumeGeometryManager::rebuildGeom(group); }
+	void getGeometry(LLSpatialGroup* group) final override { LLVolumeGeometryManager::getGeometry(group); }
+	void rebuildMesh(LLSpatialGroup* group) final override { LLVolumeGeometryManager::rebuildMesh(group); }
+	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) final override { LLVolumeGeometryManager::addGeometryCount(group, vertex_count, index_count); }
 };
 
 class LLHUDBridge : public LLVolumeBridge
 {
 public:
 	LLHUDBridge(LLDrawable* drawablep, LLViewerRegion* regionp);
-	void shiftPos(const LLVector4a& vec) override;
-	F32 calcPixelArea(LLSpatialGroup* group, LLCamera& camera) override;
+	void shiftPos(const LLVector4a& vec) final override;
+	F32 calcPixelArea(LLSpatialGroup* group, LLCamera& camera) final override;
 };
 
 //spatial partition that holds nothing but spatial bridges
@@ -669,11 +669,11 @@ class LLBridgePartition : public LLSpatialPartition
 {
 public:
 	LLBridgePartition(LLViewerRegion* regionp);
-	void getGeometry(LLSpatialGroup* group) override { }
-	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) override {  }
+	void getGeometry(LLSpatialGroup* group) final override { }
+	void addGeometryCount(LLSpatialGroup* group, U32 &vertex_count, U32& index_count) final override {  }
 };
 
-class LLHUDPartition : public LLBridgePartition
+class LLHUDPartition final : public LLBridgePartition
 {
 public:
 	LLHUDPartition(LLViewerRegion* regionp);

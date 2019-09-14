@@ -34,7 +34,7 @@ class LLFace;
 class LLHeavenBody;
 class LLWaterSurface;
 
-class LLDrawPoolWater: public LLFacePool
+class LLDrawPoolWater final : public LLFacePool
 {
 protected:
 	LLPointer<LLViewerTexture> mHBTex[2];

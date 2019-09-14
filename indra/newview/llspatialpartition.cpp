@@ -447,10 +447,10 @@ class LLSpatialSetState : public OctreeTraveler
 public:
 	U32 mState;
 	LLSpatialSetState(U32 state) : mState(state) { }
-    void visit(const OctreeNode* branch) override { ((LLSpatialGroup*) branch->getListener(0))->setState(mState); }	
+    void visit(const OctreeNode* branch) final override { ((LLSpatialGroup*) branch->getListener(0))->setState(mState); }	
 };
 
-class LLSpatialSetStateDiff : public LLSpatialSetState
+class LLSpatialSetStateDiff final : public LLSpatialSetState
 {
 public:
 	LLSpatialSetStateDiff(U32 state) : LLSpatialSetState(state) { }
@@ -494,10 +494,10 @@ class LLSpatialClearState : public OctreeTraveler
 public:
 	U32 mState;
 	LLSpatialClearState(U32 state) : mState(state) { }
-    void visit(const OctreeNode* branch) override { ((LLSpatialGroup*) branch->getListener(0))->clearState(mState); }
+    void visit(const OctreeNode* branch) final override { ((LLSpatialGroup*) branch->getListener(0))->clearState(mState); }
 };
 
-class LLSpatialClearStateDiff : public LLSpatialClearState
+class LLSpatialClearStateDiff final : public LLSpatialClearState
 {
 public:
 	LLSpatialClearStateDiff(U32 state) : LLSpatialClearState(state) { }
@@ -939,7 +939,7 @@ void LLSpatialPartition::move(LLDrawable *drawablep, LLSpatialGroup *curp, BOOL 
 	put(drawablep, was_visible);
 }
 
-class LLSpatialShift : public OctreeTraveler
+class LLSpatialShift final : public OctreeTraveler
 {
 public:
 	const LLVector4a& mOffset;
@@ -1011,7 +1011,7 @@ public:
 	}
 };
 
-class LLOctreeCullNoFarClip : public LLOctreeCull
+class LLOctreeCullNoFarClip final : public LLOctreeCull
 {
 public: 
 	LLOctreeCullNoFarClip(LLCamera* camera) 
@@ -1035,18 +1035,18 @@ public:
 	LLOctreeCullShadow(LLCamera* camera)
 		: LLOctreeCull(camera) { }
 
-    S32 frustumCheck(const LLViewerOctreeGroup* group) override
+    S32 frustumCheck(const LLViewerOctreeGroup* group) final override
 	{
 		return AABBInFrustumGroupBounds(group);
 	}
 
-    S32 frustumCheckObjects(const LLViewerOctreeGroup* group) override
+    S32 frustumCheckObjects(const LLViewerOctreeGroup* group) final override
 	{
 		return AABBInFrustumObjectBounds(group);
 	}
 };
 
-class LLOctreeCullVisExtents: public LLOctreeCullShadow
+class LLOctreeCullVisExtents final: public LLOctreeCullShadow
 {
 public:
 	LLOctreeCullVisExtents(LLCamera* camera, LLVector4a& min, LLVector4a& max)
@@ -1123,7 +1123,7 @@ public:
 	LLVector4a& mMax;
 };
 
-class LLOctreeCullDetectVisible: public LLOctreeCullShadow
+class LLOctreeCullDetectVisible final: public LLOctreeCullShadow
 {
 public:
 	LLOctreeCullDetectVisible(LLCamera* camera)
@@ -1155,7 +1155,7 @@ public:
 	BOOL mResult;
 };
 
-class LLOctreeSelect : public LLOctreeCull
+class LLOctreeSelect final : public LLOctreeCull
 {
 public:
 	LLOctreeSelect(LLCamera* camera, std::vector<LLDrawable*>* results)
@@ -1300,7 +1300,7 @@ void drawBoxOutline(const LLVector4a& pos, const LLVector4a& size)
 	drawBoxOutline(reinterpret_cast<const LLVector3&>(pos), reinterpret_cast<const LLVector3&>(size));
 }
 
-class LLOctreeDirty : public OctreeTraveler
+class LLOctreeDirty final : public OctreeTraveler
 {
 public:
 	LLOctreeDirty(bool no_rebuild) : mNoRebuild(no_rebuild){}
@@ -2909,7 +2909,7 @@ void renderLights(LLDrawable* drawablep)
 	}
 }
 
-class LLRenderOctreeRaycast : public LLOctreeTriangleRayIntersect
+class LLRenderOctreeRaycast final : public LLOctreeTriangleRayIntersect
 {
 public:
 	
@@ -3146,7 +3146,7 @@ void renderAgentTarget(LLVOAvatar* avatar)
 	}
 }
 
-class LLOctreeRenderNonOccluded : public OctreeTraveler
+class LLOctreeRenderNonOccluded final : public OctreeTraveler
 {
 public:
 	LLCamera* mCamera;
@@ -3354,7 +3354,7 @@ public:
 	}
 };
 
-class LLOctreeRenderXRay : public OctreeTraveler
+class LLOctreeRenderXRay final : public OctreeTraveler
 {
 public:
 	LLCamera* mCamera;
@@ -3398,7 +3398,7 @@ public:
 
 };
 
-class LLOctreeRenderPhysicsShapes : public OctreeTraveler
+class LLOctreeRenderPhysicsShapes final : public OctreeTraveler
 {
 public:
 	LLCamera* mCamera;
@@ -3433,7 +3433,7 @@ public:
 	}
 };
 
-class LLOctreePushBBoxVerts : public OctreeTraveler
+class LLOctreePushBBoxVerts final : public OctreeTraveler
 {
 public:
 	LLCamera* mCamera;
@@ -3483,7 +3483,7 @@ void LLSpatialPartition::renderIntersectingBBoxes(LLCamera* camera)
 	pusher.traverse(mOctree);
 }
 
-class LLOctreeStateCheck : public OctreeTraveler
+class LLOctreeStateCheck final : public OctreeTraveler
 {
 public:
 	U32 mInheritedMask[LLViewerCamera::NUM_CAMERAS];

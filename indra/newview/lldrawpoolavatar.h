@@ -36,7 +36,7 @@ class LLMeshSkinInfo;
 class LLVolume;
 class LLVolumeFace;
 
-class LLDrawPoolAvatar : public LLFacePool
+class LLDrawPoolAvatar final : public LLFacePool
 {
 public:
 	enum

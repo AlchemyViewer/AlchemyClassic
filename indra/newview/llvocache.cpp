@@ -708,7 +708,7 @@ void LLVOCachePartition::removeEntry(LLViewerOctreeEntry* entry)
 	llassert(!entry->getGroup());
 }
 	
-class LLVOCacheOctreeCull : public LLViewerOctreeCull
+class LLVOCacheOctreeCull final : public LLViewerOctreeCull
 {
 public:
 	LLVOCacheOctreeCull(LLCamera* camera, LLViewerRegion* regionp, 
@@ -829,7 +829,7 @@ private:
 };
 
 //select objects behind camera
-class LLVOCacheOctreeBackCull : public LLViewerOctreeCull
+class LLVOCacheOctreeBackCull final : public LLViewerOctreeCull
 {
 public:
 	LLVOCacheOctreeBackCull(LLCamera* camera, const LLVector3& shift, LLViewerRegion* regionp, F32 pixel_threshold, bool use_occlusion) 

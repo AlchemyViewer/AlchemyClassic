@@ -73,20 +73,20 @@ protected:
 	S32		mAccessCount[NUM_LODS];
 };
 
-class LLVolumeMgr
+class LLVolumeMgr final
 {
 public:
 	LLVolumeMgr();
-	virtual ~LLVolumeMgr();
+	~LLVolumeMgr();
 	BOOL cleanup();			// Cleanup all volumes being managed, returns TRUE if no dangling references
 
-	virtual LLVolumeLODGroup* getGroup( const LLVolumeParams& volume_params ) const;
+	LLVolumeLODGroup* getGroup( const LLVolumeParams& volume_params ) const;
 
 	// whatever calls getVolume() never owns the LLVolume* and
 	// cannot keep references for long since it may be deleted
 	// later.  For best results hold it in an LLPointer<LLVolume>.
-	virtual LLVolume *refVolume(const LLVolumeParams &volume_params, const S32 detail);
-	virtual void unrefVolume(LLVolume *volumep);
+	LLVolume *refVolume(const LLVolumeParams &volume_params, const S32 detail);
+	void unrefVolume(LLVolume *volumep);
 
 	void dump();
 
@@ -98,7 +98,7 @@ public:
 protected:
 	void insertGroup(LLVolumeLODGroup* volgroup);
 	// Overridden in llphysics/abstract/utils/llphysicsvolumemanager.h
-	virtual LLVolumeLODGroup* createNewGroup(const LLVolumeParams& volume_params);
+	LLVolumeLODGroup* createNewGroup(const LLVolumeParams& volume_params);
 
 protected:
 	typedef std::map<const LLVolumeParams*, LLVolumeLODGroup*, LLVolumeParams::compare> volume_lod_group_map_t;

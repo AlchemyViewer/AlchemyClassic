@@ -77,7 +77,7 @@ template <class T>
 class LLOctreeTravelerDepthFirst : public LLOctreeTraveler<T>
 {
 public:
-	void traverse(const LLOctreeNode<T>* node) override;
+	void traverse(const LLOctreeNode<T>* node) final override;
 	virtual ~LLOctreeTravelerDepthFirst() = default;
 };
 
@@ -477,7 +477,7 @@ public:
 		checkAlive();
 	}
 
-	bool remove(T* data) override
+	bool remove(T* data) final override
 	{
 		S32 i = data->getBinIndex();
 
@@ -706,7 +706,7 @@ protected:
 
 //just like a regular node, except it might expand on insert and compress on balance
 template <class T>
-class LLOctreeRoot : public LLOctreeNode<T>
+class LLOctreeRoot final : public LLOctreeNode<T>
 {
 public:
 	typedef LLOctreeNode<T>	BaseType;

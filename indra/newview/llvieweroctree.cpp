@@ -33,8 +33,6 @@
 #include "llglslshader.h"
 #include "llviewershadermgr.h"
 
-#include <glm/gtc/type_ptr.hpp>
-
 //-----------------------------------------------------------------------------------
 //static variables definitions
 //-----------------------------------------------------------------------------------
@@ -819,7 +817,7 @@ U32 LLOcclusionCullingGroup::getNewOcclusionQueryObjectName()
 	return sQueryPool.genQuery();
 }
 
-void LLOcclusionCullingGroup::releaseOcclusionQueryObjectName(GLuint name)
+void LLOcclusionCullingGroup::releaseOcclusionQueryObjectName(S32 name)
 {
 	sQueryPool.deleteQuery(name);
 }
@@ -833,7 +831,7 @@ public:
 	U32 mState;
 	LLSpatialSetOcclusionState(U32 state) : mState(state) { }
 
-    void visit(const OctreeNode* branch) override
+    void visit(const OctreeNode* branch) final override
 	{ 
 		LLOcclusionCullingGroup* group = (LLOcclusionCullingGroup*)branch->getListener(0);
 		if(group)
@@ -843,7 +841,7 @@ public:
 	}
 };
 
-class LLSpatialSetOcclusionStateDiff : public LLSpatialSetOcclusionState
+class LLSpatialSetOcclusionStateDiff final : public LLSpatialSetOcclusionState
 {
 public:
 	LLSpatialSetOcclusionStateDiff(U32 state) : LLSpatialSetOcclusionState(state) { }
@@ -983,7 +981,7 @@ public:
 	
 	LLSpatialClearOcclusionState(U32 state) : mState(state) { }
 
-    void visit(const OctreeNode* branch) override
+    void visit(const OctreeNode* branch) final override
 	{ 
 		LLOcclusionCullingGroup* group = (LLOcclusionCullingGroup*)branch->getListener(0);
 		if(group)
@@ -993,7 +991,7 @@ public:
 	}
 };
 
-class LLSpatialClearOcclusionStateDiff : public LLSpatialClearOcclusionState
+class LLSpatialClearOcclusionStateDiff final : public LLSpatialClearOcclusionState
 {
 public:
 	LLSpatialClearOcclusionStateDiff(U32 state) : LLSpatialClearOcclusionState(state) { }

@@ -814,10 +814,10 @@ protected:
 	F32           mStep;
 };
 
-class LLDynamicPath : public LLPath
+class LLDynamicPath final : public LLPath
 {
 public:
-	LLDynamicPath() : LLPath() { }
+	LLDynamicPath() = default;
 	/*virtual*/ BOOL generate(const LLPathParams& params, F32 detail=1.0f, S32 split = 0,
 							  BOOL is_sculpted = FALSE, S32 sculpt_size = 0) override;
 };
@@ -1084,10 +1084,10 @@ protected:
 	BOOL generate();
 	void createVolumeFaces();
 public:
-	virtual bool unpackVolumeFaces(std::istream& is, S32 size);
+	bool unpackVolumeFaces(std::istream& is, S32 size);
 
-	virtual void setMeshAssetLoaded(BOOL loaded);
-	virtual BOOL isMeshAssetLoaded();
+	void setMeshAssetLoaded(BOOL loaded);
+	BOOL isMeshAssetLoaded();
 
  protected:
 	BOOL mUnique;

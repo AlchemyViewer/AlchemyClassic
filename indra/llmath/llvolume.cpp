@@ -370,7 +370,7 @@ BOOL LLTriangleRayIntersect(const LLVector3& vert0, const LLVector3& vert1, cons
 	}
 }
 
-class LLVolumeOctreeRebound : public LLOctreeTravelerDepthFirst<LLVolumeTriangle>
+class LLVolumeOctreeRebound final : public LLOctreeTravelerDepthFirst<LLVolumeTriangle>
 {
 public:
 	const LLVolumeFace* mFace;

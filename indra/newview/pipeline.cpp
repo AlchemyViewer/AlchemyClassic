@@ -1459,7 +1459,7 @@ S32 LLPipeline::setLightingDetail(S32 level)
 	return mLightingDetail;
 }
 
-class LLOctreeDirtyTexture : public OctreeTraveler
+class LLOctreeDirtyTexture final : public OctreeTraveler
 {
 public:
 	const std::set<LLViewerFetchedTexture*>& mTextures;

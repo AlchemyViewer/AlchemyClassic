@@ -1406,7 +1406,7 @@ void LLDrawable::setVisible(LLCamera& camera, std::vector<LLDrawable*>* results,
 #endif
 }
 
-class LLOctreeMarkNotCulled: public OctreeTraveler
+class LLOctreeMarkNotCulled final : public OctreeTraveler
 {
 public:
 	LLCamera* mCamera;

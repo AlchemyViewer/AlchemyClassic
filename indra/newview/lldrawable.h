@@ -160,12 +160,12 @@ public:
 	BOOL getLit() const							{ return isState(UNLIT) ? FALSE : TRUE; }
 	void setLit(BOOL lit)						{ lit ? clearState(UNLIT) : setState(UNLIT); }
 
-	bool isVisible() const override;
-	bool isRecentlyVisible() const override;
+	bool isVisible() const final override;
+	bool isRecentlyVisible() const final override;
 
 	virtual void cleanupReferences();
 
-	void setGroup(LLViewerOctreeGroup* group) override;
+	void setGroup(LLViewerOctreeGroup* group) final override;
 	void setRadius(const F32 radius);
 	F32 getRadius() const						{ return mRadius; }
 	F32 getVisibilityRadius() const;

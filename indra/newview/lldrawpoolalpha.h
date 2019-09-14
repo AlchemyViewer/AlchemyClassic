@@ -35,7 +35,7 @@ class LLFace;
 class LLColor4;
 class LLGLSLShader;
 
-class LLDrawPoolAlpha : public LLRenderPass
+class LLDrawPoolAlpha final : public LLRenderPass
 {
 public:
 	enum

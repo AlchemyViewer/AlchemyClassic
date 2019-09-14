@@ -46,7 +46,7 @@ struct lltextobject_further_away
 	bool operator()(const LLPointer<LLHUDText>& lhs, const LLPointer<LLHUDText>& rhs) const;
 };
 
-class LLHUDText : public LLHUDObject
+class LLHUDText final : public LLHUDObject
 {
 protected:
 	class LLHUDTextSegment

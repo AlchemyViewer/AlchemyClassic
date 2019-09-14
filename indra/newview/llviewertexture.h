@@ -121,12 +121,12 @@ public:
 	virtual BOOL isMissingAsset() const ;
 	void dump() override;	// debug info to LL_INFOS()
 	
-	/*virtual*/ bool bindDefaultImage(const S32 stage = 0) override;
-	/*virtual*/ bool bindDebugImage(const S32 stage = 0) override;
+	/*virtual*/ bool bindDefaultImage(const S32 stage = 0) final override;
+	/*virtual*/ bool bindDebugImage(const S32 stage = 0) final override;
 	/*virtual*/ void forceImmediateUpdate() override;
 	/*virtual*/ bool isActiveFetching() override;
 	
-	/*virtual*/ const LLUUID& getID() const override { return mID; }
+	/*virtual*/ const LLUUID& getID() const final override { return mID; }
 	void setBoostLevel(S32 level);
 	S32  getBoostLevel() { return mBoostLevel; }
 	void setTextureListType(S32 tex_type) { mTextureListType = tex_type; }
@@ -165,7 +165,7 @@ public:
 	BOOL hasParcelMedia() const { return mParcelMedia != nullptr;}
 	LLViewerMediaTexture* getParcelMedia() const { return mParcelMedia;}
 
-	/*virtual*/ void updateBindStatsForTester() override;
+	/*virtual*/ void updateBindStatsForTester() final override;
 protected:
 	void cleanup() ;
 	void init(bool firstinit) ;
@@ -304,8 +304,8 @@ public:
 public:
 	/*virtual*/ S8 getType() const override;
 	FTType getFTType() const;
-	/*virtual*/ void forceImmediateUpdate() override;
-	/*virtual*/ void dump() override;
+	/*virtual*/ void forceImmediateUpdate() final override;
+	/*virtual*/ void dump() final override;
 
 	// Set callbacks to get called when the image gets updated with higher 
 	// resolution versions.
@@ -361,10 +361,10 @@ public:
 	// Override the computation of discard levels if we know the exact output
 	// size of the image.  Used for UI textures to not decode, even if we have
 	// more data.
-	/*virtual*/ void setKnownDrawSize(S32 width, S32 height) override;
+	/*virtual*/ void setKnownDrawSize(S32 width, S32 height) final override;
 
 	void setIsMissingAsset(BOOL is_missing = true);
-	/*virtual*/ BOOL isMissingAsset() const override { return mIsMissingAsset; }
+	/*virtual*/ BOOL isMissingAsset() const final override { return mIsMissingAsset; }
 
 	// returns dimensions of original image for local files (before power of two scaling)
 	// and returns 0 for all asset system images
@@ -407,7 +407,7 @@ public:
 	BOOL        isRawImageValid()const { return mIsRawImageValid ; }	
 	void        forceToSaveRawImage(S32 desired_discard = 0, F32 kept_time = 0.f) ;
 	void        forceToRefetchTexture(S32 desired_discard = 0, F32 kept_time = 60.f);
-	/*virtual*/ void setCachedRawImage(S32 discard_level, LLImageRaw* imageraw) override;
+	/*virtual*/ void setCachedRawImage(S32 discard_level, LLImageRaw* imageraw) final override;
 	void        destroySavedRawImage() ;
 	LLImageRaw* getSavedRawImage() ;
 	BOOL        hasSavedRawImage() const ;
@@ -422,14 +422,14 @@ public:
 	void        setInFastCacheList(bool in_list) { mInFastCacheList = in_list; }
 	bool        isInFastCacheList() { return mInFastCacheList; }
 
-	/*virtual*/bool  isActiveFetching() override; //is actively in fetching by the fetching pipeline.
+	/*virtual*/bool  isActiveFetching() final override; //is actively in fetching by the fetching pipeline.
 	
 	LLUUID		getUploader();
 	LLDate		getUploadTime();
 	std::string getComment();
 
 protected:
-	/*virtual*/ void switchToCachedImage() override;
+	/*virtual*/ void switchToCachedImage() final override;
 	S32 getCurrentDiscardLevelForFetching() ;
 
 private:
@@ -537,7 +537,7 @@ public:
 //the image data is fetched from remote or from local cache
 //the resolution of the texture is adjustable: depends on the view-dependent parameters.
 //
-class LLViewerLODTexture : public LLViewerFetchedTexture
+class LLViewerLODTexture final : public LLViewerFetchedTexture
 {
 protected:
 	/*virtual*/ ~LLViewerLODTexture(){}
@@ -564,7 +564,7 @@ private:
 //the image data is fetched from the media pipeline periodically
 //the resolution of the texture is also adjusted by the media pipeline
 //
-class LLViewerMediaTexture : public LLViewerTexture
+class LLViewerMediaTexture final : public LLViewerTexture
 {
 protected:
 	/*virtual*/ ~LLViewerMediaTexture() ;
@@ -629,7 +629,7 @@ class LLViewerTextureManager
 {
 private:
 	//make the constructor private to preclude creating instances from this class.
-	LLViewerTextureManager(){}
+	LLViewerTextureManager() = delete;
 
 public:
     //texture pipeline tester

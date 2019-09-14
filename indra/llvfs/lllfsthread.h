@@ -89,9 +89,9 @@ public:
 			return mFileName;
 		}
 		
-		/*virtual*/ bool processRequest() override;
-		/*virtual*/ void finishRequest(bool completed) override;
-		/*virtual*/ void deleteRequest() override;
+		/*virtual*/ bool processRequest() final override;
+		/*virtual*/ void finishRequest(bool completed) final override;
+		/*virtual*/ void deleteRequest() final override;
 		
 	private:
 		LLLFSThread* mThread;

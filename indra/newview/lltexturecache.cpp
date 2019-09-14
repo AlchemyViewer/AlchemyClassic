@@ -59,7 +59,7 @@ class LLTextureCacheWorker : public LLWorkerClass
 	friend class LLTextureCache;
 
 private:
-	class ReadResponder : public LLLFSThread::Responder
+	class ReadResponder final : public LLLFSThread::Responder
 	{
 	public:
 		ReadResponder(LLTextureCache* cache, handle_t handle) : mCache(cache), mHandle(handle) {}
@@ -75,7 +75,7 @@ private:
 		LLTextureCacheWorker::handle_t mHandle;
 	};
 
-	class WriteResponder : public LLLFSThread::Responder
+	class WriteResponder final : public LLLFSThread::Responder
 	{
 	public:
 		WriteResponder(LLTextureCache* cache, handle_t handle) : mCache(cache), mHandle(handle) {}
@@ -136,9 +136,9 @@ public:
 	}
 
 private:
-    void startWork(S32 param) override; // called from addWork() (MAIN THREAD)
-    void finishWork(S32 param, bool completed) override; // called from finishRequest() (WORK THREAD)
-    void endWork(S32 param, bool aborted) override; // called from doWork() (MAIN THREAD)
+    void startWork(S32 param) final override; // called from addWork() (MAIN THREAD)
+    void finishWork(S32 param, bool completed) final override; // called from finishRequest() (WORK THREAD)
+    void endWork(S32 param, bool aborted) final override; // called from doWork() (MAIN THREAD)
 
 protected:
 	LLTextureCache* mCache;
@@ -158,7 +158,7 @@ protected:
 	LLAtomicS32 mBytesRead;
 };
 
-class LLTextureCacheLocalFileWorker : public LLTextureCacheWorker
+class LLTextureCacheLocalFileWorker final : public LLTextureCacheWorker
 {
 public:
 	LLTextureCacheLocalFileWorker(LLTextureCache* cache, U32 priority, const std::string& filename, const LLUUID& id,
@@ -280,7 +280,7 @@ bool LLTextureCacheLocalFileWorker::doWrite()
 	return false;
 }
 
-class LLTextureCacheRemoteWorker : public LLTextureCacheWorker
+class LLTextureCacheRemoteWorker final : public LLTextureCacheWorker
 {
 public:
 	LLTextureCacheRemoteWorker(LLTextureCache* cache, U32 priority, const LLUUID& id,

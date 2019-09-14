@@ -39,7 +39,7 @@ class LLViewerObject;
 constexpr U32 NUM_TRAIL_POINTS = 40;
 
 
-class LLHUDEffectSpiral : public LLHUDEffect
+class LLHUDEffectSpiral final : public LLHUDEffect
 {
 public:
 	/*virtual*/ void markDead() final override;

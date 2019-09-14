@@ -343,7 +343,7 @@ LLViewerFetchedTexture* LLViewerTextureManager::getFetchedTextureFromHost(const 
 }
 
 // Create a bridge to the viewer texture manager.
-class LLViewerTextureManagerBridge : public LLTextureManagerBridge
+class LLViewerTextureManagerBridge final : public LLTextureManagerBridge
 {
 	/*virtual*/ LLPointer<LLGLTexture> getLocalTexture(BOOL usemipmaps = TRUE, BOOL generate_gl_tex = TRUE) override
     {

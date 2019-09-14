@@ -230,7 +230,7 @@ private:
 };
 
 
-class LLModelPreview : public LLViewerDynamicTexture, public LLMutex
+class LLModelPreview final : public LLViewerDynamicTexture, public LLMutex
 {	
 	typedef boost::signals2::signal<void (F32 x, F32 y, F32 z, F32 streaming_cost, F32 physics_cost)> details_signal_t;
 	typedef boost::signals2::signal<void (void)> model_loaded_signal_t;

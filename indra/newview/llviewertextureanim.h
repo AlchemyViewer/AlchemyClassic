@@ -32,7 +32,7 @@
 
 class LLVOVolume;
 
-class LLViewerTextureAnim : public LLTextureAnim
+class LLViewerTextureAnim final : public LLTextureAnim
 {
 private:
 	static std::vector<LLViewerTextureAnim*> sInstanceList;

@@ -295,7 +295,7 @@ class LLTextureFetchWorker : public LLWorkerClass, public LLCore::HttpHandler
 	friend class LLTextureFetchDebugger;
 	
 private:
-	class CacheReadResponder : public LLTextureCache::ReadResponder
+	class CacheReadResponder final : public LLTextureCache::ReadResponder
 	{
 	public:
 
@@ -320,7 +320,7 @@ private:
 		LLUUID mID;
 	};
 
-	class CacheWriteResponder : public LLTextureCache::WriteResponder
+	class CacheWriteResponder final : public LLTextureCache::WriteResponder
 	{
 	public:
 
@@ -344,7 +344,7 @@ private:
 		LLUUID mID;
 	};
 	
-	class DecodeResponder : public LLImageDecodeThread::Responder
+	class DecodeResponder final : public LLImageDecodeThread::Responder
 	{
 	public:
 
@@ -747,8 +747,7 @@ class LLTextureFetch::TFRequest // : public LLQueuedThread::QueuedRequest
 public:
 	// Default ctors and assignment operator are correct.
 
-	virtual ~TFRequest()
-		{}
+	virtual ~TFRequest() = default;
 
 	// Patterned after QueuedRequest's method but expected behavior
 	// is different.  Always expected to complete on the first call
@@ -771,7 +770,7 @@ namespace
  *
  * Corresponds to LLTextureFetch::commandSetRegion()
  */
-class TFReqSetRegion : public LLTextureFetch::TFRequest
+class TFReqSetRegion final : public LLTextureFetch::TFRequest
 {
 public:
 	TFReqSetRegion(U64 region_handle)
@@ -804,7 +803,7 @@ public:
  *
  * Corresponds to LLTextureFetch::commandSendMetrics()
  */
-class TFReqSendMetrics : public LLTextureFetch::TFRequest
+class TFReqSendMetrics final : public LLTextureFetch::TFRequest
 {
 public:
     /**
@@ -3977,7 +3976,7 @@ namespace
 // a Responder that tried harder to detect delivery breaks
 // but it really isn't that important.  If someone wants to
 // revisit that effort, here is a place to start.
-class AssetReportHandler : public LLCore::HttpHandler
+class AssetReportHandler final : public LLCore::HttpHandler
 {
 public:
 
@@ -4145,7 +4144,7 @@ truncate_viewer_metrics(int max_regions, LLSD & metrics)
 //Start LLTextureFetchDebugger
 ///////////////////////////////////////////////////////////////////////////////////////////
 //---------------------
-class LLDebuggerCacheReadResponder : public LLTextureCache::ReadResponder
+class LLDebuggerCacheReadResponder final : public LLTextureCache::ReadResponder
 {
 public:
 	LLDebuggerCacheReadResponder(LLTextureFetchDebugger* debugger, S32 id, LLImageFormatted* image)
@@ -4163,7 +4162,7 @@ private:
 	S32 mID;
 };
 
-class LLDebuggerCacheWriteResponder : public LLTextureCache::WriteResponder
+class LLDebuggerCacheWriteResponder final : public LLTextureCache::WriteResponder
 {
 public:
 	LLDebuggerCacheWriteResponder(LLTextureFetchDebugger* debugger, S32 id)
@@ -4180,7 +4179,7 @@ private:
 	S32 mID;
 };
 
-class LLDebuggerDecodeResponder : public LLImageDecodeThread::Responder
+class LLDebuggerDecodeResponder final : public LLImageDecodeThread::Responder
 {
 public:
 	LLDebuggerDecodeResponder(LLTextureFetchDebugger* debugger, S32 id)

@@ -50,7 +50,7 @@ typedef enum e_lookat_type
 	LOOKAT_NUM_TARGETS
 } ELookAtType;
 
-class LLHUDEffectLookAt : public LLHUDEffect
+class LLHUDEffectLookAt final : public LLHUDEffect
 {
 public:
 	friend class LLHUDObject;

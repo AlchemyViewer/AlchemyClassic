@@ -79,7 +79,7 @@ public:
 	//--------------------------------------------------------------------
 public:
 	LLAgentCamera();
-	virtual 		~LLAgentCamera();
+	~LLAgentCamera();
 	void			init();
 	void			cleanup();
 	void		    setAvatarObject(LLVOAvatarSelf* avatar);

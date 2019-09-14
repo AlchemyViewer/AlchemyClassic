@@ -24,8 +24,3 @@
  */
 #include "linden_common.h"
 #include "lltexture.h"
-
-//virtual 
-LLTexture::~LLTexture()
-{
-}

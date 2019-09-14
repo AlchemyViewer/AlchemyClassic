@@ -152,7 +152,7 @@ void LLThread::unlockData()
 class LL_COMMON_API LLResponder : public LLThreadSafeRefCount
 {
 protected:
-    virtual ~LLResponder();
+    virtual ~LLResponder() = default;
 public:
     virtual void completed(bool success) = 0;
 };

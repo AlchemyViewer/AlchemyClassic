@@ -381,11 +381,3 @@ LLThreadSafeRefCount::~LLThreadSafeRefCount()
 		LL_ERRS() << "deleting referenced object mRef = " << mRef << LL_ENDL;
     }
 }
-
-//============================================================================
-
-LLResponder::~LLResponder()
-{
-}
-
-//============================================================================

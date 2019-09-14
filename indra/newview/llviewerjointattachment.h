@@ -41,7 +41,7 @@ extern const F32 MAX_ATTACHMENT_DIST;
 //-----------------------------------------------------------------------------
 // class LLViewerJointAttachment
 //-----------------------------------------------------------------------------
-class LLViewerJointAttachment :
+class LLViewerJointAttachment final :
 	public LLViewerJoint
 {
 public:

@@ -41,7 +41,7 @@ class LLViewerTexLayerSet;
 //-----------------------------------------------------------------------------
 // class LLViewerJointMesh
 //-----------------------------------------------------------------------------
-class LLViewerJointMesh : public LLAvatarJointMesh, public LLViewerJoint
+class LLViewerJointMesh final : public LLAvatarJointMesh, public LLViewerJoint
 {
 public:
 	// Constructor

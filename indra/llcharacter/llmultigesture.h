@@ -53,8 +53,8 @@ public:
 
 	const std::string& getTrigger() const { return mTrigger; }
 protected:
-	LLMultiGesture(const LLMultiGesture& gest);
-	const LLMultiGesture& operator=(const LLMultiGesture& rhs);
+	LLMultiGesture(const LLMultiGesture& gest) = delete;
+	const LLMultiGesture& operator=(const LLMultiGesture& rhs) = delete;
 
 public:
 	KEY mKey;
@@ -138,7 +138,7 @@ public:
 // If the least significant bit is 1, it will stop animations.
 const U32 ANIM_FLAG_STOP = 0x01;
 
-class LLGestureStepAnimation : public LLGestureStep
+class LLGestureStepAnimation final : public LLGestureStep
 {
 public:
 	LLGestureStepAnimation();
@@ -161,7 +161,7 @@ public:
 };
 
 
-class LLGestureStepSound : public LLGestureStep
+class LLGestureStepSound final : public LLGestureStep
 {
 public:
 	LLGestureStepSound();
@@ -184,7 +184,7 @@ public:
 };
 
 
-class LLGestureStepChat : public LLGestureStep
+class LLGestureStepChat final : public LLGestureStep
 {
 public:
 	LLGestureStepChat();
@@ -209,7 +209,7 @@ public:
 const U32 WAIT_FLAG_TIME		= 0x01;
 const U32 WAIT_FLAG_ALL_ANIM	= 0x02;
 
-class LLGestureStepWait : public LLGestureStep
+class LLGestureStepWait final : public LLGestureStep
 {
 public:
 	LLGestureStepWait();

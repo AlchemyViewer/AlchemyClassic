@@ -87,14 +87,14 @@ public:
 	//-------------------------------------------------------------------------
 
 	// motions must specify whether or not they loop
-	BOOL getLoop() override
+	BOOL getLoop() final override
 	{ 
 		if (mJointMotionList) return mJointMotionList->mLoop; 
 		else return FALSE;
 	}
 
 	// motions must report their total duration
-	F32 getDuration() override
+	F32 getDuration() final override
 	{ 
 		if (mJointMotionList) return mJointMotionList->mDuration; 
 		else return 0.f;
@@ -108,23 +108,23 @@ public:
 	}
 
 	// motions must report their "ease out" duration.
-	F32 getEaseOutDuration() override
+	F32 getEaseOutDuration() final override
 	{ 
 		if (mJointMotionList) return mJointMotionList->mEaseOutDuration; 
 		else return 0.f;
 	}
 
 	// motions must report their priority
-	LLJoint::JointPriority getPriority() override
+	LLJoint::JointPriority getPriority() final override
 	{ 
 		if (mJointMotionList) return mJointMotionList->mBasePriority; 
 		else return LLJoint::LOW_PRIORITY;
 	}
 
-	LLMotionBlendType getBlendType() override { return NORMAL_BLEND; }
+	LLMotionBlendType getBlendType() final override { return NORMAL_BLEND; }
 
 	// called to determine when a motion should be activated/deactivated based on avatar pixel coverage
-	F32 getMinPixelArea() override { return MIN_REQUIRED_PIXEL_AREA_KEYFRAME; }
+	F32 getMinPixelArea() final override { return MIN_REQUIRED_PIXEL_AREA_KEYFRAME; }
 
 	// run-time (post constructor) initialization,
 	// called after parameters have been set
@@ -144,7 +144,7 @@ public:
 	// called when a motion is deactivated
 	void onDeactivate() override;
 
-	void setStopTime(F32 time) override;
+	void setStopTime(F32 time) final override;
 
 	static void setVFS(LLVFS* vfs) { sVFS = vfs; }
 

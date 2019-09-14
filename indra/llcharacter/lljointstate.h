@@ -36,7 +36,7 @@
 //-----------------------------------------------------------------------------
 // class LLJointState
 //-----------------------------------------------------------------------------
-class LLJointState : public LLRefCount
+class LLJointState final : public LLRefCount
 {
 public:
 	enum BlendPhase

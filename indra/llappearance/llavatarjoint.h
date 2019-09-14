@@ -121,11 +121,11 @@ protected:
 	S32			mMeshID;
 };
 
-class LLAvatarJointCollisionVolume : public LLAvatarJoint
+class LLAvatarJointCollisionVolume final : public LLAvatarJoint
 {
 public:
 	LLAvatarJointCollisionVolume();
-	virtual ~LLAvatarJointCollisionVolume() {};
+	virtual ~LLAvatarJointCollisionVolume() = default;
 
 	/*virtual*/ BOOL inheritScale() override { return TRUE; }
 	/*virtual*/ U32 render( F32 pixelArea, BOOL first_pass = TRUE, BOOL is_dummy = FALSE ) override;

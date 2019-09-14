@@ -188,7 +188,7 @@ protected:
 //-----------------------------------------------------------------------------
 // LLTestMotion
 //-----------------------------------------------------------------------------
-class LLTestMotion : public LLMotion
+class LLTestMotion final : public LLMotion
 {
 public:
 	LLTestMotion(const LLUUID &id) : LLMotion(id){}
@@ -216,7 +216,7 @@ public:
 //-----------------------------------------------------------------------------
 // LLNullMotion
 //-----------------------------------------------------------------------------
-class LLNullMotion : public LLMotion
+class LLNullMotion final : public LLMotion
 {
 public:
 	LLNullMotion(const LLUUID &id) : LLMotion(id) {}

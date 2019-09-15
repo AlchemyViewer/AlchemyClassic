@@ -140,7 +140,7 @@ LL_COMMON_API time_t time_corrected();
 
 static inline time_t time_min()
 {
-	if (sizeof(time_t) == 4)
+	if constexpr (sizeof(time_t) == 4)
 	{
 		return (time_t) INT_MIN;
 	} else {
@@ -154,7 +154,7 @@ static inline time_t time_min()
 
 static inline time_t time_max()
 {
-	if (sizeof(time_t) == 4)
+	if constexpr (sizeof(time_t) == 4)
 	{
 		return (time_t) INT_MAX;
 	} else {

@@ -436,7 +436,7 @@ void LLPumpIO::pump(const S32& poll_timeout)
 	// We need to move all of the pending heads over to the running
 	// chains.
 	PUMP_DEBUG;
-	if(true)
+	if constexpr (true)
 	{
 		// bail if this pump is paused.
 		if(PAUSING == mState)
@@ -738,7 +738,7 @@ static LLTrace::BlockTimerStatHandle FTM_PUMP_CALLBACK_CHAIN("Chain");
 void LLPumpIO::callback()
 {
 	//LL_INFOS() << "LLPumpIO::callback()" << LL_ENDL;
-	if(true)
+	if constexpr (true)
 	{
 		std::copy(
 			mPendingCallbacks.begin(),

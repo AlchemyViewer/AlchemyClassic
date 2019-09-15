@@ -71,6 +71,9 @@ public:
 	LLFontRegistry(bool create_gl_textures);
 	~LLFontRegistry();
 
+    LLFontRegistry& operator=(const LLFontRegistry& src) = delete;
+    LLFontRegistry(const LLFontRegistry& other) = delete;
+
 	// Load standard font info from XML file(s).
 	bool parseFontInfo(const std::string& xml_filename); 
 
@@ -94,7 +97,6 @@ public:
 	const string_vec_t& getUltimateFallbackList() const;
 
 private:
-	LLFontRegistry(const LLFontRegistry& other); // no-copy
 	LLFontGL *createFont(const LLFontDescriptor& desc);
 	typedef std::map<LLFontDescriptor,LLFontGL*> font_reg_map_t;
 	typedef std::map<std::string,F32> font_size_map_t;

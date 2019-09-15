@@ -99,6 +99,9 @@ public:
 	LLXUIParser();
 	typedef LLInitParam::Parser::name_stack_t name_stack_t;
 
+    LLXUIParser(const LLXUIParser& other) = delete;
+    LLXUIParser& operator=(const LLXUIParser& other) = delete;
+
 	/*virtual*/ std::string getCurrentElementName() override;
 	/*virtual*/ std::string getCurrentFileName() override { return mCurFileName; }
 	/*virtual*/ void parserWarning(const std::string& message) override;
@@ -120,7 +123,6 @@ public:
 	}
 
 private:
-	LLXUIParser(const LLXUIParser& other); // no-copy
 	void writeXUIImpl(LLXMLNodePtr node, 
 		const LLInitParam::BaseBlock& block, 
 		const LLInitParam::predicate_rule_t rules, 

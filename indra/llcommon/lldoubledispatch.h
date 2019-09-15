@@ -117,6 +117,11 @@ class LLDoubleDispatch
 public:
     LLDoubleDispatch() {}
 
+    /// Don't implement the copy ctor.  Everyone will be happier if the
+    /// LLDoubleDispatch object isn't copied.
+    LLDoubleDispatch(const LLDoubleDispatch&) = delete;
+    LLDoubleDispatch& operator=(const LLDoubleDispatch&) = delete;
+
     /**
      * Call the first matching entry.  If there's no registered Functor
      * appropriate for this pair of parameter types, this call will do
@@ -301,10 +306,6 @@ private:
     {
         mDispatch.insert(where, EntryPtr(new Entry<Type1, Type2, Functor>(func)));
     }
-
-    /// Don't implement the copy ctor.  Everyone will be happier if the
-    /// LLDoubleDispatch object isn't copied.
-    LLDoubleDispatch(const LLDoubleDispatch& src);
 };
 
 template <class ReturnType, class ParamBaseType>

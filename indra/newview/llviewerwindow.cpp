@@ -1479,7 +1479,7 @@ BOOL LLViewerWindow::handlePaint(LLWindow *window,  S32 x,  S32 y, S32 width,  S
 		len = temp_str.length();
 		TextOutW(hdc, 0, 25, ll_convert_string_to_wide(temp_str).c_str(), len);
 
-		TextOutW(hdc, 0, 50, TEXT("Set \"HeadlessClient FALSE\" in settings.ini file to reenable"), 61);
+		TextOutW(hdc, 0, 50, TEXT("Set \"HeadlessClient FALSE\" in settings.ini file to reenable"), 60);
 		EndPaint(window_handle, &ps); 
 		return TRUE;
 	}

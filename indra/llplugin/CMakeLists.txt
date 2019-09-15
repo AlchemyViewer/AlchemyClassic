@@ -59,8 +59,7 @@ list(APPEND llplugin_SOURCE_FILES ${llplugin_HEADER_FILES})
 add_library (llplugin ${llplugin_SOURCE_FILES})
 
 target_link_libraries(llplugin PUBLIC     
-    absl::flat_hash_map
-    absl::node_hash_map
+    ${LLCOMMON_LIBRARIES}
     )
 
 set_target_properties(llplugin PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

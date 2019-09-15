@@ -67,6 +67,7 @@ list(APPEND llinventory_SOURCE_FILES ${llinventory_HEADER_FILES})
 add_library (llinventory ${llinventory_SOURCE_FILES})
 
 target_link_libraries(llinventory PUBLIC     
+    fmt::fmt
     absl::flat_hash_map
     absl::node_hash_map
     )

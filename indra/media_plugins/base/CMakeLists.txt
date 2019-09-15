@@ -43,3 +43,7 @@ add_library(media_plugin_base
     )
 
 set_target_properties(media_plugin_base PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+
+target_link_libraries(media_plugin_base PUBLIC     
+    fmt::fmt
+    )

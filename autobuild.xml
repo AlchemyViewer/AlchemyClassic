@@ -807,6 +807,40 @@
         <key>version</key>
         <string>2.00.03.192211300</string>
       </map>
+      <key>fmtlib-src</key>
+      <map>
+        <key>canonical_repo</key>
+        <string>https://git.alchemyviewer.org/alchemy/thirdparty/3p-fmtlib-src</string>
+        <key>copyright</key>
+        <string>Copyright (c) 2012 - present, Victor Zverovich</string>
+        <key>description</key>
+        <string>A modern formatting library</string>
+        <key>license</key>
+        <string>MIT</string>
+        <key>license_file</key>
+        <string>LICENSES/fmtlib.txt</string>
+        <key>name</key>
+        <string>fmtlib-src</string>
+        <key>platforms</key>
+        <map>
+          <key>common</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ba4c1e2ed2a1640823a932f2c4d88000</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/fmtlib-src/common/fmtlib_src-6.0.0.1-common-1.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>common</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>6.0.0.1</string>
+      </map>
       <key>fontconfig</key>
       <map>
         <key>copyright</key>

@@ -212,6 +212,7 @@ endif (LLWINDOW_SDL2)
 
   target_link_libraries (llwindow 
   ${llwindow_LINK_LIBRARIES}     
+  fmt::fmt
   absl::flat_hash_map
   absl::node_hash_map)
 

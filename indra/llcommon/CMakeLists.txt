@@ -286,6 +286,7 @@ target_compile_features(llcommon PUBLIC cxx_nullptr cxx_static_assert)
 
 target_link_libraries(
     llcommon
+    PUBLIC
     ${BREAKPAD_EXCEPTION_HANDLER_LIBRARIES}
     ${APRUTIL_LIBRARIES}
     ${APR_LIBRARIES}
@@ -305,6 +306,7 @@ target_link_libraries(
     ${URIPARSER_LIBRARY}
     absl::flat_hash_map
     absl::node_hash_map
+    fmt::fmt
     ${RT_LIBRARY}
     )
 

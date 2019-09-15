@@ -32,6 +32,7 @@ set(cmake_SOURCE_FILES
     FindXmlRpcEpi.cmake
     FindZLIB.cmake
     FMODSTUDIO.cmake
+    FmtLib.cmake
     FreeType.cmake
     GLM.cmake
     GLOD.cmake

@@ -84,6 +84,7 @@ target_link_libraries(windows-crash-logger
     ${BOOST_COROUTINE_LIBRARY}
     ${WINDOWS_LIBRARIES}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
+    fmt::fmt
     dxguid
     user32
     gdi32

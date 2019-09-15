@@ -52,7 +52,9 @@ if (USE_KDU)
   add_library (llkdu ${llkdu_SOURCE_FILES})
 
   target_link_libraries(llkdu
-    ${KDU_LIBRARY})
+    ${KDU_LIBRARY}
+    ${LLCOMMON_LIBRARIES}
+    )
 
   set(KDU_BUILD_DEFS -DKDU_X86_INTRINSICS -DKDU_NO_AVX -DKDU_NO_AVX2)
   if(ADDRESS_SIZE EQUAL 32)

@@ -19,9 +19,13 @@ endif (NOT CMAKE_BUILD_TYPE)
 include(Variables)
 include(BuildVersion)
 include(Abseil-CPP)
+include(FmtLib)
+
+# Dependencies
+add_subdirectory(${ABSEIL_SRC_DIR} ${ABSEIL_BIN_DIR})
+add_subdirectory(${FMT_SRC_DIR} ${FMT_BIN_DIR})
 
 add_subdirectory(cmake)
-add_subdirectory(${ABSEIL_SRC_DIR} ${ABSEIL_BIN_DIR})
 
 add_subdirectory(${LIBS_OPEN_PREFIX}llaudio)
 add_subdirectory(${LIBS_OPEN_PREFIX}llappearance)

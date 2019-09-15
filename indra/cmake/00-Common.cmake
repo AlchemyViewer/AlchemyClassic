@@ -334,6 +334,9 @@ else (USESYSTEMLIBS)
   #Define this here so it propagates on all systems to all targets
   #add_definitions(-DBOOST_THREAD_VERSION=4)
 
+  #Enforce compile-time correctness for fmt strings
+  add_definitions(-DFMT_STRING_ALIAS=1)
+
   #Uncomment this definition when we can build cleanly against OpenSSL 1.1
   add_definitions(-DOPENSSL_API_COMPAT=0x10100000L)
 

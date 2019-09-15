@@ -1028,19 +1028,19 @@ std::string LLStringOps::getReadableNumber(F64 num)
 {
     if (fabs(num)>=1e9)
     {
-		return llformat("%.2lfB", num / 1e9);
+		return fmt::format(fmt("{:.2f}B"), num / 1e9);
     }
     else if (fabs(num)>=1e6)
     {
-		return llformat("%.2lfM", num / 1e6);
+		return fmt::format(fmt("{:.2f}M"), num / 1e6);
     }
     else if (fabs(num)>=1e3)
     {
-		return llformat("%.2lfK", num / 1e3);
+		return fmt::format(fmt("{:.2f}K"), num / 1e3);
     }
     else
     {
-		return llformat("%.2lf", num);
+		return fmt::format(fmt("{:.2f}"), num);
     }
 }
 

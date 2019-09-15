@@ -406,7 +406,7 @@ std::string LLAnimationLibrary::animationName( const LLUUID& id ) const
 	if (cptr)
 		return std::string(cptr);
 	else
-		return llformat("[%s]", id.asString().c_str());
+		return fmt::format(fmt("[{:s}]"), id.asString());
 }
 
 // Animation states that the user can trigger as part of a gesture

@@ -1870,51 +1870,50 @@ void LLPanelObject::refreshLimits()
 
 void LLPanelObject::draw()
 {
-	const LLColor4	white(	1.0f,	1.0f,	1.0f,	1);
-	const LLColor4	red(	1.0f,	0.25f,	0.f,	1);
-	const LLColor4	green(	0.f,	1.0f,	0.f,	1);
-	const LLColor4	blue(	0.f,	0.5f,	1.0f,	1);
+	static const LLColor4	red(	1.0f,	0.25f,	0.f,	1);
+	static const LLColor4	green(	0.f,	1.0f,	0.f,	1);
+	static const LLColor4	blue(	0.f,	0.5f,	1.0f,	1);
 
 	// Tune the colors of the labels
 	LLTool* tool = LLToolMgr::getInstance()->getCurrentTool();
 
 	if (tool == LLToolCompTranslate::getInstance())
 	{
-		mCtrlPosX	->setLabelColor(red);
+		mCtrlPosX	->setLabelColor(LLColor4::red);
 		mCtrlPosY	->setLabelColor(green);
 		mCtrlPosZ	->setLabelColor(blue);
 
-		mCtrlScaleX	->setLabelColor(white);
-		mCtrlScaleY	->setLabelColor(white);
-		mCtrlScaleZ	->setLabelColor(white);
+		mCtrlScaleX	->setLabelColor(LLColor4::white);
+		mCtrlScaleY	->setLabelColor(LLColor4::white);
+		mCtrlScaleZ	->setLabelColor(LLColor4::white);
 
-		mCtrlRotX	->setLabelColor(white);
-		mCtrlRotY	->setLabelColor(white);
-		mCtrlRotZ	->setLabelColor(white);
+		mCtrlRotX	->setLabelColor(LLColor4::white);
+		mCtrlRotY	->setLabelColor(LLColor4::white);
+		mCtrlRotZ	->setLabelColor(LLColor4::white);
 	}
 	else if ( tool == LLToolCompScale::getInstance() )
 	{
-		mCtrlPosX	->setLabelColor(white);
-		mCtrlPosY	->setLabelColor(white);
-		mCtrlPosZ	->setLabelColor(white);
+		mCtrlPosX	->setLabelColor(LLColor4::white);
+		mCtrlPosY	->setLabelColor(LLColor4::white);
+		mCtrlPosZ	->setLabelColor(LLColor4::white);
 
 		mCtrlScaleX	->setLabelColor(red);
 		mCtrlScaleY	->setLabelColor(green);
 		mCtrlScaleZ	->setLabelColor(blue);
 
-		mCtrlRotX	->setLabelColor(white);
-		mCtrlRotY	->setLabelColor(white);
-		mCtrlRotZ	->setLabelColor(white);
+		mCtrlRotX	->setLabelColor(LLColor4::white);
+		mCtrlRotY	->setLabelColor(LLColor4::white);
+		mCtrlRotZ	->setLabelColor(LLColor4::white);
 	}
 	else if ( tool == LLToolCompRotate::getInstance() )
 	{
-		mCtrlPosX	->setLabelColor(white);
-		mCtrlPosY	->setLabelColor(white);
-		mCtrlPosZ	->setLabelColor(white);
+		mCtrlPosX	->setLabelColor(LLColor4::white);
+		mCtrlPosY	->setLabelColor(LLColor4::white);
+		mCtrlPosZ	->setLabelColor(LLColor4::white);
 
-		mCtrlScaleX	->setLabelColor(white);
-		mCtrlScaleY	->setLabelColor(white);
-		mCtrlScaleZ	->setLabelColor(white);
+		mCtrlScaleX	->setLabelColor(LLColor4::white);
+		mCtrlScaleY	->setLabelColor(LLColor4::white);
+		mCtrlScaleZ	->setLabelColor(LLColor4::white);
 
 		mCtrlRotX	->setLabelColor(red);
 		mCtrlRotY	->setLabelColor(green);
@@ -1922,17 +1921,17 @@ void LLPanelObject::draw()
 	}
 	else
 	{
-		mCtrlPosX	->setLabelColor(white);
-		mCtrlPosY	->setLabelColor(white);
-		mCtrlPosZ	->setLabelColor(white);
+		mCtrlPosX	->setLabelColor(LLColor4::white);
+		mCtrlPosY	->setLabelColor(LLColor4::white);
+		mCtrlPosZ	->setLabelColor(LLColor4::white);
 
-		mCtrlScaleX	->setLabelColor(white);
-		mCtrlScaleY	->setLabelColor(white);
-		mCtrlScaleZ	->setLabelColor(white);
+		mCtrlScaleX	->setLabelColor(LLColor4::white);
+		mCtrlScaleY	->setLabelColor(LLColor4::white);
+		mCtrlScaleZ	->setLabelColor(LLColor4::white);
 
-		mCtrlRotX	->setLabelColor(white);
-		mCtrlRotY	->setLabelColor(white);
-		mCtrlRotZ	->setLabelColor(white);
+		mCtrlRotX	->setLabelColor(LLColor4::white);
+		mCtrlRotY	->setLabelColor(LLColor4::white);
+		mCtrlRotZ	->setLabelColor(LLColor4::white);
 	}
 
 	LLPanel::draw();

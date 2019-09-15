@@ -347,7 +347,7 @@ void LLPanelTopInfoBar::updateHealth()
 		S32 health = gStatusBar->getHealth();
 		if (health != last_health)
 		{
-			std::string text = llformat("%d%%", health);
+			std::string text = fmt::format(fmt("{:d}%"), health);
 			mDamageText->setText(text);
 			last_health = health;
 		}

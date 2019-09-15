@@ -83,10 +83,10 @@ BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt,const 
 	// Round the numbers based on the velocity
 	F32 velocity_mag_sq = gAgent.getVelocity().magVecSquared();
 
-	const F32 FLY_CUTOFF = 6.f;		// meters/sec
-	const F32 FLY_CUTOFF_SQ = FLY_CUTOFF * FLY_CUTOFF;
-	const F32 WALK_CUTOFF = 1.5f;	// meters/sec
-	const F32 WALK_CUTOFF_SQ = WALK_CUTOFF * WALK_CUTOFF;
+	constexpr F32 FLY_CUTOFF = 6.f;		// meters/sec
+	constexpr F32 FLY_CUTOFF_SQ = FLY_CUTOFF * FLY_CUTOFF;
+	constexpr F32 WALK_CUTOFF = 1.5f;	// meters/sec
+	constexpr F32 WALK_CUTOFF_SQ = WALK_CUTOFF * WALK_CUTOFF;
 
 	if (velocity_mag_sq > FLY_CUTOFF_SQ)
 	{
@@ -100,8 +100,8 @@ BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt,const 
 	}
 
 	// create a default name and description for the landmark
-	std::string parcel_name = LLViewerParcelMgr::getInstance()->getAgentParcelName();
-	std::string region_name = region->getName();
+	const std::string& parcel_name = LLViewerParcelMgr::getInstance()->getAgentParcelName();
+	const std::string& region_name = region->getName();
 	std::string sim_access_string = region->getSimAccessString();
 	std::string buffer;
 	if( parcel_name.empty() )
@@ -110,33 +110,33 @@ BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt,const 
 		switch (fmt)
 		{
 		case LOCATION_FORMAT_LANDMARK:
-			buffer = llformat("%.100s", region_name.c_str());
+			buffer = fmt::format(fmt("{:.100s}"), region_name);
 			break;
 		case LOCATION_FORMAT_NORMAL:
-			buffer = llformat("%s", region_name.c_str());
+			buffer = fmt::format(fmt("{:s}"), region_name);
 			break;
 		case LOCATION_FORMAT_NORMAL_COORDS:
-			buffer = llformat("%s (%d, %d, %d)",
-				region_name.c_str(),
+			buffer = fmt::format(fmt("{:s} ({:d}, {:d}, {:d})"),
+				region_name,
 				pos_x, pos_y, pos_z);
 			break;
 		case LOCATION_FORMAT_NO_COORDS:
-			buffer = llformat("%s%s%s",
-				region_name.c_str(),
-				sim_access_string.empty() ? "" : " - ",
-				sim_access_string.c_str());
+			buffer = fmt::format(fmt("{:s}{:s}{:s}"),
+				region_name,
+				sim_access_string.empty() ? LLStringUtil::null : " - ",
+				sim_access_string);
 			break;
 		case LOCATION_FORMAT_NO_MATURITY:
-			buffer = llformat("%s (%d, %d, %d)",
-				region_name.c_str(),
+			buffer = fmt::format(fmt("{:s} ({:d}, {:d}, {:d})"),
+				region_name,
 				pos_x, pos_y, pos_z);
 			break;
 		case LOCATION_FORMAT_FULL:
-			buffer = llformat("%s (%d, %d, %d)%s%s",
-				region_name.c_str(),
+			buffer = fmt::format(fmt("{:s} ({:d}, {:d}, {:d}){:s}{:s}"),
+				region_name,
 				pos_x, pos_y, pos_z,
-				sim_access_string.empty() ? "" : " - ",
-				sim_access_string.c_str());
+				sim_access_string.empty() ? LLStringUtil::null : " - ",
+				sim_access_string);
 			break;
 		}
 	}
@@ -146,40 +146,40 @@ BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt,const 
 		switch (fmt)
 		{
 		case LOCATION_FORMAT_LANDMARK:
-			buffer = llformat("%.100s", parcel_name.c_str());
+			buffer = fmt::format(fmt("{:.100s}"), parcel_name);
 			break;
 		case LOCATION_FORMAT_NORMAL:
-			buffer = llformat("%s, %s", parcel_name.c_str(), region_name.c_str());
+			buffer = fmt::format(fmt("{:s}, {:s}"), parcel_name, region_name);
 			break;
 		case LOCATION_FORMAT_NORMAL_COORDS:
-			buffer = llformat("%s (%d, %d, %d)",
-				parcel_name.c_str(),
+			buffer = fmt::format(fmt("{:s} ({:d}, {:d}, {:d})"),
+				parcel_name,
 				pos_x, pos_y, pos_z);
 			break;
 		case LOCATION_FORMAT_NO_MATURITY:
-			buffer = llformat("%s, %s (%d, %d, %d)",
-				parcel_name.c_str(),
-				region_name.c_str(),
+			buffer = fmt::format(fmt("{:s}, {:s} ({:d}, {:d}, {:d})"),
+				parcel_name,
+				region_name,
 				pos_x, pos_y, pos_z);
 			break;
 		case LOCATION_FORMAT_NO_COORDS:
-			buffer = llformat("%s, %s%s%s",
-							  parcel_name.c_str(),
-							  region_name.c_str(),
-							  sim_access_string.empty() ? "" : " - ",
-							  sim_access_string.c_str());
+			buffer = fmt::format(fmt("{:s}, {:s}{:s}{:s}"),
+							  parcel_name,
+							  region_name,
+							  sim_access_string.empty() ? LLStringUtil::null : " - ",
+							  sim_access_string);
 				break;
 		case LOCATION_FORMAT_FULL:
-			buffer = llformat("%s, %s (%d, %d, %d)%s%s",
-				parcel_name.c_str(),
-				region_name.c_str(),
+			buffer = fmt::format(fmt("{:s}, {:s} ({:d}, {:d}, {:d}){:s}{:s}"),
+				parcel_name,
+				region_name,
 				pos_x, pos_y, pos_z,
-				sim_access_string.empty() ? "" : " - ",
-				sim_access_string.c_str());
+				sim_access_string.empty() ? LLStringUtil::null : " - ",
+				sim_access_string);
 			break;
 		}
 	}
-	str = buffer;
+	str = std::move(buffer);
 	return TRUE;
 }
 BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt)

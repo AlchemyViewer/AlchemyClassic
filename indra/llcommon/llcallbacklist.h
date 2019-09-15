@@ -49,8 +49,6 @@ public:
 	void callFunctions();														// calls all functions
 	void deleteAllFunctions();
 
-	static void test();
-
 protected:
 
 	inline callback_list_t::iterator find(callback_t func, void *data);

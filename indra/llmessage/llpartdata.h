@@ -94,8 +94,6 @@ public:
 
 	BOOL unpackLegacy(LLDataPacker &dp);
 	BOOL unpack(LLDataPacker &dp);
-
-	BOOL pack(LLDataPacker &dp);
 	
 	bool hasGlow() const;
 	bool hasBlendFunc() const;

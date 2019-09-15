@@ -154,8 +154,6 @@ public:
 	S32 mGLMaxIndexRange;
 	S32 mGLMaxTextureSize;
 	S32 mGLMaxVertexUniformComponents;
-	
-	void getPixelFormat(); // Get the best pixel format
 
 	std::string getGLInfoString();
 	void printGLInfoString();
@@ -171,7 +169,6 @@ public:
 private:
 	void initExtensions();
 	void initGLStates();
-	void initGLImages();
 	void setToDebugGPU();
 };
 

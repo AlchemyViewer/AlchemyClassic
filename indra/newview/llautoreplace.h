@@ -86,9 +86,6 @@ class LLAutoReplaceSettings
 	/// Checks for required elements, and that each has the correct type.
 	bool listIsValid(const LLSD& listSettings);
 	
-	/// Checks for required elements, and that each has the correct type.
-	bool listNameIs(const LLSD& listSettings);
-	
 	/// Checks to see if a new lists name conflicts with one in the settings
 	bool listNameIsUnique(const LLSD& newList);
 	/// @note must be called with LLSD that has passed listIsValid

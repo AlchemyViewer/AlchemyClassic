@@ -53,9 +53,6 @@ public:
 
 	LLWaterParamSet();
 
-	/// Bind this set of parameter values to the uniforms of a particular shader.
-	void update(LLGLSLShader * shader) const;
-
 	/// set the total llsd
 	void setAll(const LLSD& val);
 	

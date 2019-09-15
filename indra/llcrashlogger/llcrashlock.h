@@ -45,21 +45,15 @@ public:
     bool requestMaster( F32 timeout=300.0); //Wait until timeout for master lock.
     bool checkMaster();                     //True if available.  False if not.
     void releaseMaster( );           //Release master lockfile.
-    bool isLockPresent(std::string filename); //Check if lockfile exists.
     bool isProcessAlive(U32 pid, const std::string& pname);               //Check if pid is alive.
     bool isWaiting();                           //Waiting for master lock to be released.
     LLSD getProcessList();                      //Get next process pid/dir pairs
     void cleanupProcess(std::string proc_dir);               //Remove from list, clean up working dir.
     bool putProcessList(const LLSD& processlist); //Write pid/dir pairs back to disk.
 	static bool fileExists(std::string filename);
-    
-
-    //getters
-    S32 getPID();
 
     //setters
     void setCleanUp(bool cleanup=true);
-    void setSaveName(std::string savename);
 private:
     LLSD getLockFile(std::string filename);
     bool putLockFile(std::string filename, const LLSD& data);

@@ -150,8 +150,7 @@ public:
 
 public:
 	// Wrappers for IMM API.
-	static BOOL		isIME(HKL hkl);															
-	static HWND		getDefaultIMEWnd(HWND hwnd);
+	static BOOL		isIME(HKL hkl);
 	static HIMC		getContext(HWND hwnd);													
 	static BOOL		releaseContext(HWND hwnd, HIMC himc);
 	static BOOL		getOpenStatus(HIMC himc);												

@@ -120,7 +120,6 @@ public:
 	static void checkMinWidthHeight(EFileFormat format, S32& width, S32& height);
 	static S32 formatBits(EFileFormat format);
 	static S32 formatBytes(EFileFormat format, S32 width, S32 height);
-	static S32 formatOffset(EFileFormat format, S32 width, S32 height, S32 max_width, S32 max_height);
 	static S32 formatComponents(EFileFormat format);
 	
 	static EFileFormat getFormat(S32 fourcc);

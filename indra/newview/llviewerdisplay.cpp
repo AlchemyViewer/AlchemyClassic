@@ -222,7 +222,7 @@ void display_stats()
 	if (fps_log_freq > 0.f && gRecentFPSTime.getElapsedTimeF32() >= fps_log_freq)
 	{
 		F32 fps = gRecentFrameCount / fps_log_freq;
-		LL_INFOS() << llformat("FPS: %.02f", fps) << LL_ENDL;
+		LL_INFOS() << fmt::format(fmt("FPS: {:.2f}"), fps) << LL_ENDL;
 		gRecentFrameCount = 0;
 		gRecentFPSTime.reset();
 	}

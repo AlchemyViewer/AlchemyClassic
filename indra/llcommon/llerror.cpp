@@ -602,7 +602,7 @@ namespace LLError
         default:          mLevelString = "XXX";     break;
 		};
 
-		mLocationString = llformat("%s(%d)", abbreviateFile(mFile).c_str(), mLine);
+		mLocationString = fmt::format(fmt("{:s}({:d})"), abbreviateFile(mFile), mLine);
 #if LL_WINDOWS
 		// DevStudio: __FUNCTION__ already includes the full class name
 #else

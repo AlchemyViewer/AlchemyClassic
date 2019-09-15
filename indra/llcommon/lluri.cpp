@@ -423,7 +423,7 @@ LLURI LLURI::buildHTTP(const std::string& scheme,
 	const LLSD& path,
 	const LLSD& query)
 {
-	return buildHTTP(llformat("%s://%s", scheme.c_str(), prefix.c_str()), path, query);
+	return buildHTTP(fmt::format(fmt("{:s}://{:s}"), scheme, prefix), path, query);
 }
 
 // static
@@ -431,7 +431,7 @@ LLURI LLURI::buildHTTP(const std::string& host,
 					   const U32& port,
 					   const LLSD& path)
 {
-	return LLURI::buildHTTP(llformat("%s:%u", host.c_str(), port), path);
+	return LLURI::buildHTTP(fmt::format(fmt("{:s}:{:d}"), host, port), path);
 }
 
 // static
@@ -440,7 +440,7 @@ LLURI LLURI::buildHTTP(const std::string& host,
 					   const LLSD& path,
 					   const LLSD& query)
 {
-	return LLURI::buildHTTP(llformat("%s:%u", host.c_str(), port), path, query);
+	return LLURI::buildHTTP(fmt::format(fmt("{:s}:{:d}"), host, port), path, query);
 }
 
 std::string LLURI::asString() const

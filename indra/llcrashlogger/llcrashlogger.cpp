@@ -416,7 +416,7 @@ bool LLCrashLogger::runCrashLogPost(std::string host, LLSD data, std::string msg
 
 	for(int i = 0; i < retries; ++i)
 	{
-		updateApplication(llformat("%s, try %d...", msg.c_str(), i+1));
+		updateApplication(fmt::format(fmt("{:s}, try {:d}..."), msg, i+1));
 
         LL_INFOS("CRASHREPORT") << "POST crash data to " << host << LL_ENDL;
         LLCore::HttpHandle handle = LLCoreHttpUtil::requestPostWithLLSD(httpRequest.get(), LLCore::HttpRequest::DEFAULT_POLICY_ID, 0,

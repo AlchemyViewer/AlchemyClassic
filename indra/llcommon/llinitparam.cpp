@@ -194,7 +194,7 @@ namespace LLInitParam
 		{
 			if (!silent)
 			{
-				p.parserWarning(llformat("Failed to parse parameter \"%s\"", p.getCurrentElementName().c_str()));
+				p.parserWarning(fmt::format(fmt("Failed to parse parameter \"{:s}\""), p.getCurrentElementName()));
 			}
 			return false;
 		}

@@ -617,15 +617,13 @@ void LLPreviewTexture::adjustAspectRatio()
 		LLComboBox* combo = getChild<LLComboBox>("combo_aspect_ratio");
 		if (combo)
 		{
-			std::ostringstream ratio;
-			ratio << num << ":" << denom;
-			std::vector<std::string>::const_iterator found = std::find(mRatiosList.begin(), mRatiosList.end(), ratio.str());
+			auto ratio = fmt::format(fmt("{}:{}"), num, denom);
+			std::vector<std::string>::const_iterator found = std::find(mRatiosList.begin(), mRatiosList.end(), ratio);
 			if (found == mRatiosList.end())
 			{
 				// No existing ratio found, create an element that will show image at original ratio
 				populateRatioList(); // makes sure previous custom ratio is cleared
-				std::string ratio = std::to_string(num) + ":" + std::to_string(denom);
-				mRatiosList.push_back(ratio);
+				mRatiosList.emplace_back(ratio);
 				combo->add(ratio);
 				combo->setCurrentByIndex(mRatiosList.size()- 1);
 			}

@@ -2162,7 +2162,7 @@ namespace LLInitParam
 			{
 				if (name_stack_range.first == name_stack_range.second)
 				{
-					//std::string message = llformat("Deprecated value %s ignored", getName().c_str());
+					//std::string message = fmt::format(fmt("Deprecated value {:s} ignored", getName());
 					//parser.parserWarning(message);
 					return true;
 				}

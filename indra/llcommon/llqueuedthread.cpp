@@ -203,7 +203,7 @@ void LLQueuedThread::printQueueStats()
 	if (!mRequestQueue.empty())
 	{
 		QueuedRequest *req = *mRequestQueue.begin();
-		LL_INFOS() << llformat("Pending Requests:%d Current status:%d", mRequestQueue.size(), req->getStatus()) << LL_ENDL;
+		LL_INFOS() << fmt::format(fmt("Pending Requests:{:d} Current status:{:d}"), mRequestQueue.size(), req->getStatus()) << LL_ENDL;
 	}
 	else
 	{

@@ -3033,13 +3033,13 @@ void LLViewerObject::updateControlAvatar()
 
     if (should_have_control_avatar && !has_control_avatar)
     {
-        std::string vobj_name = llformat("Vol%p", root);
+        std::string vobj_name = fmt::format(fmt("Vol{:p}"), static_cast<void*>(root));
         LL_DEBUGS("AnimatedObjects") << vobj_name << " calling linkControlAvatar()" << LL_ENDL;
         root->linkControlAvatar();
     }
     if (!should_have_control_avatar && has_control_avatar)
     {
-        std::string vobj_name = llformat("Vol%p", root);
+        std::string vobj_name = fmt::format(fmt("Vol{:p}"), static_cast<void*>(root));
         LL_DEBUGS("AnimatedObjects") << vobj_name << " calling unlinkControlAvatar()" << LL_ENDL;
         root->unlinkControlAvatar();
     }

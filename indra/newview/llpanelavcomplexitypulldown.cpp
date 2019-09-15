@@ -48,7 +48,7 @@ BOOL LLPanelAvatarComplexityPulldown::postBuild()
 
 void LLPanelAvatarComplexityPulldown::setAvComplexity(S32 complexity, F32 muted_pct, U32 agents)
 {
-	if (mComplexity) mComplexity->setTextArg("COMPLEXITY", std::to_string(complexity));
+	if (mComplexity) mComplexity->setTextArg("COMPLEXITY", fmt::to_string(complexity));
 	if (mVisibility)
 	{
 		mVisibility->setTextArg("VISIBILITY", agents ? llformat("%.2f", 100.f - muted_pct) : "100");

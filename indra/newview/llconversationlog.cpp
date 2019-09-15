@@ -424,7 +424,7 @@ bool LLConversationLog::moveLog(const std::string &originDirectory, const std::s
 			while(LLFile::isfile(backupFileName))
 			{
 				++backupFileCount;
-				backupFileName = targetDirectory + ".backup" + std::to_string(backupFileCount);
+				backupFileName = targetDirectory + ".backup" + fmt::to_string(backupFileCount);
 			}
 
 			//Rename the file to its backup name so it is not overwritten

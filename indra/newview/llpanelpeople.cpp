@@ -973,8 +973,8 @@ void LLPanelPeople::updateButtons()
 		mGroupMinusBtn->setEnabled(item_selected && selected_id.notNull()); // a real group selected
 		U32 groups_count = gAgent.mGroups.size();
 		U32 groups_ramaining = gMaxAgentGroups > (S32)groups_count ? gMaxAgentGroups - groups_count : 0;
-		mGroupCountText->setTextArg("[COUNT]", std::to_string(groups_count));
-		mGroupCountText->setTextArg("[REMAINING]", std::to_string(groups_ramaining));
+		mGroupCountText->setTextArg("[COUNT]", fmt::to_string(groups_count));
+		mGroupCountText->setTextArg("[REMAINING]", fmt::to_string(groups_ramaining));
 	}
 	else
 	{

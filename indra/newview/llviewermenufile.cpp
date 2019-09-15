@@ -845,7 +845,7 @@ void upload_new_resource(
 				// insufficient funds, bail on this upload
 				LLStringUtil::format_map_t args;
 				args["NAME"] = uploadInfo->getName();
-                args["AMOUNT"] = std::to_string(uploadInfo->getExpectedUploadCost());
+                args["AMOUNT"] = fmt::to_string(uploadInfo->getExpectedUploadCost());
                 LLBuyCurrencyHTML::openCurrencyFloater(LLTrans::getString("UploadingCosts", args), uploadInfo->getExpectedUploadCost());
 				return;
 			}

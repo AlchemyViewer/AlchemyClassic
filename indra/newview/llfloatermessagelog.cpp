@@ -181,7 +181,7 @@ void LLFloaterMessageLog::draw()
     if (mStatusText)
     {
         LLStringUtil::format_map_t map;
-        map["TOTAL"] = std::to_string(mMessagesLogged);
+        map["TOTAL"] = fmt::to_string(mMessagesLogged);
 
         if (mMessageLogFilter.empty())
         {
@@ -189,7 +189,7 @@ void LLFloaterMessageLog::draw()
         }
         else
         {
-            map["MESSAGES"] = std::to_string(mFloaterMessageLogItems.size());
+            map["MESSAGES"] = fmt::to_string(mFloaterMessageLogItems.size());
             mStatusText->setText(getString("filter_status", map));
         }
     }

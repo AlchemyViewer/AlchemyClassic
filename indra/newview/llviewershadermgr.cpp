@@ -835,7 +835,7 @@ BOOL LLViewerShaderMgr::loadBasicShaders()
 	shaders.push_back( std::make_pair( "objects/nonindexedTextureV.glsl",		1 ) );
 
 	boost::unordered_map<std::string, std::string> attribs;
-	attribs["MAX_JOINTS_PER_MESH_OBJECT"] = std::to_string(LLSkinningUtil::getMaxJointCount());
+	attribs["MAX_JOINTS_PER_MESH_OBJECT"] = fmt::to_string(LLSkinningUtil::getMaxJointCount());
 
 	// We no longer have to bind the shaders to global glhandles, they are automatically added to a map now.
 	for (U32 i = 0; i < shaders.size(); i++)
@@ -1972,7 +1972,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gFXAAProgram.mShaderFiles.clear();
 		gFXAAProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
 		gFXAAProgram.mShaderFiles.push_back(std::make_pair("deferred/fxaaF.glsl", GL_FRAGMENT_SHADER));
-		gFXAAProgram.addPermutation("FXAA_QUALITY_PRESET", std::to_string(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
+		gFXAAProgram.addPermutation("FXAA_QUALITY_PRESET", fmt::to_string(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
 		gFXAAProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gFXAAProgram.createShader(nullptr, nullptr);
 	}

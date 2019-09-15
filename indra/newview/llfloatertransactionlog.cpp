@@ -66,7 +66,7 @@ void LLFloaterTransactionLog::addTransaction(const LLDate& date, const LLUUID& s
 	if (!getVisible()) return;
 	
 	LLStringUtil::format_map_t args;
-	args["TOTAL"] = std::to_string(mTotal += amount);
+	args["TOTAL"] = fmt::to_string(mTotal += amount);
 	mTotalText->setValue(getString("total_fmt", args));
 	
 	LLSD row;
@@ -98,6 +98,6 @@ void LLFloaterTransactionLog::reset()
 	mList->deleteAllItems();
 	mTotal = 0;
 	LLStringUtil::format_map_t args;
-	args["TOTAL"] = std::to_string(mTotal);
+	args["TOTAL"] = fmt::to_string(mTotal);
 	mTotalText->setValue(getString("total_fmt", args));
 }

@@ -1542,7 +1542,7 @@ void LLPanelLandObjects::onClickReturnOwnerList()
 
 	LLSD args;
 	args["NAME"] = mSelectedName;
-	args["N"] = std::to_string(mSelectedCount);
+	args["N"] = fmt::to_string(mSelectedCount);
 	if (mSelectedIsGroup)
 	{
 		LLNotificationsUtil::add("ReturnObjectsDeededToGroup", args, LLSD(), boost::bind(&LLPanelLandObjects::callbackReturnOwnerList, this, _1, _2));
@@ -1749,7 +1749,7 @@ void LLPanelLandObjects::onClickReturnOwnerObjects()
 	LLUUID owner_id = parcel->getOwnerID();
 	
 	LLSD args;
-	args["N"] = std::to_string(owned);
+	args["N"] = fmt::to_string(owned);
 
 	if (owner_id == gAgent.getID())
 	{

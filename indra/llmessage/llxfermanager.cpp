@@ -552,7 +552,7 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 		LL_WARNS("Xfer") << "Received invalid xfer data size of " << fdata_size
 			<< " in packet number " << packetnum 
 			<< " from " << mesgsys->getSender()
-			<< " for xfer id: " << std::to_string(id) 
+			<< " for xfer id: " << fmt::to_string(id) 
 			<< LL_ENDL;
 		return;
 	}
@@ -563,7 +563,7 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 	{
 		LL_WARNS("Xfer") << "received xfer data from " << mesgsys->getSender()
 			<< " for non-existent xfer id: "
-			<< std::to_string(id) << LL_ENDL;
+			<< fmt::to_string(id) << LL_ENDL;
 		return;
 	}
 
@@ -769,7 +769,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	mesgsys->getBOOL("XferID", "UseBigPackets", b_use_big_packets);
 	
 	mesgsys->getU64Fast(_PREHASH_XferID, _PREHASH_ID, id);
-	LL_INFOS("Xfer") << "xfer request id: " << std::to_string(id)
+	LL_INFOS("Xfer") << "xfer request id: " << fmt::to_string(id)
 		   << " to " << mesgsys->getSender() << LL_ENDL;
 
 	mesgsys->getStringFast(_PREHASH_XferID, _PREHASH_Filename, local_filename);
@@ -897,7 +897,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	else
 	{	// no uuid or filename - use the ID sent
 		LL_INFOS("Xfer") << "starting memory transfer: "
-			<< std::to_string(id) << " to "
+			<< fmt::to_string(id) << " to "
 			<< mesgsys->getSender() << LL_ENDL;
 
 		xferp = findXferByID(id, mSendList);
@@ -908,7 +908,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 		}
 		else
 		{
-			LL_INFOS("Xfer") << "Warning: xfer ID " << std::to_string(id) << " not found." << LL_ENDL;
+			LL_INFOS("Xfer") << "Warning: xfer ID " << fmt::to_string(id) << " not found." << LL_ENDL;
 			result = LL_ERR_FILE_NOT_FOUND;
 		}
 	}
@@ -942,12 +942,12 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			{	// Not many transfers in progress already, so start immediately
 				xferp->sendNextPacket();
 				changeNumActiveXfers(xferp->mRemoteHost,1);
-				LL_DEBUGS("Xfer") << "Starting xfer ID " << std::to_string(id) << " immediately" << LL_ENDL;
+				LL_DEBUGS("Xfer") << "Starting xfer ID " << fmt::to_string(id) << " immediately" << LL_ENDL;
 			}
 			else if (mHardLimitOutgoingXfersPerCircuit == 0 ||
 				     (host_statusp->mNumActive + host_statusp->mNumPending) < mHardLimitOutgoingXfersPerCircuit)
 			{	// Must close the file handle and wait for earlier ones to complete
-				LL_INFOS("Xfer") << "  queueing xfer request id " << std::to_string(id) << ", "
+				LL_INFOS("Xfer") << "  queueing xfer request id " << fmt::to_string(id) << ", "
 								 << host_statusp->mNumActive << " active and "
 								 << host_statusp->mNumPending << " pending ahead of this one" 
 								 << LL_ENDL;
@@ -988,13 +988,13 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 		}
 		else
 		{
-			LL_WARNS("Xfer") << "LLXferManager::processFileRequest() - no LLHostStatus found for id " << std::to_string(id)
+			LL_WARNS("Xfer") << "LLXferManager::processFileRequest() - no LLHostStatus found for id " << fmt::to_string(id)
 				<< " host " << xferp->mRemoteHost << LL_ENDL;
 		}
 	}
 	else
 	{
-		LL_WARNS("Xfer") << "LLXferManager::processFileRequest() - no xfer found for id " << std::to_string(id)	<< LL_ENDL;
+		LL_WARNS("Xfer") << "LLXferManager::processFileRequest() - no xfer found for id " << fmt::to_string(id)	<< LL_ENDL;
 	}
 }
  
@@ -1118,7 +1118,7 @@ void LLXferManager::retransmitUnackedPackets()
 			{
 				if (xferp->reopenFileHandle())
 				{
-					LL_WARNS("Xfer") << "Error re-opening file handle for xfer ID " << std::to_string(xferp->mID)
+					LL_WARNS("Xfer") << "Error re-opening file handle for xfer ID " << fmt::to_string(xferp->mID)
 						<< " to host " << xferp->mRemoteHost << LL_ENDL;
 					xferp->abort(LL_ERR_CANNOT_OPEN_FILE);
 					iter = mSendList.erase(iter);
@@ -1127,7 +1127,7 @@ void LLXferManager::retransmitUnackedPackets()
 				}
 				else
 				{	// No error re-opening the file, send the first packet
-					LL_DEBUGS("Xfer") << "Moving pending xfer ID " << std::to_string(xferp->mID) << " to active" << LL_ENDL;
+					LL_DEBUGS("Xfer") << "Moving pending xfer ID " << fmt::to_string(xferp->mID) << " to active" << LL_ENDL;
 					xferp->sendNextPacket();
 					changeNumActiveXfers(xferp->mRemoteHost,1);
 				}

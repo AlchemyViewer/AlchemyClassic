@@ -553,7 +553,7 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 		logdir = logdir.substr(0,end+1);
 	}
 
-	std::string arg_str =  "\"" + exe_path + "\" -dumpdir \"" + logdir + "\" -procname \"" + appname + "\" -pid " + std::to_string(LLApp::getPid());
+	std::string arg_str =  "\"" + exe_path + "\" -dumpdir \"" + logdir + "\" -procname \"" + appname + "\" -pid " + fmt::to_string(LLApp::getPid());
 
 	STARTUPINFO startInfo={sizeof(startInfo)};
 	PROCESS_INFORMATION processInfo;

@@ -353,9 +353,9 @@ void LLSidepanelTaskInfo::refresh()
 	   Streaming Cost: [COST]
 	   [BYTES] */
 	LLStringUtil::format_map_t args;
-	args["COUNT"]	= std::to_string(object_count);
-	args["vCOUNT"]	= std::to_string(vertex_count);
-	args["tCOUNT"]	= std::to_string(triangle_count);
+	args["COUNT"]	= fmt::to_string(object_count);
+	args["vCOUNT"]	= fmt::to_string(vertex_count);
+	args["tCOUNT"]	= fmt::to_string(triangle_count);
 	args["COST"]	= llformat("%.3f", streaming_cost);
 	args["BYTES"]	= total_bytes != 0 ? llformat("%d / %d KB", visible_bytes/1024, total_bytes/1024) : LLStringUtil::null;
 	LLUIString fmt = getString("stats_fmt");

@@ -281,12 +281,12 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 							("ObjectLocalID" == var_name || "TaskLocalID" == var_name || ("LocalID" == var_name && ("ObjectData" == block_name || "UpdateData" == block_name || "InventoryData" == block_name))))
 					{
 
-						value = std::to_string(selected_objectp->getLocalID());
+						value = fmt::to_string(selected_objectp->getLocalID());
 					}
 					else if(agent_parcelp && "LocalID" == var_name
 							&& ("ParcelData" == block_name || message.find("Parcel") != message.npos))
 					{
-						value = std::to_string(agent_parcelp->getLocalID());
+						value = fmt::to_string(agent_parcelp->getLocalID());
 					}
 					else if("PCode" == var_name)
 						value = "9";

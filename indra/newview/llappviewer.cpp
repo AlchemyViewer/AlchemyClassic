@@ -1170,13 +1170,13 @@ bool LLAppViewer::init()
 		// add LEAP mode command-line argument to whichever of these we selected
 		updater.args.add("leap");
 		// UpdaterServiceSettings
-		updater.args.add(std::to_string(gSavedSettings.getU32("UpdaterServiceSetting")));
+		updater.args.add(fmt::to_string(gSavedSettings.getU32("UpdaterServiceSetting")));
 		// channel
 		updater.args.add(LLVersionInfo::getChannel());
 		// testok
-		updater.args.add(std::to_string(gSavedSettings.getBOOL("UpdaterWillingToTest")));
+		updater.args.add(fmt::to_string(gSavedSettings.getBOOL("UpdaterWillingToTest")));
 		// ForceAddressSize
-		updater.args.add(std::to_string(gSavedSettings.getU32("ForceAddressSize")));
+		updater.args.add(fmt::to_string(gSavedSettings.getU32("ForceAddressSize")));
 
 		// Run the updater. An exception from launching the updater should bother us.
 		LLLeap::create(updater, true);

@@ -34,13 +34,15 @@ protected:
 	F32		mVertex[8][3];
 	U32		mTriangleCount;
 public:
+    LLBox() : mVertex{}, mTriangleCount(0) { }
+
 	void	prerender();
 	void	cleanupGL();
 
 	void	renderface(S32 which_face);
 	void	render();
 
-	U32		getTriangleCount()			{ return mTriangleCount; }
+	U32		getTriangleCount() const { return mTriangleCount; }
 };
 
 extern LLBox gBox;

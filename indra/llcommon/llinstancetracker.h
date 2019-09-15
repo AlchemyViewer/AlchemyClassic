@@ -254,10 +254,10 @@ protected:
 	virtual void setKey(KEY key) { remove_(); add_(key); }
 	virtual const KEY& getKey() const { return mInstanceKey; }
 
-private:
-	LLInstanceTracker( const LLInstanceTracker& );
-	const LLInstanceTracker& operator=( const LLInstanceTracker& );
+	LLInstanceTracker( const LLInstanceTracker& ) = delete;
+	LLInstanceTracker& operator=( const LLInstanceTracker& ) = delete;
 
+private:
 	void add_(const KEY& key) 
 	{ 
 		mInstanceKey = key; 

@@ -207,7 +207,7 @@ void LLVOGrass::initClass()
 
 	for (S32 i = 0; i < GRASS_MAX_BLADES; ++i)
 	{
-		if (/* DISABLES CODE */ (true))   //(i%2 == 0)			Uncomment for X blading
+		if constexpr (/* DISABLES CODE */ (true))   //(i%2 == 0)			Uncomment for X blading
 		{
 			F32 u = sqrt(-2.0f * log(ll_frand()));
 			F32 v = 2.0f * F_PI * ll_frand();

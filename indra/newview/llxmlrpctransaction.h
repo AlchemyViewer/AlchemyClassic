@@ -59,14 +59,12 @@ public:
 	void appendInt(int);
 	void appendBool(bool);
 	void appendDouble(double);
-	void appendValue(LLXMLRPCValue&);
 
 	void append(const char*, LLXMLRPCValue&);
 	void appendString(const char*, const std::string&);
 	void appendInt(const char*, int);
 	void appendBool(const char*, bool);
 	void appendDouble(const char*, double);
-	void appendValue(const char*, LLXMLRPCValue&);
 	
 	void cleanup();
 		// only call this on the top level created value

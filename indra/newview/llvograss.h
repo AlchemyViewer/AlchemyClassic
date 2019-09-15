@@ -49,8 +49,6 @@ public:
 											U32 block_num, 
 											const EObjectUpdateType update_type,
 											LLDataPacker *dp) override;
-	static void import(LLFILE *file, LLMessageSystem *mesgsys, const LLVector3 &pos);
-	/*virtual*/ void exportFile(LLFILE *file, const LLVector3 &position);
 
 	void updateDrawable(BOOL force_damped) override;
 

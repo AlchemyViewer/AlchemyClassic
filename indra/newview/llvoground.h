@@ -48,8 +48,6 @@ public:
 	/*virtual*/ void updateTextures() override;
 	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;
 	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable) override;
-
-	void cleanupGL();
 };
 
 #endif // LL_LLVOGROUND_H

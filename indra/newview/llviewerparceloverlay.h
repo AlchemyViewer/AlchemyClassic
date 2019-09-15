@@ -64,7 +64,6 @@ public:
 	
 	BOOL			isSoundLocal(const LLVector3& pos) const;
 
-	BOOL			isBuildCameraAllowed(const LLVector3& pos) const;
 	F32				getOwnedRatio() const;
 	const U8*		getOwnership() const { return mOwnership; }
 

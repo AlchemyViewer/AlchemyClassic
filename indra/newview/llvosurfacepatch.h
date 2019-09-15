@@ -53,9 +53,6 @@ public:
 
 	/*virtual*/ void markDead() override;
 
-	// Initialize data that's only inited once per class.
-	static void initClass();
-
 	U32 getPartitionType() const override;
 
 	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;

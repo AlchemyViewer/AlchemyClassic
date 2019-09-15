@@ -51,16 +51,12 @@ protected:
 };
 
 
-class LLTransferTargetFile : public LLTransferTarget
+class LLTransferTargetFile final : public LLTransferTarget
 {
 public:
 	LLTransferTargetFile(const LLUUID& uuid, LLTransferSourceType src_type);
 	virtual ~LLTransferTargetFile();
 
-	static void requestTransfer(LLTransferTargetChannel *channelp,
-								const char *local_filename,
-								const LLTransferSourceParams &source_params,
-								LLTTFCompleteCallback callback);
 protected:
 	bool unpackParams(LLDataPacker& dp) override;
 	/*virtual*/ void applyParams(const LLTransferTargetParams &params) override;

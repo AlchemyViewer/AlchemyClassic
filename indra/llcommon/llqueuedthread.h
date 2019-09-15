@@ -147,17 +147,15 @@ protected:
 	
 public:
 	static handle_t nullHandle() { return handle_t(0); }
-	
-public:
+
 	LLQueuedThread(const std::string& name, bool threaded = true, bool should_pause = false);
 	virtual ~LLQueuedThread();
 	void shutdown() override;
 	
-private:
-	// No copy constructor or copy assignment
-	LLQueuedThread(const LLQueuedThread&);
-	LLQueuedThread& operator=(const LLQueuedThread&);
+    LLQueuedThread(const LLQueuedThread&) = delete;
+    LLQueuedThread& operator=(const LLQueuedThread&) = delete;
 
+private:
 	bool runCondition(void) override;
 	void run(void) override;
 	virtual void startThread(void);
@@ -180,7 +178,7 @@ public:
 	void printQueueStats();
 
 	virtual S32 getPending();
-	bool getThreaded() { return mThreaded ? true : false; }
+	bool getThreaded() const { return mThreaded ? true : false; }
 
 	// Request accessors
 	status_t getRequestStatus(handle_t handle);

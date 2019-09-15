@@ -29,15 +29,9 @@
 
 #include "llassettype.h"
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Class LLInventoryType
-//
-// Class used to encapsulate operations around inventory type.
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLInventoryType
+namespace LLInventoryType
 {
-public:
 	enum EType
 	{
 		IT_TEXTURE = 0,
@@ -120,21 +114,16 @@ public:
 
 
 	// machine transation between type and strings
-	static EType lookup(const std::string& name);
-	static const std::string &lookup(EType type);
+	EType lookup(const std::string& name);
+	const std::string &lookup(EType type);
 	// translation from a type to a human readable form.
-	static const std::string &lookupHumanReadable(EType type);
+	const std::string &lookupHumanReadable(EType type);
 
 	// return the default inventory for the given asset type.
-	static EType defaultForAssetType(LLAssetType::EType asset_type);
+	EType defaultForAssetType(LLAssetType::EType asset_type);
 
 	// true if this type cannot have restricted permissions.
-	static bool cannotRestrictPermissions(EType type);
-
-private:
-	// don't instantiate or derive one of these objects
-	LLInventoryType( void );
-	~LLInventoryType( void );
+	bool cannotRestrictPermissions(EType type);
 };
 
 // helper function that returns true if inventory type and asset type

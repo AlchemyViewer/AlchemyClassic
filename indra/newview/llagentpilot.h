@@ -87,8 +87,6 @@ private:
 	S32		mNumRuns;
 	BOOL	mQuitAfterRuns;
 
-	void setAutopilotTarget(const S32 id);
-
 	BOOL	mRecording;
 	F32		mLastRecordTime;
 

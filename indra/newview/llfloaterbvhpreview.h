@@ -53,9 +53,9 @@ public:
 	void	zoom(F32 zoom_delta);
 	void	setZoom(F32 zoom_amt);
 	void	pan(F32 right, F32 up);
-	virtual BOOL needsUpdate() { return mNeedsUpdate; }
+	BOOL    needsUpdate() const { return mNeedsUpdate; }
 
-	LLVOAvatar* getDummyAvatar() { return mDummyAvatar; }
+	LLVOAvatar* getDummyAvatar() const { return mDummyAvatar; }
 
 protected:
 	BOOL				mNeedsUpdate;

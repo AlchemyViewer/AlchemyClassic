@@ -32,17 +32,13 @@
 #include "llfasttimer.h"
 #include "llmemory.h"
 
-//#include "llviewercontrol.h"
 #include "llxmltree.h"
 #include "llavatarappearance.h"
-#include "llwearable.h"
 #include "lldir.h"
 #include "llvolume.h"
 #include "llendianswizzle.h"
 
-
-#define HEADER_ASCII "Linden Mesh 1.0"
-#define HEADER_BINARY "Linden Binary Mesh 1.0"
+static const char HEADER_BINARY[] = "Linden Binary Mesh 1.0";
 
 LLPolyMorphData *clone_morph_param_duplicate(const LLPolyMorphData *src_data,
 					     const std::string &name);
@@ -298,7 +294,7 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
         // Check for proper binary header
         //-------------------------------------------------------------------------
         BOOL status = FALSE;
-        if ( strncmp(header, HEADER_BINARY, strlen(HEADER_BINARY)) == 0 )       /*Flawfinder: ignore*/
+        if ( strncmp(header, HEADER_BINARY, sizeof(HEADER_BINARY)) == 0 )       /*Flawfinder: ignore*/
         {
                 LL_DEBUGS() << "Loading " << fileName << LL_ENDL;
 

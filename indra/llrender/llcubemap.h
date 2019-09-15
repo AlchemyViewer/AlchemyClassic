@@ -57,8 +57,6 @@ public:
 	void restoreMatrix();
 	void setReflection (void);
 
-	void finishPaint();
-
 	GLuint getGLName() const;
 
 	LLVector3 map(U8 side, U16 v_val, U16 h_val) const;

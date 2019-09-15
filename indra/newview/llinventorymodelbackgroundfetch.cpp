@@ -800,10 +800,10 @@ void BGFolderHttpHandler::processFailure(LLCore::HttpStatus status, LLCore::Http
 	// request which tested on HTTP_INTERNAL_ERROR status.  This
 	// retry logic was unbounded and lacked discrimination as to the
 	// cause of the retry.  The new http library should be doing
-	// adquately on retries but I want to keep the structure of a
+	// adequately on retries but I want to keep the structure of a
 	// retry for reference.
 	LLInventoryModelBackgroundFetch *fetcher = LLInventoryModelBackgroundFetch::getInstance();
-	if (/* DISABLES CODE */ (false))
+	if constexpr (/* DISABLES CODE */ (false))
 	{
 		// timed out or curl failure
 		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray();
@@ -841,7 +841,7 @@ void BGFolderHttpHandler::processFailure(const char * const reason, LLCore::Http
 	// Philosophy is that inventory folders are so essential to
 	// operation that this is a reasonable action.
 	LLInventoryModelBackgroundFetch *fetcher = LLInventoryModelBackgroundFetch::getInstance();
-	if (/* DISABLES CODE */ (true))
+	if constexpr (/* DISABLES CODE */ (true))
 	{
 		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray();
 			 folder_it != mRequestSD["folders"].endArray();

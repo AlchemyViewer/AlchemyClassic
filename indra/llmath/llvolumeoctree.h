@@ -65,8 +65,8 @@ public:
 	mutable S32 mBinIndex;
 
 
-	virtual const LLVector4a& getPositionGroup() const;
-	virtual const F32& getBinRadius() const;
+	const LLVector4a& getPositionGroup() const;
+	const F32& getBinRadius() const;
 	
 	S32 getBinIndex() const { return mBinIndex; }
 	void setBinIndex(S32 idx) const { mBinIndex = idx; }

@@ -233,8 +233,7 @@ void LLXMLRPCTransaction::Handler::onCompleted(LLCore::HttpHandle handle,
 
 	if (!status)
 	{
-		if ((status.toULong() != CURLE_SSL_PEER_CERTIFICATE) &&
-			(status.toULong() != CURLE_SSL_CACERT))
+		if (status.toULong() != CURLE_PEER_FAILED_VERIFICATION)
 		{
 			// if we have a curl error that's not already been handled
 			// (a non cert error), then generate the error message as

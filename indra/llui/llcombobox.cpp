@@ -41,7 +41,6 @@
 #include "llscrolllistctrl.h"
 #include "llwindow.h"
 #include "llfloater.h"
-#include "llscrollbar.h"
 #include "llscrolllistcell.h"
 #include "llscrolllistitem.h"
 #include "llcontrol.h"
@@ -52,7 +51,7 @@
 #include "lltooltip.h"
 
 // Globals
-S32 MAX_COMBO_WIDTH = 500;
+static const S32 MAX_COMBO_WIDTH = 500;
 
 static LLDefaultChildRegistry::Register<LLComboBox> register_combo_box("combo_box");
 
@@ -138,14 +137,12 @@ LLComboBox::LLComboBox(const LLComboBox::Params& p)
 	// Grab the mouse-up event and make sure the button state is correct
 	mList->setMouseUpCallback(boost::bind(&LLComboBox::onListMouseUp, this));
 
-	for (LLInitParam::ParamIterator<ItemParams>::const_iterator it = p.items.begin();
-		it != p.items.end();
-		++it)
-	{
-		LLScrollListItem::Params item_params = *it;
-		if (it->label.isProvided())
+	for (const auto& item : p.items)
+    {
+		auto item_params = item;
+		if (item.label.isProvided())
 		{
-			item_params.columns.add().value(it->label());
+			item_params.columns.add().value(item.label());
 		}
 
 		mList->addRow(item_params);
@@ -181,7 +178,7 @@ LLComboBox::~LLComboBox()
 {
 	// children automatically deleted, including mMenu, mButton
 
-	// explicitly disconect this signal, since base class destructor might fire top lost
+	// explicitly disconnect this signal, since base class destructor might fire top lost
 	mTopLostSignalConnection.disconnect();
 }
 
@@ -223,7 +220,7 @@ BOOL LLComboBox::isDirty() const
 }
 
 // virtual   Clear dirty state
-void	LLComboBox::resetDirty()
+void LLComboBox::resetDirty()
 {
 	if ( mList )
 	{
@@ -231,7 +228,7 @@ void	LLComboBox::resetDirty()
 	}
 }
 
-bool LLComboBox::itemExists(const std::string& name)
+bool LLComboBox::itemExists(const std::string& name) const
 {
 	return mList->getItemByLabel(name);
 }
@@ -370,7 +367,7 @@ void LLComboBox::setValue(const LLSD& value)
 	}
 }
 
-const std::string LLComboBox::getSimple() const
+std::string LLComboBox::getSimple() const
 {
 	const std::string res = getSelectedItemLabel();
 	if (res.empty() && mAllowTextEntry)
@@ -383,7 +380,7 @@ const std::string LLComboBox::getSimple() const
 	}
 }
 
-const std::string LLComboBox::getSelectedItemLabel(S32 column) const
+std::string LLComboBox::getSelectedItemLabel(S32 column) const
 {
 	return mList->getSelectedItemLabel(column);
 }
@@ -583,7 +580,7 @@ void LLComboBox::setLeftTextPadding(S32 pad)
 	mTextEntry->setTextPadding(pad, right_pad);
 }
 
-void* LLComboBox::getCurrentUserdata()
+void* LLComboBox::getCurrentUserdata() const
 {
 	LLScrollListItem* item = mList->getFirstSelected();
 	if( item )
@@ -1178,7 +1175,7 @@ LLIconsComboBox::LLIconsComboBox(const LLIconsComboBox::Params& p)
 	mLabelColumnIndex(p.label_column)
 {}
 
-const std::string LLIconsComboBox::getSelectedItemLabel(S32 column) const
+std::string LLIconsComboBox::getSelectedItemLabel(S32 column) const
 {
 	mButton->setImageOverlay(LLComboBox::getSelectedItemLabel(mIconColumnIndex), mButton->getImageOverlayHAlign());
 

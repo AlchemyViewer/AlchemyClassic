@@ -33,7 +33,6 @@
 #include "llbutton.h"
 #include "lluictrl.h"
 #include "llctrlselectioninterface.h"
-#include "llrect.h"
 #include "llscrolllistctrl.h"
 #include "lllineeditor.h"
 
@@ -136,16 +135,16 @@ public:
 	LLScrollListItem*	addSeparator(EAddPosition pos = ADD_BOTTOM);
 	BOOL			remove( S32 index );	// remove item by index, return TRUE if found and removed
 	void			removeall() { clearRows(); }
-	bool			itemExists(const std::string& name);
+	bool			itemExists(const std::string& name) const;
 
 	void			sortByName(BOOL ascending = TRUE); // Sort the entries in the combobox by name
 
 	// Select current item by name using selectItemByLabel.  Returns FALSE if not found.
 	BOOL			setSimple(const LLStringExplicit& name);
 	// Get name of current item. Returns an empty string if not found.
-	const std::string	getSimple() const;
+	std::string     getSimple() const;
 	// Get contents of column x of selected row
-	virtual const std::string getSelectedItemLabel(S32 column = 0) const;
+	virtual std::string getSelectedItemLabel(S32 column = 0) const;
 
 	// Sets the label, which doesn't have to exist in the label.
 	// This is probably a UI abuse.
@@ -164,7 +163,7 @@ public:
 	//========================================================================
 	LLCtrlSelectionInterface* getSelectionInterface() override { return (LLCtrlSelectionInterface*)this; };
 	LLCtrlListInterface* getListInterface() override { return (LLCtrlListInterface*)this; };
-	LLScrollListCtrl* getListCtrl()						{ return mList; }
+	LLScrollListCtrl* getListCtrl() const { return mList; }
 
 	// LLCtrlListInterface functions
 	// See llscrolllistctrl.h
@@ -196,7 +195,7 @@ public:
 	
 	void			setLeftTextPadding(S32 pad);
 	
-	void*			getCurrentUserdata();
+	void*			getCurrentUserdata() const;
 
 	void			setPrearrangeCallback( commit_callback_t cb ) { mPrearrangeCallback = cb; }
 	void			setTextEntryCallback( commit_callback_t cb ) { mTextEntryCallback = cb; }
@@ -256,7 +255,7 @@ public:
 		Params();
 	};
 
-	/*virtual*/ const std::string getSelectedItemLabel(S32 column = 0) const override;
+	/*virtual*/ std::string getSelectedItemLabel(S32 column = 0) const override;
 
 private:
 	enum EColumnIndex
@@ -267,7 +266,7 @@ private:
 
 	friend class LLUICtrlFactory;
 	LLIconsComboBox(const Params&);
-	virtual ~LLIconsComboBox() {};
+    virtual ~LLIconsComboBox() = default;
 
 	S32			mIconColumnIndex;
 	S32			mLabelColumnIndex;

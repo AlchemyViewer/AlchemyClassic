@@ -47,8 +47,6 @@ LLScrollListItem::LLScrollListItem( const Params& p )
 {
 	for (const auto& cell : p.contents.columns)
 		addColumn(cell);
-	for (const auto& cell : p.columns)
-		addColumn(cell);
 }
 
 

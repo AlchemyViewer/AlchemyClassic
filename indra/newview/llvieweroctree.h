@@ -407,7 +407,7 @@ protected:
 class LLViewerOctreeDebug final : public OctreeTraveler
 {
 public:
-	virtual void processGroup(LLViewerOctreeGroup* group);
+	void processGroup(LLViewerOctreeGroup* group);
 	void visit(const OctreeNode* branch) override;
 
 public:

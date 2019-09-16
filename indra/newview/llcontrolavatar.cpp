@@ -503,12 +503,12 @@ void LLControlAvatar::updateAnimations()
     
     // Rebuild mSignaledAnimations from the associated volumes.
 	absl::flat_hash_map<LLUUID, S32> anims;
-    for (std::vector<LLVOVolume*>::iterator vol_it = volumes.begin(); vol_it != volumes.end(); ++vol_it)
+    for (auto vol_it = volumes.begin(); vol_it != volumes.end(); ++vol_it)
     {
         LLVOVolume *volp = *vol_it;
         //LL_INFOS("AnimatedObjects") << "updating anim for vol " << volp->getID() << " root " << mRootVolp->getID() << LL_ENDL;
         signaled_animation_map_t& signaled_animations = LLObjectSignaledAnimationMap::instance().getMap()[volp->getID()];
-        for (std::map<LLUUID,S32>::iterator anim_it = signaled_animations.begin();
+        for (auto anim_it = signaled_animations.begin();
              anim_it != signaled_animations.end();
              ++anim_it)
         {

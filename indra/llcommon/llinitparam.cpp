@@ -208,7 +208,7 @@ namespace LLInitParam
 		if (!mValidated)
 		{
 		const BlockDescriptor& block_data = mostDerivedBlockDescriptor();
-		for (BlockDescriptor::param_validation_list_t::const_iterator it = block_data.mValidationList.begin(); it != block_data.mValidationList.end(); ++it)
+		for (auto it = block_data.mValidationList.begin(); it != block_data.mValidationList.end(); ++it)
 		{
 			const Param* param = getParamFromHandle(it->first);
 			if (!it->second(param))
@@ -236,13 +236,11 @@ namespace LLInitParam
 		// unnamed param is like LLView::Params::rect - implicit
 		const BlockDescriptor& block_data = mostDerivedBlockDescriptor();
 
-		for (BlockDescriptor::param_list_t::const_iterator it = block_data.mUnnamedParams.begin(); 
-			it != block_data.mUnnamedParams.end(); 
-			++it)
-		{
-			param_handle_t param_handle = (*it)->mParamHandle;
+		for (const auto& mUnnamedParam : block_data.mUnnamedParams)
+        {
+			param_handle_t param_handle = mUnnamedParam->mParamHandle;
 			const Param* param = getParamFromHandle(param_handle);
-			ParamDescriptor::serialize_func_t serialize_func = (*it)->mSerializeFunc;
+			ParamDescriptor::serialize_func_t serialize_func = mUnnamedParam->mSerializeFunc;
 			if (serialize_func && predicate_rule.check(ll_make_predicate(PROVIDED, param->anyProvided())))
 			{
 				const Param* diff_param = diff_block ? diff_block->getParamFromHandle(param_handle) : NULL;
@@ -260,11 +258,9 @@ namespace LLInitParam
 				// Ensure this param has not already been serialized
 				// Prevents <rect> from being serialized as its own tag.
 				bool duplicate = false;
-				for (BlockDescriptor::param_list_t::const_iterator it2 = block_data.mUnnamedParams.begin(); 
-					it2 != block_data.mUnnamedParams.end(); 
-					++it2)
-				{
-					if (param_handle == (*it2)->mParamHandle)
+				for (const auto& mUnnamedParam : block_data.mUnnamedParams)
+                {
+					if (param_handle == mUnnamedParam->mParamHandle)
 					{
 						duplicate = true;
 						break;
@@ -299,17 +295,15 @@ namespace LLInitParam
 		// unnamed param is like LLView::Params::rect - implicit
 		const BlockDescriptor& block_data = mostDerivedBlockDescriptor();
 
-		for (BlockDescriptor::param_list_t::const_iterator it = block_data.mUnnamedParams.begin(); 
-			it != block_data.mUnnamedParams.end(); 
-			++it)
-		{
-			param_handle_t param_handle = (*it)->mParamHandle;
+		for (const auto& unnamed_param : block_data.mUnnamedParams)
+        {
+			param_handle_t param_handle = unnamed_param->mParamHandle;
 			const Param* param = getParamFromHandle(param_handle);
-			ParamDescriptor::inspect_func_t inspect_func = (*it)->mInspectFunc;
+			ParamDescriptor::inspect_func_t inspect_func = unnamed_param->mInspectFunc;
 			if (inspect_func)
 			{
 				name_stack.push_back(std::make_pair("", true));
-				inspect_func(*param, parser, name_stack, (*it)->mMinCount, (*it)->mMaxCount);
+				inspect_func(*param, parser, name_stack, unnamed_param->mMinCount, unnamed_param->mMaxCount);
 				name_stack.pop_back();
 			}
 		}
@@ -323,11 +317,9 @@ namespace LLInitParam
 			{
 				// Ensure this param has not already been inspected
 				bool duplicate = false;
-				for (BlockDescriptor::param_list_t::const_iterator it2 = block_data.mUnnamedParams.begin(); 
-					it2 != block_data.mUnnamedParams.end(); 
-					++it2)
-				{
-					if (param_handle == (*it2)->mParamHandle)
+				for (const auto& param : block_data.mUnnamedParams)
+                {
+					if (param_handle == param->mParamHandle)
 					{
 						duplicate = true;
 						break;
@@ -356,7 +348,7 @@ namespace LLInitParam
 		{
 			const std::string& top_name = name_stack_range.first->first;
 
-			BlockDescriptor::param_map_t::iterator found_it = block_data.mNamedParams.find(top_name);
+            auto found_it = block_data.mNamedParams.find(top_name);
 			if (found_it != block_data.mNamedParams.end())
 			{
 				// find pointer to member parameter from offset table
@@ -379,12 +371,10 @@ namespace LLInitParam
 		}
 
 		// try to parse unnamed parameters, in declaration order
-		for ( BlockDescriptor::param_list_t::iterator it = block_data.mUnnamedParams.begin(); 
-			it != block_data.mUnnamedParams.end(); 
-			++it)
-		{
-			Param* paramp = getParamFromHandle((*it)->mParamHandle);
-			ParamDescriptor::deserialize_func_t deserialize_func = (*it)->mDeserializeFunc;
+		for (auto& param : block_data.mUnnamedParams)
+        {
+			Param* paramp = getParamFromHandle(param->mParamHandle);
+			ParamDescriptor::deserialize_func_t deserialize_func = param->mDeserializeFunc;
 
 			if (deserialize_func && deserialize_func(*paramp, p, name_stack_range, new_name))
 			{
@@ -450,12 +440,9 @@ namespace LLInitParam
 	{
 		param_handle_t handle = getHandleFromParam(&param);
 		BlockDescriptor& descriptor = mostDerivedBlockDescriptor();
-		BlockDescriptor::all_params_list_t::iterator end_it = descriptor.mAllParams.end();
-		for (BlockDescriptor::all_params_list_t::iterator it = descriptor.mAllParams.begin();
-			it != end_it;
-			++it)
-		{
-			if ((*it)->mParamHandle == handle) return *it;
+		for (auto& param : descriptor.mAllParams)
+        {
+			if (param->mParamHandle == handle) return param;
 		}
 		return ParamDescriptorPtr();
 	}
@@ -465,9 +452,8 @@ namespace LLInitParam
 	bool BaseBlock::mergeBlock(BlockDescriptor& block_data, const BaseBlock& other, bool overwrite)
 	{
 		bool some_param_changed = false;
-		BlockDescriptor::all_params_list_t::const_iterator end_it = block_data.mAllParams.end();
 		for (BlockDescriptor::all_params_list_t::const_iterator it = block_data.mAllParams.begin();
-			it != end_it;
+			it != block_data.mAllParams.end();
 			++it)
 		{
 			const Param* other_paramp = other.getParamFromHandle((*it)->mParamHandle);

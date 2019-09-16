@@ -1724,7 +1724,7 @@ void LLAvatarAppearance::makeJointAliases(LLAvatarBoneInfo *bone_info)
     
     boost::char_separator<char> sep(" ");
     boost::tokenizer<boost::char_separator<char> > tok(aliases, sep);
-    for(boost::tokenizer<boost::char_separator<char> >::iterator i = tok.begin(); i != tok.end(); ++i)
+    for(auto i = tok.begin(); i != tok.end(); ++i)
     {
         if ( mJointAliasMap.find(*i) != mJointAliasMap.end() )
         {
@@ -1733,10 +1733,9 @@ void LLAvatarAppearance::makeJointAliases(LLAvatarBoneInfo *bone_info)
         mJointAliasMap[*i] = bone_name;
     }
 
-    LLAvatarBoneInfo::child_list_t::const_iterator iter;
-    for (iter = bone_info->mChildList.begin(); iter != bone_info->mChildList.end(); ++iter)
+    for (auto& iter : bone_info->mChildList)
     {
-        makeJointAliases( *iter );
+        makeJointAliases(iter);
     }
 }
 
@@ -1744,22 +1743,14 @@ const LLAvatarAppearance::joint_alias_map_t& LLAvatarAppearance::getJointAliases
 {
     if (mJointAliasMap.empty())
     {
-        
-        LLAvatarSkeletonInfo::bone_info_list_t::const_iterator iter;
-        for (iter = sAvatarSkeletonInfo->mBoneInfoList.begin(); 
-             iter != sAvatarSkeletonInfo->mBoneInfoList.end();
-             ++iter)
+        for (auto& iter : sAvatarSkeletonInfo->mBoneInfoList)
         {
             //LLAvatarBoneInfo *bone_info = *iter;
-            makeJointAliases( *iter );
+            makeJointAliases(iter);
         }
 
-        LLAvatarXmlInfo::attachment_info_list_t::iterator attach_iter;
-        for (attach_iter = sAvatarXmlInfo->mAttachmentInfoList.begin();
-             attach_iter != sAvatarXmlInfo->mAttachmentInfoList.end(); 
-             ++attach_iter)
+        for (auto info : sAvatarXmlInfo->mAttachmentInfoList)
         {
-            LLAvatarXmlInfo::LLAvatarAttachmentInfo *info = *attach_iter;
             std::string bone_name = info->mName;
             
             // Also accept the name with spaces substituted with

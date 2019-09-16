@@ -48,7 +48,7 @@ class LLPathfindingNavMeshStatus;
  * 
  * @see LLNavigationBar
  */
-class LLLocationInputCtrl
+class LLLocationInputCtrl final
 :	public LLComboBox
 {
 	LOG_CLASS(LLLocationInputCtrl);

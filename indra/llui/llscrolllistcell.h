@@ -91,7 +91,7 @@ public:
 	static LLScrollListCell* create(const Params&);
 
 	LLScrollListCell(const LLScrollListCell::Params&);
-	virtual ~LLScrollListCell() {};
+	virtual ~LLScrollListCell() = default;
 
 	virtual void			draw(const LLColor4& color, const LLColor4& highlight_color) const {};		// truncate to given width, if possible
 	virtual S32				getWidth() const {return mWidth;}
@@ -117,11 +117,11 @@ private:
 	std::string mToolTip;
 };
 
-class LLScrollListSpacer : public LLScrollListCell
+class LLScrollListSpacer final : public LLScrollListCell
 {
 public:
 	LLScrollListSpacer(const LLScrollListCell::Params& p) : LLScrollListCell(p) {}
-	/*virtual*/ ~LLScrollListSpacer() {};
+	/*virtual*/ ~LLScrollListSpacer() = default;
 	/*virtual*/ void			draw(const LLColor4& color, const LLColor4& highlight_color) const override {}
 };
 
@@ -134,23 +134,23 @@ public:
 	LLScrollListText(const LLScrollListCell::Params&);
 	/*virtual*/ ~LLScrollListText();
 
-	/*virtual*/ void    draw(const LLColor4& color, const LLColor4& highlight_color) const override;
-	/*virtual*/ S32		getContentWidth() const override;
-	/*virtual*/ S32		getHeight() const override;
+	/*virtual*/ void    draw(const LLColor4& color, const LLColor4& highlight_color) const final override;
+	/*virtual*/ S32		getContentWidth() const final override;
+	/*virtual*/ S32		getHeight() const final override;
 	/*virtual*/ void	setValue(const LLSD& value) override;
 	/*virtual*/ const LLSD getValue() const override;
-	/*virtual*/ BOOL	getVisible() const override;
-	/*virtual*/ void	highlightText(S32 offset, S32 num_chars) override;
+	/*virtual*/ BOOL	getVisible() const final override;
+	/*virtual*/ void	highlightText(S32 offset, S32 num_chars) final override;
 
-	/*virtual*/ void	setColor(const LLColor4&) override;
-	/*virtual*/ BOOL	isText() const override;
-	/*virtual*/ const std::string &	getToolTip() const override;
-	/*virtual*/ BOOL	needsToolTip() const override;
+	/*virtual*/ void	setColor(const LLColor4&) final override;
+	/*virtual*/ BOOL	isText() const final override;
+	/*virtual*/ const std::string &	getToolTip() const final override;
+	/*virtual*/ BOOL	needsToolTip() const final override;
 
 	S32				getTextWidth() const { return mTextWidth;}
 	void			setTextWidth(S32 value) { mTextWidth = value;}
 
-	void	setWidth(S32 width) override
+	void	setWidth(S32 width) final override
 	{ LLScrollListCell::setWidth(width); mTextWidth = width; }
 
 	void			setText(const LLStringExplicit& text);
@@ -175,7 +175,7 @@ private:
 /*
  * Cell displaying an image.
  */
-class LLScrollListIcon : public LLScrollListCell
+class LLScrollListIcon final : public LLScrollListCell
 {
 public:
 	LLScrollListIcon(const LLScrollListCell::Params& p);
@@ -202,7 +202,7 @@ private:
 /*
  * An interactive cell containing a check box.
  */
-class LLScrollListCheck : public LLScrollListCell
+class LLScrollListCheck final : public LLScrollListCell
 {
 public:
 	LLScrollListCheck( const LLScrollListCell::Params&);
@@ -222,7 +222,7 @@ private:
 	LLCheckBoxCtrl* mCheckBox;
 };
 
-class LLScrollListDate : public LLScrollListText
+class LLScrollListDate final : public LLScrollListText
 {
 public:
 	LLScrollListDate( const LLScrollListCell::Params& p );
@@ -233,7 +233,7 @@ private:
 	LLDate		mDate;
 };
 
-class LLScrollListLineEditor : public LLScrollListCell
+class LLScrollListLineEditor final : public LLScrollListCell
 {
 public:
 	LLScrollListLineEditor( const LLScrollListCell::Params&);

@@ -94,50 +94,50 @@ public:
 	// mousehandler overrides
 	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
 	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
-	BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask) final override;
 	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
 	BOOL	handleDoubleClick(S32 x, S32 y, MASK mask ) override;
-	BOOL	handleMiddleMouseDown(S32 x,S32 y,MASK mask) override;
+	BOOL	handleMiddleMouseDown(S32 x,S32 y,MASK mask) final override;
 
-	BOOL	handleKeyHere(KEY key, MASK mask ) override;
-	BOOL	handleUnicodeCharHere(llwchar uni_char) override;
+	BOOL	handleKeyHere(KEY key, MASK mask ) final override;
+	BOOL	handleUnicodeCharHere(llwchar uni_char) final override;
 
-	void	onMouseCaptureLost() override;
+	void	onMouseCaptureLost() final override;
 
 	// view overrides
 	void	draw() override;
 	void	onFocusReceived() override;
 	void	onFocusLost() override;
 	void	onCommit() override;
-	void	setEnabled(BOOL enabled) override;
+	void	setEnabled(BOOL enabled) final override;
 
 	// uictrl overrides
-	void	clear() override;
-	void	setFocus( BOOL b ) override;
-	BOOL	isDirty() const override;
+	void	clear() final override;
+	void	setFocus( BOOL b ) final override;
+	BOOL	isDirty() const final override;
 
 	// LLEditMenuHandler interface
-	void	undo() override;
-	BOOL	canUndo() const override;
-	void	redo() override;
-	BOOL	canRedo() const override;
+	void	undo() final override;
+	BOOL	canUndo() const final override;
+	void	redo() final override;
+	BOOL	canRedo() const final override;
 
-	void	cut() override;
-	BOOL	canCut() const override;
-	void	copy() override;
-	BOOL	canCopy() const override;
-	void	paste() override;
-	BOOL	canPaste() const override;
+	void	cut() final override;
+	BOOL	canCut() const final override;
+	void	copy() final override;
+	BOOL	canCopy() const final override;
+	void	paste() final override;
+	BOOL	canPaste() const final override;
 
 	virtual void	updatePrimary();
 	virtual void	copyPrimary();
 	virtual void	pastePrimary();
 	virtual BOOL	canPastePrimary() const;
 
-	void	doDelete() override;
-	BOOL	canDoDelete() const override;
-	void	selectAll() override;
-	BOOL	canSelectAll()	const override;
+	void	doDelete() final override;
+	BOOL	canDoDelete() const final override;
+	void	selectAll() final override;
+	BOOL	canSelectAll()	const final override;
 
 	void 			selectByCursorPosition(S32 prev_cursor_pos, S32 next_cursor_pos);
 
@@ -164,7 +164,7 @@ public:
 	autoreplace_callback_t mAutoreplaceCallback;
 	void			setAutoreplaceCallback(autoreplace_callback_t cb) { mAutoreplaceCallback = cb; }
 
-	/*virtual*/ void	onSpellCheckPerformed() override;
+	/*virtual*/ void	onSpellCheckPerformed() final override;
 
 	//
 	// Text manipulation
@@ -174,7 +174,7 @@ public:
 	void			insertText(const std::string &text);
 	void			insertText(LLWString &text);
 
-	void			appendWidget(const LLInlineViewSegment::Params& params, const std::string& text, bool allow_undo) override;
+	void			appendWidget(const LLInlineViewSegment::Params& params, const std::string& text, bool allow_undo) final override;
 	// Non-undoable
 	void			setText(const LLStringExplicit &utf8str, const LLStyle::Params& input_params = LLStyle::Params()) override;
 
@@ -257,14 +257,14 @@ protected:
 	BOOL			hasPreeditString() const;
 
 	// Overrides LLPreeditor
-	void	resetPreedit() override;
+	void	resetPreedit() final override;
 	void	updatePreedit(const LLWString &preedit_string,
-						const segment_lengths_t &preedit_segment_lengths, const standouts_t &preedit_standouts, S32 caret_position) override;
-	void	markAsPreedit(S32 position, S32 length) override;
-	void	getPreeditRange(S32 *position, S32 *length) const override;
-	void	getSelectionRange(S32 *position, S32 *length) const override;
-	BOOL	getPreeditLocation(S32 query_offset, LLCoordGL *coord, LLRect *bounds, LLRect *control) const override;
-	S32		getPreeditFontSize() const override;
+						const segment_lengths_t &preedit_segment_lengths, const standouts_t &preedit_standouts, S32 caret_position) final override;
+	void	markAsPreedit(S32 position, S32 length) final override;
+	void	getPreeditRange(S32 *position, S32 *length) const final override;
+	void	getSelectionRange(S32 *position, S32 *length) const final override;
+	BOOL	getPreeditLocation(S32 query_offset, LLCoordGL *coord, LLRect *bounds, LLRect *control) const final override;
+	S32		getPreeditFontSize() const final override;
 	LLWString getPreeditString() const override { return getWText(); }
 	//
 	// Protected data

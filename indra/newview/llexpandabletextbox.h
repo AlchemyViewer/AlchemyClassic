@@ -35,7 +35,7 @@
  * if text doesn't fit into text box. After pressing "More" the text box will expand to show
  * all text. If text is still too big, a scroll bar will appear inside expanded text box.
  */
-class LLExpandableTextBox : public LLUICtrl
+class LLExpandableTextBox final : public LLUICtrl
 {
 protected:
 
@@ -43,7 +43,7 @@ protected:
 	 * Extended text box. "More" link will appear at end of text if 
 	 * text is too long to fit into text box size.
 	 */
-	class LLTextBoxEx : public LLTextEditor
+	class LLTextBoxEx final : public LLTextEditor
 	{
 	public:
 		struct Params :	public LLInitParam::Block<Params, LLTextEditor::Params>

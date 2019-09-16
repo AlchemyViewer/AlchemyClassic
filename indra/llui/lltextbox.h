@@ -46,15 +46,15 @@ protected:
 	friend class LLUICtrlFactory;
 
 public:
-	virtual ~LLTextBox();
+	virtual ~LLTextBox() = default;
 
-	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
-	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
-	BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) final override;
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) final override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) final override;
 
-	void setEnabled(BOOL enabled) override;
+	void setEnabled(BOOL enabled) final override;
 
-	void setText( const LLStringExplicit& text, const LLStyle::Params& input_params = LLStyle::Params() ) override;
+	void setText( const LLStringExplicit& text, const LLStyle::Params& input_params = LLStyle::Params() ) final override;
 	
 	void			setRightAlign()							{ mHAlign = LLFontGL::RIGHT; }
 	void			setHAlign( LLFontGL::HAlign align )		{ mHAlign = align; }
@@ -66,7 +66,7 @@ public:
 	S32				getTextPixelHeight();
 
 	LLSD	getValue() const override;
-	BOOL	setTextArg( const std::string& key, const LLStringExplicit& text ) override;
+	BOOL	setTextArg( const std::string& key, const LLStringExplicit& text ) final override;
 
     void updateCurrencySymbols();
 

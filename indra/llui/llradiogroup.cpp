@@ -44,7 +44,7 @@ static LLDefaultChildRegistry::Register<LLRadioGroup> r1("radio_group");
  * buttons (usually radio buttons).  Automatically handles the mutex
  * condition by highlighting only one button at a time.
  */
-class LLRadioCtrl : public LLCheckBoxCtrl 
+class LLRadioCtrl final : public LLCheckBoxCtrl 
 {
 public:
 	typedef LLRadioGroup::ItemParams Params;

@@ -39,11 +39,11 @@
 /// visual separated from the previous block (e.g., with a horizontal
 /// line).
 ///
-class LLChatMsgBox :
+class LLChatMsgBox final :
 	public LLTextBox
 {
 public:
-	struct Params : public LLInitParam::Block<Params, LLTextBox::Params>
+	struct Params final : public LLInitParam::Block<Params, LLTextBox::Params>
 	{
 		Optional<S32>	block_spacing;
 

@@ -34,7 +34,7 @@
 
 static LLDefaultChildRegistry::Register<LLExpandableTextBox> t1("expandable_text");
 
-class LLExpanderSegment : public LLTextSegment
+class LLExpanderSegment final : public LLTextSegment
 {
 public:
 	LLExpanderSegment(const LLStyleSP& style, S32 start, S32 end, const std::string& more_text, LLTextBase& editor )

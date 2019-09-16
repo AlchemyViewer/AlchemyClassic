@@ -63,7 +63,7 @@ public:
 		Params();
 	};
 
-	virtual ~LLCheckBoxCtrl();
+	virtual ~LLCheckBoxCtrl() = default;
 
 protected:
 	LLCheckBoxCtrl(const Params&);
@@ -72,23 +72,23 @@ protected:
 public:
 	// LLView interface
 
-	void		setEnabled( BOOL b ) override;
+	void		setEnabled( BOOL b ) final override;
 
-	void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) final override;
 
 	// LLUICtrl interface
 	void		setValue(const LLSD& value ) override;
-	LLSD		getValue() const override;
+	LLSD		getValue() const final override;
 			BOOL		get() { return (BOOL)getValue().asBoolean(); }
 			void		set(BOOL value) { setValue(value); }
 
-	void		setTentative(BOOL b) override;
-	BOOL		getTentative() const override;
+	void		setTentative(BOOL b) final override;
+	BOOL		getTentative() const final override;
 
-	BOOL		setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
+	BOOL		setLabelArg( const std::string& key, const LLStringExplicit& text ) final override;
 
-	void		clear() override;
-	void		onCommit() override;
+	void		clear() final override;
+	void		onCommit() final override;
 
 	// LLCheckBoxCtrl interface
 	virtual BOOL		toggle()				{ return mButton->toggleState(); }		// returns new state
@@ -104,18 +104,18 @@ public:
 	void				setFont( const LLFontGL* font ) { mFont = font; }
 	const LLFontGL*		getFont() { return mFont; }
 
-	void		setControlName(const std::string& control_name, LLView* context) override;
+	void		setControlName(const std::string& control_name, LLView* context) final override;
 
-	BOOL		isDirty()	const override;		// Returns TRUE if the user has modified this control.
-	void		resetDirty() override;			// Clear dirty state
+	BOOL		isDirty()	const final override;		// Returns TRUE if the user has modified this control.
+	void		resetDirty() final override;			// Clear dirty state
 
 protected:
-	std::string _getSearchText() const override
+	std::string _getSearchText() const final override
 	{
 		return getLabel() + getToolTip();
 	}
 
-	void onSetHighlight() const  override // When highlight, really do highlight the label
+	void onSetHighlight() const  final override // When highlight, really do highlight the label
 	{
 		if( mLabel )
 			mLabel->ll::ui::SearchableControl::setHighlighted( ll::ui::SearchableControl::getHighlighted() );

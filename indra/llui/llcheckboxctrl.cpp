@@ -114,11 +114,6 @@ LLCheckBoxCtrl::LLCheckBoxCtrl(const LLCheckBoxCtrl::Params& p)
 	addChild(mButton);
 }
 
-LLCheckBoxCtrl::~LLCheckBoxCtrl()
-{
-	// Children all cleaned up by default view destructor.
-}
-
 void LLCheckBoxCtrl::onCommit()
 {
 	if( getEnabled() )

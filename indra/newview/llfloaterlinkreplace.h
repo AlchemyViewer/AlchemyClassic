@@ -37,7 +37,7 @@
 class LLButton;
 class LLTextBox;
 
-class LLInventoryLinkReplaceDropTarget : public LLLineEditor
+class LLInventoryLinkReplaceDropTarget final : public LLLineEditor
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLLineEditor::Params>
@@ -48,7 +48,7 @@ public:
 
 	LLInventoryLinkReplaceDropTarget(const Params& p)
 		: LLLineEditor(p) {}
-	~LLInventoryLinkReplaceDropTarget() {}
+	~LLInventoryLinkReplaceDropTarget() = default;
 
 	typedef boost::signals2::signal<void(const LLUUID& id)> item_dad_callback_t;
 	boost::signals2::connection setDADCallback(const item_dad_callback_t::slot_type& cb)

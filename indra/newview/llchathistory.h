@@ -32,7 +32,7 @@
 #include "llviewerchat.h"
 
 //Chat log widget allowing addition of a message as a widget 
-class LLChatHistory : public LLUICtrl
+class LLChatHistory final : public LLUICtrl
 {
 	public:
 		struct Params : public LLInitParam::Block<Params, LLTextEditor::Params>

@@ -34,7 +34,7 @@
 
 class LLResizeBar;
 
-class LLFloaterIMNearbyChat : public LLFloaterIMSessionTab
+class LLFloaterIMNearbyChat final : public LLFloaterIMSessionTab
 {
 public:
 	// constructor for inline chat-bars (e.g. hosted in chat history window)

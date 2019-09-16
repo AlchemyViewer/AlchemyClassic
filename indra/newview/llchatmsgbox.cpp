@@ -33,7 +33,7 @@
 
 static LLDefaultChildRegistry::Register<LLChatMsgBox> r("text_chat");
 
-class ChatSeparator : public LLTextSegment
+class ChatSeparator final : public LLTextSegment
 {
 public:
 	ChatSeparator(S32 start, S32 end)

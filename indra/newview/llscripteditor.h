@@ -30,7 +30,7 @@
 
 #include "lltexteditor.h"
 
-class LLScriptEditor : public LLTextEditor
+class LLScriptEditor final : public LLTextEditor
 {
 public:
 	
@@ -41,7 +41,7 @@ public:
 		Params();
 	};
 	
-	virtual ~LLScriptEditor() {};
+	virtual ~LLScriptEditor() = default;
 	
 	// LLView override
 	void	draw() override;

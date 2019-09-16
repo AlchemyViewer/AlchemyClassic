@@ -38,7 +38,7 @@ class LLFloaterIMSession;
 /**
  * Class for displaying amount of messages/notifications(unread).
  */
-class LLChicletNotificationCounterCtrl : public LLTextBox
+class LLChicletNotificationCounterCtrl final : public LLTextBox
 {
 public:
 

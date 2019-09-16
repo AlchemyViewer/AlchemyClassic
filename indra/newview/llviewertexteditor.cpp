@@ -66,7 +66,7 @@ static LLDefaultChildRegistry::Register<LLViewerTextEditor> r("text_editor");
 ///-----------------------------------------------------------------------
 ///  Class LLEmbeddedLandmarkCopied
 ///-----------------------------------------------------------------------
-class LLEmbeddedLandmarkCopied: public LLInventoryCallback
+class LLEmbeddedLandmarkCopied final : public LLInventoryCallback
 {
 public:
 
@@ -118,7 +118,7 @@ public:
 ///----------------------------------------------------------------------------
 /// Class LLEmbeddedNotecardOpener
 ///----------------------------------------------------------------------------
-class LLEmbeddedNotecardOpener : public LLInventoryCallback
+class LLEmbeddedNotecardOpener final : public LLInventoryCallback
 {
 	LLViewerTextEditor* mTextEditor;
 
@@ -161,7 +161,7 @@ public:
 
 const S32 EMBEDDED_ITEM_LABEL_PADDING = 2;
 
-class LLEmbeddedItemSegment : public LLTextSegment
+class LLEmbeddedItemSegment final : public LLTextSegment
 {
 public:
 	LLEmbeddedItemSegment(S32 pos, LLUIImagePtr image, LLPointer<LLInventoryItem> inv_item, LLTextEditor& editor)
@@ -592,7 +592,7 @@ void LLEmbeddedItems::markSaved()
 
 ///////////////////////////////////////////////////////////////////
 
-class LLViewerTextEditor::TextCmdInsertEmbeddedItem : public LLTextBase::TextCmd
+class LLViewerTextEditor::TextCmdInsertEmbeddedItem final: public LLTextBase::TextCmd
 {
 public:
 	TextCmdInsertEmbeddedItem( S32 pos, LLInventoryItem* item )

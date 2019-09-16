@@ -34,7 +34,7 @@
 
 // Classes
 
-class LLFlyoutButton : public LLComboBox
+class LLFlyoutButton final : public LLComboBox
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLComboBox::Params>

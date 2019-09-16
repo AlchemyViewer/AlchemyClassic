@@ -74,7 +74,7 @@ static LLDefaultChildRegistry::Register<LLChatHistory> r("chat_history");
 const static std::string NEW_LINE(rawstr_to_utf8("\n"));
 
 // support for secondlife:///app/objectim/{UUID}/ SLapps
-class LLObjectIMHandler : public LLCommandHandler
+class LLObjectIMHandler final : public LLCommandHandler
 {
 public:
 	// requests will be throttled from a non-trusted browser
@@ -105,7 +105,7 @@ public:
 };
 LLObjectIMHandler gObjectIMHandler;
 
-class LLChatHistoryHeader: public LLPanel
+class LLChatHistoryHeader final : public LLPanel
 {
 public:
 	LLChatHistoryHeader()

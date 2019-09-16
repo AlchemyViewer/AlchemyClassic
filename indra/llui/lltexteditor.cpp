@@ -80,7 +80,7 @@ const F32	SPELLCHECK_DELAY = 0.5f;	// delay between the last keypress and spell 
 
 ///////////////////////////////////////////////////////////////////
 
-class LLTextEditor::TextCmdInsert : public LLTextBase::TextCmd
+class LLTextEditor::TextCmdInsert final: public LLTextBase::TextCmd
 {
 public:
 	TextCmdInsert(S32 pos, BOOL group_with_next, const LLWString &ws, LLTextSegmentPtr segment)
@@ -114,7 +114,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////
-class LLTextEditor::TextCmdAddChar : public LLTextBase::TextCmd
+class LLTextEditor::TextCmdAddChar final: public LLTextBase::TextCmd
 {
 public:
 	TextCmdAddChar( S32 pos, BOOL group_with_next, llwchar wc, LLTextSegmentPtr segment)
@@ -176,7 +176,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////
 
-class LLTextEditor::TextCmdOverwriteChar : public LLTextBase::TextCmd
+class LLTextEditor::TextCmdOverwriteChar final : public LLTextBase::TextCmd
 {
 public:
 	TextCmdOverwriteChar( S32 pos, BOOL group_with_next, llwchar wc)
@@ -209,7 +209,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////
 
-class LLTextEditor::TextCmdRemove : public LLTextBase::TextCmd
+class LLTextEditor::TextCmdRemove final : public LLTextBase::TextCmd
 {
 public:
 	TextCmdRemove( S32 pos, BOOL group_with_next, S32 len, segment_vec_t& segments ) :

@@ -39,7 +39,7 @@ class LLAvatarName;
  * We don't use LLScrollListItem to be able to override getUUID(), which is needed
  * because the name list item value is not simply an UUID but a map (uuid, is_group).
  */
-class LLNameListItem : public LLScrollListItem, public LLHandleProvider<LLNameListItem>
+class LLNameListItem final : public LLScrollListItem, public LLHandleProvider<LLNameListItem>
 {
 public:
 	bool isGroup() const { return mIsGroup; }
@@ -71,7 +71,7 @@ private:
 };
 
 
-class LLNameListCtrl
+class LLNameListCtrl final
 :	public LLScrollListCtrl, public LLInstanceTracker<LLNameListCtrl>
 {
 public:

@@ -47,9 +47,6 @@ LLTextBox::LLTextBox(const LLTextBox::Params& p)
 	mShowCursorHand(true)
 {}
 
-LLTextBox::~LLTextBox()
-{}
-
 BOOL LLTextBox::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	BOOL	handled = LLTextBase::handleMouseDown(x, y, mask);

@@ -35,7 +35,7 @@
 #include "lllineeditor.h"
 
 
-class LLNameEditor
+class LLNameEditor final
 :	public LLLineEditor
 {
 public:

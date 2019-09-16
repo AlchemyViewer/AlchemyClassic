@@ -33,7 +33,7 @@
 #include "llfontgl.h"
 #include "lltextbox.h"
 
-class LLNameBox
+class LLNameBox final
 :	public LLTextBox
 {
 public:

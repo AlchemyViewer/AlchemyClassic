@@ -32,7 +32,7 @@
 //
 // Classes
 //
-class LLViewerTextEditor : public LLTextEditor
+class LLViewerTextEditor final : public LLTextEditor
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLTextEditor::Params>

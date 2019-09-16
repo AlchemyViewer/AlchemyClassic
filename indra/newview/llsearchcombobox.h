@@ -35,7 +35,7 @@
  * with recent queries. Supports text auto-complete and filtering of drop down list
  * according to typed text.
  */
-class LLSearchComboBox : public LLComboBox
+class LLSearchComboBox final : public LLComboBox
 {
 public:
 

@@ -37,10 +37,10 @@ const F32 DEFAULT_COMPRESSION_RATE = 1.f/8.f;
 class LLImageJ2CImpl;
 class LLImageCompressionTester ;
 
-class LLImageJ2C : public LLImageFormatted
+class LLImageJ2C final : public LLImageFormatted
 {
 protected:
-	virtual ~LLImageJ2C();
+	virtual ~LLImageJ2C() = default;
 
 public:
 	LLImageJ2C();
@@ -94,7 +94,7 @@ protected:
 	S8  mRawDiscardLevel;
 	F32 mRate;
 	bool mReversible;
-	boost::scoped_ptr<LLImageJ2CImpl> mImpl;
+	std::unique_ptr<LLImageJ2CImpl> mImpl;
 	std::string mLastError;
 
     // Image compression/decompression tester
@@ -105,7 +105,7 @@ protected:
 class LLImageJ2CImpl
 {
 public:
-	virtual ~LLImageJ2CImpl();
+	virtual ~LLImageJ2CImpl() = default;
 protected:
 	// Find out the image size and number of channels.
 	// Return value:
@@ -136,7 +136,7 @@ protected:
 // Tracks the image compression / decompression data,
 // records and outputs them to the log file.
 //
-class LLImageCompressionTester : public LLMetricPerformanceTesterBasic
+class LLImageCompressionTester final : public LLMetricPerformanceTesterBasic
 {
     public:
         LLImageCompressionTester();

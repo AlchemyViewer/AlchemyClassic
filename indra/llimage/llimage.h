@@ -174,7 +174,7 @@ private:
 };
 
 // Raw representation of an image (used for textures, and other uncompressed formats
-class LLImageRaw : public LLImageBase
+class LLImageRaw final : public LLImageBase
 {
 protected:
 	/*virtual*/ ~LLImageRaw();
@@ -292,12 +292,12 @@ public:
 	LLImageFormatted(S8 codec);
 
 	// LLImageBase
-	/*virtual*/ void deleteData() override;
-	/*virtual*/ U8* allocateData(S32 size = -1) override;
-	/*virtual*/ U8* reallocateData(S32 size) override;
+	/*virtual*/ void deleteData()final override;
+	/*virtual*/ U8* allocateData(S32 size = -1) final override;
+	/*virtual*/ U8* reallocateData(S32 size) final override;
 	
-	/*virtual*/ void dump() override;
-	/*virtual*/ void sanityCheck() override;
+	/*virtual*/ void dump() final override;
+	/*virtual*/ void sanityCheck() final override;
 
 	// New methods
 	// subclasses must return a prefered file extension (lowercase without a leading dot)

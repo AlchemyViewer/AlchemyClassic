@@ -56,7 +56,7 @@
 
 using namespace kd_supp_image_local;
 
-class LLKDUMemSource: public kdu_compressed_source
+class LLKDUMemSource final : public kdu_compressed_source
 {
 public:
 	LLKDUMemSource(U8 *input_buffer, U32 size)
@@ -66,11 +66,9 @@ public:
 		mCurPos = 0;
 	}
 
-	~LLKDUMemSource()
-	{
-	}
+	~LLKDUMemSource() = default;
 
-	int read(kdu_byte *buf, int num_bytes)
+	int read(kdu_byte *buf, int num_bytes) override
 	{
 		U32 num_out;
 		num_out = num_bytes;
@@ -95,7 +93,7 @@ private:
 	U32 mCurPos;
 };
 
-class LLKDUMemTarget: public kdu_compressed_target
+class LLKDUMemTarget final : public kdu_compressed_target
 {
 public:
 	LLKDUMemTarget(U8 *output_buffer, U32 &output_size, const U32 buffer_size)
@@ -106,11 +104,9 @@ public:
 		mOutputSize = &output_size;
 	}
 
-	~LLKDUMemTarget()
-	{
-	}
+	~LLKDUMemTarget() = default;
 
-	bool write(const kdu_byte *buf, int num_bytes)
+	bool write(const kdu_byte *buf, int num_bytes) override
 	{
 		U32 num_out;
 		num_out = num_bytes;
@@ -134,7 +130,7 @@ private:
 	U32 *mOutputSize;
 };
 
-class LLKDUMemIn : public kdu_image_in_base
+class LLKDUMemIn final : public kdu_image_in_base
 {
 public:
 	LLKDUMemIn(const U8 *data,
@@ -145,7 +141,7 @@ public:
 				siz_params *siz);
 	~LLKDUMemIn();
 
-	bool get(int comp_idx, kdu_line_buf &line, int x_tnum);
+	bool get(int comp_idx, kdu_line_buf &line, int x_tnum) override;
 
 private:
 	const U8 *mData;

@@ -56,7 +56,7 @@
 class LLKDUDecodeState;
 class LLKDUMemSource;
 
-class LLImageJ2CKDU : public LLImageJ2CImpl
+class LLImageJ2CKDU final : public LLImageJ2CImpl
 {	
 public:
 	enum ECodeStreamMode 
@@ -66,16 +66,16 @@ public:
 		MODE_FUSSY = 2
 	};
 	LLImageJ2CKDU();
-	virtual ~LLImageJ2CKDU();
+	~LLImageJ2CKDU();
 	
 protected:
-	virtual bool getMetadata(LLImageJ2C &base);
-	virtual bool decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decode_time, S32 first_channel, S32 max_channel_count);
-	virtual bool encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, const char* comment_text, F32 encode_time=0.0,
-								bool reversible=false);
-	virtual bool initDecode(LLImageJ2C &base, LLImageRaw &raw_image, int discard_level = -1, int* region = NULL);
-	virtual bool initEncode(LLImageJ2C &base, LLImageRaw &raw_image, int blocks_size = -1, int precincts_size = -1, int levels = 0);
-	virtual std::string getEngineInfo() const;
+	bool getMetadata(LLImageJ2C &base) override;
+	bool decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decode_time, S32 first_channel, S32 max_channel_count) override;
+	bool encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, const char* comment_text, F32 encode_time=0.0,
+								bool reversible=false) override;
+	bool initDecode(LLImageJ2C &base, LLImageRaw &raw_image, int discard_level = -1, int* region = NULL) override;
+	bool initEncode(LLImageJ2C &base, LLImageRaw &raw_image, int blocks_size = -1, int precincts_size = -1, int levels = 0);
+	std::string getEngineInfo() const override;
 
 private:
 	bool initDecode(LLImageJ2C &base, LLImageRaw &raw_image, F32 decode_time, ECodeStreamMode mode, S32 first_channel, S32 max_channel_count, int discard_level = -1, int* region = NULL);

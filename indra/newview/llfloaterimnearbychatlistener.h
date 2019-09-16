@@ -35,7 +35,7 @@
 class LLSD;
 class LLFloaterIMNearbyChat;
 
-class LLFloaterIMNearbyChatListener : public LLEventAPI
+class LLFloaterIMNearbyChatListener final : public LLEventAPI
 {
 public:
 	LLFloaterIMNearbyChatListener(LLFloaterIMNearbyChat & chatbar);

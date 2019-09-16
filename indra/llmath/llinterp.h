@@ -49,7 +49,7 @@ class LLInterp
 {
 public:
         LLInterp();
-	virtual ~LLInterp() {}
+		virtual ~LLInterp() = default;
 
 	virtual void start();
 	void update(const F32 time);
@@ -88,7 +88,7 @@ template <typename Type>
 class LLInterpLinear : public LLInterp<Type>
 {
 public:
-	/*virtual*/ void start() override;
+	/*virtual*/ void start() final override;
 	void update(const F32 time);
 	F32 getCurFrac() const;
 protected:
@@ -96,7 +96,7 @@ protected:
 };
 
 template <typename Type>
-class LLInterpExp : public LLInterpLinear<Type>
+class LLInterpExp final : public LLInterpLinear<Type>
 {
 public:
 	void update(const F32 time);
@@ -104,7 +104,7 @@ protected:
 };
 
 template <typename Type>
-class LLInterpAttractor : public LLInterp<Type>
+class LLInterpAttractor final : public LLInterp<Type>
 {
 public:
 	LLInterpAttractor();
@@ -119,7 +119,7 @@ protected:
 };
 
 template <typename Type>
-class LLInterpFunc : public LLInterp<Type>
+class LLInterpFunc final : public LLInterp<Type>
 {
 public:
 	LLInterpFunc();

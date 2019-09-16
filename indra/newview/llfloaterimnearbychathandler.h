@@ -42,7 +42,7 @@ class LLEventPump;
 //add LLFloaterIMNearbyChatHandler to LLNotificationsUI namespace
 namespace LLNotificationsUI{
 
-class LLFloaterIMNearbyChatHandler : public LLChatHandler
+class LLFloaterIMNearbyChatHandler final : public LLChatHandler
 {
 public:
 

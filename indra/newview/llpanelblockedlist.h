@@ -37,11 +37,11 @@ class LLButton;
 class LLMenuButton;
 class LLTextBox;
 
-class LLPanelBlockedList : public LLPanel
+class LLPanelBlockedList final : public LLPanel
 {
 public:
 	LLPanelBlockedList();
-	~LLPanelBlockedList(){};
+	~LLPanelBlockedList() = default;
 
 	BOOL postBuild() override;
 	void draw() override;

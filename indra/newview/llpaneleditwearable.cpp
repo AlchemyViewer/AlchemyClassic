@@ -114,7 +114,7 @@ typedef std::vector<ESubpart> subpart_vec_t;
 
 // Locally defined classes
 
-class LLEditWearableDictionary : public LLSingleton<LLEditWearableDictionary>
+class LLEditWearableDictionary final : public LLSingleton<LLEditWearableDictionary>
 {
         //--------------------------------------------------------------------
         // Constructors and Destructors
@@ -126,7 +126,7 @@ class LLEditWearableDictionary : public LLSingleton<LLEditWearableDictionary>
         // Wearable Types
         //--------------------------------------------------------------------
 public:
-        struct WearableEntry : public LLDictionaryEntry
+        struct WearableEntry final : public LLDictionaryEntry
         {
                 WearableEntry(LLWearableType::EType type,
                                           const std::string &title,
@@ -144,7 +144,7 @@ public:
                 texture_vec_t           mTextureCtrls;
         };
 
-        struct Wearables : public LLDictionary<LLWearableType::EType, WearableEntry>
+        struct Wearables final : public LLDictionary<LLWearableType::EType, WearableEntry>
         {
                 Wearables();
         } mWearables;
@@ -155,7 +155,7 @@ public:
         // Subparts
         //--------------------------------------------------------------------
 public:
-        struct SubpartEntry : public LLDictionaryEntry
+        struct SubpartEntry final : public LLDictionaryEntry
         {
                 SubpartEntry(ESubpart part,
                                          const std::string &joint,
@@ -176,7 +176,7 @@ public:
                 ESex                            mSex;
         };
 
-        struct Subparts : public LLDictionary<ESubpart, SubpartEntry>
+        struct Subparts final : public LLDictionary<ESubpart, SubpartEntry>
         {
                 Subparts();
         } mSubparts;
@@ -187,7 +187,7 @@ public:
         // Picker Control Entries
         //--------------------------------------------------------------------
 public:
-        struct PickerControlEntry : public LLDictionaryEntry
+        struct PickerControlEntry final : public LLDictionaryEntry
         {
                 PickerControlEntry(ETextureIndex tex_index,
                                                    const std::string name,
@@ -199,12 +199,12 @@ public:
                 const bool                      mAllowNoTexture;
         };
 
-        struct ColorSwatchCtrls : public LLDictionary<ETextureIndex, PickerControlEntry>
+        struct ColorSwatchCtrls final : public LLDictionary<ETextureIndex, PickerControlEntry>
         {
                 ColorSwatchCtrls();
         } mColorSwatchCtrls;
 
-        struct TextureCtrls : public LLDictionary<ETextureIndex, PickerControlEntry>
+        struct TextureCtrls final : public LLDictionary<ETextureIndex, PickerControlEntry>
         {
                 TextureCtrls();
         } mTextureCtrls;
@@ -396,12 +396,12 @@ LLEditWearableDictionary::PickerControlEntry::PickerControlEntry(ETextureIndex t
 /**
  * Class to prevent hack in LLButton's constructor and use paddings declared in xml.
  */
-class LLLabledBackButton : public LLButton
+class LLLabledBackButton final : public LLButton
 {
 public:
         struct Params : public LLInitParam::Block<Params, LLButton::Params>
         {
-                Params() {}
+                Params() = default;
         };
 protected:
         friend class LLUICtrlFactory;
@@ -641,12 +641,6 @@ LLPanelEditWearable::LLPanelEditWearable()
 {
         mCommitCallbackRegistrar.add("ColorSwatch.Commit", boost::bind(&LLPanelEditWearable::onColorSwatchCommit, this, _1));
         mCommitCallbackRegistrar.add("TexturePicker.Commit", boost::bind(&LLPanelEditWearable::onTexturePickerCommit, this, _1));
-}
-
-//virtual
-LLPanelEditWearable::~LLPanelEditWearable()
-{
-
 }
 
 bool LLPanelEditWearable::changeHeightUnits(const LLSD& new_value)
@@ -1738,7 +1732,7 @@ void LLPanelEditWearable::onClickedImportBtn()
 }
 
 // handle secondlife:///app/metricsystem
-class LLMetricSystemHandler : public LLCommandHandler
+class LLMetricSystemHandler final : public LLCommandHandler
 {
 public:
         LLMetricSystemHandler() : LLCommandHandler("metricsystem", UNTRUSTED_THROTTLE) { }

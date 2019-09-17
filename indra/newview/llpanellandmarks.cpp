@@ -78,14 +78,14 @@ static void toggle_restore_menu(LLMenuGL* menu, BOOL visible, BOOL enabled);
  * Functor counting expanded and collapsed folders in folder view tree to know
  * when to enable or disable "Expand all folders" and "Collapse all folders" commands.
  */
-class LLCheckFolderState : public LLFolderViewFunctor
+class LLCheckFolderState final : public LLFolderViewFunctor
 {
 public:
 	LLCheckFolderState()
 	:	mCollapsedFolders(0),
 		mExpandedFolders(0)
 	{}
-	virtual ~LLCheckFolderState() {}
+	virtual ~LLCheckFolderState() = default;
 	void doFolder(LLFolderViewFolder* folder) override;
 	void doItem(LLFolderViewItem* item) override {}
 	S32 getCollapsedFolders() { return mCollapsedFolders; }
@@ -121,7 +121,7 @@ void LLCheckFolderState::doFolder(LLFolderViewFolder* folder)
  * empty folder message when Landmarks inventory category has no children.
  * Ensures that "Landmarks" folder in the Library is open on strart up.
  */
-class LLLandmarksPanelObserver : public LLInventoryObserver
+class LLLandmarksPanelObserver final : public LLInventoryObserver
 {
 public:
 	LLLandmarksPanelObserver(LLLandmarksPanel* lp)

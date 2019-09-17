@@ -45,11 +45,11 @@
 LLPanelLandSelectObserver* LLPanelLandInfo::sObserver = nullptr;
 LLPanelLandInfo* LLPanelLandInfo::sInstance = nullptr;
 
-class LLPanelLandSelectObserver : public LLParcelObserver
+class LLPanelLandSelectObserver final : public LLParcelObserver
 {
 public:
-	LLPanelLandSelectObserver() {}
-	virtual ~LLPanelLandSelectObserver() {}
+	LLPanelLandSelectObserver() = default;
+	virtual ~LLPanelLandSelectObserver() = default;
 	void changed() override { LLPanelLandInfo::refreshAll(); }
 };
 

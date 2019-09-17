@@ -33,11 +33,11 @@ class LLComboBox;
 class LLLineEditor;
 class LLTextEditor;
 
-class LLPanelLandmarkInfo : public LLPanelPlaceInfo
+class LLPanelLandmarkInfo final : public LLPanelPlaceInfo
 {
 public:
 	LLPanelLandmarkInfo();
-	~LLPanelLandmarkInfo();
+	~LLPanelLandmarkInfo() = default;
 
 	BOOL postBuild() override;
 	void resetLocation() override;

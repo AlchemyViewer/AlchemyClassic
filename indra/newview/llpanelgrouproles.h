@@ -42,11 +42,11 @@ class LLTextEditor;
 typedef std::map<std::string,std::string> icon_map_t;
 
 
-class LLPanelGroupRoles : public LLPanelGroupTab
+class LLPanelGroupRoles final : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupRoles();
-	virtual ~LLPanelGroupRoles();
+	virtual ~LLPanelGroupRoles() = default;
 
 	// Allow sub tabs to ask for sibling controls.
 	friend class LLPanelGroupMembersSubTab;
@@ -95,7 +95,7 @@ class LLPanelGroupSubTab : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupSubTab();
-	virtual ~LLPanelGroupSubTab();
+	virtual ~LLPanelGroupSubTab() = default;
 
 	BOOL postBuild() override;
 
@@ -149,7 +149,7 @@ protected:
 };
 
 
-class LLPanelGroupMembersSubTab : public LLPanelGroupSubTab
+class LLPanelGroupMembersSubTab final : public LLPanelGroupSubTab
 {
 public:
 	LLPanelGroupMembersSubTab();
@@ -233,11 +233,11 @@ protected:
 };
 
 
-class LLPanelGroupRolesSubTab : public LLPanelGroupSubTab
+class LLPanelGroupRolesSubTab final : public LLPanelGroupSubTab
 {
 public:
 	LLPanelGroupRolesSubTab();
-	virtual ~LLPanelGroupRolesSubTab();
+	virtual ~LLPanelGroupRolesSubTab() = default;
 
 	BOOL postBuildSubTab(LLView* root) override;
 
@@ -300,11 +300,11 @@ protected:
 };
 
 
-class LLPanelGroupActionsSubTab : public LLPanelGroupSubTab
+class LLPanelGroupActionsSubTab final : public LLPanelGroupSubTab
 {
 public:
-	LLPanelGroupActionsSubTab();
-	virtual ~LLPanelGroupActionsSubTab();
+	LLPanelGroupActionsSubTab() = default;
+	virtual ~LLPanelGroupActionsSubTab() = default;
 
 	BOOL postBuildSubTab(LLView* root) override;
 

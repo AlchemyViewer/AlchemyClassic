@@ -42,11 +42,6 @@ LLPanelAvatarTag::LLPanelAvatarTag(const LLUUID& key, const std::string im_time)
 	setTime(im_time);
 }
 
-LLPanelAvatarTag::~LLPanelAvatarTag()
-{
-	// Name callbacks will be automatically disconnected since LLPanel is trackable
-}
-
 BOOL LLPanelAvatarTag::postBuild()
 {
 	mIcon = getChild<LLAvatarIconCtrl>("avatar_tag_icon");

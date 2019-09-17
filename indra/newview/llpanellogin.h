@@ -39,7 +39,7 @@ class LLSLURL;
 class LLCredential;
 class LLLayoutStack;
 
-class LLPanelLogin
+class LLPanelLogin final
 :	public LLPanel
 ,	public LLViewerMediaObserver
 {

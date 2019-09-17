@@ -124,10 +124,6 @@ LLPanelGroupRoles::LLPanelGroupRoles()
 {
 }
 
-LLPanelGroupRoles::~LLPanelGroupRoles()
-{
-}
-
 BOOL LLPanelGroupRoles::postBuild()
 {
 	LL_DEBUGS() << "LLPanelGroupRoles::postBuild()" << LL_ENDL;
@@ -430,10 +426,6 @@ LLPanelGroupSubTab::LLPanelGroupSubTab()
 	mSearchEditor(NULL),
 	mActivated(false),
 	mHasGroupBanPower(false)
-{
-}
-
-LLPanelGroupSubTab::~LLPanelGroupSubTab()
 {
 }
 
@@ -1974,10 +1966,6 @@ LLPanelGroupRolesSubTab::LLPanelGroupRolesSubTab()
 {
 }
 
-LLPanelGroupRolesSubTab::~LLPanelGroupRolesSubTab()
-{
-}
-
 BOOL LLPanelGroupRolesSubTab::postBuildSubTab(LLView* root)
 {
 	LLPanelGroupSubTab::postBuildSubTab(root);
@@ -2755,15 +2743,6 @@ void LLPanelGroupRolesSubTab::setGroupID(const LLUUID& id)
 
 // LLPanelGroupActionsSubTab /////////////////////////////////////////////
 static LLPanelInjector<LLPanelGroupActionsSubTab> t_panel_group_actions_subtab("panel_group_actions_subtab");
-
-LLPanelGroupActionsSubTab::LLPanelGroupActionsSubTab()
-: LLPanelGroupSubTab()
-{
-}
-
-LLPanelGroupActionsSubTab::~LLPanelGroupActionsSubTab()
-{
-}
 
 BOOL LLPanelGroupActionsSubTab::postBuildSubTab(LLView* root)
 {

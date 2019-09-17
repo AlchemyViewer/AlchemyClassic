@@ -33,7 +33,7 @@ class LLScrollListCtrl;
 class LLLineEditor;
 
 
-class LLPanelExperiencePicker : public LLPanel
+class LLPanelExperiencePicker final : public LLPanel
 {
 public:
 	friend class LLExperienceSearchResponder;

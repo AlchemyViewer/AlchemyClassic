@@ -37,7 +37,7 @@ class LLMediaCtrl;
 /**
  * Base class for web-based Home side tray
  */
-class LLPanelHome :
+class LLPanelHome final :
 	public LLPanel,
 	public LLViewerMediaObserver
 {

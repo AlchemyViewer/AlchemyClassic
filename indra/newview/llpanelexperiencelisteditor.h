@@ -36,7 +36,7 @@ class LLScrollListCtrl;
 class LLButton;
 class LLFloaterExperiencePicker;
 
-class LLPanelExperienceListEditor : public LLPanel
+class LLPanelExperienceListEditor final : public LLPanel
 {
 public:
 

@@ -68,7 +68,7 @@ LLPanelClassifiedInfo::panel_list_t LLPanelClassifiedInfo::sAllPanels;
 // strings[1] = teleport_clicks
 // strings[2] = map_clicks
 // strings[3] = profile_clicks
-class LLDispatchClassifiedClickThrough : public LLDispatchHandler
+class LLDispatchClassifiedClickThrough final : public LLDispatchHandler
 {
 public:
 	bool operator()(

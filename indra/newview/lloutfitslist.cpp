@@ -107,10 +107,6 @@ LLOutfitsList::LLOutfitsList()
 {
 }
 
-LLOutfitsList::~LLOutfitsList()
-{
-}
-
 BOOL LLOutfitsList::postBuild()
 {
 	mAccordion = getChild<LLAccordionCtrl>("outfits_accordion");

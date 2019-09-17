@@ -48,7 +48,7 @@ struct WaterVector2Control;
 struct WaterFloatControl;
 struct WaterExpFloatControl;
 
-class LLPanelEnvironmentTools : public LLPanel
+class LLPanelEnvironmentTools final : public LLPanel
 {
 public:
 	LLPanelEnvironmentTools();
@@ -57,7 +57,7 @@ public:
 	void draw() override;
 	
 private:
-	~LLPanelEnvironmentTools() {}
+	~LLPanelEnvironmentTools() = default;
 	
 	void initSkyCallbacks();
 	void initWaterCallbacks();

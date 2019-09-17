@@ -32,7 +32,7 @@
 class LLPanelAppearanceTab : public LLPanel
 {
 public:
-	LLPanelAppearanceTab() : LLPanel() {}
+	LLPanelAppearanceTab() = default;
 	virtual ~LLPanelAppearanceTab() = default;
 
 	virtual void setFilterSubString(const std::string& string) = 0;

@@ -36,7 +36,7 @@ class LLSpinCtrl;
 class LLLineEditor;
 class LLPanelLandSelectObserver;
 
-class LLPanelLandInfo
+class LLPanelLandInfo final
 :	public LLPanel
 {
 public:

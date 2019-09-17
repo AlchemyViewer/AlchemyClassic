@@ -45,7 +45,7 @@ class LLPanelAvatarTag : public LLPanel
 {
 public:
 	LLPanelAvatarTag(const LLUUID& key, const std::string im_time);
-	virtual ~LLPanelAvatarTag();
+	virtual ~LLPanelAvatarTag() = default;
 	
 	/**
 	 * Set avatar ID.

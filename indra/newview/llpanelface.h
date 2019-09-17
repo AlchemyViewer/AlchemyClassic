@@ -229,10 +229,10 @@ private:
 	static void edit(LLPanelFace* p, DataType data, int te = -1, const LLUUID &only_for_object_id = LLUUID())
 	{
 		LLMaterialEditFunctor< DataType, SetValueType, MaterialEditFunc > edit(data);
-		struct LLSelectedTEEditMaterial : public LLSelectedTEMaterialFunctor
+		struct LLSelectedTEEditMaterial final : public LLSelectedTEMaterialFunctor
 		{
 			LLSelectedTEEditMaterial(LLPanelFace* panel, LLMaterialEditFunctor< DataType, SetValueType, MaterialEditFunc >* editp, const LLUUID &only_for_object_id) : _edit(editp), _panel(panel), _only_for_object_id(only_for_object_id) {}
-			virtual ~LLSelectedTEEditMaterial() {};
+			virtual ~LLSelectedTEEditMaterial() = default;
 
 		    LLMaterialPtr apply(LLViewerObject* object, S32 face, LLTextureEntry* tep, LLMaterialPtr& current_material) override
 			{
@@ -313,10 +313,10 @@ private:
 	static void getTEMaterialValue(DataType& data_to_return, bool& identical,DataType default_value, bool has_tolerance = false, DataType tolerance = DataType())
 	{
 		DataType data_value = DataType();
-		struct GetTEMaterialVal : public LLSelectedTEGetFunctor<DataType>
+		struct GetTEMaterialVal final : public LLSelectedTEGetFunctor<DataType>
 		{
 			GetTEMaterialVal(DataType default_value) : _default(default_value) {}
-			virtual ~GetTEMaterialVal() {}
+			virtual ~GetTEMaterialVal() = default;
 
 			DataType get(LLViewerObject* object, S32 face) override
 			{
@@ -346,10 +346,10 @@ private:
 	static void getTEValue(DataType& data_to_return, bool& identical, DataType default_value, bool has_tolerance = false, DataType tolerance = DataType())
 	{
 		DataType data_value = DataType();
-		struct GetTEVal : public LLSelectedTEGetFunctor<DataType>
+		struct GetTEVal final : public LLSelectedTEGetFunctor<DataType>
 		{
 			GetTEVal(DataType default_value) : _default(default_value) {}
-			virtual ~GetTEVal() {}
+			virtual ~GetTEVal() = default;
 
 			DataType get(LLViewerObject* object, S32 face) override
 			{

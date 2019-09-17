@@ -45,11 +45,11 @@ class LLAccordionCtrlTab;
 class LLJoint;
 class LLLineEditor;
 
-class LLPanelEditWearable : public LLPanel
+class LLPanelEditWearable final : public LLPanel
 {
 public:
 	LLPanelEditWearable( );
-	virtual ~LLPanelEditWearable();
+	virtual ~LLPanelEditWearable() = default;
 
 	/*virtual*/ BOOL 		postBuild() override;
 	/*virtual*/ BOOL		isDirty() const override;	// LLUICtrl

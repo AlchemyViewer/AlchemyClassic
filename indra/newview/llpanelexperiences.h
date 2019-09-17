@@ -35,18 +35,18 @@ class LLExperienceItem;
 class LLPanelProfile; 
 
 
-class LLPanelSearchExperiences 
+class LLPanelSearchExperiences final
     : public LLPanel
 {
 public:
-    LLPanelSearchExperiences(){}
+	LLPanelSearchExperiences() = default;
     static LLPanelSearchExperiences* create(const std::string& name);
     /*virtual*/ BOOL postBuild(void) override;
 
     void doSearch();
 };
 
-class LLPanelExperiences
+class LLPanelExperiences final
 	: public LLPanel 
 {
 public:
@@ -72,18 +72,18 @@ private:
 	LLFlatListView* mExperiencesList;
 };
 
-class LLExperienceItemComparator : public LLFlatListView::ItemComparator
+class LLExperienceItemComparator final : public LLFlatListView::ItemComparator
 {
 	LOG_CLASS(LLExperienceItemComparator);
 
 public:
-	LLExperienceItemComparator() {};
-	virtual ~LLExperienceItemComparator() {};
+	LLExperienceItemComparator() = default;
+	virtual ~LLExperienceItemComparator() = default;
 
 	bool compare(const LLPanel* item1, const LLPanel* item2) const override;
 };
 
-class LLExperienceItem 
+class LLExperienceItem final
 	: public LLPanel
 {
 public:

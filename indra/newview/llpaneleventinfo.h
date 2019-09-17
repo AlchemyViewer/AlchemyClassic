@@ -34,7 +34,7 @@
 #include "llpanel.h"
 #include "lleventnotifier.h"
 
-class LLPanelEventInfo : public LLPanel
+class LLPanelEventInfo final : public LLPanel
 {
 public:
 	LLPanelEventInfo();

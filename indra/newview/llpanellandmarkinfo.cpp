@@ -73,10 +73,6 @@ LLPanelLandmarkInfo::LLPanelLandmarkInfo()
 }
 
 // virtual
-LLPanelLandmarkInfo::~LLPanelLandmarkInfo()
-{}
-
-// virtual
 BOOL LLPanelLandmarkInfo::postBuild()
 {
 	LLPanelPlaceInfo::postBuild();

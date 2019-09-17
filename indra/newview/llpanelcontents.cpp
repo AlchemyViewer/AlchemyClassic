@@ -95,13 +95,6 @@ LLPanelContents::LLPanelContents()
 {
 }
 
-
-LLPanelContents::~LLPanelContents()
-{
-	// Children all cleaned up by default view destructor.
-}
-
-
 void LLPanelContents::getState(LLViewerObject *objectp )
 {
 	if( !objectp )

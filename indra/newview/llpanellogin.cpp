@@ -70,7 +70,7 @@ LLPanelLogin *LLPanelLogin::sInstance = nullptr;
 BOOL LLPanelLogin::sCapslockDidNotification = FALSE;
 BOOL LLPanelLogin::sCredentialSet = FALSE;
 
-class LLLoginRefreshHandler : public LLCommandHandler
+class LLLoginRefreshHandler final : public LLCommandHandler
 {
 public:
 	// don't allow from external browsers

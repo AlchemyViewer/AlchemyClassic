@@ -72,7 +72,7 @@ public:
 		 const std::string& loading_text,
 		 S32 interval_length_days,
 		 S32 max_interval_days);
-	~LLGroupMoneyTabEventHandlerImpl();
+	~LLGroupMoneyTabEventHandlerImpl() = default;
 
 	bool getCanClickLater();
 	bool getCanClickEarlier();
@@ -135,7 +135,7 @@ protected:
 	LLGroupMoneyTabEventHandlerImpl* mImplementationp;
 };
 
-class LLGroupMoneyDetailsTabEventHandler : public LLGroupMoneyTabEventHandler
+class LLGroupMoneyDetailsTabEventHandler final : public LLGroupMoneyTabEventHandler
 {
 public:
 	LLGroupMoneyDetailsTabEventHandler(LLButton* earlier_buttonp,
@@ -145,14 +145,14 @@ public:
 									   LLPanel* panelp,
 									   const std::string& loading_text
 									   );
-	virtual ~LLGroupMoneyDetailsTabEventHandler();
+	virtual ~LLGroupMoneyDetailsTabEventHandler() = default;
 
 	void requestData(LLMessageSystem* msg) override;
 	void processReply(LLMessageSystem* msg, void** data) override;
 };
 
 
-class LLGroupMoneySalesTabEventHandler : public LLGroupMoneyTabEventHandler
+class LLGroupMoneySalesTabEventHandler final : public LLGroupMoneyTabEventHandler
 {
 public:
 	LLGroupMoneySalesTabEventHandler(LLButton* earlier_buttonp,
@@ -162,13 +162,13 @@ public:
 									 LLPanel* panelp,
 									 const std::string& loading_text
 									 );
-	virtual ~LLGroupMoneySalesTabEventHandler();
+	virtual ~LLGroupMoneySalesTabEventHandler() = default;
 
 	void requestData(LLMessageSystem* msg) override;
 	void processReply(LLMessageSystem* msg, void** data) override;
 };
 
-class LLGroupMoneyPlanningTabEventHandler : public LLGroupMoneyTabEventHandler
+class LLGroupMoneyPlanningTabEventHandler final : public LLGroupMoneyTabEventHandler
 {
 public:
 	LLGroupMoneyPlanningTabEventHandler(LLTextEditor* text_editor,
@@ -176,7 +176,7 @@ public:
 										LLPanel* panelp,
 										const std::string& loading_text
 										);
-	virtual ~LLGroupMoneyPlanningTabEventHandler();
+	virtual ~LLGroupMoneyPlanningTabEventHandler() = default;
 
 	void requestData(LLMessageSystem* msg) override;
 	void processReply(LLMessageSystem* msg, void** data) override;
@@ -867,10 +867,6 @@ LLGroupMoneyTabEventHandlerImpl::LLGroupMoneyTabEventHandlerImpl(LLButton* earli
 	mLoadingText = loading_text;
 }
 
-LLGroupMoneyTabEventHandlerImpl::~LLGroupMoneyTabEventHandlerImpl()
-{
-}
-
 bool LLGroupMoneyTabEventHandlerImpl::getCanClickEarlier()
 {
 	return (mCurrentInterval < mMaxInterval);
@@ -1024,10 +1020,6 @@ LLGroupMoneyDetailsTabEventHandler::LLGroupMoneyDetailsTabEventHandler(LLButton*
 {
 }
 
-LLGroupMoneyDetailsTabEventHandler::~LLGroupMoneyDetailsTabEventHandler()
-{
-}
-
 void LLGroupMoneyDetailsTabEventHandler::requestData(LLMessageSystem* msg)
 {
 	msg->newMessageFast(_PREHASH_GroupAccountDetailsRequest);
@@ -1162,10 +1154,6 @@ LLGroupMoneySalesTabEventHandler::LLGroupMoneySalesTabEventHandler(LLButton* ear
 								  loading_text,
 								  SUMMARY_INTERVAL,
 								  SUMMARY_MAX)
-{
-}
-
-LLGroupMoneySalesTabEventHandler::~LLGroupMoneySalesTabEventHandler()
 {
 }
 
@@ -1338,10 +1326,6 @@ LLGroupMoneyPlanningTabEventHandler::LLGroupMoneyPlanningTabEventHandler(LLTextE
 								  loading_text,
 								  SUMMARY_INTERVAL,
 								  SUMMARY_MAX)
-{
-}
-
-LLGroupMoneyPlanningTabEventHandler::~LLGroupMoneyPlanningTabEventHandler()
 {
 }
 

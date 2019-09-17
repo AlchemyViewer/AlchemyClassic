@@ -52,13 +52,13 @@ class LLListContextMenu;
  *
  * Comparator of outfit tabs.
  */
-class LLOutfitTabNameComparator : public LLAccordionCtrl::LLTabComparator
+class LLOutfitTabNameComparator final : public LLAccordionCtrl::LLTabComparator
 {
 	LOG_CLASS(LLOutfitTabNameComparator);
 
 public:
-	LLOutfitTabNameComparator() {};
-	virtual ~LLOutfitTabNameComparator() {};
+	LLOutfitTabNameComparator() = default;
+	virtual ~LLOutfitTabNameComparator() = default;
 
 	/*virtual*/ bool compare(const LLAccordionCtrlTab* tab1, const LLAccordionCtrlTab* tab2) const override;
 };
@@ -190,7 +190,7 @@ private:
     bool onVisible(LLSD::String param);
 };
 
-class LLOutfitListGearMenu : public LLOutfitListGearMenuBase
+class LLOutfitListGearMenu final : public LLOutfitListGearMenuBase
 {
 public:
     LLOutfitListGearMenu(LLOutfitListBase* olist);
@@ -209,12 +209,12 @@ protected:
  *
  * Starts fetching necessary inventory content on first opening.
  */
-class LLOutfitsList : public LLOutfitListBase
+class LLOutfitsList final : public LLOutfitListBase
 {
 public:
 
 	LLOutfitsList();
-	virtual ~LLOutfitsList();
+	virtual ~LLOutfitsList() = default;
 
 	/*virtual*/ BOOL postBuild() override;
 

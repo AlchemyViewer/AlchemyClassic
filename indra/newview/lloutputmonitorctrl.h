@@ -39,7 +39,7 @@ class LLUICtrlFactory;
 // Classes
 //
 
-class LLOutputMonitorCtrl
+class LLOutputMonitorCtrl final
 : public LLView, public LLSpeakingIndicator, LLMuteListObserver
 {
 public:

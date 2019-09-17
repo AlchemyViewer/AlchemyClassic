@@ -40,7 +40,7 @@ class LLComboBox;
 class LLSpinCtrl;
 class LLAvatarName;
 
-class LLPanelGroupGeneral : public LLPanelGroupTab
+class LLPanelGroupGeneral final : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupGeneral();

@@ -54,7 +54,7 @@ public:
 private:
 };
 
-class LLOutfitGallery : public LLOutfitListBase
+class LLOutfitGallery final : public LLOutfitListBase
 {
 public:
     friend class LLOutfitGalleryGearMenu;
@@ -204,7 +204,7 @@ private:
     LLInventoryCategoriesObserver* 	mTexturesObserver;
     LLInventoryCategoriesObserver* 	mOutfitsObserver;
 };
-class LLOutfitGalleryContextMenu : public LLOutfitContextMenu
+class LLOutfitGalleryContextMenu final : public LLOutfitContextMenu
 {
 public:
     
@@ -246,7 +246,7 @@ private:
     bool hasDefaultImage();
 };
 
-class LLOutfitGalleryItem : public LLPanel
+class LLOutfitGalleryItem final : public LLPanel
 {
 public:
     struct Params : public LLInitParam::Block<Params, LLPanel::Params>

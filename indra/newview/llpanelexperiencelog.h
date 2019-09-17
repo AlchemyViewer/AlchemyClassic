@@ -31,7 +31,7 @@
 #include "llpanel.h"
 class LLScrollListCtrl;
 
-class LLPanelExperienceLog
+class LLPanelExperienceLog final
 	: public LLPanel 
 {
 public:

@@ -31,7 +31,7 @@
 
 class LLAvatarName;
 
-class LLPanelGroupInvite
+class LLPanelGroupInvite final
 : public LLPanel
 {
 public:

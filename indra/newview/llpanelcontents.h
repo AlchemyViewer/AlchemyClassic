@@ -40,12 +40,12 @@ class LLViewerObject;
 class LLCheckBoxCtrl;
 class LLSpinCtrl;
 
-class LLPanelContents : public LLPanel
+class LLPanelContents final : public LLPanel
 {
 public:
 	BOOL postBuild() override;
 	LLPanelContents();
-	virtual ~LLPanelContents();
+	virtual ~LLPanelContents() = default;
 
 	void			refresh() override;
 	void			clearContents();

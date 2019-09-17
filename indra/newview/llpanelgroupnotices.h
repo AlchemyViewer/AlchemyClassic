@@ -38,7 +38,7 @@ class LLIconCtrl;
 class LLCheckBoxCtrl;
 class LLScrollListCtrl;
 
-class LLPanelGroupNotices : public LLPanelGroupTab
+class LLPanelGroupNotices final : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupNotices();

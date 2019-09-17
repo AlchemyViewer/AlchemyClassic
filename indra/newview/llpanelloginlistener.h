@@ -33,7 +33,7 @@
 class LLPanelLogin;
 class LLSD;
 
-class LLPanelLoginListener: public LLEventAPI
+class LLPanelLoginListener final : public LLEventAPI
 {
 public:
     LLPanelLoginListener(LLPanelLogin* instance);

@@ -35,7 +35,7 @@
 
 class LLTextBox;
 
-class LLPanelAvatarComplexityPulldown : public LLPanelMenuBarPulldown
+class LLPanelAvatarComplexityPulldown final : public LLPanelMenuBarPulldown
 {
 public:
 	LLPanelAvatarComplexityPulldown();

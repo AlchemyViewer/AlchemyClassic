@@ -968,7 +968,7 @@ void darken_ssao(const LLSD& userdata)
 }
 
 // SLApp handler for activating windlight presets
-class LLWindlightSLAppHandler : public LLCommandHandler
+class LLWindlightSLAppHandler final : public LLCommandHandler
 {
 public:
 	LLWindlightSLAppHandler() : LLCommandHandler("windlight", UNTRUSTED_BLOCK) {}

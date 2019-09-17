@@ -85,7 +85,7 @@ private:
 
 //////////////////////////////////////////////////////////////////////////
 
-class LLWearingContextMenu : public LLListContextMenu
+class LLWearingContextMenu final : public LLListContextMenu
 {
 protected:
 	/* virtual */ LLContextMenu* createMenu() override
@@ -151,7 +151,7 @@ protected:
 
 //////////////////////////////////////////////////////////////////////////
 
-class LLTempAttachmentsContextMenu : public LLListContextMenu
+class LLTempAttachmentsContextMenu final : public LLListContextMenu
 {
 public:
 	LLTempAttachmentsContextMenu(LLPanelWearing* panel_wearing)

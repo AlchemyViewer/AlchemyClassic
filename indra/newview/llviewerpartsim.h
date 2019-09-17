@@ -45,7 +45,7 @@ class LLVOPartGroup;
 //
 
 
-class LLViewerPart : public LLPartData
+class LLViewerPart final : public LLPartData
 {
 public:
 	typedef std::function<void(LLViewerPart&, const F32)>	vp_callback_t;

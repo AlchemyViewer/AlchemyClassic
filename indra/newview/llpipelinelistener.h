@@ -32,7 +32,7 @@
 #include "lleventapi.h"
 
 /// Listen on an LLEventPump with specified name for LLPipeline request events.
-class LLPipelineListener: public LLEventAPI
+class LLPipelineListener final : public LLEventAPI
 {
 public:
 	LLPipelineListener();

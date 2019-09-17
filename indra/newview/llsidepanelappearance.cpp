@@ -51,7 +51,7 @@
 
 static LLPanelInjector<LLSidepanelAppearance> t_appearance("sidepanel_appearance");
 
-class LLCurrentlyWornFetchObserver : public LLInventoryFetchItemsObserver
+class LLCurrentlyWornFetchObserver final : public LLInventoryFetchItemsObserver
 {
 public:
 	LLCurrentlyWornFetchObserver(const uuid_vec_t &ids,
@@ -59,7 +59,7 @@ public:
 		LLInventoryFetchItemsObserver(ids),
 		mPanel(panel)
 	{}
-	~LLCurrentlyWornFetchObserver() {}
+	~LLCurrentlyWornFetchObserver() = default;
 
 	void done() override
 	{
@@ -88,10 +88,6 @@ LLSidepanelAppearance::LLSidepanelAppearance() :
 
 	gAgentWearables.addLoadingStartedCallback(boost::bind(&LLSidepanelAppearance::setWearablesLoading, this, true));
 	gAgentWearables.addLoadedCallback(boost::bind(&LLSidepanelAppearance::setWearablesLoading, this, false));
-}
-
-LLSidepanelAppearance::~LLSidepanelAppearance()
-{
 }
 
 // virtual

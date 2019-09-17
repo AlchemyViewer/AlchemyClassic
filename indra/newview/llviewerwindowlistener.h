@@ -35,7 +35,7 @@ class LLViewerWindow;
 class LLSD;
 
 /// Listen on an LLEventPump with specified name for LLViewerWindow request events.
-class LLViewerWindowListener: public LLEventAPI
+class LLViewerWindowListener final : public LLEventAPI
 {
 public:
     /// Bind the LLViewerWindow instance to use (e.g. gViewerWindow).

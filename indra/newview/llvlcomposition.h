@@ -32,11 +32,11 @@
 
 class LLSurface;
 
-class LLVLComposition : public LLViewerLayer
+class LLVLComposition final : public LLViewerLayer
 {
 public:
 	LLVLComposition(LLSurface *surfacep, const U32 width, const F32 scale);
-	/*virtual*/ ~LLVLComposition();
+	/*virtual*/ ~LLVLComposition() = default;
 
 	void setSurface(LLSurface *surfacep);
 

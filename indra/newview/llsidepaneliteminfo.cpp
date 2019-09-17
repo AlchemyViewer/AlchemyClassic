@@ -102,7 +102,7 @@ static const std::array<std::string, 5> debug_items{{
 //
 // Helper class to watch for changes to the item.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLItemPropertiesObserver : public LLInventoryObserver
+class LLItemPropertiesObserver final : public LLInventoryObserver
 {
 public:
 	LLItemPropertiesObserver(LLSidepanelItemInfo* floater)
@@ -146,7 +146,7 @@ void LLItemPropertiesObserver::changed(U32 mask)
 // Helper class to watch for changes in an object inventory.
 // Used to update item properties in LLSidepanelItemInfo.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLObjectInventoryObserver : public LLVOInventoryListener
+class LLObjectInventoryObserver final : public LLVOInventoryListener
 {
 public:
 	LLObjectInventoryObserver(LLSidepanelItemInfo* floater, LLViewerObject* object)

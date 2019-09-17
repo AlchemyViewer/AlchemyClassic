@@ -33,7 +33,7 @@ class LLButton;
 class LLInventoryPanel;
 class LLUICtrl;
 
-class LLPanelMarketplaceInbox : public LLPanel
+class LLPanelMarketplaceInbox final : public LLPanel
 {
 public:
 

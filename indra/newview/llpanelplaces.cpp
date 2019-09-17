@@ -80,7 +80,7 @@ static const std::string TELEPORT_HISTORY_INFO_TYPE	= "teleport_history";
 static const std::string LANDMARK_TAB_INFO_TYPE     = "open_landmark_tab";
 
 // Support for secondlife:///app/parcel/{UUID}/about SLapps
-class LLParcelHandler : public LLCommandHandler
+class LLParcelHandler final : public LLCommandHandler
 {
 public:
 	// requires trusted browser to trigger
@@ -125,7 +125,7 @@ static bool is_agent_in_selected_parcel(LLParcel* parcel);
 static void onSLURLBuilt(std::string& slurl);
 
 //Observer classes
-class LLPlacesParcelObserver : public LLParcelObserver
+class LLPlacesParcelObserver final : public LLParcelObserver
 {
 public:
 	LLPlacesParcelObserver(LLPanelPlaces* places_panel) :
@@ -143,7 +143,7 @@ private:
 	LLPanelPlaces*		mPlaces;
 };
 
-class LLPlacesInventoryObserver : public LLInventoryAddedObserver
+class LLPlacesInventoryObserver final : public LLInventoryAddedObserver
 {
 public:
 	LLPlacesInventoryObserver(LLPanelPlaces* places_panel) :
@@ -170,7 +170,7 @@ private:
 	LLPanelPlaces*		mPlaces;
 };
 
-class LLPlacesRemoteParcelInfoObserver : public LLRemoteParcelInfoObserver
+class LLPlacesRemoteParcelInfoObserver final : public LLRemoteParcelInfoObserver
 {
 public:
 	LLPlacesRemoteParcelInfoObserver(LLPanelPlaces* places_panel) :
@@ -716,7 +716,7 @@ void LLPanelPlaces::onEditButtonClicked()
 	updateVerbs();
 }
 
-class LLUpdateLandmarkParent : public LLInventoryCallback
+class LLUpdateLandmarkParent final : public LLInventoryCallback
 {
 public:
     LLUpdateLandmarkParent(LLPointer<LLViewerInventoryItem> item, LLUUID new_parent) :

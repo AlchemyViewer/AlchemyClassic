@@ -698,7 +698,7 @@ public:
 //it tracks the activities of the texture pipeline
 //records them, and outputs them to log files
 //
-class LLTexturePipelineTester : public LLMetricPerformanceTesterWithSession
+class LLTexturePipelineTester final : public LLMetricPerformanceTesterWithSession
 {
 	enum
 	{
@@ -754,7 +754,7 @@ private:
 	//
 	//The following members are used for performance analyzing
 	//
-	class LLTextureTestSession : public LLTestSession
+	class LLTextureTestSession final : public LLTestSession
 	{
 	public:
 		LLTextureTestSession() ;

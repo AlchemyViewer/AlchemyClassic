@@ -366,7 +366,7 @@ BOOL LLViewerTexLayerSetBuffer::requestUpdateImmediate()
 //-----------------------------------------------------------------------------
 // Support classes
 //-----------------------------------------------------------------------------
-class ALTexLayerUploader : public LLBufferedAssetUploadInfo
+class ALTexLayerUploader final : public LLBufferedAssetUploadInfo
 {
 public:
 	ALTexLayerUploader(LLUUID assetId, std::string texture, LLBakedUploadData* baked_upload_data);

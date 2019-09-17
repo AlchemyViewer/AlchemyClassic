@@ -41,7 +41,7 @@ class LLObjectInventoryObserver;
 class LLViewerObject;
 class LLPermissions;
 
-class LLSidepanelItemInfo : public LLSidepanelInventorySubpanel
+class LLSidepanelItemInfo final : public LLSidepanelInventorySubpanel
 {
 public:
 	LLSidepanelItemInfo(const LLPanel::Params& p = getDefaultParams());

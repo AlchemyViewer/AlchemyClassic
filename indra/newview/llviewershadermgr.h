@@ -32,7 +32,7 @@
 
 #define LL_DEFERRED_MULTI_LIGHT_COUNT 16
 
-class LLViewerShaderMgr: public LLShaderMgr
+class LLViewerShaderMgr final : public LLShaderMgr
 {
 public:
 	static BOOL sInitialized;

@@ -119,7 +119,7 @@ static bool have_script_upload_cap(LLUUID& object_id)
 /// ---------------------------------------------------------------------------
 /// LLLiveLSLFile
 /// ---------------------------------------------------------------------------
-class LLLiveLSLFile : public LLLiveFile
+class LLLiveLSLFile final : public LLLiveFile
 {
 public:
 	typedef std::function<bool (const std::string& filename)> change_callback_t;

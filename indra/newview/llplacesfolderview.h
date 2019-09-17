@@ -32,7 +32,7 @@
 
 class LLLandmarksPanel;
 
-class LLPlacesFolderView : public LLFolderView
+class LLPlacesFolderView final : public LLFolderView
 {
 public:
 

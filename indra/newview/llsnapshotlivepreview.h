@@ -36,7 +36,7 @@ class LLImageJPEG;
 ///----------------------------------------------------------------------------
 /// Class LLSnapshotLivePreview 
 ///----------------------------------------------------------------------------
-class LLSnapshotLivePreview : public LLView
+class LLSnapshotLivePreview final : public LLView
 {
 	LOG_CLASS(LLSnapshotLivePreview);
 public:

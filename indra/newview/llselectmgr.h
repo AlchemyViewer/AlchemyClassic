@@ -391,7 +391,7 @@ extern template class LLSelectMgr* LLSingleton<class LLSelectMgr>::getInstance()
 // For use with getFirstTest()
 struct LLSelectGetFirstTest;
 
-class LLSelectMgr : public LLEditMenuHandler, public LLSingleton<LLSelectMgr>
+class LLSelectMgr final : public LLEditMenuHandler, public LLSingleton<LLSelectMgr>
 {
 	LLSINGLETON(LLSelectMgr);
 	~LLSelectMgr();

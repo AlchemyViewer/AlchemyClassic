@@ -44,11 +44,11 @@
 #include "llviewerattachmenu.h"
 #include "llvoavatarself.h"
 
-class LLFindOutfitItems : public LLInventoryCollectFunctor
+class LLFindOutfitItems final : public LLInventoryCollectFunctor
 {
 public:
 	LLFindOutfitItems() {}
-	virtual ~LLFindOutfitItems() {}
+	virtual ~LLFindOutfitItems() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 };

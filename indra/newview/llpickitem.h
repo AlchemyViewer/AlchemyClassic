@@ -36,7 +36,7 @@ static const std::string PICK_ID("pick_id");
 static const std::string PICK_CREATOR_ID("pick_creator_id");
 static const std::string PICK_NAME("pick_name");
 
-class LLPickItem : public LLPanel, public LLAvatarPropertiesObserver
+class LLPickItem final : public LLPanel, public LLAvatarPropertiesObserver
 {
 public:
 	LLPickItem();

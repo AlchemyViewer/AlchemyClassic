@@ -38,7 +38,7 @@ class LLComboBox;
 class LLCheckBoxCtrl;
 class LLNameBox;
 
-class LLPanelMediaSettingsPermissions : public LLPanel
+class LLPanelMediaSettingsPermissions final : public LLPanel
 {
 public:
 	LLPanelMediaSettingsPermissions();

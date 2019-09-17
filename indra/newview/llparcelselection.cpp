@@ -54,10 +54,6 @@ LLParcelSelection::LLParcelSelection(LLParcel* parcel)  :
 {
 }
 
-LLParcelSelection::~LLParcelSelection()
-{
-}
-
 BOOL LLParcelSelection::getMultipleOwners() const
 {
 	return mSelectedMultipleOwners;

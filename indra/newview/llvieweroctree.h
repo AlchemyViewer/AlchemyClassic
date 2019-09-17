@@ -68,7 +68,7 @@ S32 AABBSphereIntersectR2(const LLVector3& min, const LLVector3& max, const LLVe
 
 //defines data needed for octree of an entry
 //LL_ALIGN_PREFIX(16)
-class LLViewerOctreeEntry : public LLRefCount, public LLTrace::MemTrackable<LLViewerOctreeEntry, 16>
+class LLViewerOctreeEntry final : public LLRefCount, public LLTrace::MemTrackable<LLViewerOctreeEntry, 16>
 {
 	friend class LLViewerOctreeEntryData;
 

@@ -54,7 +54,7 @@ std::string getProfileURL(const std::string& agent_name)
 	return url;
 }
 
-class LLProfileHandler : public LLCommandHandler
+class LLProfileHandler final : public LLCommandHandler
 {
 public:
 	// requires trusted browser to trigger
@@ -74,7 +74,7 @@ public:
 };
 LLProfileHandler gProfileHandler;
 
-class LLAgentHandler : public LLCommandHandler
+class LLAgentHandler final : public LLCommandHandler
 {
 public:
 	// requires trusted browser to trigger

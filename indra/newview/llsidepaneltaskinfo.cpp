@@ -1125,7 +1125,7 @@ void LLSidepanelTaskInfo::setAllSaleInfo()
 	}
 }
 
-struct LLSelectionPayable : public LLSelectedObjectFunctor
+struct LLSelectionPayable final : public LLSelectedObjectFunctor
 {
 	bool apply(LLViewerObject* obj) override
 	{

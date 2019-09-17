@@ -70,7 +70,7 @@ static const char * const MARKETPLACE_INBOX_PANEL = "marketplace_inbox";
 //
 // Helpers
 //
-class LLInboxAddedObserver : public LLInventoryCategoryAddedObserver
+class LLInboxAddedObserver final : public LLInventoryCategoryAddedObserver
 {
 public:
 	LLInboxAddedObserver(LLSidepanelInventory * sidepanelInventory)

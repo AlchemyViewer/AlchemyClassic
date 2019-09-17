@@ -52,7 +52,7 @@ public:
 };
 
 
-class LLInboxFolderViewFolder : public LLFolderViewFolder, public LLBadgeOwner
+class LLInboxFolderViewFolder final : public LLFolderViewFolder, public LLBadgeOwner
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLFolderViewFolder::Params>
@@ -83,7 +83,7 @@ protected:
 };
 
 
-class LLInboxFolderViewItem : public LLFolderViewItem, public LLBadgeOwner
+class LLInboxFolderViewItem final : public LLFolderViewItem, public LLBadgeOwner
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLFolderViewItem::Params>

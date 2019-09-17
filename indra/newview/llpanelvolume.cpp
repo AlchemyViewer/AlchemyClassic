@@ -477,7 +477,7 @@ void LLPanelVolume::getState( )
 	// Update material part
 	// slightly inefficient - materials are unique per object, not per TE
 	U8 material_code = 0;
-	struct f : public LLSelectedTEGetFunctor<U8>
+	struct f final : public LLSelectedTEGetFunctor<U8>
 	{
 		U8 get(LLViewerObject* object, S32 te) override
 		{

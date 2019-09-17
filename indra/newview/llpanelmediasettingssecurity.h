@@ -34,7 +34,7 @@ class LLScrollListCtrl;
 class LLTextBox;
 class LLFloaterMediaSettings;
 
-class LLPanelMediaSettingsSecurity : public LLPanel
+class LLPanelMediaSettingsSecurity final : public LLPanel
 {
 public:
 	LLPanelMediaSettingsSecurity();

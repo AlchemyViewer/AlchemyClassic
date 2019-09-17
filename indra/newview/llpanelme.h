@@ -34,7 +34,7 @@
 * Panel for displaying Agent's Picks and Classifieds panel.
 * LLPanelMe allows user to edit his picks and classifieds.
 */
-class LLPanelMe : public LLPanelProfile
+class LLPanelMe final : public LLPanelProfile
 {
 	LOG_CLASS(LLPanelMe);
 

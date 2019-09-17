@@ -209,7 +209,7 @@ private:
 // LLAddWearablesGearMenu
 ///////////////////////////////////////////////////////////////////////////////
 
-class LLAddWearablesGearMenu : public LLInitClass<LLAddWearablesGearMenu>
+class LLAddWearablesGearMenu final : public LLInitClass<LLAddWearablesGearMenu>
 {
 public:
 	static LLToggleableMenu* create(LLWearableItemsList* flat_list, LLInventoryPanel* inventory_panel)
@@ -347,7 +347,7 @@ private:
 // LLCOFDragAndDropObserver
 ///////////////////////////////////////////////////////////////////////////////
 
-class LLCOFDragAndDropObserver : public LLInventoryAddItemByAssetObserver
+class LLCOFDragAndDropObserver final : public LLInventoryAddItemByAssetObserver
 {
 public:
 	LLCOFDragAndDropObserver(LLInventoryModel* model);

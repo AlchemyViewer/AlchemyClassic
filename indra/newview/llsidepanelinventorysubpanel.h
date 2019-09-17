@@ -41,7 +41,7 @@ class LLSidepanelInventorySubpanel : public LLPanel
 {
 public:
 	LLSidepanelInventorySubpanel(const LLPanel::Params& p = getDefaultParams());
-	virtual ~LLSidepanelInventorySubpanel();
+	virtual ~LLSidepanelInventorySubpanel() = default;
 
 	void setVisible(BOOL visible) override;
 	BOOL postBuild() override;

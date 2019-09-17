@@ -34,7 +34,7 @@ class LLFolderViewFolder;
 /**
  * Overridden version of the Inventory-Folder-View-Bridge for Places Panel (Landmarks Tab)
  */
-class LLPlacesLandmarkBridge : public LLLandmarkBridge
+class LLPlacesLandmarkBridge final : public LLLandmarkBridge
 {
 	friend class LLPlacesInventoryBridgeBuilder;
 
@@ -56,7 +56,7 @@ protected:
 /**
  * Overridden version of the Inventory-Folder-View-Bridge for Folders
  */
-class LLPlacesFolderBridge : public LLFolderBridge
+class LLPlacesFolderBridge final : public LLFolderBridge
 {
 	friend class LLPlacesInventoryBridgeBuilder;
 
@@ -82,10 +82,10 @@ protected:
  *
  * It builds Bridges for Landmarks and Folders in Places Landmarks Panel
  */
-class LLPlacesInventoryBridgeBuilder : public LLInventoryFolderViewModelBuilder
+class LLPlacesInventoryBridgeBuilder final : public LLInventoryFolderViewModelBuilder
 {
 public:
-	LLPlacesInventoryBridgeBuilder() {}
+	LLPlacesInventoryBridgeBuilder() = default;
 
 	/*virtual*/ LLInvFVBridge* createBridge(LLAssetType::EType asset_type,
 											LLAssetType::EType actual_asset_type,

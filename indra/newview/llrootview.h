@@ -30,12 +30,12 @@
 #include "llview.h"
 #include "lltooltip.h"
 
-class LLRootViewRegistry : public LLChildRegistry<LLRootViewRegistry>
+class LLRootViewRegistry final : public LLChildRegistry<LLRootViewRegistry>
 {
 	LLSINGLETON(LLRootViewRegistry);
 };
 
-class LLRootView : public LLView
+class LLRootView final : public LLView
 {
 public:
 	typedef LLRootViewRegistry child_registry_t;

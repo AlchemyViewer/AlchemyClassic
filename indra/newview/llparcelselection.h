@@ -32,13 +32,13 @@
 
 class LLParcel;
 
-class LLParcelSelection : public LLRefCount
+class LLParcelSelection final : public LLRefCount
 {
 	friend class LLViewerParcelMgr;
 	friend class LLSafeHandle<LLParcelSelection>;
 
 protected:
-	~LLParcelSelection();
+	~LLParcelSelection() = default;
 
 public:
 	LLParcelSelection(LLParcel* parcel);

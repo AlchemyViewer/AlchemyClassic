@@ -31,7 +31,7 @@
 
 class LLSD;
 
-class LLPathfindingLinkset : public LLPathfindingObject
+class LLPathfindingLinkset final : public LLPathfindingObject
 {
 public:
 	typedef enum

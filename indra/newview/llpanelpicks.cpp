@@ -60,7 +60,7 @@ static const std::string XML_BTN_SHOW_ON_MAP = "show_on_map_btn";
 static LLPanelInjector<LLPanelPicks> t_panel_picks("panel_picks");
 
 
-class LLPickHandler : public LLCommandHandler,
+class LLPickHandler final : public LLCommandHandler,
 					  public LLAvatarPropertiesObserver
 {
 public:
@@ -172,7 +172,7 @@ public:
 
 LLPickHandler gPickHandler;
 
-class LLClassifiedHandler :
+class LLClassifiedHandler final :
 	public LLCommandHandler,
 	public LLAvatarPropertiesObserver
 {

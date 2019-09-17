@@ -50,7 +50,7 @@ private:
 };
 
 
-class LLPostcardUploadInfo : public LLBufferedAssetUploadInfo
+class LLPostcardUploadInfo final : public LLBufferedAssetUploadInfo
 {
 public:
     LLPostcardUploadInfo(std::string nameFrom, std::string emailTo,

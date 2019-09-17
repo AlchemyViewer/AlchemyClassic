@@ -53,7 +53,7 @@ class LLFloater;
 // including all the fixin's (e.g. AllItems/RecentItems tabs, filter floaters).
 //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLPanelMainInventory : public LLPanel, LLInventoryObserver
+class LLPanelMainInventory final : public LLPanel, LLInventoryObserver
 {
 public:
 	friend class LLFloaterInventoryFinder;

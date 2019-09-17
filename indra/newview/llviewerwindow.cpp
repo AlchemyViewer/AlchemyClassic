@@ -1841,7 +1841,7 @@ void LLViewerWindow::initGLDefaults()
 	gBox.prerender();
 }
 
-struct MainPanel : public LLPanel
+class MainPanel final : public LLPanel
 {
 };
 
@@ -3669,7 +3669,7 @@ void LLViewerWindow::renderSelections( BOOL for_gl_pick, BOOL pick_parcel_walls,
 				gGL.scalef(zoom, zoom, zoom);
 			}
 
-			struct f : public LLSelectedObjectFunctor
+			struct f final : public LLSelectedObjectFunctor
 			{
 				bool apply(LLViewerObject* object) override
 				{

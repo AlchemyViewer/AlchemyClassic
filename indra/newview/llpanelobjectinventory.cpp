@@ -94,7 +94,7 @@ public:
 					  const LLUUID& uuid,
 					  const std::string& name,
 					  U32 flags=0);
-	virtual ~LLTaskInvFVBridge() {}
+	virtual ~LLTaskInvFVBridge() = default;
 
 	LLFontGL::StyleFlags getLabelStyle() const override { return LLFontGL::NORMAL; }
 	std::string getLabelSuffix() const override { return LLStringUtil::null; }
@@ -572,7 +572,7 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 /// Class LLTaskFolderBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskCategoryBridge : public LLTaskInvFVBridge
+class LLTaskCategoryBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskCategoryBridge(
@@ -747,7 +747,7 @@ BOOL LLTaskCategoryBridge::dragOrDrop(MASK mask, BOOL drop,
 /// Class LLTaskTextureBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskTextureBridge : public LLTaskInvFVBridge
+class LLTaskTextureBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskTextureBridge(LLPanelObjectInventory* panel,
@@ -779,7 +779,7 @@ void LLTaskTextureBridge::openItem()
 /// Class LLTaskSoundBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskSoundBridge : public LLTaskInvFVBridge
+class LLTaskSoundBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskSoundBridge(LLPanelObjectInventory* panel,
@@ -868,7 +868,7 @@ void LLTaskSoundBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 /// Class LLTaskLandmarkBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskLandmarkBridge : public LLTaskInvFVBridge
+class LLTaskLandmarkBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskLandmarkBridge(LLPanelObjectInventory* panel,
@@ -881,7 +881,7 @@ public:
 /// Class LLTaskCallingCardBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskCallingCardBridge : public LLTaskInvFVBridge
+class LLTaskCallingCardBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskCallingCardBridge(LLPanelObjectInventory* panel,
@@ -908,7 +908,7 @@ BOOL LLTaskCallingCardBridge::renameItem(const std::string& new_name)
 /// Class LLTaskScriptBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskScriptBridge : public LLTaskInvFVBridge
+class LLTaskScriptBridge  : public LLTaskInvFVBridge
 {
 public:
 	LLTaskScriptBridge(LLPanelObjectInventory* panel,
@@ -919,7 +919,7 @@ public:
 	//static BOOL enableIfCopyable( void* userdata );
 };
 
-class LLTaskLSLBridge : public LLTaskScriptBridge
+class LLTaskLSLBridge final : public LLTaskScriptBridge
 {
 public:
 	LLTaskLSLBridge(LLPanelObjectInventory* panel,
@@ -970,7 +970,7 @@ BOOL LLTaskLSLBridge::removeItem()
 /// Class LLTaskObjectBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskObjectBridge : public LLTaskInvFVBridge
+class LLTaskObjectBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskObjectBridge(LLPanelObjectInventory* panel,
@@ -984,7 +984,7 @@ public:
 /// Class LLTaskNotecardBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskNotecardBridge : public LLTaskInvFVBridge
+class LLTaskNotecardBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskNotecardBridge(LLPanelObjectInventory* panel,
@@ -1033,7 +1033,7 @@ BOOL LLTaskNotecardBridge::removeItem()
 /// Class LLTaskGestureBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskGestureBridge : public LLTaskInvFVBridge
+class LLTaskGestureBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskGestureBridge(LLPanelObjectInventory* panel,
@@ -1067,7 +1067,7 @@ BOOL LLTaskGestureBridge::removeItem()
 /// Class LLTaskAnimationBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskAnimationBridge : public LLTaskInvFVBridge
+class LLTaskAnimationBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskAnimationBridge(LLPanelObjectInventory* panel,
@@ -1105,7 +1105,7 @@ BOOL LLTaskAnimationBridge::removeItem()
 /// Class LLTaskWearableBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskWearableBridge : public LLTaskInvFVBridge
+class LLTaskWearableBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskWearableBridge(LLPanelObjectInventory* panel,
@@ -1126,7 +1126,7 @@ LLUIImagePtr LLTaskWearableBridge::getIcon() const
 /// Class LLTaskMeshBridge
 ///----------------------------------------------------------------------------
 
-class LLTaskMeshBridge : public LLTaskInvFVBridge
+class LLTaskMeshBridge final : public LLTaskInvFVBridge
 {
 public:
 	LLTaskMeshBridge(

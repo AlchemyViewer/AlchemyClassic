@@ -89,11 +89,6 @@ LLViewerWearable::LLViewerWearable(const LLAssetID& asset_id) :
 }
 
 // virtual
-LLViewerWearable::~LLViewerWearable()
-{
-}
-
-// virtual
 LLWearable::EImportResult LLViewerWearable::importStream( std::istream& input_stream, LLAvatarAppearance* avatarp )
 {
 	// suppress texlayerset updates while wearables are being imported. Layersets will be updated

@@ -61,10 +61,10 @@ void dialog_refresh_all();
 
 // used for getting
 
-class LLInventoryGestureAvailable : public LLInventoryCompletionObserver
+class LLInventoryGestureAvailable final : public LLInventoryCompletionObserver
 {
 public:
-	LLInventoryGestureAvailable() {}
+	LLInventoryGestureAvailable() = default;
 
 protected:
     void done() override;

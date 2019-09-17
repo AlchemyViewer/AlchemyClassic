@@ -122,7 +122,7 @@ void newRegionEntry(LLViewerRegion& region)
 // spaces (and %20 chars) are illegal in the hostname of an http URL. Some
 // browsers let you get away with this, but some do not (such as Qt's Webkit).
 // Hence we introduced the newer secondlife:///app/region alternative.
-class LLRegionHandler : public LLCommandHandler
+class LLRegionHandler final : public LLCommandHandler
 {
 public:
     // requests will be throttled from a non-trusted browser
@@ -2025,7 +2025,7 @@ BOOL LLViewerRegion::isOwnedGroup(const LLVector3& pos)
 }
 
 // the new TCP coarse location handler node
-class CoarseLocationUpdate : public LLHTTPNode
+class CoarseLocationUpdate final : public LLHTTPNode
 {
 public:
 	void post(

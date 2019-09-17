@@ -33,7 +33,7 @@
 
 class LLVOAvatar;
 
-class LLViewerWearable : public LLWearable
+class LLViewerWearable final : public LLWearable
 {
 	friend class LLWearableList;
 
@@ -45,7 +45,7 @@ private:
 	LLViewerWearable(const LLTransactionID& transactionID);
 	LLViewerWearable(const LLAssetID& assetID);
 public:
-	virtual ~LLViewerWearable();
+	virtual ~LLViewerWearable() = default;;
 
 	//--------------------------------------------------------------------
 	// Accessors

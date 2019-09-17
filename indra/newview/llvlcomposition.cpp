@@ -82,11 +82,6 @@ LLVLComposition::LLVLComposition(LLSurface *surfacep, const U32 width, const F32
 }
 
 
-LLVLComposition::~LLVLComposition()
-{
-}
-
-
 void LLVLComposition::setSurface(LLSurface *surfacep)
 {
 	mSurfacep = surfacep;

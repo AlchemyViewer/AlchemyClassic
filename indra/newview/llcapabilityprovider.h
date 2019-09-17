@@ -36,7 +36,7 @@
 class LLCapabilityProvider
 {
 public:
-    virtual ~LLCapabilityProvider() {}
+	virtual ~LLCapabilityProvider() = default;
     /**
      * Get a capability URL, given a capability name. Returns empty string if
      * no such capability is defined on this provider.

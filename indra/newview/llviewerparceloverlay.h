@@ -41,7 +41,7 @@ class LLVector3;
 class LLColor4U;
 class LLVector2;
 
-class LLViewerParcelOverlay : public LLGLUpdate
+class LLViewerParcelOverlay final : public LLGLUpdate
 {
 public:
 	LLViewerParcelOverlay(LLViewerRegion* region, F32 region_width_meters);

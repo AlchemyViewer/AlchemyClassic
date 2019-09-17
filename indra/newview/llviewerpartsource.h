@@ -104,7 +104,7 @@ protected:
 //
 
 
-class LLViewerPartSourceScript : public LLViewerPartSource
+class LLViewerPartSourceScript final : public LLViewerPartSource
 {
 public:
 	LLViewerPartSourceScript(LLViewerObject *source_objp);
@@ -134,7 +134,7 @@ protected:
 // Particle source for spiral effect (customize avatar, mostly)
 //
 
-class LLViewerPartSourceSpiral : public LLViewerPartSource
+class LLViewerPartSourceSpiral final : public LLViewerPartSource
 {
 public:
 	LLViewerPartSourceSpiral(const LLVector3 &pos);
@@ -158,7 +158,7 @@ protected:
 // Particle source for tractor(editing) beam
 //
 
-class LLViewerPartSourceBeam : public LLViewerPartSource
+class LLViewerPartSourceBeam final : public LLViewerPartSource
 {
 public:
 	LLViewerPartSourceBeam();
@@ -188,7 +188,7 @@ protected:
 // Particle source for chat effect
 //
 
-class LLViewerPartSourceChat : public LLViewerPartSource
+class LLViewerPartSourceChat final : public LLViewerPartSource
 {
 public:
 	LLViewerPartSourceChat(const LLVector3 &pos);

@@ -39,7 +39,7 @@ class LLTextBox;
 class LLComboBox;
 class LLViewerMediaImpl;
 
-class LLPanelNearByMedia : public LLPanel
+class LLPanelNearByMedia final : public LLPanel
 {
 public:
 	

@@ -39,7 +39,7 @@
 * open previous or next panel if navigation history is available(after user 
 * has opened two or more panels). *NOTE - only back navigation is implemented so far.
 */
-class LLSideTrayPanelContainer : public LLTabContainer
+class LLSideTrayPanelContainer final : public LLTabContainer
 {
 public:
 

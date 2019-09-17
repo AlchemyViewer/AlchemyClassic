@@ -48,7 +48,7 @@ const F32 SHAPE_BUILDER_ENTRY_SNAP_PARAMETER_BIN_SIZE = 0.010f;
 const F32 SHAPE_BUILDER_CONVEXIFICATION_SIZE = 2.f * COLLISION_TOLERANCE;
 const F32 SHAPE_BUILDER_MIN_GEOMETRY_SIZE = 0.5f * COLLISION_TOLERANCE;
 
-class LLPhysicsVolumeParams : public LLVolumeParams
+class LLPhysicsVolumeParams final : public LLVolumeParams
 {
 public:
 

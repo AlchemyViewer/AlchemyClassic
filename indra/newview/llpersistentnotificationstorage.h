@@ -42,7 +42,7 @@ class LLSD;
 // be a) serializable(implement LLNotificationResponderInterface),
 // b) registered with LLResponderRegistry (found in llpersistentnotificationstorage.cpp).
 
-class LLPersistentNotificationStorage : public LLSingleton<LLPersistentNotificationStorage>, public LLNotificationStorage
+class LLPersistentNotificationStorage final : public LLSingleton<LLPersistentNotificationStorage>, public LLNotificationStorage
 {
 	LLSINGLETON(LLPersistentNotificationStorage);
 	~LLPersistentNotificationStorage();

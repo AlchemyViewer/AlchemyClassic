@@ -69,7 +69,7 @@ class LLViewerRegionImpl;
 class LLViewerOctreeGroup;
 class LLVOCachePartition;
 
-class LLViewerRegion: public LLCapabilityProvider // implements this interface
+class LLViewerRegion final : public LLCapabilityProvider // implements this interface
 {
 public:
 	//MUST MATCH THE ORDER OF DECLARATION IN CONSTRUCTOR

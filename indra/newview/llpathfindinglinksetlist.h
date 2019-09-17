@@ -32,7 +32,7 @@
 
 class LLSD;
 
-class LLPathfindingLinksetList : public LLPathfindingObjectList
+class LLPathfindingLinksetList final : public LLPathfindingObjectList
 {
 public:
 	LLPathfindingLinksetList();

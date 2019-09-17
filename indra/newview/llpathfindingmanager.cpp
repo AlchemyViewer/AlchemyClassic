@@ -70,7 +70,7 @@
 // LLNavMeshSimStateChangeNode
 //---------------------------------------------------------------------------
 
-class LLNavMeshSimStateChangeNode : public LLHTTPNode
+class LLNavMeshSimStateChangeNode final : public LLHTTPNode
 {
 public:
 	void post(ResponsePtr pResponse, const LLSD &pContext, const LLSD &pInput) const override;
@@ -82,7 +82,7 @@ LLHTTPRegistration<LLNavMeshSimStateChangeNode> gHTTPRegistrationNavMeshSimState
 //---------------------------------------------------------------------------
 // LLAgentStateChangeNode
 //---------------------------------------------------------------------------
-class LLAgentStateChangeNode : public LLHTTPNode
+class LLAgentStateChangeNode final : public LLHTTPNode
 {
 public:
 	void post(ResponsePtr pResponse, const LLSD &pContext, const LLSD &pInput) const override;

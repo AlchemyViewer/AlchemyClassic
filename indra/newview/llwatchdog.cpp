@@ -42,7 +42,7 @@ void default_killer_callback()
 }
 
 // This class runs the watchdog timing thread.
-class LLWatchdogTimerThread : public LLThread
+class LLWatchdogTimerThread final : public LLThread
 {
 public:
 	LLWatchdogTimerThread() : 
@@ -52,7 +52,7 @@ public:
 	{
 	}
             
-	~LLWatchdogTimerThread() {}
+	~LLWatchdogTimerThread() = default;
     
 	void setSleepTime(long ms) { mSleepMsecs = ms; }
 	void stop() 

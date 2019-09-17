@@ -51,7 +51,7 @@ class LLMenuButton;
 
 typedef std::pair<LLUUID, std::string>	folder_pair_t;
 
-class LLPanelPlaces : public LLPanel
+class LLPanelPlaces final : public LLPanel
 {
 public:
 	LLPanelPlaces();

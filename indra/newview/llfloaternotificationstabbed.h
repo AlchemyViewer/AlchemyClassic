@@ -65,7 +65,7 @@ private:
     LLNotificationListView* mUnTaggedList;
 };
 
-class LLFloaterNotificationsTabbed : public LLTransientDockableFloater
+class LLFloaterNotificationsTabbed final : public LLTransientDockableFloater
 {
 public:
     LOG_CLASS(LLFloaterNotificationsTabbed);

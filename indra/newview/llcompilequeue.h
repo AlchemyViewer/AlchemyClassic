@@ -121,7 +121,7 @@ struct LLCompileQueueData
 		mQueueID(q_id), mItemId(item_id) {}
 };
 
-class LLFloaterCompileQueue : public LLFloaterScriptQueue
+class LLFloaterCompileQueue final : public LLFloaterScriptQueue
 {
 	friend class LLFloaterReg;
 public:
@@ -153,7 +153,7 @@ private:
 // This script queue will reset each script.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLFloaterResetQueue : public LLFloaterScriptQueue
+class LLFloaterResetQueue final : public LLFloaterScriptQueue
 {
 	friend class LLFloaterReg;
 protected:
@@ -171,7 +171,7 @@ protected:
 // This script queue will set each script as running.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLFloaterRunQueue : public LLFloaterScriptQueue
+class LLFloaterRunQueue final : public LLFloaterScriptQueue
 {
 	friend class LLFloaterReg;
 protected:
@@ -189,7 +189,7 @@ protected:
 // This script queue will set each script as not running.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLFloaterNotRunQueue : public LLFloaterScriptQueue
+class LLFloaterNotRunQueue final : public LLFloaterScriptQueue
 {
 	friend class LLFloaterReg;
 protected:
@@ -207,7 +207,7 @@ protected:
 // This script queue will remove each script.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLFloaterDeleteQueue : public LLFloaterScriptQueue
+class LLFloaterDeleteQueue final : public LLFloaterScriptQueue
 {
 	friend class LLFloaterReg;
 protected:

@@ -91,11 +91,6 @@ void LLSysWellWindow::setSysWellChiclet(LLSysWellChiclet* chiclet)
 }
 
 //---------------------------------------------------------------------------------
-LLSysWellWindow::~LLSysWellWindow()
-{
-}
-
-//---------------------------------------------------------------------------------
 void LLSysWellWindow::removeItemByID(const LLUUID& id)
 {
 	if(mMessageList->removeItemByValue(id))

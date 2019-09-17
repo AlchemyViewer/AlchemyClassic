@@ -106,7 +106,7 @@ private:
 	LLTrace::Recording						mMonitorRecording;
 };
 
-class LLSceneMonitorView : public LLFloater
+class LLSceneMonitorView final : public LLFloater
 {
 public:
 	LLSceneMonitorView(const LLRect& rect);

@@ -36,7 +36,7 @@ class LLAvatarName;
 class LLScrollListCtrl;
 class LLTextBase;
 
-class LLFloaterTransactionLog : public LLFloater
+class LLFloaterTransactionLog final : public LLFloater
 {
 public:
 	LLFloaterTransactionLog(const LLSD& key);

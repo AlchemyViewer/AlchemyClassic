@@ -41,7 +41,7 @@ struct WaterColorControl;
 struct WaterFloatControl;
 struct WaterExpFloatControl;
 
-class LLFloaterEditWater : public LLFloater
+class LLFloaterEditWater final : public LLFloater
 {
 	LOG_CLASS(LLFloaterEditWater);
 

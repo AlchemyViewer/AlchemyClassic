@@ -163,7 +163,7 @@ private:
 	LLAvatarList* mSuggestedFriends;
 };
 
-class LLFloaterFacebook : public LLFloater
+class LLFloaterFacebook final : public LLFloater
 {
 public:
 	LLFloaterFacebook(const LLSD& key);

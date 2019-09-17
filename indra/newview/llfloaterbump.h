@@ -34,7 +34,7 @@ class LLMeanCollisionData;
 class LLMenuGL;
 class LLScrollListCtrl;
 
-class LLFloaterBump 
+class LLFloaterBump final
 : public LLFloater
 {
 	friend class LLFloaterReg;

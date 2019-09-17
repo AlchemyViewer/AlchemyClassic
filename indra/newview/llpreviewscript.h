@@ -192,7 +192,7 @@ protected:
 };
 
 // Used to view and edit an LSL script from your inventory.
-class LLPreviewLSL : public LLScriptEdContainer
+class LLPreviewLSL final : public LLScriptEdContainer
 {
 public:
 	LLPreviewLSL(const LLSD& key );
@@ -234,7 +234,7 @@ protected:
 
 
 // Used to view and edit an LSL script that is attached to an object.
-class LLLiveLSLEditor : public LLScriptEdContainer
+class LLLiveLSLEditor final : public LLScriptEdContainer
 {
 	friend class LLLiveLSLFile;
 public: 

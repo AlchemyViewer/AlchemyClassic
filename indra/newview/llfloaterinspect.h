@@ -37,7 +37,7 @@ class LLObjectSelection;
 class LLScrollListCtrl;
 class LLUICtrl;
 
-class LLFloaterInspect : public LLFloater
+class LLFloaterInspect final : public LLFloater
 {
 	friend class LLFloaterReg;
 public:

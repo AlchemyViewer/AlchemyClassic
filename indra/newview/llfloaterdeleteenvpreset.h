@@ -31,7 +31,7 @@
 
 class LLComboBox;
 
-class LLFloaterDeleteEnvPreset : public LLFloater
+class LLFloaterDeleteEnvPreset final : public LLFloater
 {
 	LOG_CLASS(LLFloaterDeleteEnvPreset);
 

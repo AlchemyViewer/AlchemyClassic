@@ -38,7 +38,7 @@ class LLViewerTexture;
 
 const std::string PARTICLE_SCRIPT_NAME = "New Particle Script";
 
-class LLFloaterParticleEditor : public LLFloater
+class LLFloaterParticleEditor final : public LLFloater
 {
 public:
 	LLFloaterParticleEditor(const LLSD& key);

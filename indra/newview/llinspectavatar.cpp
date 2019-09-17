@@ -58,7 +58,7 @@ class LLFetchAvatarData;
 // Avatar Inspector, a small information window used when clicking
 // on avatar names in the 2D UI and in the ambient inspector widget for
 // the 3D world.
-class LLInspectAvatar : public LLInspect, LLTransientFloater
+class LLInspectAvatar final : public LLInspect, LLTransientFloater
 {
 	friend class LLFloaterReg;
 	

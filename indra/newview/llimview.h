@@ -557,7 +557,7 @@ private:
 	LLDockControl::DocAt getDockControlPos(const std::string& toolbarButtonName) const;
 };
 
-class LLIncomingCallDialog : public LLCallDialog
+class LLIncomingCallDialog final : public LLCallDialog
 {
 public:
 	LLIncomingCallDialog(const LLSD& payload);
@@ -590,7 +590,7 @@ private:
 	/*virtual*/ void onLifetimeExpired() override;
 };
 
-class LLOutgoingCallDialog : public LLCallDialog
+class LLOutgoingCallDialog final : public LLCallDialog
 {
 public:
 	LLOutgoingCallDialog(const LLSD& payload);

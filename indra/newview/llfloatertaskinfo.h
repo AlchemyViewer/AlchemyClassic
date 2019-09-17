@@ -33,7 +33,7 @@
 
 #include "llfloater.h"
 
-class LLFloaterTaskInfo : public LLFloater
+class LLFloaterTaskInfo final : public LLFloater
 {
 public:
 	LLFloaterTaskInfo(LLSD const& key);

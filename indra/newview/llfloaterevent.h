@@ -30,12 +30,12 @@
 
 #include "llfloater.h"
 
-class LLFloaterEvent : public LLFloater
+class LLFloaterEvent final : public LLFloater
 
 {
 public:
 	LLFloaterEvent(const LLSD& key);
-	/*virtual*/ ~LLFloaterEvent() {};
+	/*virtual*/ ~LLFloaterEvent() = default;
 	void setEventID(const U32 event_id);
 	
 private:

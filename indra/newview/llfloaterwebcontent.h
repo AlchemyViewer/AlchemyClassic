@@ -79,9 +79,9 @@ public:
 
 	/* virtual */ BOOL postBuild() override;
 	/* virtual */ void onOpen(const LLSD& key) override;
-	/* virtual */ bool matchesKey(const LLSD& key) override;
+	/* virtual */ bool matchesKey(const LLSD& key) final override;
 	/* virtual */ void onClose(bool app_quitting) override;
-	/* virtual */ void draw() override;
+	/* virtual */ void draw() final override;
 
 protected:
 	// inherited from LLViewerMediaObserver

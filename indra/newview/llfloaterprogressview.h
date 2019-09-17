@@ -37,7 +37,7 @@ class LLButton;
 class LLProgressBar;
 class LLTextBase;
 
-class LLFloaterProgressView : public LLFloater
+class LLFloaterProgressView final : public LLFloater
 {
 public:
 	LLFloaterProgressView(const LLSD& key);

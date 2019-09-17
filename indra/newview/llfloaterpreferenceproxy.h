@@ -38,7 +38,7 @@
 
 #include <map>
 
-class LLFloaterPreferenceProxy : public LLFloater
+class LLFloaterPreferenceProxy final : public LLFloater
 {
 public:
 	LLFloaterPreferenceProxy(const LLSD& key);

@@ -44,7 +44,7 @@ class LLScrollContainer;
 class LLTextureCtrl;
 class LLUICtrl;
 
-class LLPublishClassifiedFloater : public LLFloater
+class LLPublishClassifiedFloater final : public LLFloater
 {
 public:
 	LLPublishClassifiedFloater(const LLSD& key);

@@ -64,7 +64,7 @@ class LLPanelLandCovenant;
 class LLParcel;
 class LLPanelLandExperiences;
 
-class LLFloaterLand
+class LLFloaterLand final
 :	public LLFloater
 {
 	friend class LLFloaterReg;

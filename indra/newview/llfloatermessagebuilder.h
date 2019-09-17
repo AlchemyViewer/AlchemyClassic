@@ -39,7 +39,7 @@ struct LLNetListItem
 	LLCircuitData* mCircuitData;
 };
 
-class LLFloaterMessageBuilder : public LLFloater, public LLEventTimer
+class LLFloaterMessageBuilder final : public LLFloater, public LLEventTimer
 {
 public:
 	LLFloaterMessageBuilder(const LLSD &);

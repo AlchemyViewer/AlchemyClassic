@@ -76,7 +76,7 @@ typedef struct dir_query
 	U32 results_per_page;
 } LLDirQuery;
 
-class LLFloaterDirectory : public LLFloater
+class LLFloaterDirectory final : public LLFloater
 {
 	friend class LLPanelSearchClassifieds;
 	friend class LLPanelSearchEvents;

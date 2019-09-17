@@ -33,7 +33,7 @@ class LLCheckBoxCtrl; // <alchemy/>
 class LLComboBox;
 class LLRadioGroup;
 
-class LLFloaterEnvironmentSettings : public LLFloater
+class LLFloaterEnvironmentSettings final : public LLFloater
 {
 	LOG_CLASS(LLFloaterEnvironmentSettings);
 

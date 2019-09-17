@@ -35,7 +35,7 @@ class LLMediaCtrl;
 /**
  * Displays avatar profile web page.
  */
-class LLFloaterWebProfile
+class LLFloaterWebProfile final
 :	public LLFloaterWebContent
 {
 	LOG_CLASS(LLFloaterWebProfile);

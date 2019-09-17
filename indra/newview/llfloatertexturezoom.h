@@ -26,7 +26,7 @@
 #include "llpreview.h"
 #include "llviewertexture.h"
 
-class LLFloaterTextureZoom : public LLPreview
+class LLFloaterTextureZoom final : public LLPreview
 {
 public:
 	LLFloaterTextureZoom(const LLSD& key);

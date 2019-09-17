@@ -40,7 +40,7 @@ class LLTimeCtrl;
 /**
  * Floater for creating or editing a day cycle.
  */
-class LLFloaterEditDayCycle : public LLFloater
+class LLFloaterEditDayCycle final : public LLFloater
 {
 	LOG_CLASS(LLFloaterEditDayCycle);
 

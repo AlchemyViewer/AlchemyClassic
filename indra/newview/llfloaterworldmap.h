@@ -48,7 +48,7 @@ class LLTabContainer;
 class LLSliderCtrl;
 class LLCheckBoxCtrl;
 
-class LLFloaterWorldMap : public LLFloater
+class LLFloaterWorldMap final : public LLFloater
 {
 public:
 	LLFloaterWorldMap(const LLSD& key);

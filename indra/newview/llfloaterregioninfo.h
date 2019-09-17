@@ -73,7 +73,7 @@ class LLWaterParamManager;
 class LLWLParamSet;
 class LLWaterParamSet;
 
-class LLFloaterRegionInfo : public LLFloater
+class LLFloaterRegionInfo final : public LLFloater
 {
 	friend class LLFloaterReg;
 public:

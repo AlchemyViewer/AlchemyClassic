@@ -116,7 +116,7 @@ private:
 };
 
 
-class LLFloaterTwitter : public LLFloater
+class LLFloaterTwitter final : public LLFloater
 {
 public:
 	LLFloaterTwitter(const LLSD& key);

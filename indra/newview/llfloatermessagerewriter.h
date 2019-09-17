@@ -21,7 +21,7 @@
 #include "llfloater.h"
 #include "lltemplatemessagereader.h"
 
-class LLFloaterMessageRewriter : public LLFloater
+class LLFloaterMessageRewriter final : public LLFloater
 {
 public:
 	LLFloaterMessageRewriter(const LLSD& key);

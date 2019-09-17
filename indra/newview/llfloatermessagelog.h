@@ -58,7 +58,7 @@ protected:
 	std::string mInputString;
 };
 
-class LLFloaterMessageLog : public LLFloater
+class LLFloaterMessageLog final : public LLFloater
 {
 public:
 	LLFloaterMessageLog(const LLSD& key);

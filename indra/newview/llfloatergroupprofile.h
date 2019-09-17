@@ -34,7 +34,7 @@
 #include "llfloater.h"
 #include "llgroupmgr.h"
 
-class LLFloaterGroupProfile : public LLFloater, public LLGroupMgrObserver
+class LLFloaterGroupProfile final : public LLFloater, public LLGroupMgrObserver
 {
 public:
 	LLFloaterGroupProfile(LLSD const& key);

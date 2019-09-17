@@ -55,7 +55,7 @@ BOOL item_name_precedes( LLInventoryItem* a, LLInventoryItem* b )
 	return LLStringUtil::precedesDict( a->getName(), b->getName() );
 }
 
-class LLFloaterGestureObserver : public LLGestureManagerObserver
+class LLFloaterGestureObserver final : public LLGestureManagerObserver
 {
 public:
 	LLFloaterGestureObserver(LLFloaterGesture* floater) : mFloater(floater) {}

@@ -36,7 +36,7 @@ class LLSpinCtrl;
 class LLTextEditor;
 class LLUICtrl;
 
-class LLFloaterSettingsDebug 
+class LLFloaterSettingsDebug final
 :	public LLFloater
 {
 	friend class LLFloaterReg;

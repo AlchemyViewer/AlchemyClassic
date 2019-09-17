@@ -35,7 +35,7 @@ class LLTextBox;
 //
 // Classes
 //
-class LLFloaterMap : public LLFloater
+class LLFloaterMap final : public LLFloater
 {
 public:
 	LLFloaterMap(const LLSD& key);

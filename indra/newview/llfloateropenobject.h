@@ -37,7 +37,7 @@
 class LLObjectSelection;
 class LLPanelObjectInventory;
 
-class LLFloaterOpenObject
+class LLFloaterOpenObject final
 : public LLFloater
 {
 	friend class LLFloaterReg;

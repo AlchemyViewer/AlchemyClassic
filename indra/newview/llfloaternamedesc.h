@@ -46,7 +46,7 @@ public:
 	void		doCommit();
 	
 protected:
-	void		onCommit() override;
+	void		onCommit() final override;
 
 protected:
 
@@ -54,21 +54,21 @@ protected:
 	std::string		mFilename;
 };
 
-class LLFloaterSoundPreview : public LLFloaterNameDesc
+class LLFloaterSoundPreview final : public LLFloaterNameDesc
 {
 public:
 	LLFloaterSoundPreview(const LLSD& filename );
 	BOOL postBuild() override;
 };
 
-class LLFloaterAnimPreview : public LLFloaterNameDesc
+class LLFloaterAnimPreview final : public LLFloaterNameDesc
 {
 public:
 	LLFloaterAnimPreview(const LLSD& filename );
 	BOOL postBuild() override;
 };
 
-class LLFloaterScriptPreview : public LLFloaterNameDesc
+class LLFloaterScriptPreview final : public LLFloaterNameDesc
 {
 public:
 	LLFloaterScriptPreview(const LLSD& filename );

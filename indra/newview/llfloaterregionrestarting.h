@@ -30,7 +30,7 @@
 #include "llfloater.h"
 #include "lleventtimer.h"
 
-class LLFloaterRegionRestarting : public LLFloater,  public LLEventTimer
+class LLFloaterRegionRestarting final : public LLFloater,  public LLEventTimer
 {
 	friend class LLFloaterReg;
 

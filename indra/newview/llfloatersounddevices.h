@@ -30,7 +30,7 @@
 
 #include "lltransientdockablefloater.h"
 
-class LLFloaterSoundDevices : public LLTransientDockableFloater
+class LLFloaterSoundDevices final : public LLTransientDockableFloater
 {
 public:
 

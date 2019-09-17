@@ -59,7 +59,7 @@ class LLViewerObject;
 
 // Object Inspector, a small information window used when clicking
 // in the ambient inspector widget for objects in the 3D world.
-class LLInspectObject : public LLInspect
+class LLInspectObject final : public LLInspect
 {
 	friend class LLFloaterReg;
 	

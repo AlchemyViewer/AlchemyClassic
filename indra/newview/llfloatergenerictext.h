@@ -33,13 +33,13 @@
 
 #include "llfloater.h"
 
-class LLFloaterGenericText : public LLFloater
+class LLFloaterGenericText final : public LLFloater
 {
 public:
 	LLFloaterGenericText(const LLSD& key);
 	BOOL postBuild() override;
 private:
-	~LLFloaterGenericText() {};
+	~LLFloaterGenericText() = default;
 	void onClickClose();
 	void onClickCopy();
 	

@@ -37,7 +37,7 @@ class LLCheckBoxCtrl;
 
 //////////////////////////////////////////////////////////////////////////////
 // floater class
-class LLFloaterColorPicker 
+class LLFloaterColorPicker final
 	: public LLFloater
 {
 	public:

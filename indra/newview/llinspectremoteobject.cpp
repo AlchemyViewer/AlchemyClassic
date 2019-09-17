@@ -44,7 +44,7 @@
 // Remote Object Inspector, a small information window used to
 // display information about potentially-remote objects. Used
 // to display details about objects sending messages to the user.
-class LLInspectRemoteObject : public LLInspect
+class LLInspectRemoteObject final : public LLInspect
 {
 	friend class LLFloaterReg;
 	

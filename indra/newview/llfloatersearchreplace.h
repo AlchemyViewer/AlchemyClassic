@@ -22,7 +22,7 @@
 
 class LLTextEditor;
 
-class LLFloaterSearchReplace : public LLFloater
+class LLFloaterSearchReplace final : public LLFloater
 {
 public:
 	LLFloaterSearchReplace(const LLSD& sdKey);

@@ -38,7 +38,7 @@ class LLLineEditor;
 /**
  * Floater for creating or editing a sky preset.
  */
-class LLFloaterEditSky : public LLFloater
+class LLFloaterEditSky final : public LLFloater
 {
 	LOG_CLASS(LLFloaterEditSky);
 

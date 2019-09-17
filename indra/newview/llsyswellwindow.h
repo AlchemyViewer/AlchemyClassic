@@ -47,7 +47,7 @@ public:
 	LOG_CLASS(LLSysWellWindow);
 
     LLSysWellWindow(const LLSD& key);
-    virtual ~LLSysWellWindow();
+    virtual ~LLSysWellWindow() = default;
 	BOOL postBuild() override;
 
 	// other interface functions

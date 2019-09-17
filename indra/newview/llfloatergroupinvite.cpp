@@ -37,7 +37,7 @@ class LLFloaterGroupInvite::impl
 {
 public:
 	impl(const LLUUID& group_id);
-	~impl();
+	~impl() = default;
 
 	static void closeFloater(void* data);
 
@@ -56,10 +56,6 @@ std::map<LLUUID, LLFloaterGroupInvite*> LLFloaterGroupInvite::impl::sInstances;
 LLFloaterGroupInvite::impl::impl(const LLUUID& group_id) :
 	mGroupID(group_id),
 	mInvitePanelp(nullptr)
-{
-}
-
-LLFloaterGroupInvite::impl::~impl()
 {
 }
 

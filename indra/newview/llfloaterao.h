@@ -41,7 +41,7 @@ class LLScrollListItem;
 class LLSpinCtrl;
 class LLTextBox;
 
-class LLFloaterAO : public LLTransientDockableFloater, public LLEventTimer
+class LLFloaterAO final : public LLTransientDockableFloater, public LLEventTimer
 {
 	friend class LLFloaterReg;
 	friend class LLPanelAOMini;

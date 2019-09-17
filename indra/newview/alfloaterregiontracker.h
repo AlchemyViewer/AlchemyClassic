@@ -32,7 +32,7 @@ class LLButton;
 class LLSD;
 class LLScrollListCtrl;
 
-class ALFloaterRegionTracker : public LLFloater, public LLEventTimer
+class ALFloaterRegionTracker final : public LLFloater, public LLEventTimer
 {
 	friend class LLFloaterReg;
 private:

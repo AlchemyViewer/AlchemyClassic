@@ -112,7 +112,7 @@ private:
 };
 
 
-class LLFloaterFlickr : public LLFloater
+class LLFloaterFlickr final : public LLFloater
 {
 public:
 	LLFloaterFlickr(const LLSD& key);

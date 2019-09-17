@@ -40,7 +40,7 @@ class LLChatBarGestureObserver;
 class LLComboBox;
 
 
-class LLChatBar
+class LLChatBar final
 :	public LLFloater
 {
 public:

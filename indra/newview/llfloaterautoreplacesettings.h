@@ -35,7 +35,7 @@
 class LLLineEditor;
 class LLScrollListCtrl;
 
-class LLFloaterAutoReplaceSettings : public LLFloater
+class LLFloaterAutoReplaceSettings final : public LLFloater
 {
 public:
 	LLFloaterAutoReplaceSettings(const LLSD& key);

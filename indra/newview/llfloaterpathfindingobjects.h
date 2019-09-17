@@ -47,9 +47,9 @@ class LLTextBase;
 class LLFloaterPathfindingObjects : public LLFloater
 {
 public:
-	void onOpen(const LLSD &pKey) override;
+	void onOpen(const LLSD &pKey) final override;
 	void onClose(bool pIsAppQuitting) override;
-	void draw() override;
+	void draw() final override;
 
 protected:
 	friend class LLFloaterReg;

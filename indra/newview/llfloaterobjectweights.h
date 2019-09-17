@@ -50,7 +50,7 @@ private:
 };
 
 
-class LLFloaterObjectWeights : public LLFloater, LLAccountingCostObserver
+class LLFloaterObjectWeights final : public LLFloater, LLAccountingCostObserver
 {
 public:
 	LOG_CLASS(LLFloaterObjectWeights);

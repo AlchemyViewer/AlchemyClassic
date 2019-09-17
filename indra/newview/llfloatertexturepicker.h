@@ -40,7 +40,7 @@ typedef std::function<void()> floater_close_callback;
 typedef std::function<void(const LLUUID& asset_id)> set_image_asset_id_callback;
 typedef std::function<void(LLPointer<LLViewerTexture> texture)> set_on_update_image_stats_callback;
 
-class LLFloaterTexturePicker : public LLFloater
+class LLFloaterTexturePicker final : public LLFloater
 {
 public:
     LLFloaterTexturePicker(

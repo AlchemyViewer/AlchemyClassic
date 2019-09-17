@@ -35,7 +35,7 @@
 
 class LLAvatarName;
 
-class LLFloaterLegacyProfile : public LLFloater
+class LLFloaterLegacyProfile final : public LLFloater
 {
 public:
 	LLFloaterLegacyProfile(LLSD const& key);

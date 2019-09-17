@@ -39,7 +39,7 @@ using namespace LLNotificationsUI;
 /**
  * Represents inspectable toast .
  */
-class LLInspectToast: public LLInspect
+class LLInspectToast final : public LLInspect
 {
 public:
 

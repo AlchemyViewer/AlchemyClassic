@@ -1248,17 +1248,6 @@ void LLStringUtil::formatNumber(std::string& numStr, const std::string& decimals
 	S32 intDecimals = 0;
 
 	convertToS32 (decimals, intDecimals);
-	if (!sLocale.empty())
-	{
-		// std::locale() throws if the locale is unknown! (EXT-7926)
-		try
-		{
-			strStream.imbue(std::locale(sLocale.c_str()));
-		} catch (const std::exception &)
-		{
-			LL_WARNS_ONCE("Locale") << "Cannot set locale to " << sLocale << LL_ENDL;
-		}
-	}
 
 	if (!intDecimals)
 	{
@@ -1266,8 +1255,7 @@ void LLStringUtil::formatNumber(std::string& numStr, const std::string& decimals
 
 		if (convertToS32(numStr, intStr))
 		{
-			strStream << intStr;
-			numStr = strStream.str();
+			numStr = fmt::to_string(intStr);
 		}
 	}
 	else
@@ -1276,8 +1264,7 @@ void LLStringUtil::formatNumber(std::string& numStr, const std::string& decimals
 
 		if (convertToF32(numStr, floatStr))
 		{
-			strStream << std::fixed << std::showpoint << std::setprecision(intDecimals) << floatStr;
-			numStr = strStream.str();
+			numStr = fmt::format(fmt("{:#.{}f}"), floatStr, intDecimals);
 		}
 	}
 }
@@ -1438,7 +1425,7 @@ S32 LLStringUtil::format(std::string& s, const format_map_t& substitutions)
 			if (iter != substitutions.end())
 			{
 				S32 secFromEpoch = 0;
-				BOOL r = LLStringUtil::convertToS32(iter->second, secFromEpoch);
+				BOOL r = LLStringUtil::convertToS32(iter->second.get(), secFromEpoch);
 				if (r)
 				{
 					found_replacement = formatDatetime(replacement, tokens[0], param, secFromEpoch);

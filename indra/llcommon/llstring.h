@@ -45,6 +45,7 @@
 #endif
 
 #include <cstring>
+#include <charconv>
 #include <boost/scoped_ptr.hpp>
 
 const char LL_UNKNOWN_CHAR = '?';
@@ -232,7 +233,7 @@ public:
 	operator std::string() const { return mString; }
 	bool operator<(const LLFormatMapString& rhs) const { return mString < rhs.mString; }
 	std::size_t length() const { return mString.length(); }
-	
+	const std::string& get() const { return mString; }
 private:
 	std::string mString;
 };
@@ -245,6 +246,7 @@ private:
 
 public:
 	typedef std::basic_string<T> string_type;
+	typedef std::basic_string_view<T> string_view_type;
 	typedef typename string_type::size_type size_type;
 	
 public:
@@ -383,15 +385,79 @@ public:
 	static void _makeASCII(string_type& string);
 
 	// Conversion to other data types
+	
+	template<typename U = int>
+	inline static bool convertToCore(const string_view_type str, U& value)
+	{
+		if (str.empty())
+		{
+			return false;
+		}
+
+		static const std::string WHITESPACE = " \n\r\t\f\v";
+		const auto fl = str.find_last_not_of(WHITESPACE);	// Find end of data excluding trailing spaces
+
+		if (fl == std::string_view::npos)	// If end of data not found, return no value
+			return false;
+
+		const auto end = str.data() + fl + 1;	// End of data to be converted
+		U num = 0;
+
+		const std::from_chars_result& ret = std::from_chars(str.data() + str.find_first_not_of(WHITESPACE), end, num);
+		if (ret.ec == std::errc::invalid_argument || ret.ec == std::errc::result_out_of_range)
+		{
+			LL_WARNS() << fmt::format(fmt("Failed to parse typeid<{:s}> from string \"{:s}\" with ec: {:d}"), typeid(U).name(), str, ret.ec) << LL_ENDL;
+			return false;
+		}
+		else
+		{
+			value = num;
+			return true;
+		}
+	}
+
+	inline static bool convertToU8(const string_view_type string, U8& value)
+	{
+		return convertToCore<U8>(string, value);
+	}
+
+	inline static bool convertToS8(const string_view_type string, S8& value)
+	{
+		return convertToCore<S8>(string, value);
+	}
+
+	inline static bool convertToS16(const string_view_type string, S16& value)
+	{
+		return convertToCore<S16>(string, value);
+	}
+
+	inline static bool convertToU16(const string_view_type string, U16& value)
+	{
+		return convertToCore<U16>(string, value);
+	}
+
+	inline static bool convertToU32(const string_view_type string, U32& value)
+	{
+		return convertToCore<U32>(string, value);
+	}
+
+	inline static bool convertToS32(const string_view_type string, S32& value)
+	{
+		return convertToCore<S32>(string, value);
+	}
+
+	inline static bool convertToF32(const string_view_type string, F32& value)
+	{
+		return convertToCore<F32>(string, value);
+	}
+
+	inline static bool convertToF64(const string_view_type string, F64& value)
+	{
+		return convertToCore<F64>(string, value);
+	}
+
 	static BOOL	convertToBOOL(const string_type& string, BOOL& value);
-	static BOOL	convertToU8(const string_type& string, U8& value);
-	static BOOL	convertToS8(const string_type& string, S8& value);
-	static BOOL	convertToS16(const string_type& string, S16& value);
-	static BOOL	convertToU16(const string_type& string, U16& value);
-	static BOOL	convertToU32(const string_type& string, U32& value);
-	static BOOL	convertToS32(const string_type& string, S32& value);
-	static BOOL	convertToF32(const string_type& string, F32& value);
-	static BOOL	convertToF64(const string_type& string, F64& value);
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// Utility functions for working with char*'s and strings
@@ -1804,145 +1870,6 @@ BOOL LLStringUtilBase<T>::convertToBOOL(const string_type& string, BOOL& value)
 		return TRUE;
 	}
 
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToU8(const string_type& string, U8& value) 
-{
-	S32 value32 = 0;
-	BOOL success = convertToS32(string, value32);
-	if( success && (U8_MIN <= value32) && (value32 <= U8_MAX) )
-	{
-		value = (U8) value32;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToS8(const string_type& string, S8& value) 
-{
-	S32 value32 = 0;
-	BOOL success = convertToS32(string, value32);
-	if( success && (S8_MIN <= value32) && (value32 <= S8_MAX) )
-	{
-		value = (S8) value32;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToS16(const string_type& string, S16& value) 
-{
-	S32 value32 = 0;
-	BOOL success = convertToS32(string, value32);
-	if( success && (S16_MIN <= value32) && (value32 <= S16_MAX) )
-	{
-		value = (S16) value32;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToU16(const string_type& string, U16& value) 
-{
-	S32 value32 = 0;
-	BOOL success = convertToS32(string, value32);
-	if( success && (U16_MIN <= value32) && (value32 <= U16_MAX) )
-	{
-		value = (U16) value32;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToU32(const string_type& string, U32& value) 
-{
-	if( string.empty() )
-	{
-		return FALSE;
-	}
-
-	string_type temp( string );
-	trim(temp);
-	U32 v;
-	std::basic_istringstream<T> i_stream((string_type)temp);
-	if(i_stream >> v)
-	{
-		value = v;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToS32(const string_type& string, S32& value) 
-{
-	if( string.empty() )
-	{
-		return FALSE;
-	}
-
-	string_type temp( string );
-	trim(temp);
-	S32 v;
-	std::basic_istringstream<T> i_stream((string_type)temp);
-	if(i_stream >> v)
-	{
-		//TODO: figure out overflow and underflow reporting here
-		//if((LONG_MAX == v) || (LONG_MIN == v))
-		//{
-		//	// Underflow or overflow
-		//	return FALSE;
-		//}
-
-		value = v;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToF32(const string_type& string, F32& value) 
-{
-	F64 value64 = 0.0;
-	BOOL success = convertToF64(string, value64);
-	if( success && (-F32_MAX <= value64) && (value64 <= F32_MAX) )
-	{
-		value = (F32) value64;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-template<class T> 
-BOOL LLStringUtilBase<T>::convertToF64(const string_type& string, F64& value)
-{
-	if( string.empty() )
-	{
-		return FALSE;
-	}
-
-	string_type temp( string );
-	trim(temp);
-	F64 v;
-	std::basic_istringstream<T> i_stream((string_type)temp);
-	if(i_stream >> v)
-	{
-		//TODO: figure out overflow and underflow reporting here
-		//if( ((-HUGE_VAL == v) || (HUGE_VAL == v))) )
-		//{
-		//	// Underflow or overflow
-		//	return FALSE;
-		//}
-
-		value = v;
-		return TRUE;
-	}
 	return FALSE;
 }
 

@@ -43,6 +43,7 @@
 #include "llsdserialize.h"
 #include "lltooltip.h"
 #include "llbutton.h"
+#include "llscrollbar.h"
 
 #include "llappviewer.h"
 #include "llviewertexturelist.h"
@@ -144,7 +145,8 @@ BOOL LLFastTimerView::postBuild()
 	mLegendPanel = getChild<LLPanel>("legend");
 
 	mBtnPause = getChild<LLButton>("pause_btn");
-	
+	mScrollBar = getChild<LLScrollbar>("scroll_vert");
+
 	mBtnPause->setCommitCallback(boost::bind(&LLFastTimerView::onPause, this));
 	return TRUE;
 }
@@ -199,7 +201,7 @@ BOOL LLFastTimerView::handleDoubleClick(S32 x, S32 y, MASK mask)
 
 BOOL LLFastTimerView::handleMouseDown(S32 x, S32 y, MASK mask)
 {
-	if (x < mBarRect.mLeft) 
+	if (x < mScrollBar->getRect().mLeft)
 	{
 		BlockTimerStatHandle* idp = getLegendID(y);
 		if (idp)
@@ -306,7 +308,7 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 			}
 		}
 	}
-	else if (x < mBarRect.mLeft) 
+	else if (x < mScrollBar->getRect().mLeft) 
 	{
 		BlockTimerStatHandle* timer_id = getLegendID(y);
 		if (timer_id)
@@ -357,7 +359,7 @@ BOOL LLFastTimerView::handleToolTip(S32 x, S32 y, MASK mask)
 	else
 	{
 		// tooltips for timer legend
-		if (x < mBarRect.mLeft) 
+		if (x < mScrollBar->getRect().mLeft) 
 		{
 			BlockTimerStatHandle* idp = getLegendID(y);
 			if (idp)
@@ -374,19 +376,19 @@ BOOL LLFastTimerView::handleToolTip(S32 x, S32 y, MASK mask)
 
 BOOL LLFastTimerView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 {
-	if (mLegendRect.pointInRect(x, y))
-	{
-		mScrollPos += clicks;
-		mScrollPos = llclamp(mScrollPos, 0, 420); // *FIXME: magic numbers, idgaf
-	}
-	else
-	{
-		setPauseState(true);
-		mScrollIndex = llclamp(mScrollIndex + clicks, 0,
-							   llmin((S32)mRecording.getNumRecordedPeriods(),
-									 (S32)mRecording.getNumRecordedPeriods() - MAX_VISIBLE_HISTORY));
-	}
-	return TRUE;
+    if (x < mBarRect.mLeft)
+    {
+        // Inside mScrollBar and list of timers
+        mScrollBar->handleScrollWheel(x,y,clicks);
+    }
+    else
+    {
+        setPauseState(true);
+        mScrollIndex = llclamp(mScrollIndex + clicks,
+            0,
+            llmin((S32)mRecording.getNumRecordedPeriods(), (S32)mRecording.getNumRecordedPeriods() - MAX_VISIBLE_HISTORY));
+    }
+    return TRUE;
 }
 
 static BlockTimerStatHandle FTM_RENDER_TIMER("Timers");
@@ -1218,20 +1220,32 @@ void LLFastTimerView::drawLegend()
 	{
 		LLLocalClipRect clip(mLegendRect);
 		S32 cur_line = 0;
+		S32 scroll_offset = 0; // element's y offset from top of the inner scroll's rect
 		ft_display_idx.clear();
 		std::map<BlockTimerStatHandle*, S32> display_line;
-		S32 item = 0;
 		for (block_timer_tree_df_iterator_t it = LLTrace::begin_block_timer_tree_df(FTM_FRAME);
 			it != block_timer_tree_df_iterator_t();
 			++it)
 		{
 			BlockTimerStatHandle* idp = (*it);
-			if (mScrollPos <= item)
-			{
+			// Needed to figure out offsets and parenting
 			display_line[idp] = cur_line;
-			ft_display_idx.push_back(idp);
 			cur_line++;
+			if (scroll_offset < mScrollBar->getDocPos())
+			{
+				// only offset for visible items
+				scroll_offset += TEXT_HEIGHT + 2;
+				if (idp->getTreeNode().mCollapsed)
+				{
+					it.skipDescendants();
+				}
+				continue;
+			}
 
+			// used for mouse clicks
+			ft_display_idx.push_back(idp);
+
+			// Actual draw, first bar (square), then text
 			x = MARGIN;
 
 			LLRect bar_rect(x, y, x + TEXT_HEIGHT, y - TEXT_HEIGHT);
@@ -1304,13 +1318,15 @@ void LLFastTimerView::drawLegend()
 				is_child_of_hover_item ? LLFontGL::BOLD : LLFontGL::NORMAL);
 
 			y -= (TEXT_HEIGHT + 2);
-			}
-			item++;
+
+			scroll_offset += TEXT_HEIGHT + 2;
 			if (idp->getTreeNode().mCollapsed) 
 			{
 				it.skipDescendants();
 			}
 		}
+		// Recalculate scroll size
+		mScrollBar->setDocSize(scroll_offset - mLegendRect.getHeight());
 	}
 }
 

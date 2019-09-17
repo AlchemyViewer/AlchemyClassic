@@ -317,6 +317,7 @@ private:
 	void onCommitAny();
 	void onClickSet();
 	void onClickClear();
+	static void toggleSeeAvatars(void* userdata);
 
 private:
 	LLCheckBoxCtrl*	mCheckEditObjects;
@@ -336,6 +337,7 @@ private:
 	LLTextureCtrl*	mSnapshotCtrl;
 
 	LLTextBox*		mLocationText;
+	LLTextBox*		mSeeAvatarsText;
 	LLButton*		mSetBtn;
 	LLButton*		mClearBtn;
 

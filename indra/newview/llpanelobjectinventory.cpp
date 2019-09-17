@@ -1123,92 +1123,6 @@ LLUIImagePtr LLTaskWearableBridge::getIcon() const
 }
 
 ///----------------------------------------------------------------------------
-/// Class LLTaskMeshBridge
-///----------------------------------------------------------------------------
-
-class LLTaskMeshBridge final : public LLTaskInvFVBridge
-{
-public:
-	LLTaskMeshBridge(
-		LLPanelObjectInventory* panel,
-		const LLUUID& uuid,
-		const std::string& name);
-
-	LLUIImagePtr getIcon() const override;
-	void openItem() override;
-	void performAction(LLInventoryModel* model, std::string action) override;
-	void buildContextMenu(LLMenuGL& menu, U32 flags) override;
-};
-
-LLTaskMeshBridge::LLTaskMeshBridge(
-	LLPanelObjectInventory* panel,
-	const LLUUID& uuid,
-	const std::string& name) :
-	LLTaskInvFVBridge(panel, uuid, name)
-{
-}
-
-LLUIImagePtr LLTaskMeshBridge::getIcon() const
-{
-	return LLInventoryIcon::getIcon(LLAssetType::AT_MESH, LLInventoryType::IT_MESH, 0, FALSE);
-}
-
-void LLTaskMeshBridge::openItem()
-{
-	// open mesh
-}
-
-
-// virtual
-void LLTaskMeshBridge::performAction(LLInventoryModel* model, std::string action)
-{
-	if (action == "mesh action")
-	{
-		LLInventoryItem* item = findItem();
-		if(item)
-		{
-			// do action
-		}
-	}
-	LLTaskInvFVBridge::performAction(model, action);
-}
-
-void LLTaskMeshBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
-{
-	LLInventoryItem* item = findItem();
-	std::vector<std::string> items;
-	std::vector<std::string> disabled_items;
-	if(!item)
-	{
-		hide_context_entries(menu, items, disabled_items);
-		return;
-	}
-
-	items.push_back(std::string("Task Open")); 
-	if (!isItemCopyable())
-	{
-		disabled_items.push_back(std::string("Task Open"));
-	}
-
-	items.push_back(std::string("Task Properties"));
-	if ((flags & FIRST_SELECTED_ITEM) == 0)
-	{
-		disabled_items.push_back(std::string("Task Properties"));
-	}
-	if(isItemRenameable())
-	{
-		items.push_back(std::string("Task Rename"));
-	}
-	if(isItemRemovable())
-	{
-		items.push_back(std::string("Task Remove"));
-	}
-
-
-	hide_context_entries(menu, items, disabled_items);
-}
-
-///----------------------------------------------------------------------------
 /// LLTaskInvFVBridge impl
 //----------------------------------------------------------------------------
 
@@ -1288,11 +1202,6 @@ LLTaskInvFVBridge* LLTaskInvFVBridge::createObjectBridge(LLPanelObjectInventory*
 		new_bridge = new LLTaskLSLBridge(panel,
 						 object_id,
 						 object_name);
-		break;
-	case LLAssetType::AT_MESH:
-		new_bridge = new LLTaskMeshBridge(panel,
-										  object_id,
-										  object_name);
 		break;
 	default:
 		LL_INFOS() << "Unhandled inventory type (llassetstorage.h): "
@@ -1499,7 +1408,14 @@ void LLPanelObjectInventory::updateInventory()
 			mIsInventoryEmpty = TRUE;
 		}
 
-		mHaveInventory = TRUE;
+		mHaveInventory = !mIsInventoryEmpty || !objectp->isInventoryDirty();
+		if (objectp->isInventoryDirty())
+		{
+			// Inventory is dirty, yet we received inventoryChanged() callback.
+			// User changed something during ongoing request.
+			// Rerequest. It will clear dirty flag and won't create dupplicate requests.
+			objectp->requestInventory();
+		}
 	}
 	else
 	{
@@ -1769,7 +1685,7 @@ void LLPanelObjectInventory::deleteAllChildren()
 
 BOOL LLPanelObjectInventory::handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string& tooltip_msg)
 {
-	if (mFolders && mHaveInventory)
+	if (mFolders)
 	{
 		LLFolderViewItem* folderp = mFolders->getNextFromChild(nullptr);
 		if (!folderp)

@@ -540,11 +540,6 @@ void LLFloaterTools::refresh()
 		selection_info << getString("status_selectcount", selection_args);
 
 		mTextSelectionCount->setText(selection_info.str());
-
-		bool have_selection = !LLSelectMgr::getInstance()->getSelection()->isEmpty();
-		mTextSelectionCount->setVisible(have_selection);
-		mTextRemainingCapacity->setVisible(have_selection);
-		mTextSelectionEmpty->setVisible(!have_selection);
 	}
 
 

@@ -36,6 +36,7 @@
 class LLComboBox;
 class LLLayoutPanel;
 class LLPanel;
+class LLScrollbar;
 
 class LLFastTimerView final : public LLFloater
 {
@@ -148,12 +149,10 @@ private:
 	LLFrameTimer					mHighlightTimer;
 	LLTrace::PeriodicRecording		mRecording;
 	
-	S32 mScrollPos;
-
 	// Widgets
 	LLComboBox*						mMetricCombo;
 	LLComboBox*						mTimeScaleCombo;
-
+	LLScrollbar* 					mScrollBar;
 	LLLayoutPanel*					mBarsPanel;
 	LLLayoutPanel*					mLinesPanel;
 

@@ -1087,7 +1087,7 @@ F32 gpu_benchmark()
 
 	if (!buff->allocateBuffer(3, 0, true))
 	{
-		LL_WARNS() << "Failed to allocate buffer during benchmark." << LL_ENDL;
+		LL_WARNS("Benchmark") << "Failed to allocate buffer during benchmark." << LL_ENDL;
 		// abandon the benchmark test
 		return -1.f;
 	}
@@ -1096,7 +1096,7 @@ F32 gpu_benchmark()
 
 	if (! buff->getVertexStrider(v))
 	{
-		LL_WARNS() << "GL LLVertexBuffer::getVertexStrider() returned false, "
+		LL_WARNS("Benchmark") << "GL LLVertexBuffer::getVertexStrider() returned false, "
 				   << "buff->getMappedData() is"
 				   << (buff->getMappedData()? " not" : "")
 				   << " NULL" << LL_ENDL;
@@ -1161,12 +1161,12 @@ F32 gpu_benchmark()
 
 	F32 gbps = results[results.size()/2];
 
-	LL_INFOS() << "Memory bandwidth is " << llformat("%.3f", gbps) << "GB/sec according to CPU timers" << LL_ENDL;
+	LL_INFOS("Benchmark") << "Memory bandwidth is " << llformat("%.3f", gbps) << "GB/sec according to CPU timers" << LL_ENDL;
   
 #if LL_DARWIN
     if (gbps > 512.f)
     { 
-        LL_WARNS() << "Memory bandwidth is improbably high and likely incorrect; discarding result." << LL_ENDL;
+        LL_WARNS("Benchmark") << "Memory bandwidth is improbably high and likely incorrect; discarding result." << LL_ENDL;
         //OSX is probably lying, discard result
 		if (local_init)
 		{
@@ -1210,7 +1210,7 @@ F32 gpu_benchmark()
 		local_init = false;
 	}
 
-	LL_INFOS() << "Memory bandwidth is " << llformat("%.3f", gbps) << "GB/sec according to ARB_timer_query" << LL_ENDL;
+	LL_INFOS("Benchmark") << "Memory bandwidth is " << llformat("%.3f", gbps) << "GB/sec according to ARB_timer_query, total time " << seconds << " seconds" << LL_ENDL;
 
 	return gbps;
 }

@@ -294,11 +294,18 @@ clicking on their names.
                      follows="top|left|right"
                      left="1"
                      height="23"
+       label="Copy Role"
+       layout="topleft"
+       left_pad="10"
+       name="role_copy"
+       width="100" />
+      <button
+       height="23"
                      name="role_delete"
                      label="Delete"
                      layout="topleft"
                      top="0"
-                     width="135" />
+       width="100" />
                 </layout_panel>
         </layout_stack>
     </panel>

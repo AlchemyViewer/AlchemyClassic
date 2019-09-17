@@ -55,8 +55,6 @@ public:
 	/*virtual*/ void	onOpen(const LLSD& key) override;
 	/*virtual*/ bool	notifyChildren(const LLSD& info) override;
 
-    bool mTryToConnectToFacebook;
-
 	// internals
 	class Updater;
 
@@ -85,10 +83,8 @@ private:
 	// methods indirectly called by the updaters
 	void					updateFriendListHelpText();
 	void					updateFriendList();
-	bool					updateSuggestedFriendList();
 	void					updateNearbyList();
 	void					updateRecentList();
-	void					updateFacebookList(bool visible);
 
 	bool					isItemsFreeOfFriends(const uuid_vec_t& uuids);
 
@@ -137,8 +133,6 @@ private:
 
 	void					onFriendListRefreshComplete(LLUICtrl*ctrl, const LLSD& param);
 
-	bool					onConnectedToFacebook(const LLSD& data);
-
 	void					setAccordionCollapsedByUser(LLUICtrl* acc_tab, bool collapsed);
 	bool					isAccordionCollapsedByUser(LLUICtrl* acc_tab);
 
@@ -159,7 +153,6 @@ private:
 	LLAccordionCtrlTab*		mAccordianTabSuggestFriends;
 	LLAvatarList*			mOnlineFriendList;
 	LLAvatarList*			mAllFriendList;
-	LLAvatarList*			mSuggestedFriends;
 
 	// Groups
 	LLDragAndDropButton*	mGroupMinusBtn;

@@ -94,6 +94,8 @@ void LLVLComposition::setDetailTextureID(S32 corner, const LLUUID& id)
 	{
 		return;
 	}
+	// This is terrain texture, but we are not setting it as BOOST_TERRAIN
+	// since we will be manipulating it later as needed.
 	mDetailTextures[corner] = LLViewerTextureManager::getFetchedTexture(id);
 	mDetailTextures[corner]->setNoDelete() ;
 	mRawImages[corner] = nullptr;
@@ -236,6 +238,7 @@ BOOL LLVLComposition::generateComposition()
 			}
 			mDetailTextures[i]->setBoostLevel(LLGLTexture::BOOST_TERRAIN); // in case we are at low detail
 			mDetailTextures[i]->setMinDiscardLevel(ddiscard);
+			mDetailTextures[i]->addTextureStats(BASE_SIZE*BASE_SIZE); // priority
 			return FALSE;
 		}
 	}
@@ -282,7 +285,7 @@ BOOL LLVLComposition::generateTexture(const F32 x, const F32 y,
 				{
 					mDetailTextures[i]->destroyRawImage() ;
 				}
-				LL_DEBUGS() << "cached raw data for terrain detail texture is not ready yet: " << mDetailTextures[i]->getID() << LL_ENDL;
+				LL_DEBUGS("Terrain") << "cached raw data for terrain detail texture is not ready yet: " << mDetailTextures[i]->getID() << " Discard: " << ddiscard << LL_ENDL;
 				return FALSE;
 			}
 
@@ -318,12 +321,12 @@ BOOL LLVLComposition::generateTexture(const F32 x, const F32 y,
 
 	if (x_end > mWidth)
 	{
-		LL_WARNS() << "x end > width" << LL_ENDL;
+		LL_WARNS("Terrain") << "x end > width" << LL_ENDL;
 		x_end = mWidth;
 	}
 	if (y_end > mWidth)
 	{
-		LL_WARNS() << "y end > width" << LL_ENDL;
+		LL_WARNS("Terrain") << "y end > width" << LL_ENDL;
 		y_end = mWidth;
 	}
 
@@ -353,7 +356,7 @@ BOOL LLVLComposition::generateTexture(const F32 x, const F32 y,
 	
 	if (tex_comps != st_comps)
 	{
-		LL_WARNS() << "Base texture comps != input texture comps" << LL_ENDL;
+		LL_WARNS("Terrain") << "Base texture comps != input texture comps" << LL_ENDL;
 		return FALSE;
 	}
 

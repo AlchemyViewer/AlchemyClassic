@@ -99,7 +99,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
          name="friends_panel"
          right="-1"
          top="0"/>
-        <panel
+        <panel 
          filename="panel_people_groups.xml"
          background_opaque="true"
          background_visible="true"

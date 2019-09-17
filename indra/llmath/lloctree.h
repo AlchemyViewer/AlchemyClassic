@@ -444,6 +444,28 @@ public:
 				child->insert(data);
 			}
 		}
+		else if (parent)
+		{
+			//it's not in here, give it to the root
+			OCT_ERRS << "Octree insertion failed, starting over from root!" << LL_ENDL;
+
+			oct_node* node = this;
+
+			while (parent)
+			{
+				node = parent;
+				parent = node->getOctParent();
+			}
+
+			node->insert(data);
+		}
+		else
+		{
+			// It's not in here, and we are root.
+			// LLOctreeRoot::insert() should have expanded
+			// root by now, something is wrong
+			OCT_ERRS << "Octree insertion failed! Root expansion failed." << LL_ENDL;
+		}
 
 		return false;
 	}
@@ -827,9 +849,14 @@ public:
 			{
 				LLOctreeNode<T>::insert(data);
 			}
-			else
+			else if (node->isInside(data->getPositionGroup()))
 			{
 				node->insert(data);
+			}
+			else
+			{
+				// calling node->insert(data) will return us to root
+				OCT_ERRS << "Failed to insert data at child node" << LL_ENDL;
 			}
 		}
 		else if (this->getChildCount() == 0)

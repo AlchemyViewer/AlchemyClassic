@@ -30,6 +30,7 @@
 #include "llpreview.h"
 #include "llinventory.h"
 #include "llframetimer.h"
+#include "lllivefile.h"
 #include "llextendedstatus.h"
 
 class LLLiveLSLFile;
@@ -49,6 +50,23 @@ class LLViewerInventoryItem;
 class LLScriptEdContainer;
 class LLFloaterGotoLine;
 class LLFloaterExperienceProfile;
+
+class LLLiveLSLFile : public LLLiveFile
+{
+public:
+    typedef boost::function<bool(const std::string& filename)> change_callback_t;
+
+    LLLiveLSLFile(std::string file_path, change_callback_t change_cb);
+    ~LLLiveLSLFile();
+
+    void ignoreNextUpdate() { mIgnoreNextUpdate = true; }
+
+protected:
+    /*virtual*/ bool loadFile();
+
+    change_callback_t	mOnChangeCallback;
+    bool				mIgnoreNextUpdate;
+};
 
 // Inner, implementation class.  LLPreviewScript and LLLiveLSLEditor each own one of these.
 class LLScriptEdCore final : public LLPanel

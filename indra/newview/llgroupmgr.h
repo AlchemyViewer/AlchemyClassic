@@ -254,6 +254,11 @@ public:
 	bool isRoleMemberDataComplete() const { return mRoleMemberDataComplete; }
 	bool isGroupPropertiesDataComplete() const { return mGroupPropertiesDataComplete; }
 
+	bool isMemberDataPending() { return mMemberRequestID.notNull(); }
+	bool isRoleDataPending() { return mRoleDataRequestID.notNull(); }
+	bool isRoleMemberDataPending() { return (mRoleMembersRequestID.notNull() || mPendingRoleMemberRequest); }
+	bool isGroupTitlePending() { return mTitlesRequestID.notNull(); }
+
 	bool isSingleMemberNotOwner();
 
 	F32 getAccessTime() const { return mAccessTime; }

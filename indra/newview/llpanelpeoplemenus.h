@@ -59,21 +59,8 @@ protected:
 	/*virtual*/ void buildContextMenu(class LLMenuGL& menu, U32 flags) override;
 };
 
-/**
- * Menu used in the suggested friends list.
- */
-class SuggestedFriendsContextMenu : public PeopleContextMenu
-{
-public:
-	/*virtual*/ LLContextMenu * createMenu() override;
-
-protected:
-	/*virtual*/ void buildContextMenu(class LLMenuGL& menu, U32 flags) override;
-};
-
 extern PeopleContextMenu gPeopleContextMenu;
 extern NearbyPeopleContextMenu gNearbyPeopleContextMenu;
-extern SuggestedFriendsContextMenu gSuggestedFriendsContextMenu;
 
 } // namespace LLPanelPeopleMenus
 

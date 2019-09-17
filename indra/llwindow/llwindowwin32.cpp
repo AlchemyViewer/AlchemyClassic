@@ -735,6 +735,17 @@ void LLWindowWin32::restore()
 	SetFocus(mWindowHandle);
 }
 
+bool destroy_window_handler(HWND &hWnd)
+{
+    __try
+    {
+        return DestroyWindow(hWnd);
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    {
+        return false;
+    }
+}
 
 // close() destroys all OS-specific code associated with a window.
 // Usually called from LLWindowManager::destroyWindow()
@@ -808,7 +819,7 @@ void LLWindowWin32::close()
 	ShowWindow(mWindowHandle, SW_HIDE);
 
 	// This causes WM_DESTROY to be sent *immediately*
-	if (!DestroyWindow(mWindowHandle))
+	if (!destroy_window_handler(mWindowHandle))
 	{
 		OSMessageBox(mCallbacks->translateString("MBDestroyWinFailed"),
 			mCallbacks->translateString("MBShutdownErr"),

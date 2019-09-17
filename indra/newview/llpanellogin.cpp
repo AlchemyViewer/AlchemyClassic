@@ -339,7 +339,7 @@ void LLPanelLogin::setFocus(BOOL b)
 	{
 		if(b)
 		{
-			LLPanelLogin::giveFocus();
+			giveFocus();
 		}
 		else
 		{
@@ -670,7 +670,10 @@ void LLPanelLogin::closePanel()
 {
 	if (sInstance)
 	{
-		sInstance->getParent()->removeChild( sInstance );
+		if (LLPanelLogin::sInstance->getParent())
+		{
+			LLPanelLogin::sInstance->getParent()->removeChild(LLPanelLogin::sInstance);
+		}
 
 		delete sInstance;
 		sInstance = nullptr;

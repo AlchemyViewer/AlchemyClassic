@@ -610,23 +610,6 @@ protected:
 	static std::string sPrefix;
 };
 
-
-class LLMeshBridge : public LLItemBridge
-{
-	friend class LLInvFVBridge;
-public:
-	LLUIImagePtr getIcon() const override;
-	void openItem() override;
-	void buildContextMenu(LLMenuGL& menu, U32 flags) override;
-
-protected:
-	LLMeshBridge(LLInventoryPanel* inventory, 
-		     LLFolderView* root,
-		     const LLUUID& uuid) :
-                       LLItemBridge(inventory, root, uuid) {}
-};
-
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Class LLInvFVBridgeAction
 //
@@ -655,17 +638,6 @@ protected:
 protected:
 	const LLUUID& mUUID; // item id
 	LLInventoryModel* mModel;
-};
-
-class LLMeshBridgeAction: public LLInvFVBridgeAction
-{
-	friend class LLInvFVBridgeAction;
-public:
-	void	doIt() override;
-	virtual ~LLMeshBridgeAction(){}
-protected:
-	LLMeshBridgeAction(const LLUUID& id,LLInventoryModel* model):LLInvFVBridgeAction(id,model){}
-
 };
 
 

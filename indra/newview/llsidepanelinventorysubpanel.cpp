@@ -45,11 +45,6 @@ LLSidepanelInventorySubpanel::LLSidepanelInventorySubpanel(const LLPanel::Params
 {
 }
 
-// Destroys the object
-LLSidepanelInventorySubpanel::~LLSidepanelInventorySubpanel()
-{
-}
-
 // virtual
 BOOL LLSidepanelInventorySubpanel::postBuild()
 {

@@ -45,7 +45,7 @@ class LLSidepanelAppearance final : public LLPanel
 	LOG_CLASS(LLSidepanelAppearance);
 public:
 	LLSidepanelAppearance();
-	virtual ~LLSidepanelAppearance();
+	virtual ~LLSidepanelAppearance() = default;
 
 	/*virtual*/ BOOL postBuild() override;
 	/*virtual*/ void onOpen(const LLSD& key) override;	

@@ -43,7 +43,7 @@ typedef std::function<void (S32 x, S32 y, LLToolBarButton* button)> tool_startdr
 typedef std::function<BOOL (S32 x, S32 y, const LLUUID& uuid, LLAssetType::EType type)> tool_handledrag_callback_t;
 typedef std::function<BOOL (void* data, S32 x, S32 y, LLToolBar* toolbar)> tool_handledrop_callback_t;
 
-class LLToolBarButton : public LLButton
+class LLToolBarButton final : public LLButton
 {
 	friend class LLToolBar;
 public:
@@ -62,24 +62,24 @@ public:
 	LLToolBarButton(const Params& p);
 	~LLToolBarButton();
 
-	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
-	BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) final override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) final override;
 
-	void reshape(S32 width, S32 height, BOOL called_from_parent = true) override;
-	void setEnabled(BOOL enabled) override;
+	void reshape(S32 width, S32 height, BOOL called_from_parent = true) final override;
+	void setEnabled(BOOL enabled) final override;
 	void setCommandId(const LLCommandId& id) { mId = id; }
 	LLCommandId getCommandId() { return mId; }
 
 	void setStartDragCallback(tool_startdrag_callback_t cb)   { mStartDragItemCallback  = cb; }
 	void setHandleDragCallback(tool_handledrag_callback_t cb) { mHandleDragItemCallback = cb; }
 
-	void onMouseEnter(S32 x, S32 y, MASK mask) override;
-	void onMouseLeave(S32 x, S32 y, MASK mask) override;
-	void onMouseCaptureLost() override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) final override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) final override;
+	void onMouseCaptureLost() final override;
 
-	void onCommit() override;
+	void onCommit() final override;
 
-	const std::string getToolTip() const override;		
+	const std::string getToolTip() const final override;		
 
 private:
 	void callIfEnabled(LLUICtrl::commit_callback_t commit, LLUICtrl* ctrl, const LLSD& param );

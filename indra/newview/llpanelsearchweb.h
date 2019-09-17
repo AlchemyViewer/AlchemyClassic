@@ -39,7 +39,7 @@ class LLProgressBar;
 class LLTextBox;
 struct SearchQuery;
 
-class LLPanelSearchWeb : public LLPanel, public LLViewerMediaObserver
+class LLPanelSearchWeb final : public LLPanel, public LLViewerMediaObserver
 {
 public:
 	LLPanelSearchWeb();

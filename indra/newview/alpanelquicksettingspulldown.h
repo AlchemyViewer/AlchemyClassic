@@ -30,7 +30,7 @@
 
 class LLFrameTimer;
 
-class ALPanelQuickSettingsPulldown : public LLPanelMenuBarPulldown
+class ALPanelQuickSettingsPulldown final : public LLPanelMenuBarPulldown
 {
 public:
 	ALPanelQuickSettingsPulldown();

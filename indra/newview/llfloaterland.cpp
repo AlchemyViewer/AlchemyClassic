@@ -116,7 +116,7 @@ public:
 };
 
 
-class LLPanelLandExperiences
+class LLPanelLandExperiences final
 	:	public LLPanel
 {
 public:	

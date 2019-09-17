@@ -578,7 +578,7 @@ protected:
  * Storage class for all IM chiclets. Provides mechanism to display, 
  * scroll, create, remove chiclets.
  */
-class LLChicletPanel : public LLPanel
+class LLChicletPanel final : public LLPanel
 {
 public:
 

@@ -39,7 +39,7 @@
 /**
  * Provides several ways to save a snapshot.
  */
-class LLPanelSnapshotOptions
+class LLPanelSnapshotOptions final
 :	public LLPanel
 ,	public LLEconomyObserver
 {

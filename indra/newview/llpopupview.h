@@ -29,7 +29,7 @@
 
 #include "llpanel.h"
 
-class LLPopupView : public LLPanel
+class LLPopupView final : public LLPanel
 {
 public:
 	LLPopupView(const Params& p = LLPanel::Params());

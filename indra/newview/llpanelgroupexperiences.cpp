@@ -45,10 +45,6 @@ LLPanelGroupExperiences::LLPanelGroupExperiences()
 {
 }
 
-LLPanelGroupExperiences::~LLPanelGroupExperiences()
-{
-}
-
 BOOL LLPanelGroupExperiences::postBuild()
 {
 	mExperiencesList = getChild<LLFlatListView>("experiences_list");

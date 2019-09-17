@@ -36,7 +36,7 @@
 class LLComboBox;
 //class LLUICtrl;
 
-class LLPanelAOMini : public LLPanel
+class LLPanelAOMini final : public LLPanel
 {
 public:
 	LLPanelAOMini();

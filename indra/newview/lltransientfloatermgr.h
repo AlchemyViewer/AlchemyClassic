@@ -71,7 +71,7 @@ private:
 class LLTransientFloater
 {
 public:
-    virtual ~LLTransientFloater() {}
+	virtual ~LLTransientFloater() = default;
     
 protected:
 	/**

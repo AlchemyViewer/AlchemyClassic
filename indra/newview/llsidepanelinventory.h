@@ -38,7 +38,7 @@ class LLInventoryPanel;
 class LLLayoutPanel;
 class LLPanelMainInventory;
 
-class LLSidepanelInventory : public LLPanel
+class LLSidepanelInventory final : public LLPanel
 {
 public:
 	LLSidepanelInventory();

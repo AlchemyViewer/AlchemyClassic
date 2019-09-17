@@ -26,7 +26,7 @@
 class LLIconCtrl;
 class LLTextBox;
 
-class ALPanelMusicTicker : public LLPanel
+class ALPanelMusicTicker final : public LLPanel
 {
 public:
 	ALPanelMusicTicker();	//ctor

@@ -33,7 +33,7 @@
 
 #include "llpanelsearchbase.h"
 
-class LLPanelSearchLandSales : public LLPanelSearch
+class LLPanelSearchLandSales final : public LLPanelSearch
 {
 public:
 	LLPanelSearchLandSales();

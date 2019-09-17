@@ -85,7 +85,7 @@ protected:
 // Memory panel
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelScriptLimitsRegionMemory : public LLPanelScriptLimitsInfo, LLRemoteParcelInfoObserver
+class LLPanelScriptLimitsRegionMemory final : public LLPanelScriptLimitsInfo, LLRemoteParcelInfoObserver
 {
 	
 public:

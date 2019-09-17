@@ -40,7 +40,7 @@
 /**
  * The panel provides UI for saving snapshot to a local folder.
  */
-class LLPanelSnapshotLocal
+class LLPanelSnapshotLocal final
 :	public LLPanelSnapshot
 {
 	LOG_CLASS(LLPanelSnapshotLocal);

@@ -85,7 +85,7 @@ public:
 private:
 
 	LLFloaterCamera(const LLSD& val);
-	~LLFloaterCamera() {};
+	~LLFloaterCamera() = default;
 
 	/* return instance if it exists - created by LLFloaterReg */
 	static LLFloaterCamera* findInstance();
@@ -139,7 +139,7 @@ private:
  * are changed in setValue()). This class doesn't implement selection logic-
  * it's items are used inside of flatlist.
  */
-class LLPanelCameraItem 
+class LLPanelCameraItem final
 	: public LLPanel
 {
 public:

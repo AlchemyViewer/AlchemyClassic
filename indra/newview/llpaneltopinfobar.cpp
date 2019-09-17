@@ -46,7 +46,7 @@
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
 
-class LLPanelTopInfoBar::LLParcelChangeObserver : public LLParcelObserver
+class LLPanelTopInfoBar::LLParcelChangeObserver final: public LLParcelObserver
 {
 public:
 	LLParcelChangeObserver(LLPanelTopInfoBar* topInfoBar) : mTopInfoBar(topInfoBar) {}

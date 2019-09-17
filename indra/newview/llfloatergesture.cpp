@@ -59,7 +59,7 @@ class LLFloaterGestureObserver final : public LLGestureManagerObserver
 {
 public:
 	LLFloaterGestureObserver(LLFloaterGesture* floater) : mFloater(floater) {}
-	virtual ~LLFloaterGestureObserver() {}
+	virtual ~LLFloaterGestureObserver() = default;
 	void changed() override { mFloater->refreshAll(); }
 
 private:

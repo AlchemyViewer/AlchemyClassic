@@ -34,7 +34,7 @@
 /**
  * Represents audio steam info tip toast panel.
  */
-class LLPanelStreamInfo : public LLPanelTipToast
+class LLPanelStreamInfo final : public LLPanelTipToast
 {
 	// disallow instantiation of this class
 private:
@@ -42,7 +42,7 @@ private:
 	friend class LLToastPanel;
 	
 	LLPanelStreamInfo(const LLNotificationPtr& notification);
-	virtual ~LLPanelStreamInfo() {}
+	virtual ~LLPanelStreamInfo() = default;
 };
 
 #endif // LL_PANELSTREAMINFO_H

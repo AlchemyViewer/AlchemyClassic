@@ -25,7 +25,7 @@ class LLFloaterMessageRewriter final : public LLFloater
 {
 public:
 	LLFloaterMessageRewriter(const LLSD& key);
-	~LLFloaterMessageRewriter() {}
+	~LLFloaterMessageRewriter() = default;
 	BOOL postBuild() override;
 	
 private:

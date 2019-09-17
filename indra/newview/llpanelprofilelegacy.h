@@ -47,7 +47,7 @@ class LLPickItem;
 class LLTextBase;
 class LLToggleableMenu;
 
-class LLPanelProfileLegacy : public LLPanelProfileTab
+class LLPanelProfileLegacy final : public LLPanelProfileTab
 {
 public:
 	LLPanelProfileLegacy();
@@ -109,7 +109,7 @@ private:
 	ChildStack		mChildStack;
 	
 public:
-	class LLPanelProfilePicks : public LLPanelProfileTab
+	class LLPanelProfilePicks final : public LLPanelProfileTab
 	{
 		friend class LLPanelProfileLegacy;
 	public:
@@ -175,7 +175,7 @@ public:
 		panel_classified_edit_map_t mEditClassifiedPanels;
 	};
 	
-	class LLPanelProfileGroups : public LLPanelProfileTab
+	class LLPanelProfileGroups final : public LLPanelProfileTab
 	{
 		friend class LLPanelProfileLegacy;
 	public:
@@ -200,7 +200,7 @@ private:
 	LLPanelProfileGroups* mPanelGroups;
 };
 
-class LLProfileGroupItem : public LLPanel, public LLGroupMgrObserver
+class LLProfileGroupItem final : public LLPanel, public LLGroupMgrObserver
 {
 public:
 	LLProfileGroupItem();

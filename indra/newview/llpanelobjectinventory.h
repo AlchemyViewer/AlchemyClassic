@@ -45,7 +45,7 @@ class LLViewerObject;
 // particular task's inventory.
 //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class LLPanelObjectInventory : public LLPanel, public LLVOInventoryListener
+class LLPanelObjectInventory final : public LLPanel, public LLVOInventoryListener
 {
 public:
 	// dummy param block for template registration purposes

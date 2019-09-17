@@ -190,7 +190,7 @@ private:
     LLButton*		mInfoBtn;
 };
 
-class LLGroupNoticeNotificationListItem
+class LLGroupNoticeNotificationListItem final
     : public LLGroupNotificationListItem
 {
 public:
@@ -219,7 +219,7 @@ private:
     LLOfferInfo*    mInventoryOffer;
 };
 
-class LLTransactionNotificationListItem : public LLNotificationListItem
+class LLTransactionNotificationListItem final : public LLNotificationListItem
 {
 public:
     static std::set<std::string> getTypes();
@@ -233,7 +233,7 @@ private:
     LLAvatarIconCtrl* mAvatarIconExp;
 };
 
-class LLSystemNotificationListItem : public LLNotificationListItem
+class LLSystemNotificationListItem final : public LLNotificationListItem
 {
 public:
 	BOOL postBuild() override;

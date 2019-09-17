@@ -32,7 +32,7 @@
 class LLLandmarksPanel;
 class LLFolderView;
 
-class LLPlacesInventoryPanel : public LLInventoryPanel
+class LLPlacesInventoryPanel final : public LLInventoryPanel
 {
 public:
 	struct Params 

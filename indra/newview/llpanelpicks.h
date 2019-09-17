@@ -47,7 +47,7 @@ class LLToggleableMenu;
 class LLPanelClassifiedInfo;
 class LLPanelClassifiedEdit;
 
-class LLPanelPicks 
+class LLPanelPicks final
 	: public LLPanelProfileTab
 {
 public:

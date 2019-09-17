@@ -126,7 +126,7 @@ private:
 	bool confirmCloseAll(const LLSD& notification, const LLSD& response);
 	void closeAllImpl();
 
-	class ObjectRowPanel: public LLPanel
+	class ObjectRowPanel final : public LLPanel
 	{
 	public:
 		ObjectRowPanel(const LLUUID& notification_id, bool new_message = false);

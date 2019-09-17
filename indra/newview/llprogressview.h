@@ -37,7 +37,7 @@ class LLButton;
 class LLProgressBar;
 class LLTextBox;
 
-class LLProgressView : 
+class LLProgressView final :
 	public LLPanel,
 	public LLViewerMediaObserver
 

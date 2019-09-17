@@ -47,7 +47,7 @@ class LLFloaterMarketplaceListings;
 // Class LLPanelMarketplaceListings
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLPanelMarketplaceListings : public LLPanel
+class LLPanelMarketplaceListings final : public LLPanel
 {
 public:
     LLPanelMarketplaceListings();

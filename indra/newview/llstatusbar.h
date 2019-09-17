@@ -57,7 +57,7 @@ namespace ll
 		struct SearchData;
 	}
 }
-class LLStatusBar
+class LLStatusBar final
 :	public LLPanel
 {
 public:

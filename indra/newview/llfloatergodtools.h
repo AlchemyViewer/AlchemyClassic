@@ -119,7 +119,7 @@ public:
 // LLPanelRegionTools
 //-----------------------------------------------------------------------------
 
-class LLPanelRegionTools 
+class LLPanelRegionTools final
 : public LLPanel
 {
 public:
@@ -181,7 +181,7 @@ protected:
 // LLPanelGridTools
 //-----------------------------------------------------------------------------
 
-class LLPanelGridTools
+class LLPanelGridTools final
 : public LLPanel
 {
 public:
@@ -205,7 +205,7 @@ protected:
 // LLPanelObjectTools
 //-----------------------------------------------------------------------------
 
-class LLPanelObjectTools 
+class LLPanelObjectTools final
 : public LLPanel
 {
 public:
@@ -247,7 +247,7 @@ protected:
 // LLPanelRequestTools
 //-----------------------------------------------------------------------------
 
-class LLPanelRequestTools : public LLPanel
+class LLPanelRequestTools final : public LLPanel
 {
 public:
 	LLPanelRequestTools();

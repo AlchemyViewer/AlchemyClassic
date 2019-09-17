@@ -1704,7 +1704,7 @@ class LLInventoryRecentItemsPanel;
 static LLDefaultChildRegistry::Register<LLInventoryRecentItemsPanel> t_recent_inventory_panel("recent_inventory_panel");
 
 static const LLRecentInventoryBridgeBuilder RECENT_ITEMS_BUILDER;
-class LLInventoryRecentItemsPanel : public LLInventoryPanel
+class LLInventoryRecentItemsPanel final : public LLInventoryPanel
 {
 public:
 	struct Params :	public LLInitParam::Block<Params, LLInventoryPanel::Params>

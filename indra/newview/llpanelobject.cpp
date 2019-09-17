@@ -311,12 +311,6 @@ LLPanelObject::LLPanelObject()
 	mCommitCallbackRegistrar.add("Build.Paste", boost::bind(&LLPanelObject::onClickBtnPasteData, this, _2));
 }
 
-
-LLPanelObject::~LLPanelObject()
-{
-	// Children all cleaned up by default view destructor.
-}
-
 void LLPanelObject::getState( )
 {
 	LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getFirstRootObject();

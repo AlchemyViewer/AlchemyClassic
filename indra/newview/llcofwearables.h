@@ -41,7 +41,7 @@ class LLPanelClothingListItem;
 class LLPanelBodyPartsListItem;
 class LLPanelDeletableWearableListItem;
 
-class LLCOFWearables : public LLPanel
+class LLCOFWearables final : public LLPanel
 {
 public:
 

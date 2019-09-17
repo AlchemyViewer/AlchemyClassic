@@ -288,7 +288,7 @@ private:
 	LOG_CLASS(LLPanelPreference);
 };
 
-class LLPanelPreferenceGraphics : public LLPanelPreference
+class LLPanelPreferenceGraphics final : public LLPanelPreference
 {
 public:
 	BOOL postBuild() override;

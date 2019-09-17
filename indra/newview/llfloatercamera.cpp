@@ -60,7 +60,7 @@ bool LLFloaterCamera::sFreeCamera = false;
 bool LLFloaterCamera::sAppearanceEditing = false;
 
 // Zoom the camera in and out
-class LLPanelCameraZoom
+class LLPanelCameraZoom final
 :	public LLPanel
 {
 	LOG_CLASS(LLPanelCameraZoom);

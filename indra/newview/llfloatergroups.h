@@ -80,7 +80,7 @@ protected:
 	static instance_map_t sInstances;
 };
 
-class LLPanelGroups : public LLPanel, public LLOldEvents::LLSimpleListener
+class LLPanelGroups final : public LLPanel, public LLOldEvents::LLSimpleListener
 {
 public:
 	LLPanelGroups();

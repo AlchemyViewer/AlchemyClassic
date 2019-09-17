@@ -42,7 +42,7 @@ class LLComboBox;
 class LLColorSwatchCtrl;
 class LLTextureCtrl;
 
-class LLPanelVolume : public LLPanel
+class LLPanelVolume final : public LLPanel
 {
 public:
 	LLPanelVolume();

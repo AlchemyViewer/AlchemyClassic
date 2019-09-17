@@ -80,10 +80,6 @@ LLPanelGroupGeneral::LLPanelGroupGeneral()
 
 }
 
-LLPanelGroupGeneral::~LLPanelGroupGeneral()
-{
-}
-
 BOOL LLPanelGroupGeneral::postBuild()
 {
 	bool recurse = true;

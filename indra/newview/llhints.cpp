@@ -36,7 +36,7 @@
 #include "lliconctrl.h"
 #include "llsdparam.h"
 
-class LLHintPopup : public LLPanel
+class LLHintPopup final : public LLPanel
 {
 public:
 

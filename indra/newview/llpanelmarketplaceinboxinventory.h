@@ -36,7 +36,7 @@
 
 
 
-class LLInboxInventoryPanel : public LLInventoryPanel
+class LLInboxInventoryPanel final : public LLInventoryPanel
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLInventoryPanel::Params>

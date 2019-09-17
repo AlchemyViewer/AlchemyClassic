@@ -99,7 +99,7 @@ class LLFadeEventTimer;
 class LLPreviewedFloater;
 
 // Implementation of custom overlapping element display panel
-class LLOverlapPanel : public LLPanel
+class LLOverlapPanel final : public LLPanel
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLPanel::Params>

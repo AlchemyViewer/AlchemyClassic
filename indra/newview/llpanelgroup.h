@@ -43,7 +43,7 @@ class LLAgent;
 class LLAccordionCtrl;
 
 
-class LLPanelGroup : public LLPanel,
+class LLPanelGroup final : public LLPanel,
 					 public LLGroupMgrObserver,
 					 public LLVoiceClientStatusObserver
 {

@@ -35,7 +35,7 @@
 
 class LLSearchEditor;
 
-class LLPanelSearchPeople : public LLPanelSearch
+class LLPanelSearchPeople final : public LLPanelSearch
 {
 public:
 	LLPanelSearchPeople();

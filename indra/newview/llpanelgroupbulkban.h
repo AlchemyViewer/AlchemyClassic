@@ -32,11 +32,11 @@
 
 class LLAvatarName;
 
-class LLPanelGroupBulkBan : public LLPanelGroupBulk
+class LLPanelGroupBulkBan final : public LLPanelGroupBulk
 {
 public:
 	LLPanelGroupBulkBan(const LLUUID& group_id);
-	~LLPanelGroupBulkBan() {}
+	~LLPanelGroupBulkBan() = default;
 
 	BOOL postBuild() override;
 

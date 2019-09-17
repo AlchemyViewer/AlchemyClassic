@@ -30,7 +30,7 @@
 
 #include "llpanel.h"
 
-class LLPanelVoiceDeviceSettings : public LLPanel
+class LLPanelVoiceDeviceSettings final : public LLPanel
 {
 public:
 	LLPanelVoiceDeviceSettings();

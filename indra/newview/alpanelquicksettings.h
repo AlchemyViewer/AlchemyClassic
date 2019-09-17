@@ -34,7 +34,7 @@ class LLComboBox;
 class LLSlider;
 class LLSpinCtrl;
 
-class ALPanelQuickSettings : public LLPanel
+class ALPanelQuickSettings final : public LLPanel
 {
 public:
 	ALPanelQuickSettings();

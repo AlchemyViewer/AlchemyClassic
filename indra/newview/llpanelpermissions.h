@@ -47,7 +47,7 @@ class LLSpinCtrl;
 class LLTextBox;
 class LLViewerInventoryItem;
 
-class LLPanelPermissions : public LLPanel
+class LLPanelPermissions final : public LLPanel
 {
 public:
 	LLPanelPermissions();

@@ -41,7 +41,7 @@
 /**
  * Posts a snapshot to My Profile feed.
  */
-class LLPanelSnapshotProfile
+class LLPanelSnapshotProfile final
 :	public LLPanelSnapshot
 {
 	LOG_CLASS(LLPanelSnapshotProfile);

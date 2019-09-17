@@ -37,7 +37,7 @@
 class LLNameListCtrl;
 class LLButton;
 
-class LLPanelGroupBanlist : public LLPanelGroupTab
+class LLPanelGroupBanlist final : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupBanlist();

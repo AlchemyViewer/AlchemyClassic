@@ -82,12 +82,12 @@ public:
 	/**
 	 * Processes notification from speaker indicator to update children when indicator's visibility is changed.
 	 */
-	void onVisibilityChange ( BOOL new_visibility ) override; // <alchemy/>
-	S32	notifyParent(const LLSD& info) override;
-	void onMouseLeave(S32 x, S32 y, MASK mask) override;
-	void onMouseEnter(S32 x, S32 y, MASK mask) override;
-	void setValue(const LLSD& value) override;
-	void changed(U32 mask) override; // from LLFriendObserver
+	void onVisibilityChange ( BOOL new_visibility ) final override; // <alchemy/>
+	S32	notifyParent(const LLSD& info) final override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) final override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) final override;
+	void setValue(const LLSD& value) final override;
+	void changed(U32 mask) final override; // from LLFriendObserver
 
 	void setOnline(bool online);
 	void updateAvatarName(); // re-query the name cache
@@ -116,7 +116,7 @@ public:
 	void onInfoBtnClick();
 	void onProfileBtnClick();
 
-	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) final override;
 
 protected:
 	/**

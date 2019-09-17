@@ -30,7 +30,7 @@
 
 #include "llpanelmenubarpulldown.h"
 
-class LLPanelVolumePulldown : public LLPanelMenuBarPulldown
+class LLPanelVolumePulldown final : public LLPanelMenuBarPulldown
 {
  public:
 	LLPanelVolumePulldown();

@@ -142,7 +142,7 @@ private:
 		void fire(const LLUUID& inventoryItem) override;
 		
 	protected:
-		~LLParticleScriptCreationCallback() {}
+		~LLParticleScriptCreationCallback() = default;
 		
 		LLFloaterParticleEditor* mEditor;
 	};

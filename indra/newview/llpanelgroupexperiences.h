@@ -31,11 +31,11 @@
 
 class LLFlatListView;
 
-class LLPanelGroupExperiences : public LLPanelGroupTab
+class LLPanelGroupExperiences final : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupExperiences();
-	virtual ~LLPanelGroupExperiences();
+	virtual ~LLPanelGroupExperiences() = default;
 
 	// LLPanelGroupTab
 	void activate() override;

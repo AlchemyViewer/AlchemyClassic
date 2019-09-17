@@ -36,7 +36,7 @@
 class LLComboBox;
 class LLSearchEditor;
 
-class LLPanelSearchEvents : public LLPanelSearch
+class LLPanelSearchEvents final : public LLPanelSearch
 {
 public:
 	LLPanelSearchEvents();

@@ -43,7 +43,7 @@ typedef std::function<void (S32 x, S32 y, LLToolBarButton* button)> tool_startdr
 typedef std::function<BOOL (S32 x, S32 y, const LLUUID& uuid, LLAssetType::EType type)> tool_handledrag_callback_t;
 typedef std::function<BOOL (void* data, S32 x, S32 y, LLToolBar* toolbar)> tool_handledrop_callback_t;
 
-class LLToolBarButton : public LLButton
+class LLToolBarButton final : public LLButton
 {
 	friend class LLToolBar;
 public:
@@ -173,7 +173,7 @@ namespace LLInitParam
 }
 
 
-class LLToolBar
+class LLToolBar final 
 :	public LLUICtrl
 {
 	friend class LLToolBarButton;
@@ -184,7 +184,7 @@ public:
 	public:
 		typedef std::function<void(LLToolBarEnums::EToolBarLocation tb, const LLRect& rect)> reshape_callback_t;
 
-		virtual ~LLCenterLayoutPanel() {}
+		virtual ~LLCenterLayoutPanel() = default;
 		/*virtual*/ void handleReshape(const LLRect& rect, bool by_user) override;
 
 		void setLocationId(LLToolBarEnums::EToolBarLocation id) { mLocationId = id; }

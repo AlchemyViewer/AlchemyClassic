@@ -55,7 +55,7 @@ protected:
     /*virtual*/ LLSnapshotModel::ESnapshotType getSnapshotType() override;
 };
 
-class LLPanelSnapshotInventory
+class LLPanelSnapshotInventory final
     : public LLPanelSnapshotInventoryBase
 {
 	LOG_CLASS(LLPanelSnapshotInventory);
@@ -77,7 +77,7 @@ private:
 
 };
 
-class LLPanelOutfitSnapshotInventory
+class LLPanelOutfitSnapshotInventory final
     : public LLPanelSnapshotInventoryBase
 {
     LOG_CLASS(LLPanelOutfitSnapshotInventory);

@@ -35,7 +35,7 @@
 
 class LLFrameTimer;
 
-class LLPanelAOPulldown : public LLPanelMenuBarPulldown
+class LLPanelAOPulldown final : public LLPanelMenuBarPulldown
 {
 public:
 	LLPanelAOPulldown();

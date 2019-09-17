@@ -33,7 +33,7 @@
 /**
  * Represents radar alert toast panel.
  */
-class LLPanelRadarAlert : public LLPanelTipToast
+class LLPanelRadarAlert final : public LLPanelTipToast
 {
 	// disallow instantiation of this class
 private:

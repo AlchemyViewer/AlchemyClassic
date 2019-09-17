@@ -47,7 +47,7 @@ public:
 private:
 	
 	LLFloaterBulkPermission(const LLSD& seed);	
-	virtual ~LLFloaterBulkPermission() {}
+	virtual ~LLFloaterBulkPermission() = default;
 
 	BOOL start(); // returns TRUE if the queue has started, otherwise FALSE.
 	BOOL nextObject();

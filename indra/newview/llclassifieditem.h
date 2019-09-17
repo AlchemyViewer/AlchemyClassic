@@ -36,7 +36,7 @@ static const std::string CLASSIFIED_ID("classified_id");
 static const std::string CLASSIFIED_NAME("classified_name");
 using panel_classified_edit_map_t = std::map<LLUUID, LLPanelClassifiedEdit*>;
 
-class LLClassifiedItem : public LLPanel, public LLAvatarPropertiesObserver
+class LLClassifiedItem final : public LLPanel, public LLAvatarPropertiesObserver
 {
 public:
 

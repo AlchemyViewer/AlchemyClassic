@@ -40,7 +40,7 @@ class LLSidepanelAppearance;
 class LLTabContainer;
 class LLSaveOutfitComboBtn;
 
-class LLPanelOutfitsInventory : public LLPanel
+class LLPanelOutfitsInventory final : public LLPanel
 {
 	LOG_CLASS(LLPanelOutfitsInventory);
 public:

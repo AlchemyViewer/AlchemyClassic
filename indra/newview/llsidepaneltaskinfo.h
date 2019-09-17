@@ -45,7 +45,7 @@ class LLTextBox;
 class LLLineEditor;
 class LLSpinCtrl;
 
-class LLSidepanelTaskInfo : public LLSidepanelInventorySubpanel
+class LLSidepanelTaskInfo final : public LLSidepanelInventorySubpanel
 {
 public:
 	LLSidepanelTaskInfo(const LLPanel::Params& p = getDefaultParams());

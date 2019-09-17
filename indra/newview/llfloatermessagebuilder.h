@@ -43,7 +43,7 @@ class LLFloaterMessageBuilder final : public LLFloater, public LLEventTimer
 {
 public:
 	LLFloaterMessageBuilder(const LLSD &);
-	~LLFloaterMessageBuilder() {}
+	~LLFloaterMessageBuilder() = default;
 	BOOL postBuild() override;
 	void onOpen(const LLSD& key) override;
 	static void show(const std::string& initial_text);

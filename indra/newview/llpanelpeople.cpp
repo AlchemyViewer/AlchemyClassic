@@ -258,9 +258,7 @@ public:
 	{
 	}
 
-	virtual ~Updater()
-	{
-	}
+	virtual ~Updater() = default;
 
 	/**
 	 * Activate/deactivate updater.
@@ -281,7 +279,7 @@ protected:
 /**
  * Update buttons on changes in our friend relations or voice status (STORM-557).
  */
-class LLButtonsUpdater : public LLPanelPeople::Updater, public LLFriendObserver, public LLVoiceClientStatusObserver
+class LLButtonsUpdater final : public LLPanelPeople::Updater, public LLFriendObserver, public LLVoiceClientStatusObserver
 {
 public:
 	LLButtonsUpdater(callback_t cb)
@@ -342,7 +340,7 @@ public:
  * 
  * Updates the list on external events which trigger the changed() method. 
  */
-class LLFriendListUpdater : public LLAvatarListUpdater, public LLFriendObserver
+class LLFriendListUpdater final : public LLAvatarListUpdater, public LLFriendObserver
 {
 	LOG_CLASS(LLFriendListUpdater);
 	class LLInventoryFriendCardObserver;
@@ -495,7 +493,7 @@ private:
  * 
  * The period is defined by NEARBY_LIST_UPDATE_INTERVAL constant.
  */
-class LLNearbyListUpdater : public LLAvatarListUpdater
+class LLNearbyListUpdater final : public LLAvatarListUpdater
 {
 	LOG_CLASS(LLNearbyListUpdater);
 
@@ -531,7 +529,7 @@ public:
 /**
  * Updates the recent people list (those the agent has recently interacted with).
  */
-class LLRecentListUpdater : public LLAvatarListUpdater, public boost::signals2::trackable
+class LLRecentListUpdater final : public LLAvatarListUpdater, public boost::signals2::trackable
 {
 	LOG_CLASS(LLRecentListUpdater);
 

@@ -164,7 +164,7 @@ protected:
 /**
  * Panel for creating/editing Pick.
  */
-class LLPanelPickEdit : public LLPanelPickInfo
+class LLPanelPickEdit final : public LLPanelPickInfo
 {
 	LOG_CLASS(LLPanelPickEdit);
 public:

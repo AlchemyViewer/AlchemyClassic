@@ -33,7 +33,7 @@
 
 class LLComboBox;
 
-class LLPanelVoiceEffect
+class LLPanelVoiceEffect final
 	: public LLPanel
 	, public LLVoiceEffectObserver
 {

@@ -42,7 +42,7 @@ class LLConversation;
  * Also LLConversationLogListItem holds pointer to its LLConversationLog.
  */
 
-class LLConversationLogListItem : public LLPanel
+class LLConversationLogListItem final : public LLPanel
 {
 public:
 	LLConversationLogListItem(const LLConversation* conversation);

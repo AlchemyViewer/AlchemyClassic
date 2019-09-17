@@ -44,7 +44,7 @@ class LLPanelGroupGeneral : public LLPanelGroupTab
 {
 public:
 	LLPanelGroupGeneral();
-	virtual ~LLPanelGroupGeneral();
+	virtual ~LLPanelGroupGeneral() = default;
 
 	// LLPanelGroupTab
 	void activate() override;

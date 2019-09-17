@@ -62,7 +62,7 @@ class LLSaveOutfitComboBtn;
 class LLWearableItemTypeNameComparator;
 class LLLoadingIndicator;
 
-class LLPanelOutfitEdit : public LLPanel
+class LLPanelOutfitEdit final : public LLPanel
 {
 	LOG_CLASS(LLPanelOutfitEdit);
 public:

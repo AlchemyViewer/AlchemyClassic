@@ -36,7 +36,7 @@ class LLSnapshotLivePreview;
 class LLTextBox;
 class LLFloaterBigPreview;
 
-class LLTwitterPhotoPanel : public LLPanel
+class LLTwitterPhotoPanel final : public LLPanel
 {
 public:
 	LLTwitterPhotoPanel();
@@ -88,7 +88,7 @@ private:
 	std::string mOldStatusText;
 };
 
-class LLTwitterAccountPanel : public LLPanel
+class LLTwitterAccountPanel final : public LLPanel
 {
 public:
 	LLTwitterAccountPanel();

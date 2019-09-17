@@ -38,7 +38,7 @@ class LLTextBox;
 class LLAvatarList;
 class LLFloaterBigPreview;
 
-class LLFacebookStatusPanel : public LLPanel
+class LLFacebookStatusPanel final : public LLPanel
 {
 public:
     LLFacebookStatusPanel();
@@ -73,7 +73,7 @@ private:
 	LLUICtrl* mCancelButton;
 };
 
-class LLFacebookPhotoPanel : public LLPanel
+class LLFacebookPhotoPanel final : public LLPanel
 {
 public:
 	LLFacebookPhotoPanel();
@@ -119,7 +119,7 @@ private:
     S32 mQuality;       // Compression quality
 };
 
-class LLFacebookCheckinPanel : public LLPanel
+class LLFacebookCheckinPanel final : public LLPanel
 {
 public:
     LLFacebookCheckinPanel();
@@ -144,7 +144,7 @@ private:
     bool mReloadingMapTexture;
 };
 
-class LLFacebookFriendsPanel : public LLPanel, public LLFriendObserver
+class LLFacebookFriendsPanel final : public LLPanel, public LLFriendObserver
 {
 public:
 	LLFacebookFriendsPanel();

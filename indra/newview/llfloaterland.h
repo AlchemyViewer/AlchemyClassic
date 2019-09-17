@@ -128,7 +128,7 @@ public:
 };
 
 
-class LLPanelLandGeneral
+class LLPanelLandGeneral final
 :	public LLPanel
 {
 public:
@@ -229,7 +229,7 @@ protected:
 	static LLHandle<LLFloater> sBuyPassDialogHandle;
 };
 
-class LLPanelLandObjects
+class LLPanelLandObjects final
 :	public LLPanel
 {
 public:
@@ -300,7 +300,7 @@ protected:
 };
 
 
-class LLPanelLandOptions
+class LLPanelLandOptions final
 :	public LLPanel
 {
 public:
@@ -347,7 +347,7 @@ private:
 };
 
 
-class LLPanelLandAccess
+class LLPanelLandAccess final
 :	public LLPanel
 {
 public:
@@ -380,7 +380,7 @@ protected:
 };
 
 
-class LLPanelLandCovenant
+class LLPanelLandCovenant final
 :	public LLPanel
 {
 public:

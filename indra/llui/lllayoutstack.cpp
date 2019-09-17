@@ -343,7 +343,7 @@ void LLLayoutStack::collapsePanel(LLPanel* panel, BOOL collapsed)
 
 static LLTrace::BlockTimerStatHandle FTM_UPDATE_LAYOUT("Update LayoutStacks");
 
-class LLImagePanel : public LLPanel
+class LLImagePanel final : public LLPanel
 {
 public:
 	struct Params :	public LLInitParam::Block<Params, LLPanel::Params>
@@ -352,7 +352,7 @@ public:
 		Params() : horizontal("horizontal", false) {}
 	};
 	LLImagePanel(const Params& p) : LLPanel(p), mHorizontal(p.horizontal) {}
-	virtual ~LLImagePanel() {}
+	virtual ~LLImagePanel() = default;
 
 	void draw() override
 	{

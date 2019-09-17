@@ -44,7 +44,7 @@ public:
 	void setSearchFloater(LLFloaterDirectory* floater);
 	
 protected:
-	virtual ~LLPanelSearch() {};
+	virtual ~LLPanelSearch() = default;
 	LLFloaterDirectory* mFloater;
 	
 private:

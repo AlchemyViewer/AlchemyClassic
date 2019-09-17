@@ -40,7 +40,7 @@ class LLSliderCtrl;
 class LLViewerMediaImpl;
 class LLWindowShade;
 
-class LLPanelPrimMediaControls : public LLPanel
+class LLPanelPrimMediaControls final : public LLPanel
 {
 public:
 	LLPanelPrimMediaControls();

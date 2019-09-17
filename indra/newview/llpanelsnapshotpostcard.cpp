@@ -48,7 +48,7 @@
 /**
  * Sends postcard via email.
  */
-class LLPanelSnapshotPostcard
+class LLPanelSnapshotPostcard final
 :	public LLPanelSnapshot
 {
 	LOG_CLASS(LLPanelSnapshotPostcard);

@@ -33,7 +33,7 @@ class LLAccordionCtrl;
 class LLIconCtrl;
 class LLTextEditor;
 
-class LLPanelPlaceProfile : public LLPanelPlaceInfo
+class LLPanelPlaceProfile final : public LLPanelPlaceInfo
 {
 public:
 	LLPanelPlaceProfile();

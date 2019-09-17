@@ -178,14 +178,14 @@ protected:
 // Actual panels start here
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelRegionGeneralInfo : public LLPanelRegionInfo
+class LLPanelRegionGeneralInfo final : public LLPanelRegionInfo
 {
 	
 public:
 	LLPanelRegionGeneralInfo()
 		:	LLPanelRegionInfo(),
 			mObjBonusFactor(0.f) {}
-	~LLPanelRegionGeneralInfo() {}
+	~LLPanelRegionGeneralInfo() = default;
 
 	bool refreshFromRegion(LLViewerRegion* region) override;
 	
@@ -211,12 +211,12 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelRegionDebugInfo : public LLPanelRegionInfo
+class LLPanelRegionDebugInfo final : public LLPanelRegionInfo
 {
 public:
 	LLPanelRegionDebugInfo()
 		:	LLPanelRegionInfo(), mTargetAvatar() {}
-	~LLPanelRegionDebugInfo() {}
+	~LLPanelRegionDebugInfo() = default;
 	// LLPanel
 	BOOL postBuild() override;
 
@@ -242,7 +242,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelRegionTerrainInfo : public LLPanelRegionInfo
+class LLPanelRegionTerrainInfo final : public LLPanelRegionInfo
 {
 	LOG_CLASS(LLPanelRegionTerrainInfo);
 
@@ -251,7 +251,7 @@ public:
 		: LLPanelRegionInfo(),
 		mConfirmedTextureHeights(false),
 		mAskedTextureHeights(false) {}
-	~LLPanelRegionTerrainInfo() {}
+	~LLPanelRegionTerrainInfo() = default;
 
 	BOOL postBuild() override;												// LLPanel
 
@@ -278,7 +278,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelEstateInfo : public LLPanelRegionInfo
+class LLPanelEstateInfo final : public LLPanelRegionInfo
 {
 public:
 	static void initDispatch(LLDispatcher& dispatch);
@@ -302,7 +302,7 @@ public:
 	bool onMessageCommit(const LLSD& notification, const LLSD& response);
 	
 	LLPanelEstateInfo();
-	~LLPanelEstateInfo() {}
+	~LLPanelEstateInfo() = default;
 	
 	void updateControls(LLViewerRegion* region);
 	
@@ -339,11 +339,11 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelEstateCovenant : public LLPanelRegionInfo
+class LLPanelEstateCovenant final : public LLPanelRegionInfo
 {
 public:
 	LLPanelEstateCovenant();
-	~LLPanelEstateCovenant() {}
+	~LLPanelEstateCovenant() = default;
 	
 	// LLPanel
 	BOOL postBuild() override;
@@ -401,7 +401,7 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 
-class LLPanelEnvironmentInfo : public LLPanelRegionInfo
+class LLPanelEnvironmentInfo final : public LLPanelRegionInfo
 {
 	LOG_CLASS(LLPanelEnvironmentInfo);
 
@@ -461,7 +461,7 @@ private:
 	LLComboBox*		mDayCyclePresetCombo;
 };
 
-class LLPanelRegionExperiences : public LLPanelRegionInfo
+class LLPanelRegionExperiences final : public LLPanelRegionInfo
 {
 	LOG_CLASS(LLPanelEnvironmentInfo);
 
@@ -498,7 +498,7 @@ private:
 };
 
 
-class LLPanelEstateAccess : public LLPanelRegionInfo
+class LLPanelEstateAccess final : public LLPanelRegionInfo
 {
 	LOG_CLASS(LLPanelEnvironmentInfo);
 

@@ -91,7 +91,7 @@ public:
 	virtual DataType get(LLTextureEntry* entry) { return (entry*(TEGetFunc)); }
 };
 
-class LLPanelFace : public LLPanel
+class LLPanelFace final : public LLPanel
 {
 public:
     BOOL	postBuild() override;

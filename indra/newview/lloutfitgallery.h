@@ -228,7 +228,7 @@ private:
 };
 
 
-class LLOutfitGalleryGearMenu : public LLOutfitListGearMenuBase
+class LLOutfitGalleryGearMenu final : public LLOutfitListGearMenuBase
 {
 public:
     friend class LLOutfitGallery;

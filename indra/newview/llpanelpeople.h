@@ -43,7 +43,7 @@ class LLNetMap;
 class LLDragAndDropButton;
 class LLAccordionCtrlTab;
 
-class LLPanelPeople 
+class LLPanelPeople final
 	: public LLPanel
 {
 	LOG_CLASS(LLPanelPeople);

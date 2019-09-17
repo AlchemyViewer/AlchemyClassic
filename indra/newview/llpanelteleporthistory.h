@@ -37,7 +37,7 @@ class LLAccordionCtrlTab;
 class LLFlatListView;
 class LLMenuButton;
 
-class LLTeleportHistoryPanel : public LLPanelPlacesTab
+class LLTeleportHistoryPanel final : public LLPanelPlacesTab
 {
 public:
 	// *TODO: derive from LLListContextMenu?

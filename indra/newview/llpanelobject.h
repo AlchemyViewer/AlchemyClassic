@@ -44,11 +44,11 @@ class LLTextureCtrl;
 class LLInventoryItem;
 class LLUUID;
 
-class LLPanelObject : public LLPanel
+class LLPanelObject final : public LLPanel
 {
 public:
 	LLPanelObject();
-	virtual ~LLPanelObject();
+	virtual ~LLPanelObject() = default; // Children all cleaned up by default view destructor.
 
 	BOOL	postBuild() override;
 	void	draw() override;

@@ -49,10 +49,6 @@ LLHUDView::LLHUDView(const LLRect& r)
 	setShape(r, true);
 }
 
-LLHUDView::~LLHUDView()
-{
-}
-
 // virtual
 void LLHUDView::draw()
 {

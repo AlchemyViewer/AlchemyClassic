@@ -36,7 +36,7 @@ class LLSnapshotLivePreview;
 class LLTextBox;
 class LLFloaterBigPreview;
 
-class LLFlickrPhotoPanel : public LLPanel
+class LLFlickrPhotoPanel final : public LLPanel
 {
 public:
 	LLFlickrPhotoPanel();
@@ -84,7 +84,7 @@ private:
     LLFloaterBigPreview * mBigPreviewFloater;
 };
 
-class LLFlickrAccountPanel : public LLPanel
+class LLFlickrAccountPanel final : public LLPanel
 {
 public:
 	LLFlickrAccountPanel();

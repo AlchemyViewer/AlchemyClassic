@@ -32,12 +32,12 @@
 
 class LLVector3d;
 
-class LLHUDView
+class LLHUDView final
 : public LLPanel
 {
 public:
 	LLHUDView(const LLRect& rect);
-	virtual ~LLHUDView();
+	virtual ~LLHUDView() = default;
 
 	void draw() override;
 

@@ -44,7 +44,7 @@ class LLTextBox;
  * and appropriate block list item will be created depending on
  * LLMute type (LLMute::EType) and other LLMute's info
  */
-class LLBlockedListItem : public LLPanel
+class LLBlockedListItem final : public LLPanel
 {
 public:
 

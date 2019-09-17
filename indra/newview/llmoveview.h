@@ -115,7 +115,7 @@ private:
 /**
  * This class contains Stand Up and Stop Flying buttons displayed above Move button in bottom tray
  */
-class LLPanelStandStopFlying : public LLPanel
+class LLPanelStandStopFlying final : public LLPanel
 {
 	LOG_CLASS(LLPanelStandStopFlying);
 public:

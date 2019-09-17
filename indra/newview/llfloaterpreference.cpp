@@ -2517,7 +2517,7 @@ void LLPanelPreference::setHardwareDefaults()
 {
 }
 
-class LLPanelPreferencePrivacy : public LLPanelPreference
+class LLPanelPreferencePrivacy final : public LLPanelPreference
 {
 public:
 	LLPanelPreferencePrivacy()

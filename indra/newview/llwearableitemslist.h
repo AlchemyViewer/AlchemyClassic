@@ -71,7 +71,7 @@ protected:
  * Extends LLPanelInventoryListItemBase with handling
  * double click to wear the item.
  */
-class LLPanelWearableOutfitItem : public LLPanelInventoryListItemBase
+class LLPanelWearableOutfitItem final : public LLPanelInventoryListItemBase
 {
 	LOG_CLASS(LLPanelWearableOutfitItem);
 public:
@@ -120,7 +120,7 @@ protected:
 };
 
 /** Outfit list item for an attachment */
-class LLPanelAttachmentListItem : public LLPanelDeletableWearableListItem
+class LLPanelAttachmentListItem final : public LLPanelDeletableWearableListItem
 {
 	LOG_CLASS(LLPanelAttachmentListItem);
 public:
@@ -140,7 +140,7 @@ protected:
  *
  * Provides buttons for editing, moving, deleting a wearable.
  */
-class LLPanelClothingListItem : public LLPanelDeletableWearableListItem
+class LLPanelClothingListItem final : public LLPanelDeletableWearableListItem
 {
 	LOG_CLASS(LLPanelClothingListItem);
 public:
@@ -178,7 +178,7 @@ protected:
 
 };
 
-class LLPanelBodyPartsListItem : public LLPanelWearableListItem
+class LLPanelBodyPartsListItem final : public LLPanelWearableListItem
 {
 	LOG_CLASS(LLPanelBodyPartsListItem);
 public:
@@ -214,7 +214,7 @@ protected:
  *
  * A dummy item panel - displays grayed clothing icon, grayed title '<clothing> not worn' and 'add' button
  */
-class LLPanelDummyClothingListItem : public LLPanelWearableListItem
+class LLPanelDummyClothingListItem final : public LLPanelWearableListItem
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLPanelWearableListItem::Params>
@@ -283,8 +283,8 @@ class LLWearableItemNameComparator : public LLWearableListItemComparator
 	LOG_CLASS(LLWearableItemNameComparator);
 
 public:
-	LLWearableItemNameComparator() {};
-	virtual ~LLWearableItemNameComparator() {};
+	LLWearableItemNameComparator() = default;
+	virtual ~LLWearableItemNameComparator() = default;
 
 protected:
 	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* wearable_item1, const LLPanelInventoryListItemBase* wearable_item2) const override;
@@ -295,14 +295,14 @@ protected:
  *
  * Comparator for sorting wearable list items by type and name.
  */
-class LLWearableItemTypeNameComparator : public LLWearableItemNameComparator
+class LLWearableItemTypeNameComparator final : public LLWearableItemNameComparator
 {
 	LOG_CLASS(LLWearableItemTypeNameComparator);
 
 public:
 
 	LLWearableItemTypeNameComparator();
-	virtual ~LLWearableItemTypeNameComparator() {};
+	virtual ~LLWearableItemTypeNameComparator() = default;;
 
 	enum ETypeListOrder
 	{
@@ -378,7 +378,7 @@ private:
  *
  * Comparator for sorting wearable list items by creation date (newest go first).
  */
-class LLWearableItemCreationDateComparator : public LLWearableItemNameComparator
+class LLWearableItemCreationDateComparator final : public LLWearableItemNameComparator
 {
 	LOG_CLASS(LLWearableItemCreationDateComparator);
 
@@ -398,7 +398,7 @@ protected:
  * an inventory category specified by UUID and displays them
  * as a flat list.
  */
-class LLWearableItemsList : public LLInventoryItemsList
+class LLWearableItemsList final : public LLInventoryItemsList
 {
 public:
 	/**

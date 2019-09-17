@@ -149,20 +149,20 @@ public:
 	LLFolderViewModelInventory& getRootViewModel() { return mInventoryViewModel; }
 
 	// LLView methods
-	void draw() override;
-	/*virtual*/ BOOL handleKeyHere( KEY key, MASK mask ) override;
-	BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	void draw() final override;
+	/*virtual*/ BOOL handleKeyHere( KEY key, MASK mask ) final override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) final override;
 	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg) override;
+								   std::string& tooltip_msg) final override;
 	// LLUICtrl methods
-	 /*virtual*/ void onFocusLost() override;
-	 /*virtual*/ void onFocusReceived() override;
+	 /*virtual*/ void onFocusLost() final override;
+	 /*virtual*/ void onFocusReceived() final override;
 
 	// LLBadgeHolder methods
-	bool addBadge(LLBadge * badge) override;
+	bool addBadge(LLBadge * badge) final override;
 
 	// Call this method to set the selection.
 	void openAllFolders();

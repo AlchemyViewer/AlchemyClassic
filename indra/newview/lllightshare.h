@@ -28,7 +28,7 @@
 
 struct LSColor3
 {
-	LSColor3() {};
+	LSColor3() = default;
 	LSColor3(F32 pRed, F32 pGreen, F32 pBlue)
 	{
 		red=pRed;
@@ -42,7 +42,7 @@ struct LSColor3
 
 struct LSVector3
 {
-	LSVector3() {}
+	LSVector3() = default;
 	LSVector3(F32 pX, F32 pY, F32 pZ)
 	{
 		X=pX;
@@ -56,7 +56,7 @@ struct LSVector3
 
 struct LSVector2
 {
-	LSVector2() {}
+	LSVector2() = default;
 	LSVector2(F32 pX, F32 pY)
 	{
 		X=pX;
@@ -68,7 +68,7 @@ struct LSVector2
 
 struct LSColor4
 {
-	LSColor4() {}
+	LSColor4() = default;
 	LSColor4(F32 pRed, F32 pGreen, F32 pBlue, F32 pAlpha)
 	{
 		red=pRed;
@@ -84,7 +84,7 @@ struct LSColor4
 
 struct LightsharePacket
 {
-	LightsharePacket() {}
+	LightsharePacket() = default;
 	LSColor3 waterColor;
 	F32 waterFogDensityExponent;
 	F32 underwaterFogModifier;
@@ -130,7 +130,7 @@ class LLLightshare : public LLSingleton<LLLightshare>
 {
 	friend class LLDispatchLightshare;
 	LLSINGLETON(LLLightshare);
-	~LLLightshare() {}
+	~LLLightshare() = default;
 public:
 	void processLightshareRefresh();
 	bool getState() const { return mState; };

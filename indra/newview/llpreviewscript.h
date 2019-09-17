@@ -51,7 +51,7 @@ class LLFloaterGotoLine;
 class LLFloaterExperienceProfile;
 
 // Inner, implementation class.  LLPreviewScript and LLLiveLSLEditor each own one of these.
-class LLScriptEdCore : public LLPanel
+class LLScriptEdCore final : public LLPanel
 {
 	friend class LLPreviewScript;
 	friend class LLPreviewLSL;

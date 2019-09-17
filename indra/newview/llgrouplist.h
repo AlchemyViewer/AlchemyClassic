@@ -44,7 +44,7 @@
  * 
  * @see setNameFilter()
  */
-class LLGroupList: public LLFlatListViewEx, public LLOldEvents::LLSimpleListener
+class LLGroupList final : public LLFlatListViewEx, public LLOldEvents::LLSimpleListener
 {
 	LOG_CLASS(LLGroupList);
 public:
@@ -87,7 +87,7 @@ class LLButton;
 class LLGroupIconCtrl;
 class LLTextBox;
 
-class LLGroupListItem : public LLPanel
+class LLGroupListItem final : public LLPanel
 	, public LLGroupMgrObserver
 {
 public:

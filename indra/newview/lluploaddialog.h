@@ -31,7 +31,7 @@
 
 class LLTextBox;
 			
-class LLUploadDialog : public LLPanel
+class LLUploadDialog final : public LLPanel
 {
 public:
 	// Use this function to open a modal dialog and display it until the user presses the "close" button.

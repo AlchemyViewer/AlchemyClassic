@@ -64,7 +64,7 @@
      bottom="-60"
      layout="topleft"
      left="171"
-     right="-5"
+     right="-2"
      top="20"
      name="mode_selection"
      follows="all">
@@ -83,7 +83,7 @@
      height="20"
      label="Filter Textures"
      layout="topleft"
-     left="0"
+     left="2"
      name="inventory search editor"
      top_delta="3"
      right="-1" />
@@ -92,12 +92,11 @@
      bg_visible="true"
      bg_alpha_color="DkGray2"
      border="false"
-     follows="all"
-     height="262"
-     layout="topleft"
-     left="0"
+     follows="bottom|left|right"
+     bottom="-4"
+     height="248"
+     left_delta="0"
      name="inventory panel"
-     top_pad="4"
      right="-1" />
      <check_box
         visible="false"
@@ -122,10 +121,10 @@
          right="-1">
     <scroll_list
      name="l_name_list"
-     left="0"
-     top_delta="0"
-		 height="262"
-     follows="all"
+     left="2"
+     bottom="-29"
+     height="243"
+     follows="bottom|left|right"
      column_padding="0"
      draw_heading="true"
      multi_select="true"
@@ -140,12 +139,11 @@
      label="Add"
      label_selected="Add"
      layout="topleft"
-     left="0"
+     left_delta="0"
      top_pad="5"
      name="l_add_btn"
      width="74"/>
     <button
-     enabled="false"
      follows="left|bottom"
      height="20"
      label="Remove"
@@ -154,10 +152,9 @@
      left_pad="5"
      name="l_rem_btn"
      top_delta="0"
-     width="74"/>
+     width="75"/>
     <button
-     enabled="false"
-     follows="left|bottom"
+     follows="left|bottom|right"
      height="20"
      label="Upload"
      label_selected="Upload"
@@ -178,11 +175,10 @@
          right="-1">
 <!-- middle: bake mode -->
   <scroll_list
-         left="0"
-         top_delta="0"
-         height="262"
-			   layout="topleft"
-			   follows="all"
+     left="2"
+     bottom="-4"
+     height="268"
+     follows="bottom|left|right"
 			   name="l_bake_use_texture_combo_box"
 			   tool_tip="Choose the bake texture"
 	       draw_heading="true"

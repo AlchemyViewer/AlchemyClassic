@@ -7640,9 +7640,9 @@ void LLVOAvatar::onGlobalColorChanged(const LLTexGlobalColor* global_color, BOOL
 		if (!isTextureDefined(mBakedTextureDatas[BAKED_HAIR].mTextureIndex))
 		{
 			LLColor4 color = mTexHairColor->getColor();
-			avatar_joint_mesh_list_t::iterator iter = mBakedTextureDatas[BAKED_HAIR].mJointMeshes.begin();
-			avatar_joint_mesh_list_t::iterator end  = mBakedTextureDatas[BAKED_HAIR].mJointMeshes.end();
-			for (; iter != end; ++iter)
+            
+			for (auto iter = mBakedTextureDatas[BAKED_HAIR].mJointMeshes.begin(); 
+                iter != mBakedTextureDatas[BAKED_HAIR].mJointMeshes.end(); ++iter)
 			{
 				LLAvatarJointMesh* mesh = (*iter);
 				if (mesh)

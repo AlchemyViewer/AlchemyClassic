@@ -3919,7 +3919,7 @@ void LLMeshRepository::notifyLoadedMeshes()
 				}
 
 				//set "score" for pending requests
-				for (std::vector<LLMeshRepoThread::LODRequest>::iterator iter = mPendingRequests.begin(); iter != mPendingRequests.end(); ++iter)
+				for (auto iter = mPendingRequests.begin(); iter != mPendingRequests.end(); ++iter)
 				{
 					iter->mScore = score_map[iter->mMeshParams.getSculptID()];
 				}

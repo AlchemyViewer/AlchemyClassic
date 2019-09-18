@@ -223,7 +223,7 @@ BOOL LLHUDNameTag::lineSegmentIntersect(const LLVector4a& start, const LLVector4
 
 void LLHUDNameTag::render()
 {
-	if (sDisplayText)
+	if (sDisplayText && mVisible && !mHidden)
 	{
 		LLGLDepthTest gls_depth(GL_TRUE, GL_FALSE);
 		LLGLDisable gls_stencil(GL_STENCIL_TEST);
@@ -278,7 +278,8 @@ void LLHUDNameTag::renderText(BOOL for_select)
 
 	// *TODO: make this a per-text setting
 	static LLCachedControl<F32> bubble_opacity(gSavedSettings, "ChatBubbleOpacity");
-	LLColor4 bg_color = LLUIColorTable::instance().getColor("NameTagBackground");
+	static LLUIColor bg_color_cached = LLUIColorTable::instance().getColor("NameTagBackground");
+	auto bg_color = bg_color_cached.get();
 	bg_color.setAlpha(bubble_opacity * alpha_factor);
 
 	// scale screen size of borders down
@@ -293,10 +294,7 @@ void LLHUDNameTag::renderText(BOOL for_select)
 	LLVector3 height_vec = mHeight * y_pixel_vec;
 
 	mRadius = (width_vec + height_vec).magVec() * 0.5f;
-
-	LLCoordGL screen_pos;
-	LLViewerCamera::getInstance()->projectPosAgentToScreen(mPositionAgent, screen_pos, FALSE);
-
+	   
 	LLVector2 screen_offset = updateScreenPos(mPositionOffset);
 
 	LLVector3 render_position = mPositionAgent  
@@ -524,13 +522,6 @@ void LLHUDNameTag::setDoFade(const BOOL do_fade)
 
 void LLHUDNameTag::updateVisibility()
 {
-	if (mSourceObject)
-	{
-		mSourceObject->updateText();
-	}
-	
-	mPositionAgent = gAgent.getPosAgentFromGlobal(mPositionGlobal);
-
 	if (!mSourceObject)
 	{
 		//LL_WARNS() << "LLHUDNameTag::updateScreenPos -- mSourceObject is NULL!" << LL_ENDL;
@@ -545,6 +536,10 @@ void LLHUDNameTag::updateVisibility()
 		mVisible = FALSE;
 		return;
 	}
+
+	mSourceObject->updateText();
+
+	mPositionAgent = gAgent.getPosAgentFromGlobal(mPositionGlobal);
 
 	// push text towards camera by radius of object, but not past camera
 	LLVector3 vec_from_camera = mPositionAgent - LLViewerCamera::getInstance()->getOrigin();
@@ -568,7 +563,7 @@ void LLHUDNameTag::updateVisibility()
 
 	mLastDistance = (mPositionAgent - LLViewerCamera::getInstance()->getOrigin()).magVec();
 
-	if (mLOD >= 3 || !mTextSegments.size() || (mDoFade && (mLastDistance > mFadeDistance + mFadeRange)))
+	if (mLOD >= 3 || mTextSegments.empty() || (mDoFade && (mLastDistance > mFadeDistance + mFadeRange)))
 	{
 		mVisible = FALSE;
 		return;
@@ -601,7 +596,7 @@ void LLHUDNameTag::updateVisibility()
 	sVisibleTextObjects.push_back(LLPointer<LLHUDNameTag> (this));
 }
 
-LLVector2 LLHUDNameTag::updateScreenPos(LLVector2 &offset)
+LLVector2 LLHUDNameTag::updateScreenPos(const LLVector2 &offset)
 {
 	LLCoordGL screen_pos;
 	LLVector2 screen_pos_vec;
@@ -639,7 +634,7 @@ LLVector2 LLHUDNameTag::updateScreenPos(LLVector2 &offset)
 		mSoftScreenRect.setCenterAndSize(screen_center.mV[VX], screen_center.mV[VY], mWidth + BUFFER_SIZE, mHeight + BUFFER_SIZE);
 	}
 
-	return offset + (screen_center - LLVector2((F32)screen_pos.mX, (F32)screen_pos.mY));
+	return LLVector2(offset + (screen_center - LLVector2((F32)screen_pos.mX, (F32)screen_pos.mY)));
 }
 
 void LLHUDNameTag::updateSize()

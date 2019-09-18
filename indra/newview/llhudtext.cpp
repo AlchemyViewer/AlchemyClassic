@@ -99,7 +99,7 @@ LLHUDText::~LLHUDText()
 
 void LLHUDText::render()
 {
-	if (!mOnHUDAttachment && sDisplayText)
+	if (!mOnHUDAttachment && sDisplayText && mVisible && !mHidden)
 	{
 		LLGLDepthTest gls_depth(GL_TRUE, GL_FALSE);
 		LLGLDisable gls_stencil(GL_STENCIL_TEST);
@@ -311,13 +311,6 @@ void LLHUDText::setDoFade(const BOOL do_fade)
 
 void LLHUDText::updateVisibility()
 {
-	if (mSourceObject)
-	{
-		mSourceObject->updateText();
-	}
-	
-	mPositionAgent = gAgent.getPosAgentFromGlobal(mPositionGlobal);
-
 	if (!mSourceObject)
 	{
 		//LL_WARNS() << "LLHUDText::updateScreenPos -- mSourceObject is NULL!" << LL_ENDL;
@@ -339,6 +332,10 @@ void LLHUDText::updateVisibility()
 		mVisible = FALSE;
 		return;
 	}
+
+	mSourceObject->updateText();
+
+	mPositionAgent = gAgent.getPosAgentFromGlobal(mPositionGlobal);
 
 	// for now, all text on hud objects is visible
 	if (mOnHUDAttachment)
@@ -371,7 +368,7 @@ void LLHUDText::updateVisibility()
 
 	mLastDistance = (mPositionAgent - LLViewerCamera::getInstance()->getOrigin()).magVec();
 
-	if (!mTextSegments.size() || (mDoFade && (mLastDistance > mFadeDistance + mFadeRange)))
+	if (mTextSegments.empty() || (mDoFade && (mLastDistance > mFadeDistance + mFadeRange)))
 	{
 		mVisible = FALSE;
 		return;
@@ -382,9 +379,9 @@ void LLHUDText::updateVisibility()
 	static LLCachedControl<F32> max_draw_dist_pref(gSavedSettings, "PrimTextMaxDrawDistance");
 	F32 max_draw_distance = max_draw_dist_pref;
 
-	if(max_draw_distance < 0)
+	if(max_draw_distance < 0.f)
 	{
-		max_draw_distance = 0;
+		max_draw_distance = 0.f;
 		gSavedSettings.setF32("PrimTextMaxDrawDistance", max_draw_distance);
 	}
 	else if(max_draw_distance > MAX_DRAW_DISTANCE)
@@ -427,13 +424,13 @@ void LLHUDText::updateVisibility()
 	sVisibleTextObjects.push_back(LLPointer<LLHUDText> (this));
 }
 
-LLVector2 LLHUDText::updateScreenPos(LLVector2 &offset)
+LLVector2 LLHUDText::updateScreenPos(const LLVector2 &offset)
 {
 	LLCoordGL screen_pos;
 	LLVector2 screen_pos_vec;
-	LLVector3 x_pixel_vec;
-	LLVector3 y_pixel_vec;
-	LLViewerCamera::getInstance()->getPixelVectors(mPositionAgent, y_pixel_vec, x_pixel_vec);
+//	LLVector3 x_pixel_vec;
+//	LLVector3 y_pixel_vec;
+//	LLViewerCamera::getInstance()->getPixelVectors(mPositionAgent, y_pixel_vec, x_pixel_vec);
 //	LLVector3 world_pos = mPositionAgent + (offset.mV[VX] * x_pixel_vec) + (offset.mV[VY] * y_pixel_vec);
 //	if (!LLViewerCamera::getInstance()->projectPosAgentToScreen(world_pos, screen_pos, FALSE) && mVisibleOffScreen)
 //	{
@@ -465,7 +462,7 @@ LLVector2 LLHUDText::updateScreenPos(LLVector2 &offset)
 		mSoftScreenRect.setCenterAndSize(screen_center.mV[VX], screen_center.mV[VY], mWidth + BUFFER_SIZE, mHeight + BUFFER_SIZE);
 	}
 
-	return offset + (screen_center - LLVector2((F32)screen_pos.mX, (F32)screen_pos.mY));
+	return LLVector2(offset + (screen_center - LLVector2((F32)screen_pos.mX, (F32)screen_pos.mY)));
 }
 
 void LLHUDText::updateSize()

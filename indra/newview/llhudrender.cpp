@@ -90,13 +90,14 @@ void hud_render_text(const LLWString &wstr, const LLVector3 &pos_agent,
 	if (!orthographic)
 	{
 		rot = render_frame.getQuaternion();
-		rot = rot * LLQuaternion(-F_PI_BY_TWO, camera->getYAxis());
-		rot = rot * LLQuaternion(F_PI_BY_TWO, camera->getXAxis());
+		rot *= LLQuaternion(-F_PI_BY_TWO, camera->getYAxis());
+		rot *= LLQuaternion(F_PI_BY_TWO, camera->getXAxis());
 	}
 	else
 	{
-		rot = LLQuaternion(-F_PI_BY_TWO, LLVector3(0.f, 0.f, 1.f));
-		rot = rot * LLQuaternion(-F_PI_BY_TWO, LLVector3(0.f, 1.f, 0.f));
+		static const LLQuaternion ROT1(-F_PI_BY_TWO, LLVector3(0.f, 0.f, 1.f));
+		static const LLQuaternion ROT2(-F_PI_BY_TWO, LLVector3(0.f, 1.f, 0.f));
+		rot = ROT1 * ROT2;
 	}
 	F32 angle;
 	LLVector3 axis;

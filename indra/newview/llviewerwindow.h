@@ -236,7 +236,7 @@ public:
 	S32				getWorldViewWidthScaled() const;
 
 	// 3D world area, in raw unscaled pixels
-	LLRect			getWorldViewRectRaw() const		{ return mWorldViewRectRaw; }
+	const LLRect&			getWorldViewRectRaw() const		{ return mWorldViewRectRaw; }
 	S32 			getWorldViewHeightRaw() const;
 	S32 			getWorldViewWidthRaw() const;
 

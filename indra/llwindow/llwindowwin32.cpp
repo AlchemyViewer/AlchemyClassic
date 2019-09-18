@@ -451,7 +451,8 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	else
 	{
 		mWindowTitle = new WCHAR[256]; // Assume title length < 255 chars.
-		mbstowcs(mWindowTitle, title.c_str(), 255);
+		size_t convertedChars = 0;
+		mbstowcs_s(&convertedChars, mWindowTitle, 256, title.c_str(), title.size());
 		mWindowTitle[255] = 0;
 	}
 
@@ -464,7 +465,8 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	else
 	{
 		mWindowClassName = new WCHAR[256]; // Assume title length < 255 chars.
-		mbstowcs(mWindowClassName, name.c_str(), 255);
+		size_t convertedChars = 0;
+		mbstowcs_s(&convertedChars, mWindowClassName, 256, name.c_str(), name.size());
 		mWindowClassName[255] = 0;
 	}
 

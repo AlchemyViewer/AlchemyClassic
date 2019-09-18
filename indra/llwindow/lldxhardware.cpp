@@ -216,7 +216,7 @@ std::string LLDXHardware::getDriverVersionWMI()
 	return mDriverVersion;
 }
 
-void get_wstring(IDxDiagContainer* containerp, const WCHAR* wszPropName, WCHAR* wszPropValue, int outputSize)
+void get_wstring(IDxDiagContainer* containerp, const WCHAR* wszPropName, wchar_t* wszPropValue, int outputSize)
 {
 	HRESULT hr;
 	VARIANT var;
@@ -235,10 +235,10 @@ void get_wstring(IDxDiagContainer* containerp, const WCHAR* wszPropName, WCHAR* 
 				swprintf(wszPropValue, outputSize, L"%li", var.lVal);	/* Flawfinder: ignore */
 				break;
 			case VT_BOOL:
-				wcscpy( wszPropValue, (var.boolVal) ? L"true" : L"false" );	/* Flawfinder: ignore */
+				wcscpy_s( wszPropValue, outputSize, (var.boolVal) ? L"true" : L"false");	/* Flawfinder: ignore */
 				break;
 			case VT_BSTR:
-				wcsncpy( wszPropValue, var.bstrVal, outputSize-1 );	/* Flawfinder: ignore */
+				wcsncpy_s( wszPropValue, outputSize, var.bstrVal, outputSize-1 );	/* Flawfinder: ignore */
 				wszPropValue[outputSize-1] = 0;
 				break;
 		}
@@ -249,8 +249,8 @@ void get_wstring(IDxDiagContainer* containerp, const WCHAR* wszPropName, WCHAR* 
 
 std::string get_string(IDxDiagContainer *containerp, const WCHAR *wszPropName)
 {
-    WCHAR wszPropValue[256];
-	get_wstring(containerp, wszPropName, wszPropValue, 256);
+    wchar_t wszPropValue[256];
+	get_wstring(containerp, wszPropName, wszPropValue, _countof(wszPropValue));
 
 	return ll_convert_wide_to_string(wszPropValue);
 }

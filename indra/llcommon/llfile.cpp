@@ -208,7 +208,11 @@ int	LLFile::rmdir(const std::string& dirname)
 LLFILE*	LLFile::fopen(const std::string& filename, const char* mode)	/* Flawfinder: ignore */
 {
 #if	LL_WINDOWS
-	return _wfopen(ll_convert_string_to_wide(filename).c_str(), ll_convert_string_to_wide(std::string(mode)).c_str());
+	LLFILE* filep = nullptr;
+	auto ret = _wfopen_s(&filep, ll_convert_string_to_wide(filename).c_str(), ll_convert_string_to_wide(std::string(mode)).c_str());
+	if (ret != 0)
+		return nullptr;
+	return filep;
 #else
 	return ::fopen(filename.c_str(),mode);	/* Flawfinder: ignore */
 #endif

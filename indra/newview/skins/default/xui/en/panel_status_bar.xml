@@ -141,7 +141,6 @@
      height="18"
      label="Buy L$"
      left="0"
-     label_shadow="true"
      name="buyL"
      pad_right="0"
      tool_tip="Click to buy more L$"

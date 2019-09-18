@@ -368,7 +368,7 @@ void LLHUDNameTag::renderText(BOOL for_select)
 			y_offset -= LINE_PADDING;
 
 			U8 style = segment_iter->mStyle;
-			LLFontGL::ShadowType shadow = LLFontGL::DROP_SHADOW;
+			LLFontGL::ShadowType shadow = LLFontGL::NO_SHADOW;
 	
 			F32 x_offset;
 			if (mTextAlignment== ALIGN_TEXT_CENTER)

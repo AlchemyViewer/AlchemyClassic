@@ -582,7 +582,7 @@ void LLHUDEffectLookAt::render()
 				target + LLVector3(0.f, 0.f, 0.15f),
 				*fontp,
 				LLFontGL::NORMAL, 
-				LLFontGL::DROP_SHADOW,
+				LLFontGL::NO_SHADOW,
 				-0.5f * fontp->getWidthF32(text), 
 				0.0f,
 				(*mAttentions)[mTargetType].mColor, 

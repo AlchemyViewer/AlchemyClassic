@@ -56,6 +56,8 @@ void hud_render_utf8text(const std::string &str, const LLVector3 &pos_agent,
 	hud_render_text(wstr, pos_agent, font, style, shadow, x_offset, y_offset, color, orthographic);
 }
 
+static LLTrace::BlockTimerStatHandle FT_HUD_RENDER_TEXT("Hud Render Text");
+
 void hud_render_text(const LLWString &wstr, const LLVector3 &pos_agent,
 					const LLFontGL &font,
 					const U8 style,
@@ -64,6 +66,7 @@ void hud_render_text(const LLWString &wstr, const LLVector3 &pos_agent,
 					const LLColor4& color,
 					const BOOL orthographic)
 {
+	LL_RECORD_BLOCK_TIME(FT_HUD_RENDER_TEXT);
 	LLViewerCamera* camera = LLViewerCamera::getInstance();
 	// Do cheap plane culling
 	LLVector3 dir_vec = pos_agent - camera->getOrigin();

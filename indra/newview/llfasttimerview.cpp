@@ -93,7 +93,6 @@ LLFastTimerView::LLFastTimerView(const LLSD& key)
 	mHoverID(nullptr),
 	mHoverTimer(nullptr),
 	mRecording(NUM_FRAMES_HISTORY),
-	mScrollPos(0),
 	mMetricCombo(nullptr),
 	mTimeScaleCombo(nullptr),
 	mBarsPanel(nullptr),

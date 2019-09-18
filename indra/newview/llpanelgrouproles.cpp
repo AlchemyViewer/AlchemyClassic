@@ -1961,8 +1961,8 @@ LLPanelGroupRolesSubTab::LLPanelGroupRolesSubTab()
 	mRoleDescription(NULL),
 	mMemberVisibleCheck(NULL),
 	mDeleteRoleButton(NULL),
-	mCopyRoleButton(NULL),
 	mCreateRoleButton(NULL),
+	mCopyRoleButton(NULL),
 	mHasRoleChange(FALSE)
 {
 }

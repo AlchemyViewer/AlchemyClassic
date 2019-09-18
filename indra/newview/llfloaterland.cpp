@@ -2369,7 +2369,7 @@ void LLPanelLandOptions::toggleSeeAvatars(void* userdata)
 	{
 		self->getChild<LLCheckBoxCtrl>("SeeAvatarsCheck")->toggle();
 		self->getChild<LLCheckBoxCtrl>("SeeAvatarsCheck")->setBtnFocus();
-		self->onCommitAny(NULL, userdata);
+		self->onCommitAny();
 	}
 }
 //---------------------------------------------------------------------------

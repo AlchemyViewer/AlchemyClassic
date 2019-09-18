@@ -61,8 +61,8 @@ LLInventoryFilter::FilterOps::FilterOps(const Params& p)
 	mHoursAgo(p.hours_ago),
 	mDateSearchDirection(p.date_search_direction),
 	mShowFolderState(p.show_folder_state),
-	mFilterCreatorType(p.creator_type),
-	mPermissions(p.permissions)
+	mPermissions(p.permissions),
+	mFilterCreatorType(p.creator_type)
 {
 }
 

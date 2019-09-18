@@ -554,10 +554,8 @@ LLPanelPeople::LLPanelPeople()
 		mFriendsDelFriendBtn(nullptr),
 		mAccordianTabOnlineFriends(nullptr),
 		mAccordianTabAllFriends(nullptr),
-		mAccordianTabSuggestFriends(nullptr),
 		mOnlineFriendList(nullptr),
 		mAllFriendList(nullptr),
-		mSuggestedFriends(nullptr),
 		mGroupMinusBtn(nullptr),
 		mGroupCountText(nullptr),
 		mGroupList(nullptr),
@@ -757,8 +755,6 @@ BOOL LLPanelPeople::postBuild()
 	mAccordianTabOnlineFriends = getChild<LLAccordionCtrlTab>("tab_online");
 	mAccordianTabOnlineFriends->setDropDownStateChangedCallback(
 		boost::bind(&LLPanelPeople::onFriendsAccordionExpandedCollapsed, this, _1, _2, mOnlineFriendList));
-
-	mAccordianTabSuggestFriends = getChild<LLAccordionCtrlTab>("tab_suggested_friends");
 
 	// Must go after setting commit callback and initializing all pointers to children.
 	mTabContainer->selectTabByName(NEARBY_TAB_NAME);

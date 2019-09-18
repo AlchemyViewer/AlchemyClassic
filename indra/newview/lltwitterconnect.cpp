@@ -31,6 +31,7 @@
 #include "llflickrconnect.h"
 
 #include "llagent.h"
+#include "llcommandhandler.h"
 #include "llnotificationsutil.h"
 #include "llimagepng.h"
 #include "llimagejpeg.h"
@@ -64,7 +65,7 @@ void toast_user_for_twitter_success()
     LLNotificationsUtil::add("TwitterConnect", args);
 }
 
-class LLTwitterConnectHandler : public LLCommandHandler
+class LLTwitterConnectHandler final : public LLCommandHandler
 {
 public:
     LLTwitterConnectHandler() : LLCommandHandler("fbc", UNTRUSTED_THROTTLE) {}

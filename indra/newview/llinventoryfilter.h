@@ -139,8 +139,8 @@ public:
 				hours_ago("hours_ago", 0),
 				date_search_direction("date_search_direction", FILTERDATEDIRECTION_NEWER),
 				show_folder_state("show_folder_state", SHOW_NON_EMPTY_FOLDERS),
-				creator_type("creator_type", FILTERCREATOR_ALL),
-				permissions("permissions", PERM_NONE)
+				permissions("permissions", PERM_NONE),
+				creator_type("creator_type", FILTERCREATOR_ALL)
 			{}
 		};
 

@@ -150,7 +150,6 @@ private:
 	LLButton*				mFriendsDelFriendBtn;
 	LLAccordionCtrlTab*		mAccordianTabOnlineFriends;
 	LLAccordionCtrlTab*		mAccordianTabAllFriends;
-	LLAccordionCtrlTab*		mAccordianTabSuggestFriends;
 	LLAvatarList*			mOnlineFriendList;
 	LLAvatarList*			mAllFriendList;
 

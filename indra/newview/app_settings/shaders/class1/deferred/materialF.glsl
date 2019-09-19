@@ -87,21 +87,21 @@ uniform mat4 shadow_matrix[6];
 uniform vec4 shadow_clip;
 uniform vec2 shadow_res;
 uniform float shadow_bias;
+uniform vec2 kern_scale;
 
 float pcfShadow(sampler2DShadow shadowMap, vec4 stc, vec2 pos_screen)
 {
-	stc.xyz /= stc.w;
-	stc.z += shadow_bias;
+    stc.xyz /= stc.w;
+    stc.z += shadow_bias;
 		
-	stc.x = floor(stc.x*shadow_res.x + fract(pos_screen.y*0.666666666))/shadow_res.x; // add some chaotic jitter to X sample pos according to Y to disguise the snapping going on here
+    vec2 off = vec2(1,1.5)/shadow_res;
+    stc.x = floor(stc.x*shadow_res.x + fract(pos_screen.y*(1.0/kern_scale.y)*0.5))*off.x;
 	
-	float cs = shadow2D(shadowMap, stc.xyz).x;
-	float shadow = cs;
-	
-    shadow += shadow2D(shadowMap, stc.xyz+vec3(2.0/shadow_res.x, 1.5/shadow_res.y, 0.0)).x;
-    shadow += shadow2D(shadowMap, stc.xyz+vec3(1.0/shadow_res.x, -1.5/shadow_res.y, 0.0)).x;
-    shadow += shadow2D(shadowMap, stc.xyz+vec3(-1.0/shadow_res.x, 1.5/shadow_res.y, 0.0)).x;
-    shadow += shadow2D(shadowMap, stc.xyz+vec3(-2.0/shadow_res.x, -1.5/shadow_res.y, 0.0)).x;
+    float shadow = shadow2D(shadowMap, stc.xyz).x; // cs
+    shadow += shadow2D(shadowMap, stc.xyz+vec3(off.x*2.0, off.y, 0.0)).x;
+    shadow += shadow2D(shadowMap, stc.xyz+vec3(off.x, -off.y, 0.0)).x;
+    shadow += shadow2D(shadowMap, stc.xyz+vec3(-off.x*2.0, off.y, 0.0)).x;
+    shadow += shadow2D(shadowMap, stc.xyz+vec3(-off.x, -off.y, 0.0)).x;
                        
     return shadow*0.2;
 }
@@ -531,6 +531,12 @@ void main()
 #endif
 
 #if (DIFFUSE_ALPHA_MODE == DIFFUSE_ALPHA_MODE_BLEND)
+	#if (HAS_SPECULAR_MAP == 0)
+	if(diffcol.a < .01)
+	{
+		discard;
+	}
+	#endif
 	vec3 gamma_diff = diffcol.rgb;
 	diffcol.rgb = srgb_to_linear(diffcol.rgb);
 #endif

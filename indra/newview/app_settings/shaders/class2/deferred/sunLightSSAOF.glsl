@@ -107,8 +107,8 @@ float calcShadow( sampler2DShadow shadowMap, vec4 stc, vec2 res, vec2 pos_screen
 	float shadow = shadow2D(shadowMap, stc.xyz).x; // cs
 	shadow += shadow2D(shadowMap, stc.xyz+vec3(off.x*2.0, off.y, 0.0)).x;
 	shadow += shadow2D(shadowMap, stc.xyz+vec3(off.x, -off.y, 0.0)).x;
-	shadow += shadow2D(shadowMap, stc.xyz+vec3(-off.x, off.y, 0.0)).x;
-	shadow += shadow2D(shadowMap, stc.xyz+vec3(-off.x*2.0, -off.y, 0.0)).x;
+	shadow += shadow2D(shadowMap, stc.xyz+vec3(-off.x*2.0, off.y, 0.0)).x;
+	shadow += shadow2D(shadowMap, stc.xyz+vec3(-off.x, -off.y, 0.0)).x;
 
 	return shadow;
 }

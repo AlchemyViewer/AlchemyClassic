@@ -92,7 +92,10 @@ protected:
 public:
 	static void reset(Impl*& var, Impl* impl);
 		///< safely set var to refer to the new impl (possibly shared)
-		
+
+    static void move(Impl*& var, Impl* impl);
+        ///< safely move impl from one object to another
+
 	static       Impl& safe(      Impl*);
 	static const Impl& safe(const Impl*);
 		///< since a NULL Impl* is used for undefined, this ensures there is
@@ -253,7 +256,7 @@ namespace
 		{ return !llisnan(mValue)  &&  mValue != 0.0; }
 		
 	LLSD::Integer ImplReal::asInteger() const
-		{ return !llisnan(mValue) ? (LLSD::Integer)mValue : 0; }
+		{ return !llisnan(mValue) ? static_cast<LLSD::Integer>(mValue) : 0; }
 		
 	LLSD::String ImplReal::asString() const
 		{ return fmt::format(fmt("{:g}"), mValue); }
@@ -283,7 +286,7 @@ namespace
 		// std::istringstream::operator>>(int&), which would not consume the
 		// ".23" portion.
 		
-		return (int)asReal();
+		return static_cast<int>(asReal());
 	}
 	
 	LLSD::Real		ImplString::asReal() const
@@ -324,7 +327,7 @@ namespace
 
 		LLSD::Integer asInteger() const override
 		{
-			return (LLSD::Integer)(mValue.secondsSinceEpoch());
+			return static_cast<LLSD::Integer>(mValue.secondsSinceEpoch());
 		}
 
 		LLSD::Real asReal() const override
@@ -651,11 +654,30 @@ void LLSD::Impl::reset(Impl*& var, Impl* impl)
 	{
 		++impl->mUseCount;
 	}
-	if (var  &&  var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0)
+	if (var && var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0)
 	{
 		delete var;
 	}
 	var = impl;
+}
+
+void LLSD::Impl::move(Impl*& var, Impl* impl)
+{
+    bool delete_orig = (var && var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0);
+    if (impl)
+    {
+        if (!delete_orig)
+        {
+            var = impl;
+        }
+        else
+        {
+            Impl* tmp = var;
+            var = impl;
+            delete tmp;
+        }
+        impl = nullptr;
+    }
 }
 
 LLSD::Impl& LLSD::Impl::safe(Impl* impl)
@@ -754,7 +776,7 @@ void LLSD::Impl::dumpStats() const
 	S32 type_index = LLSD::TypeLLSDTypeBegin;
 	while (type_index != LLSD::TypeLLSDTypeEnd)
 	{
-		std::cout << LLSD::typeString((LLSD::Type)type_index) << " type "
+		std::cout << LLSD::typeString(static_cast<Type>(type_index)) << " type "
 			<< type_counts[type_index] << " objects, "
 			<< share_counts[type_index] << " shared"
 			<< std::endl;
@@ -805,6 +827,8 @@ LLSD::~LLSD()							{ FREE_LLSD_OBJECT; Impl::reset(impl, nullptr); }
 LLSD::LLSD(const LLSD& other) : impl(nullptr) { ALLOC_LLSD_OBJECT;  assign(other); }
 void LLSD::assign(const LLSD& other)	{ Impl::assign(impl, other.impl); }
 
+LLSD::LLSD(LLSD&& other) { Impl::move(impl, other.impl); }
+LLSD& LLSD::operator=(LLSD&& other) { Impl::move(impl, other.impl); return *this; }
 
 void LLSD::clear()						{ Impl::assignUndefined(impl); }
 
@@ -923,7 +947,7 @@ static const char *llsd_dump(const LLSD &llsd, bool useXMLFormat)
 			out << LLSDNotationStreamer(llsd);
 		out_string = out.str();
 	}
-	int len = out_string.length();
+	auto len = out_string.length();
 	sStorage = new char[len + 1];
 	memcpy(sStorage, out_string.c_str(), len);
 	sStorage[len] = '\0';

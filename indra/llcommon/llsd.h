@@ -147,7 +147,7 @@
 // Normally undefined, used for diagnostics
 //#define LLSD_DEBUG_INFO	1
 
-class LL_COMMON_API LLSD
+class LL_COMMON_API LLSD final
 {
 public:
 		LLSD();		///< initially Undefined
@@ -160,6 +160,12 @@ public:
 		LLSD& operator=(const LLSD& other)	{ assign(other); return *this; }
 
 	//@}
+
+    /** @name Movable */
+    //@{
+        LLSD(LLSD&& other);
+        LLSD& operator=(LLSD&& other);
+    //@}
 
 	void clear();	///< resets to Undefined
 
@@ -381,9 +387,9 @@ public:
 		using an arbitrary pointer or scalar type to std::string.
 	 */
 	//@{
-		LLSD(const void*);				///< construct from aribrary pointers
-		void assign(const void*);		///< assign from arbitrary pointers
-		LLSD& operator=(const void*);	///< assign from arbitrary pointers
+		LLSD(const void*) = delete;				///< construct from aribrary pointers
+		void assign(const void*) = delete;		///< assign from arbitrary pointers
+		LLSD& operator=(const void*) = delete;	///< assign from arbitrary pointers
 		
 		bool has(Integer) const;		///< has() only works for Maps
 	//@}

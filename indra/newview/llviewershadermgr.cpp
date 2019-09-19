@@ -1859,7 +1859,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredAvatarAlphaShadowProgram.mShaderFiles.clear();
 		gDeferredAvatarAlphaShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/avatarAlphaShadowV.glsl", GL_VERTEX_SHADER_ARB));
 		gDeferredAvatarAlphaShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/avatarAlphaShadowF.glsl", GL_FRAGMENT_SHADER_ARB));
-		gDeferredAvatarAlphaShadowProgram.addPermutation("DEPTH_CLAMP", gGLManager.mHasDepthClamp ? "1" : "0");
+		gDeferredAvatarAlphaShadowProgram.addPermutation("DEPTH_CLAMP", /*gGLManager.mHasDepthClamp ? "1" :*/ "0");
 		gDeferredAvatarAlphaShadowProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gDeferredAvatarAlphaShadowProgram.createShader(NULL, NULL);
 	}
@@ -1871,7 +1871,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredAvatarAlphaMaskShadowProgram.mShaderFiles.clear();
 		gDeferredAvatarAlphaMaskShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/avatarAlphaShadowV.glsl", GL_VERTEX_SHADER_ARB));
 		gDeferredAvatarAlphaMaskShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/avatarAlphaMaskShadowF.glsl", GL_FRAGMENT_SHADER_ARB));
-		gDeferredAvatarAlphaMaskShadowProgram.addPermutation("DEPTH_CLAMP", gGLManager.mHasDepthClamp ? "1" : "0");
+		gDeferredAvatarAlphaMaskShadowProgram.addPermutation("DEPTH_CLAMP", /*gGLManager.mHasDepthClamp ? "1" :*/ "0");
 		gDeferredAvatarAlphaMaskShadowProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gDeferredAvatarAlphaMaskShadowProgram.createShader(NULL, NULL);
 	}
@@ -1895,7 +1895,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredAttachmentAlphaShadowProgram.mShaderFiles.clear();
 		gDeferredAttachmentAlphaShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/attachmentAlphaShadowV.glsl", GL_VERTEX_SHADER_ARB));
 		gDeferredAttachmentAlphaShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/attachmentAlphaShadowF.glsl", GL_FRAGMENT_SHADER_ARB));
-		gDeferredAttachmentAlphaShadowProgram.addPermutation("DEPTH_CLAMP", gGLManager.mHasDepthClamp ? "1" : "0");
+		gDeferredAttachmentAlphaShadowProgram.addPermutation("DEPTH_CLAMP", /*gGLManager.mHasDepthClamp ? "1" :*/ "0");
 		gDeferredAttachmentAlphaShadowProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gDeferredAttachmentAlphaShadowProgram.createShader(NULL, NULL);
 	}
@@ -1907,7 +1907,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredAttachmentAlphaMaskShadowProgram.mShaderFiles.clear();
 		gDeferredAttachmentAlphaMaskShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/attachmentAlphaShadowV.glsl", GL_VERTEX_SHADER_ARB));
 		gDeferredAttachmentAlphaMaskShadowProgram.mShaderFiles.push_back(std::make_pair("deferred/attachmentAlphaMaskShadowF.glsl", GL_FRAGMENT_SHADER_ARB));
-		gDeferredAttachmentAlphaMaskShadowProgram.addPermutation("DEPTH_CLAMP", gGLManager.mHasDepthClamp ? "1" : "0");
+		gDeferredAttachmentAlphaMaskShadowProgram.addPermutation("DEPTH_CLAMP", /*gGLManager.mHasDepthClamp ? "1" :*/ "0");
 		gDeferredAttachmentAlphaMaskShadowProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gDeferredAttachmentAlphaMaskShadowProgram.createShader(NULL, NULL);
 	}

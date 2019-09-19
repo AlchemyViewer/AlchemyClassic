@@ -602,11 +602,8 @@ void LLVertexBuffer::drawArrays(U32 mode, const std::vector<LLVector3>& pos, con
 	LLStrider<LLVector3> normal_strider;
 	sUtilityBuffer->getVertexStrider(vertex_strider);
 	sUtilityBuffer->getNormalStrider(normal_strider);
-	for (U32 i = 0; i < count; ++i)
-	{
-		*(vertex_strider++) = pos[i];
-		*(normal_strider++) = norm[i];
-	}
+	vertex_strider.copyArray(0, pos.data(), count);
+	normal_strider.copyArray(0, norm.data(), count);
 
 	sUtilityBuffer->setBuffer(MAP_VERTEX | MAP_NORMAL);
 	LLGLSLShader::startProfile();

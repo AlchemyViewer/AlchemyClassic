@@ -1219,7 +1219,7 @@ void LLFace::cacheFaceInVRAM(const LLVolumeFace& vf)
 
 	LLStrider<LLVector4a> f_vert;
 	LLStrider<LLVector4a> f_tangent;
-	LLStrider<LLVector3> f_norm;
+	LLStrider<LLVector4a> f_norm;
 	LLStrider<LLVector2> f_tc;
 
 	buff->getTangentStrider(f_tangent);
@@ -1227,20 +1227,17 @@ void LLFace::cacheFaceInVRAM(const LLVolumeFace& vf)
 	buff->getNormalStrider(f_norm);
 	buff->getTexCoord0Strider(f_tc);
 
-	for (S32 i = 0; i < vf.mNumVertices; ++i)
-	{
-		*f_vert++ = vf.mPositions[i];
-		*f_tangent++ = vf.mTangents[i];
-		*f_tc++ = vf.mTexCoords[i];
-		(*f_norm++).set(vf.mNormals[i].getF32ptr());
-	}
+	f_vert.copyArray(0, vf.mPositions, vf.mNumVertices);
+	f_tangent.copyArray(0, vf.mTangents, vf.mNumVertices);
+	f_tc.copyArray(0, vf.mTexCoords, vf.mNumVertices);
+	f_norm.copyArray(0, vf.mNormals, vf.mNumVertices);
 
 	if (vf.mWeights)
 	{
 		LLStrider<LLVector4a> f_wght;
 		buff->getWeight4Strider(f_wght);
-		F32* weights = (F32*)f_wght.get();
-		LLVector4a::memcpyNonAliased16(weights, (F32*)vf.mWeights, vf.mNumVertices * sizeof(LLVector4a));
+
+		f_wght.copyArray(0, vf.mWeights, vf.mNumVertices);
 	}
 
 	buff->flush();

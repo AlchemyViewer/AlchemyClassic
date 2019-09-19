@@ -118,7 +118,7 @@ private:
 	static S32		sComponents;
 	LLPointer<LLViewerTexture> mTexture[2];
 	LLPointer<LLImageRaw> mImageRaw[2];
-	LLColor4		*mSkyData;
+	LLColor4U		*mSkyData;
 	LLVector3		*mSkyDirs;			// Cache of sky direction vectors
 	static S32		sCurrent;
 	static F32		sInterpVal;

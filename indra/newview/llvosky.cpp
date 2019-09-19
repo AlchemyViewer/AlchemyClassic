@@ -212,7 +212,7 @@ LLSkyTex::LLSkyTex() :
 
 void LLSkyTex::init()
 {
-	mSkyData = new LLColor4[sResolution * sResolution];
+	mSkyData = new LLColor4U[sResolution * sResolution];
 	mSkyDirs = new LLVector3[sResolution * sResolution];
 
 	for (S32 i = 0; i < 2; ++i)
@@ -282,8 +282,7 @@ void LLSkyTex::create(const F32 brightness)
 			const S32 basic_offset = (i * sResolution + j);
 			S32 offset = basic_offset * sComponents;
 			U32* pix = (U32*)(data + offset);
-			LLColor4U temp = LLColor4U(mSkyData[basic_offset]);
-			*pix = temp.mAll;
+			*pix = mSkyData[basic_offset].mAll;
 		}
 	}
 	createGLImage(sCurrent);

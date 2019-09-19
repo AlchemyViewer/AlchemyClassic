@@ -268,10 +268,6 @@ extern BOOL gRandomizeFramerate;
 extern BOOL gPeriodicSlowFrame;
 extern BOOL gDebugGL;
 
-#if LL_DARWIN
-extern BOOL gHiDPISupport;
-#endif
-
 ////////////////////////////////////////////////////////////
 // All from the last globals push...
 
@@ -3191,10 +3187,6 @@ LLSD LLAppViewer::getViewerInfo() const
     info["VFS_TIME"] = LLTrans::getString("AboutTime", substitution);
 	// FIXME: Http Pipelining is still broken.
     info["HTTP_PIPELINE"] = /*gSavedSettings.getBOOL("HttpPipelining") ? "Enabled" : */"Disabled";
-
-#if LL_DARWIN
-    info["HIDPI"] = gHiDPISupport;
-#endif
 
 	// Libraries
 

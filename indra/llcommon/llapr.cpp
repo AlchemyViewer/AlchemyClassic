@@ -373,7 +373,7 @@ apr_size_t LLAPRFile::read(void *buf, apr_size_t nbytes)
 	}
 	else
 	{
-		//llassert_always(sz <= 0x7fffffff);
+		llassert_always(sz <= std::numeric_limits<apr_size_t>::max());
 		return (apr_size_t)sz;
 	}
 }
@@ -395,7 +395,7 @@ apr_size_t LLAPRFile::write(const void *buf, apr_size_t nbytes)
 	}
 	else
 	{
-		//llassert_always(sz <= 0x7fffffff);
+		llassert_always(sz <= std::numeric_limits<apr_size_t>::max());
 		return (apr_size_t)sz;
 	}
 }

@@ -1417,20 +1417,18 @@ U32 LLTextureCache::openAndReadEntries(std::vector<Entry>& entries)
 
 void LLTextureCache::writeEntriesAndClose(const std::vector<Entry>& entries)
 {
-	U32 num_entries = entries.size();
+	size_t num_entries = entries.size();
 	llassert_always(num_entries == mHeaderEntriesInfo.mEntries);
 	
 	if (!mReadOnly)
 	{
 		LLAPRFile* aprfile = openHeaderEntriesFile(false, (S32)sizeof(EntriesInfo));
-		for (U32 idx=0; idx<num_entries; idx++)
+		U64 write_size = U64(sizeof(Entry)) * num_entries;
+		U64 bytes_written = aprfile->write((void*) (entries.data()), write_size);
+		if (bytes_written != write_size)
 		{
-			S32 bytes_written = aprfile->write((void*)(&entries[idx]), (S32)sizeof(Entry));
-			if(bytes_written != sizeof(Entry))
-			{
-				clearCorruptedCache() ; //clear the cache.
-				return ;
-			}
+			clearCorruptedCache(); //clear the cache.
+			return;
 		}
 		closeHeaderEntriesFile();
 	}

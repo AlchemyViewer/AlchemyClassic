@@ -54,6 +54,8 @@
 #include <fstream>
 #include <Imm.h>
 #include <Dbt.h.>
+#include <wingdi.h>
+#include <Windowsx.h>
 
 #if LL_WINDOWS
 #include "../newview/res/resource.h"
@@ -64,44 +66,7 @@ const S32	BITS_PER_PIXEL = 32;
 const S32	MAX_NUM_RESOLUTIONS = 32;
 const F32	ICON_FLASH_TIME = 0.5f;
 
-#ifndef WM_DPICHANGED
-#define WM_DPICHANGED 0x02E0
-#endif
-
-#ifndef USER_DEFAULT_SCREEN_DPI
-#define USER_DEFAULT_SCREEN_DPI 96 // Win7
-#endif
-
 extern BOOL gDebugWindowProc;
-
-#ifndef DPI_ENUMS_DECLARED
-
-typedef enum PROCESS_DPI_AWARENESS {
-	PROCESS_DPI_UNAWARE = 0,
-	PROCESS_SYSTEM_DPI_AWARE = 1,
-	PROCESS_PER_MONITOR_DPI_AWARE = 2
-} PROCESS_DPI_AWARENESS;
-
-typedef enum MONITOR_DPI_TYPE {
-	MDT_EFFECTIVE_DPI = 0,
-	MDT_ANGULAR_DPI = 1,
-	MDT_RAW_DPI = 2,
-	MDT_DEFAULT = MDT_EFFECTIVE_DPI
-} MONITOR_DPI_TYPE;
-
-#endif
-
-typedef HRESULT(STDAPICALLTYPE *SetProcessDpiAwarenessType)(_In_ PROCESS_DPI_AWARENESS value);
-
-typedef HRESULT(STDAPICALLTYPE *GetProcessDpiAwarenessType)(
-	_In_ HANDLE hprocess,
-	_Out_ PROCESS_DPI_AWARENESS *value);
-
-typedef HRESULT(STDAPICALLTYPE *GetDpiForMonitorType)(
-	_In_ HMONITOR hmonitor,
-	_In_ MONITOR_DPI_TYPE dpiType,
-	_Out_ UINT *dpiX,
-	_Out_ UINT *dpiY);
 
 //
 // LLWindowWin32
@@ -402,10 +367,76 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 							 BOOL ignore_pixel_depth,
 							 U32 fsaa_samples)
 	: LLWindow(callbacks, window_mode, flags)
+	, mOpenGL32DLL(nullptr)
+	, mUser32DLL(nullptr)
+	, mShellcoDLL(nullptr)
+	, pSetProcessDpiAwareness(nullptr)
+	, pGetProcessDpiAwareness(nullptr)
+	, pGetDpiForMonitor(nullptr)
+	, pGetDpiForWindow(nullptr)
+	, pAdjustWindowRectExForDpi(nullptr)
+	, pGetSystemMetricsForDpi(nullptr)
 {
 	
 	//MAINT-516 -- force a load of opengl32.dll just in case windows went sideways 
-	LoadLibrary(TEXT("opengl32.dll"));
+	mOpenGL32DLL = LoadLibrary(TEXT("opengl32.dll"));
+
+	mUser32DLL = LoadLibrary(TEXT("User32.dll"));
+	if (mUser32DLL != nullptr)
+	{
+		pGetDpiForWindow = (GetDpiForWindow_t) GetProcAddress(mUser32DLL, "GetDpiForWindow");
+		if (pGetDpiForWindow != nullptr)
+		{
+			LL_INFOS() << "Successfully got address for function GetDpiForWindow" << LL_ENDL;
+		}
+		else
+		{
+			LL_INFOS() << "Failed to get address for function GetDpiForWindow" << LL_ENDL;
+		}
+
+		pAdjustWindowRectExForDpi = (AdjustWindowRectExForDpi_t) GetProcAddress(mUser32DLL, "AdjustWindowRectExForDpi");
+		if (pAdjustWindowRectExForDpi != nullptr)
+		{
+			LL_INFOS() << "Successfully got address for function AdjustWindowRectExForDpi" << LL_ENDL;
+		}
+		else
+		{
+			LL_INFOS() << "Failed to get address for function AdjustWindowRectExForDpi" << LL_ENDL;
+		}
+
+		pGetSystemMetricsForDpi = (GetSystemMetricsForDpi_t) GetProcAddress(mUser32DLL, "GetSystemMetricsForDpi");
+		if (pGetSystemMetricsForDpi != nullptr)
+		{
+			LL_INFOS() << "Successfully got address for function GetSystemMetricsForDpi" << LL_ENDL;
+		}
+		else
+		{
+			LL_INFOS() << "Failed to get address for function GetSystemMetricsForDpi" << LL_ENDL;
+		}
+	}
+
+	mShellcoDLL = LoadLibrary(TEXT("shcore.dll"));
+	if (mShellcoDLL != nullptr)
+	{
+		pGetProcessDpiAwareness = (GetProcessDpiAwareness_t) GetProcAddress(mShellcoDLL, "GetProcessDpiAwareness");
+		if (pGetProcessDpiAwareness != nullptr)
+		{
+			LL_INFOS() << "Successfully got address for function GetProcessDpiAwareness" << LL_ENDL;
+		}
+		else
+		{
+			LL_INFOS() << "Failed to get address for function GetProcessDpiAwareness" << LL_ENDL;
+		}
+		pGetDpiForMonitor = (GetDpiForMonitor_t) GetProcAddress(mShellcoDLL, "GetDpiForMonitor");
+		if (pGetDpiForMonitor != nullptr)
+		{
+			LL_INFOS() << "Successfully got address for function GetDpiForMonitor" << LL_ENDL;
+		}
+		else
+		{
+			LL_INFOS() << "Failed to get address for function GetDpiForMonitor" << LL_ENDL;
+		}
+	}
 
 	mFSAASamples = fsaa_samples;
 	mIconResource = MAKEINTRESOURCE(IDI_LL_ICON);
@@ -439,7 +470,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	// based on the system's (user's) default settings.
 	allowLanguageTextInput(mPreeditor, FALSE);
 
-	WNDCLASS		wc;
+	WNDCLASSEX		wc;
 	RECT			window_rect;
 
 	// Set the window title
@@ -505,7 +536,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	if (!sIsClassRegistered)
 	{
 		// Force redraw when resized and create a private device context
-
+		wc.cbSize = sizeof(WNDCLASSEX);
 		// Makes double click messages.
 		wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
 
@@ -517,7 +548,12 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 		wc.cbWndExtra = 0;
 
 		wc.hInstance = mhInstance;
-		wc.hIcon = LoadIcon(mhInstance, mIconResource);
+
+		wc.hIcon = (HICON) LoadImage(mhInstance,
+			mIconResource, IMAGE_ICON,
+			::GetSystemMetrics(SM_CXICON),
+			::GetSystemMetrics(SM_CYICON), LR_SHARED);
+		wc.hIconSm = NULL;
 
 		// We will set the cursor ourselves
 		wc.hCursor = nullptr;
@@ -537,7 +573,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 
 		wc.lpszClassName = mWindowClassName;
 
-		if (!RegisterClass(&wc))
+		if (!RegisterClassEx(&wc))
 		{
 			OSMessageBox(mCallbacks->translateString("MBRegClassFailed"), 
 				mCallbacks->translateString("MBError"), OSMB_OK);
@@ -696,6 +732,8 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 
 LLWindowWin32::~LLWindowWin32()
 {
+	UnregisterClass(mWindowClassName, mhInstance);
+
 	delete mDragDrop;
 
 	delete [] mWindowTitle;
@@ -706,6 +744,19 @@ LLWindowWin32::~LLWindowWin32()
 
 	delete [] mWindowClassName;
 	mWindowClassName = nullptr;
+
+	if (mUser32DLL != nullptr)
+	{
+		FreeLibrary(mUser32DLL);
+	}
+	if (mShellcoDLL != nullptr)
+	{
+		FreeLibrary(mShellcoDLL);
+	}
+	if (mOpenGL32DLL != nullptr)
+	{
+		FreeLibrary(mOpenGL32DLL);
+	}
 }
 
 void LLWindowWin32::show()
@@ -963,7 +1014,22 @@ BOOL LLWindowWin32::setSizeImpl(LLCoordWindow size)
 	DWORD dw_ex_style = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 	DWORD dw_style = WS_OVERLAPPEDWINDOW;
 
-	AdjustWindowRectEx(&window_rect, dw_style, FALSE, dw_ex_style);
+	if (pAdjustWindowRectExForDpi != nullptr && pGetDpiForWindow != nullptr)
+	{
+		UINT dpi = pGetDpiForWindow((HWND) getPlatformWindow());
+		if (dpi != 0)
+		{
+			pAdjustWindowRectExForDpi(&window_rect, dw_style, FALSE, dw_ex_style, dpi);
+		}
+		else
+		{
+			AdjustWindowRectEx(&window_rect, dw_style, FALSE, dw_ex_style);
+		}
+	}
+	else
+	{
+		AdjustWindowRectEx(&window_rect, dw_style, FALSE, dw_ex_style);
+	}
 
 	return setSizeImpl(LLCoordScreen(window_rect.right - window_rect.left, window_rect.bottom - window_rect.top));
 }
@@ -1448,7 +1514,6 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 			mhInstance,
 			nullptr);
 
-
 		if (mWindowHandle)
 		{
 			LL_INFOS("Window") << "recreate window done." << LL_ENDL ;
@@ -1638,7 +1703,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		}
 	}
 
-	SetWindowLongPtr(mWindowHandle, GWLP_USERDATA, (LONG_PTR)this); // <alchemy/>
+	SetWindowLongPtr(mWindowHandle, GWLP_USERDATA, (LONG_PTR)this);
 
 	// register this window as handling drag/drop events from the OS
 	DragAcceptFiles( mWindowHandle, TRUE );
@@ -1945,7 +2010,7 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 	// This is to avoid triggering double click teleport after returning focus (see MAINT-3786).
 	static bool sHandleDoubleClick = true;
 
-	LLWindowWin32 *window_imp = (LLWindowWin32 *)GetWindowLongPtr(h_wnd, GWLP_USERDATA); // <alchemy/>
+	LLWindowWin32 *window_imp = (LLWindowWin32 *)GetWindowLongPtr( h_wnd, GWLP_USERDATA );
 
 
 	if (nullptr != window_imp)
@@ -2566,8 +2631,8 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 				// eat scroll events that occur outside our window, since we use mouse position to direct scroll
 				// instead of keyboard focus
 				// NOTE: mouse_coord is in *window* coordinates for scroll events
-				POINT mouse_coord = {(S32)(S16)LOWORD(l_param), (S32)(S16)HIWORD(l_param)};
-
+				POINT mouse_coord = {GET_X_LPARAM(l_param), GET_Y_LPARAM(l_param)};
+		
 				if (ScreenToClient(window_imp->mWindowHandle, &mouse_coord)
 					&& GetClientRect(window_imp->mWindowHandle, &client_rect))
 				{
@@ -2580,7 +2645,7 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 					}
 				}
 
-				S16 incoming_z_delta = HIWORD(w_param);
+				S16 incoming_z_delta = GET_WHEEL_DELTA_WPARAM(w_param);
 				z_delta += incoming_z_delta;
 				// cout << "z_delta " << z_delta << endl;
 
@@ -4039,89 +4104,66 @@ BOOL LLWindowWin32::handleImeRequests(WPARAM w_param, LPARAM l_param, LRESULT *r
 	return FALSE;
 }
 
-//static
-void LLWindowWin32::setDPIAwareness()
-{
-	HMODULE hShcore = LoadLibrary(L"shcore.dll");
-	if (hShcore != nullptr)
-	{
-		SetProcessDpiAwarenessType pSPDA;
-		pSPDA = (SetProcessDpiAwarenessType)GetProcAddress(hShcore, "SetProcessDpiAwareness");
-		if (pSPDA)
-		{
-			
-			HRESULT hr = pSPDA(PROCESS_PER_MONITOR_DPI_AWARE);
-			if (hr != S_OK)
-			{
-				LL_WARNS() << "SetProcessDpiAwareness() function returned an error. Will use legacy DPI awareness API of Win XP/7" << LL_ENDL;
-			}
-		}
-		FreeLibrary(hShcore);	
-	}
-	else
-	{
-		LL_WARNS() << "Could not load shcore.dll library (included by <ShellScalingAPI.h> from Win 8.1 SDK. Will use legacy DPI awareness API of Win XP/7" << LL_ENDL;
-	}
-}
-
 F32 LLWindowWin32::getSystemUISize()
 {
-	F32 scale_value = 1.f;
-	HWND hWnd = (HWND)getPlatformWindow();
-	HDC hdc = GetDC(hWnd);
-	HMONITOR hMonitor;
-	HANDLE hProcess = GetCurrentProcess();
-	PROCESS_DPI_AWARENESS dpi_awareness;
-
-	HMODULE hShcore = LoadLibrary(L"shcore.dll");
-
-	if (hShcore != nullptr)
+	bool success = false;
+	float scale_value = 0.f;
+	HWND hWnd = (HWND) getPlatformWindow();
+	if (pGetDpiForWindow != nullptr)
 	{
-		GetProcessDpiAwarenessType pGPDA;
-		pGPDA = (GetProcessDpiAwarenessType)GetProcAddress(hShcore, "GetProcessDpiAwareness");
-		GetDpiForMonitorType pGDFM;
-		pGDFM = (GetDpiForMonitorType)GetProcAddress(hShcore, "GetDpiForMonitor");
-		if (pGPDA != nullptr && pGDFM != nullptr)
+		auto dpi = pGetDpiForWindow(hWnd);
+		if (dpi != 0)
 		{
-			pGPDA(hProcess, &dpi_awareness);
-			if (dpi_awareness == PROCESS_PER_MONITOR_DPI_AWARE)
-			{
-				POINT    pt;
-				UINT     dpix = 0, dpiy = 0;
-				HRESULT  hr = E_FAIL;
-				RECT     rect;
+			scale_value = F32(dpi) / F32(USER_DEFAULT_SCREEN_DPI);
+			success = true;
+		}
+	}
 
-				GetWindowRect(hWnd, &rect);
-				// Get the DPI for the monitor, on which the center of window is displayed and set the scaling factor
-				pt.x = (rect.left + rect.right) / 2;
-				pt.y = (rect.top + rect.bottom) / 2;
-				hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST);
-				hr = pGDFM(hMonitor, MDT_EFFECTIVE_DPI, &dpix, &dpiy);
-				if (hr == S_OK)
-				{
-					scale_value = F32(dpix) / F32(USER_DEFAULT_SCREEN_DPI);
-				}
-				else
-				{
-					LL_WARNS() << "Could not determine DPI for monitor. Setting scale to default 100 %" << LL_ENDL;
-					scale_value = 1.0f;
-				}
+	if (!success && pGetProcessDpiAwareness != nullptr && pGetDpiForMonitor != nullptr)
+	{
+		PROCESS_DPI_AWARENESS dpi_awareness;
+		pGetProcessDpiAwareness(GetCurrentProcess(), &dpi_awareness);
+		if (dpi_awareness == PROCESS_PER_MONITOR_DPI_AWARE)
+		{
+			POINT    pt;
+			UINT     dpix = 0, dpiy = 0;
+			HRESULT  hr = E_FAIL;
+			RECT     rect;
+
+			GetWindowRect(hWnd, &rect);
+			// Get the DPI for the monitor, on which the center of window is displayed and set the scaling factor
+			pt.x = (rect.left + rect.right) / 2;
+			pt.y = (rect.top + rect.bottom) / 2;
+			auto hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST);
+			hr = pGetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpix, &dpiy);
+			if (hr == S_OK)
+			{
+				scale_value = F32(dpix) / F32(USER_DEFAULT_SCREEN_DPI);
 			}
 			else
 			{
-				LL_WARNS() << "Process is not per-monitor DPI-aware. Setting scale to default 100 %" << LL_ENDL;
+				LL_WARNS() << "Could not determine DPI for monitor. Setting scale to default 100 %" << LL_ENDL;
 				scale_value = 1.0f;
 			}
 		}
-		FreeLibrary(hShcore);
+		else
+		{
+			LL_WARNS() << "Process is not per-monitor DPI-aware. Setting scale to default 100 %" << LL_ENDL;
+			scale_value = 1.0f;
+		}
+		success = true;
 	}
-	else
+	
+	if(!success)
 	{
 		LL_WARNS() << "Could not load shcore.dll library (included by <ShellScalingAPI.h> from Win 8.1 SDK). Using legacy DPI awareness API of Win XP/7" << LL_ENDL;
+		HDC hdc = GetDC(hWnd);
+
 		scale_value = F32(GetDeviceCaps(hdc, LOGPIXELSX)) / F32(USER_DEFAULT_SCREEN_DPI);
+		ReleaseDC(hWnd, hdc);
 	}
 
-	ReleaseDC(hWnd, hdc);
+
 	return scale_value;
 }
 

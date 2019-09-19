@@ -2037,10 +2037,10 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count)
 		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
 	}
 
+	mVerticesp.copyArray(mCount, verts, vert_count);
+
 	for (S32 i = 0; i < vert_count; i++)
 	{
-		mVerticesp[mCount] = verts[i];
-
 		mCount++;
 		mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
 		mColorsp[mCount] = mColorsp[mCount-1];
@@ -2074,18 +2074,19 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 
 		mColorsp[mCount] = mColorsp[mCount - 1];
 		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
 	}
+	
+
+	mVerticesp.copyArray(mCount, verts, vert_count);
+	mTexcoordsp.copyArray(mCount, uvs, vert_count);
 
 	for (S32 i = 0; i < vert_count; i++)
 	{
-		mVerticesp[mCount] = verts[i];
-		mTexcoordsp[mCount] = uvs[i];
-
 		mCount++;
 		mColorsp[mCount] = mColorsp[mCount-1];
 	}
 	
-		mVerticesp[mCount] = mVerticesp[mCount - 1];
-		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
+	mVerticesp[mCount] = mVerticesp[mCount - 1];
+	mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
 
 	mPrimitiveReset = false;
 }
@@ -2113,18 +2114,14 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLCo
 		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
 	}
 
-	for (S32 i = 0; i < vert_count; i++)
-	{
-		mVerticesp[mCount] = verts[i];
-		mTexcoordsp[mCount] = uvs[i];
-		mColorsp[mCount] = colors[i];
-		
-		mCount++;
-	}
+	mVerticesp.copyArray(mCount, verts, vert_count);
+	mTexcoordsp.copyArray(mCount, uvs, vert_count);
+	mColorsp.copyArray(mCount, colors, vert_count);
+	mCount += vert_count;
 
-		mVerticesp[mCount] = mVerticesp[mCount - 1];
-		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
-		mColorsp[mCount] = mColorsp[mCount - 1];
+	mVerticesp[mCount] = mVerticesp[mCount-1];
+	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
+	mColorsp[mCount] = mColorsp[mCount-1];
 
 	mPrimitiveReset = false;
 }

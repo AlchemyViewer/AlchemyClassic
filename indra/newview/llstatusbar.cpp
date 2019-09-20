@@ -299,8 +299,8 @@ void LLStatusBar::refresh()
 	if (show_fps && mFPSUpdateTimer.getElapsedTimeF32() > 0.25f)
 	{
 		mFPSUpdateTimer.reset();
-		F32 fps = (F32)LLTrace::get_frame_recording().getLastRecording().getPerSec(LLStatViewer::FPS);
-		mTextFPS->setValue(fmt::format(fmt("{:.1f}"), fps));
+		F32 fps = (F32)LLTrace::get_frame_recording().getLastRecording().getMean(LLStatViewer::FPS_SAMPLE);
+		mTextFPS->setText(fmt::format(fmt("{:.1f}"), fps));
 	}
 
 	// update clock every second

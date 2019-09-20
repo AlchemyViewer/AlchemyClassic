@@ -385,7 +385,7 @@ public:
 	static void _makeASCII(string_type& string);
 
 	// Conversion to other data types
-	
+#if defined(LL_WINDOWS)
 	template<typename U = int>
 	inline static bool convertToCore(const string_view_type str, U& value)
 	{
@@ -455,9 +455,17 @@ public:
 	{
 		return convertToCore<F64>(string, value);
 	}
-
+#else
+	static BOOL	convertToU8(const string_type& string, U8& value);
+	static BOOL	convertToS8(const string_type& string, S8& value);
+	static BOOL	convertToS16(const string_type& string, S16& value);
+	static BOOL	convertToU16(const string_type& string, U16& value);
+	static BOOL	convertToU32(const string_type& string, U32& value);
+	static BOOL	convertToS32(const string_type& string, S32& value);
+	static BOOL	convertToF32(const string_type& string, F32& value);
+	static BOOL	convertToF64(const string_type& string, F64& value);
+#endif
 	static BOOL	convertToBOOL(const string_type& string, BOOL& value);
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// Utility functions for working with char*'s and strings
@@ -1875,6 +1883,147 @@ BOOL LLStringUtilBase<T>::convertToBOOL(const string_type& string, BOOL& value)
 
 	return FALSE;
 }
+
+#if !defined(LL_WINDOWS)
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToU8(const string_type& string, U8& value) 
+{
+	S32 value32 = 0;
+	BOOL success = convertToS32(string, value32);
+	if( success && (U8_MIN <= value32) && (value32 <= U8_MAX) )
+	{
+		value = (U8) value32;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToS8(const string_type& string, S8& value) 
+{
+	S32 value32 = 0;
+	BOOL success = convertToS32(string, value32);
+	if( success && (S8_MIN <= value32) && (value32 <= S8_MAX) )
+	{
+		value = (S8) value32;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToS16(const string_type& string, S16& value) 
+{
+	S32 value32 = 0;
+	BOOL success = convertToS32(string, value32);
+	if( success && (S16_MIN <= value32) && (value32 <= S16_MAX) )
+	{
+		value = (S16) value32;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToU16(const string_type& string, U16& value) 
+{
+	S32 value32 = 0;
+	BOOL success = convertToS32(string, value32);
+	if( success && (U16_MIN <= value32) && (value32 <= U16_MAX) )
+	{
+		value = (U16) value32;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToU32(const string_type& string, U32& value) 
+{
+	if( string.empty() )
+	{
+		return FALSE;
+	}
+
+	string_type temp( string );
+	trim(temp);
+	U32 v;
+	std::basic_istringstream<T> i_stream((string_type)temp);
+	if(i_stream >> v)
+	{
+		value = v;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToS32(const string_type& string, S32& value) 
+{
+	if( string.empty() )
+	{
+		return FALSE;
+	}
+
+	string_type temp( string );
+	trim(temp);
+	S32 v;
+	std::basic_istringstream<T> i_stream((string_type)temp);
+	if(i_stream >> v)
+	{
+		//TODO: figure out overflow and underflow reporting here
+		//if((LONG_MAX == v) || (LONG_MIN == v))
+		//{
+		//	// Underflow or overflow
+		//	return FALSE;
+		//}
+
+		value = v;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToF32(const string_type& string, F32& value) 
+{
+	F64 value64 = 0.0;
+	BOOL success = convertToF64(string, value64);
+	if( success && (-F32_MAX <= value64) && (value64 <= F32_MAX) )
+	{
+		value = (F32) value64;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+template<class T> 
+BOOL LLStringUtilBase<T>::convertToF64(const string_type& string, F64& value)
+{
+	if( string.empty() )
+	{
+		return FALSE;
+	}
+
+	string_type temp( string );
+	trim(temp);
+	F64 v;
+	std::basic_istringstream<T> i_stream((string_type)temp);
+	if(i_stream >> v)
+	{
+		//TODO: figure out overflow and underflow reporting here
+		//if( ((-HUGE_VAL == v) || (HUGE_VAL == v))) )
+		//{
+		//	// Underflow or overflow
+		//	return FALSE;
+		//}
+
+		value = v;
+		return TRUE;
+	}
+	return FALSE;
+}
+#endif
 
 template<class T> 
 void LLStringUtilBase<T>::truncate(string_type& string, size_type count)

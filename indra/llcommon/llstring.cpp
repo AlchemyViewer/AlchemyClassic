@@ -1248,6 +1248,19 @@ void LLStringUtil::formatNumber(std::string& numStr, const std::string& decimals
 	S32 intDecimals = 0;
 
 	convertToS32 (decimals, intDecimals);
+#if !defined(LL_WINDOWS)
+	if (!sLocale.empty())
+	{
+		// std::locale() throws if the locale is unknown! (EXT-7926)
+		try
+		{
+			strStream.imbue(std::locale(sLocale.c_str()));
+		} catch (const std::exception &)
+		{
+			LL_WARNS_ONCE("Locale") << "Cannot set locale to " << sLocale << LL_ENDL;
+		}
+	}
+#endif
 
 	if (!intDecimals)
 	{

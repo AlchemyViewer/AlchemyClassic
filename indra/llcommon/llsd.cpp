@@ -93,7 +93,7 @@ public:
 	static void reset(Impl*& var, Impl* impl);
 		///< safely set var to refer to the new impl (possibly shared)
 
-    static void move(Impl*& var, Impl* impl);
+    static void move(Impl*& var, Impl*& impl);
         ///< safely move impl from one object to another
 
 	static       Impl& safe(      Impl*);
@@ -650,31 +650,33 @@ LLSD::Impl::~Impl()
 
 void LLSD::Impl::reset(Impl*& var, Impl* impl)
 {
-	if (impl && impl->mUseCount != STATIC_USAGE_COUNT) 
+	if (var != impl)
 	{
-		++impl->mUseCount;
+		if (impl && impl->mUseCount != STATIC_USAGE_COUNT)
+		{
+			++impl->mUseCount;
+		}
+		if (var && var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0)
+		{
+			delete var;
+		}
+		var = impl;
 	}
-	if (var && var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0)
-	{
-		delete var;
-	}
-	var = impl;
 }
 
-void LLSD::Impl::move(Impl*& var, Impl* impl)
+void LLSD::Impl::move(Impl*& var, Impl*& impl)
 {
-    bool delete_orig = (var && var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0);
-    if (impl)
+    if (var != impl)
     {
+        bool delete_orig = (var && var->mUseCount != STATIC_USAGE_COUNT && --var->mUseCount == 0);
         if (!delete_orig)
         {
             var = impl;
         }
         else
         {
-            Impl* tmp = var;
+            delete var;
             var = impl;
-            delete tmp;
         }
         impl = nullptr;
     }
@@ -827,7 +829,7 @@ LLSD::~LLSD()							{ FREE_LLSD_OBJECT; Impl::reset(impl, nullptr); }
 LLSD::LLSD(const LLSD& other) : impl(nullptr) { ALLOC_LLSD_OBJECT;  assign(other); }
 void LLSD::assign(const LLSD& other)	{ Impl::assign(impl, other.impl); }
 
-LLSD::LLSD(LLSD&& other) { Impl::move(impl, other.impl); }
+LLSD::LLSD(LLSD&& other) : impl(nullptr) { Impl::move(impl, other.impl); }
 LLSD& LLSD::operator=(LLSD&& other) { Impl::move(impl, other.impl); return *this; }
 
 void LLSD::clear()						{ Impl::assignUndefined(impl); }

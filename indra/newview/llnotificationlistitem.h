@@ -240,8 +240,8 @@ public:
 private:
     friend class LLNotificationListItem;
     LLSystemNotificationListItem(const Params& p);
-    LLSystemNotificationListItem(const LLSystemNotificationListItem &);
-    LLSystemNotificationListItem & operator=(LLSystemNotificationListItem &);
+    LLSystemNotificationListItem(const LLSystemNotificationListItem &) = delete;
+    LLSystemNotificationListItem & operator=(LLSystemNotificationListItem &) = delete;
     LLIconCtrl* mSystemNotificationIcon;
     LLIconCtrl* mSystemNotificationIconExp;
     bool mIsCaution;

@@ -44,10 +44,15 @@ constexpr F32 MAX_PRIM_SCALE = 65536.f;	// something very high but not near FLT_
 class LLXform
 {
 protected:
-	LLQuaternion  mRotation;
 	LLVector3	  mPosition;
+	LLQuaternion  mRotation; 
 	LLVector3	  mScale;
 	
+	//RN: TODO: move these world transform members to LLXformMatrix
+	// as they are *never* updated or accessed in the base class
+	LLVector3	  mWorldPosition;
+	LLQuaternion  mWorldRotation;
+
 	LLXform*      mParent;
 	U32			  mChanged;
 
@@ -75,6 +80,8 @@ public:
 		mPosition.setVec(0,0,0);
 		mRotation.loadIdentity();
 		mScale.   setVec(1,1,1);
+		mWorldPosition.clearVec();
+		mWorldRotation.loadIdentity();
 		mScaleChildOffset = FALSE;
 	}
 
@@ -122,6 +129,9 @@ public:
 	const LLVector3&	getPosition()  const	    { return mPosition; }
 	const LLVector3&	getScale() const			{ return mScale; }
 	const LLQuaternion& getRotation() const			{ return mRotation; }
+	const LLVector3&	getPositionW() const		{ return mWorldPosition; }
+	const LLQuaternion& getWorldRotation() const	{ return mWorldRotation; }
+	const LLVector3&	getWorldPosition() const	{ return mWorldPosition; }
 };
 
 class LLXformMatrix : public LLXform
@@ -136,8 +146,6 @@ public:
 	void init()
 	{
 		mWorldMatrix.setIdentity();
-		mWorldPosition.clearVec();
-		mWorldRotation.loadIdentity();
 		mMin.clearVec();
 		mMax.clearVec();
 
@@ -148,14 +156,8 @@ public:
 	void updateMatrix(BOOL update_bounds = TRUE);
 	void getMinMax(LLVector3& min,LLVector3& max) const;
 
-	const LLVector3& getPositionW() const { return mWorldPosition; }
-	const LLQuaternion& getWorldRotation() const { return mWorldRotation; }
-	const LLVector3& getWorldPosition() const { return mWorldPosition; }
-
 protected:
 	LLMatrix4	mWorldMatrix;
-	LLQuaternion  mWorldRotation;
-	LLVector3	  mWorldPosition;
 	LLVector3	mMin;
 	LLVector3	mMax;
 

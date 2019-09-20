@@ -46,6 +46,8 @@
 template <class Type> class LLPointer
 {
 public:
+	template<typename Subclass>
+	friend class LLPointer;
 
 	LLPointer() : 
 		mPointer(nullptr)
@@ -64,12 +66,25 @@ public:
 		ref();
 	}
 
+	LLPointer(LLPointer<Type>&& ptr)
+	{
+		mPointer = ptr.mPointer;
+		ptr.mPointer = nullptr;
+	}
+
 	// support conversion up the type hierarchy.  See Item 45 in Effective C++, 3rd Ed.
 	template<typename Subclass>
 	LLPointer(const LLPointer<Subclass>& ptr) : 
 		mPointer(ptr.get())
 	{
 		ref();
+	}
+
+	template<typename Subclass>
+	LLPointer(LLPointer<Subclass>&& ptr)
+	{
+		mPointer = ptr.mPointer;
+		ptr.mPointer = nullptr;
 	}
 
 	~LLPointer()								
@@ -108,6 +123,15 @@ public:
 		return *this; 
 	}
 
+	LLPointer<Type>& operator =(LLPointer<Type>&& ptr)
+	{
+		if (mPointer != ptr.mPointer)
+		{
+			LLPointer<Type>(std::move(ptr)).swap(*this);
+		}
+		return *this;
+	}
+
 	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
 	template<typename Subclass>
 	LLPointer<Type>& operator =(const LLPointer<Subclass>& ptr)  
@@ -115,9 +139,37 @@ public:
 		assign(ptr.get());
 		return *this; 
 	}
+
+	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
+	template<typename Subclass>
+	LLPointer<Type>& operator =(LLPointer<Subclass>&& ptr) noexcept
+	{
+		if (mPointer != ptr.mPointer)
+		{
+			LLPointer<Type>(std::move(ptr)).swap(*this);
+		}
+		return *this;
+	}
 	
+	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
+	inline void swap(LLPointer<Type>& ptr)
+	{
+		Type* temp = mPointer;
+		mPointer = ptr.mPointer;
+		ptr.mPointer = temp;
+	}
+
+	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
+	template<typename Subclass>
+	inline void swap(LLPointer<Subclass>& ptr)
+	{
+		Type* temp = mPointer;
+		mPointer = ptr.mPointer;
+		ptr.mPointer = temp;
+	}
+
 	// Just exchange the pointers, which will not change the reference counts.
-	static void swap(LLPointer<Type>& a, LLPointer<Type>& b)
+	inline static void swap(LLPointer<Type>& a, LLPointer<Type>& b)
 	{
 		Type* temp = a.mPointer;
 		a.mPointer = b.mPointer;
@@ -130,7 +182,7 @@ protected:
 	void unref();
 #else
 
-	void assign(const LLPointer<Type>& ptr)
+	inline void assign(const LLPointer<Type>& ptr)
 	{
 		if( mPointer != ptr.mPointer )
 		{
@@ -139,7 +191,8 @@ protected:
 			ref();
 		}
 	}
-	void ref()                             
+
+	inline void ref()
 	{ 
 		if (mPointer)
 		{
@@ -147,7 +200,7 @@ protected:
 		}
 	}
 
-	void unref()
+	inline void unref()
 	{
 		if (mPointer)
 		{
@@ -169,6 +222,9 @@ protected:
 template <class Type> class LLConstPointer
 {
 public:
+	template<typename Subclass>
+	friend class LLConstPointer;
+
 	LLConstPointer() : 
 		mPointer(nullptr)
 	{
@@ -185,6 +241,12 @@ public:
 	{
 		ref();
 	}
+	
+	LLConstPointer(LLConstPointer<Type>&& ptr)
+	{
+		mPointer = ptr.mPointer;
+		ptr.mPointer = nullptr;
+	}
 
 	// support conversion up the type hierarchy.  See Item 45 in Effective C++, 3rd Ed.
 	template<typename Subclass>
@@ -193,6 +255,14 @@ public:
 	{
 		ref();
 	}
+	
+	template<typename Subclass>
+	LLConstPointer(LLConstPointer<Subclass>&& ptr)
+	{
+		mPointer = ptr.mPointer;
+		ptr.mPointer = nullptr;
+	}
+
 
 	~LLConstPointer()
 	{
@@ -239,6 +309,15 @@ public:
 		return *this; 
 	}
 
+	LLConstPointer<Type>& operator =(LLConstPointer<Type>&& ptr)
+	{
+		if (mPointer != ptr.mPointer)
+		{
+			LLConstPointer<Type>(std::move(ptr)).swap(*this);
+		}
+		return *this;
+	}
+
 	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
 	template<typename Subclass>
 	LLConstPointer<Type>& operator =(const LLConstPointer<Subclass>& ptr)  
@@ -251,6 +330,35 @@ public:
 		}
 		return *this; 
 	}
+	
+	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
+	template<typename Subclass>
+	LLConstPointer<Type>& operator =(LLConstPointer<Subclass>&& ptr) noexcept
+	{
+		if (mPointer != ptr.mPointer)
+		{
+			LLConstPointer<Type>(std::move(ptr)).swap(*this);
+		}
+		return *this;
+	}
+	
+	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
+	inline void swap(LLConstPointer<Type>& ptr)
+	{
+		Type* temp = mPointer;
+		mPointer = ptr.mPointer;
+		ptr.mPointer = temp;
+	}
+
+	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
+	template<typename Subclass>
+	inline void swap(LLConstPointer<Subclass>& ptr)
+	{
+		Type* temp = mPointer;
+		mPointer = ptr.mPointer;
+		ptr.mPointer = temp;
+	}
+
 	
 	// Just exchange the pointers, which will not change the reference counts.
 	static void swap(LLConstPointer<Type>& a, LLConstPointer<Type>& b)
@@ -265,7 +373,7 @@ protected:
 	void ref();                             
 	void unref();
 #else
-	void ref()                             
+	inline void ref()                             
 	{ 
 		if (mPointer)
 		{
@@ -273,7 +381,7 @@ protected:
 		}
 	}
 
-	void unref()
+	inline void unref()
 	{
 		if (mPointer)
 		{
@@ -312,7 +420,7 @@ public:
 	:	LLPointer<Type>(ptr),
 		mStayUnique(false)
 	{
-		if (ptr.mForceUnique)
+		if (ptr.mStayUnique)
 		{
 			makeUnique();
 		}

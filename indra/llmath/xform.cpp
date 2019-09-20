@@ -67,9 +67,9 @@ void LLXformMatrix::update()
 		{
 			mWorldPosition.scaleVec(mParent->getScale());
 		}
-		mWorldPosition *= mParent->getWorldRotation();
-		mWorldPosition += mParent->getWorldPosition();
-		mWorldRotation = mRotation * mParent->getWorldRotation();
+		mWorldPosition *= getWorldRotation();
+		mWorldPosition += getWorldPosition();
+		mWorldRotation = mRotation * getWorldRotation();
 	}
 	else
 	{

@@ -160,8 +160,8 @@ public:
 
 	// For avatar
 	U16			 getGeometryAvatar(
-									LLStrider<LLVector3> &vertices,
-									LLStrider<LLVector3> &normals,
+									LLStrider<LLVector4a> &vertices,
+									LLStrider<LLVector4a> &normals,
 								    LLStrider<LLVector2> &texCoords,
 									LLStrider<F32>		 &vertex_weights,
 									LLStrider<LLVector4a> &clothing_weights);

@@ -1787,7 +1787,7 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(
 			LLMatrix4a final_mat;
             LLSkinningUtil::getPerVertexSkinMatrix(weights[j], mat, false, final_mat, max_joints);
 			
-			LLVector4a& v = vol_face.mPositions[j];
+			const LLVector4a& v = vol_face.mPositions[j];
 
 			LLVector4a dst;
 			skin->mBindShapeMatrix.affineTransform(v, dst);
@@ -1796,7 +1796,7 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(
 
 			if (norm)
 			{
-				LLVector4a& n = vol_face.mNormals[j];
+				const LLVector4a& n = vol_face.mNormals[j];
 				skin->mBindShapeMatrix.rotate(n, dst);
 				final_mat.rotate(dst, dst);
 				dst.normalize3fast();

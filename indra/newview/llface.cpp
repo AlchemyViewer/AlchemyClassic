@@ -482,8 +482,8 @@ void LLFace::setIndicesIndex(S32 idx)
 //============================================================================
 
 U16 LLFace::getGeometryAvatar(
-						LLStrider<LLVector3> &vertices,
-						LLStrider<LLVector3> &normals,
+						LLStrider<LLVector4a> &vertices,
+						LLStrider<LLVector4a> &normals,
 						LLStrider<LLVector2> &tex_coords,
 						LLStrider<F32>		 &vertex_weights,
 						LLStrider<LLVector4a> &clothing_weights)
@@ -1669,8 +1669,8 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 						for (S32 i = 0; i < num_vertices; i++)
 						{	
 							LLVector2 tc(vf.mTexCoords[i]);
-							LLVector4a& norm = vf.mNormals[i];
-							LLVector4a& center = *(vf.mCenter);
+							const LLVector4a& norm = vf.mNormals[i];
+							const LLVector4a& center = *(vf.mCenter);
 							LLVector4a vec = vf.mPositions[i];	
 							vec.mul(scalea);
 							planarProjection(tc, norm, center, vec);
@@ -1688,8 +1688,8 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 						for (S32 i = 0; i < num_vertices; i++)
 						{	
 							LLVector2 tc(vf.mTexCoords[i]);
-							LLVector4a& norm = vf.mNormals[i];
-							LLVector4a& center = *(vf.mCenter);
+							const LLVector4a& norm = vf.mNormals[i];
+							const LLVector4a& center = *(vf.mCenter);
 							LLVector4a vec = vf.mPositions[i];	
 							vec.mul(scalea);
 							planarProjection(tc, norm, center, vec);

@@ -264,10 +264,10 @@ bool LLMachineID::init()
                                         expert, CFSTR(kIOPlatformSerialNumberKey),
                                         kCFAllocatorDefault, 0);
         if (cf_prop) {
-            char buffer[sizeof(mUniqueId)] = {0};
+            char serialNumber[sizeof(mUniqueId)] = {0};
             CFStringRef serial = (CFStringRef)cf_prop;
-            if (CFStringGetCString(serial, buffer, sizeof(buffer), kCFStringEncodingUTF8)) {
-                for (; mIdLength < sizeof(mUniqueId) && buffer != '\0'; ++mIdLength)
+            if (CFStringGetCString(serial, serialNumber, sizeof(serialNumber), kCFStringEncodingUTF8)) {
+                for (; mIdLength < sizeof(mUniqueId) && serialNumber[mIdLength] != '\0'; ++mIdLength)
                 {
                     mUniqueId[mIdLength] = serialNumber[mIdLength];
                 }

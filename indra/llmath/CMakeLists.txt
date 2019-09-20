@@ -4,10 +4,12 @@ project(llmath LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)
+include(LLMath)
 include(Boost)
 
 include_directories(
     ${LLCOMMON_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
     )
 
 include_directories(

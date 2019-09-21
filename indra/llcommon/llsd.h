@@ -164,7 +164,7 @@ public:
     /** @name Movable */
     //@{
         LLSD(LLSD&& other);
-        LLSD& operator=(LLSD&& other);
+        LLSD& operator=(LLSD&& other) noexcept;
     //@}
 
 	void clear();	///< resets to Undefined

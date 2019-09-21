@@ -129,26 +129,28 @@ namespace {
             {
                 if (!LLError::getAlwaysFlush())
                 {
-                    mFile.sync_with_stdio(false);
+                    llofstream::sync_with_stdio(false);
                 }
             }
 		}
 		
 		~RecordToFile()
 		{
-			mFile.close();
+            try {
+                mFile.close();
+            } catch (...) { /* MAD HAX: throwing in dtor is bad news bears */ }
 		}
 		
         virtual bool enabled() override
         {
 #ifdef LL_RELEASE_FOR_DOWNLOAD
-            return 1;
+            return true;
 #else
             return LLError::getEnabledLogTypesMask() & 0x02;
 #endif
         }
         
-		bool okay() { return mFile.good(); }
+		bool okay() const { return mFile.good(); }
 
 		void recordMessage(LLError::ELevel level,
 									const std::string& message) override

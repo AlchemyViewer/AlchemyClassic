@@ -115,7 +115,6 @@ protected:
 
 private:
 	void updateSpecies();
-	F32 mLastHeight;		// For cheap update hack
 	S32 mNumBlades;
 
 public:

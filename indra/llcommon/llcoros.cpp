@@ -289,7 +289,7 @@ void LLCoros::printActiveCoroutines()
         CoroMap::iterator iter;
         CoroMap::iterator end = mCoros.end();
         F64 time = LLTimer::getTotalSeconds();
-        for (iter = mCoros.begin(); iter != end; iter++)
+        for (iter = mCoros.begin(); iter != end; ++iter)
         {
             F64 life_time = time - iter->second->mCreationTime;
             LL_CONT << LL_NEWLINE << "Name: " << iter->first << " life: " << life_time;

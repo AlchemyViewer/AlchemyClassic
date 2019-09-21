@@ -80,8 +80,7 @@ protected:
             : sIterationNestDepth(0)
         {}
 #else
-       StaticBase()
-        {}
+        StaticBase() = default;
 #endif
 		void incrementDepth();
 		void decrementDepth();

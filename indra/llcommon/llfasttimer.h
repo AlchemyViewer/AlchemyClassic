@@ -185,8 +185,8 @@ private:
 
 	// noop-copy see timeThisBlock
 	BlockTimer(const BlockTimer& other)
-	:	mStartTime(0)
-	{ }
+        : mStartTime(0), mParentTimerData()
+    { }
 
 private:
 	U64						mStartTime;

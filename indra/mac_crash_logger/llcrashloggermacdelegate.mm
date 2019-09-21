@@ -46,7 +46,6 @@ extern bool gRememberChoice;
 
 - (void)dealloc
 {
-	[super dealloc];
 }
 
 std::string NSToString( NSString *ns_str )

@@ -32,6 +32,7 @@ class LLRotation;
 
 #include <cassert>
 #include "llpreprocessor.h"
+#include "llmath.h"
 #include "llmemory.h"
 
 ///////////////////////////////////

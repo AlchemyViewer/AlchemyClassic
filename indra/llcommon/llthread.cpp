@@ -144,19 +144,20 @@ void LLThread::threadRun()
 }
 
 LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
-    mPaused(false),
+    mPaused(false), 
+    mNativeHandle(nullptr),
     mName(name),
-	mRunCondition(std::make_unique<LLCondition>()),
-	mDataLock(std::make_unique<LLMutex>()),
+    mRunCondition(std::make_unique<LLCondition>()),
+    mDataLock(std::make_unique<LLMutex>()),
     mStatus(STOPPED)
 {
-	mLocalAPRFilePoolp = nullptr;
+    mLocalAPRFilePoolp = nullptr;
 }
 
 
 LLThread::~LLThread()
 {
-    shutdown();
+    LLThread::shutdown();
 
     if (isCrashed())
     {

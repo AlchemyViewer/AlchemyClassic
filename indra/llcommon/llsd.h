@@ -163,7 +163,7 @@ public:
 
     /** @name Movable */
     //@{
-        LLSD(LLSD&& other);
+        LLSD(LLSD&& other) noexcept;
         LLSD& operator=(LLSD&& other) noexcept;
     //@}
 

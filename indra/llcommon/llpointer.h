@@ -66,8 +66,8 @@ public:
 		ref();
 	}
 
-	LLPointer(LLPointer<Type>&& ptr)
-	{
+	LLPointer(LLPointer<Type>&& ptr) noexcept
+    {
 		mPointer = ptr.mPointer;
 		ptr.mPointer = nullptr;
 	}
@@ -123,8 +123,8 @@ public:
 		return *this; 
 	}
 
-	LLPointer<Type>& operator =(LLPointer<Type>&& ptr)
-	{
+	LLPointer<Type>& operator =(LLPointer<Type>&& ptr) noexcept
+    {
 		if (mPointer != ptr.mPointer)
 		{
 			LLPointer<Type>(std::move(ptr)).swap(*this);
@@ -152,8 +152,8 @@ public:
 	}
 	
 	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
-	inline void swap(LLPointer<Type>& ptr)
-	{
+	inline void swap(LLPointer<Type>& ptr) noexcept
+    {
 		Type* temp = mPointer;
 		mPointer = ptr.mPointer;
 		ptr.mPointer = temp;
@@ -242,8 +242,8 @@ public:
 		ref();
 	}
 	
-	LLConstPointer(LLConstPointer<Type>&& ptr)
-	{
+	LLConstPointer(LLConstPointer<Type>&& ptr) noexcept
+    {
 		mPointer = ptr.mPointer;
 		ptr.mPointer = nullptr;
 	}
@@ -309,8 +309,8 @@ public:
 		return *this; 
 	}
 
-	LLConstPointer<Type>& operator =(LLConstPointer<Type>&& ptr)
-	{
+	LLConstPointer<Type>& operator =(LLConstPointer<Type>&& ptr) noexcept
+    {
 		if (mPointer != ptr.mPointer)
 		{
 			LLConstPointer<Type>(std::move(ptr)).swap(*this);
@@ -343,8 +343,8 @@ public:
 	}
 	
 	// support assignment up the type hierarchy. See Item 45 in Effective C++, 3rd Ed.
-	inline void swap(LLConstPointer<Type>& ptr)
-	{
+	inline void swap(LLConstPointer<Type>& ptr) noexcept
+    {
 		Type* temp = mPointer;
 		mPointer = ptr.mPointer;
 		ptr.mPointer = temp;

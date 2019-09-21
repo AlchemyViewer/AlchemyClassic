@@ -119,12 +119,9 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 		//SymCleanup(hProc);
 		return true;
 	}
-	else
-	{
-		lines.push_back("Stack Trace Failed.  PDB symbol info not loaded");
-	}
+    lines.emplace_back("Stack Trace Failed.  PDB symbol info not loaded");
 
-	return false;
+    return false;
 }
 
 void ll_get_stack_trace_internal(std::vector<std::string>& lines)

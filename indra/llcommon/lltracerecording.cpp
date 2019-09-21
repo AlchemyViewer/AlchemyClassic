@@ -588,7 +588,7 @@ void PeriodicRecording::nextPeriod()
 {
 	if (mAutoResize)
 	{
-		mRecordingPeriods.push_back(Recording());
+		mRecordingPeriods.emplace_back(Recording());
 	}
 
 	Recording& old_recording = getCurRecording();

@@ -56,7 +56,7 @@ public:
 protected:
 	void OnOutput(LPCSTR szText) override
     {
-        m_stack.push_back(szText);
+        m_stack.emplace_back(szText);
     }
     std::vector<std::string> m_stack;
 };

@@ -14,8 +14,6 @@
 
 #include <stdexcept>
 #include <boost/exception/exception.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/current_function.hpp>
 
 // "Found someone who can comfort me
 //  But there are always exceptions..."

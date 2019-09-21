@@ -24,7 +24,6 @@
  * $/LicenseInfo$
  */
 
-#include <cerrno>
 #include <csignal>
 
 #include "linden_common.h"

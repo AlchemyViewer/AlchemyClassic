@@ -102,12 +102,10 @@ public:
 	{
 		static_cast<self_t&>(other).handleSplitTo(*static_cast<DERIVED*>(this));
 	}
-private:
-	self_t& operator = (const self_t& other)
-	{
-		// don't do anything, derived class must implement logic
-	}
 
+    self_t& operator = (const self_t& other) = delete;
+
+private:
 	// atomically stop this object while starting the other
 	// no data can be missed in between stop and start
 	virtual void handleSplitTo(DERIVED& other) {};

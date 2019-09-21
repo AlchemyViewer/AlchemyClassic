@@ -27,9 +27,7 @@
 #ifndef LL_LLQUEUEDTHREAD_H
 #define LL_LLQUEUEDTHREAD_H
 
-#include <queue>
 #include <string>
-#include <map>
 #include <set>
 
 #include "llatomic.h"

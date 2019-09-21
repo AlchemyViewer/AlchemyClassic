@@ -28,7 +28,6 @@
 #ifndef LL_LLSTACKTRACE_H
 #define LL_LLSTACKTRACE_H
 
-#include "stdtypes.h"
 #include <vector>
 #include <string>
 

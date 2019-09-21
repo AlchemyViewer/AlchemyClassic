@@ -26,9 +26,7 @@
 #ifndef LL_LLSTRIDER_H
 #define LL_LLSTRIDER_H
 
-#include "llpreprocessor.h"
 #include "llmath.h"
-#include "llsimdtypes.h"
 #include "llvector4a.h"
 
 template<typename T>

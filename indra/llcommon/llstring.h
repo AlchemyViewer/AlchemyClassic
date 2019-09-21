@@ -1438,7 +1438,7 @@ void LLStringUtilBase<T>::trimHead(string_type& string)
 		size_type i = 0;
 		while( i < string.length() && LLStringOps::isSpace( string[i] ) )
 		{
-			i++;
+			++i;
 		}
 		string.erase(0, i);
 	}
@@ -1454,7 +1454,7 @@ void LLStringUtilBase<T>::trimTail(string_type& string)
 		size_type i = len;
 		while( i > 0 && LLStringOps::isSpace( string[i-1] ) )
 		{
-			i--;
+			--i;
 		}
 
 		string.erase( i, len - i );
@@ -1470,7 +1470,7 @@ void LLStringUtilBase<T>::trimTail(string_type& string, const string_type& token
 		size_type i = len;
 		while( i > 0 && (tokens.find_first_of(string[i-1]) != string_type::npos) )
 		{
-			i--;
+			--i;
 		}
 
 		string.erase( i, len - i );
@@ -1493,11 +1493,11 @@ void LLStringUtilBase<T>::addCRLF(string_type& string)
 	size_type count = 0;
 	size_type len = string.size();
 	size_type i;
-	for( i = 0; i < len; i++ )
+	for( i = 0; i < len; ++i )
 	{
 		if( string[i] == LF )
 		{
-			count++;
+			++count;
 		}
 	}
 
@@ -1536,11 +1536,11 @@ void LLStringUtilBase<T>::removeCRLF(string_type& string)
 	size_type cr_count = 0;
 	size_type len = string.size();
 	size_type i;
-	for( i = 0; i < len - cr_count; i++ )
+	for( i = 0; i < len - cr_count; ++i )
 	{
 		if( string[i+cr_count] == CR )
 		{
-			cr_count++;
+			++cr_count;
 		}
 
 		string[i] = string[i+cr_count];
@@ -1562,11 +1562,11 @@ void LLStringUtilBase<T>::removeWindowsCR(string_type& string)
     size_type cr_count = 0;
     size_type len = string.size();
     size_type i;
-    for( i = 0; i < len - cr_count - 1; i++ )
+    for( i = 0; i < len - cr_count - 1; ++i )
     {
         if( string[i+cr_count] == CR && string[i+cr_count+1] == LF)
         {
-            cr_count++;
+            ++cr_count;
         }
 
         string[i] = string[i+cr_count];
@@ -1582,7 +1582,7 @@ void LLStringUtilBase<T>::replaceChar( string_type& string, T target, T replacem
 	while( (found_pos = string.find(target, found_pos)) != string_type::npos ) 
 	{
 		string[found_pos] = replacement;
-		found_pos++; // avoid infinite defeat if target == replacement
+		++found_pos; // avoid infinite defeat if target == replacement
 	}
 }
 
@@ -1607,7 +1607,7 @@ void LLStringUtilBase<T>::replaceNonstandardASCII( string_type& string, T replac
 //	const S8 MAX = 127;
 
 	size_type len = string.size();
-	for( size_type i = 0; i < len; i++ )
+	for( size_type i = 0; i < len; ++i )
 	{
 		// No need to test MAX < mText[i] because we treat mText[i] as a signed char,
 		// which has a max value of 127.
@@ -1627,11 +1627,11 @@ void LLStringUtilBase<T>::replaceTabsWithSpaces( string_type& str, size_type spa
 
 	string_type out_str;
 	// Replace tabs with spaces
-	for (size_type i = 0; i < str.length(); i++)
+	for (size_type i = 0; i < str.length(); ++i)
 	{
 		if (str[i] == TAB)
 		{
-			for (size_type j = 0; j < spaces_per_tab; j++)
+			for (size_type j = 0; j < spaces_per_tab; ++j)
 				out_str += SPACE;
 		}
 		else
@@ -1648,7 +1648,7 @@ BOOL LLStringUtilBase<T>::containsNonprintable(const string_type& string)
 {
 	const char MIN = 32;
 	BOOL rv = FALSE;
-	for (size_type i = 0; i < string.size(); i++)
+	for (size_type i = 0; i < string.size(); ++i)
 	{
 		if(string[i] < MIN)
 		{
@@ -1674,7 +1674,7 @@ void LLStringUtilBase<T>::stripNonprintable(string_type& string)
 	auto c_string = std::make_unique<char[]>(src_size + 1);
 
 	copy(c_string.get(), string.c_str(), src_size+1);
-	for (size_type i = 0; i < src_size; i++)
+	for (size_type i = 0; i < src_size; ++i)
 	{
 		if(string[i] >= MIN)
 		{
@@ -1728,7 +1728,7 @@ template<class T>
 void LLStringUtilBase<T>::_makeASCII(string_type& string)
 {
 	// Replace non-ASCII chars with LL_UNKNOWN_CHAR
-	for (size_type i = 0; i < string.length(); i++)
+	for (size_type i = 0; i < string.length(); ++i)
 	{
 		if (string[i] > 0x7f)
 		{

@@ -29,16 +29,14 @@
 ////////////////////////////////////////////////////////////////////////////
 
 LLFixedBuffer::LLFixedBuffer(const U32 max_lines)
-	: LLLineBuffer(),
-	  mMaxLines(max_lines),
-	  mMutex()
+: mMaxLines(max_lines)
 {
 	mTimer.reset();
 }
 
 LLFixedBuffer::~LLFixedBuffer()
 {
-	clear();
+    LLFixedBuffer::clear();
 }
 
 void LLFixedBuffer::clear()

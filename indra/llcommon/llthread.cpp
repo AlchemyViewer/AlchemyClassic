@@ -157,7 +157,7 @@ LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
 
 LLThread::~LLThread()
 {
-    shutdown();
+    LLThread::shutdown();
 
     if (isCrashed())
     {

@@ -71,7 +71,7 @@ const int LL_ERR_NOERR = 0;
 
 #endif // !_DEBUG
 
-#define llassert_always_msg(func, msg) if (LL_UNLIKELY(!(func))) LL_ERRS() << "ASSERT (" << (msg) << ")" << LL_ENDL
+#define llassert_always_msg(func, msg) if (LL_UNLIKELY(!(func))) LL_ERRS() << "ASSERT (" << msg << ")" << LL_ENDL
 
 #define llassert_always(func)	llassert_always_msg(func, #func)
 
@@ -340,7 +340,7 @@ typedef LLError::NoClassInfo _LL_CLASS_TO_LOG;
 
 #define lllog_site_args_(level, once, tags)                 \
 	level, __FILE__, __LINE__, typeid(_LL_CLASS_TO_LOG),    \
-	__FUNCTION__, once, &(tags)[1], LL_ARRAY_SIZE(tags)-1
+	__FUNCTION__, once, &tags[1], LL_ARRAY_SIZE(tags)-1
 
 //Use this construct if you need to do computation in the middle of a
 //message:

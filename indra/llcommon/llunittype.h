@@ -816,7 +816,7 @@ LL_FORCE_INLINE S2 ll_convert_units(LLUnit<S1, base_unit_name> in, LLUnit<S2, un
 {                                                                                                \
 	typedef typename LLResultTypePromote<S1, S2>::type_t result_storage_t;                       \
 	LLUnitLinearOps<result_storage_t> result =                                                   \
-		LLUnitLinearOps<result_storage_t>(in.value()) (conversion_operation);				     \
+		LLUnitLinearOps<result_storage_t>(in.value()) conversion_operation;				         \
 	out = LLUnit<S2, unit_name>((S2)result.mValue);                                              \
 	return result.mDivisor;                                                                      \
 }                                                                                               

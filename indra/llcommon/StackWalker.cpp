@@ -886,8 +886,8 @@ StackWalker::~StackWalker()
   if (m_szSymPath != nullptr)
     free(m_szSymPath);
   m_szSymPath = nullptr;
-  if (this->m_sw != nullptr)
-    delete this->m_sw;
+
+  delete this->m_sw;
   this->m_sw = nullptr;
 }
 

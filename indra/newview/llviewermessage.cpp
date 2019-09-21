@@ -1939,8 +1939,8 @@ std::string LLOfferInfo::getSanitizedDescription()
 	// object name shouldn't be shown as a hyperlink
 	std::string description = mDesc;
 
-	std::size_t start = mDesc.find_first_of("'");
-	std::size_t end = mDesc.find_last_of("'");
+	std::size_t start = mDesc.find_first_of('\'');
+	std::size_t end = mDesc.find_last_of('\'');
 	if ((start != std::string::npos) && (end != std::string::npos))
 	{
 		description.insert(start, "<nolink>");

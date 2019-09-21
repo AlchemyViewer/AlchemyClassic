@@ -3283,7 +3283,7 @@ void LLViewerMediaImpl::handleMediaEvent(LLPluginClassMedia* plugin, LLPluginCla
 					// Check if it is internal navigation
 					// Note: Not sure if we should detect internal navigations as 'address change',
 					// but they are not redirects and do not cause NAVIGATE_BEGIN (also see SL-1005)
-					size_t pos = url.find("#");
+					size_t pos = url.find('#');
 					if (pos != std::string::npos)
 					{
 						// assume that new link always have '#', so this is either

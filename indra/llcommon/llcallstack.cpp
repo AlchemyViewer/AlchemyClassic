@@ -47,8 +47,8 @@ public:
         ShowCallstack(verbose);
         // Skip the first few lines because they're just bookkeeping for LLCallStack,
         // plus any additional lines requested to skip.
-        S32 first_line = skip_count + 3;
-        for (S32 i=first_line; i<m_stack.size(); ++i)
+        auto first_line = skip_count + 3;
+        for (auto i=first_line; i<m_stack.size(); ++i)
         {
             stack.push_back(m_stack[i]);
         }

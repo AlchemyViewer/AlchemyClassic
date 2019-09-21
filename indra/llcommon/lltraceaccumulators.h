@@ -69,7 +69,7 @@ namespace LLTrace
 		{
 			const AccumulatorBuffer& other = *getDefaultBuffer();
 			resize(sNextStorageSlot);
-			for (S32 i = 0; i < sNextStorageSlot; i++)
+			for (auto i = 0; i < sNextStorageSlot; i++)
 			{
 				mStorage[i] = other.mStorage[i];
 			}
@@ -100,7 +100,7 @@ namespace LLTrace
               mStorageSize(0)
 		{
 			resize(sNextStorageSlot);
-			for (S32 i = 0; i < sNextStorageSlot; i++)
+			for (auto i = 0; i < sNextStorageSlot; i++)
 			{
 				mStorage[i] = other.mStorage[i];
 			}
@@ -179,7 +179,7 @@ namespace LLTrace
 			mStorage = new ACCUMULATOR[new_size];
 			if (old_storage)
 			{
-				for (S32 i = 0; i < mStorageSize; i++)
+				for (auto i = 0; i < mStorageSize; i++)
 				{
 					mStorage[i] = old_storage[i];
 				}

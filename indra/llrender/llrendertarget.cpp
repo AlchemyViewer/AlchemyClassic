@@ -84,7 +84,9 @@ void LLRenderTarget::resize(U32 resx, U32 resy)
 	for (U32 i = 0; i < mTex.size(); ++i)
 	{ //resize color attachments
 		gGL.getTexUnit(0)->bindManual(mUsage, mTex[i]);
-		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, mInternalFormat[i], mResX, mResY, GL_RGBA, GL_UNSIGNED_BYTE, nullptr, false);
+		const auto& internal_format = mInternalFormat[i];
+		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, std::get<0>(internal_format), mResX, mResY, 
+			std::get<1>(internal_format), std::get<2>(internal_format), nullptr, false);
 		sBytesAllocated += pix_diff*4;
 	}
 
@@ -109,7 +111,7 @@ void LLRenderTarget::resize(U32 resx, U32 resy)
 }
 	
 
-bool LLRenderTarget::allocate(U32 resx, U32 resy, U32 color_fmt, bool depth, bool stencil, LLTexUnit::eTextureType usage, bool use_fbo, S32 samples)
+bool LLRenderTarget::allocate(U32 resx, U32 resy, U32 color_fmt, bool depth, bool stencil, LLTexUnit::eTextureType usage, bool use_fbo, S32 samples, U32 pix_format, U32 pix_type)
 {
 	resx = llmin(resx, (U32) gGLManager.mGLMaxTextureSize);
 	resy = llmin(resy, (U32) gGLManager.mGLMaxTextureSize);
@@ -159,10 +161,10 @@ bool LLRenderTarget::allocate(U32 resx, U32 resy, U32 color_fmt, bool depth, boo
 		stop_glerror();
 	}
 
-	return addColorAttachment(color_fmt);
+	return addColorAttachment(color_fmt, pix_format, pix_type);
 }
 
-bool LLRenderTarget::addColorAttachment(U32 color_fmt)
+bool LLRenderTarget::addColorAttachment(U32 color_fmt, U32 pix_format, U32 pix_type)
 {
 	if (color_fmt == 0)
 	{
@@ -194,10 +196,10 @@ bool LLRenderTarget::addColorAttachment(U32 color_fmt)
 
 	{
 		clear_glerror();
-		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, color_fmt, mResX, mResY, GL_RGBA, GL_UNSIGNED_BYTE, nullptr, false);
+		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, color_fmt, mResX, mResY, pix_format, pix_type, nullptr, false);
 		if (glGetError() != GL_NO_ERROR)
 		{
-			LL_WARNS() << "Could not allocate color buffer for render target." << LL_ENDL;
+			LL_WARNS() << "Could not allocate color buffer for render target." << "format:" << color_fmt << " pixformat:" << pix_format << " pixtype:" << pix_type << LL_ENDL;
 			return false;
 		}
 	}
@@ -235,7 +237,7 @@ bool LLRenderTarget::addColorAttachment(U32 color_fmt)
 	}
 
 	mTex.push_back(tex);
-	mInternalFormat.push_back(color_fmt);
+	mInternalFormat.emplace_back(color_fmt, pix_format, pix_type);
 
 #if !LL_DARWIN
 	if (gDebugGL)

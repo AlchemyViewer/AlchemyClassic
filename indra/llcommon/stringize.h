@@ -53,12 +53,12 @@ std::basic_string<CHARTYPE> stringize_f(Functor const & f)
  * return out.str();
  * @endcode
  */
-#define STRINGIZE(EXPRESSION) (stringize_f<char>([&](std::ostream& out){ out << EXPRESSION; }))
+#define STRINGIZE(EXPRESSION) (stringize_f<char>([&](std::ostream& out){ out << (EXPRESSION); }))
 
 /**
  * WSTRINGIZE() is the wstring equivalent of STRINGIZE()
  */
-#define WSTRINGIZE(EXPRESSION) (stringize_f<wchar_t>([&](std::wostream& out){ out << EXPRESSION; }))
+#define WSTRINGIZE(EXPRESSION) (stringize_f<wchar_t>([&](std::wostream& out){ out << (EXPRESSION); }))
 
 /**
  * destringize(str)
@@ -98,7 +98,7 @@ void destringize_f(std::basic_string<CHARTYPE> const & str, Functor const & f)
  * more since DESTRINGIZE() should do the right thing with a std::wstring. But
  * until then, the lambda we pass must accept the right std::basic_istream.
  */
-#define DESTRINGIZE(STR, EXPRESSION) (destringize_f((STR), [&](std::istream& in){in >> EXPRESSION;}))
-#define DEWSTRINGIZE(STR, EXPRESSION) (destringize_f((STR), [&](std::wistream& in){in >> EXPRESSION;}))
+#define DESTRINGIZE(STR, EXPRESSION) (destringize_f((STR), [&](std::istream& in){in >> (EXPRESSION);}))
+#define DEWSTRINGIZE(STR, EXPRESSION) (destringize_f((STR), [&](std::wistream& in){in >> (EXPRESSION);}))
 
 #endif /* ! defined(LL_STRINGIZE_H) */

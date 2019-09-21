@@ -105,6 +105,6 @@ typedef U32             		TPACKETID;
 
 typedef U8 LLPCode;
 
-#define	LL_ARRAY_SIZE( _kArray ) ( sizeof( (_kArray) ) / sizeof( _kArray[0] ) )
+#define	LL_ARRAY_SIZE( _kArray ) ( sizeof( (_kArray) ) / sizeof( (_kArray)[0] ) )
 
 #endif

@@ -237,11 +237,11 @@ LLSD errorException(const LLEventWithID& result, const std::string& desc);
 class LL_COMMON_API LLErrorEvent: public LLException
 {
 public:
-    LLErrorEvent(const std::string& what, const LLSD& data):
+    LLErrorEvent(const std::string& what, LLSD data):
         LLException(what),
-        mData(data)
+        mData(std::move(data))
     {}
-    virtual ~LLErrorEvent() throw() {}
+    virtual ~LLErrorEvent() noexcept = default;
 
     LLSD getData() const { return mData; }
 

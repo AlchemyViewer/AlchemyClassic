@@ -29,6 +29,8 @@
 #if ! defined(LL_LLDOUBLEDISPATCH_H)
 #define LL_LLDOUBLEDISPATCH_H
 
+#include <algorithm>
+#include <functional>
 #include <list>
 
 /**

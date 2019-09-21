@@ -26,6 +26,7 @@
 #ifndef LLREFCOUNT_H
 #define LLREFCOUNT_H
 
+#include <boost/intrusive_ptr.hpp>
 #include "llmutex.h"
 #include "llatomic.h"
 

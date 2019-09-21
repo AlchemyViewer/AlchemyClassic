@@ -1407,15 +1407,15 @@ S32 LLSDNotationFormatter::format_impl(const LLSD& data, std::ostream& ostr, U32
 				std::ios_base::fmtflags old_flags = ostr.flags();
 				ostr.setf( std::ios::hex, std::ios::basefield );
 				ostr << "0x";
-				for (int i = 0; i < buffer.size(); i++)
-				{
-					ostr << (int) buffer[i];
+				for (unsigned char i : buffer)
+                {
+					ostr << static_cast<int>(i);
 				}
 				ostr.flags(old_flags);
 			}
 			else
 			{
-				ostr.write((const char*)&buffer[0], buffer.size());
+				ostr.write(reinterpret_cast<const char*>(&buffer[0]), buffer.size());
 			}
 		}
 		ostr << "\"";

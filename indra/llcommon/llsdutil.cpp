@@ -145,10 +145,9 @@ LLSD ll_binary_from_string(const LLSD& sd)
 	std::vector<U8> binary_value;
 
 	std::string string_value = sd.asString();
-	for (std::string::iterator iter = string_value.begin();
-		 iter != string_value.end(); ++iter)
-	{
-		binary_value.push_back(*iter);
+	for (auto& iter : string_value)
+    {
+		binary_value.push_back(iter);
 	}
 
 	binary_value.push_back('\0');

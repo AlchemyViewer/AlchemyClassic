@@ -133,12 +133,12 @@ public:
 	void cleanup()
 	{
 		// remove strings
-		for (S32 i = 0; i<mTableSize; i++)
+		for (auto i = 0; i<mTableSize; i++)
 		{
 			string_set_t& stringset = mStringList[i];
-			for (auto iter = stringset.begin(); iter != stringset.end(); ++iter)
-			{
-				delete *iter;
+			for (auto iter : stringset)
+            {
+				delete iter;
 			}
 			stringset.clear();
 		}

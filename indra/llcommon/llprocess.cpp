@@ -367,14 +367,13 @@ public:
 			// In general, the mutable_buffer_sequence returned by prepare() might
 			// contain a number of different physical buffers; iterate over those.
 			std::size_t tocommit(0);
-			for (mutable_buffer_sequence::const_iterator bufi(bufs.begin()), bufend(bufs.end());
-				 bufi != bufend; ++bufi)
-			{
+			for (auto buf : bufs)
+            {
 				// http://www.boost.org/doc/libs/1_49_0_beta1/doc/html/boost_asio/reference/buffer.html#boost_asio.reference.buffer.accessing_buffer_contents
-				std::size_t toread(boost::asio::buffer_size(*bufi));
+				std::size_t toread(boost::asio::buffer_size(buf));
 				apr_size_t gotten(toread);
 				apr_status_t err = apr_file_read(mPipe,
-												 boost::asio::buffer_cast<void*>(*bufi),
+												 boost::asio::buffer_cast<void*>(buf),
 												 &gotten);
 				// EAGAIN is exactly what we want from a nonblocking pipe.
 				// Rather than waiting for data, it should return immediately.

@@ -148,9 +148,11 @@ public:
 
 	ptr_const_value_t getValue(ref_const_key_t key) const
 	{
-		for(auto const& it : mActiveScopes)
+		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+			it != mActiveScopes.end();
+			++it)
 		{
-			ptr_value_t valuep = it.getValue(key);
+			ptr_value_t valuep = (*it)->getValue(key);
 			if (valuep != nullptr) return valuep;
 		}
 		return mDefaultRegistrar.getValue(key);
@@ -158,9 +160,11 @@ public:
 
 	bool exists(ref_const_key_t key) const
 	{
-        for (auto const& it : mActiveScopes)
+		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+			it != mActiveScopes.end();
+			++it)
 		{
-			if (it.exists(key)) return true;
+			if ((*it)->exists(key)) return true;
 		}
 
 		return mDefaultRegistrar.exists(key);
@@ -168,9 +172,11 @@ public:
 
 	bool empty() const
 	{
-        for (auto const& it : mActiveScopes)
+		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+			it != mActiveScopes.end();
+			++it)
 		{
-			if (!it.empty()) return false;
+			if (!(*it)->empty()) return false;
 		}
 
 		return mDefaultRegistrar.empty();

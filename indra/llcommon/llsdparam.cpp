@@ -216,7 +216,7 @@ LLSD& LLParamSDParserUtilities::getSDWriteNode(LLSD& input, LLInitParam::Parser:
 {
 	LLSD* sd_to_write = &input;
 	
-	for (LLInitParam::Parser::name_stack_t::iterator it = name_stack_range.first;
+	for (auto it = name_stack_range.first;
 		it != name_stack_range.second;
 		++it)
 	{
@@ -256,7 +256,7 @@ void LLParamSDParserUtilities::readSDValues(read_sd_cb_t cb, const LLSD& sd, LLI
 {
 	if (sd.isMap())
 	{
-		for (LLSD::map_const_iterator it = sd.beginMap();
+		for (auto it = sd.beginMap();
 			it != sd.endMap();
 			++it)
 		{
@@ -267,7 +267,7 @@ void LLParamSDParserUtilities::readSDValues(read_sd_cb_t cb, const LLSD& sd, LLI
 	}
 	else if (sd.isArray())
 	{
-		for (LLSD::array_const_iterator it = sd.beginArray();
+		for (auto it = sd.beginArray();
 			it != sd.endArray();
 			++it)
 		{

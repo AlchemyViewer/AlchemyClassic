@@ -202,8 +202,7 @@ void LLLeapListener::stoplistening(const LLSD& request)
     std::string source_name = request["source"];
     std::string listener_name = request["listener"];
 
-    ListenersMap::iterator finder =
-        mListeners.find(ListenersMap::key_type(source_name, listener_name));
+    auto finder = mListeners.find(ListenersMap::key_type(source_name, listener_name));
 
     reply["status"] = false;
     if(finder != mListeners.end())

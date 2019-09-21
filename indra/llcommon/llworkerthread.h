@@ -48,17 +48,17 @@ public:
 	class WorkRequest : public LLQueuedThread::QueuedRequest
 	{
 	protected:
-		virtual ~WorkRequest(); // use deleteRequest()
+		virtual ~WorkRequest() = default; // use deleteRequest()
 		
 	public:
 		WorkRequest(handle_t handle, U32 priority, LLWorkerClass* workerclass, S32 param);
 
-		S32 getParam()
-		{
+		S32 getParam() const
+        {
 			return mParam;
 		}
-		LLWorkerClass* getWorkerClass()
-		{
+		LLWorkerClass* getWorkerClass() const
+        {
 			return mWorkerClass;
 		}
 
@@ -87,7 +87,7 @@ public:
 	
 	handle_t addWorkRequest(LLWorkerClass* workerclass, S32 param, U32 priority = PRIORITY_NORMAL);
 	
-	S32 getNumDeletes() { return (S32)mDeleteList.size(); } // debug
+	S32 getNumDeletes() const { return (S32)mDeleteList.size(); } // debug
 
 private:
 	void deleteWorker(LLWorkerClass* workerclass); // schedule for deletion

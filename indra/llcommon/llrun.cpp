@@ -28,6 +28,7 @@
 
 #include "linden_common.h"
 #include "llrun.h"
+#include <utility>
 
 #include "llframetimer.h"
 
@@ -59,8 +60,8 @@ size_t LLRunner::run()
 	// Collect the run once. We erase the matching ones now because
 	// it's easier. If we find a reason to keep them around for a
 	// while, we can restructure this method.
-	LLRunner::run_list_t::iterator iter = mRunOnce.begin();
-	for( ; iter != mRunOnce.end(); )
+    
+	for(auto iter = mRunOnce.begin(); iter != mRunOnce.end(); )
 	{
 		if(now > (*iter).mNextRunAt)
 		{
@@ -74,23 +75,19 @@ size_t LLRunner::run()
 	}
 
 	// Collect the ones that repeat.
-	iter = mRunEvery.begin();
-	LLRunner::run_list_t::iterator end = mRunEvery.end();
-	for( ; iter != end; ++iter )
-	{
-		if(now > (*iter).mNextRunAt)
+	for (auto& iter : mRunEvery)
+    {
+		if(now > iter.mNextRunAt)
 		{
-			(*iter).mNextRunAt = now + (*iter).mIncrement;
-			run_now.push_back(*iter);
+            iter.mNextRunAt = now + iter.mIncrement;
+			run_now.push_back(iter);
 		}
 	}
 
 	// Now, run them.
-	iter = run_now.begin();
-	end = run_now.end();
-	for( ; iter != end; ++iter )
-	{
-		(*iter).mRunnable->run(this, (*iter).mHandle);
+	for (auto& iter : run_now)
+    {
+        iter.mRunnable->run(this, iter.mHandle);
 	}
 	return run_now.size();
 }
@@ -123,9 +120,8 @@ LLRunner::run_handle_t LLRunner::addRunnable(
 LLRunner::run_ptr_t LLRunner::removeRunnable(LLRunner::run_handle_t handle)
 {
 	LLRunner::run_ptr_t rv;
-	LLRunner::run_list_t::iterator iter = mRunOnce.begin();
-	LLRunner::run_list_t::iterator end = mRunOnce.end();
-	for( ; iter != end; ++iter)
+    
+	for(auto iter = mRunOnce.begin(); iter != mRunOnce.end(); ++iter)
 	{
 		if((*iter).mHandle == handle)
 		{
@@ -135,9 +131,7 @@ LLRunner::run_ptr_t LLRunner::removeRunnable(LLRunner::run_handle_t handle)
 		}
 	}
 
-	iter = mRunEvery.begin();
-	end = mRunEvery.end();
-	for( ; iter != end; ++iter)
+	for(auto iter = mRunEvery.begin(); iter != mRunEvery.end(); ++iter)
 	{
 		if((*iter).mHandle == handle)
 		{
@@ -159,7 +153,7 @@ LLRunner::LLRunInfo::LLRunInfo(
 	F64 next_run_after,
 	F64 increment) :
 	mHandle(handle),
-	mRunnable(runnable),
+	mRunnable(std::move(runnable)),
 	mSchedule(schedule),
 	mNextRunAt(next_run_after),
 	mIncrement(increment)

@@ -41,7 +41,7 @@
 # include <unistd.h>
 #endif // !LL_WINDOWS
 #include <vector>
-#include "string.h"
+#include <cstring>
 
 #include "llapp.h"
 #include "llfile.h"
@@ -1155,7 +1155,7 @@ namespace {
 	bool checkLevelMap(const LevelMap& map, const std::string& key,
 						LLError::ELevel& level)
 	{
-		LevelMap::const_iterator i = map.find(key);
+        auto i = map.find(key);
 		if (i == map.end())
 		{
 			return false;
@@ -1176,7 +1176,7 @@ namespace {
 
 		for (size_t i = 0; i < count; i++)
 		{
-			LevelMap::const_iterator it = map.find(keys[i]);
+            auto it = map.find(keys[i]);
 			if (it != map.end())
 			{
 				found_level = true;

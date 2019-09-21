@@ -25,6 +25,7 @@
  */
 
 #include "llcallbacklist.h"
+#include <utility>
 #include "lleventtimer.h"
 
 // Globals
@@ -56,7 +57,7 @@ void LLCallbackList::addFunction( callback_t func, void *data)
 
 bool LLCallbackList::containsFunction( callback_t func, void *data)
 {
-	callback_list_t::iterator iter = find(func,data);
+    auto iter = find(func,data);
 	if (iter != mCallbackList.end())
 	{
 		return TRUE;
@@ -70,7 +71,7 @@ bool LLCallbackList::containsFunction( callback_t func, void *data)
 
 bool LLCallbackList::deleteFunction( callback_t func, void *data)
 {
-	callback_list_t::iterator iter = find(func,data);
+    auto iter = find(func,data);
 	if (iter != mCallbackList.end())
 	{
 		mCallbackList.erase(iter);
@@ -98,10 +99,9 @@ void LLCallbackList::deleteAllFunctions()
 
 void LLCallbackList::callFunctions()
 {
-	for (callback_list_t::iterator iter = mCallbackList.begin(); iter != mCallbackList.end();  )
-	{
-		callback_list_t::iterator curiter = iter++;
-		curiter->first(curiter->second);
+	for (auto& iter : mCallbackList)
+    {
+        iter.first(iter.second);
 	}
 }
 
@@ -111,7 +111,7 @@ class OnIdleCallbackOneTime
 {
 public:
 	OnIdleCallbackOneTime(nullary_func_t callable):
-		mCallable(callable)
+		mCallable(std::move(callable))
 	{
 	}
 	static void onIdle(void *data)
@@ -121,8 +121,8 @@ public:
 		self->call();
 		delete self;
 	}
-	void call()
-	{
+	void call() const
+    {
 		mCallable();
 	}
 private:
@@ -131,7 +131,7 @@ private:
 
 void doOnIdleOneTime(nullary_func_t callable)
 {
-	OnIdleCallbackOneTime* cb_functor = new OnIdleCallbackOneTime(callable);
+	OnIdleCallbackOneTime* cb_functor = new OnIdleCallbackOneTime(std::move(callable));
 	gIdleCallbacks.addFunction(&OnIdleCallbackOneTime::onIdle,cb_functor);
 }
 
@@ -142,7 +142,7 @@ class OnIdleCallbackRepeating
 {
 public:
 	OnIdleCallbackRepeating(bool_func_t callable):
-		mCallable(callable)
+		mCallable(std::move(callable))
 	{
 	}
 	// Will keep getting called until the callable returns true.
@@ -156,8 +156,8 @@ public:
 			delete self;
 		}
 	}
-	bool call()
-	{
+	bool call() const
+    {
 		return mCallable();
 	}
 private:
@@ -166,7 +166,7 @@ private:
 
 void doOnIdleRepeating(bool_func_t callable)
 {
-	OnIdleCallbackRepeating* cb_functor = new OnIdleCallbackRepeating(callable);
+	OnIdleCallbackRepeating* cb_functor = new OnIdleCallbackRepeating(std::move(callable));
 	gIdleCallbacks.addFunction(&OnIdleCallbackRepeating::onIdle,cb_functor);
 }
 
@@ -175,7 +175,7 @@ class NullaryFuncEventTimer: public LLEventTimer
 public:
 	NullaryFuncEventTimer(nullary_func_t callable, F32 seconds):
 		LLEventTimer(seconds),
-		mCallable(callable)
+		mCallable(std::move(callable))
 	{
 	}
 
@@ -192,7 +192,7 @@ private:
 // Call a given callable once after specified interval.
 void doAfterInterval(nullary_func_t callable, F32 seconds)
 {
-	new NullaryFuncEventTimer(callable, seconds);
+	new NullaryFuncEventTimer(std::move(callable), seconds);
 }
 
 class BoolFuncEventTimer: public LLEventTimer
@@ -200,7 +200,7 @@ class BoolFuncEventTimer: public LLEventTimer
 public:
 	BoolFuncEventTimer(bool_func_t callable, F32 seconds):
 		LLEventTimer(seconds),
-		mCallable(callable)
+		mCallable(std::move(callable))
 	{
 	}
 private:
@@ -215,7 +215,7 @@ private:
 // Call a given callable every specified number of seconds, until it returns true.
 void doPeriodically(bool_func_t callable, F32 seconds)
 {
-	new BoolFuncEventTimer(callable, seconds);
+	new BoolFuncEventTimer(std::move(callable), seconds);
 }
 
 #ifdef _DEBUG

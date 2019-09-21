@@ -97,8 +97,8 @@ S32 LLSDXMLFormatter::format_impl(const LLSD& data, std::ostream& ostr, U32 opti
 		else
 		{
 			ostr << pre << "<map>" << post;
-			LLSD::map_const_iterator iter = data.beginMap();
-			LLSD::map_const_iterator end = data.endMap();
+            auto iter = data.beginMap();
+            auto end = data.endMap();
 			for(; iter != end; ++iter)
 			{
 				ostr << pre << "<key>" << escapeString((*iter).first) << "</key>" << post;
@@ -116,8 +116,8 @@ S32 LLSDXMLFormatter::format_impl(const LLSD& data, std::ostream& ostr, U32 opti
 		else
 		{
 			ostr << pre << "<array>" << post;
-			LLSD::array_const_iterator iter = data.beginArray();
-			LLSD::array_const_iterator end = data.endArray();
+            auto iter = data.beginArray();
+            auto end = data.endArray();
 			for(; iter != end; ++iter)
 			{
 				format_count += format_impl(*iter, ostr, options, level + 1);

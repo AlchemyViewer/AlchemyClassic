@@ -147,14 +147,12 @@ LLAssetType::EType LLAssetType::lookup(const char* name)
 LLAssetType::EType LLAssetType::lookup(const std::string& type_name)
 {
 	const LLAssetDictionary *dict = LLAssetDictionary::getInstance();
-	for (LLAssetDictionary::const_iterator iter = dict->begin();
-		 iter != dict->end();
-		 ++iter)
-	{
-		const AssetEntry *entry = iter->second;
+	for (const auto& iter : *dict)
+    {
+		const AssetEntry *entry = iter.second;
 		if (type_name == entry->mTypeName)
 		{
-			return iter->first;
+			return iter.first;
 		}
 	}
 	return AT_UNKNOWN;
@@ -185,14 +183,12 @@ LLAssetType::EType LLAssetType::lookupHumanReadable(const char* name)
 LLAssetType::EType LLAssetType::lookupHumanReadable(const std::string& readable_name)
 {
 	const LLAssetDictionary *dict = LLAssetDictionary::getInstance();
-	for (LLAssetDictionary::const_iterator iter = dict->begin();
-		 iter != dict->end();
-		 ++iter)
-	{
-		const AssetEntry *entry = iter->second;
+	for (const auto& iter : *dict)
+    {
+		const AssetEntry *entry = iter.second;
 		if (entry->mHumanName && (readable_name == entry->mHumanName))
 		{
-			return iter->first;
+			return iter.first;
 		}
 	}
 	return AT_NONE;

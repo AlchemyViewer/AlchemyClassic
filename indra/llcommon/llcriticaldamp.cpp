@@ -90,7 +90,7 @@ F32 LLSmoothInterpolation::getInterpolant(F32SecondsImplicit time_constant, bool
 
 	if (use_cache)
 	{
-		interpolant_vec_t::iterator find_it = std::lower_bound(sInterpolants.begin(), sInterpolants.end(), time_constant.value(), CompareTimeConstants());
+        auto find_it = std::lower_bound(sInterpolants.begin(), sInterpolants.end(), time_constant.value(), CompareTimeConstants());
 		if (find_it != sInterpolants.end() && find_it->mTimeScale == time_constant) 
 		{
 			return find_it->mInterpolant;

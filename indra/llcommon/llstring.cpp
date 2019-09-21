@@ -1186,7 +1186,7 @@ bool LLStringUtil::simpleReplacement(std::string &replacement, const std::string
 	// test first using has() because if we just look up with operator[] we get back an
 	// empty string even if the value is missing. We want to distinguish between 
 	// missing replacements and deliberately empty replacement strings.
-	format_map_t::const_iterator iter = substitutions.find(token);
+    auto iter = substitutions.find(token);
 	if (iter != substitutions.end())
 	{
 		replacement = iter->second;
@@ -1433,8 +1433,8 @@ S32 LLStringUtil::format(std::string& s, const format_map_t& substitutions)
 		{
 			std::string param;
 			if (tokens.size() > 2) param = tokens[2];
-			
-			format_map_t::const_iterator iter = substitutions.find("datetime");
+
+            auto iter = substitutions.find("datetime");
 			if (iter != substitutions.end())
 			{
 				S32 secFromEpoch = 0;

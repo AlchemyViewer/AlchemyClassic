@@ -116,7 +116,7 @@ public:
 	BOOL mapUniforms(const std::vector<LLStaticHashedString> *);
 	void mapUniform(const gl_uniform_data_t& gl_uniform, const std::vector<LLStaticHashedString> *);
 
-	GLint getUniformLocation(const LLStaticHashedString& uniform)
+	inline GLint getUniformLocation(const LLStaticHashedString& uniform)
 	{
 		GLint ret = -1;
 		if (mProgramObject > 0)

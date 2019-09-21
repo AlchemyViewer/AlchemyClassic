@@ -29,6 +29,7 @@
 #define LLSD_DEBUG_INFO
 #include "linden_common.h"
 #include "llsd.h"
+#include <utility>
 
 #include "llerror.h"
 #include "llmath.h"
@@ -184,7 +185,7 @@ namespace
 		typedef ImplBase Base;
 
 	public:
-		ImplBase(DataRef value) : mValue(value) { }
+		ImplBase(DataRef value) : mValue(std::move(value)) { }
 
 		LLSD::Type type() const override { return T; }
 
@@ -369,12 +370,12 @@ namespace
 		DataMap mData;
 		
 	protected:
-		ImplMap(const DataMap& data) : mData(data) { }
+		ImplMap(DataMap data) : mData(std::move(data)) { }
 		
 	public:
-		ImplMap() { }
+		ImplMap() = default;
 
-		ImplMap& makeMap(LLSD::Impl*&) override;
+        ImplMap& makeMap(LLSD::Impl*&) override;
 
 		LLSD::Type type() const override { return LLSD::TypeMap; }
 
@@ -490,10 +491,10 @@ namespace
 		DataVector mData;
 		
 	protected:
-		ImplArray(const DataVector& data) : mData(data) { }
+		ImplArray(DataVector data) : mData(std::move(data)) { }
 		
 	public:
-		ImplArray() { }
+        ImplArray() = default;
 
 		ImplArray& makeArray(Impl*&) override;
 

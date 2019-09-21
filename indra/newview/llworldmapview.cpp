@@ -790,7 +790,7 @@ void LLWorldMapView::drawTileOutline(S32 level, F32 top, F32 left, F32 bottom, F
 
 void LLWorldMapView::drawGenericItems(const LLSimInfo::item_info_list_t& items, LLUIImagePtr image)
 {
-	for (auto item_info : items)
+	for (auto const& item_info : items)
 	{
 		drawGenericItem(item_info, image);
 	}

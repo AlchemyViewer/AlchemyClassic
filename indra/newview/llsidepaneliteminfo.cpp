@@ -284,12 +284,12 @@ void LLSidepanelItemInfo::refresh()
 
 	if (!getIsEditing())
 	{
-		for(const std::string item : no_item_names)
+		for(const std::string& item : no_item_names)
 		{
 			getChildView(item)->setEnabled(false);
 		}
 
-		for(const std::string item : debug_items)
+		for(const std::string& item : debug_items)
 		{
 			getChildView(item)->setVisible(false);
 		}

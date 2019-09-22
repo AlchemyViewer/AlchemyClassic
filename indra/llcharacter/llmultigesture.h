@@ -52,7 +52,7 @@ public:
 	void reset();
 
 	const std::string& getTrigger() const { return mTrigger; }
-protected:
+
 	LLMultiGesture(const LLMultiGesture& gest) = delete;
 	const LLMultiGesture& operator=(const LLMultiGesture& rhs) = delete;
 

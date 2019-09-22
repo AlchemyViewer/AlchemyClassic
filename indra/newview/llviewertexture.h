@@ -627,11 +627,9 @@ private:
 //just an interface class, do not create instance from this class.
 class LLViewerTextureManager
 {
-private:
-	//make the constructor private to preclude creating instances from this class.
+public:
 	LLViewerTextureManager() = delete;
 
-public:
     //texture pipeline tester
 	static LLTexturePipelineTester* sTesterp ;
 

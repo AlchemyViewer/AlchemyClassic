@@ -69,14 +69,11 @@ public:
     typedef boost::shared_ptr<HttpOpRequest> ptr_t;
 
 	HttpOpRequest();
-
 	virtual ~HttpOpRequest();							// Use release()
 
-private:
 	HttpOpRequest(const HttpOpRequest &) = delete;				// Not defined
 	HttpOpRequest& operator=(const HttpOpRequest &) = delete;	// Not defined
 
-public:
 	enum EMethod
 	{
 		HOR_GET,

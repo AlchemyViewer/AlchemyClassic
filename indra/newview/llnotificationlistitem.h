@@ -144,6 +144,9 @@ public:
     // LLGroupMgrObserver observer trigger
 	void changed(LLGroupChange gc) override;
 
+    LLGroupNotificationListItem(const LLGroupNotificationListItem&) = delete;
+    LLGroupNotificationListItem& operator=(LLGroupNotificationListItem&) = delete;
+
     friend class LLNotificationListItem;
 protected:
     LLGroupNotificationListItem(const Params& p);
@@ -156,8 +159,6 @@ protected:
     LLTextBox*  mGroupNameBoxExp;
 
 private:
-    LLGroupNotificationListItem(const LLGroupNotificationListItem&) = delete;
-    LLGroupNotificationListItem& operator=(LLGroupNotificationListItem&) = delete;
 
     void setGroupName(std::string name);
     bool updateFromCache();
@@ -172,11 +173,12 @@ public:
 
     bool showPopup() override { return false; }
 
+    LLGroupInviteNotificationListItem(const LLGroupInviteNotificationListItem&) = delete;
+    LLGroupInviteNotificationListItem& operator=(LLGroupInviteNotificationListItem&) = delete;
+
 private:
     friend class LLNotificationListItem;
     LLGroupInviteNotificationListItem(const Params& p);
-    LLGroupInviteNotificationListItem(const LLGroupInviteNotificationListItem&) = delete;
-    LLGroupInviteNotificationListItem& operator=(LLGroupInviteNotificationListItem&) = delete;
 
     void setFee(S32 fee);
 
@@ -200,11 +202,12 @@ public:
 
     bool showPopup() override { return false; }
 
+    LLGroupNoticeNotificationListItem(const LLGroupNoticeNotificationListItem&) = delete;
+    LLGroupNoticeNotificationListItem& operator=(LLGroupNoticeNotificationListItem&) = delete;
+
 private:
     friend class LLNotificationListItem;
     LLGroupNoticeNotificationListItem(const Params& p);
-    LLGroupNoticeNotificationListItem(const LLGroupNoticeNotificationListItem&) = delete;
-    LLGroupNoticeNotificationListItem& operator=(LLGroupNoticeNotificationListItem&) = delete;
 
     void setSender(std::string sender);
     void onClickAttachment();
@@ -224,11 +227,13 @@ class LLTransactionNotificationListItem final : public LLNotificationListItem
 public:
     static std::set<std::string> getTypes();
 	BOOL postBuild() override;
+
+    LLTransactionNotificationListItem(const LLTransactionNotificationListItem&) = delete;
+    LLTransactionNotificationListItem& operator=(LLTransactionNotificationListItem&) = delete;
+
 private:
     friend class LLNotificationListItem;
     LLTransactionNotificationListItem(const Params& p);
-    LLTransactionNotificationListItem(const LLTransactionNotificationListItem&) = delete;
-    LLTransactionNotificationListItem& operator=(LLTransactionNotificationListItem&) = delete;
     LLAvatarIconCtrl* mAvatarIcon;
     LLAvatarIconCtrl* mAvatarIconExp;
 };
@@ -237,11 +242,14 @@ class LLSystemNotificationListItem final : public LLNotificationListItem
 {
 public:
 	BOOL postBuild() override;
+
+    LLSystemNotificationListItem(const LLSystemNotificationListItem &) = delete;
+    LLSystemNotificationListItem & operator=(LLSystemNotificationListItem &) = delete;
+
 private:
     friend class LLNotificationListItem;
     LLSystemNotificationListItem(const Params& p);
-    LLSystemNotificationListItem(const LLSystemNotificationListItem &) = delete;
-    LLSystemNotificationListItem & operator=(LLSystemNotificationListItem &) = delete;
+
     LLIconCtrl* mSystemNotificationIcon;
     LLIconCtrl* mSystemNotificationIconExp;
     bool mIsCaution;

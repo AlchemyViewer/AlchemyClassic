@@ -122,10 +122,10 @@ public:
      */
     static void copySLURLtoClipboard(const LLUUID& landmarkInventoryItemID);
 
-private:
     LLLandmarkActions() = delete;
     LLLandmarkActions(const LLLandmarkActions&) = delete;
 
+private:
 	static void onRegionResponseSLURL(slurl_callback_t cb,
 								 const LLVector3d& global_pos,
 								 bool escaped,

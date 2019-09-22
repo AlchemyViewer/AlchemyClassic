@@ -61,13 +61,13 @@ class HttpResponse : public LLCoreInt::RefCounted
 {
 public:
 	HttpResponse();
-
-protected:
-	virtual ~HttpResponse();							// Use release()
 	
 	HttpResponse(const HttpResponse &) = delete;					// Not defined
 	HttpResponse& operator=(const HttpResponse &) = delete;				// Not defined
-	
+
+protected:
+	virtual ~HttpResponse();							// Use release()
+
 public:
 	/// Statistics for the HTTP 
 	struct TransferStats

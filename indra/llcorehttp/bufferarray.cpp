@@ -60,6 +60,7 @@ public:
 protected:
 	Block(size_t len);
 
+public:
 	Block(const Block &) = delete;						// Not defined
 	Block& operator=(const Block &) = delete;				// Not defined
 
@@ -67,7 +68,6 @@ protected:
 	// buffered data at the end of the object.
 	void * operator new(size_t len, size_t addl_len);
 	
-public:
 	// Only public entry to get a block.
 	static Block * alloc(size_t len);
 

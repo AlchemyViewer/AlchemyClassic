@@ -50,13 +50,11 @@ public:
 
 	typedef U64 time_type;								/// Relative microseconds
 	
-private:
 	LLProcInfo() = delete;										// Not defined
 	~LLProcInfo() = delete;										// Not defined
 	LLProcInfo(const LLProcInfo &) = delete;					// Not defined
 	LLProcInfo& operator=(const LLProcInfo &) = delete;			// Not defined
 
-public:
 	/// Get accumulated system and user CPU time in
 	/// microseconds.  Syscalls involved in every invocation.
 	///

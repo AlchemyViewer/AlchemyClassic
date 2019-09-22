@@ -68,11 +68,8 @@ public:
 	HttpReplyQueue();
     virtual ~HttpReplyQueue();	
 
-protected:
 	HttpReplyQueue(const HttpReplyQueue&) = delete;
 	HttpReplyQueue& operator=(const HttpReplyQueue&) = delete;
-
-public:
 
     typedef std::vector< opPtr_t > OpContainer;
 

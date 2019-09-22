@@ -27,6 +27,8 @@
 #ifndef LL_LLGIVEINVENTORY_H
 #define LL_LLGIVEINVENTORY_H
 
+#include "lluuid.h"
+
 class LLInventoryItem;
 class LLInventoryCategory;
 
@@ -70,10 +72,10 @@ public:
 	// give inventory item functionality
 	static bool handleCopyProtectedItem(const LLSD& notification, const LLSD& response);
 
-private:
 	// this class is not intended to be instantiated.
     LLGiveInventory() = delete;
 
+private:
 	/**
 	 * logs "Inventory item offered" to IM
 	 */

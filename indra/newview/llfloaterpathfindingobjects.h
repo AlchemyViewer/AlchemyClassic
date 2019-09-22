@@ -51,6 +51,9 @@ public:
 	void onClose(bool pIsAppQuitting) override;
 	void draw() final override;
 
+    LLFloaterPathfindingObjects(const LLFloaterPathfindingObjects& pOther) = delete;
+    LLFloaterPathfindingObjects& operator=(const LLFloaterPathfindingObjects&) = delete;
+
 protected:
 	friend class LLFloaterReg;
 
@@ -105,8 +108,6 @@ protected:
 	EMessagingState                    getMessagingState() const;
 
 private:
-	LLFloaterPathfindingObjects(const LLFloaterPathfindingObjects &pOther) = delete;
-
 	void                   setMessagingState(EMessagingState pMessagingState);
 
 	void                   onRefreshObjectsClicked();

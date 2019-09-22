@@ -43,10 +43,10 @@ namespace LLCoreInt
 
 class RefCounted
 {
+public:
 	RefCounted() = delete;								// Not defined - may not be default constructed
 	RefCounted& operator=(const RefCounted &) = delete;		// Not defined
 	
-public:
 	explicit RefCounted(bool const implicit)
 		: mRefCount(implicit)
 		{}

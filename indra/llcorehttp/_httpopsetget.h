@@ -56,14 +56,11 @@ public:
     typedef boost::shared_ptr<HttpOpSetGet> ptr_t;
 
 	HttpOpSetGet();
-
 	virtual ~HttpOpSetGet();							// Use release()
 
-private:
 	HttpOpSetGet(const HttpOpSetGet &) = delete;					// Not defined
 	HttpOpSetGet& operator=(const HttpOpSetGet &) = delete;			// Not defined
 
-public:
 	/// Threading:  called by application thread
 	HttpStatus setupGet(HttpRequest::EPolicyOption opt, HttpRequest::policy_t pclass);
 	HttpStatus setupSet(HttpRequest::EPolicyOption opt, HttpRequest::policy_t pclass, long value);

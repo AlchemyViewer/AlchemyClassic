@@ -90,11 +90,9 @@ public:
 	BufferArrayStreamBuf(BufferArray * array);
 	virtual ~BufferArrayStreamBuf();
 
-private:
 	BufferArrayStreamBuf(const BufferArrayStreamBuf &) = delete;			// Not defined
 	BufferArrayStreamBuf& operator=(const BufferArrayStreamBuf &) = delete;	// Not defined
 
-public:
 	// Input interfaces from std::streambuf
 	int_type underflow() override;
 	int_type uflow() override;
@@ -139,7 +137,6 @@ public:
 	BufferArrayStream(BufferArray * ba);
 	~BufferArrayStream() = default;
 
-protected:
 	BufferArrayStream(const BufferArrayStream &) = delete;
 	void operator=(const BufferArrayStream &) = delete;
 

@@ -54,10 +54,8 @@ public:
 
 	HttpPolicyGlobal & operator=(const HttpPolicyGlobal &);
 	
-private:
 	HttpPolicyGlobal(const HttpPolicyGlobal &) = delete;			// Not defined
 
-public:
 	HttpStatus set(HttpRequest::EPolicyOption opt, long value);
 	HttpStatus set(HttpRequest::EPolicyOption opt, const std::string & value);
 	HttpStatus set(HttpRequest::EPolicyOption opt, HttpRequest::policyCallback_t value);

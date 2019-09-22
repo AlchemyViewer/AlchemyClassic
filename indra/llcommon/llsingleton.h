@@ -35,6 +35,9 @@ class LLSingletonBase
 public:
     class MasterList;
 
+    LLSingletonBase(const LLSingletonBase&) = delete;
+    LLSingletonBase& operator=(const LLSingletonBase&) = delete;
+
 private:
     // All existing LLSingleton instances are tracked in this master list.
     typedef std::list<LLSingletonBase*> list_t;
@@ -76,9 +79,6 @@ protected:
     template <typename DERIVED_TYPE>
     LLSingletonBase(tag<DERIVED_TYPE>);
     virtual ~LLSingletonBase() = default;
-
-    LLSingletonBase(const LLSingletonBase&) = delete;
-    LLSingletonBase& operator=(const LLSingletonBase&) = delete;
 
     // Every new LLSingleton should be added to/removed from the master list
     void add_master();

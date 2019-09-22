@@ -53,11 +53,9 @@ public:
 
 	virtual ~HttpOpSetPriority();
 
-private:
 	HttpOpSetPriority(const HttpOpSetPriority &) = delete;				// Not defined
 	HttpOpSetPriority& operator=(const HttpOpSetPriority &) = delete;	// Not defined
 
-public:
 	void stageFromRequest(HttpService *) override;
 
 protected:

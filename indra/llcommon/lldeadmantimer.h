@@ -102,11 +102,9 @@ public:
 
 	~LLDeadmanTimer() = default;
 	
-private:
 	LLDeadmanTimer(const LLDeadmanTimer &) = delete;				// Not defined
 	LLDeadmanTimer& operator=(const LLDeadmanTimer &) = delete;		// Not defined
 
-public:
 	/// Get the current time.  Zero-basis for this time
 	/// representation is not defined and is different on
 	/// different platforms.  Do not attempt to compute

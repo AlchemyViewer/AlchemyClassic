@@ -82,11 +82,9 @@ public:
 	/// Threading:  called by any thread.
 	virtual ~HttpOperation();							// Use release()
 
-protected:
 	HttpOperation(const HttpOperation&) = delete;
 	HttpOperation& operator=(const HttpOperation&) = delete;
 
-public:
 	/// Register a reply queue and a handler for completion notifications.
 	///
 	/// Invokers of operations that want to receive notification that an
@@ -227,11 +225,9 @@ public:
 
 	virtual ~HttpOpStop();
 
-private:
 	HttpOpStop(const HttpOpStop &) = delete;					// Not defined
 	HttpOpStop& operator=(const HttpOpStop &) = delete;			// Not defined
 
-public:
 	void stageFromRequest(HttpService *) override;
 
 };  // end class HttpOpStop
@@ -249,11 +245,9 @@ public:
 
 	virtual ~HttpOpNull();
 
-private:
 	HttpOpNull(const HttpOpNull &) = delete;					// Not defined
 	HttpOpNull& operator=(const HttpOpNull &) = delete;			// Not defined
 
-public:
 	void stageFromRequest(HttpService *) override;
 
 };  // end class HttpOpNull
@@ -271,11 +265,9 @@ public:
 
 	virtual ~HttpOpSpin();
 
-private:
 	HttpOpSpin(const HttpOpSpin &) = delete;					// Not defined
 	HttpOpSpin& operator=(const HttpOpSpin &) = delete;			// Not defined
 
-public:
 	void stageFromRequest(HttpService *) override;
 
 protected:

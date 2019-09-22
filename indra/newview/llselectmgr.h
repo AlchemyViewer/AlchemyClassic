@@ -365,6 +365,8 @@ public:
 
 	ESelectType getSelectType() const { return mSelectType; }
 
+    LLObjectSelection& operator=(const LLObjectSelection&) = delete;
+
 private:
 	void addNode(LLSelectNode *nodep);
 	void addNodeAtEnd(LLSelectNode *nodep);
@@ -374,8 +376,6 @@ private:
 	void cleanupNodes();
 
 	list_t mList;
-	const LLObjectSelection& operator=(const LLObjectSelection&) = delete;
-
 	LLPointer<LLViewerObject> mPrimaryObject;
 	std::map<LLPointer<LLViewerObject>, LLSelectNode*> mSelectNodeMap;
 	ESelectType mSelectType;

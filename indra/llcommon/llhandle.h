@@ -176,8 +176,8 @@ public:
 	}
 
 	//don't allow copying of root handles, since there should only be one
-private:
 	LLRootHandle(const LLRootHandle& other) = delete;
+    LLRootHandle& operator=(const LLRootHandle&) = delete;
 };
 
 /**

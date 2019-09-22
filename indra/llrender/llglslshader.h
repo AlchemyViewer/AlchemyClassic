@@ -414,7 +414,7 @@ public:
 	void addPermutation(const std::string& name, const std::string& value);
 	void removePermutations(std::map<std::string, std::string>& map)
 	{
-		for (auto entry : map)
+		for (auto const& entry : map)
 		{
 			mDefines.erase(entry.first);
 		}

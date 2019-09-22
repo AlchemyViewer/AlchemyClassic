@@ -82,7 +82,7 @@ BOOL LLFloaterDirectory::postBuild()
 {
 	mResultList = findChild<LLScrollListCtrl>("results");
 	mResultList->setCommitCallback(boost::bind(&LLFloaterDirectory::onCommitSelection, this));
-	for (std::string panel_name: sSearchPanels)
+	for (auto const& panel_name: sSearchPanels)
 	{
 		LLPanelSearch* panel = static_cast<LLPanelSearch*>(findChild<LLUICtrl>(panel_name));
 		if (panel)

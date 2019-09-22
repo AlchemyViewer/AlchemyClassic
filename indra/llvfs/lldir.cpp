@@ -682,7 +682,7 @@ void LLDir::walkSearchSkinDirs(const std::string& subdir,
 							   const std::string& filename,
 							   const FUNCTION& function) const
 {
-	for (std::string const& skindir : mSearchSkinDirs)
+	for (auto const& skindir : mSearchSkinDirs)
 	{
 		std::string subdir_path(add(skindir, subdir));
 		for (std::string subsubdir : subsubdirs)
@@ -831,9 +831,9 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 		// current language, copy them -- in proper order -- into results.
 		// Don't drive this by walking the map itself: it matters that we
 		// generate results in the same order as subsubdirs.
-		for (std::string const& subsubdir : subsubdirs)
+		for (auto const& subsubdir : subsubdirs)
 		{
-			StringMap::const_iterator found(path_for.find(subsubdir));
+			auto found(path_for.find(subsubdir));
 			if (found != path_for.end())
 			{
 				results.push_back(found->second);
@@ -843,7 +843,7 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 
 	LL_DEBUGS("LLDir") << empty;
 	const char* comma = "";
-	for (std::string const& path : results)
+	for (auto const& path : results)
 	{
 		LL_CONT << comma << "'" << path << "'";
 		comma = ", ";

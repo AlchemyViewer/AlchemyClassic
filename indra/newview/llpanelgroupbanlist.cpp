@@ -138,7 +138,7 @@ void LLPanelGroupBanlist::refreshList()
 	}
 	
 	mBanListCtrl->deleteAllItems();
-	for (std::pair<LLUUID,LLGroupBanData> entry: gdatap->mBanList)
+	for (auto const& entry: gdatap->mBanList)
 	{
 		LLNameListCtrl::NameItem ban_entry;
 		ban_entry.value = entry.first;

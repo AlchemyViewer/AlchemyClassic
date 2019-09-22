@@ -247,7 +247,7 @@ class LLRefreshTexturesObject : public view_listener_t
 				}
 			}
 
-			for (auto it : faces_per_tex)
+			for (auto const& it : faces_per_tex)
 			{
 			    ALViewerMenu::destroy_texture(it.first);
 			}

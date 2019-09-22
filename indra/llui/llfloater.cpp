@@ -2305,7 +2305,7 @@ void LLFloaterView::reshape(S32 width, S32 height, BOOL called_from_parent)
 			//{
 			//	floaterp->translate(translate_x, translate_y);
 			//}
-			for (LLHandle<LLFloater> dependent_floater : floaterp->mDependents)
+			for (LLHandle<LLFloater> const& dependent_floater : floaterp->mDependents)
 			{
 				if (dependent_floater.get())
 				{

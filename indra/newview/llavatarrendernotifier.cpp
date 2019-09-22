@@ -304,7 +304,7 @@ void LLHUDRenderNotifier::updateNotificationHUD(hud_complexity_list_t complexity
     LLHUDComplexity report_complexity;
 
     EWarnLevel warning_level = WARN_NONE;
-	for (auto object_complexity : complexity)
+	for (auto const& object_complexity : complexity)
     {
         EWarnLevel object_level = getWarningType(object_complexity, report_complexity);
         if (object_level >= 0)

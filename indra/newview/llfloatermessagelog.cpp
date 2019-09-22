@@ -622,7 +622,7 @@ void LLFloaterMessageLog::showSelectedMessage()
 	const LLScrollListItem* selected_itemp = mMessagelogScrollListCtrl->getFirstSelected();
 	if (!selected_itemp) return;
 	const LLUUID& id = selected_itemp->getUUID();
-	for (FloaterMessageItem entryp : mFloaterMessageLogItems)
+	for (auto const& entryp : mFloaterMessageLogItems)
 	{
 		if(entryp->mID == id)
 		{
@@ -770,7 +770,7 @@ void LLFloaterMessageLog::onClickSendToMessageBuilder()
 	if (!selected_itemp) return;
 
 	const LLUUID& id = selected_itemp->getUUID();
-	for(FloaterMessageItem entry : mFloaterMessageLogItems)
+	for(auto const& entry : mFloaterMessageLogItems)
 	{
 		if(entry->mID == id)
 		{

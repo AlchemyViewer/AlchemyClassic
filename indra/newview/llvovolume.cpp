@@ -5170,10 +5170,8 @@ void LLVolumeGeometryManager::registerFace(LLSpatialGroup* group, LLFace* facep,
 		draw_vec[idx]->mVertexBuffer == facep->getVertexBuffer() &&
 		draw_vec[idx]->mEnd == facep->getGeomIndex()-1 &&
 		(LLPipeline::sTextureBindTest || draw_vec[idx]->mTexture == tex || batchable) &&
-#if LL_DARWIN
-		draw_vec[idx]->mEnd - draw_vec[idx]->mStart + facep->getGeomCount() <= (U32) gGLManager.mGLMaxVertexRange &&
-		draw_vec[idx]->mCount + facep->getIndicesCount() <= (U32) gGLManager.mGLMaxIndexRange &&
-#endif
+		draw_vec[idx]->mEnd - draw_vec[idx]->mStart + facep->getGeomCount() <= gGLManager.mGLMaxVertexRange &&
+		draw_vec[idx]->mCount + facep->getIndicesCount() <= (U32)gGLManager.mGLMaxIndexRange &&
 		(!cmp_mat || draw_vec[idx]->mMaterial == mat) &&
 		//draw_vec[idx]->mMaterialID == mat_id &&
 		(!cmp_fullbright || draw_vec[idx]->mFullbright == fullbright) &&

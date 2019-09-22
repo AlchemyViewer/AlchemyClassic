@@ -27,7 +27,7 @@
  */
 
 #include "volume_catcher.h"
-#include "llwin32headers.h"
+#include "llwin32headerslean.h"
 #include "llsingleton.h"
 
 #include <mmeapi.h>

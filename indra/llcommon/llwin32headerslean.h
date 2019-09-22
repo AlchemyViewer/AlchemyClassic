@@ -32,9 +32,9 @@
 #define NOMINMAX
 #endif
 #define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <winsock2.h>
 #include <Ws2ipdef.h>
-#include <windows.h>
 #undef NOMINMAX
 #endif
 

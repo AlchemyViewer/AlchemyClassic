@@ -85,7 +85,7 @@
  **********************************************************************/
 #if LL_WINDOWS
 
-#include <windows.h>
+#include "llwin32headerslean.h"
 #include <tchar.h>
 #include <cstdio>
 #include <cstdlib>

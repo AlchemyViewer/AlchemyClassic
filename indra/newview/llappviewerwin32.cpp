@@ -30,7 +30,7 @@
 #define VLD_FORCE_ENABLE 1
 #include "vld.h"
 #endif
-#include "llwin32headers.h"
+#include "llwin32headerslean.h"
 
 #include "llwindow.h" // *FIX: for setting gIconResource.
 

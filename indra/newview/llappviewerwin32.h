@@ -49,7 +49,7 @@ protected:
 	bool initHardwareTest() override; // Win32 uses DX9 to test hardware.
 	bool initParseCommandLine(LLCommandLineParser& clp) override;
 
-	virtual bool beingDebugged();
+    bool beingDebugged() override;
 	bool restoreErrorTrap() override;
 	void initCrashReporting(bool reportFreeze) override;
 

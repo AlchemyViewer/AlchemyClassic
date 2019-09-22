@@ -85,11 +85,10 @@ protected:
 	HttpService();
 	virtual ~HttpService();
 
-private:
+public:
 	HttpService(const HttpService &) = delete;				// Not defined
 	HttpService& operator=(const HttpService &) = delete;	// Not defined
 
-public:
 	enum EState
 	{
 		NOT_INITIALIZED = -1,

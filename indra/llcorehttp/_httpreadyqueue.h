@@ -69,18 +69,11 @@ typedef std::priority_queue<HttpOpRequest::ptr_t,
 class HttpReadyQueue : public HttpReadyQueueBase
 {
 public:
-	HttpReadyQueue()
-		: HttpReadyQueueBase()
-		{}
+	HttpReadyQueue() : HttpReadyQueueBase() {}
+    ~HttpReadyQueue() = default;
 	
-	~HttpReadyQueue()
-		{}
-	
-protected:
 	HttpReadyQueue(const HttpReadyQueue &) = delete;				// Not defined
 	HttpReadyQueue& operator=(const HttpReadyQueue &) = delete;		// Not defined
-
-public:
 
 #if LLCORE_HTTP_READY_QUEUE_IGNORES_PRIORITY
 	// Types and methods needed to make a std::deque look

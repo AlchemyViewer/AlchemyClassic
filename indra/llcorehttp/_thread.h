@@ -42,10 +42,11 @@ namespace LLCoreInt
 
 class HttpThread : public RefCounted
 {
-private:
+public:
 	HttpThread() = delete;								// Not defined
 	HttpThread& operator=(const HttpThread &) = delete;	// Not defined
 
+private:
 	void at_exit()
 		{
 			// the thread function has exited so we need to release our reference

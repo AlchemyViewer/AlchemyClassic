@@ -60,11 +60,10 @@ protected:
  **                                                                            **
  **                    INITIALIZATION
  **/
-private:
+public:
 	// Hide default constructor.
 	LLAvatarAppearance() = delete;
 
-public:
 	LLAvatarAppearance(LLWearableData* wearable_data);
 	virtual ~LLAvatarAppearance();
 

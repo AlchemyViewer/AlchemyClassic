@@ -501,7 +501,7 @@ void LLStreamingAudio_FMODSTUDIO::setGain(F32 vol)
 	}
 }
 
-const bool LLStreamingAudio_FMODSTUDIO::hasNewMetaData()
+bool LLStreamingAudio_FMODSTUDIO::hasNewMetaData()
 {
 	if (mCurrentInternetStreamp && mNewMetadata)
 	{

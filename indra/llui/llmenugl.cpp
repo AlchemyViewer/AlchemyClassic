@@ -3788,7 +3788,7 @@ void LLMenuHolderGL::reshape(S32 width, S32 height, BOOL called_from_parent)
 	LLView::reshape(width, height, called_from_parent);
 }
 
-LLView* const LLMenuHolderGL::getVisibleMenu() const
+LLView* LLMenuHolderGL::getVisibleMenu() const
 {
 	for ( child_list_const_iter_t child_it = getChildList()->begin(); child_it != getChildList()->end(); ++child_it)
 	{

@@ -80,7 +80,8 @@ public:
 
 	LLFontGL() = default;
 	~LLFontGL() = default;
-
+    LLFontGL(const LLFontGL& source) = delete;
+    LLFontGL& operator=(const LLFontGL& source) = delete;
 
 	void reset(); // Reset a font after GL cleanup.  ONLY works on an already loaded font.
 
@@ -215,9 +216,6 @@ private:
 	friend class LLFontRegistry;
 	friend class LLTextBillboard;
 	friend class LLHUDText;
-
-	LLFontGL(const LLFontGL &source) = delete;
-	LLFontGL &operator=(const LLFontGL &source) = delete;
 
 	LLFontDescriptor mFontDescriptor;
 	LLPointer<LLFontFreetype> mFontFreetype;

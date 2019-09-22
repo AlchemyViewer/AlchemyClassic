@@ -120,7 +120,6 @@ public:
 			LLInventoryModelBackgroundFetch::instance().incrFetchCount(-1);
 		}
 
-protected:
 	BGItemHttpHandler(const BGItemHttpHandler &) = delete;				// Not defined
 	BGItemHttpHandler& operator=(const BGItemHttpHandler &) = delete;					// Not defined
 };
@@ -153,7 +152,6 @@ public:
 			LLInventoryModelBackgroundFetch::instance().incrFetchCount(-1);
 		}
 	
-protected:
 	BGFolderHttpHandler(const BGFolderHttpHandler &) = delete;				// Not defined
 	BGFolderHttpHandler& operator=(const BGFolderHttpHandler &) = delete;	// Not defined
 

@@ -63,7 +63,7 @@ class LLStreamingAudio_FMODSTUDIO : public LLStreamingAudioInterface
 
 	/*virtual*/ bool supportsMetaData() final override {return true;}
 	/*virtual*/ const LLSD *getMetaData() final override { return mMetaData; }	//return NULL if not playing.
-	/*virtual*/ const bool hasNewMetaData() final override;
+	/*virtual*/ bool hasNewMetaData() final override;
 	/*virtual*/ bool supportsWaveData() final override {return true;}
 	/*virtual*/ bool getWaveData(float* arr, S32 count, S32 stride = 1) final override;
 private:

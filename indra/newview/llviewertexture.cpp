@@ -3170,7 +3170,7 @@ LLDate LLViewerFetchedTexture::getUploadTime()
 {
 	if (mComment.find('z') != mComment.end())
 	{
-		struct tm t = {0};
+        struct tm t = tm();
 		sscanf(mComment['z'].c_str(), "%4d%2d%2d%2d%2d%2d",
 			   &t.tm_year, &t.tm_mon, &t.tm_mday, &t.tm_hour, &t.tm_min, &t.tm_sec);
 		std::string iso_date = llformat("%d-%d-%dT%d:%d:%dZ", t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);

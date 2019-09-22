@@ -21,10 +21,9 @@
 
 void LLCallbackRegistry::fireCallbacks() const
 {
-	for (FuncList::const_iterator fi = mCallbacks.begin(), fe = mCallbacks.end();
-		 fi != fe; ++fi)
-	{
-		LL_INFOS("LLInitDestroyClass") << "calling " << fi->first << "()" << LL_ENDL;
-		fi->second();
+	for (const auto& callback : mCallbacks)
+    {
+		LL_INFOS("LLInitDestroyClass") << "calling " << callback.first << "()" << LL_ENDL;
+        callback.second();
 	}
 }

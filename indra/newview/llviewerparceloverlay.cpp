@@ -755,8 +755,8 @@ void LLViewerParcelOverlay::addPropertyLine(
 	if (outside_z > 20.f) color_array.push_back( color );
 	else color_array.push_back( underwater );
 
-	vertex_array.push_back( LLVector3(outside_x, outside_y, outside_z) );
-	coord_array.push_back(  LLVector2(outside_x - start_x, 0.f) );
+	vertex_array.emplace_back(outside_x, outside_y, outside_z);
+	coord_array.emplace_back(outside_x - start_x, 0.f);
 
 	inside_x += dx * LINE_WIDTH;
 	inside_y += dy * LINE_WIDTH;
@@ -774,11 +774,11 @@ void LLViewerParcelOverlay::addPropertyLine(
 	if (outside_z > 20.f) color_array.push_back( color );
 	else color_array.push_back( underwater );
 
-	vertex_array.push_back( LLVector3(inside_x, inside_y, inside_z) );
-	vertex_array.push_back( LLVector3(outside_x, outside_y, outside_z) );
+	vertex_array.emplace_back(inside_x, inside_y, inside_z);
+	vertex_array.emplace_back(outside_x, outside_y, outside_z);
 
-	coord_array.push_back(  LLVector2(outside_x - start_x, 1.f) );
-	coord_array.push_back(  LLVector2(outside_x - start_x, 0.f) );
+	coord_array.emplace_back(outside_x - start_x, 1.f);
+	coord_array.emplace_back(outside_x - start_x, 0.f);
 
 	inside_x += dx * (dx - LINE_WIDTH);
 	inside_y += dy * (dy - LINE_WIDTH);
@@ -800,11 +800,11 @@ void LLViewerParcelOverlay::addPropertyLine(
 		if (outside_z > 20.f) color_array.push_back( color );
 		else color_array.push_back( underwater );
 
-		vertex_array.push_back( LLVector3(inside_x, inside_y, inside_z) );
-		vertex_array.push_back( LLVector3(outside_x, outside_y, outside_z) );
+		vertex_array.emplace_back(inside_x, inside_y, inside_z);
+		vertex_array.emplace_back(outside_x, outside_y, outside_z);
 
-		coord_array.push_back(  LLVector2(outside_x - start_x, 1.f) );
-		coord_array.push_back(  LLVector2(outside_x - start_x, 0.f) );
+		coord_array.emplace_back(outside_x - start_x, 1.f);
+		coord_array.emplace_back(outside_x - start_x, 0.f);
 
 		inside_x += dx;
 		inside_y += dy;
@@ -829,11 +829,11 @@ void LLViewerParcelOverlay::addPropertyLine(
 	if (outside_z > 20.f) color_array.push_back( color );
 	else color_array.push_back( underwater );
 
-	vertex_array.push_back( LLVector3(inside_x, inside_y, inside_z) );
-	vertex_array.push_back( LLVector3(outside_x, outside_y, outside_z) );
+	vertex_array.emplace_back(inside_x, inside_y, inside_z);
+	vertex_array.emplace_back(outside_x, outside_y, outside_z);
 
-	coord_array.push_back(  LLVector2(outside_x - start_x, 1.f) );
-	coord_array.push_back(  LLVector2(outside_x - start_x, 0.f) );
+	coord_array.emplace_back(outside_x - start_x, 1.f);
+	coord_array.emplace_back(outside_x - start_x, 0.f);
 
 	inside_x += dx * LINE_WIDTH;
 	inside_y += dy * LINE_WIDTH;
@@ -847,8 +847,8 @@ void LLViewerParcelOverlay::addPropertyLine(
 	if (outside_z > 20.f) color_array.push_back( color );
 	else color_array.push_back( underwater );
 
-	vertex_array.push_back( LLVector3(outside_x, outside_y, outside_z) );
-	coord_array.push_back(  LLVector2(outside_x - start_x, 0.f) );
+	vertex_array.emplace_back(outside_x, outside_y, outside_z);
+	coord_array.emplace_back(outside_x - start_x, 0.f);
 }
 
 

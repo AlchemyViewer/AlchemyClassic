@@ -588,7 +588,7 @@ void PeriodicRecording::nextPeriod()
 {
 	if (mAutoResize)
 	{
-		mRecordingPeriods.push_back(Recording());
+		mRecordingPeriods.emplace_back(Recording());
 	}
 
 	Recording& old_recording = getCurRecording();
@@ -645,11 +645,11 @@ void PeriodicRecording::appendPeriodicRecording( PeriodicRecording& other )
 	{
 		S32 num_to_copy = llmin((S32)mRecordingPeriods.size(), (S32)other_num_recordings);
 
-		std::vector<Recording>::iterator src_it = other.mRecordingPeriods.begin() + other_index ;
-		std::vector<Recording>::iterator dest_it = mRecordingPeriods.begin() + mCurPeriod;
+        auto src_it = other.mRecordingPeriods.begin() + other_index ;
+        auto dest_it = mRecordingPeriods.begin() + mCurPeriod;
 
 		// already consumed the first recording from other, so start counting at 1
-		for(S32 i = 1; i < num_to_copy; i++)
+		for(S32 i = 1; i < num_to_copy; ++i)
 		{
 			*dest_it = *src_it;
 
@@ -749,15 +749,13 @@ void PeriodicRecording::handleReset()
 	if (mAutoResize)
 	{
 		mRecordingPeriods.clear();
-		mRecordingPeriods.push_back(Recording());
+		mRecordingPeriods.emplace_back();
 	}
 	else
 	{
-		for (std::vector<Recording>::iterator it = mRecordingPeriods.begin(), end_it = mRecordingPeriods.end();
-			it != end_it;
-			++it)
-		{
-			it->reset();
+		for (auto& period : mRecordingPeriods)
+        {
+            period.reset();
 		}
 	}
 	mCurPeriod = 0;

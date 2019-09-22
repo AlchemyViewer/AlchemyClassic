@@ -66,9 +66,6 @@ static const auto& nil(nil_);
 #include <boost/fusion/include/push_back.hpp>
 #include <boost/fusion/include/cons.hpp>
 #include <boost/fusion/include/invoke.hpp>
-#include <boost/mpl/begin.hpp>
-#include <boost/mpl/end.hpp>
-#include <boost/mpl/next.hpp>
 #include <boost/mpl/deref.hpp>
 #include <typeinfo>
 #include "llevents.h"
@@ -85,8 +82,8 @@ class LLSD;
 class LL_COMMON_API LLEventDispatcher
 {
 public:
-    LLEventDispatcher(const std::string& desc, const std::string& key);
-    virtual ~LLEventDispatcher();
+    LLEventDispatcher(std::string desc, std::string key);
+    virtual ~LLEventDispatcher() = default;
 
     /// @name Register functions accepting(const LLSD&)
     //@{
@@ -281,7 +278,7 @@ public:
 private:
     struct DispatchEntry
     {
-        DispatchEntry(const std::string& desc);
+        DispatchEntry(std::string desc);
         virtual ~DispatchEntry() {} // suppress MSVC warning, sigh
 
         std::string mDesc;

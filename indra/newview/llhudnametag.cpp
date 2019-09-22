@@ -526,7 +526,7 @@ void LLHUDNameTag::updateVisibility()
 	{
 		//LL_WARNS() << "LLHUDNameTag::updateScreenPos -- mSourceObject is NULL!" << LL_ENDL;
 		mVisible = TRUE;
-		sVisibleTextObjects.push_back(LLPointer<LLHUDNameTag> (this));
+		sVisibleTextObjects.emplace_back(this);
 		return;
 	}
 
@@ -593,7 +593,7 @@ void LLHUDNameTag::updateVisibility()
 	}
 
 	mVisible = TRUE;
-	sVisibleTextObjects.push_back(LLPointer<LLHUDNameTag> (this));
+	sVisibleTextObjects.emplace_back(this);
 }
 
 LLVector2 LLHUDNameTag::updateScreenPos(const LLVector2 &offset)

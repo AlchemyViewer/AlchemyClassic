@@ -2522,8 +2522,8 @@ class LLPanelPreferencePrivacy final : public LLPanelPreference
 public:
 	LLPanelPreferencePrivacy()
 	{
-		mAccountIndependentSettings.push_back("VoiceCallsFriendsOnly");
-		mAccountIndependentSettings.push_back("AutoDisengageMic");
+		mAccountIndependentSettings.emplace_back("VoiceCallsFriendsOnly");
+		mAccountIndependentSettings.emplace_back("AutoDisengageMic");
 	}
 
 	void saveSettings() override
@@ -3045,7 +3045,7 @@ void collectChildren( LLView const *aView, ll::prefs::PanelDataPtr aParentPanel,
 			pCurTabContainer->mPanel = 0;
 
 			if( aParentPanel )
-				aParentPanel->mChildPanel.push_back( pCurTabContainer );
+				aParentPanel->mChildPanel.emplace_back( pCurTabContainer );
 			if( aParentTabContainer )
 				aParentTabContainer->mChildPanel.push_back( pCurTabContainer );
 		}

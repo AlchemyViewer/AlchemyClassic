@@ -71,10 +71,9 @@ void LLSmoothInterpolation::updateInterpolants()
 {
 	sTimeDelta = sInternalTimer.getElapsedTimeAndResetF32();
 
-	for (size_t i = 0; i < sInterpolants.size(); i++)
-	{
-		Interpolant& interp = sInterpolants[i];
-		interp.mInterpolant = calcInterpolant(interp.mTimeScale);
+	for (auto& interp : sInterpolants)
+    {
+        interp.mInterpolant = calcInterpolant(interp.mTimeScale);
 	}
 } 
 
@@ -90,7 +89,7 @@ F32 LLSmoothInterpolation::getInterpolant(F32SecondsImplicit time_constant, bool
 
 	if (use_cache)
 	{
-		interpolant_vec_t::iterator find_it = std::lower_bound(sInterpolants.begin(), sInterpolants.end(), time_constant.value(), CompareTimeConstants());
+        auto find_it = std::lower_bound(sInterpolants.begin(), sInterpolants.end(), time_constant.value(), CompareTimeConstants());
 		if (find_it != sInterpolants.end() && find_it->mTimeScale == time_constant) 
 		{
 			return find_it->mInterpolant;

@@ -169,7 +169,7 @@ ThreadRecorder::active_recording_list_t::iterator ThreadRecorder::bringUpToDate(
 	{
 		ActiveRecording* cur_recording = *it;
 
-		active_recording_list_t::reverse_iterator next_it = it;
+        auto next_it = it;
 		++next_it;
 
 		// if we have another recording further down in the stack...
@@ -203,7 +203,7 @@ ThreadRecorder::active_recording_list_t::iterator ThreadRecorder::bringUpToDate(
 void ThreadRecorder::deactivate( AccumulatorBufferGroup* recording )
 {
 #if LL_TRACE_ENABLED
-	active_recording_list_t::iterator recording_it = bringUpToDate(recording);
+    auto recording_it = bringUpToDate(recording);
 	// this method should only be called on a thread where the recorder is active
 	llassert_always(recording_it != mActiveRecordings.end());
 
@@ -284,13 +284,11 @@ void ThreadRecorder::pullFromChildren()
 
 		AccumulatorBufferGroup& target_recording_buffers = mActiveRecordings.back()->mPartialRecording;
 		target_recording_buffers.sync();
-		for (child_thread_recorder_list_t::iterator it = mChildThreadRecorders.begin(), end_it = mChildThreadRecorders.end();
-			it != end_it;
-			++it)
-		{ LLMutexLock shared_recording_lock(&(*it)->mSharedRecordingMutex);
+		for (auto& recorder : mChildThreadRecorders)
+        { LLMutexLock shared_recording_lock(&recorder->mSharedRecordingMutex);
 
-			target_recording_buffers.merge((*it)->mSharedRecordingBuffers);
-			(*it)->mSharedRecordingBuffers.reset();
+			target_recording_buffers.merge(recorder->mSharedRecordingBuffers);
+            recorder->mSharedRecordingBuffers.reset();
 		}
 	}
 #endif

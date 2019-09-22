@@ -182,13 +182,11 @@ void LLSimpleDispatcher::addListener(LLEventListener* listener, LLSD filter, con
 
 void LLSimpleDispatcher::removeListener(LLEventListener* listener)
 {
-	std::vector<LLListenerEntry>::iterator itor = mListeners.begin();
-	std::vector<LLListenerEntry>::iterator end = mListeners.end();
-	for (; itor != end; ++itor)
+	for (auto lis = mListeners.begin(); lis != mListeners.end(); ++lis)
 	{
-		if ((*itor).listener == listener)
+		if ((*lis).listener == listener)
 		{
-			mListeners.erase(itor);
+			mListeners.erase(lis);
 			break;
 		}
 	}
@@ -198,10 +196,10 @@ void LLSimpleDispatcher::removeListener(LLEventListener* listener)
 std::vector<LLListenerEntry> LLSimpleDispatcher::getListeners() const
 {
 	std::vector<LLListenerEntry> ret;
-	std::vector<LLListenerEntry>::const_iterator itor;
-	for (itor=mListeners.begin(); itor!=mListeners.end(); ++itor)
-	{
-		ret.push_back(*itor);
+	
+	for (const auto& listener : mListeners)
+    {
+		ret.push_back(listener);
 	}
 	
 	return ret;
@@ -210,14 +208,13 @@ std::vector<LLListenerEntry> LLSimpleDispatcher::getListeners() const
 // virtual
 bool LLSimpleDispatcher::fireEvent(LLPointer<LLEvent> event, LLSD filter)
 {
-	std::vector<LLListenerEntry>::iterator itor;
-	std::string filter_string = filter.asString();
-	for (itor=mListeners.begin(); itor!=mListeners.end(); ++itor)
-	{
-		LLListenerEntry& entry = *itor;
+    std::string filter_string = filter.asString();
+	for (auto& list : mListeners)
+    {
+		LLListenerEntry& entry = list;
 		if (filter_string.empty() || entry.filter.asString() == filter_string)
 		{
-			(entry.listener)->handleEvent(event, (*itor).userdata);
+			(entry.listener)->handleEvent(event, list.userdata);
 		}
 	}
 	return true;
@@ -241,10 +238,6 @@ LLEventDispatcher::~LLEventDispatcher()
     Listeners
 ************************************************/
 
-LLEventListener::~LLEventListener()
-{
-}
-
 LLSimpleListener::~LLSimpleListener()
 {
 	clearDispatchers();
@@ -254,7 +247,7 @@ void LLSimpleListener::clearDispatchers()
 {
 	// Remove myself from all listening dispatchers
 	std::vector<LLEventDispatcher *>::iterator itor;
-	while (mDispatchers.size() > 0)
+	while (!mDispatchers.empty())
 	{
 		itor = mDispatchers.begin();
 		LLEventDispatcher *dispatcher = *itor;
@@ -270,11 +263,9 @@ void LLSimpleListener::clearDispatchers()
 
 bool LLSimpleListener::handleAttach(LLEventDispatcher *dispatcher)
 {
-	// Add dispatcher if it doesn't already exist
-	std::vector<LLEventDispatcher *>::iterator itor;
-	for (itor = mDispatchers.begin(); itor != mDispatchers.end(); ++itor)
-	{
-		if ((*itor) == dispatcher) return true;
+    for (auto& disp : mDispatchers)
+    {
+		if (disp == dispatcher) return true;
 	}
 	mDispatchers.push_back(dispatcher);
 	return true;
@@ -282,9 +273,7 @@ bool LLSimpleListener::handleAttach(LLEventDispatcher *dispatcher)
 
 bool LLSimpleListener::handleDetach(LLEventDispatcher *dispatcher)
 {
-	// Remove dispatcher from list
-	std::vector<LLEventDispatcher *>::iterator itor;
-	for (itor = mDispatchers.begin(); itor != mDispatchers.end(); )
+    for (auto itor = mDispatchers.begin(); itor != mDispatchers.end(); )
 	{
 		if ((*itor) == dispatcher)
 		{

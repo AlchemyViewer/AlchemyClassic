@@ -145,10 +145,9 @@ LLSD ll_binary_from_string(const LLSD& sd)
 	std::vector<U8> binary_value;
 
 	std::string string_value = sd.asString();
-	for (std::string::iterator iter = string_value.begin();
-		 iter != string_value.end(); ++iter)
-	{
-		binary_value.push_back(*iter);
+	for (auto& iter : string_value)
+    {
+		binary_value.push_back(iter);
 	}
 
 	binary_value.push_back('\0');
@@ -361,7 +360,7 @@ public:
 
     std::string lookup(LLSD::Type type) const
     {
-        MapType::const_iterator found = mMap.find(type);
+        auto found = mMap.find(type);
         if (found != mMap.end())
         {
             return found->second;
@@ -427,7 +426,7 @@ static std::string match_types(LLSD::Type expect, // prototype.type()
     {
         out << " (";
         const char* sep = "or ";
-        for (TypeVector::const_iterator ai(accept.begin()), aend(accept.end());
+        for (auto ai(accept.begin()), aend(accept.end());
              ai != aend; ++ai, sep = ", ")
         {
             // Don't forget to return success if we match any of those types...
@@ -493,7 +492,7 @@ std::string llsd_matches(const LLSD& prototype, const LLSD& data, const std::str
         out << colon(pfx);
         const char* init = "Map missing keys: ";
         const char* sep = init;
-        for (LLSD::map_const_iterator mi = prototype.beginMap(); mi != prototype.endMap(); ++mi)
+        for (auto mi = prototype.beginMap(); mi != prototype.endMap(); ++mi)
         {
             if (! data.has(mi->first))
             {
@@ -508,7 +507,7 @@ std::string llsd_matches(const LLSD& prototype, const LLSD& data, const std::str
         }
         // Good, the data block contains all the keys required by the
         // prototype. Now match the prototype entries.
-        for (LLSD::map_const_iterator mi2 = prototype.beginMap(); mi2 != prototype.endMap(); ++mi2)
+        for (auto mi2 = prototype.beginMap(); mi2 != prototype.endMap(); ++mi2)
         {
             std::string match(llsd_matches(mi2->second, data[mi2->first],
                                            STRINGIZE("['" << mi2->first << "']")));
@@ -646,13 +645,13 @@ bool llsd_equals(const LLSD& lhs, const LLSD& rhs, int bits)
     {
         // Build a set of all rhs keys.
         std::set<LLSD::String> rhskeys;
-        for (LLSD::map_const_iterator rmi(rhs.beginMap()), rmend(rhs.endMap());
+        for (auto rmi(rhs.beginMap()), rmend(rhs.endMap());
              rmi != rmend; ++rmi)
         {
             rhskeys.insert(rmi->first);
         }
         // Now walk all the lhs keys.
-        for (LLSD::map_const_iterator lmi(lhs.beginMap()), lmend(lhs.endMap());
+        for (auto lmi(lhs.beginMap()), lmend(lhs.endMap());
              lmi != lmend; ++lmi)
         {
             // Try to erase this lhs key from the set of rhs keys. If rhs has

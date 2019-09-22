@@ -119,12 +119,9 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 		//SymCleanup(hProc);
 		return true;
 	}
-	else
-	{
-		lines.push_back("Stack Trace Failed.  PDB symbol info not loaded");
-	}
+    lines.emplace_back("Stack Trace Failed.  PDB symbol info not loaded");
 
-	return false;
+    return false;
 }
 
 void ll_get_stack_trace_internal(std::vector<std::string>& lines)
@@ -145,7 +142,7 @@ void ll_get_stack_trace_internal(std::vector<std::string>& lines)
 	for(unsigned int i = 0; i < frames; i++) 
 	{
 		SymFromAddr(process, (DWORD64)(stack[i]), nullptr, symbol);
-		lines.push_back(symbol->Name);
+		lines.emplace_back(symbol->Name);
 	}
 
 	free( symbol );

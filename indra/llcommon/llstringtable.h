@@ -133,12 +133,12 @@ public:
 	void cleanup()
 	{
 		// remove strings
-		for (S32 i = 0; i<mTableSize; i++)
+		for (auto i = 0; i<mTableSize; i++)
 		{
 			string_set_t& stringset = mStringList[i];
-			for (string_set_t::iterator iter = stringset.begin(); iter != stringset.end(); ++iter)
-			{
-				delete *iter;
+			for (auto iter : stringset)
+            {
+				delete iter;
 			}
 			stringset.clear();
 		}
@@ -188,7 +188,7 @@ private:
 	{
 		string_set_t& stringset = mStringList[hashval];
 		LLStdStringHandle handle = &s;
-		string_set_t::iterator iter = stringset.find(handle); // compares actual strings
+        auto iter = stringset.find(handle); // compares actual strings
 		if (iter != stringset.end())
 		{
 			return *iter;

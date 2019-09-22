@@ -51,7 +51,7 @@ LLEventTimer::LLEventTimer(const LLDate& time)
 void LLEventTimer::updateClass() 
 {
 	std::list<LLEventTimer*> completed_timers;
-	for (instance_iter iter = beginInstances(), iter_end = endInstances(); iter != iter_end;)
+	for (auto iter = beginInstances(), iter_end = endInstances(); iter != iter_end;)
 	{
 		LLEventTimer& timer = *iter++;
 		F32 et = timer.mEventTimer.getElapsedTimeF32();
@@ -64,13 +64,11 @@ void LLEventTimer::updateClass()
 		}
 	}
 
-	if ( completed_timers.size() > 0 )
+	if (!completed_timers.empty())
 	{
-		for (std::list<LLEventTimer*>::iterator completed_iter = completed_timers.begin(); 
-			 completed_iter != completed_timers.end(); 
-			 ++completed_iter ) 
-		{
-			delete *completed_iter;
+		for (auto& completed_timer : completed_timers)
+        {
+			delete completed_timer;
 		}
 	}
 }

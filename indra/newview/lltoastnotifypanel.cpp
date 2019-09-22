@@ -353,7 +353,7 @@ void LLToastNotifyPanel::init( LLRect rect, bool show_images )
             LLButton* new_button = createButton(form_element, TRUE);
             buttons_width += new_button->getRect().getWidth();
             S32 index = form_element["index"].asInteger();
-            buttons.push_back(index_button_pair_t(index,new_button));
+            buttons.emplace_back(index,new_button);
         }
         if (buttons.empty())
         {

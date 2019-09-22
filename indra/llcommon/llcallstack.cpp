@@ -56,7 +56,7 @@ public:
 protected:
 	void OnOutput(LPCSTR szText) override
     {
-        m_stack.push_back(szText);
+        m_stack.emplace_back(szText);
     }
     std::vector<std::string> m_stack;
 };
@@ -155,9 +155,9 @@ bool LLContextStrings::contains(const std::string& str)
 {
     const std::map<std::string,S32>& strings =
         LLThreadLocalSingletonPointer<LLContextStrings>::getInstance()->m_contextStrings;
-    for (std::map<std::string,S32>::const_iterator it = strings.begin(); it!=strings.end(); ++it)
+    for (const auto& string : strings)
     {
-        if (it->first.find(str) != std::string::npos)
+        if (string.first.find(str) != std::string::npos)
         {
             return true;
         }
@@ -170,9 +170,9 @@ void LLContextStrings::output(std::ostream& os)
 {
     const std::map<std::string,S32>& strings =
         LLThreadLocalSingletonPointer<LLContextStrings>::getInstance()->m_contextStrings;
-    for (std::map<std::string,S32>::const_iterator it = strings.begin(); it!=strings.end(); ++it)
+    for (const auto& string : strings)
     {
-        os << it->first << "[" << it->second << "]" << "\n";
+        os << string.first << "[" << string.second << "]" << "\n";
     }
 }
 

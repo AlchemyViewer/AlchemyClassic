@@ -61,13 +61,13 @@ void LLPlacesLandmarkBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 
 	if(isItemInTrash())
 	{
-		items.push_back(std::string("Purge Item"));
+		items.emplace_back("Purge Item");
 		if (!isItemRemovable() || (gInventory.getCategory(mUUID) && !gInventory.isCategoryComplete(mUUID)))
 		{
-			disabled_items.push_back(std::string("Purge Item"));
+			disabled_items.emplace_back("Purge Item");
 		}
 
-		items.push_back(std::string("Restore Item"));
+		items.push_back("Restore Item");
 	}
 	else
 	{

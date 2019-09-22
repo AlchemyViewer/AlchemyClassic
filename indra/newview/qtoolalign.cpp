@@ -425,7 +425,7 @@ void QToolAlign::align()
 					bbox.addBBoxAgent(child->getBoundingBoxAgent());
 				}
 
-				objects.push_back(object);
+				objects.emplace_back(object);
 				original_bboxes[object] = bbox;
 			}
 		}

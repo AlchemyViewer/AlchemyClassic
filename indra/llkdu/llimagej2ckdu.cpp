@@ -340,7 +340,7 @@ void LLImageJ2CKDU::setupCodeStream(LLImageJ2C &base, bool keep_codestream, ECod
 	S32 components = mCodeStreamp->get_num_components();
 
 	// Check that components have consistent dimensions (for PPM file)
-	for (int idx = 1; idx < components; ++idx)
+	for (auto idx = 1; idx < components; ++idx)
 	{
 		kdu_dims other_dims;
 		mCodeStreamp->get_dims(idx, other_dims);

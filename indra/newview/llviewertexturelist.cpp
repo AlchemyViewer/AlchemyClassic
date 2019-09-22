@@ -1206,7 +1206,7 @@ void LLViewerTextureList::decodeAllImages(F32 max_time)
 		 iter != mImageList.end(); )
 	{
 		LLViewerFetchedTexture* imagep = *iter++;
-		image_list.push_back(imagep);
+		image_list.emplace_back(imagep);
 		imagep->setInImageList(FALSE) ;
 	}
 
@@ -1737,7 +1737,7 @@ LLUIImagePtr LLUIImageList::loadUIImage(LLViewerFetchedTexture* imagep, const st
 		// all UI images are non-deletable and list does not support deletion
 		imagep->setNoDelete();
 		mUIImages.emplace(name, new_imagep);
-		mUITextureList.push_back(imagep);
+		mUITextureList.emplace_back(imagep);
 	}
 
 	//Note:

@@ -232,7 +232,7 @@ LLSDArgsMapper::LLSDArgsMapper(const std::string& function,
     {
         // defaults is a map. Use it to populate the _defaults array.
         LLSD bogus;
-        for (LLSD::map_const_iterator mi(defaults.beginMap()), mend(defaults.endMap());
+        for (auto mi(defaults.beginMap()), mend(defaults.endMap());
              mi != mend; ++mi)
         {
             IndexMap::const_iterator ixit(_indexes.find(mi->first));
@@ -317,12 +317,12 @@ LLSD LLSDArgsMapper::map(const LLSD& argsmap) const
     else
     {
         // argsmap is in fact a map. Walk the map.
-        for (LLSD::map_const_iterator mi(argsmap.beginMap()), mend(argsmap.endMap());
+        for (auto mi(argsmap.beginMap()), mend(argsmap.endMap());
              mi != mend; ++mi)
         {
             // mi->first is a parameter-name string, with mi->second its
             // value. Look up the name's position index in _indexes.
-            IndexMap::const_iterator ixit(_indexes.find(mi->first));
+            auto ixit(_indexes.find(mi->first));
             if (ixit == _indexes.end())
             {
                 // Allow for a map containing more params than were passed in
@@ -376,7 +376,7 @@ std::string LLSDArgsMapper::formatlist(const LLSD& list)
 {
     std::ostringstream out;
     const char* delim = "";
-    for (LLSD::array_const_iterator li(list.beginArray()), lend(list.endArray());
+    for (auto li(list.beginArray()), lend(list.endArray());
          li != lend; ++li)
     {
         out << delim << li->asString();
@@ -385,13 +385,9 @@ std::string LLSDArgsMapper::formatlist(const LLSD& list)
     return out.str();
 }
 
-LLEventDispatcher::LLEventDispatcher(const std::string& desc, const std::string& key):
-    mDesc(desc),
-    mKey(key)
-{
-}
-
-LLEventDispatcher::~LLEventDispatcher()
+LLEventDispatcher::LLEventDispatcher(std::string desc, std::string key):
+    mDesc(std::move(desc)),
+    mKey(std::move(key))
 {
 }
 
@@ -400,10 +396,10 @@ LLEventDispatcher::~LLEventDispatcher()
  */
 struct LLEventDispatcher::LLSDDispatchEntry: public LLEventDispatcher::DispatchEntry
 {
-    LLSDDispatchEntry(const std::string& desc, const Callable& func, const LLSD& required):
+    LLSDDispatchEntry(const std::string& desc, Callable func, LLSD required):
         DispatchEntry(desc),
-        mFunc(func),
-        mRequired(required)
+        mFunc(std::move(func)),
+        mRequired(std::move(required))
     {}
 
     Callable mFunc;
@@ -489,7 +485,7 @@ struct LLEventDispatcher::MapParamsDispatchEntry: public LLEventDispatcher::Para
     {
         // Build the set of all param keys, then delete the ones that are
         // optional. What's left are the ones that are required.
-        for (LLSD::array_const_iterator pi(params.beginArray()), pend(params.endArray());
+        for (auto pi(params.beginArray()), pend(params.endArray());
              pi != pend; ++pi)
         {
             mRequired[pi->asString()] = LLSD();
@@ -579,7 +575,7 @@ void LLEventDispatcher::addFail(const std::string& name, const std::string& clas
 /// Unregister a callable
 bool LLEventDispatcher::remove(const std::string& name)
 {
-    DispatchMap::iterator found = mDispatch.find(name);
+    auto found = mDispatch.find(name);
     if (found == mDispatch.end())
     {
         return false;
@@ -621,7 +617,7 @@ bool LLEventDispatcher::try_call(const LLSD& event) const
 
 bool LLEventDispatcher::try_call(const std::string& name, const LLSD& event) const
 {
-    DispatchMap::const_iterator found = mDispatch.find(name);
+    auto found = mDispatch.find(name);
     if (found == mDispatch.end())
     {
         return false;
@@ -634,7 +630,7 @@ bool LLEventDispatcher::try_call(const std::string& name, const LLSD& event) con
 
 LLSD LLEventDispatcher::getMetadata(const std::string& name) const
 {
-    DispatchMap::const_iterator found = mDispatch.find(name);
+    auto found = mDispatch.find(name);
     if (found == mDispatch.end())
     {
         return LLSD();
@@ -658,7 +654,7 @@ bool LLDispatchListener::process(const LLSD& event)
     return false;
 }
 
-LLEventDispatcher::DispatchEntry::DispatchEntry(const std::string& desc):
-    mDesc(desc)
+LLEventDispatcher::DispatchEntry::DispatchEntry(std::string desc):
+    mDesc(std::move(desc))
 {}
 

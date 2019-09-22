@@ -90,7 +90,7 @@ public:
 	protected:
 		ptr_value_t getValue(ref_const_key_t key)
 		{
-			typename registry_map_t::iterator found_it = mMap.find(key);
+			auto found_it = mMap.find(key);
 			if (found_it != mMap.cend())
 			{
 				return &(found_it->second);
@@ -138,9 +138,7 @@ public:
 
 	ptr_value_t getValue(ref_const_key_t key)
 	{
-		for(scope_list_iterator_t it = mActiveScopes.begin();
-			it != mActiveScopes.end();
-			++it)
+		for(auto it = mActiveScopes.begin(); it != mActiveScopes.end(); ++it)
 		{
 			ptr_value_t valuep = (*it)->getValue(key);
 			if (valuep != nullptr) return valuep;
@@ -150,7 +148,7 @@ public:
 
 	ptr_const_value_t getValue(ref_const_key_t key) const
 	{
-		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+		for(auto it = mActiveScopes.begin();
 			it != mActiveScopes.end();
 			++it)
 		{
@@ -162,7 +160,7 @@ public:
 
 	bool exists(ref_const_key_t key) const
 	{
-		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+		for(auto it = mActiveScopes.begin();
 			it != mActiveScopes.end();
 			++it)
 		{
@@ -227,7 +225,7 @@ protected:
 	void removeScope(Registrar* scope)
 	{
 		// O(N) but should be near the beggining and N should be small and this is safer than storing iterators
-		scope_list_iterator_t iter = std::find(mActiveScopes.begin(), mActiveScopes.end(), scope);
+        auto iter = std::find(mActiveScopes.begin(), mActiveScopes.end(), scope);
 		if (iter != mActiveScopes.end())
 		{
 			mActiveScopes.erase(iter);

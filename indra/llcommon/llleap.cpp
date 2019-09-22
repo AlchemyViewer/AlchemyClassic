@@ -439,7 +439,7 @@ LLLeap* LLLeap::create(const std::string& desc, const std::vector<std::string>& 
 {
     LLProcess::Params params;
     params.desc = desc;
-    std::vector<std::string>::const_iterator pi(plugin.begin()), pend(plugin.end());
+    auto pi(plugin.begin()), pend(plugin.end());
     // could validate here, but let's rely on LLLeapImpl's constructor
     if (pi != pend)
     {

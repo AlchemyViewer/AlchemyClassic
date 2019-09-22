@@ -41,7 +41,7 @@ public:
 	 * @param[in] name - Unique string identifying this tester instance.
 	 */
 	LLMetricPerformanceTesterBasic(std::string name);
-	virtual ~LLMetricPerformanceTesterBasic();
+	virtual ~LLMetricPerformanceTesterBasic() = default;
 
 	/**
 	 * @return Returns true if the instance has been added to the tester map.
@@ -84,7 +84,7 @@ protected:
 	 * @brief Insert a new metric to be managed by this tester instance.
 	 * @param[in] str - Unique string identifying the new metric.
 	 */
-	void addMetric(std::string str) ;
+	void addMetric(const std::string& str) ;
 
 	/**
 	 * @brief Compare test results, provided in 2 flavors: compare integers and compare floats.
@@ -191,7 +191,7 @@ protected:
 	class LL_COMMON_API LLTestSession
 		{
 		public:
-			virtual ~LLTestSession() ;
+			virtual ~LLTestSession() = default;
 		};
 
 	/**

@@ -398,9 +398,9 @@ void LLWLParamSet::updateHashedNames()
 {
 	mParamHashedNames.clear();
 	// Iterate through values
-	for(LLSD::map_iterator iter = mParamValues.beginMap(); iter != mParamValues.endMap(); ++iter)
+	for(auto iter = mParamValues.beginMap(); iter != mParamValues.endMap(); ++iter)
 	{
-		mParamHashedNames.push_back(LLStaticHashedString(iter->first));
+		mParamHashedNames.emplace_back(iter->first);
 	}
 }
 

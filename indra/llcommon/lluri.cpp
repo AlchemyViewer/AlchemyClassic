@@ -450,7 +450,7 @@ LLURI LLURI::buildHTTP(const std::string& prefix,
 	if (path.isArray())
 	{
 		// break out and escape each path component
-		for (LLSD::array_const_iterator it = path.beginArray();
+		for (auto it = path.beginArray();
 			 it != path.endArray();
 			 ++it)
 		{
@@ -740,8 +740,8 @@ std::string LLURI::mapToQueryString(const LLSD& queryMap)
 	if (queryMap.isMap())
 	{
 		bool first_element = true;
-		LLSD::map_const_iterator iter = queryMap.beginMap();
-		LLSD::map_const_iterator end = queryMap.endMap();
+        auto iter = queryMap.beginMap();
+        auto end = queryMap.endMap();
 		std::ostringstream ostr;
 		for (; iter != end; ++iter)
 		{

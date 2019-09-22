@@ -385,9 +385,9 @@ S32 wchar_utf8_length(const llwchar wc)
 S32 wstring_utf8_length(const LLWString& wstr)
 {
 	S32 len = 0;
-	for (S32 i = 0; i < (S32)wstr.length(); i++)
-	{
-		len += wchar_utf8_length(wstr[i]);
+	for (auto i : wstr)
+    {
+		len += wchar_utf8_length(i);
 	}
 	return len;
 }
@@ -624,11 +624,11 @@ std::string mbcsstring_makeASCII(const std::string& wstr)
 {
 	// Replace non-ASCII chars with replace_char
 	std::string out_str = wstr;
-	for (S32 i = 0; i < (S32)out_str.length(); i++)
-	{
-		if ((U8)out_str[i] > 0x7f)
+	for (char& i : out_str)
+    {
+		if (static_cast<U8>(i) > 0x7f)
 		{
-			out_str[i] = LL_UNKNOWN_CHAR;
+            i = LL_UNKNOWN_CHAR;
 		}
 	}
 	return out_str;
@@ -1186,7 +1186,7 @@ bool LLStringUtil::simpleReplacement(std::string &replacement, const std::string
 	// test first using has() because if we just look up with operator[] we get back an
 	// empty string even if the value is missing. We want to distinguish between 
 	// missing replacements and deliberately empty replacement strings.
-	format_map_t::const_iterator iter = substitutions.find(token);
+    auto iter = substitutions.find(token);
 	if (iter != substitutions.end())
 	{
 		replacement = iter->second;
@@ -1433,8 +1433,8 @@ S32 LLStringUtil::format(std::string& s, const format_map_t& substitutions)
 		{
 			std::string param;
 			if (tokens.size() > 2) param = tokens[2];
-			
-			format_map_t::const_iterator iter = substitutions.find("datetime");
+
+            auto iter = substitutions.find("datetime");
 			if (iter != substitutions.end())
 			{
 				S32 secFromEpoch = 0;

@@ -1392,7 +1392,7 @@ bool LLSimpleXUIParser::readXUI(const std::string& filename, LLInitParam::BaseBl
 	XML_SetElementHandler(			mParser,	startElementHandler, endElementHandler);
 	XML_SetCharacterDataHandler(	mParser,	characterDataHandler);
 
-	mOutputStack.push_back(std::make_pair(&block, 0));
+	mOutputStack.emplace_back(&block, 0);
 	mNameStack.clear();
 	mCurFileName = filename;
 	mCurReadDepth = 0;

@@ -290,7 +290,7 @@ public:
 		out << "// CPU Extensions" << std::endl;
 		out << "//////////////////////////" << std::endl;
 		
-		for(LLSD::map_const_iterator itr = mProcessorInfo["extension"].beginMap(); itr != mProcessorInfo["extension"].endMap(); ++itr)
+		for(auto itr = mProcessorInfo["extension"].beginMap(); itr != mProcessorInfo["extension"].endMap(); ++itr)
 		{
 			out << "  " << itr->first << std::endl;			
 		}

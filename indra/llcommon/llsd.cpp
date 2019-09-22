@@ -620,7 +620,7 @@ namespace
 
 	void ImplArray::calcStats(S32 type_counts[], S32 share_counts[]) const
 	{
-		LLSD::array_const_iterator iter = beginArray();
+        auto iter = beginArray();
 		while (iter != endArray())
 		{	// Add values for all items held in the array
 			Impl::calcStats((*iter), type_counts, share_counts);

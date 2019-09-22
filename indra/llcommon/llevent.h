@@ -72,7 +72,7 @@ private:
 class LL_COMMON_API LLEventListener : public LLThreadSafeRefCount
 {
 protected:
-	virtual ~LLEventListener();
+	virtual ~LLEventListener() = default;
 	
 public:
 

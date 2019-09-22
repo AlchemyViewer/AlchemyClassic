@@ -105,8 +105,8 @@ void LLMetricsImpl::printTotals(LLSD metadata)
 		const std::string& location = (*loc_it).first;
 		
 		const LLSD& loc_map = (*loc_it).second;
-		LLSD::map_const_iterator mesg_it = loc_map.beginMap();
-		LLSD::map_const_iterator mesg_end = loc_map.endMap();
+        auto mesg_it = loc_map.beginMap();
+        auto mesg_end = loc_map.endMap();
 		for ( ; mesg_it != mesg_end; ++mesg_it)
 		{
 			const std::string& mesg = (*mesg_it).first;

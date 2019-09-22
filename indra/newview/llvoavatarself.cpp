@@ -2361,7 +2361,7 @@ void LLVOAvatarSelf::appearanceChangeMetricsCoro(std::string url)
     msg["nearby"] = LLSD::emptyArray();
     std::vector<S32> rez_counts;
     LLVOAvatar::getNearbyRezzedStats(rez_counts);
-    for (S32 rez_stat = 0; rez_stat < rez_counts.size(); ++rez_stat)
+    for (auto rez_stat = 0; rez_stat < rez_counts.size(); ++rez_stat)
     {
         std::string rez_status_name = LLVOAvatar::rezStatusToString(rez_stat);
         msg["nearby"][rez_status_name] = rez_counts[rez_stat];
@@ -2369,13 +2369,13 @@ void LLVOAvatarSelf::appearanceChangeMetricsCoro(std::string url)
 
     //	std::vector<std::string> bucket_fields("timer_name","is_self","grid_x","grid_y","is_using_server_bake");
     std::vector<std::string> by_fields;
-    by_fields.push_back("timer_name");
-    by_fields.push_back("completed");
-    by_fields.push_back("grid_x");
-    by_fields.push_back("grid_y");
-    by_fields.push_back("is_using_server_bakes");
-    by_fields.push_back("is_self");
-    by_fields.push_back("central_bake_version");
+    by_fields.emplace_back("timer_name");
+    by_fields.emplace_back("completed");
+    by_fields.emplace_back("grid_x");
+    by_fields.emplace_back("grid_y");
+    by_fields.emplace_back("is_using_server_bakes");
+    by_fields.emplace_back("is_self");
+    by_fields.emplace_back("central_bake_version");
     LLSD summary = summarize_by_buckets(mPendingTimerRecords, by_fields, std::string("elapsed"));
     msg["timers"] = summary;
 

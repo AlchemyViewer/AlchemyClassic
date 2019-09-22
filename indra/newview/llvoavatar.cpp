@@ -7027,7 +7027,7 @@ void LLVOAvatar::addChild(LLViewerObject *childp)
 	}
 	else
 	{
-		mPendingAttachment.push_back(childp);
+		mPendingAttachment.emplace_back(childp);
 	}
 }
 

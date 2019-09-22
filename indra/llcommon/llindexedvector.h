@@ -85,7 +85,7 @@ public:
 
 	const_iterator find(const Key& k) const
 	{
-		typename std::map<Key, U32>::const_iterator iter = mIndexMap.find(k);
+		auto iter = mIndexMap.find(k);
 		if(iter == mIndexMap.end())
 		{
 			return mVector.end();

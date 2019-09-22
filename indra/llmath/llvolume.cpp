@@ -3719,7 +3719,7 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 	
 	S32 cur_index = 0;
 	//for each face
-	for (face_list_t::iterator iter = mVolumeFaces.begin();
+	for (auto iter = mVolumeFaces.begin();
 		 iter != mVolumeFaces.end(); ++iter)
 	{
 		LLVolumeFace& face = *iter;
@@ -3735,9 +3735,9 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 			LLVector4a* v = (LLVector4a*)face.mPositions;
 			LLVector4a* n = (LLVector4a*)face.mNormals;
 
-			for (S32 j = 0; j < face.mNumIndices / 3; j++)
+			for (auto j = 0; j < face.mNumIndices / 3; j++)
 			{
-				for (S32 k = 0; k < 3; k++)
+				for (auto k = 0; k < 3; k++)
 				{
 					S32 index = face.mEdge[j * 3 + k];
 
@@ -3750,19 +3750,19 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 
 						LLVector4a t;
 						mat.affineTransform(v[v1], t);
-						vertices.push_back(LLVector3(t[0], t[1], t[2]));
+						vertices.emplace_back(t[0], t[1], t[2]);
 
 						norm_mat.rotate(n[v1], t);
 
 						t.normalize3fast();
-						normals.push_back(LLVector3(t[0], t[1], t[2]));
+						normals.emplace_back(t[0], t[1], t[2]);
 
 						mat.affineTransform(v[v2], t);
-						vertices.push_back(LLVector3(t[0], t[1], t[2]));
+						vertices.emplace_back(t[0], t[1], t[2]);
 
 						norm_mat.rotate(n[v2], t);
 						t.normalize3fast();
-						normals.push_back(LLVector3(t[0], t[1], t[2]));
+						normals.emplace_back(t[0], t[1], t[2]);
 					}
 				}
 			}
@@ -3934,19 +3934,19 @@ void LLVolume::generateSilhouetteVertices(std::vector<LLVector3> &vertices,
 						
 						LLVector4a t;
 						mat.affineTransform(v[v1], t);
-						vertices.push_back(LLVector3(t[0], t[1], t[2]));
+						vertices.emplace_back(t[0], t[1], t[2]);
 
 						norm_mat.rotate(n[v1], t);
 
 						t.normalize3fast();
-						normals.push_back(LLVector3(t[0], t[1], t[2]));
+						normals.emplace_back(t[0], t[1], t[2]);
 
 						mat.affineTransform(v[v2], t);
-						vertices.push_back(LLVector3(t[0], t[1], t[2]));
+						vertices.emplace_back(t[0], t[1], t[2]);
 						
 						norm_mat.rotate(n[v2], t);
 						t.normalize3fast();
-						normals.push_back(LLVector3(t[0], t[1], t[2]));
+						normals.emplace_back(t[0], t[1], t[2]);
 					}
 				}		
 			}

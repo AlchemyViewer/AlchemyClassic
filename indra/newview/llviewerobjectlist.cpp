@@ -1539,7 +1539,7 @@ void LLViewerObjectList::updateActive(LLViewerObject *objectp)
 			S32 idx = objectp->getListIndex();
 			if (idx <= -1)
 			{
-				mActiveObjects.push_back(objectp);
+				mActiveObjects.emplace_back(objectp);
 				objectp->setListIndex(mActiveObjects.size()-1);
 			objectp->setOnActiveList(TRUE);
 		}

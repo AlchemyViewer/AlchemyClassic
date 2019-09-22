@@ -544,24 +544,24 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 
 	if (canOpenItem())
 	{
-		items.push_back(std::string("Task Open"));
+		items.emplace_back("Task Open");
 	}
-	items.push_back(std::string("Task Properties"));
+	items.emplace_back("Task Properties");
 	if ((flags & FIRST_SELECTED_ITEM) == 0)
 	{
-		disabled_items.push_back(std::string("Task Properties"));
+		disabled_items.emplace_back("Task Properties");
 	}
 	if(isItemRenameable())
 	{
-		items.push_back(std::string("Task Rename"));
+		items.emplace_back("Task Rename");
 		if ((flags & FIRST_SELECTED_ITEM) == 0)
 		{
-			disabled_items.push_back(std::string("Task Rename"));
+			disabled_items.emplace_back("Task Rename");
 		}
 	}
 	if(isItemRemovable())
 	{
-		items.push_back(std::string("Task Remove"));
+		items.emplace_back("Task Remove");
 	}
 
 	hide_context_entries(menu, items, disabled_items);
@@ -841,24 +841,24 @@ void LLTaskSoundBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 	{
 		if (!isItemCopyable())
 		{
-			disabled_items.push_back(std::string("Task Open"));
+			disabled_items.emplace_back("Task Open");
 		}
 	}
-	items.push_back(std::string("Task Properties"));
+	items.emplace_back("Task Properties");
 	if ((flags & FIRST_SELECTED_ITEM) == 0)
 	{
-		disabled_items.push_back(std::string("Task Properties"));
+		disabled_items.emplace_back("Task Properties");
 	}
 	if(isItemRenameable())
 	{
-		items.push_back(std::string("Task Rename"));
+		items.emplace_back("Task Rename");
 	}
 	if(isItemRemovable())
 	{
-		items.push_back(std::string("Task Remove"));
+		items.emplace_back("Task Remove");
 	}
 
-	items.push_back(std::string("Task Play"));
+	items.emplace_back("Task Play");
 
 
 	hide_context_entries(menu, items, disabled_items);

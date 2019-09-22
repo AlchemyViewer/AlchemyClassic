@@ -171,7 +171,7 @@ bool LLCoros::cleanup(const LLSD&)
     static std::string previousName;
     static int previousCount = 0;
     // Walk the mCoros map, checking and removing completed coroutines.
-    for (CoroMap::iterator mi(mCoros.begin()), mend(mCoros.end()); mi != mend; )
+    for (auto mi(mCoros.begin()), mend(mCoros.end()); mi != mend; )
     {
         // Has this coroutine exited (normal return, exception, exit() call)
         // since last tick?
@@ -227,7 +227,7 @@ std::string LLCoros::generateDistinctName(const std::string& prefix) const
     // Find the lowest numeric suffix that doesn't collide with an existing
     // entry. Start with 2 just to make it more intuitive for any interested
     // parties: e.g. "joe", "joe2", "joe3"...
-    for (int i = 2; ; name = STRINGIZE(prefix << i++))
+    for (auto i = 2; ; name = STRINGIZE(prefix << i++))
     {
         if (mCoros.find(name) == mCoros.end())
         {
@@ -257,7 +257,7 @@ std::string LLCoros::generateDistinctName(const std::string& prefix) const
 
 bool LLCoros::kill(const std::string& name)
 {
-    CoroMap::iterator found = mCoros.find(name);
+    auto found = mCoros.find(name);
     if (found == mCoros.end())
     {
         return false;
@@ -286,13 +286,11 @@ void LLCoros::printActiveCoroutines()
     if (mCoros.size() > 0)
     {
         LL_INFOS("LLCoros") << "-------------- List of active coroutines ------------";
-        CoroMap::iterator iter;
-        CoroMap::iterator end = mCoros.end();
         F64 time = LLTimer::getTotalSeconds();
-        for (iter = mCoros.begin(); iter != end; ++iter)
+        for (auto& coro : mCoros)
         {
-            F64 life_time = time - iter->second->mCreationTime;
-            LL_CONT << LL_NEWLINE << "Name: " << iter->first << " life: " << life_time;
+            F64 life_time = time - coro.second->mCreationTime;
+            LL_CONT << LL_NEWLINE << "Name: " << coro.first << " life: " << life_time;
         }
         LL_CONT << LL_ENDL;
         LL_INFOS("LLCoros") << "-----------------------------------------------------" << LL_ENDL;

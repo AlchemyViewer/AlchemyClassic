@@ -2030,7 +2030,7 @@ bool LLMeshRepoThread::physicsShapeReceived(const LLUUID& mesh_id, U8* data, S32
 			S32 vertex_count = 0;
 			S32 index_count = 0;
 
-			for (S32 i = 0; i < volume->getNumVolumeFaces(); ++i)
+			for (auto i = 0; i < volume->getNumVolumeFaces(); ++i)
 			{
 				const LLVolumeFace& face = volume->getVolumeFace(i);
 				vertex_count += face.mNumVertices;
@@ -2042,16 +2042,16 @@ bool LLMeshRepoThread::physicsShapeReceived(const LLUUID& mesh_id, U8* data, S32
 			std::vector<LLVector3>& pos = d->mPhysicsShapeMesh.mPositions;
 			std::vector<LLVector3>& norm = d->mPhysicsShapeMesh.mNormals;
 
-			for (S32 i = 0; i < volume->getNumVolumeFaces(); ++i)
+			for (auto i = 0; i < volume->getNumVolumeFaces(); ++i)
 			{
 				const LLVolumeFace& face = volume->getVolumeFace(i);
 			
-				for (S32 i = 0; i < face.mNumIndices; ++i)
+				for (auto i = 0; i < face.mNumIndices; ++i)
 				{
 					U16 idx = face.mIndices[i];
 
-					pos.push_back(LLVector3(face.mPositions[idx].getF32ptr()));
-					norm.push_back(LLVector3(face.mNormals[idx].getF32ptr()));				
+					pos.emplace_back(face.mPositions[idx].getF32ptr());
+					norm.emplace_back(face.mNormals[idx].getF32ptr());
 				}			
 			}
 		}
@@ -3654,7 +3654,7 @@ S32 LLMeshRepository::loadMesh(LLVOVolume* vobj, const LLVolumeParams& mesh_para
 		{
 			//first request for this mesh
 			mLoadingMeshes[detail][mesh_params].push_back(vobj);
-			mPendingRequests.push_back(LLMeshRepoThread::LODRequest(mesh_params, detail));
+			mPendingRequests.emplace_back(mesh_params, detail);
 			LLMeshRepository::sLODPending++;
 		}
 	}
@@ -5169,7 +5169,7 @@ void LLPhysicsDecomp::Request::assignData(LLModel* mdl)
 	mBBox[0] = LLVector3(F32_MAX, F32_MAX, F32_MAX) ;
 		
 	//queue up vertex positions and indices
-	for (S32 i = 0; i < mdl->getNumVolumeFaces(); ++i)
+	for (auto i = 0; i < mdl->getNumVolumeFaces(); ++i)
 	{
 		const LLVolumeFace& face = mdl->getVolumeFace(i);
 		if (mPositions.size() + face.mNumVertices > 65535)
@@ -5177,9 +5177,9 @@ void LLPhysicsDecomp::Request::assignData(LLModel* mdl)
 			continue;
 		}
 
-		for (S32 j = 0; j < face.mNumVertices; ++j)
+		for (auto j = 0; j < face.mNumVertices; ++j)
 		{
-			mPositions.push_back(LLVector3(face.mPositions[j].getF32ptr()));
+			mPositions.emplace_back(face.mPositions[j].getF32ptr());
 			for(U32 k = 0 ; k < 3 ; k++)
 			{
 				mBBox[0].mV[k] = llmin(mBBox[0].mV[k], mPositions[j].mV[k]) ;
@@ -5189,7 +5189,7 @@ void LLPhysicsDecomp::Request::assignData(LLModel* mdl)
 
 		updateTriangleAreaThreshold() ;
 
-		for (S32 j = 0; j+2 < face.mNumIndices; j += 3)
+		for (auto j = 0; j+2 < face.mNumIndices; j += 3)
 		{
 			tri[0] = face.mIndices[j] + index_offset ;
 			tri[1] = face.mIndices[j + 1] + index_offset ;
@@ -5205,8 +5205,6 @@ void LLPhysicsDecomp::Request::assignData(LLModel* mdl)
 
 		index_offset += face.mNumVertices;
 	}
-
-	return ;
 }
 
 void LLPhysicsDecomp::Request::updateTriangleAreaThreshold() 

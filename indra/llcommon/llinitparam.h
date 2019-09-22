@@ -495,7 +495,7 @@ namespace LLInitParam
 
 		template <typename T> bool readValue(T& param, typename std::enable_if<!std::is_enum<T>::value>::type* dummy = nullptr)
 		{
-			parser_read_func_map_t::iterator found_it = mParserReadFuncs->find(&typeid(T));
+            auto found_it = mParserReadFuncs->find(&typeid(T));
 			if (found_it != mParserReadFuncs->end())
 			{
 				return found_it->second(*this, (void*)&param);
@@ -527,10 +527,10 @@ namespace LLInitParam
 
 		template <typename T> bool writeValue(const T& param, name_stack_t& name_stack)
 		{
-			parser_write_func_map_t::iterator found_it = mParserWriteFuncs->find(&typeid(T));
+            auto found_it = mParserWriteFuncs->find(&typeid(T));
 			if (found_it != mParserWriteFuncs->end())
 			{
-				return found_it->second(*this, (const void*)&param, name_stack);
+				return found_it->second(*this, static_cast<const void*>(&param), name_stack);
 			}
 			return false;
 		}

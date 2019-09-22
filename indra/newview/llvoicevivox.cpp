@@ -3613,7 +3613,7 @@ bool LLVivoxVoiceClient::sessionNeedsRelog(const sessionStatePtr_t &session)
 		{	
 			std::string::size_type atsign;
 			
-			atsign = session->mSIPURI.find("@");
+			atsign = session->mSIPURI.find('@');
 			
 			if(atsign != std::string::npos)
 			{

@@ -69,11 +69,11 @@ void LLWorkerThread::clearDeleteList()
 				<< " entries in delete list." << LL_ENDL;
 
 		mDeleteMutex->lock();
-		for (delete_list_t::iterator iter = mDeleteList.begin(); iter != mDeleteList.end(); ++iter)
-		{
-			(*iter)->mRequestHandle = LLWorkerThread::nullHandle();
-			(*iter)->clearFlags(LLWorkerClass::WCF_HAVE_WORK);
-			delete *iter ;
+		for (auto& iter : mDeleteList)
+        {
+            iter->mRequestHandle = LLWorkerThread::nullHandle();
+            iter->clearFlags(LLWorkerClass::WCF_HAVE_WORK);
+			delete iter;
 		}
 		mDeleteList.clear() ;
 		mDeleteMutex->unlock() ;
@@ -88,10 +88,9 @@ S32 LLWorkerThread::update(F32 max_time_ms)
 	std::vector<LLWorkerClass*> delete_list;
 	std::vector<LLWorkerClass*> abort_list;
 	mDeleteMutex->lock();
-	for (delete_list_t::iterator iter = mDeleteList.begin();
-		 iter != mDeleteList.end(); )
+	for (auto iter = mDeleteList.begin(); iter != mDeleteList.end(); )
 	{
-		delete_list_t::iterator curiter = iter++;
+        auto curiter = iter++;
 		LLWorkerClass* worker = *curiter;
 		if (worker->deleteOK())
 		{
@@ -108,15 +107,13 @@ S32 LLWorkerThread::update(F32 max_time_ms)
 	}
 	mDeleteMutex->unlock();	
 	// abort and delete after releasing mutex
-	for (std::vector<LLWorkerClass*>::iterator iter = abort_list.begin();
-		 iter != abort_list.end(); ++iter)
-	{
-		(*iter)->abortWork(false);
+	for (auto& iter : abort_list)
+    {
+        iter->abortWork(false);
 	}
-	for (std::vector<LLWorkerClass*>::iterator iter = delete_list.begin();
-		 iter != delete_list.end(); ++iter)
-	{
-		LLWorkerClass* worker = *iter;
+	for (auto& iter : delete_list)
+    {
+		LLWorkerClass* worker = iter;
 		if (worker->mRequestHandle)
 		{
 			// Finished but not completed
@@ -124,7 +121,7 @@ S32 LLWorkerThread::update(F32 max_time_ms)
 			worker->mRequestHandle = LLWorkerThread::nullHandle();
 			worker->clearFlags(LLWorkerClass::WCF_HAVE_WORK);
 		}
-		delete *iter;
+		delete iter;
 	}
 	// delete and aborted entries mean there's still work to do
 	res += delete_list.size() + abort_list.size();
@@ -167,10 +164,6 @@ LLWorkerThread::WorkRequest::WorkRequest(handle_t handle, U32 priority, LLWorker
 {
 }
 
-LLWorkerThread::WorkRequest::~WorkRequest()
-{
-}
-
 // virtual (required for access by LLWorkerThread)
 void LLWorkerThread::WorkRequest::deleteRequest()
 {
@@ -204,7 +197,6 @@ LLWorkerClass::LLWorkerClass(LLWorkerThread* workerthread, const std::string& na
 	  mWorkerClassName(name),
 	  mRequestHandle(LLWorkerThread::nullHandle()),
 	  mRequestPriority(LLWorkerThread::PRIORITY_NORMAL),
-	  mMutex(),
 	  mWorkFlags(0)
 {
 	if (!mWorkerThread)
@@ -220,7 +212,7 @@ LLWorkerClass::~LLWorkerClass()
 	llassert_always(!mMutex.isLocked());
 	if (mRequestHandle != LLWorkerThread::nullHandle())
 	{
-		LLWorkerThread::WorkRequest* workreq = (LLWorkerThread::WorkRequest*)mWorkerThread->getRequest(mRequestHandle);
+        auto* workreq = static_cast<LLWorkerThread::WorkRequest*>(mWorkerThread->getRequest(mRequestHandle));
 		if (!workreq)
 		{
 			LL_ERRS() << "LLWorkerClass destroyed with stale work handle" << LL_ENDL;
@@ -284,7 +276,7 @@ bool LLWorkerClass::yield()
 	mWorkerThread->checkPause();
 	bool res;
 	mMutex.lock();
-	res = (getFlags() & WCF_ABORT_REQUESTED) ? true : false;
+	res = (getFlags() & WCF_ABORT_REQUESTED) != 0;
 	mMutex.unlock();
 	return res;
 }
@@ -334,7 +326,7 @@ bool LLWorkerClass::checkWork(bool aborting)
 	bool complete = false, abort = false;
 	if (mRequestHandle != LLWorkerThread::nullHandle())
 	{
-		LLWorkerThread::WorkRequest* workreq = (LLWorkerThread::WorkRequest*)mWorkerThread->getRequest(mRequestHandle);
+        auto* workreq = static_cast<LLWorkerThread::WorkRequest*>(mWorkerThread->getRequest(mRequestHandle));
 		if(!workreq)
 		{
 			if(mWorkerThread->isQuitting() || mWorkerThread->isStopped()) //the mWorkerThread is not running

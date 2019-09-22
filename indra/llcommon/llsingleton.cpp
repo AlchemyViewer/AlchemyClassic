@@ -217,7 +217,7 @@ void LLSingletonBase::capture_dependency(list_t& initializing, EInitState initSt
             std::find(initializing.begin(), initializing.end(), this);
         if (found != initializing.end())
         {
-            list_t::const_iterator it_next = found;
+            auto it_next = found;
             ++it_next;
 
             // Report the circularity. Requiring the coder to dig through the

@@ -4934,7 +4934,7 @@ void LLAgent::parseTeleportMessages(const std::string& xml_filename)
 	}//end for (all message sets in xml file)
 }
 
-const void LLAgent::getTeleportSourceSLURL(LLSLURL& slurl) const
+void LLAgent::getTeleportSourceSLURL(LLSLURL& slurl) const
 {
 	slurl = *mTeleportSourceSLURL;
 }

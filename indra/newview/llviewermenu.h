@@ -159,7 +159,7 @@ public:
 	void setParcelSelection(LLSafeHandle<LLParcelSelection> selection);
 	void setObjectSelection(LLSafeHandle<LLObjectSelection> selection);
 
-	const LLRect getMenuRect() const override;
+	LLRect getMenuRect() const override;
 
 protected:
 	LLSafeHandle<LLParcelSelection> mParcelSelection;

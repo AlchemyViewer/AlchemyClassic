@@ -113,9 +113,9 @@ public:
 	virtual void showProperties(void);
 
 	// Methods used in sorting (see LLConversationSort::operator())
-	EConversationType const getType() const { return mConvType; }
-	virtual const bool getTime(F64& time) const { time = mLastActiveTime; return (time > 0.1); }
-	virtual const bool getDistanceToAgent(F64& distance) const { return false; }
+	EConversationType getType() const { return mConvType; }
+	virtual bool getTime(F64& time) const { time = mLastActiveTime; return (time > 0.1); }
+	virtual bool getDistanceToAgent(F64& distance) const { return false; }
 	
 	// This method will be called to determine if a drop can be
 	// performed, and will set drop to TRUE if a drop is
@@ -176,7 +176,7 @@ public:
 	
     void buildContextMenu(LLMenuGL& menu, U32 flags) override;
     void addVoiceOptions(menuentry_vec_t& items);
-    const bool getTime(F64& time) const override;
+    bool getTime(F64& time) const override;
 
 	void dumpDebugData(bool dump_children = false);
 
@@ -195,7 +195,7 @@ public:
     const std::string& getDisplayName() const override { return mDisplayName; }
 
 	bool isVoiceMuted();
-	bool isModeratorMuted() { return mIsModeratorMuted; }
+	bool isModeratorMuted() const { return mIsModeratorMuted; }
 	bool isModerator() const { return mIsModerator; }
 	void moderateVoice(bool mute_voice) { mIsModeratorMuted = mute_voice; }
 	void setIsModerator(bool is_moderator) { mIsModerator = is_moderator; mNeedsRefresh = true; }
@@ -204,7 +204,7 @@ public:
 
     void buildContextMenu(LLMenuGL& menu, U32 flags) override;
 
-    const bool getDistanceToAgent(F64& dist) const override
+    bool getDistanceToAgent(F64& dist) const override
 	{ dist = mDistToAgent; return (dist >= 0.0); }
 
 	void updateName();	// get from the cache (do *not* fetch) and update the avatar name

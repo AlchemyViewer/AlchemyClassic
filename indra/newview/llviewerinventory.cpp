@@ -2094,7 +2094,7 @@ const LLUUID& LLViewerInventoryItem::getProtectedAssetUUID() const
 	return LLUUID::null;
 }
 
-const bool LLViewerInventoryItem::getIsFullPerm() const
+bool LLViewerInventoryItem::getIsFullPerm() const
 {
 	LLPermissions item_permissions = getPermissions();
 

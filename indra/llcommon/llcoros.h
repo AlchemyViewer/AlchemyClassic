@@ -281,7 +281,6 @@ public:
     Suspending();
     ~Suspending();
 
-protected:
     Suspending(const Suspending&) = delete;
     Suspending& operator=(const Suspending&) = delete;
 

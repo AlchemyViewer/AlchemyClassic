@@ -36,7 +36,7 @@ class LLSD;
 class LLStreamingAudioInterface
 {
  public:
-	virtual ~LLStreamingAudioInterface() {}
+    virtual ~LLStreamingAudioInterface() = default;
 
 	virtual void start(const std::string& url) = 0;
 	virtual void stop() = 0;
@@ -53,7 +53,7 @@ class LLStreamingAudioInterface
 
 	virtual bool supportsMetaData() { return false; }
 	virtual const LLSD *getMetaData() { return nullptr; }
-	virtual const bool hasNewMetaData() { return false; }
+	virtual bool hasNewMetaData() { return false; }
 	virtual bool supportsWaveData() { return false; }
 	virtual bool getWaveData(float* arr, S32 count, S32 stride = 1){ return false; }
 };

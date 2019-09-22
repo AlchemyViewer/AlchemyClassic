@@ -168,10 +168,11 @@ protected:
 	LLView(const LLView::Params&);
 	friend class LLUICtrlFactory;
 
-private:
-	// widgets in general are not copyable
-	LLView(const LLView& other);
 public:
+	// widgets in general are not copyable
+    LLView(const LLView& other) = delete;
+    LLView& operator=(const LLView&) = delete;
+
 //#if LL_DEBUG
 	static BOOL sIsDrawing;
 //#endif

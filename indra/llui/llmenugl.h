@@ -833,8 +833,8 @@ public:
 	/*virtual*/ BOOL handleRightMouseUp( S32 x, S32 y, MASK mask ) override;
 
 	BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent) override;
-	virtual const LLRect getMenuRect() const { return getLocalRect(); }
-	LLView*const getVisibleMenu() const;
+	virtual LLRect getMenuRect() const { return getLocalRect(); }
+	LLView* getVisibleMenu() const;
 	virtual BOOL hasVisibleMenu() const {return getVisibleMenu() != nullptr;}
 
 	static void setActivatedItem(LLMenuItemGL* item);

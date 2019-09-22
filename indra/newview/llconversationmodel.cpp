@@ -443,7 +443,7 @@ void LLConversationItemSession::addVoiceOptions(menuentry_vec_t& items)
 }
 
 // The time of activity of a session is the time of the most recent activity, session and participants included
-const bool LLConversationItemSession::getTime(F64& time) const
+bool LLConversationItemSession::getTime(F64& time) const
 {
 	F64 most_recent_time = mLastActiveTime;
 	bool has_time = (most_recent_time > 0.1);

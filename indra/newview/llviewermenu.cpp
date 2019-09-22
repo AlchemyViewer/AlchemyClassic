@@ -7908,7 +7908,7 @@ void LLViewerMenuHolderGL::setObjectSelection(LLSafeHandle<LLObjectSelection> se
 }
 
 
-const LLRect LLViewerMenuHolderGL::getMenuRect() const
+LLRect LLViewerMenuHolderGL::getMenuRect() const
 {
 	return LLRect(0, getRect().getHeight() - MENU_BAR_HEIGHT, getRect().getWidth(), STATUS_BAR_HEIGHT);
 }

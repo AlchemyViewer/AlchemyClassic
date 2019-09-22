@@ -52,15 +52,12 @@ class HttpRequestQueue : public LLCoreInt::RefCounted
 protected:
 	/// Caller acquires a Refcount on construction
 	HttpRequestQueue();
-
-protected:
 	virtual ~HttpRequestQueue();						// Use release()
 
-private:
+public:
 	HttpRequestQueue(const HttpRequestQueue &) = delete;				// Not defined
 	HttpRequestQueue& operator=(const HttpRequestQueue &) = delete;		// Not defined
 
-public:
     typedef boost::shared_ptr<HttpOperation> opPtr_t;
 
 	static void init();

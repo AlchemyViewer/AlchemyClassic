@@ -95,12 +95,9 @@ public:
     virtual ~HttpHeaders();						// Use release()
 
 	//typedef LLCoreInt::IntrusivePtr<HttpHeaders> ptr_t;
-protected:
-
 	HttpHeaders(const HttpHeaders &) = delete;			// Not defined
 	HttpHeaders& operator=(const HttpHeaders&) = delete;		// Not defined
 
-public:
 	// Empty the list of headers.
 	void clear();
 

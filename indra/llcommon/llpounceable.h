@@ -158,7 +158,6 @@ public:
         mEmpty(empty)
     {}
 
-protected:
     LLPounceable(const LLPounceable&) = delete;
     LLPounceable& operator=(const LLPounceable&) = delete;
 

@@ -42,7 +42,6 @@ public:
 	LLDesktopNotifications() {}
     virtual ~LLDesktopNotifications() {}
 	
-private:
 	LLDesktopNotifications(LLDesktopNotifications const&)	= delete;
 	void operator=(LLDesktopNotifications const&)			= delete;
 };

@@ -65,7 +65,7 @@ public:
 	//virtual void setSortField(S32 sortField);
 	virtual void getSLURL(); //Caches SLURL for landmark. //*TODO: Find a better way to do it and remove this method from here.
     const LLPermissions& getPermissions() const override;
-	virtual const bool getIsFullPerm() const; // 'fullperm' in the popular sense: modify-ok & copy-ok & transfer-ok, no special god rules applied
+	virtual bool getIsFullPerm() const; // 'fullperm' in the popular sense: modify-ok & copy-ok & transfer-ok, no special god rules applied
     const LLUUID& getCreatorUUID() const override;
     const std::string& getDescription() const override;
     const LLSaleInfo& getSaleInfo() const override;

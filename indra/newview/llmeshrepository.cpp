@@ -585,10 +585,8 @@ public:
 		  mRequestedBytes(requested_bytes)
 		{}
 
-	virtual ~LLMeshHandlerBase()
-		{}
+    virtual ~LLMeshHandlerBase() = default;
 
-protected:
 	LLMeshHandlerBase(const LLMeshHandlerBase &) = delete;				// Not defined
 	LLMeshHandlerBase& operator=(const LLMeshHandlerBase &) = delete;	// Not defined
 	
@@ -621,11 +619,9 @@ public:
 	}
 	virtual ~LLMeshHeaderHandler();
 
-protected:
 	LLMeshHeaderHandler(const LLMeshHeaderHandler &) = delete;				// Not defined
 	LLMeshHeaderHandler& operator=(const LLMeshHeaderHandler &) = delete;	// Not defined
 	
-public:
 	void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size) override;
 	void processFailure(LLCore::HttpStatus status) override;
 };
@@ -647,11 +643,9 @@ public:
 		}
 	virtual ~LLMeshLODHandler();
 	
-protected:
 	LLMeshLODHandler(const LLMeshLODHandler &) = delete;					// Not defined
 	LLMeshLODHandler& operator=(const LLMeshLODHandler &) = delete;			// Not defined
 	
-public:
 	void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size) override;
 	void processFailure(LLCore::HttpStatus status) override;
 
@@ -673,11 +667,9 @@ public:
 	{}
 	virtual ~LLMeshSkinInfoHandler();
 
-protected:
 	LLMeshSkinInfoHandler(const LLMeshSkinInfoHandler &) = delete;				// Not defined
 	LLMeshSkinInfoHandler& operator=(const LLMeshSkinInfoHandler &) = delete;	// Not defined
 
-public:
 	void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size) override;
 	void processFailure(LLCore::HttpStatus status) override;
 
@@ -699,11 +691,9 @@ public:
 	{}
 	virtual ~LLMeshDecompositionHandler();
 
-protected:
 	LLMeshDecompositionHandler(const LLMeshDecompositionHandler &) = delete;			// Not defined
 	LLMeshDecompositionHandler& operator=(const LLMeshDecompositionHandler &) = delete;	// Not defined
 
-public:
 	void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size) override;
 	void processFailure(LLCore::HttpStatus status) override;
 
@@ -725,11 +715,9 @@ public:
 	{}
 	virtual ~LLMeshPhysicsShapeHandler();
 
-protected:
 	LLMeshPhysicsShapeHandler(const LLMeshPhysicsShapeHandler &) = delete;				// Not defined
 	LLMeshPhysicsShapeHandler operator=(const LLMeshPhysicsShapeHandler &) = delete;	// Not defined
 
-public:
 	void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size) override;
 	void processFailure(LLCore::HttpStatus status) override;
 

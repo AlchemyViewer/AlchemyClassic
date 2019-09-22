@@ -88,11 +88,9 @@ public:
 		FetchItemHttpHandler(const LLSD & request_sd);
 		virtual ~FetchItemHttpHandler();
 
-	protected:
 		FetchItemHttpHandler(const FetchItemHttpHandler &) = delete;				// Not defined
 		FetchItemHttpHandler& operator=(const FetchItemHttpHandler &) = delete;		// Not defined
 
-	public:
 		void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
 	private:

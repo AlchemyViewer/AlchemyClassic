@@ -99,9 +99,10 @@ void LLCallbackList::deleteAllFunctions()
 
 void LLCallbackList::callFunctions()
 {
-	for (auto& iter : mCallbackList)
-    {
-        iter.first(iter.second);
+	for (callback_list_t::iterator iter = mCallbackList.begin(); iter != mCallbackList.end();  )
+	{
+		callback_list_t::iterator curiter = iter++;
+		curiter->first(curiter->second);
 	}
 }
 

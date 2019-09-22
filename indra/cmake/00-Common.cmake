@@ -290,8 +290,8 @@ if (DARWIN)
   # NOTE: it's critical to have both CXX_FLAGS and C_FLAGS covered.
   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
   set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 ${CMAKE_C_FLAGS_RELWITHDEBINFO}")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${CMAKE_CXX_FLAGS_RELEASE}")
-  set(CMAKE_C_FLAGS_RELEASE "-O3 ${CMAKE_C_FLAGS_RELEASE}")
+  set(CMAKE_CXX_FLAGS_RELEASE "-Ofast -ffast-math -mavx -mprefer-vector-width=128 ${CMAKE_CXX_FLAGS_RELEASE}")
+  set(CMAKE_C_FLAGS_RELEASE "-Ofast -ffast-math -mavx -mprefer-vector-width=128 ${CMAKE_C_FLAGS_RELEASE}")
 endif (DARWIN)
 
 

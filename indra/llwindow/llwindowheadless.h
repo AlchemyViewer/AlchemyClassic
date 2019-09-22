@@ -99,7 +99,7 @@ public:
 		S32 width, S32 height,
 		U32 flags,  U32 window_mode, BOOL clear_background,
 		U32 vsync_setting, BOOL use_gl, BOOL ignore_pixel_depth);
-	virtual ~LLWindowHeadless();
+	virtual ~LLWindowHeadless() = default;
 
 private:
 };

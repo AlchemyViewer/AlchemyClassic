@@ -43,11 +43,7 @@ LLWindowHeadless::LLWindowHeadless(LLWindowCallbacks* callbacks, const std::stri
 	gKeyboard->setCallbacks(callbacks);
 }
 
-
-LLWindowHeadless::~LLWindowHeadless()
-{
-}
-
 void LLWindowHeadless::swapBuffers()
 {
 }
+

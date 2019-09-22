@@ -317,11 +317,11 @@ void LLHUDText::updateVisibility()
 		mVisible = TRUE;
 		if (mOnHUDAttachment)
 		{
-			sVisibleHUDTextObjects.push_back(LLPointer<LLHUDText> (this));
+			sVisibleHUDTextObjects.emplace_back(LLPointer<LLHUDText> (this));
 		}
 		else
 		{
-			sVisibleTextObjects.push_back(LLPointer<LLHUDText> (this));
+			sVisibleTextObjects.emplace_back(LLPointer<LLHUDText> (this));
 		}
 		return;
 	}
@@ -341,7 +341,7 @@ void LLHUDText::updateVisibility()
 	if (mOnHUDAttachment)
 	{
 		mVisible = TRUE;
-		sVisibleHUDTextObjects.push_back(LLPointer<LLHUDText> (this));
+		sVisibleHUDTextObjects.emplace_back(this);
 		mLastDistance = mPositionAgent.mV[VX];
 		return;
 	}
@@ -421,7 +421,7 @@ void LLHUDText::updateVisibility()
 	}
 
 	mVisible = TRUE;
-	sVisibleTextObjects.push_back(LLPointer<LLHUDText> (this));
+	sVisibleTextObjects.emplace_back(this);
 }
 
 LLVector2 LLHUDText::updateScreenPos(const LLVector2 &offset)

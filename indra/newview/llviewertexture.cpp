@@ -3655,7 +3655,7 @@ void LLViewerMediaTexture::addFace(U32 ch, LLFace* facep)
 		LLViewerTexture* tex = gTextureList.findImage(te->getID(), TEX_LIST_STANDARD);
 		if(tex)
 		{
-			mTextureList.push_back(tex);//increase the reference number by one for tex to avoid deleting it.
+			mTextureList.emplace_back(tex);//increase the reference number by one for tex to avoid deleting it.
 			return;
 		}
 	}
@@ -3663,7 +3663,7 @@ void LLViewerMediaTexture::addFace(U32 ch, LLFace* facep)
 	//check if it is a parcel media
 	if(facep->getTexture() && facep->getTexture() != this && facep->getTexture()->getID() == mID)
 	{
-		mTextureList.push_back(facep->getTexture()); //a parcel media.
+		mTextureList.emplace_back(facep->getTexture()); //a parcel media.
 		return;
 	}
 	

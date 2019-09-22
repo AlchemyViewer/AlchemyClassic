@@ -2601,7 +2601,7 @@ void LLScrollListCtrl::updateSort() const
 void LLScrollListCtrl::sortOnce(S32 column, BOOL ascending)
 {
 	std::vector<std::pair<S32, BOOL> > sort_column;
-	sort_column.push_back(std::make_pair(column, ascending));
+	sort_column.emplace_back(column, ascending);
 
 	// do stable sort to preserve any previous sorts
 	std::stable_sort(

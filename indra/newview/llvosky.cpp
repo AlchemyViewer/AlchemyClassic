@@ -438,7 +438,7 @@ void LLVOSky::initCubeMap()
 	std::vector<LLPointer<LLImageRaw> > images;
 	for (S32 side = 0; side < 6; side++)
 	{
-		images.push_back(mShinyTex[side].getImageRaw());
+		images.emplace_back(mShinyTex[side].getImageRaw());
 	}
 	if (mCubeMap)
 	{

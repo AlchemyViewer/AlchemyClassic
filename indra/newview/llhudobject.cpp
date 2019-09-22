@@ -150,14 +150,14 @@ LLHUDObject *LLHUDObject::addHUDObject(const U8 type)
 	}
 	if (hud_objectp)
 	{
-		sHUDObjects.push_back(hud_objectp);
+		sHUDObjects.emplace_back(hud_objectp);
 	}
 	return hud_objectp;
 }
 
 LLHUDEffect *LLHUDObject::addHUDEffect(const U8 type)
 {
-	LLHUDEffect *hud_objectp = NULL;
+	LLHUDEffect *hud_objectp = nullptr;
 	
 	switch (type)
 	{
@@ -247,7 +247,7 @@ LLHUDEffect *LLHUDObject::addHUDEffect(const U8 type)
 
 	if (hud_objectp)
 	{
-		sHUDObjects.push_back(hud_objectp);
+		sHUDObjects.emplace_back(hud_objectp);
 	}
 	return hud_objectp;
 }

@@ -141,7 +141,7 @@ LLHUDEffect *LLHUDManager::createViewerEffect(const U8 type, BOOL send_to_sim, B
 	hep->setNeedsSendToSim(send_to_sim);
 	hep->setOriginatedHere(originated_here);
 
-	mHUDEffects.push_back(hep);
+	mHUDEffects.emplace_back(hep);
 	return hep;
 }
 

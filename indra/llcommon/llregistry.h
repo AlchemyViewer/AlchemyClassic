@@ -148,7 +148,7 @@ public:
 
 	ptr_const_value_t getValue(ref_const_key_t key) const
 	{
-		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+		for(auto it = mActiveScopes.begin();
 			it != mActiveScopes.end();
 			++it)
 		{
@@ -160,7 +160,7 @@ public:
 
 	bool exists(ref_const_key_t key) const
 	{
-		for(scope_list_const_iterator_t it = mActiveScopes.begin();
+		for(auto it = mActiveScopes.begin();
 			it != mActiveScopes.end();
 			++it)
 		{

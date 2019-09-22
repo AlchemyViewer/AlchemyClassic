@@ -106,13 +106,13 @@ void LLPreviewTexture::populateRatioList()
 	// Fill in ratios list with common aspect ratio values
 	mRatiosList.clear();
 	mRatiosList.push_back(LLTrans::getString("Unconstrained"));
-	mRatiosList.push_back("1:1");
-	mRatiosList.push_back("4:3");
-	mRatiosList.push_back("10:7");
-	mRatiosList.push_back("3:2");
-	mRatiosList.push_back("16:10");
-	mRatiosList.push_back("16:9");
-	mRatiosList.push_back("2:1");
+	mRatiosList.emplace_back("1:1");
+	mRatiosList.emplace_back("4:3");
+	mRatiosList.emplace_back("10:7");
+	mRatiosList.emplace_back("3:2");
+	mRatiosList.emplace_back("16:10");
+	mRatiosList.emplace_back("16:9");
+	mRatiosList.emplace_back("2:1");
 	
 	// Now fill combo box with provided list
 	LLComboBox* combo = getChild<LLComboBox>("combo_aspect_ratio");

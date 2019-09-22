@@ -4725,7 +4725,7 @@ void LLTextureFetchDebugger::debugGLTextureCreation()
                 if (tex && !tex->isForSculptOnly())
                 {
                     tex->destroyGLTexture();
-                    mTempTexList.push_back(tex);
+                    mTempTexList.emplace_back(tex);
                 }
             }
 		}

@@ -1208,238 +1208,238 @@ BOOL LLShaderMgr::validateProgramObject(GLuint program)
 void LLShaderMgr::initAttribsAndUniforms()
 {
 	//MUST match order of enum in LLVertexBuffer.h
-	mReservedAttribs.push_back("position");
-	mReservedAttribs.push_back("normal");
-	mReservedAttribs.push_back("texcoord0");
-	mReservedAttribs.push_back("texcoord1");
-	mReservedAttribs.push_back("texcoord2");
-	mReservedAttribs.push_back("texcoord3");
-	mReservedAttribs.push_back("diffuse_color");
-	mReservedAttribs.push_back("emissive");
-	mReservedAttribs.push_back("tangent");
-	mReservedAttribs.push_back("weight");
-	mReservedAttribs.push_back("weight4");
-	mReservedAttribs.push_back("clothing");
-	mReservedAttribs.push_back("texture_index");
+	mReservedAttribs.emplace_back("position");
+	mReservedAttribs.emplace_back("normal");
+	mReservedAttribs.emplace_back("texcoord0");
+	mReservedAttribs.emplace_back("texcoord1");
+	mReservedAttribs.emplace_back("texcoord2");
+	mReservedAttribs.emplace_back("texcoord3");
+	mReservedAttribs.emplace_back("diffuse_color");
+	mReservedAttribs.emplace_back("emissive");
+	mReservedAttribs.emplace_back("tangent");
+	mReservedAttribs.emplace_back("weight");
+	mReservedAttribs.emplace_back("weight4");
+	mReservedAttribs.emplace_back("clothing");
+	mReservedAttribs.emplace_back("texture_index");
 	
 	//matrix state
-	mReservedUniforms.push_back("modelview_matrix");
-	mReservedUniforms.push_back("projection_matrix");
-	mReservedUniforms.push_back("inv_proj");
-	mReservedUniforms.push_back("modelview_projection_matrix");
-	mReservedUniforms.push_back("normal_matrix");
-	mReservedUniforms.push_back("texture_matrix0");
-	mReservedUniforms.push_back("texture_matrix1");
-	mReservedUniforms.push_back("texture_matrix2");
-	mReservedUniforms.push_back("texture_matrix3");
-	mReservedUniforms.push_back("object_plane_s");
-	mReservedUniforms.push_back("object_plane_t");
+	mReservedUniforms.emplace_back("modelview_matrix");
+	mReservedUniforms.emplace_back("projection_matrix");
+	mReservedUniforms.emplace_back("inv_proj");
+	mReservedUniforms.emplace_back("modelview_projection_matrix");
+	mReservedUniforms.emplace_back("normal_matrix");
+	mReservedUniforms.emplace_back("texture_matrix0");
+	mReservedUniforms.emplace_back("texture_matrix1");
+	mReservedUniforms.emplace_back("texture_matrix2");
+	mReservedUniforms.emplace_back("texture_matrix3");
+	mReservedUniforms.emplace_back("object_plane_s");
+	mReservedUniforms.emplace_back("object_plane_t");
 	llassert(mReservedUniforms.size() == LLShaderMgr::OBJECT_PLANE_T+1);
 
-	mReservedUniforms.push_back("light_position");
-	mReservedUniforms.push_back("light_direction");
-	mReservedUniforms.push_back("light_attenuation");
-	mReservedUniforms.push_back("light_diffuse");
-	mReservedUniforms.push_back("light_ambient");
-	mReservedUniforms.push_back("light_count");
-	mReservedUniforms.push_back("light");
-	mReservedUniforms.push_back("light_col");
-	mReservedUniforms.push_back("far_z");
+	mReservedUniforms.emplace_back("light_position");
+	mReservedUniforms.emplace_back("light_direction");
+	mReservedUniforms.emplace_back("light_attenuation");
+	mReservedUniforms.emplace_back("light_diffuse");
+	mReservedUniforms.emplace_back("light_ambient");
+	mReservedUniforms.emplace_back("light_count");
+	mReservedUniforms.emplace_back("light");
+	mReservedUniforms.emplace_back("light_col");
+	mReservedUniforms.emplace_back("far_z");
 
 	llassert(mReservedUniforms.size() == LLShaderMgr::MULTI_LIGHT_FAR_Z+1);
 
 
-	mReservedUniforms.push_back("proj_mat");
-	mReservedUniforms.push_back("proj_near");
-	mReservedUniforms.push_back("proj_p");
-	mReservedUniforms.push_back("proj_n");
-	mReservedUniforms.push_back("proj_origin");
-	mReservedUniforms.push_back("proj_range");
-	mReservedUniforms.push_back("proj_ambiance");
-	mReservedUniforms.push_back("proj_shadow_idx");
-	mReservedUniforms.push_back("shadow_fade");
-	mReservedUniforms.push_back("proj_focus");
-	mReservedUniforms.push_back("proj_lod");
-	mReservedUniforms.push_back("proj_ambient_lod");
+	mReservedUniforms.emplace_back("proj_mat");
+	mReservedUniforms.emplace_back("proj_near");
+	mReservedUniforms.emplace_back("proj_p");
+	mReservedUniforms.emplace_back("proj_n");
+	mReservedUniforms.emplace_back("proj_origin");
+	mReservedUniforms.emplace_back("proj_range");
+	mReservedUniforms.emplace_back("proj_ambiance");
+	mReservedUniforms.emplace_back("proj_shadow_idx");
+	mReservedUniforms.emplace_back("shadow_fade");
+	mReservedUniforms.emplace_back("proj_focus");
+	mReservedUniforms.emplace_back("proj_lod");
+	mReservedUniforms.emplace_back("proj_ambient_lod");
 
 	llassert(mReservedUniforms.size() == LLShaderMgr::PROJECTOR_AMBIENT_LOD+1);
 
-	mReservedUniforms.push_back("color");
+	mReservedUniforms.emplace_back("color");
 		
-	mReservedUniforms.push_back("diffuseMap");
-	mReservedUniforms.push_back("specularMap");
-	mReservedUniforms.push_back("bumpMap");
-	mReservedUniforms.push_back("environmentMap");
-	mReservedUniforms.push_back("cloude_noise_texture");
-	mReservedUniforms.push_back("fullbright");
-	mReservedUniforms.push_back("lightnorm");
-	mReservedUniforms.push_back("sunlight_color_copy");
-	mReservedUniforms.push_back("ambient");
-	mReservedUniforms.push_back("blue_horizon");
-	mReservedUniforms.push_back("blue_density");
-	mReservedUniforms.push_back("haze_horizon");
-	mReservedUniforms.push_back("haze_density");
-	mReservedUniforms.push_back("cloud_shadow");
-	mReservedUniforms.push_back("density_multiplier");
-	mReservedUniforms.push_back("distance_multiplier");
-	mReservedUniforms.push_back("max_y");
-	mReservedUniforms.push_back("glow");
-	mReservedUniforms.push_back("cloud_color");
-	mReservedUniforms.push_back("cloud_pos_density1");
-	mReservedUniforms.push_back("cloud_pos_density2");
-	mReservedUniforms.push_back("cloud_scale");
-	mReservedUniforms.push_back("gamma");
-	mReservedUniforms.push_back("scene_light_strength");
+	mReservedUniforms.emplace_back("diffuseMap");
+	mReservedUniforms.emplace_back("specularMap");
+	mReservedUniforms.emplace_back("bumpMap");
+	mReservedUniforms.emplace_back("environmentMap");
+	mReservedUniforms.emplace_back("cloude_noise_texture");
+	mReservedUniforms.emplace_back("fullbright");
+	mReservedUniforms.emplace_back("lightnorm");
+	mReservedUniforms.emplace_back("sunlight_color_copy");
+	mReservedUniforms.emplace_back("ambient");
+	mReservedUniforms.emplace_back("blue_horizon");
+	mReservedUniforms.emplace_back("blue_density");
+	mReservedUniforms.emplace_back("haze_horizon");
+	mReservedUniforms.emplace_back("haze_density");
+	mReservedUniforms.emplace_back("cloud_shadow");
+	mReservedUniforms.emplace_back("density_multiplier");
+	mReservedUniforms.emplace_back("distance_multiplier");
+	mReservedUniforms.emplace_back("max_y");
+	mReservedUniforms.emplace_back("glow");
+	mReservedUniforms.emplace_back("cloud_color");
+	mReservedUniforms.emplace_back("cloud_pos_density1");
+	mReservedUniforms.emplace_back("cloud_pos_density2");
+	mReservedUniforms.emplace_back("cloud_scale");
+	mReservedUniforms.emplace_back("gamma");
+	mReservedUniforms.emplace_back("scene_light_strength");
 
 	llassert(mReservedUniforms.size() == LLShaderMgr::SCENE_LIGHT_STRENGTH+1);
 
-	mReservedUniforms.push_back("center");
-	mReservedUniforms.push_back("size");
-	mReservedUniforms.push_back("falloff");
+	mReservedUniforms.emplace_back("center");
+	mReservedUniforms.emplace_back("size");
+	mReservedUniforms.emplace_back("falloff");
 
-	mReservedUniforms.push_back("box_center");
-	mReservedUniforms.push_back("box_size");
+	mReservedUniforms.emplace_back("box_center");
+	mReservedUniforms.emplace_back("box_size");
 
 
-	mReservedUniforms.push_back("minLuminance");
-	mReservedUniforms.push_back("maxExtractAlpha");
-	mReservedUniforms.push_back("lumWeights");
-	mReservedUniforms.push_back("warmthWeights");
-	mReservedUniforms.push_back("warmthAmount");
-	mReservedUniforms.push_back("glowStrength");
-	mReservedUniforms.push_back("glowDelta");
+	mReservedUniforms.emplace_back("minLuminance");
+	mReservedUniforms.emplace_back("maxExtractAlpha");
+	mReservedUniforms.emplace_back("lumWeights");
+	mReservedUniforms.emplace_back("warmthWeights");
+	mReservedUniforms.emplace_back("warmthAmount");
+	mReservedUniforms.emplace_back("glowStrength");
+	mReservedUniforms.emplace_back("glowDelta");
 
 	llassert(mReservedUniforms.size() == LLShaderMgr::GLOW_DELTA+1);
 
 
-	mReservedUniforms.push_back("minimum_alpha");
-	mReservedUniforms.push_back("emissive_brightness");
+	mReservedUniforms.emplace_back("minimum_alpha");
+	mReservedUniforms.emplace_back("emissive_brightness");
 
-	mReservedUniforms.push_back("shadow_matrix");
-	mReservedUniforms.push_back("env_mat");
-	mReservedUniforms.push_back("shadow_clip");
-	mReservedUniforms.push_back("sun_wash");
-	mReservedUniforms.push_back("shadow_noise");
-	mReservedUniforms.push_back("blur_size");
-	mReservedUniforms.push_back("ssao_radius");
-	mReservedUniforms.push_back("ssao_max_radius");
-	mReservedUniforms.push_back("ssao_factor");
-	mReservedUniforms.push_back("ssao_factor_inv");
-	mReservedUniforms.push_back("ssao_effect");
-	mReservedUniforms.push_back("ssao_scale");
-	mReservedUniforms.push_back("kern_scale");
-	mReservedUniforms.push_back("noise_scale");
-	mReservedUniforms.push_back("near_clip");
-	mReservedUniforms.push_back("shadow_offset");
-	mReservedUniforms.push_back("shadow_bias");
-	mReservedUniforms.push_back("spot_shadow_bias");
-	mReservedUniforms.push_back("spot_shadow_offset");
-	mReservedUniforms.push_back("sun_dir");
-	mReservedUniforms.push_back("shadow_res");
-	mReservedUniforms.push_back("proj_shadow_res");
-	mReservedUniforms.push_back("depth_cutoff");
-	mReservedUniforms.push_back("norm_cutoff");
-	mReservedUniforms.push_back("shadow_target_width");
-	mReservedUniforms.push_back("downsampled_depth_scale");
+	mReservedUniforms.emplace_back("shadow_matrix");
+	mReservedUniforms.emplace_back("env_mat");
+	mReservedUniforms.emplace_back("shadow_clip");
+	mReservedUniforms.emplace_back("sun_wash");
+	mReservedUniforms.emplace_back("shadow_noise");
+	mReservedUniforms.emplace_back("blur_size");
+	mReservedUniforms.emplace_back("ssao_radius");
+	mReservedUniforms.emplace_back("ssao_max_radius");
+	mReservedUniforms.emplace_back("ssao_factor");
+	mReservedUniforms.emplace_back("ssao_factor_inv");
+	mReservedUniforms.emplace_back("ssao_effect");
+	mReservedUniforms.emplace_back("ssao_scale");
+	mReservedUniforms.emplace_back("kern_scale");
+	mReservedUniforms.emplace_back("noise_scale");
+	mReservedUniforms.emplace_back("near_clip");
+	mReservedUniforms.emplace_back("shadow_offset");
+	mReservedUniforms.emplace_back("shadow_bias");
+	mReservedUniforms.emplace_back("spot_shadow_bias");
+	mReservedUniforms.emplace_back("spot_shadow_offset");
+	mReservedUniforms.emplace_back("sun_dir");
+	mReservedUniforms.emplace_back("shadow_res");
+	mReservedUniforms.emplace_back("proj_shadow_res");
+	mReservedUniforms.emplace_back("depth_cutoff");
+	mReservedUniforms.emplace_back("norm_cutoff");
+	mReservedUniforms.emplace_back("shadow_target_width");
+	mReservedUniforms.emplace_back("downsampled_depth_scale");
 	
 	llassert(mReservedUniforms.size() == LLShaderMgr::DEFERRED_DOWNSAMPLED_DEPTH_SCALE+1);
 
-	mReservedUniforms.push_back("rcp_screen_res");
-	mReservedUniforms.push_back("rcp_frame_opt");
-	mReservedUniforms.push_back("rcp_frame_opt2");
+	mReservedUniforms.emplace_back("rcp_screen_res");
+	mReservedUniforms.emplace_back("rcp_frame_opt");
+	mReservedUniforms.emplace_back("rcp_frame_opt2");
 	
-	mReservedUniforms.push_back("focal_distance");
-	mReservedUniforms.push_back("blur_constant");
-	mReservedUniforms.push_back("tan_pixel_angle");
-	mReservedUniforms.push_back("magnification");
-	mReservedUniforms.push_back("max_cof");
-	mReservedUniforms.push_back("res_scale");
-	mReservedUniforms.push_back("dof_width");
-	mReservedUniforms.push_back("dof_height");
+	mReservedUniforms.emplace_back("focal_distance");
+	mReservedUniforms.emplace_back("blur_constant");
+	mReservedUniforms.emplace_back("tan_pixel_angle");
+	mReservedUniforms.emplace_back("magnification");
+	mReservedUniforms.emplace_back("max_cof");
+	mReservedUniforms.emplace_back("res_scale");
+	mReservedUniforms.emplace_back("dof_width");
+	mReservedUniforms.emplace_back("dof_height");
 
-	mReservedUniforms.push_back("depthMap");
-	mReservedUniforms.push_back("depthMapDownsampled");
-	mReservedUniforms.push_back("shadowMap0");
-	mReservedUniforms.push_back("shadowMap1");
-	mReservedUniforms.push_back("shadowMap2");
-	mReservedUniforms.push_back("shadowMap3");
-	mReservedUniforms.push_back("shadowMap4");
-	mReservedUniforms.push_back("shadowMap5");
+	mReservedUniforms.emplace_back("depthMap");
+	mReservedUniforms.emplace_back("depthMapDownsampled");
+	mReservedUniforms.emplace_back("shadowMap0");
+	mReservedUniforms.emplace_back("shadowMap1");
+	mReservedUniforms.emplace_back("shadowMap2");
+	mReservedUniforms.emplace_back("shadowMap3");
+	mReservedUniforms.emplace_back("shadowMap4");
+	mReservedUniforms.emplace_back("shadowMap5");
 
 	llassert(mReservedUniforms.size() == LLShaderMgr::DEFERRED_SHADOW5+1);
 
-	mReservedUniforms.push_back("normalMap");
-	mReservedUniforms.push_back("positionMap");
-	mReservedUniforms.push_back("diffuseRect");
-	mReservedUniforms.push_back("specularRect");
-	mReservedUniforms.push_back("noiseMap");
-	mReservedUniforms.push_back("lightFunc");
-	mReservedUniforms.push_back("lightMap");
-	mReservedUniforms.push_back("bloomMap");
-	mReservedUniforms.push_back("projectionMap");
-	mReservedUniforms.push_back("norm_mat");
+	mReservedUniforms.emplace_back("normalMap");
+	mReservedUniforms.emplace_back("positionMap");
+	mReservedUniforms.emplace_back("diffuseRect");
+	mReservedUniforms.emplace_back("specularRect");
+	mReservedUniforms.emplace_back("noiseMap");
+	mReservedUniforms.emplace_back("lightFunc");
+	mReservedUniforms.emplace_back("lightMap");
+	mReservedUniforms.emplace_back("bloomMap");
+	mReservedUniforms.emplace_back("projectionMap");
+	mReservedUniforms.emplace_back("norm_mat");
 
-	mReservedUniforms.push_back("global_gamma");
-	mReservedUniforms.push_back("texture_gamma");
+	mReservedUniforms.emplace_back("global_gamma");
+	mReservedUniforms.emplace_back("texture_gamma");
 	
-	mReservedUniforms.push_back("specular_color");
-	mReservedUniforms.push_back("env_intensity");
+	mReservedUniforms.emplace_back("specular_color");
+	mReservedUniforms.emplace_back("env_intensity");
 
-	mReservedUniforms.push_back("matrixPalette");
-	mReservedUniforms.push_back("translationPalette");
-	mReservedUniforms.push_back("maxWeight");
+	mReservedUniforms.emplace_back("matrixPalette");
+	mReservedUniforms.emplace_back("translationPalette");
+	mReservedUniforms.emplace_back("maxWeight");
 	
-	mReservedUniforms.push_back("screenTex");
-	mReservedUniforms.push_back("screenDepth");
-	mReservedUniforms.push_back("refTex");
-	mReservedUniforms.push_back("eyeVec");
-	mReservedUniforms.push_back("time");
-	mReservedUniforms.push_back("d1");
-	mReservedUniforms.push_back("d2");
-	mReservedUniforms.push_back("lightDir");
-	mReservedUniforms.push_back("specular");
-	mReservedUniforms.push_back("lightExp");
-	mReservedUniforms.push_back("waterFogColor");
-	mReservedUniforms.push_back("waterFogDensity");
-	mReservedUniforms.push_back("waterFogKS");
-	mReservedUniforms.push_back("refScale");
-	mReservedUniforms.push_back("waterHeight");
-	mReservedUniforms.push_back("waterPlane");
-	mReservedUniforms.push_back("normScale");
-	mReservedUniforms.push_back("fresnelScale");
-	mReservedUniforms.push_back("fresnelOffset");
-	mReservedUniforms.push_back("blurMultiplier");
-	mReservedUniforms.push_back("sunAngle");
-	mReservedUniforms.push_back("scaledAngle");
-	mReservedUniforms.push_back("sunAngle2");
+	mReservedUniforms.emplace_back("screenTex");
+	mReservedUniforms.emplace_back("screenDepth");
+	mReservedUniforms.emplace_back("refTex");
+	mReservedUniforms.emplace_back("eyeVec");
+	mReservedUniforms.emplace_back("time");
+	mReservedUniforms.emplace_back("d1");
+	mReservedUniforms.emplace_back("d2");
+	mReservedUniforms.emplace_back("lightDir");
+	mReservedUniforms.emplace_back("specular");
+	mReservedUniforms.emplace_back("lightExp");
+	mReservedUniforms.emplace_back("waterFogColor");
+	mReservedUniforms.emplace_back("waterFogDensity");
+	mReservedUniforms.emplace_back("waterFogKS");
+	mReservedUniforms.emplace_back("refScale");
+	mReservedUniforms.emplace_back("waterHeight");
+	mReservedUniforms.emplace_back("waterPlane");
+	mReservedUniforms.emplace_back("normScale");
+	mReservedUniforms.emplace_back("fresnelScale");
+	mReservedUniforms.emplace_back("fresnelOffset");
+	mReservedUniforms.emplace_back("blurMultiplier");
+	mReservedUniforms.emplace_back("sunAngle");
+	mReservedUniforms.emplace_back("scaledAngle");
+	mReservedUniforms.emplace_back("sunAngle2");
 	
-	mReservedUniforms.push_back("camPosLocal");
+	mReservedUniforms.emplace_back("camPosLocal");
 
-	mReservedUniforms.push_back("gWindDir");
-	mReservedUniforms.push_back("gSinWaveParams");
-	mReservedUniforms.push_back("gGravity");
+	mReservedUniforms.emplace_back("gWindDir");
+	mReservedUniforms.emplace_back("gSinWaveParams");
+	mReservedUniforms.emplace_back("gGravity");
 
-	mReservedUniforms.push_back("detail_0");
-	mReservedUniforms.push_back("detail_1");
-	mReservedUniforms.push_back("detail_2");
-	mReservedUniforms.push_back("detail_3");
-	mReservedUniforms.push_back("alpha_ramp");
+	mReservedUniforms.emplace_back("detail_0");
+	mReservedUniforms.emplace_back("detail_1");
+	mReservedUniforms.emplace_back("detail_2");
+	mReservedUniforms.emplace_back("detail_3");
+	mReservedUniforms.emplace_back("alpha_ramp");
 
-	mReservedUniforms.push_back("origin");
+	mReservedUniforms.emplace_back("origin");
 	// <alchemy>
-	mReservedUniforms.push_back("seconds60");
+	mReservedUniforms.emplace_back("seconds60");
 	// </alchemy>
 	llassert(mReservedUniforms.size() == END_RESERVED_UNIFORMS);
 
 	std::set<std::string> dupe_check;
 
-	for (U32 i = 0; i < mReservedUniforms.size(); ++i)
-	{
-		if (dupe_check.find(mReservedUniforms[i]) != dupe_check.end())
+	for (const auto& uniform : mReservedUniforms)
+    {
+		if (dupe_check.find(uniform) != dupe_check.end())
 		{
-			LL_ERRS() << "Duplicate reserved uniform name found: " << mReservedUniforms[i] << LL_ENDL;
+			LL_ERRS() << "Duplicate reserved uniform name found: " << uniform << LL_ENDL;
 		}
-		dupe_check.insert(mReservedUniforms[i]);
+		dupe_check.insert(uniform);
 	}
 }
 

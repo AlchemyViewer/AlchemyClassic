@@ -309,13 +309,13 @@ std::vector<std::string> LLGestureStepAnimation::getLabel() const
 //	std::string label;
 	if (mFlags & ANIM_FLAG_STOP)
 	{
-		strings.push_back( "AnimFlagStop");
+		strings.emplace_back( "AnimFlagStop");
 
 //		label = "Stop Animation: ";
 	}
 	else
 	{
-		strings.push_back( "AnimFlagStart");
+		strings.emplace_back( "AnimFlagStart");
 
 //		label = "Start Animation: "; 
 	}
@@ -376,7 +376,7 @@ BOOL LLGestureStepSound::deserialize(LLDataPacker& dp)
 std::vector<std::string> LLGestureStepSound::getLabel() const
 {
 	std::vector<std::string> strings;
-	strings.push_back( "Sound");
+	strings.emplace_back( "Sound");
 	strings.push_back( mSoundName);	
 //	std::string label("Sound: ");
 //	label += mSoundName;
@@ -431,7 +431,7 @@ BOOL LLGestureStepChat::deserialize(LLDataPacker& dp)
 std::vector<std::string> LLGestureStepChat::getLabel() const
 {
 	std::vector<std::string> strings;
-	strings.push_back("Chat");
+	strings.emplace_back("Chat");
 	strings.push_back(mChatText);
 	return strings;
 }
@@ -482,24 +482,24 @@ BOOL LLGestureStepWait::deserialize(LLDataPacker& dp)
 std::vector<std::string> LLGestureStepWait::getLabel() const
 {
 	std::vector<std::string> strings;
-	strings.push_back( "Wait" );
+	strings.emplace_back( "Wait" );
 	
 //	std::string label("--- Wait: ");
 	if (mFlags & WAIT_FLAG_TIME)
 	{
 		char buffer[64];		/* Flawfinder: ignore */
 		snprintf(buffer, sizeof(buffer), "%.1f seconds", (double)mWaitSeconds);	/* Flawfinder: ignore */
-		strings.push_back(buffer);
+		strings.emplace_back(buffer);
 //		label += buffer;
 	}
 	else if (mFlags & WAIT_FLAG_ALL_ANIM)
 	{
-		strings.push_back("until animations are done");
+		strings.emplace_back("until animations are done");
 	//	label += "until animations are done";
 	}
 	else
 	{
-		strings.push_back("");
+		strings.emplace_back("");
 	}
 
 	return strings;

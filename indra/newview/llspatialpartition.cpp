@@ -2362,7 +2362,7 @@ void renderPhysicsShape(LLDrawable* drawable, LLVOVolume* volume)
 
 					for (S32 j = 0; j < face.mNumVertices; ++j)
 					{
-						pos.push_back(LLVector3(face.mPositions[j].getF32ptr()));
+						pos.emplace_back(face.mPositions[j].getF32ptr());
 					}
 
 					for (S32 j = 0; j < face.mNumIndices; ++j)

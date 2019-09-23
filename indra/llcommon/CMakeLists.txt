@@ -278,7 +278,9 @@ list(APPEND llcommon_SOURCE_FILES ${llcommon_HEADER_FILES})
 add_library (llcommon ${llcommon_SOURCE_FILES})
 
 if(USE_PRECOMPILED_HEADERS)
-  target_precompiled_header(llcommon "llcommonprecompiled.h" "llcommonprecompiled.cpp")
+  target_precompiled_header(llcommon
+    ${CMAKE_CURRENT_SOURCE_DIR}/llcommonprecompiled.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/llcommonprecompiled.cpp)
 endif(USE_PRECOMPILED_HEADERS)
 
 set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

@@ -25,11 +25,12 @@
  * $/LicenseInfo$
  */
 
-#include <AppKit/AppKit.h>
-#include <Cocoa/Cocoa.h>
-#include "llopenglview-objc.h"
-#include "llwindowmacosx-objc.h"
-#include "llappdelegate-objc.h"
+#import "llopenglview-objc.h"
+#import "llwindowmacosx-objc.h"
+#import "llappdelegate-objc.h"
+
+#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
 
 /*
  * These functions are broken out into a separate file because the
@@ -37,6 +38,8 @@
  * llcommon/stdtypes.h.  This makes it impossible to use the standard
  * linden headers with any objective-C++ source.
  */
+
+namespace LLDarwin {
 
 int createNSApp(int argc, const char *argv[])
 {
@@ -454,3 +457,4 @@ void setTitle(const std::string& title)
 	[winRef setTitle:nsTitle];
 }
 
+} // namespace LLDarwin

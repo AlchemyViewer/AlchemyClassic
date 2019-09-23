@@ -25,7 +25,7 @@
  */
 
 #import "llappdelegate-objc.h"
-#include "llwindowmacosx-objc.h"
+#import "llwindowmacosx-objc.h"
 
 #include <Carbon/Carbon.h> // Used for Text Input Services ("Safe" API - it's supported)
 
@@ -70,7 +70,7 @@ extern void constructViewer(); // found in newview/llappviewermacosx.cpp
 
 	[self languageUpdated];
 
-	if (initViewer())
+    if (LLDarwin::initViewer())
 	{
 		// Set up recurring calls to oneFrame (repeating timer with timeout 0)
 		// until applicationShouldTerminate.
@@ -99,49 +99,49 @@ extern void constructViewer(); // found in newview/llappviewermacosx.cpp
                     stringValue];// 4
 
     const char* url_utf8 = [url UTF8String];
-   handleUrl(url_utf8);
+    LLDarwin::handleUrl(url_utf8);
 }
 
 - (void) applicationDidBecomeActive:(NSNotification *)notification
 {
-	callWindowFocus();
+    LLDarwin::callWindowFocus();
 }
 
 - (void) applicationDidResignActive:(NSNotification *)notification
 {
-	callWindowUnfocus();
+    LLDarwin::callWindowUnfocus();
 }
 
 - (void) applicationDidHide:(NSNotification *)notification
 {
-	callWindowHide();
+    LLDarwin::callWindowHide();
 }
 
 - (void) applicationDidUnhide:(NSNotification *)notification
 {
-	callWindowUnhide();
+    LLDarwin::callWindowUnhide();
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
 {
 	// run one frame to assess state
-	if (!pumpMainLoop())
+    if (!LLDarwin::pumpMainLoop())
 	{
 		// pumpMainLoop() returns true when done, false if it wants to be
 		// called again. Since it returned false, do not yet cancel
 		// frameTimer.
-		handleQuit();
+        LLDarwin::handleQuit();
 		return NSTerminateCancel;
 	} else {
 		// pumpMainLoop() returned true: it's done. Okay, done with frameTimer.
-		cleanupViewer();
+        LLDarwin::cleanupViewer();
 		return NSTerminateNow;
 	}
 }
 
 - (void) oneFrame
 {
-	bool appExiting = pumpMainLoop();
+    bool appExiting = LLDarwin::pumpMainLoop();
 	if (appExiting)
 	{
 		// Once pumpMainLoop() reports that we're done, cancel frameTimer:

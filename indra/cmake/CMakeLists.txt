@@ -50,6 +50,7 @@ set(cmake_SOURCE_FILES
     LLCharacter.cmake
     LLCommon.cmake
     LLCrashLogger.cmake
+    LLDarwin.cmake
     LLImage.cmake
     LLImageJ2COJ.cmake
     LLInventory.cmake

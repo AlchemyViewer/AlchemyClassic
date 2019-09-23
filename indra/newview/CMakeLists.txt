@@ -22,6 +22,7 @@ include(Hunspell)
 include(IntelTBB)
 include(Json)
 include(LLAppearance)
+include(LLDarwin)
 include(LLAudio)
 include(LLCA)
 include(LLCharacter)
@@ -76,6 +77,7 @@ include_directories(
     ${ZLIB_INCLUDE_DIRS}
     ${JSON_INCLUDE_DIR}
     ${GLOD_INCLUDE_DIR}
+    ${LLDARWIN_INCLUDE_DIRS}
     ${LLAUDIO_INCLUDE_DIRS}
     ${LLCHARACTER_INCLUDE_DIRS}
     ${LLCOMMON_INCLUDE_DIRS}
@@ -1453,8 +1455,8 @@ set_source_files_properties(
    )
 
 if (DARWIN)
-  LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsmacosx.mm)
-  LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsmacosx.h)
+  LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsmac.cpp)
+  LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsmac.h)
 elseif (LINUX)
   LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsnotify.cpp)
   LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsnotify.h)
@@ -1466,12 +1468,8 @@ endif ()
 
 if (DARWIN)
   LIST(APPEND viewer_SOURCE_FILES
-       llappviewermacosx.cpp
-       llappviewermacosx-objc.mm
-       llfilepicker_mac.mm)
-  LIST(APPEND viewer_HEADER_FILES
-       llappviewermacosx-objc.h
-       llfilepicker_mac.h)
+    llappviewermacosx.cpp
+    )
 
   find_library(AGL_LIBRARY AGL)
   find_library(APPKIT_LIBRARY AppKit)
@@ -2049,6 +2047,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
     ${LLAUDIO_LIBRARIES}
     ${LLCHARACTER_LIBRARIES}
+    ${LLDARWIN_LIBRARIES}
     ${LLIMAGE_LIBRARIES}
     ${LLINVENTORY_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}

@@ -28,10 +28,10 @@
 #  error "Use only with Mac OS X"
 #endif
 
-#include "llappviewermacosx-objc.h"
+#import "llappviewermacosx-objc.h"
 #import <Cocoa/Cocoa.h>
 
-void launchApplication(const std::string& app_name, const std::vector<std::string>& args)
+void LLDarwin::launchApplication(const std::string& app_name, const std::vector<std::string>& args)
 {
 	if (app_name.empty()) return;
 

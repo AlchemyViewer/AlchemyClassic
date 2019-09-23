@@ -41,7 +41,6 @@
 #undef verify
 #undef require
 
-
 class LLWindowMacOSX : public LLWindow
 {
 public:
@@ -182,8 +181,8 @@ protected:
 	//
 	
 	// Use generic pointers here.  This lets us do some funky Obj-C interop using Obj-C objects without having to worry about any compilation problems that may arise.
-	NSWindowRef			mWindow;
-	GLViewRef			mGLView;
+    NSWindowRef			mWindow;
+    GLViewRef			mGLView;
 	CGLContextObj		mContext;
 	CGLPixelFormatObj	mPixelFormat;
 	CGDirectDisplayID	mDisplay;

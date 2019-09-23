@@ -1,8 +1,8 @@
 /*
- * @file lldesktopnotificationsmaxosx.mm
+ * @file lldesktopnotificationsmac.mm
  * @brief Mac OSX Notification Center support
  *
- * Copyright (c) 2014-2015, Cinder Roxley <cinder@sdf.org>
+ * Copyright (c) 2014-2019, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -32,18 +32,13 @@
 #  error "This file should only be included when building on mac!"
 #else
 
-#import "lldesktopnotificationsmacosx.h"
-#import <Cocoa/Cocoa.h>
+#include "lldesktopnotificationsmac.h"
+#include "lldesktopnotifications-objc.h"
 
 void LLDesktopNotificationsMacOSX::sendNotification(const std::string& title, const std::string& body, bool play_sound)
 {
-	if (NSAppKitVersionNumber <= NSAppKitVersionNumber10_7_2) return;
-	NSUserNotification *notification = [[NSUserNotification alloc] init];
-	notification.title = [NSString stringWithUTF8String:title.c_str()];
-	notification.informativeText = [NSString stringWithUTF8String:body.c_str()];
-	notification.soundName = play_sound ? NSUserNotificationDefaultSoundName : nil;
-	
-	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    LLDarwin::SendNotification(title, body, play_sound);
 }
 
 #endif // LL_DARWIN
+

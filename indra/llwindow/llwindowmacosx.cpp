@@ -60,6 +60,8 @@ namespace
 // LLWindowMacOSX
 //
 
+using namespace LLDarwin;
+
 // Cross-platform bits:
 
 BOOL check_for_card(const char* RENDERER, const char* bad_card)
@@ -201,7 +203,7 @@ LLWindowMacOSX::LLWindowMacOSX(LLWindowCallbacks* callbacks,
 // These functions are used as wrappers for our internal event handling callbacks.
 // It's a good idea to wrap these to avoid reworking more code than we need to within LLWindow.
 
-bool callKeyUp(NSKeyEventRef event, unsigned short key, unsigned int mask)
+bool LLDarwin::callKeyUp(NSKeyEventRef event, unsigned short key, unsigned int mask)
 {
     mRawKeyEvent = event;
 	bool retVal = gKeyboard->handleKeyUp(key, mask);
@@ -209,7 +211,7 @@ bool callKeyUp(NSKeyEventRef event, unsigned short key, unsigned int mask)
     return retVal;
 }
 
-bool callKeyDown(NSKeyEventRef event, unsigned short key, unsigned int mask)
+bool LLDarwin::callKeyDown(NSKeyEventRef event, unsigned short key, unsigned int mask)
 {
     mRawKeyEvent = event;
 	bool retVal = gKeyboard->handleKeyDown(key, mask);
@@ -217,12 +219,12 @@ bool callKeyDown(NSKeyEventRef event, unsigned short key, unsigned int mask)
     return retVal;
 }
 
-void callResetKeys()
+void LLDarwin::callResetKeys()
 {
 	gKeyboard->resetKeys();
 }
 
-bool callUnicodeCallback(wchar_t character, unsigned int mask)
+bool LLDarwin::callUnicodeCallback(wchar_t character, unsigned int mask)
 {
     NativeKeyEventData eventData;
     
@@ -243,7 +245,7 @@ bool callUnicodeCallback(wchar_t character, unsigned int mask)
     return result;
 }
 
-void callFocus()
+void LLDarwin::callFocus()
 {
 	if (gWindowImplementation)
 	{
@@ -251,7 +253,7 @@ void callFocus()
 	}
 }
 
-void callFocusLost()
+void LLDarwin::callFocusLost()
 {
 	if (gWindowImplementation)
 	{
@@ -259,7 +261,7 @@ void callFocusLost()
 	}
 }
 
-void callRightMouseDown(float *pos, MASK mask)
+void LLDarwin::callRightMouseDown(float *pos, MASK mask)
 {
     if (gWindowImplementation->allowsLanguageInput())
     {
@@ -272,7 +274,7 @@ void callRightMouseDown(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleRightMouseDown(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
 }
 
-void callRightMouseUp(float *pos, MASK mask)
+void LLDarwin::callRightMouseUp(float *pos, MASK mask)
 {
     if (gWindowImplementation->allowsLanguageInput())
     {
@@ -285,7 +287,7 @@ void callRightMouseUp(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleRightMouseUp(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
 }
 
-void callLeftMouseDown(float *pos, MASK mask)
+void LLDarwin::callLeftMouseDown(float *pos, MASK mask)
 {
     if (gWindowImplementation->allowsLanguageInput())
     {
@@ -298,7 +300,7 @@ void callLeftMouseDown(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleMouseDown(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
 }
 
-void callLeftMouseUp(float *pos, MASK mask)
+void LLDarwin::callLeftMouseUp(float *pos, MASK mask)
 {
     if (gWindowImplementation->allowsLanguageInput())
     {
@@ -312,7 +314,7 @@ void callLeftMouseUp(float *pos, MASK mask)
 	
 }
 
-void callDoubleClick(float *pos, MASK mask)
+void LLDarwin::callDoubleClick(float *pos, MASK mask)
 {
     if (gWindowImplementation->allowsLanguageInput())
     {
@@ -325,7 +327,7 @@ void callDoubleClick(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleDoubleClick(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
 }
 
-void callResize(unsigned int width, unsigned int height)
+void LLDarwin::callResize(unsigned int width, unsigned int height)
 {
 	if (gWindowImplementation != NULL)
 	{
@@ -333,7 +335,7 @@ void callResize(unsigned int width, unsigned int height)
 	}
 }
 
-void callMouseMoved(float *pos, MASK mask)
+void LLDarwin::callMouseMoved(float *pos, MASK mask)
 {
 	LLCoordGL		outCoords;
 	outCoords.mX = ll_round(pos[0]);
@@ -345,17 +347,17 @@ void callMouseMoved(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleMouseMove(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
 }
 
-void callScrollMoved(float delta)
+void LLDarwin::callScrollMoved(float delta)
 {
 	gWindowImplementation->getCallbacks()->handleScrollWheel(gWindowImplementation, delta);
 }
 
-void callMouseExit()
+void LLDarwin::callMouseExit()
 {
 	gWindowImplementation->getCallbacks()->handleMouseLeave(gWindowImplementation);
 }
 
-void callWindowFocus()
+void LLDarwin::callWindowFocus()
 {
    if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
 	{
@@ -371,7 +373,7 @@ void callWindowFocus()
 
 }
 
-void callWindowUnfocus()
+void LLDarwin::callWindowUnfocus()
 {
 	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
 	{
@@ -379,7 +381,7 @@ void callWindowUnfocus()
 	}
 }
 
-void callWindowHide()
+void LLDarwin::callWindowHide()
 {	
 	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
 	{
@@ -387,7 +389,7 @@ void callWindowHide()
 	}
 }
 
-void callWindowUnhide()
+void LLDarwin::callWindowUnhide()
 {	
 	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
 	{
@@ -395,7 +397,7 @@ void callWindowUnhide()
 	}
 }
 
-void callWindowDidChangeScreen()
+void LLDarwin::callWindowDidChangeScreen()
 {
 	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
 	{
@@ -403,12 +405,12 @@ void callWindowDidChangeScreen()
 	}
 }
 
-void callDeltaUpdate(double *delta, MASK mask)
+void LLDarwin::callDeltaUpdate(double *delta, MASK mask)
 {
 	gWindowImplementation->updateMouseDeltas(delta);
 }
 
-void callMiddleMouseDown(float *pos, MASK mask)
+void LLDarwin::callMiddleMouseDown(float *pos, MASK mask)
 {
 	LLCoordGL		outCoords;
 	outCoords.mX = ll_round(pos[0]);
@@ -420,7 +422,7 @@ void callMiddleMouseDown(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleMiddleMouseDown(gWindowImplementation, outCoords, mask);
 }
 
-void callMiddleMouseUp(float *pos, MASK mask)
+void LLDarwin::callMiddleMouseUp(float *pos, MASK mask)
 {
 	LLCoordGL outCoords;
 	outCoords.mX = ll_round(pos[0]);
@@ -432,32 +434,32 @@ void callMiddleMouseUp(float *pos, MASK mask)
 	gWindowImplementation->getCallbacks()->handleMiddleMouseUp(gWindowImplementation, outCoords, mask);
 }
 
-void callModifier(MASK mask)
+void LLDarwin::callModifier(MASK mask)
 {
 	gKeyboard->handleModifier(mask);
 }
 
-void callHandleDragEntered(std::string url)
+void LLDarwin::callHandleDragEntered(std::string url)
 {
 	gWindowImplementation->handleDragNDrop(url, LLWindowCallbacks::DNDA_START_TRACKING);
 }
 
-void callHandleDragExited(std::string url)
+void LLDarwin::callHandleDragExited(std::string url)
 {
 	gWindowImplementation->handleDragNDrop(url, LLWindowCallbacks::DNDA_STOP_TRACKING);
 }
 
-void callHandleDragUpdated(std::string url)
+void LLDarwin::callHandleDragUpdated(std::string url)
 {
 	gWindowImplementation->handleDragNDrop(url, LLWindowCallbacks::DNDA_TRACK);
 }
 
-void callHandleDragDropped(std::string url)
+void LLDarwin::callHandleDragDropped(std::string url)
 {
 	gWindowImplementation->handleDragNDrop(url, LLWindowCallbacks::DNDA_DROPPED);
 }
 
-void callQuitHandler()
+void LLDarwin::callQuitHandler()
 {
 	if (gWindowImplementation)
 	{
@@ -468,7 +470,7 @@ void callQuitHandler()
 	}
 }
 
-void getPreeditSelectionRange(int *position, int *length)
+void LLDarwin::getPreeditSelectionRange(int *position, int *length)
 {
 	if (gWindowImplementation->getPreeditor())
 	{
@@ -476,7 +478,7 @@ void getPreeditSelectionRange(int *position, int *length)
 	}
 }
 
-void getPreeditMarkedRange(int *position, int *length)
+void LLDarwin::getPreeditMarkedRange(int *position, int *length)
 {
 	if (gWindowImplementation->getPreeditor())
 	{
@@ -484,7 +486,7 @@ void getPreeditMarkedRange(int *position, int *length)
 	}
 }
 
-void setPreeditMarkedRange(int position, int length)
+void LLDarwin::setPreeditMarkedRange(int position, int length)
 {
 	if (gWindowImplementation->getPreeditor())
 	{
@@ -492,7 +494,7 @@ void setPreeditMarkedRange(int position, int length)
 	}
 }
 
-bool handleUnicodeCharacter(wchar_t c)
+bool LLDarwin::handleUnicodeCharacter(wchar_t c)
 {
     bool success = false;
 	if (gWindowImplementation->getPreeditor())
@@ -503,7 +505,7 @@ bool handleUnicodeCharacter(wchar_t c)
     return success;
 }
 
-void resetPreedit()
+void LLDarwin::resetPreedit()
 {
 	if (gWindowImplementation->getPreeditor())
 	{
@@ -513,7 +515,7 @@ void resetPreedit()
 
 // For reasons of convenience, handle IME updates here.
 // This largely mirrors the old implementation, only sans the carbon parameters.
-void setMarkedText(unsigned short *unitext, unsigned int *replacementRange, long text_len, attributedStringInfo segments)
+void LLDarwin::setMarkedText(unsigned short *unitext, unsigned int *replacementRange, long text_len, attributedStringInfo segments)
 {
 	if (gWindowImplementation->getPreeditor())
 	{
@@ -536,7 +538,7 @@ void setMarkedText(unsigned short *unitext, unsigned int *replacementRange, long
 	}
 }
 
-void getPreeditLocation(float *location, unsigned int length)
+void LLDarwin::getPreeditLocation(float *location, unsigned int length)
 {
 	if (gWindowImplementation->getPreeditor())
 	{

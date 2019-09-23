@@ -27,10 +27,18 @@
 #ifndef LL_LLAPPVIEWERMACOSX_OBJC_H
 #define LL_LLAPPVIEWERMACOSX_OBJC_H
 
+#ifndef LL_DARWIN
+#error "This file should only be included when building for mac!"
+#else
+
 #include <string>
 #include <vector>
 
-//Why?  Because BOOL
+namespace LLDarwin {
+
 void launchApplication(const std::string& app_name, const std::vector<std::string>& args);
 
+}
+
+#endif // LL_DARWIN
 #endif // LL_LLAPPVIEWERMACOSX_OBJC_H

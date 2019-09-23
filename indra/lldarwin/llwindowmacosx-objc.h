@@ -29,7 +29,14 @@
 #define LL_LLWINDOWMACOSX_OBJC_H
 
 #include <map>
+#include <string>
 #include <vector>
+#include <OpenGL/CGLTypes.h>
+
+// This will actually hold an NSCursor*, but that type is only available in objective C.
+typedef void *CursorRef;
+typedef void *NSWindowRef;
+typedef void *GLViewRef;
 
 typedef std::vector<std::pair<int, bool> > segment_t;
 
@@ -40,12 +47,6 @@ struct attributedStringInfo {
 	segment_lengths seg_lengths;
 	segment_standouts seg_standouts;
 };
-
-// This will actually hold an NSCursor*, but that type is only available in objective C.
-typedef void *CursorRef;
-typedef void *NSWindowRef;
-typedef void *GLViewRef;
-
 
 struct NativeKeyEventData {
     enum EventType {
@@ -66,6 +67,7 @@ struct NativeKeyEventData {
 
 typedef const NativeKeyEventData * NSKeyEventRef;
 
+namespace LLDarwin {
 // These are defined in llappviewermacosx.cpp.
 bool initViewer();
 void handleQuit();
@@ -98,7 +100,6 @@ long showAlert(std::string title, std::string text, int type);
 
 NSWindowRef createNSWindow(int x, int y, int width, int height);
 
-#include <OpenGL/OpenGL.h>
 GLViewRef createOpenGLView(NSWindowRef window, unsigned int samples, bool vsync);
 void glSwapBuffers(void* context);
 CGLContextObj getCGLContextObj(GLViewRef view);
@@ -149,7 +150,6 @@ void callModifier(unsigned int mask);
 void callQuitHandler();
 void commitCurrentPreedit(GLViewRef glView);
 
-#include <string>
 void callHandleDragEntered(std::string url);
 void callHandleDragExited(std::string url);
 void callHandleDragUpdated(std::string url);
@@ -174,5 +174,7 @@ GLViewRef getGLView();
 unsigned int getModifiers();
 void updateBadge(int count);
 void setTitle(const std::string& title);
+
+} // namespace LLDarwin
 
 #endif // LL_LLWINDOWMACOSX_OBJC_H

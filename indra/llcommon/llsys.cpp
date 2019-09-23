@@ -52,7 +52,7 @@ using namespace llsd;
 #   include <psapi.h>               // GetPerformanceInfo() et al.
 #	include <VersionHelpers.h>
 #elif LL_DARWIN
-#   include "llsys_objc.h"
+#   include "llsys-objc.h"
 #	include <cerrno>
 #	include <sys/sysctl.h>
 #	include <sys/utsname.h>
@@ -246,7 +246,7 @@ LLOSInfo::LLOSInfo() :
 	{
 		S32 major_version, minor_version, bugfix_version = 0;
 
-		if (LLSysDarwin::getOperatingSystemInfo(major_version, minor_version, bugfix_version))
+        if (LLDarwin::getOperatingSystemInfo(major_version, minor_version, bugfix_version))
 		{
 			mMajorVer = major_version;
 			mMinorVer = minor_version;

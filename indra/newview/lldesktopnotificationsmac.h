@@ -1,8 +1,8 @@
 /*
- * @file llsys_objc.h
- * @brief Some objective-c crap for llcommon
+ * @file lldesktopnotificationsmac.h
+ * @brief Mac OSX Notification Center support
  *
- * (C) 2014 Cinder Roxley @ Second Life <cinder@alchemyviewer.org>
+ * Copyright (c) 2014-2019, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -25,22 +25,25 @@
  * FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
+ *
  */
 
-#ifndef LL_SYS_OBJC_H
-#define LL_SYS_OBJC_H
+#ifndef LL_DESKTOPNOTIFICATIONS_MAC_H
+#define LL_DESKTOPNOTIFICATIONS_MAC_H
 
 #ifndef LL_DARWIN
-#  error "This file should only be included when building on mac!"
+#  error "This file should only be included when building for mac!"
 #else
 
-namespace LLSysDarwin
+#include "lldesktopnotifications.h"
+#include <string>
+
+class LLDesktopNotificationsMacOSX : public LLDesktopNotifications
 {
+public:
+	void sendNotification(const std::string& title, const std::string& body, bool play_sound) override;
+	bool isImplemented() override { return true; }
+};
 
-bool getOperatingSystemInfo(int &major, int &minor, int &patch);
-const char* getPreferredLanguage();
-	
-}
-
-#endif // !LL_DARWIN
-#endif // LL_SYS_OBJC_H
+#endif // LL_DARWIN
+#endif // LL_DESKTOPNOTIFICATIONS_MAC_H

@@ -77,8 +77,8 @@ LLFilePicker LLFilePicker::sInstance;
 #endif
 
 #ifdef LL_DARWIN
-#include "llfilepicker_mac.h"
-//#include <boost/algorithm/string/predicate.hpp>
+#include "llfilepicker-objc.h"
+using namespace LLDarwin;
 #endif
 
 //

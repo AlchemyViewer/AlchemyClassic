@@ -24,14 +24,16 @@
  * $/LicenseInfo$
  */ 
 
-#if !LL_DARWIN
-#error This header must not be included when compiling for any target other than Mac OS. Consider including lldir.h instead.
-#endif // !LL_DARWIN
-
 #ifndef LL_LLVFS_OBJC_H
 #define LL_LLVFS_OBJC_H
 
-#include <iostream>
+#ifndef LL_DARWIN
+#error "This file should only be included when building for mac!"
+#else
+
+#import <string>
+
+namespace LLDarwin {
 
 std::string getSystemTempFolder();
 std::string getSystemCacheFolder();
@@ -39,5 +41,7 @@ std::string getSystemApplicationSupportFolder();
 std::string getSystemResourceFolder();
 std::string getSystemExecutableFolder();
 
+}
 
+#endif // LL_DARWIN
 #endif // LL_LLVFS_OBJC_H

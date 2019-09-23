@@ -48,6 +48,10 @@ if (WINDOWS AND EXISTS ${LIBS_CLOSED_DIR}copy_win_scripts)
   add_subdirectory(${LIBS_CLOSED_PREFIX}copy_win_scripts)
 endif (WINDOWS AND EXISTS ${LIBS_CLOSED_DIR}copy_win_scripts)
 
+if (DARWIN)
+  add_subdirectory(${LIBS_OPEN_PREFIX}lldarwin)
+endif(DARWIN)
+
 add_custom_target(viewer)
 
 add_subdirectory(${LIBS_OPEN_PREFIX}llcrashlogger)

@@ -28,6 +28,9 @@
 #import "llwindowmacosx-objc.h"
 #import "llappdelegate-objc.h"
 #import <Carbon/Carbon.h> // for keycodes
+
+using namespace LLDarwin;
+
 #pragma mark local functions
 
 NativeKeyEventData extractKeyDataFromKeyEvent(NSEvent* theEvent)
@@ -664,7 +667,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		// We may never get this point since unmarkText may be called before insertText ever gets called once we submit our text.
 		// But just in case...
 		
-		for (NSInteger i = 0; i < [aString length]; i++)
+		for (NSInteger i = 0; i < [aString length]; ++i)
 		{
 			handleUnicodeCharacter([aString characterAtIndex:i]);
 		}

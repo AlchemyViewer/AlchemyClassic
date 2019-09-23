@@ -6,6 +6,7 @@ project(llcommon LANGUAGES CXX)
 include(00-Common)
 include(CXXFeatureDetection)
 include(LLCommon)
+include(LLDarwin)
 include(LLMath)
 include(Linking)
 include(Boost)
@@ -20,6 +21,7 @@ include(URIPARSER)
 include_directories(
     ${EXPAT_INCLUDE_DIRS}
     ${LLCOMMON_INCLUDE_DIRS}
+    ${LLDARWIN_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
     ${JSON_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS}
@@ -267,11 +269,6 @@ if (WINDOWS)
   list(APPEND llcommon_HEADER_FILES llwin32headers.h llwin32headerslean.h)
 endif (WINDOWS)
 
-if (DARWIN)
-  list(APPEND llcommon_HEADER_FILES llsys_objc.h)
-  list(APPEND llcommon_SOURCE_FILES llsys_objc.mm)
-endif (DARWIN)
-
 set_source_files_properties(${llcommon_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
@@ -287,7 +284,7 @@ target_compile_features(llcommon PUBLIC cxx_nullptr cxx_static_assert)
 target_link_libraries(
     llcommon
     PUBLIC
-    ${BREAKPAD_EXCEPTION_HANDLER_LIBRARIES}
+    ${LLDARWIN_LIBRARIES}
     ${APRUTIL_LIBRARIES}
     ${APR_LIBRARIES}
     ${EXPAT_LIBRARIES}

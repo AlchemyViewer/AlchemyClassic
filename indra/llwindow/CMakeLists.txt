@@ -13,6 +13,7 @@ project(llwindow LANGUAGES CXX)
 include(00-Common)
 include(DragDrop)
 include(LLCommon)
+include(LLDarwin)
 include(LLImage)
 include(LLMath)
 include(LLRender)
@@ -23,6 +24,7 @@ include(UI)
 
 include_directories(
     ${LLCOMMON_INCLUDE_DIRS}
+    ${LLDARWIN_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLRENDER_INCLUDE_DIRS}
@@ -69,6 +71,7 @@ set(viewer_HEADER_FILES
 if (LINUX)
   set(llwindow_LINK_LIBRARIES
       ${LLCOMMON_LIBRARIES}
+      #{LLDARWIN_LIBRARIES}
       ${LLIMAGE_LIBRARIES}
       ${LLMATH_LIBRARIES}
       ${LLRENDER_LIBRARIES}
@@ -107,16 +110,10 @@ if (DARWIN)
   list(APPEND llwindow_SOURCE_FILES
     llkeyboardmacosx.cpp
     llwindowmacosx.cpp
-    llwindowmacosx-objc.mm
-    llopenglview-objc.mm
-    llappdelegate-objc.mm
     )
   list(APPEND llwindow_HEADER_FILES
     llkeyboardmacosx.h
     llwindowmacosx.h
-    llwindowmacosx-objc.h
-    llopenglview-objc.h
-    llappdelegate-objc.h
     )
 
   set_source_files_properties(

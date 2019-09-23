@@ -33,9 +33,13 @@
 #ifndef LL_LLFILEPICKER_MAC_H
 #define LL_LLFILEPICKER_MAC_H
 
-#if LL_DARWIN
+#ifndef LL_DARWIN
+#error "This file should only be included when building for mac!"
+#else
 
 #include <vector>
+
+namespace LLDarwin {
 
 //void modelessPicker();
 std::vector<std::string>* doLoadDialog(const std::vector<std::string> allowed_types, 
@@ -50,6 +54,7 @@ enum {
     F_NAV_SUPPORT=0x00000008
 };
 
-#endif
+}
 
-#endif
+#endif // LL_DARWIN
+#endif // LL_FILEPICKER_MAC_H

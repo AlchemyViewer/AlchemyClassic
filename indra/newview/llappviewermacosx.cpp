@@ -30,8 +30,6 @@
 	#error "Use only with Mac OS X"
 #endif
 
-#define LL_CARBON_CRASH_HANDLER 1
-
 #include "llwindowmacosx.h"
 #include "llappviewermacosx-objc.h"
 
@@ -48,18 +46,17 @@
 #include "llerrorcontrol.h"
 #include "llvoavatarself.h"         // for gAgentAvatarp->getFullname()
 #include <ApplicationServices/ApplicationServices.h>
-#ifdef LL_CARBON_CRASH_HANDLER
-#include <Carbon/Carbon.h>
-#endif
 #include <vector>
 #include <exception>
 #include <fstream>
 
-#include "llsys_objc.h"
+#include "llsys-objc.h"
 #include "lldir.h"
 #include <signal.h>
 #include <CoreAudio/CoreAudio.h>	// for systemwide mute
+
 class LLMediaCtrl;		// for LLURLDispatcher
+using namespace LLDarwin;
 
 namespace 
 {
@@ -104,7 +101,7 @@ void constructViewer()
 	gViewerAppPtr->setErrorHandler(LLAppViewer::handleViewerCrash);
 }
 
-bool initViewer()
+bool LLDarwin::initViewer()
 {
 	bool ok = gViewerAppPtr->init();
 	if(!ok)
@@ -119,7 +116,7 @@ bool initViewer()
 	return ok;
 }
 
-void handleQuit()
+void LLDarwin::handleQuit()
 {
 	LLAppViewer::instance()->userQuit();
 }
@@ -129,7 +126,7 @@ void handleQuit()
 // LLAppViewer::frame(), it returns 'true' when it's done. Until then, it
 // expects to be called again by the timer in LLAppDelegate
 // (llappdelegate-objc.mm).
-bool pumpMainLoop()
+bool LLDarwin::pumpMainLoop()
 {
 	bool ret = LLApp::isQuitting();
 	if (!ret && gViewerAppPtr != NULL)
@@ -142,7 +139,7 @@ bool pumpMainLoop()
 	return ret;
 }
 
-void cleanupViewer()
+void LLDarwin::cleanupViewer()
 {
 	if(!LLApp::isError())
 	{
@@ -221,11 +218,10 @@ bool LLAppViewerMacOSX::initParseCommandLine(LLCommandLineParser& clp)
 		return false;
 	}
 
-	std::string lang(LLSysDarwin::getPreferredLanguage());
 	LLControlVariable* c = gSavedSettings.getControl("SystemLanguage");
 	if(c)
 	{
-		c->setValue(lang, false);
+		c->setValue(getPreferredLanguage(), false);
 	}
 	
     return true;
@@ -331,7 +327,7 @@ std::string LLAppViewerMacOSX::generateSerialNumber()
 	return serial_md5;
 }
 
-void handleUrl(const char* url_utf8)
+void LLDarwin::handleUrl(const char* url_utf8)
 {
     if (url_utf8 && gViewerAppPtr)
     {
@@ -344,7 +340,7 @@ void handleUrl(const char* url_utf8)
     }
 }
 
-void dispatchUrl(std::string url)
+void LLDarwin::dispatchUrl(std::string url)
 {
     // Safari 3.2 silently mangles secondlife:///app/ URLs into
     // secondlife:/app/ (only one leading slash).

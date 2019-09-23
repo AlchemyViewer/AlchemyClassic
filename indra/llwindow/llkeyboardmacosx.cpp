@@ -162,7 +162,7 @@ LLKeyboardMacOSX::LLKeyboardMacOSX()
 
 void LLKeyboardMacOSX::resetMaskKeys()
 {
-	U32 mask = getModifiers();
+    U32 mask = LLDarwin::getModifiers();
 
 	// MBW -- XXX -- This mirrors the operation of the Windows version of resetMaskKeys().
 	//    It looks a bit suspicious, as it won't correct for keys that have been released.
@@ -262,7 +262,7 @@ BOOL LLKeyboardMacOSX::handleKeyUp(const U32 key, U32 mask)
 MASK LLKeyboardMacOSX::currentMask(BOOL for_mouse_event)
 {
 	MASK result = MASK_NONE;
-	U32 mask = getModifiers();
+    U32 mask = LLDarwin::getModifiers();
 
 	if (mask & MAC_SHIFT_KEY)			result |= MASK_SHIFT;
 	if (mask & MAC_CTRL_KEY)			result |= MASK_CONTROL;

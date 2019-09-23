@@ -1,8 +1,8 @@
 /*
- * @file llsys_objc.mm
+ * @file llsys_objc.h
  * @brief Some objective-c crap for llcommon
  *
- * (C) 2014 Cinder Roxley @ Second Life <cinder@alchemyviewer.org>
+ * (C) 2014-2019 Cinder Roxley @ Second Life <cinder@alchemyviewer.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -27,53 +27,20 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef LL_SYS_OBJC_H
+#define LL_SYS_OBJC_H
+
 #ifndef LL_DARWIN
 #  error "This file should only be included when building on mac!"
 #else
 
-#import "llsys_objc.h"
-#import <Foundation/Foundation.h>
-#import <AppKit/NSApplication.h>
-
-static int intAtStringIndex(NSArray *array, int index)
+namespace LLDarwin
 {
-    return [(NSString *)[array objectAtIndex:index] integerValue];
-}
 
-bool LLSysDarwin::getOperatingSystemInfo(int &major, int &minor, int &patch)
-{
-	// Mavericks gains a nifty little method for getting OS version, prior to that
-	// we have to (ugh) parse systemversion.plist. :O
-	if (NSAppKitVersionNumber > NSAppKitVersionNumber10_8) {
-		NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-		major = osVersion.majorVersion;
-		minor = osVersion.minorVersion;
-		patch = osVersion.patchVersion;
-	}
-	else
-	{
-		NSString* versionString = [[NSDictionary dictionaryWithContentsOfFile:
-									@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"];
-		NSArray* versions = [versionString componentsSeparatedByString:@"."];
-		NSUInteger count = [versions count];
-		if (count > 0) {
-			major = intAtStringIndex(versions, 0);
-			if (count > 1) {
-				minor = intAtStringIndex(versions, 1);
-				if (count > 2) {
-					patch = intAtStringIndex(versions, 2);
-				}
-			}
-		}
-	}
-	return true;
-}
-
-const char* LLSysDarwin::getPreferredLanguage()
-{
-	NSString* lang = [[NSLocale preferredLanguages] objectAtIndex:0];
-	const char* ret = [lang cStringUsingEncoding:NSASCIIStringEncoding];
-	return ret;
+bool getOperatingSystemInfo(int &major, int &minor, int &patch);
+const char* getPreferredLanguage();
+	
 }
 
 #endif // !LL_DARWIN
+#endif // LL_SYS_OBJC_H

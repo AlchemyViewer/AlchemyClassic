@@ -24,10 +24,15 @@
  * $/LicenseInfo$
  */
 
-#ifdef LL_DARWIN
+#ifndef LL_DARWIN
+#  error "This file should only be included when building on mac!"
+#else
+
 #import <Cocoa/Cocoa.h>
-#include <iostream>
-#include "llfilepicker_mac.h"
+#import <iostream>
+#import "llfilepicker-objc.h"
+
+namespace LLDarwin {
 
 std::vector<std::string>* doLoadDialog(const std::vector<std::string> allowed_types,
                  unsigned int flags)
@@ -125,5 +130,7 @@ std::string doSaveDialog(const std::string& file,
     }
     return std::string();
 }
+
+} // namespace LLDarwin
 
 #endif

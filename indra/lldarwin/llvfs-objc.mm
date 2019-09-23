@@ -22,13 +22,17 @@
  * 
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
- */ 
-#if LL_DARWIN
+ */
 
-//WARNING:  This file CANNOT use standard linden includes due to conflicts between definitions of BOOL
+#ifndef LL_DARWIN
+#  error "This file should only be included when building on mac!"
+#else
 
-#include "llvfs_objc.h"
+#import "llvfs-objc.h"
 #import <Cocoa/Cocoa.h>
+#import <string>
+
+namespace LLDarwin {
 
 std::string getSystemTempFolder()
 {
@@ -92,5 +96,7 @@ std::string getSystemApplicationSupportFolder()
     return findSystemDirectory(NSApplicationSupportDirectory,
 							   NSUserDomainMask);
 }
+
+} // namespace LLDarwin
 
 #endif // LL_DARWIN

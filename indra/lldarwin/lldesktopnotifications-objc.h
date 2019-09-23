@@ -1,8 +1,8 @@
 /*
- * @file lldesktopnotifications.cpp
- * @brief Desktop notifications global
+ * @file lldesktopnotifications-objc.h
+ * @brief Mac OSX Notification Center support
  *
- * Copyright (c) 2015, Cinder Roxley <cinder@sdf.org>
+ * Copyright (c) 2014-2019, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -28,18 +28,20 @@
  *
  */
 
-#include "llviewerprecompiledheaders.h"
-#include "lldesktopnotifications.h"
+#ifndef LL_DESKTOPNOTIFICATIONS_OBJC_H
+#define LL_DESKTOPNOTIFICATIONS_OBJC_H
 
-#if LL_DARWIN
-#import "lldesktopnotificationsmac.h"
-LLDesktopNotificationsMacOSX gDesktopNotifications;
-#elif LL_LINUX
-#include "lldesktopnotificationsnotify.h"
-LLDesktopNotificationsNotify gDesktopNotifications;
-#else // Unimplemented platforms
-#include "lldesktopnotificationsnope.h"
-LLDesktopNotificationsNope gDesktopNotifications;
-#endif
+#ifndef LL_DARWIN
+#error "This file should only be included when building for mac!"
+#else
 
-LLDesktopNotifications* gDesktopNotificationsp = (LLDesktopNotifications *)&gDesktopNotifications;
+#include <string>
+
+namespace LLDarwin {
+
+void SendNotification(const std::string& title, const std::string& body, bool play_sound);
+
+}
+
+#endif // LL_DARWIN
+#endif // LL_DESKTOPNOTIFICATIONS_OBJC_H

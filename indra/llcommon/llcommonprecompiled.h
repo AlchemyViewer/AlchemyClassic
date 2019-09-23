@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <array>
 #include <charconv>
 #include <condition_variable>
 #include <deque>
@@ -44,6 +45,7 @@
 #include <list>
 #include <map>
 #include <mutex>
+#include <queue>
 #include <set>
 #include <stdexcept>
 #include <string>

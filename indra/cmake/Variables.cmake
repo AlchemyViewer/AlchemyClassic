@@ -253,6 +253,10 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_XCODE_ATTRIBUTE_GCC_FAST_OBJC_DISPATCH YES)
   set(CMAKE_XCODE_ATTRIBUTE_CLANG_ENABLE_MODULES YES)
 
+  # Quite annoyingly, Xcode 11 attempts to sign after linking if we 
+  # don't explicitly set the signing ID empty. In the future, we may
+  # be able to self-sign for locally running with entitlements though.
+  set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_IDENTITY "")
 
   set(ADDRESS_SIZE 64)
   set(ARCH x86_64)

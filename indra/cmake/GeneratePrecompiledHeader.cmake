@@ -38,12 +38,13 @@ macro(target_precompiled_header TARGET_NAME PRECOMPILED_HEADER PRECOMPILED_SOURC
         target_include_directories(${TARGET_NAME} PRIVATE ${PRECOMPILED_HEADER_PATH}) # fixes occasional IntelliSense glitches
 
         get_filename_component(PRECOMPILED_HEADER_WE ${PRECOMPILED_HEADER} NAME_WE)
-        set(PRECOMPILED_BINARY "${PRECOMPILED_HEADER_WE}.pch")
+        set(PRECOMPILED_BINARY "$(IntDir)/${PRECOMPILED_HEADER_WE}.pch")
         
-        target_sources(${TARGET_NAME} PRIVATE ${PRECOMPILED_SOURCE})
-        set_source_files_properties(${SOURCE_FILE} PROPERTIES 
-            COMPILE_FLAGS "/Yc\"${PRECOMPILED_HEADER_NAME}\" /Fp\"${PRECOMPILED_BINARY}\""
-            OBJECT_OUTPUTS "${PRECOMPILED_BINARY}")
+        target_sources(${TARGET_NAME} PRIVATE ${PRECOMPILED_SOURCE} ${PRECOMPILED_HEADER})
+        set_source_files_properties(${PRECOMPILED_SOURCE} PROPERTIES 
+             COMPILE_OPTIONS "/Yc${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}")
+        set_target_properties(${TARGET_NAME} PROPERTIES 
+             COMPILE_OPTIONS "/Yu${PRECOMPILED_HEADER_NAME};/FI${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}")
     elseif(CMAKE_GENERATOR STREQUAL Xcode)
         set_target_properties(
             ${TARGET_NAME}

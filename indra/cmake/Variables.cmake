@@ -219,9 +219,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(DARWIN ON BOOL FORCE)
 
   # Xcode setup
-  if (XCODE_VERSION LESS 9.0.0)
-    message( FATAL_ERROR "Xcode 9.0.0 or greater is required." )
-  endif (XCODE_VERSION LESS 9.0.0)
+  if (XCODE_VERSION LESS 10.2.0)
+    message( FATAL_ERROR "Xcode 10.2.0 or greater is required." )
+  endif (XCODE_VERSION LESS 10.2.0)
   message( "Building with " ${CMAKE_OSX_SYSROOT} )
   set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)
 

@@ -4,8 +4,8 @@
 project(llcommon LANGUAGES CXX)
 
 include(00-Common)
-include(ALMacros)
 include(CXXFeatureDetection)
+include(GeneratePrecompiledHeader)
 include(LLCommon)
 include(LLDarwin)
 include(LLMath)
@@ -277,7 +277,9 @@ list(APPEND llcommon_SOURCE_FILES ${llcommon_HEADER_FILES})
 
 add_library (llcommon ${llcommon_SOURCE_FILES})
 
-ADD_PCH_TO_TARGET("llcommonprecompiled.h" "llcommonprecompiled.cpp" llcommon)
+if(USE_PRECOMPILED_HEADERS)
+  target_precompiled_header(llcommon "llcommonprecompiled.h" "llcommonprecompiled.cpp")
+endif(USE_PRECOMPILED_HEADERS)
 
 set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 

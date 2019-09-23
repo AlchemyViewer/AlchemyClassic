@@ -60,7 +60,7 @@ LLHost::LLHost(const std::string& ip_and_port)
 
 std::string LLHost::getString() const
 {
-	return llformat("%s:%u", u32_to_ip_string(mIP), mPort);
+	return fmt::format(fmt("{:s}:{:d}"), u32_to_ip_string(mIP), mPort);
 }
 
 

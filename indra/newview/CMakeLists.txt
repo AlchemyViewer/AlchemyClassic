@@ -15,6 +15,7 @@ include(DBusGlib)
 include(DragDrop)
 include(EXPAT)
 include(FMODSTUDIO)
+include(GeneratePrecompiledHeader)
 include(GLOD)
 include(GLEW)
 include(GooglePerfTools)
@@ -1544,19 +1545,6 @@ if (WINDOWS)
   endif (NVAPI)
   set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_DEFINITIONSS}")
 
-    # precompiled header configuration
-    # llviewerprecompiledheaders.cpp generates
-    # the .pch file.
-    # All sources added to viewer_SOURCE_FILES
-    # at this point use it.
-    if(USE_PRECOMPILED_HEADERS)
-        set_source_files_properties(llviewerprecompiledheaders.cpp
-            PROPERTIES
-            COMPILE_FLAGS "/Ycllviewerprecompiledheaders.h"
-            )
-        set(viewer_SOURCE_FILES "${viewer_SOURCE_FILES}" llviewerprecompiledheaders.cpp)
-    endif(USE_PRECOMPILED_HEADERS)
-
     # Replace the icons with the appropriate ones for the channel
     # ('test' is the default)
     set(ICON_PATH "test")
@@ -1806,6 +1794,12 @@ if (SDL_FOUND)
     )
 endif (SDL_FOUND)
 
+if(USE_PRECOMPILED_HEADERS)
+  target_precompiled_header(${VIEWER_BINARY_NAME}
+      ${CMAKE_CURRENT_SOURCE_DIR}/llviewerprecompiledheaders.h
+      ${CMAKE_CURRENT_SOURCE_DIR}/llviewerprecompiledheaders.cpp)
+endif(USE_PRECOMPILED_HEADERS)
+
 # add package files
 file(GLOB EVENT_HOST_SCRIPT_GLOB_LIST
      ${CMAKE_CURRENT_SOURCE_DIR}/../viewer_components/*.py)
@@ -1819,14 +1813,6 @@ if (WINDOWS)
         LINK_FLAGS "/debug /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS} ${TBBMALLOC_LINK_FLAGS}"
         LINK_FLAGS_RELEASE "/MAP:\"alchemy-bin.MAP\""
         )
-
-    if(USE_PRECOMPILED_HEADERS)
-        set_target_properties(
-            ${VIEWER_BINARY_NAME}
-            PROPERTIES
-            COMPILE_FLAGS "/Yullviewerprecompiledheaders.h"
-            )
-    endif(USE_PRECOMPILED_HEADERS)
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.
@@ -2408,25 +2394,9 @@ if (LL_TESTS)
     LL_TEST_ADDITIONAL_LIBRARIES "${BOOST_SYSTEM_LIBRARY}"
   )
 
-  ##################################################
-  # DISABLING PRECOMPILED HEADERS USAGE FOR TESTS
-  ##################################################
-  # if(USE_PRECOMPILED_HEADERS)
-  #     set_source_files_properties(
-  #       ${viewer_TEST_SOURCE_FILES}
-  #       PROPERTIES
-  #         LL_TEST_ADDITIONAL_SOURCE_FILES llviewerprecompiledheaders.cpp
-  #       )
-  # endif(USE_PRECOMPILED_HEADERS)
   LL_ADD_PROJECT_UNIT_TESTS(${VIEWER_BINARY_NAME} "${viewer_TEST_SOURCE_FILES}")
 
   #set(TEST_DEBUG on)
-  ##################################################
-  # DISABLING PRECOMPILED HEADERS USAGE FOR TESTS
-  ##################################################
-  # if(USE_PRECOMPILED_HEADERS)
-  #     set(test_sources "${test_sources}" llviewerprecompiledheaders.cpp)
-  # endif(USE_PRECOMPILED_HEADERS)
 
   set(test_libs
     ${WINDOWS_LIBRARIES}

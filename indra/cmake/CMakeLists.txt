@@ -34,6 +34,7 @@ set(cmake_SOURCE_FILES
     FMODSTUDIO.cmake
     FmtLib.cmake
     FreeType.cmake
+    GeneratePrecompiledHeader.cmake
     GLM.cmake
     GLOD.cmake
     GLEW.cmake

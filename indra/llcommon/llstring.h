@@ -29,7 +29,7 @@
 
 #include "llwin32headerslean.h"
 
-#include <boost/optional/optional.hpp>
+#include <boost/optional.hpp>
 #include <string>
 #include <cstdio>
 //#include <locale>

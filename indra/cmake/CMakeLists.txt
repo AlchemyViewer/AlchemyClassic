@@ -7,6 +7,7 @@ set(cmake_SOURCE_FILES
 
     00-Common.cmake
     Abseil-CPP.cmake
+    ALMacros.cmake
     APR.cmake
     Audio.cmake
     Boost.cmake

@@ -296,7 +296,7 @@ void LLFloaterMessageLog::refreshNetList()
 			{
 				std::string name = regionp->getName();
 				if(name.empty())
-					name = llformat("%s (awaiting region name)", itemp->mCircuitData->getHost().getString().c_str());
+					name = fmt::format(fmt("{:s} (awaiting region name)"), itemp->mCircuitData->getHost().getString());
 				itemp->mName = name;
 				itemp->mPreviousRegionName = name;
 				itemp->mHandle = regionp->getHandle();
@@ -305,7 +305,7 @@ void LLFloaterMessageLog::refreshNetList()
 			{
 				itemp->mName = itemp->mCircuitData->getHost().getString();
 				if(!itemp->mPreviousRegionName.empty())
-					itemp->mName.append(llformat(" (was %s)", itemp->mPreviousRegionName.c_str()));
+					itemp->mName.append(fmt::format(fmt(" (was {:s})"), itemp->mPreviousRegionName));
 			}
 		}
 		else
@@ -339,7 +339,7 @@ void LLFloaterMessageLog::refreshNetList()
 		for(S32 i = 0; i < 2; ++i)
 		{
 			LLSD& icon_column = element["columns"][i + 1];
-			icon_column["column"] = llformat("icon%d", i);
+			icon_column["column"] = fmt::format(fmt("icon{:d}"), i);
 			icon_column["type"] = "icon";
 			icon_column["value"] = "";
 		}
@@ -384,30 +384,30 @@ void LLFloaterMessageLog::refreshNetInfo(BOOL force)
 		{
             std::string info;
             info.reserve(512);
-		    (llformat("%s, %d\n--------------------------------\n\n", itemp->mName.c_str(), itemp->mHandle));
+		    (fmt::format(fmt("{:s}, {:d}\n--------------------------------\n\n"), itemp->mName, itemp->mHandle));
 			if(itemp->mCircuitData)
 			{
 				LLCircuitData* cdp = itemp->mCircuitData;
 				info.append("Circuit\n--------------------------------\n");
-				info.append(llformat(" * Host: %s\n", cdp->getHost().getString().c_str()));
+				info.append(fmt::format(fmt(" * Host: {:s}\n"), cdp->getHost().getString()));
 				S32 seconds = (S32)cdp->getAgeInSeconds();
 				S32 minutes = seconds / 60;
 				seconds = seconds % 60;
 				S32 hours = minutes / 60;
 				minutes = minutes % 60;
-				info.append(llformat(" * Age: %dh %dm %ds\n", hours, minutes, seconds));
-				info.append(llformat(" * Alive: %s\n", cdp->isAlive() ? "yes" : "no"));
-				info.append(llformat(" * Blocked: %s\n", cdp->isBlocked() ? "yes" : "no"));
-				info.append(llformat(" * Allow timeout: %s\n", cdp->getAllowTimeout() ? "yes" : "no"));
-				info.append(llformat(" * Trusted: %s\n", cdp->getTrusted() ? "yes" : "no"));
-				info.append(llformat(" * Ping delay: %d\n", cdp->getPingDelay().value()));
-				info.append(llformat(" * Packets out: %d\n", cdp->getPacketsOut()));
-				info.append(llformat(" * Bytes out: %d\n", cdp->getBytesOut().value()));
-				info.append(llformat(" * Packets in: %d\n", cdp->getPacketsIn()));
-				info.append(llformat(" * Bytes in: %d\n", cdp->getBytesIn().value()));
-				info.append(llformat(" * Endpoint ID: %s\n", cdp->getLocalEndPointID().asString().c_str()));
-				info.append(llformat(" * Remote ID: %s\n", cdp->getRemoteID().asString().c_str()));
-				info.append(llformat(" * Remote session ID: %s\n\n", cdp->getRemoteSessionID().asString().c_str()));
+				info.append(fmt::format(fmt(" * Age: {:d}h {:d}m {:d}s\n"), hours, minutes, seconds));
+				info.append(fmt::format(fmt(" * Alive: {:s}\n"), cdp->isAlive() ? "yes" : "no"));
+				info.append(fmt::format(fmt(" * Blocked: {:s}\n"), cdp->isBlocked() ? "yes" : "no"));
+				info.append(fmt::format(fmt(" * Allow timeout: {:s}\n"), cdp->getAllowTimeout() ? "yes" : "no"));
+				info.append(fmt::format(fmt(" * Trusted: {:s}\n"), cdp->getTrusted() ? "yes" : "no"));
+				info.append(fmt::format(fmt(" * Ping delay: {:d}\n"), cdp->getPingDelay().value()));
+				info.append(fmt::format(fmt(" * Packets out: {:d}\n"), cdp->getPacketsOut()));
+				info.append(fmt::format(fmt(" * Bytes out: {:d}\n"), cdp->getBytesOut().value()));
+				info.append(fmt::format(fmt(" * Packets in: {:d}\n"), cdp->getPacketsIn()));
+				info.append(fmt::format(fmt(" * Bytes in: {:d}\n"), cdp->getBytesIn().value()));
+				info.append(fmt::format(fmt(" * Endpoint ID: {:s}\n"), cdp->getLocalEndPointID().asString()));
+				info.append(fmt::format(fmt(" * Remote ID: {:s}\n"), cdp->getRemoteID().asString()));
+				info.append(fmt::format(fmt(" * Remote session ID: {:s}\n\n"), cdp->getRemoteSessionID().asString()));
 			}
 
 			getChild<LLTextBase>("net_info")->setText(info);
@@ -538,7 +538,7 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 
     LLSD& sequence_column = element["columns"][0];
     sequence_column["column"] = "sequence";
-    sequence_column["value"] = llformat("%u", item->mSequenceID);
+    sequence_column["value"] = fmt::to_string(item->mSequenceID);
 
 	LLSD& protocol_column = element["columns"][1];
     protocol_column["column"] = "protocol";

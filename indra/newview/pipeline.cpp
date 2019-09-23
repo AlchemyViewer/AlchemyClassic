@@ -396,8 +396,9 @@ void validate_framebuffer_object();
 
 bool addDeferredAttachments(LLRenderTarget& target)
 {
-	return target.addColorAttachment(GL_SRGB8_ALPHA8) && //specular
-			target.addColorAttachment(GL_RGBA12); //normal+z
+	return target.addColorAttachment(GL_SRGB8_ALPHA8
+		, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV) && //specular
+			target.addColorAttachment(GL_RGBA12, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV); //normal+z
 }
 
 LLPipeline::LLPipeline() :
@@ -794,7 +795,7 @@ void LLPipeline::allocatePhysicsBuffer()
 
 	if (mPhysicsDisplay.getWidth() != resX || mPhysicsDisplay.getHeight() != resY)
 	{
-		mPhysicsDisplay.allocate(resX, resY, GL_RGBA, TRUE, FALSE, LLTexUnit::TT_TEXTURE, FALSE);
+		mPhysicsDisplay.allocate(resX, resY, GL_RGBA, TRUE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 	}
 }
 
@@ -907,7 +908,7 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 
 	if (RenderUIBuffer)
 	{
-		if (!mUIScreen.allocate(resX,resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE))
+		if (!mUIScreen.allocate(resX,resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV))
 		{
 			return false;
 		}
@@ -919,11 +920,13 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 		bool ssao = RenderDeferredSSAO;
 		
 		//allocate deferred rendering color buffers
-		if (!mDeferredScreen.allocate(resX, resY, GL_SRGB8_ALPHA8, TRUE, TRUE, LLTexUnit::TT_TEXTURE, FALSE, samples)) return false;
+		if (!mDeferredScreen.allocate(resX, resY, GL_SRGB8_ALPHA8, TRUE, TRUE, LLTexUnit::TT_TEXTURE, FALSE, samples, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV)) return false;
 		if (!mDeferredDepth.allocate(resX, resY, 0, TRUE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples)) return false;
 		if (!addDeferredAttachments(mDeferredScreen)) return false;
 	
 		GLuint screenFormat = GL_RGBA16;
+		GLuint pixFormat = GL_BGRA;
+		GLuint pixType = GL_UNSIGNED_INT_8_8_8_8_REV;
 		if (gGLManager.mIsATI)
 		{
 			screenFormat = GL_RGBA12;
@@ -932,13 +935,15 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 		if (gGLManager.mGLVersion < 4.f && gGLManager.mIsNVIDIA)
 		{
 			screenFormat = GL_RGBA16F_ARB;
+			pixFormat = GL_RGBA;
+			pixType = GL_FLOAT;
 		}
         
-		if (!mScreen.allocate(resX, resY, screenFormat, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples)) return false;
-		if (!mFinalScreen.allocate(resX, resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples)) return false;
+		if (!mScreen.allocate(resX, resY, screenFormat, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples, pixFormat, pixType)) return false;
+		if (!mFinalScreen.allocate(resX, resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV)) return false;
 		if (samples > 0)
 		{
-			if (!mFXAABuffer.allocate(resX, resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples)) return false;
+			if (!mFXAABuffer.allocate(resX, resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, samples, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV)) return false;
 		}
 		else
 		{
@@ -947,7 +952,7 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 		
 		if (shadow_detail > 0 || ssao || RenderDepthOfField || samples > 0)
 		{ //only need mDeferredLight for shadows OR ssao OR dof OR fxaa
-			if (!mDeferredLight.allocate(resX, resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE)) return false;
+			if (!mDeferredLight.allocate(resX, resY, GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, FALSE, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV)) return false;
 			if(ssao)
 			{
 				F32 scale = llclamp(RenderDeferredSSAOResolutionScale, 0.01f, 1.f);
@@ -1014,7 +1019,7 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 		mDeferredDepth.release();
 		mDeferredDownsampledDepth.release();
 						
-		if (!mScreen.allocate(resX, resY, GL_RGBA, TRUE, TRUE, LLTexUnit::TT_TEXTURE, FALSE)) return false;		
+		if (!mScreen.allocate(resX, resY, GL_RGBA, TRUE, TRUE, LLTexUnit::TT_TEXTURE, FALSE, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV)) return false;
 	}
 	
 	if (LLPipeline::sRenderDeferred)
@@ -1231,19 +1236,19 @@ void LLPipeline::createGLBuffers()
 		//
 		if (LLPipeline::sRenderDeferred && materials_in_water)
 		{
-			mWaterRef.allocate(res,res,GL_SRGB8_ALPHA8,TRUE,FALSE);
+			mWaterRef.allocate(res,res,GL_SRGB8_ALPHA8,TRUE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 			//always use FBO for mWaterDis so it can be used for avatar texture bakes
-			mWaterDis.allocate(res,res,GL_SRGB8_ALPHA8,TRUE,FALSE,LLTexUnit::TT_TEXTURE, true);
+			mWaterDis.allocate(res,res,GL_SRGB8_ALPHA8,TRUE,FALSE,LLTexUnit::TT_TEXTURE, true, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 		}
 		else
 		{
-		mWaterRef.allocate(res,res,GL_RGBA,TRUE,FALSE);
+		mWaterRef.allocate(res,res,GL_RGBA,TRUE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 		//always use FBO for mWaterDis so it can be used for avatar texture bakes
-		mWaterDis.allocate(res,res,GL_RGBA,TRUE,FALSE,LLTexUnit::TT_TEXTURE, true);
+		mWaterDis.allocate(res,res,GL_RGBA,TRUE,FALSE,LLTexUnit::TT_TEXTURE, true, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 	}
 	}
 
-	mHighlight.allocate(256,256,GL_RGBA, FALSE, FALSE);
+	mHighlight.allocate(256,256,GL_RGBA, FALSE, FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 
 	stop_glerror();
 
@@ -1259,7 +1264,7 @@ void LLPipeline::createGLBuffers()
 		gGL.setColorMask(true, true);
 		for (U32 i = 0; i < 2; i++)
 		{
-			if(mGlow[i].allocate(512,glow_res,GL_RGBA,FALSE,FALSE))
+			if(mGlow[i].allocate(512,glow_res,GL_RGBA,FALSE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV))
 			{
 				mGlow[i].bindTarget();
 				mGlow[i].clear();
@@ -10781,12 +10786,12 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 
 			if (LLPipeline::sRenderDeferred)
 			{
-				avatar->mImpostor.allocate(resX,resY,GL_SRGB8_ALPHA8,TRUE,FALSE);
+				avatar->mImpostor.allocate(resX,resY,GL_SRGB8_ALPHA8,TRUE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 				addDeferredAttachments(avatar->mImpostor);
 			}
 			else
 			{
-				avatar->mImpostor.allocate(resX,resY,GL_RGBA,TRUE,FALSE);
+				avatar->mImpostor.allocate(resX,resY,GL_RGBA,TRUE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV);
 			}
 		
 			gGL.getTexUnit(0)->bind(&avatar->mImpostor);

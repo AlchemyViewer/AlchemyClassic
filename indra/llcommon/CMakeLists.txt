@@ -4,6 +4,7 @@
 project(llcommon LANGUAGES CXX)
 
 include(00-Common)
+include(ALMacros)
 include(CXXFeatureDetection)
 include(LLCommon)
 include(LLDarwin)
@@ -275,6 +276,8 @@ set_source_files_properties(${llcommon_HEADER_FILES}
 list(APPEND llcommon_SOURCE_FILES ${llcommon_HEADER_FILES})
 
 add_library (llcommon ${llcommon_SOURCE_FILES})
+
+ADD_PCH_TO_TARGET("llcommonprecompiled.h" "llcommonprecompiled.cpp" llcommon)
 
 set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 

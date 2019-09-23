@@ -29,8 +29,6 @@
 #include "llprocinfo.h"
 
 #if LL_WINDOWS
-
-#define	PSAPI_VERSION	1
 #include "llwin32headerslean.h"
 #include <psapi.h>
 

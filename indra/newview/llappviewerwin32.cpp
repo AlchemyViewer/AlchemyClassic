@@ -30,7 +30,7 @@
 #define VLD_FORCE_ENABLE 1
 #include "vld.h"
 #endif
-#include "llwin32headers.h"
+#include "llwin32headerslean.h"
 
 #include "llwindow.h" // *FIX: for setting gIconResource.
 
@@ -536,48 +536,7 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 {
 	if (isSecondInstance()) return; //BUG-5707 do not start another crash reporter for second instance.
 
-	const char* logger_name = "win_crash_logger.exe";
-	std::string exe_path = gDirUtilp->getExecutableDir();
-	exe_path += gDirUtilp->getDirDelimiter();
-	exe_path += logger_name;
-
-    std::string logdir = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "");
-    std::string appname = gDirUtilp->getExecutableFilename();
-
-	S32 slen = logdir.length() -1;
-	S32 end = slen;
-	while (logdir.at(end) == '/' || logdir.at(end) == '\\') end--;
-	
-	if (slen !=end)
-	{
-		logdir = logdir.substr(0,end+1);
-	}
-
-	std::string arg_str =  "\"" + exe_path + "\" -dumpdir \"" + logdir + "\" -procname \"" + appname + "\" -pid " + fmt::to_string(LLApp::getPid());
-
-    STARTUPINFO startInfo = STARTUPINFO();
-	PROCESS_INFORMATION processInfo;
-
-	std::wstring exe_wstr = ll_convert_string_to_wide(exe_path);
-
-	std::wstring arg_wstr = ll_convert_string_to_wide(arg_str);
-
-	LL_INFOS("CrashReport") << "Creating crash reporter process " << exe_path << " with params: " << arg_str << LL_ENDL;
-    if(CreateProcess(exe_wstr.c_str(),     
-                     &arg_wstr[0],                 // Application arguments
-                     nullptr,
-                     nullptr,
-                     FALSE,
-                     CREATE_DEFAULT_ERROR_MODE,
-                     nullptr,
-                     nullptr,                              // Working directory
-                     &startInfo,
-                     &processInfo) == FALSE)
-      // Could not start application -> call 'GetLastError()'
-	{
-        LL_WARNS("CrashReport") << "CreateProcess failed " << GetLastError() << LL_ENDL;
-        return;
-    }
+	// Insert new crash reporter here
 }
 
 //virtual

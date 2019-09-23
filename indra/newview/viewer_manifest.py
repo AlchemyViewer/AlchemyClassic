@@ -647,11 +647,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("libvlccore.dll")
                 self.path("plugins/")
 
-        # pull in the crash logger from other projects
-        # tag:"crash-logger" here as a cue to the exporter
-        self.path(src='../win_crash_logger/%s/windows-crash-logger.exe' % self.args['configuration'],
-                  dst="win_crash_logger.exe")
-
         if not self.is_packaging_viewer():
             self.package_file = "copied_deps"    
 
@@ -1001,8 +996,7 @@ class DarwinManifest(ViewerManifest):
 
                 # our apps
                 executable_path = {}
-                for app_bld_dir, app in (("mac_crash_logger", "mac-crash-logger.app"),
-                                         # plugin launcher
+                for app_bld_dir, app in ( # plugin launcher
                                          (os.path.join("llplugin", "slplugin"), "AlchemyPlugin.app"),
                                          ):
                     self.path2basename(os.path.join(os.pardir,
@@ -1316,7 +1310,6 @@ class LinuxManifest(ViewerManifest):
 
         with self.prefix(dst="bin"):
             self.path("alchemy-bin","do-not-directly-run-alchemy-bin")
-            self.path("../linux_crash_logger/linux-crash-logger","linux-crash-logger.bin")
             self.path2basename("../llplugin/slplugin", "AlchemyPlugin")
             #this copies over the python wrapper script, associated utilities and required libraries, see SL-321, SL-322 and SL-323
             with self.prefix(src="../viewer_components/manager", dst=""):

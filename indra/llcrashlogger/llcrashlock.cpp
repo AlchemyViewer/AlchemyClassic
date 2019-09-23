@@ -42,8 +42,8 @@
 
 
 #if LL_WINDOWS   //For windows platform.
-#include <llwin32headers.h>
-#include <TlHelp32.h>
+#include <llwin32headerslean.h>
+#include <tlhelp32.h>
 
 bool LLCrashLock::isProcessAlive(U32 pid, const std::string& pname)
 {

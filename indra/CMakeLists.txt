@@ -66,22 +66,14 @@ add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)
 endif (ENABLE_MEDIA_PLUGINS)
 
 if (LINUX)
-  add_subdirectory(${VIEWER_PREFIX}linux_crash_logger)
   if (INSTALL_PROPRIETARY)
       include(LLAppearanceUtility)
       add_subdirectory(${LLAPPEARANCEUTILITY_SRC_DIR} ${LLAPPEARANCEUTILITY_BIN_DIR})
   endif (INSTALL_PROPRIETARY)
-  add_dependencies(viewer linux-crash-logger)
 elseif (DARWIN)
   # add crash logger here in the future
 elseif (WINDOWS)
-  add_subdirectory(${VIEWER_PREFIX}win_crash_logger)
-  # cmake EXISTS requires an absolute path, see indra/cmake/Variables.cmake
-  if (EXISTS ${VIEWER_DIR}win_setup)
-    add_subdirectory(${VIEWER_DIR}win_setup)
-  endif (EXISTS ${VIEWER_DIR}win_setup)
-  # add_dependencies(viewer windows-setup windows-crash-logger)
-  add_dependencies(viewer windows-crash-logger)
+  # add crash logger here in the future
 endif (LINUX)
 
 add_subdirectory(${VIEWER_PREFIX}newview)

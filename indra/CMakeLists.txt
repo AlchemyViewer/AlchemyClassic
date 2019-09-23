@@ -73,8 +73,7 @@ if (LINUX)
   endif (INSTALL_PROPRIETARY)
   add_dependencies(viewer linux-crash-logger)
 elseif (DARWIN)
-  add_subdirectory(${VIEWER_PREFIX}mac_crash_logger)
-  add_dependencies(viewer mac-crash-logger)
+  # add crash logger here in the future
 elseif (WINDOWS)
   add_subdirectory(${VIEWER_PREFIX}win_crash_logger)
   # cmake EXISTS requires an absolute path, see indra/cmake/Variables.cmake

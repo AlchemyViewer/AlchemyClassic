@@ -17,6 +17,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 include(Variables)
+include(00-Common)
 include(BuildVersion)
 include(Abseil-CPP)
 include(FmtLib)

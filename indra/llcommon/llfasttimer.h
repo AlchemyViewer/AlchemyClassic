@@ -56,6 +56,10 @@ public:
 	typedef BlockTimer self_t;
 	typedef class BlockTimerStatHandle DeclareTimer;
 
+	// noop-copy see timeThisBlock
+	BlockTimer(const BlockTimer& other) = delete;
+	BlockTimer& operator=(const BlockTimer& other) = delete;
+
 	~BlockTimer();
 
 	F64Seconds getElapsedTime();
@@ -182,11 +186,6 @@ private:
 	friend BlockTimer timeThisBlock(BlockTimerStatHandle&); 
 
 	BlockTimer(BlockTimerStatHandle& timer);
-
-	// noop-copy see timeThisBlock
-	BlockTimer(const BlockTimer& other)
-        : mStartTime(0), mParentTimerData()
-    { }
 
 private:
 	U64						mStartTime;

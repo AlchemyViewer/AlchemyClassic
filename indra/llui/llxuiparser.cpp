@@ -315,21 +315,20 @@ public:
 LLXSDWriter::LLXSDWriter()
 : Parser(sXSDReadFuncs, sXSDWriteFuncs, sXSDInspectFuncs)
 {
-	using namespace std::placeholders;
-	registerInspectFunc<bool>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:boolean", _1, _2, _3, _4));
-	registerInspectFunc<std::string>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", _1, _2, _3, _4));
-	registerInspectFunc<U8>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:unsignedByte", _1, _2, _3, _4));
-	registerInspectFunc<S8>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:signedByte", _1, _2, _3, _4));
-	registerInspectFunc<U16>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:unsignedShort", _1, _2, _3, _4));
-	registerInspectFunc<S16>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:signedShort", _1, _2, _3, _4));
-	registerInspectFunc<U32>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:unsignedInt", _1, _2, _3, _4));
-	registerInspectFunc<S32>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:integer", _1, _2, _3, _4));
-	registerInspectFunc<F32>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:float", _1, _2, _3, _4));
-	registerInspectFunc<F64>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:double", _1, _2, _3, _4));
-	registerInspectFunc<LLColor4>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", _1, _2, _3, _4));
-	registerInspectFunc<LLUIColor>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", _1, _2, _3, _4));
-	registerInspectFunc<LLUUID>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", _1, _2, _3, _4));
-	registerInspectFunc<LLSD>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", _1, _2, _3, _4));
+	registerInspectFunc<bool>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:boolean", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<std::string>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<U8>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:unsignedByte", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<S8>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:signedByte", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<U16>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:unsignedShort", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<S16>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:signedShort", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<U32>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:unsignedInt", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<S32>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:integer", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<F32>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:float", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<F64>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:double", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLColor4>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLUIColor>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLUUID>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLSD>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 }
 
 LLXSDWriter::~LLXSDWriter() {}

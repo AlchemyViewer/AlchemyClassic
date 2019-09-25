@@ -50,22 +50,21 @@ static 	LLInitParam::Parser::parser_inspect_func_map_t sInspectFuncs;
 LLRNGWriter::LLRNGWriter()
 : Parser(sReadFuncs, sWriteFuncs, sInspectFuncs)
 {
-	using namespace std::placeholders;
 	// register various callbacks for inspecting the contents of a param block
-	registerInspectFunc<bool>(std::bind(&LLRNGWriter::writeAttribute, this, "boolean", _1, _2, _3, _4));
-	registerInspectFunc<std::string>(std::bind(&LLRNGWriter::writeAttribute, this, "string", _1, _2, _3, _4));
-	registerInspectFunc<U8>(std::bind(&LLRNGWriter::writeAttribute, this, "unsignedByte", _1, _2, _3, _4));
-	registerInspectFunc<S8>(std::bind(&LLRNGWriter::writeAttribute, this, "signedByte", _1, _2, _3, _4));
-	registerInspectFunc<U16>(std::bind(&LLRNGWriter::writeAttribute, this, "unsignedShort", _1, _2, _3, _4));
-	registerInspectFunc<S16>(std::bind(&LLRNGWriter::writeAttribute, this, "signedShort", _1, _2, _3, _4));
-	registerInspectFunc<U32>(std::bind(&LLRNGWriter::writeAttribute, this, "unsignedInt", _1, _2, _3, _4));
-	registerInspectFunc<S32>(std::bind(&LLRNGWriter::writeAttribute, this, "integer", _1, _2, _3, _4));
-	registerInspectFunc<F32>(std::bind(&LLRNGWriter::writeAttribute, this, "float", _1, _2, _3, _4));
-	registerInspectFunc<F64>(std::bind(&LLRNGWriter::writeAttribute, this, "double", _1, _2, _3, _4));
-	registerInspectFunc<LLColor4>(std::bind(&LLRNGWriter::writeAttribute, this, "string", _1, _2, _3, _4));
-	registerInspectFunc<LLUIColor>(std::bind(&LLRNGWriter::writeAttribute, this, "string", _1, _2, _3, _4));
-	registerInspectFunc<LLUUID>(std::bind(&LLRNGWriter::writeAttribute, this, "string", _1, _2, _3, _4));
-	registerInspectFunc<LLSD>(std::bind(&LLRNGWriter::writeAttribute, this, "string", _1, _2, _3, _4));
+	registerInspectFunc<bool>(std::bind(&LLRNGWriter::writeAttribute, this, "boolean", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<std::string>(std::bind(&LLRNGWriter::writeAttribute, this, "string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<U8>(std::bind(&LLRNGWriter::writeAttribute, this, "unsignedByte", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<S8>(std::bind(&LLRNGWriter::writeAttribute, this, "signedByte", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<U16>(std::bind(&LLRNGWriter::writeAttribute, this, "unsignedShort", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<S16>(std::bind(&LLRNGWriter::writeAttribute, this, "signedShort", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<U32>(std::bind(&LLRNGWriter::writeAttribute, this, "unsignedInt", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<S32>(std::bind(&LLRNGWriter::writeAttribute, this, "integer", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<F32>(std::bind(&LLRNGWriter::writeAttribute, this, "float", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<F64>(std::bind(&LLRNGWriter::writeAttribute, this, "double", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLColor4>(std::bind(&LLRNGWriter::writeAttribute, this, "string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLUIColor>(std::bind(&LLRNGWriter::writeAttribute, this, "string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLUUID>(std::bind(&LLRNGWriter::writeAttribute, this, "string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+	registerInspectFunc<LLSD>(std::bind(&LLRNGWriter::writeAttribute, this, "string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 }
 
 void LLRNGWriter::writeRNG(const std::string& type_name, LLXMLNodePtr node, const LLInitParam::BaseBlock& block, const std::string& xml_namespace)

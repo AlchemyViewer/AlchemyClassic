@@ -238,6 +238,7 @@ set(llui_HEADER_FILES
     lluifwd.h
     llui.h
     lluicolor.h
+    lluiprecompiled.h
     lluistring.h
     llundo.h
     llurlaction.h
@@ -270,6 +271,13 @@ set_source_files_properties(llurlentry.cpp
 list(APPEND llui_SOURCE_FILES ${llui_HEADER_FILES})
 
 add_library (llui ${llui_SOURCE_FILES})
+
+if(USE_PRECOMPILED_HEADERS)
+  target_precompiled_header(llui
+    ${CMAKE_CURRENT_SOURCE_DIR}/lluiprecompiled.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/lluiprecompiled.cpp)
+endif(USE_PRECOMPILED_HEADERS)
+
 # Libraries on which this library depends, needed for Linux builds
 # Sort by high-level to low-level
 target_link_libraries(llui

@@ -2012,7 +2012,7 @@ void LLPipeline::updateMovedList(LLDrawable::drawable_vector_t& moved_list)
 		drawablep->clearState(LLDrawable::EARLY_MOVE | LLDrawable::MOVE_UNDAMPED);
 		if (done)
 		{
-			if (drawablep->isRoot())
+			if (drawablep->isRoot() && !drawablep->isState(LLDrawable::ACTIVE))
 			{
 				drawablep->makeStatic();
 			}
@@ -2388,7 +2388,7 @@ bool LLPipeline::getVisibleExtents(LLCamera& camera, LLVector3& min, LLVector3& 
 
 static LLTrace::BlockTimerStatHandle FTM_CULL("Object Culling");
 
-void LLPipeline::updateCull(LLCamera& camera, LLCullResult& result, S32 water_clip, LLPlane* planep)
+void LLPipeline::updateCull(LLCamera& camera, LLCullResult& result, S32 water_clip, LLPlane* planep, bool hud_attachments)
 {
 	static LLCachedControl<bool> use_occlusion(gSavedSettings,"UseOcclusion");
 	static bool can_use_occlusion = LLGLSLShader::sNoFixedFunction
@@ -2496,7 +2496,7 @@ void LLPipeline::updateCull(LLCamera& camera, LLCullResult& result, S32 water_cl
 			LLSpatialPartition* part = region->getSpatialPartition(i);
 			if (part)
 			{
-				if (hasRenderType(part->mDrawableType))
+				if (!hud_attachments ? LLViewerRegion::PARTITION_BRIDGE == i || hasRenderType(part->mDrawableType) : hasRenderType(part->mDrawableType))
 				{
 					part->cull(camera);
 				}

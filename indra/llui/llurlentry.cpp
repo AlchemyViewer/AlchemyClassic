@@ -1041,12 +1041,9 @@ void LLUrlEntryParcel::processParcelInfo(const LLParcelData& parcel_data)
 				parcel_data.sim_name.c_str(), region_x, region_y, region_z);
 	}
 
-	for (std::set<LLUrlEntryParcel*>::iterator iter = sParcelInfoObservers.begin();
-			iter != sParcelInfoObservers.end();
-			++iter)
-	{
-		LLUrlEntryParcel* url_entry = *iter;
-		if (url_entry)
+	for (auto url_entry : sParcelInfoObservers)
+    {
+        if (url_entry)
 		{
 			url_entry->onParcelInfoReceived(parcel_data.parcel_id.asString(), label);
 		}

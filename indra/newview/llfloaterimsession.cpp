@@ -406,10 +406,9 @@ bool LLFloaterIMSession::canAddSelectedToChat(const uuid_vec_t& uuids)
 	{
 		// For a P2P session just check if we are not adding the other participant.
 
-		for (uuid_vec_t::const_iterator id = uuids.begin();
-				id != uuids.end(); ++id)
-		{
-			if (*id == mOtherParticipantUUID)
+		for (auto uuid : uuids)
+        {
+			if (uuid == mOtherParticipantUUID)
 			{
 				return false;
 			}
@@ -427,14 +426,13 @@ bool LLFloaterIMSession::canAddSelectedToChat(const uuid_vec_t& uuids)
 			speaker_mgr->getSpeakerList(&speaker_list, true);
 		}
 	
-		for (uuid_vec_t::const_iterator id = uuids.begin();
-				id != uuids.end(); ++id)
-		{
+		for (auto uuid : uuids)
+        {
 			for (LLSpeakerMgr::speaker_list_t::const_iterator it = speaker_list.begin();
 					it != speaker_list.end(); ++it)
 			{
 				const LLPointer<LLSpeaker>& speaker = *it;
-				if (*id == speaker->mID)
+				if (uuid == speaker->mID)
 				{
 					return false;
 				}

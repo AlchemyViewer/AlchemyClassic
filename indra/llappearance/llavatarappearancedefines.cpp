@@ -191,11 +191,9 @@ void LLAvatarAppearanceDictionary::createAssociations()
 
 		// For each texture that this baked texture index affects, associate those textures
 		// with this baked texture index.
-		for (texture_vec_t::const_iterator local_texture_iter = dict->mLocalTextures.begin();
-			 local_texture_iter != dict->mLocalTextures.end();
-			 ++local_texture_iter)
-		{
-			const ETextureIndex local_texture_index = (ETextureIndex) *local_texture_iter;
+		for (auto local_texture : dict->mLocalTextures)
+        {
+			const ETextureIndex local_texture_index = (ETextureIndex)local_texture;
 			mTextures[local_texture_index]->mIsUsedByBakedTexture = true;
 			mTextures[local_texture_index]->mBakedTextureIndex = baked_index;
 		}

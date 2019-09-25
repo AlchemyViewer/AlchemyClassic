@@ -246,9 +246,9 @@ bool LLFolderViewModelItemInventory::filter( LLFolderViewFilter& filter)
             || descendantsPassedFilter(must_pass_generation))) // or at least one descendant has passed the minimum requirement
 	{
 		// now query children
-		for (child_list_t::iterator iter = mChildren.begin(), end_iter = mChildren.end(); iter != end_iter; ++iter)
-		{
-			continue_filtering = filterChildItem((*iter), filter);
+		for (auto& iter : mChildren)
+        {
+			continue_filtering = filterChildItem(iter, filter);
             if (!continue_filtering)
 			{
 				break;

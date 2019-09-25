@@ -822,24 +822,23 @@ void LLFloaterScriptQueue::objectScriptProcessingQueueCoro(std::string action, L
             //std::string objName = (dynamic_cast<LLInventoryObject *>(obj.get()))->getName();
             LL_DEBUGS("SCRIPTQ") << "Object has " << inventory.size() << " items." << LL_ENDL;
 
-            for (LLInventoryObject::object_list_t::iterator itInv = inventory.begin();
-                itInv != inventory.end(); ++itInv)
+            for (auto& itInv : inventory)
             {
                 floater.check();
 
                 // note, we have a smart pointer to the obj above... but if we didn't we'd check that 
                 // it still exists here.
 
-                if (((*itInv)->getType() == LLAssetType::AT_LSL_TEXT))
+                if ((itInv->getType() == LLAssetType::AT_LSL_TEXT))
                 {
-                    LL_DEBUGS("SCRIPTQ") << "Inventory item " << (*itInv)->getUUID().asString() << "\"" << (*itInv)->getName() << "\"" << LL_ENDL;
+                    LL_DEBUGS("SCRIPTQ") << "Inventory item " << itInv->getUUID().asString() << "\"" << itInv->getName() << "\"" << LL_ENDL;
                     if (firstForObject)
                     {
                         //floater->addStringMessage(objName + ":");
                         firstForObject = false;
                     }
 
-                    if (!func(obj, (*itInv), maildrop))
+                    if (!func(obj, itInv, maildrop))
                     {
                         continue;
                     }

@@ -191,10 +191,9 @@ void LLFloaterAvatarPicker::onBtnFind()
 static void getSelectedAvatarData(const LLScrollListCtrl* from, uuid_vec_t& avatar_ids, std::vector<LLAvatarName>& avatar_names)
 {
 	std::vector<LLScrollListItem*> items = from->getAllSelected();
-	for (std::vector<LLScrollListItem*>::iterator iter = items.begin(); iter != items.end(); ++iter)
-	{
-		LLScrollListItem* item = *iter;
-		if (item->getUUID().notNull())
+	for (auto item : items)
+    {
+        if (item->getUUID().notNull())
 		{
 			avatar_ids.push_back(item->getUUID());
 
@@ -293,10 +292,9 @@ void LLFloaterAvatarPicker::populateNearMe()
 
 	uuid_vec_t avatar_ids;
 	LLWorld::getInstance()->getAvatars(&avatar_ids, nullptr, gAgent.getPositionGlobal(), gSavedSettings.getF32("AvatarPickerRange"));
-	for (auto it = avatar_ids.cbegin(), it_end = avatar_ids.cend(); it != it_end; ++it)
-	{
-		const LLUUID& av = *it;
-		if(av == gAgent.getID()) continue;
+	for (auto av : avatar_ids)
+    {
+        if(av == gAgent.getID()) continue;
 		LLSD element;
 		element["id"] = av; // value
 		LLAvatarName av_name;
@@ -648,10 +646,9 @@ void LLFloaterAvatarPicker::processAvatarPickerReply(LLMessageSystem* msg, void*
 	bool found = false;
 	LLFloaterAvatarPicker* floater = nullptr;
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("avatar_picker");
-	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin();
-		 iter != inst_list.end(); ++iter)
-	{
-		floater = dynamic_cast<LLFloaterAvatarPicker*>(*iter);
+	for (auto iter : inst_list)
+    {
+		floater = dynamic_cast<LLFloaterAvatarPicker*>(iter);
 		if (floater && floater->mQueryID == query_id)
 		{
 			found = true;

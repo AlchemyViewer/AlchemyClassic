@@ -543,18 +543,14 @@ std::vector<LLMute> LLMuteList::getMutes() const
 {
 	std::vector<LLMute> mutes;
 	
-	for (mute_set_t::const_iterator it = mMutes.begin();
-		 it != mMutes.end();
-		 ++it)
-	{
-		mutes.push_back(*it);
+	for (const auto& mMute : mMutes)
+    {
+		mutes.push_back(mMute);
 	}
 	
-	for (string_set_t::const_iterator it = mLegacyMutes.begin();
-		 it != mLegacyMutes.end();
-		 ++it)
-	{
-		LLMute legacy(LLUUID::null, *it);
+	for (const auto& mLegacyMute : mLegacyMutes)
+    {
+		LLMute legacy(LLUUID::null, mLegacyMute);
 		mutes.push_back(legacy);
 	}
 	
@@ -632,23 +628,19 @@ BOOL LLMuteList::saveToFile(const std::string& filename)
 	// legacy mutes have null uuid
 	std::string id_string;
 	LLUUID::null.toString(id_string);
-	for (string_set_t::iterator it = mLegacyMutes.begin();
-		 it != mLegacyMutes.end();
-		 ++it)
-	{
-		fprintf(fp, "%d %s %s|\n", (S32)LLMute::BY_NAME, id_string.c_str(), it->c_str());
+	for (const auto& mLegacyMute : mLegacyMutes)
+    {
+		fprintf(fp, "%d %s %s|\n", (S32)LLMute::BY_NAME, id_string.c_str(), mLegacyMute.c_str());
 	}
-	for (mute_set_t::iterator it = mMutes.begin();
-		 it != mMutes.end();
-		 ++it)
-	{
+	for (const auto& mMute : mMutes)
+    {
 		// Don't save external mutes as they are not sent to the server and probably won't
 		//be valid next time anyway.
-		if (it->mType != LLMute::EXTERNAL)
+		if (mMute.mType != LLMute::EXTERNAL)
 		{
-			it->mID.toString(id_string);
-			const std::string& name = it->mName;
-			fprintf(fp, "%d %s %s|%u\n", (S32)it->mType, id_string.c_str(), name.c_str(), it->mFlags);
+            mMute.mID.toString(id_string);
+			const std::string& name = mMute.mName;
+			fprintf(fp, "%d %s %s|%u\n", (S32)mMute.mType, id_string.c_str(), name.c_str(), mMute.mFlags);
 		}
 	}
 	fclose(fp);
@@ -844,16 +836,16 @@ bool LLRenderMuteList::saveToFile()
         return false;
     }
 	LLSD visual_mute_settings;
-	for (auto it = mVisuallyMutedAgents.cbegin(), end_it = mVisuallyMutedAgents.cend(); it != end_it; ++it)
-	{
-		if (it->second.first != 0)
+	for (const auto& mVisuallyMutedAgent : mVisuallyMutedAgents)
+    {
+		if (mVisuallyMutedAgent.second.first != 0)
 		{
 			std::string id_string;
-			it->first.toString(id_string);
+            mVisuallyMutedAgent.first.toString(id_string);
 
 			LLSD setting_data;
-			setting_data["setting"] = LLSD::Integer(it->second.first);
-			setting_data["time"] = LLSD::Integer(it->second.second);
+			setting_data["setting"] = LLSD::Integer(mVisuallyMutedAgent.second.first);
+			setting_data["time"] = LLSD::Integer(mVisuallyMutedAgent.second.second);
 			visual_mute_settings.insert(id_string, setting_data);
 		}
 	}

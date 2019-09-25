@@ -56,11 +56,9 @@ void LLUIColorTable::insertFromParams(const Params& p, string_color_map_t& table
 	typedef std::map<std::string, std::string> string_string_map_t;
 	string_string_map_t unresolved_refs;
 
-	for(LLInitParam::ParamIterator<ColorEntryParams>::const_iterator it = p.color_entries.begin();
-		it != p.color_entries.end();
-		++it)
-	{
-		ColorEntryParams color_entry = *it;
+	for (const auto& color_entrie : p.color_entries)
+    {
+		ColorEntryParams color_entry = color_entrie;
 		if(color_entry.color.value.isChosen())
 		{
 			setColor(color_entry.name, color_entry.color.value, table);
@@ -104,16 +102,14 @@ void LLUIColorTable::insertFromParams(const Params& p, string_color_map_t& table
 
 					// warn about the references in the chain and remove them from
 					// the unresolved references map because they cannot be resolved
-					for(string_color_ref_iter_map_t::iterator iter = visited_refs.begin();
-						iter != visited_refs.end();
-						++iter)
-					{
+					for (auto& visited_ref : visited_refs)
+                    {
 						if(!ref_chain.empty())
 						{
 							warning += ref_chain.front() + "->";
 							ref_chain.pop();
 						}
-						unresolved_refs.erase(iter->second);
+						unresolved_refs.erase(visited_ref.second);
 					}
 
 					LL_WARNS() << warning + ending_ref << LL_ENDL;
@@ -137,12 +133,10 @@ void LLUIColorTable::insertFromParams(const Params& p, string_color_map_t& table
 				{
 					// ...we found the color, and we now add every reference in the reference chain
 					// to the color map
-					for(string_color_ref_iter_map_t::iterator iter = visited_refs.begin();
-						iter != visited_refs.end();
-						++iter)
-					{
-						setColor(iter->first, color_value->second, mLoadedColors);
-						unresolved_refs.erase(iter->second);
+					for (auto& visited_ref : visited_refs)
+                    {
+						setColor(visited_ref.first, color_value->second, mLoadedColors);
+						unresolved_refs.erase(visited_ref.second);
 					}
 
 					break;
@@ -151,12 +145,10 @@ void LLUIColorTable::insertFromParams(const Params& p, string_color_map_t& table
 				{
 					// ... we did not find the color which imples that the current reference
 					// references a non-existant color
-					for(string_color_ref_iter_map_t::iterator iter = visited_refs.begin();
-						iter != visited_refs.end();
-						++iter)
-					{
-						LL_WARNS() << iter->first << " references a non-existent color" << LL_ENDL;
-						unresolved_refs.erase(iter->second);
+					for (auto& visited_ref : visited_refs)
+                    {
+						LL_WARNS() << visited_ref.first << " references a non-existent color" << LL_ENDL;
+						unresolved_refs.erase(visited_ref.second);
 					}
 
 					break;
@@ -226,13 +218,11 @@ void LLUIColorTable::saveUserSettings(const bool scrub /* = false */) const
 
 	if (!scrub)
 	{
-		for(string_color_map_t::const_iterator it = mUserSetColors.begin();
-			it != mUserSetColors.end();
-			++it)
-		{
+		for (const auto& mUserSetColor : mUserSetColors)
+        {
 			ColorEntryParams color_entry;
-			color_entry.name = it->first;
-			color_entry.color.value = it->second;
+			color_entry.name = mUserSetColor.first;
+			color_entry.color.value = mUserSetColor.second;
 
 			params.color_entries.add(color_entry);
 		}
@@ -265,11 +255,9 @@ bool LLUIColorTable::colorExists(const std::string& color_name) const
 
 void LLUIColorTable::clearTable(string_color_map_t& table)
 {
-	for(string_color_map_t::iterator it = table.begin();
-		it != table.end();
-		++it)
-	{
-		it->second = LLColor4::magenta;
+	for (auto& it : table)
+    {
+        it.second = LLColor4::magenta;
 	}
 }
 

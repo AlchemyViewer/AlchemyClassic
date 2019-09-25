@@ -60,11 +60,9 @@ BOOL LLPanelSearchClassifieds::postBuild()
 	mClassifiedsCategory = getChild<LLComboBox>("classifieds_category");
 	mClassifiedsCategory->add("All categories", LLSD("any"));
 	mClassifiedsCategory->addSeparator();
-	for (auto iter = LLClassifiedInfo::sCategories.cbegin();
-		 iter != LLClassifiedInfo::sCategories.cend();
-		 ++iter)
-	{
-		mClassifiedsCategory->add(LLTrans::getString(iter->second));
+	for (const auto& sCategorie : LLClassifiedInfo::sCategories)
+    {
+		mClassifiedsCategory->add(LLTrans::getString(sCategorie.second));
 	}
 	
 	mSearchEditor = getChild<LLSearchEditor>("search_bar");

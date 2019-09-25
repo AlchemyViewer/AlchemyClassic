@@ -196,12 +196,10 @@ LLViewerAssetStats::LLViewerAssetStats(const LLViewerAssetStats & src)
 	mCurRecording = &mRegionRecordings[mRegionHandle];
 	
 	// assume this is being passed to another thread, so make sure we have unique copies of recording data
-	for (PerRegionRecordingContainer::iterator it = mRegionRecordings.begin(), end_it = mRegionRecordings.end();
-		it != end_it;
-		++it)
-	{
-		it->second.stop();
-		it->second.makeUnique();
+	for (auto& recording : mRegionRecordings)
+    {
+        recording.second.stop();
+        recording.second.makeUnique();
 	}
 
 	LLStopWatchControlsMixin<LLViewerAssetStats>::setPlayState(src.getPlayState());
@@ -289,12 +287,10 @@ void LLViewerAssetStats::getStats(AssetStats& stats, bool compact_output)
 
 	stats.regions.setProvided();
 	
-	for (PerRegionRecordingContainer::iterator it = mRegionRecordings.begin(), end_it = mRegionRecordings.end();
-		it != end_it;
-		++it)
-	{
+	for (auto& recording : mRegionRecordings)
+    {
 		RegionStats& r = stats.regions.add();
-		LLTrace::Recording& rec = it->second;
+		LLTrace::Recording& rec = recording.second;
 
         getStat(rec, r.get_texture_temp_http, EVACTextureTempHTTPGet, compact_output);
         getStat(rec, r.get_texture_temp_udp, EVACTextureTempUDPGet, compact_output);
@@ -320,7 +316,7 @@ void LLViewerAssetStats::getStats(AssetStats& stats, bool compact_output)
 					.mean(rec.getMean(LLStatViewer::FPS_SAMPLE));
 		}
 		U32 grid_x(0), grid_y(0);
-		grid_from_region_handle(it->first, &grid_x, &grid_y);
+		grid_from_region_handle(recording.first, &grid_x, &grid_y);
 		r	.grid_x(grid_x)
 			.grid_y(grid_y)
 			.duration(F64Seconds(rec.getDuration()).value());

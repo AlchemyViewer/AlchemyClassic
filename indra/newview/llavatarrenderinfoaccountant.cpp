@@ -333,12 +333,9 @@ void LLAvatarRenderInfoAccountant::idle()
 									  << LL_ENDL;
 
 		// Check all regions
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
-			 iter != LLWorld::getInstance()->getRegionList().end();
-			 ++iter)
-		{
-			LLViewerRegion* regionp = *iter;
-			if (   regionp
+		for (auto regionp : LLWorld::getInstance()->getRegionList())
+        {
+            if (   regionp
 				&& regionp->isAlive()
 				&& regionp->capabilitiesReceived())
 			{

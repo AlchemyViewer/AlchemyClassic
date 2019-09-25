@@ -124,11 +124,11 @@ protected:
 	LLNameListCtrl(const Params&);
 	virtual ~LLNameListCtrl()
 	{
-		for (avatar_name_cache_connection_map_t::iterator it = mAvatarNameCacheConnections.begin(); it != mAvatarNameCacheConnections.end(); ++it)
-		{
-			if (it->second.connected())
+		for (auto& connection : mAvatarNameCacheConnections)
+        {
+			if (connection.second.connected())
 			{
-				it->second.disconnect();
+                connection.second.disconnect();
 			}
 		}
 		mAvatarNameCacheConnections.clear();

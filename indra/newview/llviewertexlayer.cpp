@@ -95,9 +95,9 @@ LLViewerTexLayerSetBuffer::~LLViewerTexLayerSetBuffer()
 {
 	LLViewerTexLayerSetBuffer::sGLByteCount -= getSize();
 	destroyGLTexture();
-	for( S32 order = 0; order < ORDER_COUNT; order++ )
-	{
-		LLViewerDynamicTexture::sInstances[order].erase(this);  // will fail in all but one case.
+	for (auto& sInstance : LLViewerDynamicTexture::sInstances)
+    {
+        sInstance.erase(this);  // will fail in all but one case.
 	}
 }
 

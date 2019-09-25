@@ -111,9 +111,9 @@ void LLFloaterPathfindingCharacters::buildObjectsScrollList(const LLPathfindingO
 	llassert(pObjectListPtr != NULL);
 	llassert(!pObjectListPtr->isEmpty());
 
-	for (LLPathfindingObjectList::const_iterator objectIter = pObjectListPtr->begin();	objectIter != pObjectListPtr->end(); ++objectIter)
-	{
-		const LLPathfindingObjectPtr objectPtr = objectIter->second;
+	for (const auto& objectIter : *pObjectListPtr)
+    {
+		const LLPathfindingObjectPtr objectPtr = objectIter.second;
 		const LLPathfindingCharacter *characterPtr = dynamic_cast<const LLPathfindingCharacter *>(objectPtr.get());
 		llassert(characterPtr != NULL);
 

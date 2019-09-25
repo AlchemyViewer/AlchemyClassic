@@ -1053,12 +1053,11 @@ LLMotion* LLMotionController::findMotion(const LLUUID& id) const
 void LLMotionController::dumpMotions()
 {
 	LL_INFOS() << "=====================================" << LL_ENDL;
-	for (auto iter = mAllMotions.cbegin();
-		 iter != mAllMotions.cend(); ++iter)
-	{
-		LLUUID id = iter->first;
+	for (const auto& mAllMotion : mAllMotions)
+    {
+		LLUUID id = mAllMotion.first;
 		std::string state_string;
-		LLMotion *motion = iter->second;
+		LLMotion *motion = mAllMotion.second;
 		if (mLoadingMotions.find(motion) != mLoadingMotions.cend())
 			state_string += std::string("l");
 		if (mLoadedMotions.find(motion) != mLoadedMotions.cend())
@@ -1077,10 +1076,9 @@ void LLMotionController::dumpMotions()
 //-----------------------------------------------------------------------------
 void LLMotionController::deactivateAllMotions()
 {
-	for (auto iter = mAllMotions.cbegin();
-		 iter != mAllMotions.cend(); ++iter)
-	{
-		LLMotion* motionp = iter->second;
+	for (const auto& mAllMotion : mAllMotions)
+    {
+		LLMotion* motionp = mAllMotion.second;
 		deactivateMotionInstance(motionp);
 	}
 }

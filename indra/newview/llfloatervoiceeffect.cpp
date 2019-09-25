@@ -144,12 +144,12 @@ void LLFloaterVoiceEffect::refreshEffectList()
 	const voice_effect_list_t& template_list = effect_interface->getVoiceEffectTemplateList();
 	if (!template_list.empty())
 	{
-		for (voice_effect_list_t::const_iterator it = template_list.begin(); it != template_list.end(); ++it)
-		{
-			const LLUUID& effect_id = it->second;
+		for (const auto& it : template_list)
+        {
+			const LLUUID& effect_id = it.second;
 
-			std::string localized_effect = "effect_" + it->first;
-			std::string effect_name = hasString(localized_effect) ? getString(localized_effect) : it->first;  // XML contains localized effects names
+			std::string localized_effect = "effect_" + it.first;
+			std::string effect_name = hasString(localized_effect) ? getString(localized_effect) : it.first;  // XML contains localized effects names
 
 			LLSD effect_properties = effect_interface->getVoiceEffectProperties(effect_id);
 
@@ -208,9 +208,9 @@ void LLFloaterVoiceEffect::refreshEffectList()
 	}
 
 	// Re-select items that were selected before, and restore the scroll position
-	for(uuid_vec_t::iterator it = selected_items.begin(); it != selected_items.end(); it++)
-	{
-		mVoiceEffectList->selectByID(*it);
+	for (auto& selected_item : selected_items)
+    {
+		mVoiceEffectList->selectByID(selected_item);
 	}
 	mVoiceEffectList->setScrollPos(scroll_pos);
 	mVoiceEffectList->setEnabled(true);

@@ -153,16 +153,15 @@ void LLXferManager::updateHostStatus()
 	mOutgoingHosts.clear();
 	
 	// Loop through all outgoing xfers and re-build mOutgoingHosts
-	for (xfer_list_t::iterator send_iter = mSendList.begin();
+	for (auto send_iter = mSendList.begin();
 			send_iter != mSendList.end(); ++send_iter)
 	{
 		LLHostStatus *host_statusp = nullptr;
-		for (status_list_t::iterator iter = mOutgoingHosts.begin();
-			 iter != mOutgoingHosts.end(); ++iter)
-		{
-			if ((*iter)->mHost == (*send_iter)->mRemoteHost)
+		for (auto& outgoing_host : mOutgoingHosts)
+        {
+			if (outgoing_host->mHost == (*send_iter)->mRemoteHost)
 			{	// Already have this host
-				host_statusp = *iter;
+				host_statusp = outgoing_host;
 				break;
 			}
 		}
@@ -224,10 +223,9 @@ void LLXferManager::printHostStatus()
 	{
 		LL_INFOS("Xfer") << "Outgoing Xfers:" << LL_ENDL;
 
-		for (status_list_t::iterator iter = mOutgoingHosts.begin();
-			 iter != mOutgoingHosts.end(); ++iter)
-		{
-			host_statusp = *iter;
+		for (auto& outgoing_host : mOutgoingHosts)
+        {
+			host_statusp = outgoing_host;
 			LL_INFOS("Xfer") << "    " << host_statusp->mHost << "  active: " << host_statusp->mNumActive << "  pending: " << host_statusp->mNumPending << LL_ENDL;
 		}
 	}	
@@ -291,10 +289,9 @@ LLHostStatus * LLXferManager::findHostStatus(const LLHost &host)
 {
 	LLHostStatus *host_statusp = nullptr;
 
-	for (status_list_t::iterator iter = mOutgoingHosts.begin();
-		 iter != mOutgoingHosts.end(); ++iter)
-	{
-		host_statusp = *iter;
+	for (auto& outgoing_host : mOutgoingHosts)
+    {
+		host_statusp = outgoing_host;
 		if (host_statusp->mHost == host)
 		{
 			return (host_statusp);
@@ -333,10 +330,9 @@ void LLXferManager::changeNumActiveXfers(const LLHost &host, S32 delta)
 {
 	LLHostStatus *host_statusp = nullptr;
 
-	for (status_list_t::iterator iter = mOutgoingHosts.begin();
-		 iter != mOutgoingHosts.end(); ++iter)
-	{
-		host_statusp = *iter;
+	for (auto& outgoing_host : mOutgoingHosts)
+    {
+		host_statusp = outgoing_host;
 		if (host_statusp->mHost == host)
 		{
 			host_statusp->mNumActive += delta;
@@ -1241,10 +1237,9 @@ void LLXferManager::startPendingDownloads()
 	if((start_count > 0) && (pending_count > 0))
 	{
 		S32 result;
-		for (std::list<LLXfer*>::iterator iter = pending_downloads.begin();
-			 iter != pending_downloads.end(); ++iter)
-		{
-			xferp = *iter;
+		for (auto& pending_download : pending_downloads)
+        {
+			xferp = pending_download;
 			if (start_count-- <= 0)
 				break;
 			result = xferp->startDownload();

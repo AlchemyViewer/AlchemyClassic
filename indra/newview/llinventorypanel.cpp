@@ -460,12 +460,9 @@ void LLInventoryPanel::modelChanged(U32 mask)
 	const LLInventoryModel::changed_items_t& changed_items = model->getChangedIDs();
 	if (changed_items.empty()) return;
 
-	for (LLInventoryModel::changed_items_t::const_iterator items_iter = changed_items.begin();
-		 items_iter != changed_items.end();
-		 ++items_iter)
-	{
-		const LLUUID& item_id = (*items_iter);
-		const LLInventoryObject* model_item = model->getObject(item_id);
+	for (auto item_id : changed_items)
+    {
+        const LLInventoryObject* model_item = model->getObject(item_id);
 		LLFolderViewItem* view_item = getItemByID(item_id);
 		LLFolderViewModelItemInventory* viewmodel_item = 
 			static_cast<LLFolderViewModelItemInventory*>(view_item ? view_item->getViewModelItem() : NULL);
@@ -1354,11 +1351,9 @@ void LLInventoryPanel::purgeSelectedItems()
     if (inventory_selected.empty()) return;
     LLSD args;
     S32 count = inventory_selected.size();
-    for (std::set<LLFolderViewItem*>::const_iterator it = inventory_selected.begin(), end_it = inventory_selected.end();
-        it != end_it;
-        ++it)
+    for (auto it : inventory_selected)
     {
-        LLUUID item_id = static_cast<LLFolderViewModelItemInventory*>((*it)->getViewModelItem())->getUUID();
+        LLUUID item_id = static_cast<LLFolderViewModelItemInventory*>(it->getViewModelItem())->getUUID();
         LLInventoryModel::cat_array_t cats;
         LLInventoryModel::item_array_t items;
         gInventory.collectDescendents(item_id, cats, items, LLInventoryModel::INCLUDE_TRASH);
@@ -1393,11 +1388,9 @@ bool LLInventoryPanel::attachObject(const LLSD& userdata)
 	// Copy selected item UUIDs to a vector.
 	std::set<LLFolderViewItem*> selected_items = mFolderRoot.get()->getSelectionList();
 	uuid_vec_t items;
-	for (std::set<LLFolderViewItem*>::const_iterator set_iter = selected_items.begin();
-		 set_iter != selected_items.end(); 
-		 ++set_iter)
-	{
-		items.push_back(static_cast<LLFolderViewModelItemInventory*>((*set_iter)->getViewModelItem())->getUUID());
+	for (auto selected_item : selected_items)
+    {
+		items.push_back(static_cast<LLFolderViewModelItemInventory*>(selected_item->getViewModelItem())->getUUID());
 	}
 
 	// Attach selected items.
@@ -1446,9 +1439,9 @@ LLInventoryPanel* LLInventoryPanel::getActiveInventoryPanel(BOOL auto_open)
 
 	// Iterate through the inventory floaters and return whichever is on top.
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("inventory");
-	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin(); iter != inst_list.end(); ++iter)
-	{
-		LLFloaterSidePanelContainer* inventory_floater = dynamic_cast<LLFloaterSidePanelContainer*>(*iter);
+	for (auto iter : inst_list)
+    {
+		LLFloaterSidePanelContainer* inventory_floater = dynamic_cast<LLFloaterSidePanelContainer*>(iter);
 		if (inventory_floater)
         {
             inventory_panel = inventory_floater->findChild<LLSidepanelInventory>("main_panel");
@@ -1552,18 +1545,14 @@ void LLInventoryPanel::removeItemID(const LLUUID& id)
 
 	mItemMap.erase(id);
 
-	for (LLInventoryModel::cat_array_t::iterator it = categories.begin(),    end_it = categories.end();
-		it != end_it;
-		++it)
-	{
-		mItemMap.erase((*it)->getUUID());
+	for (auto& categorie : categories)
+    {
+		mItemMap.erase(categorie->getUUID());
 }
 
-	for (LLInventoryModel::item_array_t::iterator it = items.begin(),   end_it  = items.end();
-		it != end_it;
-		++it)
-	{
-		mItemMap.erase((*it)->getUUID());
+	for (auto& item : items)
+    {
+		mItemMap.erase(item->getUUID());
 	}
 }
 
@@ -1677,12 +1666,9 @@ bool LLInventoryPanel::isSelectionRemovable()
 		if (!selection_set.empty()) 
 		{
 			can_delete = true;
-			for (std::set<LLFolderViewItem*>::iterator iter = selection_set.begin();
-				 iter != selection_set.end();
-				 ++iter)
-			{
-				LLFolderViewItem *item = *iter;
-				const LLFolderViewModelItemInventory *listener = static_cast<const LLFolderViewModelItemInventory*>(item->getViewModelItem());
+			for (auto item : selection_set)
+            {
+                const LLFolderViewModelItemInventory *listener = static_cast<const LLFolderViewModelItemInventory*>(item->getViewModelItem());
 				if (!listener)
 				{
 					can_delete = false;

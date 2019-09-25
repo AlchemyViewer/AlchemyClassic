@@ -58,9 +58,9 @@ LLChannelManager::LLChannelManager()
 //--------------------------------------------------------------------------
 LLChannelManager::~LLChannelManager()
 {
-	for(std::vector<ChannelElem>::iterator it = mChannelList.begin(); it !=  mChannelList.end(); ++it)
-	{
-		LLScreenChannelBase* channel = it->channel.get();
+	for (auto& it : mChannelList)
+    {
+		LLScreenChannelBase* channel = it.channel.get();
 		if (!channel) continue;
 
 		delete channel;
@@ -88,9 +88,9 @@ void LLChannelManager::onLoginCompleted()
 	S32 away_notifications = 0;
 
 	// calc a number of all offline notifications
-	for(std::vector<ChannelElem>::iterator it = mChannelList.begin(); it !=  mChannelList.end(); ++it)
-	{
-		LLScreenChannelBase* channel = it->channel.get();
+	for (auto& it : mChannelList)
+    {
+		LLScreenChannelBase* channel = it.channel.get();
 		if (!channel) continue;
 
 		// don't calc notifications for Nearby Chat
@@ -218,12 +218,11 @@ void LLChannelManager::removeChannelByID(const LLUUID& id)
 //--------------------------------------------------------------------------
 void LLChannelManager::muteAllChannels(bool mute)
 {
-	for (std::vector<ChannelElem>::iterator it = mChannelList.begin();
-			it != mChannelList.end(); it++)
-	{
-		if (it->channel.get())
+	for (auto& it : mChannelList)
+    {
+		if (it.channel.get())
 		{
-			it->channel.get()->setShowToasts(!mute);
+            it.channel.get()->setShowToasts(!mute);
 		}
 	}
 }

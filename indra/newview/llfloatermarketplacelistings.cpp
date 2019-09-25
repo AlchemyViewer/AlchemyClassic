@@ -326,11 +326,9 @@ public:
 	
 	void done() override
 	{
-		for (cat_vec_t::iterator it = mAddedCategories.begin(); it != mAddedCategories.end(); ++it)
-		{
-			LLViewerInventoryCategory* added_category = *it;
-			
-			LLFolderType::EType added_category_type = added_category->getPreferredType();
+		for (auto added_category : mAddedCategories)
+        {
+            LLFolderType::EType added_category_type = added_category->getPreferredType();
 			
 			if (added_category_type == LLFolderType::FT_MARKETPLACE_LISTINGS)
 			{

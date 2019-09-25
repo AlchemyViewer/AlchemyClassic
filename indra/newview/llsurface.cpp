@@ -100,9 +100,9 @@ LLSurface::LLSurface(U32 type, LLViewerRegion *regionp) :
 	// In here temporarily.
 	mSurfacePatchUpdateCount = 0;
 
-	for (S32 i = 0; i < 8; i++)
-	{
-		mNeighbors[i] = NULL;
+	for (auto& neighbor : mNeighbors)
+    {
+        neighbor = NULL;
 	}
 }
 

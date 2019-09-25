@@ -764,10 +764,10 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 		&& mCheckCopySelection->get())
 	{
 		// don't highlight any placer button
-		for (std::vector<LLButton*>::size_type i = 0; i < mButtons.size(); i++)
-		{
-			mButtons[i]->setToggleState(FALSE);
-			mButtons[i]->setVisible( create_visible );
+		for (auto& button : mButtons)
+        {
+            button->setToggleState(FALSE);
+            button->setVisible( create_visible );
 		}
 	}
 	else

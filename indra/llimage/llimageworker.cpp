@@ -49,11 +49,9 @@ LLImageDecodeThread::~LLImageDecodeThread()
 S32 LLImageDecodeThread::update(F32 max_time_ms)
 {
 	LLMutexLock lock(mCreationMutex);
-	for (creation_list_t::iterator iter = mCreationList.begin();
-		 iter != mCreationList.end(); ++iter)
-	{
-		creation_info& info = *iter;
-		ImageRequest* req = new ImageRequest(info.handle, info.image,
+	for (auto& info : mCreationList)
+    {
+        ImageRequest* req = new ImageRequest(info.handle, info.image,
 						     info.priority, info.discard, info.needs_aux,
 						     info.responder);
 

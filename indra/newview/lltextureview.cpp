@@ -423,11 +423,10 @@ void LLAvatarTexBar::draw()
 	LLColor4 color;
 	
 	U32 line_num = 1;
-	for (LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::BakedTextures::const_iterator baked_iter = LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::getInstance()->getBakedTextures().begin();
-		 baked_iter != LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::getInstance()->getBakedTextures().end();
-		 ++baked_iter)
-	{
-		const LLAvatarAppearanceDefines::EBakedTextureIndex baked_index = baked_iter->first;
+	for (const auto& baked_iter : LLAvatarAppearanceDefines::LLAvatarAppearanceDictionary::getInstance()->
+         getBakedTextures())
+    {
+		const LLAvatarAppearanceDefines::EBakedTextureIndex baked_index = baked_iter.first;
 		const LLViewerTexLayerSet *layerset = avatarp->debugGetLayerSet(baked_index);
 		if (!layerset) continue;
 		const LLViewerTexLayerSetBuffer *layerset_buffer = layerset->getViewerComposite();
@@ -940,12 +939,11 @@ void LLTextureView::draw()
 		static S32 max_count = 50;
 		S32 count = 0;
 		mNumTextureBars = 0 ;
-		for (display_list_t::iterator iter = display_image_list.begin();
-			 iter != display_image_list.end(); iter++)
-		{
-			LLViewerFetchedTexture* imagep = iter->second;
+		for (const auto& iter : display_image_list)
+        {
+			LLViewerFetchedTexture* imagep = iter.second;
 			S32 hilite = 0;
-			F32 pri = iter->first;
+			F32 pri = iter.first;
 			if (pri >= 1 * HIGH_PRIORITY)
 			{
 				hilite = (S32)((pri+1) / HIGH_PRIORITY) - 1;
@@ -989,11 +987,9 @@ void LLTextureView::draw()
 		LLUI::pushMatrix();
 		LLUI::translate((F32)getRect().mLeft, (F32)getRect().mBottom);
 
-		for (child_list_const_iter_t child_iter = getChildList()->begin();
-			 child_iter != getChildList()->end(); ++child_iter)
-		{
-			LLView *viewp = *child_iter;
-			if (viewp->getRect().mBottom < 0)
+		for (auto viewp : *getChildList())
+        {
+            if (viewp->getRect().mBottom < 0)
 			{
 				viewp->setVisible(FALSE);
 			}

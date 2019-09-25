@@ -115,10 +115,9 @@ LLFloaterScriptLimits::~LLFloaterScriptLimits()
 // public
 void LLFloaterScriptLimits::refresh()
 {
-	for(info_panels_t::iterator iter = mInfoPanels.begin();
-		iter != mInfoPanels.end(); ++iter)
-	{
-		(*iter)->refresh();
+	for (auto& info_panel : mInfoPanels)
+    {
+        info_panel->refresh();
 	}
 }
 

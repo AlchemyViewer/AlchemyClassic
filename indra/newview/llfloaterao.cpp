@@ -149,10 +149,9 @@ void LLFloaterAO::updateAnimationList()
 		return;
 	}
 	
-	for (U32 index = 0; index < mSelectedSet->mStateNames.size(); ++index)
-	{
-		std::string stateName = mSelectedSet->mStateNames[index];
-		LLAOSet::AOState* state = mSelectedSet->getStateByName(stateName);
+	for (auto stateName : mSelectedSet->mStateNames)
+    {
+        LLAOSet::AOState* state = mSelectedSet->getStateByName(stateName);
 		mStateSelector->add(stateName, state, ADD_BOTTOM, TRUE);
 	}
 	
@@ -381,15 +380,15 @@ void LLFloaterAO::onSelectState()
 	mSelectedState = mSelectedSet->getStateByName(mStateSelector->getSelectedItemLabel());
 	if (!mSelectedState) return;
 	
-	mSelectedState = (LLAOSet::AOState*)mStateSelector->getCurrentUserdata();
+	mSelectedState = static_cast<LLAOSet::AOState*>(mStateSelector->getCurrentUserdata());
 	if (mSelectedState->mAnimations.size())
 	{
-		for (U32 index = 0; index < mSelectedState->mAnimations.size(); ++index)
-		{
-			LLScrollListItem* item = addAnimation(mSelectedState->mAnimations[index].mName);
+		for (auto& ao_animation : mSelectedState->mAnimations)
+        {
+			LLScrollListItem* item = addAnimation(ao_animation.mName);
 			if (item)
 			{
-				item->setUserdata(&mSelectedState->mAnimations[index].mInventoryUUID);
+				item->setUserdata(&ao_animation.mInventoryUUID);
 			}
 		}
 		

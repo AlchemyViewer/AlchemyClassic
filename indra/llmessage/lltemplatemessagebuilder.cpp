@@ -147,10 +147,9 @@ void LLTemplateMessageBuilder::nextBlock(const char* blockname)
 		mCurrentSBlockName = bnamep;
 
 		// add placeholders for each of the variables
-		for (LLMessageBlock::message_variable_map_t::const_iterator iter = template_data->mMemberVariables.begin();
-			 iter != template_data->mMemberVariables.end(); iter++)
-		{
-			LLMessageVariable& ci = **iter;
+		for (auto variable : template_data->mMemberVariables)
+        {
+			LLMessageVariable& ci = *variable;
 			mCurrentSDataBlock->addVariable(ci.getName(), ci.getType());
 		}
 		return;
@@ -206,12 +205,9 @@ void LLTemplateMessageBuilder::nextBlock(const char* blockname)
 		mCurrentSMessageData->mMemberBlocks[nbnamep] = mCurrentSDataBlock;
 
 		// add placeholders for each of the variables
-		for (LLMessageBlock::message_variable_map_t::const_iterator
-				 iter = template_data->mMemberVariables.begin(),
-				 end = template_data->mMemberVariables.end();
-			 iter != end; iter++)
-		{
-			LLMessageVariable& ci = **iter;
+		for (auto variable : template_data->mMemberVariables)
+        {
+			LLMessageVariable& ci = *variable;
 			mCurrentSDataBlock->addVariable(ci.getName(), ci.getType());
 		}
 		return;
@@ -238,10 +234,9 @@ BOOL LLTemplateMessageBuilder::removeLastBlock()
 
 				const LLMessageBlock* template_data = mCurrentSMessageTemplate->getBlock(mCurrentSBlockName);
 				
-				for (LLMessageBlock::message_variable_map_t::const_iterator iter = template_data->mMemberVariables.begin();
-					 iter != template_data->mMemberVariables.end(); iter++)
-				{
-					LLMessageVariable& ci = **iter;
+				for (auto variable : template_data->mMemberVariables)
+                {
+					LLMessageVariable& ci = *variable;
 					mCurrentSendTotal -= ci.getSize();
 				}
 
@@ -814,13 +809,9 @@ U32 LLTemplateMessageBuilder::buildMessage(
 
 	// fast forward through the offset and build the message
 	result += offset_to_data;
-	for(LLMessageTemplate::message_block_map_t::const_iterator
-			iter = mCurrentSMessageTemplate->mMemberBlocks.begin(),
-			end = mCurrentSMessageTemplate->mMemberBlocks.end();
-		 iter != end;
-		++iter)
-	{
-		result += buildBlock(buffer + result, buffer_size - result, *iter, mCurrentSMessageData);
+	for (auto block : mCurrentSMessageTemplate->mMemberBlocks)
+    {
+		result += buildBlock(buffer + result, buffer_size - result, block, mCurrentSMessageData);
 	}
 	mbSBuilt = TRUE;
 

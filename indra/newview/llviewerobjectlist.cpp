@@ -757,9 +757,9 @@ void LLViewerObjectList::processCachedObjectUpdate(LLMessageSystem *mesgsys,
 
 void LLViewerObjectList::dirtyAllObjectInventory()
 {
-	for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		(*iter)->dirtyInventory();
+	for (auto& object : mObjects)
+    {
+        object->dirtyInventory();
 	}
 }
 
@@ -906,10 +906,9 @@ void LLViewerObjectList::update(LLAgent &agent)
 	{
 		LL_RECORD_BLOCK_TIME(FTM_IDLE_COPY);
 
- 		for (std::vector<LLPointer<LLViewerObject> >::iterator active_iter = mActiveObjects.begin();
-			active_iter != mActiveObjects.end(); active_iter++)
-		{
-			objectp = *active_iter;
+ 		for (auto& active_object : mActiveObjects)
+        {
+			objectp = active_object;
 			if (objectp)
 			{
 				if (idle_count >= idle_list.size())
@@ -1095,9 +1094,9 @@ void LLViewerObjectList::fetchObjectCostsCoro(std::string url)
 
     LLSD idList(LLSD::emptyArray());
 
-    for (uuid_set_t::iterator it = diff.begin(); it != diff.end(); ++it)
+    for (auto it : diff)
     {
-        idList.append(*it);
+        idList.append(it);
     }
 
     mPendingObjectCost.insert(diff.begin(), diff.end());
@@ -1290,9 +1289,9 @@ void LLViewerObjectList::fetchPhisicsFlagsCoro(std::string url)
 
 void LLViewerObjectList::clearDebugText()
 {
-	for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		(*iter)->restoreHudText();
+	for (auto& object : mObjects)
+    {
+        object->restoreHudText();
 	}
 }
 
@@ -1401,9 +1400,9 @@ void LLViewerObjectList::killObjects(LLViewerRegion *regionp)
 	LLViewerObject *objectp;
 
 	
-	for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		objectp = *iter;
+	for (auto& object : mObjects)
+    {
+		objectp = object;
 		
 		if (objectp->mRegionp == regionp)
 		{
@@ -1420,9 +1419,9 @@ void LLViewerObjectList::killAllObjects()
 	// Used only on global destruction.
 	LLViewerObject *objectp;
 
-	for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		objectp = *iter;
+	for (auto& object : mObjects)
+    {
+		objectp = object;
 		killObject(objectp);
 		// Object must be dead, or it's the LLVOAvatarSelf which never dies.
 		llassert((objectp == gAgentAvatarp) || objectp->isDead());
@@ -1654,9 +1653,9 @@ void LLViewerObjectList::shiftObjects(const LLVector3 &offset)
 	LL_RECORD_BLOCK_TIME(FTM_SHIFT_OBJECTS);
 
 	LLViewerObject *objectp;
-	for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		objectp = *iter;
+	for (auto& object : mObjects)
+    {
+		objectp = object;
 		// There could be dead objects on the object list, so don't update stuff if the object is dead.
 		if (!objectp->isDead())
 		{
@@ -1682,9 +1681,9 @@ void LLViewerObjectList::shiftObjects(const LLVector3 &offset)
 
 void LLViewerObjectList::repartitionObjects()
 {
-	for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		LLViewerObject* objectp = *iter;
+	for (auto& object : mObjects)
+    {
+		LLViewerObject* objectp = object;
 		if (!objectp->isDead())
 		{
 			LLDrawable* drawable = objectp->mDrawable;
@@ -1701,9 +1700,9 @@ void LLViewerObjectList::repartitionObjects()
 //debug code
 bool LLViewerObjectList::hasMapObjectInRegion(LLViewerRegion* regionp) 
 {
-	for (vobj_list_t::iterator iter = mMapObjects.begin(); iter != mMapObjects.end(); ++iter)
-	{
-		LLViewerObject* objectp = *iter;
+	for (auto& map_object : mMapObjects)
+    {
+		LLViewerObject* objectp = map_object;
 
 		if(objectp->isDead() || objectp->getRegion() == regionp)
 		{
@@ -1719,9 +1718,9 @@ void LLViewerObjectList::clearAllMapObjectsInRegion(LLViewerRegion* regionp)
 {
 	std::set<LLViewerObject*> dead_object_list ;
 	std::set<LLViewerObject*> region_object_list ;
-	for (vobj_list_t::iterator iter = mMapObjects.begin(); iter != mMapObjects.end(); ++iter)
-	{
-		LLViewerObject* objectp = *iter;
+	for (auto& map_object : mMapObjects)
+    {
+		LLViewerObject* objectp = map_object;
 
 		if(objectp->isDead())
 		{
@@ -1737,18 +1736,18 @@ void LLViewerObjectList::clearAllMapObjectsInRegion(LLViewerRegion* regionp)
 	{
 		LL_WARNS() << "There are " << dead_object_list.size() << " dead objects on the map!" << LL_ENDL ;
 
-		for(std::set<LLViewerObject*>::iterator iter = dead_object_list.begin(); iter != dead_object_list.end(); ++iter)
-		{
-			cleanupReferences(*iter) ;
+		for (auto iter : dead_object_list)
+        {
+			cleanupReferences(iter) ;
 		}
 	}
 	if(region_object_list.size() > 0)
 	{
 		LL_WARNS() << "There are " << region_object_list.size() << " objects not removed from the deleted region!" << LL_ENDL ;
 
-		for(std::set<LLViewerObject*>::iterator iter = region_object_list.begin(); iter != region_object_list.end(); ++iter)
-		{
-			(*iter)->markDead() ;
+		for (auto iter : region_object_list)
+        {
+            iter->markDead() ;
 		}
 	}
 }
@@ -1854,20 +1853,18 @@ void LLViewerObjectList::generatePickList(LLCamera &camera)
 		LLViewerObject *objectp;
 		S32 i;
 		// Reset all of the GL names to zero.
-		for (vobj_list_t::iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-		{
-			(*iter)->mGLName = 0;
+		for (auto& object : mObjects)
+        {
+            object->mGLName = 0;
 		}
 
 		mSelectPickList.clear();
 
 		std::vector<LLDrawable*> pick_drawables;
 
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
-		{
-			LLViewerRegion* region = *iter;
-			for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
+		for (auto region : LLWorld::getInstance()->getRegionList())
+        {
+            for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 			{
 				LLSpatialPartition* part = region->getSpatialPartition(i);
 				if (part)
@@ -1877,11 +1874,9 @@ void LLViewerObjectList::generatePickList(LLCamera &camera)
 			}
 		}
 
-		for (std::vector<LLDrawable*>::iterator iter = pick_drawables.begin();
-			iter != pick_drawables.end(); iter++)
-		{
-			LLDrawable* drawablep = *iter;
-			if( !drawablep )
+		for (auto drawablep : pick_drawables)
+        {
+            if( !drawablep )
 				continue;
 
 			LLViewerObject* last_objectp = nullptr;
@@ -1902,10 +1897,9 @@ void LLViewerObjectList::generatePickList(LLCamera &camera)
 
 		LLHUDNameTag::addPickable(mSelectPickList);
 
-		for (std::vector<LLCharacter*>::iterator iter = LLCharacter::sInstances.begin();
-			iter != LLCharacter::sInstances.end(); ++iter)
-		{
-			objectp = (LLVOAvatar*) *iter;
+		for (auto& sInstance : LLCharacter::sInstances)
+        {
+			objectp = (LLVOAvatar*)sInstance;
 			if (!objectp->isDead())
 			{
 				if (objectp->mDrawable.notNull() && objectp->mDrawable->isVisible())
@@ -1925,18 +1919,15 @@ void LLViewerObjectList::generatePickList(LLCamera &camera)
 				LLViewerJointAttachment* attachment = curiter->second;
 				if (attachment->getIsHUDAttachment())
 				{
-					for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-						 attachment_iter != attachment->mAttachedObjects.end();
-						 ++attachment_iter)
-					{
-						if (LLViewerObject* attached_object = (*attachment_iter))
+					for (auto attached_object : attachment->mAttachedObjects)
+                    {
+						if (attached_object)
 						{
 							mSelectPickList.insert(attached_object);
 							LLViewerObject::const_child_list_t& child_list = attached_object->getChildren();
-							for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-								 iter != child_list.end(); iter++)
-							{
-								LLViewerObject* childp = *iter;
+							for (const auto& iter : child_list)
+                            {
+								LLViewerObject* childp = iter;
 								if (childp)
 								{
 									mSelectPickList.insert(childp);
@@ -2116,9 +2107,9 @@ S32 LLViewerObjectList::findReferences(LLDrawable *drawablep) const
 	LLViewerObject *objectp;
 	S32 num_refs = 0;
 	
-	for (vobj_list_t::const_iterator iter = mObjects.begin(); iter != mObjects.end(); ++iter)
-	{
-		objectp = *iter;
+	for (const auto& mObject : mObjects)
+    {
+		objectp = mObject;
 		if (objectp->mDrawable.notNull())
 		{
 			num_refs += objectp->mDrawable->findReferences(drawablep);

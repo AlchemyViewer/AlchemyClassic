@@ -631,9 +631,9 @@ void LLPanelPrimMediaControls::updateShape()
 			
 			LLVOVolume* vo = (LLVOVolume*) objectp;
 			
-			for (U32 i = 0; i < 8; i++)
-			{
-				vect_face.push_back(vo->volumePositionToAgent(vert[i]));
+			for (auto i : vert)
+            {
+				vect_face.push_back(vo->volumePositionToAgent(i));
 			}
 		}
 		vert_it = vect_face.begin();

@@ -397,14 +397,14 @@ void LLFloaterExperiences::retrieveExperienceListCoro(std::string url,
     LLFloaterExperiences* parent = hparent.get();
     LLTabContainer* tabs = parent->getChild<LLTabContainer>("xp_tabs");
 
-    for (NameMap_t::iterator it = tabMapping.begin(); it != tabMapping.end(); ++it)
+    for (auto& it : tabMapping)
     {
-        if (result.has(it->first))
+        if (result.has(it.first))
         {
-            LLPanelExperiences* tab = (LLPanelExperiences*)tabs->getPanelByName(it->second);
+            LLPanelExperiences* tab = (LLPanelExperiences*)tabs->getPanelByName(it.second);
             if (tab)
             {
-                const LLSD& ids = result[it->first];
+                const LLSD& ids = result[it.first];
                 tab->setExperienceList(ids);
                 if (cback != nullptr)
                 {

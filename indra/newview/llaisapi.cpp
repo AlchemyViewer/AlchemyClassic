@@ -480,18 +480,17 @@ void AISUpdate::parseMeta(const LLSD& update)
 	// parse _categories_removed -> mObjectsDeletedIds
 	uuid_list_t cat_ids;
 	parseUUIDArray(update,"_categories_removed",cat_ids);
-	for (uuid_list_t::const_iterator it = cat_ids.begin();
-		 it != cat_ids.end(); ++it)
-	{
-		LLViewerInventoryCategory *cat = gInventory.getCategory(*it);
+	for (auto cat_id : cat_ids)
+    {
+		LLViewerInventoryCategory *cat = gInventory.getCategory(cat_id);
 		if(cat)
 		{
 			mCatDescendentDeltas[cat->getParentUUID()]--;
-			mObjectsDeletedIds.insert(*it);
+			mObjectsDeletedIds.insert(cat_id);
 		}
 		else
 		{
-			LL_WARNS("Inventory") << "removed category not found " << *it << LL_ENDL;
+			LL_WARNS("Inventory") << "removed category not found " << cat_id << LL_ENDL;
 		}
 	}
 
@@ -499,36 +498,34 @@ void AISUpdate::parseMeta(const LLSD& update)
 	uuid_list_t item_ids;
 	parseUUIDArray(update,"_category_items_removed",item_ids);
 	parseUUIDArray(update,"_removed_items",item_ids);
-	for (uuid_list_t::const_iterator it = item_ids.begin();
-		 it != item_ids.end(); ++it)
-	{
-		LLViewerInventoryItem *item = gInventory.getItem(*it);
+	for (auto item_id : item_ids)
+    {
+		LLViewerInventoryItem *item = gInventory.getItem(item_id);
 		if(item)
 		{
 			mCatDescendentDeltas[item->getParentUUID()]--;
-			mObjectsDeletedIds.insert(*it);
+			mObjectsDeletedIds.insert(item_id);
 		}
 		else
 		{
-			LL_WARNS("Inventory") << "removed item not found " << *it << LL_ENDL;
+			LL_WARNS("Inventory") << "removed item not found " << item_id << LL_ENDL;
 		}
 	}
 
 	// parse _broken_links_removed -> mObjectsDeletedIds
 	uuid_list_t broken_link_ids;
 	parseUUIDArray(update,"_broken_links_removed",broken_link_ids);
-	for (uuid_list_t::const_iterator it = broken_link_ids.begin();
-		 it != broken_link_ids.end(); ++it)
-	{
-		LLViewerInventoryItem *item = gInventory.getItem(*it);
+	for (auto broken_link_id : broken_link_ids)
+    {
+		LLViewerInventoryItem *item = gInventory.getItem(broken_link_id);
 		if(item)
 		{
 			mCatDescendentDeltas[item->getParentUUID()]--;
-			mObjectsDeletedIds.insert(*it);
+			mObjectsDeletedIds.insert(broken_link_id);
 		}
 		else
 		{
-			LL_WARNS("Inventory") << "broken link not found " << *it << LL_ENDL;
+			LL_WARNS("Inventory") << "broken link not found " << broken_link_id << LL_ENDL;
 		}
 	}
 
@@ -974,21 +971,19 @@ void AISUpdate::doUpdate()
 	}
 
 	// DELETE OBJECTS
-	for (uuid_list_t::const_iterator del_it = mObjectsDeletedIds.begin();
-		 del_it != mObjectsDeletedIds.end(); ++del_it)
-	{
-		LL_DEBUGS("Inventory") << "deleted item " << *del_it << LL_ENDL;
-		gInventory.onObjectDeletedFromServer(*del_it, false, false, false);
+	for (auto deleted_id : mObjectsDeletedIds)
+    {
+		LL_DEBUGS("Inventory") << "deleted item " << deleted_id << LL_ENDL;
+		gInventory.onObjectDeletedFromServer(deleted_id, false, false, false);
 	}
 
 	// TODO - how can we use this version info? Need to be sure all
 	// changes are going through AIS first, or at least through
 	// something with a reliable responder.
-	for (uuid_int_map_t::iterator ucv_it = mCatVersionsUpdated.begin();
-		 ucv_it != mCatVersionsUpdated.end(); ++ucv_it)
-	{
-		const LLUUID id = ucv_it->first;
-		S32 version = ucv_it->second;
+	for (auto& ucv_it : mCatVersionsUpdated)
+    {
+		const LLUUID id = ucv_it.first;
+		S32 version = ucv_it.second;
 		LLViewerInventoryCategory *cat = gInventory.getCategory(id);
 		LL_DEBUGS("Inventory") << "cat version update " << cat->getName() << " to version " << cat->getVersion() << LL_ENDL;
 		if (cat->getVersion() != version)

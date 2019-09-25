@@ -59,12 +59,12 @@ LLWearable::LLWearable()
 // virtual
 LLWearable::~LLWearable()
 {
-	for (visual_param_index_map_t::iterator vpIter = mVisualParamIndexMap.begin(); vpIter != mVisualParamIndexMap.end(); ++vpIter)
-	{
-		LLVisualParam* vp = vpIter->second;
+	for (auto& vpIter : mVisualParamIndexMap)
+    {
+		LLVisualParam* vp = vpIter.second;
 		vp->clearNextParam();
 		delete vp;
-		vpIter->second = nullptr;
+        vpIter.second = nullptr;
 	}
 
 	destroyTextures();
@@ -121,12 +121,10 @@ BOOL LLWearable::exportStream( std::ostream& output_stream ) const
 	// parameters
 	output_stream << "parameters " << mVisualParamIndexMap.size() << "\n";
 
-	for (visual_param_index_map_t::const_iterator iter = mVisualParamIndexMap.begin();
-		 iter != mVisualParamIndexMap.end(); 
-		 ++iter)
-	{
-		S32 param_id = iter->first;
-		const LLVisualParam* param = iter->second;
+	for (const auto& iter : mVisualParamIndexMap)
+    {
+		S32 param_id = iter.first;
+		const LLVisualParam* param = iter.second;
 		F32 param_weight = param->getWeight();
 		output_stream << param_id << " " << terse_F32_to_string( param_weight ) << "\n";
 	}
@@ -134,10 +132,10 @@ BOOL LLWearable::exportStream( std::ostream& output_stream ) const
 	// texture entries
 	output_stream << "textures " << mTEMap.size() << "\n";
 
-	for (te_map_t::const_iterator iter = mTEMap.begin(); iter != mTEMap.end(); ++iter)
-	{
-			S32 te = iter->first;
-			const LLUUID& image_id = iter->second->getID();
+	for (const auto& iter : mTEMap)
+    {
+			S32 te = iter.first;
+			const LLUUID& image_id = iter.second->getID();
 			output_stream << te << " " << image_id << "\n";
 	}
 	return TRUE;
@@ -159,11 +157,9 @@ void LLWearable::createVisualParams(LLAvatarAppearance *avatarp)
 	}
 
 	// resync driver parameters to point to the newly cloned driven parameters
-	for (visual_param_index_map_t::iterator param_iter = mVisualParamIndexMap.begin(); 
-		 param_iter != mVisualParamIndexMap.end(); 
-		 ++param_iter)
-	{
-		LLVisualParam* param = param_iter->second;
+	for (auto& param_iter : mVisualParamIndexMap)
+    {
+		LLVisualParam* param = param_iter.second;
 		LLVisualParam*(LLWearable::*wearable_function)(S32)const = &LLWearable::getVisualParam; 
 		// need this line to disambiguate between versions of LLCharacter::getVisualParam()
 		LLVisualParam*(LLAvatarAppearance::*param_function)(S32)const = &LLAvatarAppearance::getVisualParam; 
@@ -720,11 +716,9 @@ void LLWearable::getVisualParams(visual_param_vec_t &list)
 
 void LLWearable::animateParams(F32 delta, BOOL upload_bake)
 {
-	for(visual_param_index_map_t::iterator iter = mVisualParamIndexMap.begin();
-		 iter != mVisualParamIndexMap.end();
-		 ++iter)
-	{
-		LLVisualParam *param = (LLVisualParam*) iter->second;
+	for (auto& iter : mVisualParamIndexMap)
+    {
+		LLVisualParam *param = (LLVisualParam*)iter.second;
 		param->animate(delta, upload_bake);
 	}
 }
@@ -773,9 +767,9 @@ void LLWearable::writeToAvatar(LLAvatarAppearance* avatarp)
 		}
 	}
 #else
-	for( visual_param_index_map_t::iterator it = mVisualParamIndexMap.begin(); it != mVisualParamIndexMap.end(); ++it )
-	{
-		LLVisualParam* param = it->second;
+	for (auto& it : mVisualParamIndexMap)
+    {
+		LLVisualParam* param = it.second;
 		if(!((LLViewerVisualParam*)param)->getCrossWearable())
 			avatarp->setVisualParamWeight( param->getID(), param->getWeight(), FALSE );
 	}

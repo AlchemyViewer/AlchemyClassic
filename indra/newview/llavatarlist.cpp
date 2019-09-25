@@ -570,8 +570,8 @@ void LLAvatarList::computeDifference(
 		std::vector<LLSD> vcur_values;
 		getValues(vcur_values);
 
-		for (size_t i=0; i<vcur_values.size(); i++)
-			vcur.push_back(vcur_values[i].asUUID());
+		for (auto& vcur_value : vcur_values)
+            vcur.push_back(vcur_value.asUUID());
 	}
 
 	LLCommonUtils::computeDifference(vnew_unsorted, vcur, vadded, vremoved);

@@ -823,9 +823,9 @@ bool LLLandmarksPanel::isActionEnabled(const LLSD& userdata) const
 									/*&& !has_expanded_folders(mMyInventoryPanel->getRootFolder());*/
 		if (disable_collapse_all)
 		{
-			for (accordion_tabs_t::const_iterator iter = mAccordionTabs.begin(); iter != mAccordionTabs.end(); ++iter)
-			{
-				if ((*iter)->isExpanded())
+			for (auto tab : mAccordionTabs)
+            {
+				if (tab->isExpanded())
 				{
 					disable_collapse_all = false;
 					break;
@@ -842,9 +842,9 @@ bool LLLandmarksPanel::isActionEnabled(const LLSD& userdata) const
 								  /* && !has_collapsed_folders(mMyInventoryPanel->getRootFolder());*/
 		if (disable_expand_all)
 		{
-			for (accordion_tabs_t::const_iterator iter = mAccordionTabs.begin(); iter != mAccordionTabs.end(); ++iter)
-			{
-				if (!(*iter)->isExpanded())
+			for (auto tab : mAccordionTabs)
+            {
+				if (!tab->isExpanded())
 				{
 					disable_expand_all = false;
 					break;
@@ -876,11 +876,9 @@ bool LLLandmarksPanel::isActionEnabled(const LLSD& userdata) const
 		std::set<LLFolderViewItem*> selected_uuids =    root_folder_view->getSelectionList();
 
 		// Allow to execute the command only if it can be applied to all selected items.
-		for (std::set<LLFolderViewItem*>::const_iterator iter =    selected_uuids.begin(); iter != selected_uuids.end(); ++iter)
-		{
-			LLFolderViewItem* item = *iter;
-
-			if (!item) return false;
+		for (auto item : selected_uuids)
+        {
+            if (!item) return false;
 
 			if (!canItemBeModified(command_name, item)) return false;
 		}
@@ -1000,11 +998,9 @@ void LLLandmarksPanel::onMenuVisibilityChange(LLUICtrl* ctrl, const LLSD& param)
 
 		// Iterate through selected items to find out if any of these items are in Trash
 		// or all the items are in Trash category.
-		for (std::set<LLFolderViewItem*>::const_iterator iter =    selected_items.begin(); iter != selected_items.end(); ++iter)
-		{
-			LLFolderViewItem* item = *iter;
-
-			// If no item is found it might be a folder id.
+		for (auto item : selected_items)
+        {
+            // If no item is found it might be a folder id.
 			if (!item) continue;
 
 			LLFolderViewModelItemInventory* listenerp = static_cast<LLFolderViewModelItemInventory*>(item->getViewModelItem());
@@ -1360,12 +1356,9 @@ void toggle_restore_menu(LLMenuGL *menu, BOOL visible, BOOL enabled)
 	if (!menu) return;
 
 	const LLView::child_list_t *list = menu->getChildList();
-	for (LLView::child_list_t::const_iterator itor = list->begin();
-		 itor != list->end();
-		 ++itor)
-	{
-		LLView *menu_item = (*itor);
-		std::string name = menu_item->getName();
+	for (auto menu_item : *list)
+    {
+        std::string name = menu_item->getName();
 
 		if ("restore_item" == name)
 		{

@@ -236,9 +236,9 @@ void LLDriverParam::setWeight(F32 weight, BOOL upload_bake)
 	//-------|----|-------|----|-------> driver
 	//  | min1   max1    max2  min2
 
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		LLDrivenEntryInfo* info = driven->mInfo;
 		
 		F32 driven_weight = 0.f;
@@ -309,9 +309,9 @@ void LLDriverParam::setWeight(F32 weight, BOOL upload_bake)
 F32	LLDriverParam::getTotalDistortion()
 {
 	F32 sum = 0.f;
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		sum += driven->mParam->getTotalDistortion();
 	}
 
@@ -324,9 +324,9 @@ const LLVector4a	&LLDriverParam::getAvgDistortion()
 	LLVector4a sum;
 	sum.clear();
 	S32 count = 0;
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		sum.add(driven->mParam->getAvgDistortion());
 		count++;
 	}
@@ -339,9 +339,9 @@ const LLVector4a	&LLDriverParam::getAvgDistortion()
 F32	LLDriverParam::getMaxDistortion() 
 {
 	F32 max = 0.f;
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		F32 param_max = driven->mParam->getMaxDistortion();
 		if( param_max > max )
 		{
@@ -357,9 +357,9 @@ LLVector4a	LLDriverParam::getVertexDistortion(S32 index, LLPolyMesh *poly_mesh)
 {
 	LLVector4a sum;
 	sum.clear();
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		sum.add(driven->mParam->getVertexDistortion( index, poly_mesh ));
 	}
 	return sum;
@@ -369,9 +369,9 @@ const LLVector4a*	LLDriverParam::getFirstDistortion(U32 *index, LLPolyMesh **pol
 {
 	mCurrentDistortionParam = nullptr;
 	const LLVector4a* v = nullptr;
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		v = driven->mParam->getFirstDistortion( index, poly_mesh );
 		if( v )
 		{
@@ -452,9 +452,9 @@ void LLDriverParam::setAnimationTarget( F32 target_value, BOOL upload_bake )
 {
 	LLVisualParam::setAnimationTarget(target_value, upload_bake);
 
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		F32 driven_weight = getDrivenWeight(driven, mTargetWeight);
 
 		// this isn't normally necessary, as driver params handle interpolation of their driven params
@@ -470,9 +470,9 @@ void LLDriverParam::stopAnimating(BOOL upload_bake)
 {
 	LLVisualParam::stopAnimating(upload_bake);
 
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		driven->mParam->setAnimating(FALSE);
 	}
 }
@@ -527,9 +527,9 @@ void LLDriverParam::updateCrossDrivenParams(LLWearableType::EType driven_type)
 	bool needs_update = (getWearableType()==driven_type);
 
 	// if the driver has a driven entry for the passed-in wearable type, we need to refresh the value
-	for( entry_list_t::iterator iter = mDriven.begin(); iter != mDriven.end(); ++iter )
-	{
-		LLDrivenEntry* driven = &(*iter);
+	for (auto& iter : mDriven)
+    {
+		LLDrivenEntry* driven = &iter;
 		if (driven && driven->mParam && driven->mParam->getCrossWearable() && driven->mParam->getWearableType() == driven_type)
 		{
 			needs_update = true;

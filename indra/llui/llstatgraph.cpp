@@ -61,11 +61,9 @@ LLStatGraph::LLStatGraph(const Params& p)
 	setStat(p.stat);
 	setToolTip(p.label());
 
-	for(LLInitParam::ParamIterator<ThresholdParams>::const_iterator it = p.thresholds.threshold.begin(), end_it = p.thresholds.threshold.end();
-		it != end_it;
-		++it)
-	{
-		mThresholds.push_back(Threshold(it->value(), it->color));
+	for (const auto& it : p.thresholds.threshold)
+    {
+		mThresholds.push_back(Threshold(it.value(), it.color));
 	}
 }
 

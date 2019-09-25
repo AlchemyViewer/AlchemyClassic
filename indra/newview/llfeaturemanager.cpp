@@ -558,44 +558,42 @@ void LLFeatureManager::applyFeatures(bool skipFeatures)
 #endif
 
 	// scroll through all of these and set their corresponding control value
-	for(feature_map_t::iterator mIt = mFeatures.begin(); 
-		mIt != mFeatures.end(); 
-		++mIt)
-	{
+	for (auto& feature : mFeatures)
+    {
 		// skip features you want to skip
 		// do this for when you don't want to change certain settings
 		if(skipFeatures)
 		{
-			if(mSkippedFeatures.find(mIt->first) != mSkippedFeatures.end())
+			if(mSkippedFeatures.find(feature.first) != mSkippedFeatures.end())
 			{
 				continue;
 			}
 		}
 
 		// get the control setting
-		LLControlVariable* ctrl = gSavedSettings.getControl(mIt->first);
+		LLControlVariable* ctrl = gSavedSettings.getControl(feature.first);
 		if(ctrl == nullptr)
 		{
-			LL_WARNS("RenderInit") << "AHHH! Control setting " << mIt->first << " does not exist!" << LL_ENDL;
+			LL_WARNS("RenderInit") << "AHHH! Control setting " << feature.first << " does not exist!" << LL_ENDL;
 			continue;
 		}
 
 		// handle all the different types
 		if(ctrl->isType(TYPE_BOOLEAN))
 		{
-			gSavedSettings.setBOOL(mIt->first, (BOOL)getRecommendedValue(mIt->first));
+			gSavedSettings.setBOOL(feature.first, (BOOL)getRecommendedValue(feature.first));
 		}
 		else if (ctrl->isType(TYPE_S32))
 		{
-			gSavedSettings.setS32(mIt->first, (S32)getRecommendedValue(mIt->first));
+			gSavedSettings.setS32(feature.first, (S32)getRecommendedValue(feature.first));
 		}
 		else if (ctrl->isType(TYPE_U32))
 		{
-			gSavedSettings.setU32(mIt->first, (U32)getRecommendedValue(mIt->first));
+			gSavedSettings.setU32(feature.first, (U32)getRecommendedValue(feature.first));
 		}
 		else if (ctrl->isType(TYPE_F32))
 		{
-			gSavedSettings.setF32(mIt->first, (F32)getRecommendedValue(mIt->first));
+			gSavedSettings.setF32(feature.first, (F32)getRecommendedValue(feature.first));
 		}
 		else
 		{
@@ -731,11 +729,11 @@ void LLFeatureManager::applyBaseMasks()
 	// now mask by gpu string
 	// Replaces ' ' with '_' in mGPUString to deal with inability for parser to handle spaces
 	std::string gpustr = mGPUString;
-	for (std::string::iterator iter = gpustr.begin(); iter != gpustr.end(); ++iter)
-	{
-		if (*iter == ' ')
+	for (std::_String_iterator<std::_String_val<std::_Simple_types<char>>>::value_type& iter : gpustr)
+    {
+		if (iter == ' ')
 		{
-			*iter = '_';
+            iter = '_';
 		}
 	}
 
@@ -784,35 +782,35 @@ LLSD LLFeatureManager::getRecommendedSettingsMap()
 
 
 
-	for (feature_map_t::iterator mIt = mFeatures.begin(); mIt != mFeatures.end(); ++mIt)
-	{
-		LLControlVariable* ctrl = gSavedSettings.getControl(mIt->first);
+	for (auto& feature : mFeatures)
+    {
+		LLControlVariable* ctrl = gSavedSettings.getControl(feature.first);
 		if (ctrl == nullptr)
 		{
-			LL_WARNS("RenderInit") << "AHHH! Control setting " << mIt->first << " does not exist!" << LL_ENDL;
+			LL_WARNS("RenderInit") << "AHHH! Control setting " << feature.first << " does not exist!" << LL_ENDL;
 			continue;
 		}
 
 		if (ctrl->isType(TYPE_BOOLEAN))
 		{
-			map[mIt->first]["Value"] = (LLSD::Boolean)getRecommendedValue(mIt->first);
+			map[feature.first]["Value"] = (LLSD::Boolean)getRecommendedValue(feature.first);
 		}
 		else if (ctrl->isType(TYPE_S32) || ctrl->isType(TYPE_U32))
 		{
-			map[mIt->first]["Value"] = (LLSD::Integer)getRecommendedValue(mIt->first);
+			map[feature.first]["Value"] = (LLSD::Integer)getRecommendedValue(feature.first);
 		}
 		else if (ctrl->isType(TYPE_F32))
 		{
-			map[mIt->first]["Value"] = (LLSD::Real)getRecommendedValue(mIt->first);
+			map[feature.first]["Value"] = (LLSD::Real)getRecommendedValue(feature.first);
 		}
 		else
 		{
 			LL_WARNS("RenderInit") << "AHHH! Control variable is not a numeric type!" << LL_ENDL;
 			continue;
 		}
-		map[mIt->first]["Comment"] = ctrl->getComment();;
-		map[mIt->first]["Persist"] = 1;
-		map[mIt->first]["Type"] = LLControlGroup::typeEnumToString(ctrl->type());
+		map[feature.first]["Comment"] = ctrl->getComment();;
+		map[feature.first]["Persist"] = 1;
+		map[feature.first]["Type"] = LLControlGroup::typeEnumToString(ctrl->type());
 	}
 	
 	return map;

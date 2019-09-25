@@ -486,8 +486,8 @@ void LLCubeMap::paintIn(LLVector3 dir[4], const LLColor4U& col)
 
 void LLCubeMap::destroyGL()
 {
-	for (S32 i = 0; i < 6; i++)
-	{
-		mImages[i] = nullptr;
+	for (auto& image : mImages)
+    {
+        image = nullptr;
 	}
 }

@@ -714,15 +714,13 @@ void LLCacheName::deleteEntriesOlderThan(S32 secs)
 
 void LLCacheName::dump()
 {
-	for (Cache::iterator iter = impl.mCache.begin(),
-			 end = impl.mCache.end();
-		 iter != end; iter++)
-	{
-		LLCacheNameEntry* entry = iter->second;
+	for (auto& iter : impl.mCache)
+    {
+		LLCacheNameEntry* entry = iter.second;
 		if (entry->mIsGroup)
 		{
 			LL_INFOS()
-				<< iter->first << " = (group) "
+				<< iter.first << " = (group) "
 				<< entry->mGroupName
 				<< " @ " << entry->mCreateTime
 				<< LL_ENDL;
@@ -730,7 +728,7 @@ void LLCacheName::dump()
 		else
 		{
 			LL_INFOS()
-				<< iter->first << " = "
+				<< iter.first << " = "
 				<< buildFullName(entry->mFirstName, entry->mLastName)
 				<< " @ " << entry->mCreateTime
 				<< LL_ENDL;
@@ -779,10 +777,9 @@ void LLCacheName::Impl::processPendingAsks()
 void LLCacheName::Impl::processPendingReplies()
 {
 	// First call all the callbacks, because they might send messages.
-	for(ReplyQueue::iterator it = mReplyQueue.begin(); it != mReplyQueue.end(); ++it)
-	{
-		PendingReply* reply = *it;
-		LLCacheNameEntry* entry = get_ptr_in_map(mCache, reply->mID);
+	for (auto reply : mReplyQueue)
+    {
+        LLCacheNameEntry* entry = get_ptr_in_map(mCache, reply->mID);
 		if(!entry) continue;
 
 		if (!entry->mIsGroup)
@@ -799,10 +796,9 @@ void LLCacheName::Impl::processPendingReplies()
 
 	// Forward on all replies, if needed.
 	ReplySender sender(mMsg);
-	for(ReplyQueue::iterator it = mReplyQueue.begin(); it != mReplyQueue.end(); ++it)
-	{
-		PendingReply* reply = *it;
-		LLCacheNameEntry* entry = get_ptr_in_map(mCache, reply->mID);
+	for (auto reply : mReplyQueue)
+    {
+        LLCacheNameEntry* entry = get_ptr_in_map(mCache, reply->mID);
 		if(!entry) continue;
 
 		if (reply->mHost.isOk())

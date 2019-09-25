@@ -98,17 +98,15 @@ LLMultiSlider::LLMultiSlider(const LLMultiSlider::Params& p)
 		setMouseUpCallback(initCommitCallback(p.mouse_up_callback));
 	}
 
-	for (LLInitParam::ParamIterator<SliderParams>::const_iterator it = p.sliders.begin();
-		it != p.sliders.end();
-		++it)
-	{
-		if (it->name.isProvided())
+	for (const auto& slider : p.sliders)
+    {
+		if (slider.name.isProvided())
 		{
-			addSlider(it->value, it->name);
+			addSlider(slider.value, slider.name);
 		}
 		else
 		{
-			addSlider(it->value);
+			addSlider(slider.value);
 		}
 	}
 }

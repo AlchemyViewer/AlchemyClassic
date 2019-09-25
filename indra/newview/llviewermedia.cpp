@@ -1362,11 +1362,11 @@ void LLViewerMedia::proxyWindowOpened(const std::string &target, const std::stri
 	if(uuid.empty())
 		return;
 
-	for (impl_list::iterator iter = sViewerMediaImplList.begin(); iter != sViewerMediaImplList.end(); iter++)
-	{
-		if((*iter)->mMediaSource && (*iter)->mMediaSource->pluginSupportsMediaBrowser())
+	for (auto& iter : sViewerMediaImplList)
+    {
+		if(iter->mMediaSource && iter->mMediaSource->pluginSupportsMediaBrowser())
 		{
-			(*iter)->mMediaSource->proxyWindowOpened(target, uuid);
+            iter->mMediaSource->proxyWindowOpened(target, uuid);
 		}
 	}
 }
@@ -1378,11 +1378,11 @@ void LLViewerMedia::proxyWindowClosed(const std::string &uuid)
 	if(uuid.empty())
 		return;
 
-	for (impl_list::iterator iter = sViewerMediaImplList.begin(); iter != sViewerMediaImplList.end(); iter++)
-	{
-		if((*iter)->mMediaSource && (*iter)->mMediaSource->pluginSupportsMediaBrowser())
+	for (auto& iter : sViewerMediaImplList)
+    {
+		if(iter->mMediaSource && iter->mMediaSource->pluginSupportsMediaBrowser())
 		{
-			(*iter)->mMediaSource->proxyWindowClosed(uuid);
+            iter->mMediaSource->proxyWindowClosed(uuid);
 		}
 	}
 }

@@ -195,19 +195,17 @@ bool LLFontRegistry::parseFontInfo(const std::string& xml_filename)
 		return false;
 	}
 
-	for (string_vec_t::const_iterator path_it = xml_paths.begin();
-		 path_it != xml_paths.end();
-		 ++path_it)
-	{
+	for (const auto& xml_path : xml_paths)
+    {
 		LLXMLNodePtr root;
-		bool parsed_file = LLXMLNode::parseFile(*path_it, root, nullptr);
+		bool parsed_file = LLXMLNode::parseFile(xml_path, root, nullptr);
 
 		if (!parsed_file)
 			continue;
 
 		if ( root.isNull() || ! root->hasName( "fonts" ) )
 		{
-			LL_WARNS() << "Bad font info file: " << *path_it << LL_ENDL;
+			LL_WARNS() << "Bad font info file: " << xml_path << LL_ENDL;
 			continue;
 		}
 
@@ -457,38 +455,34 @@ LLFontGL *LLFontRegistry::createFont(const LLFontDescriptor& desc)
 	
 	// The fontname string may contain multiple font file names separated by semicolons.
 	// Break it apart and try loading each one, in order.
-	for(string_vec_t::iterator file_name_it = file_names.begin();
-		file_name_it != file_names.end(); 
-		++file_name_it)
-	{
+	for (auto& file_name : file_names)
+    {
 		LLFontGL *fontp = NULL;
 		string_vec_t font_paths;
-		font_paths.push_back(local_path + *file_name_it);
-		font_paths.push_back(sys_path + *file_name_it);
+		font_paths.push_back(local_path + file_name);
+		font_paths.push_back(sys_path + file_name);
 #if LL_DARWIN
 		font_paths.push_back(MACOSX_FONT_PATH_LIBRARY + *file_name_it);
 #endif
 		
-		bool is_ft_collection = (std::find(ft_collection_list.begin(), ft_collection_list.end(), *file_name_it) != ft_collection_list.end());
+		bool is_ft_collection = (std::find(ft_collection_list.begin(), ft_collection_list.end(), file_name) != ft_collection_list.end());
 		// *HACK: Fallback fonts don't render, so we can use that to suppress
 		// creation of OpenGL textures for test apps. JC
 		BOOL is_fallback = !is_first_found || !mCreateGLTextures;
 		F32 extra_scale = (is_fallback)?fallback_scale:1.0;
 		F32 point_size_scale = extra_scale * point_size;
 		bool is_font_loaded = false;
-		for(string_vec_t::iterator font_paths_it = font_paths.begin();
-			font_paths_it != font_paths.end();
-			++font_paths_it)
-		{
+		for (auto& font_path : font_paths)
+        {
 			fontp = new LLFontGL;
-			S32 num_faces = is_ft_collection ? fontp->getNumFaces(*font_paths_it) : 1;
+			S32 num_faces = is_ft_collection ? fontp->getNumFaces(font_path) : 1;
 			for (S32 i = 0; i < num_faces; i++)
 			{
 				if (fontp == NULL)
 				{
 					fontp = new LLFontGL;
 				}
-				if (fontp->loadFace(*font_paths_it, point_size_scale,
+				if (fontp->loadFace(font_path, point_size_scale,
 								 LLFontGL::sVertDPI, LLFontGL::sHorizDPI, 2, is_fallback, i))
 				{
 					is_font_loaded = true;
@@ -514,7 +508,7 @@ LLFontGL *LLFontRegistry::createFont(const LLFontDescriptor& desc)
 		}
 		if(!is_font_loaded)
 		{
-			LL_INFOS_ONCE("LLFontRegistry") << "Couldn't load font " << *file_name_it <<  LL_ENDL;
+			LL_INFOS_ONCE("LLFontRegistry") << "Couldn't load font " << file_name <<  LL_ENDL;
 			delete fontp;
 			fontp = nullptr;
 		}
@@ -540,23 +534,19 @@ LLFontGL *LLFontRegistry::createFont(const LLFontDescriptor& desc)
 
 void LLFontRegistry::reset()
 {
-	for (font_reg_map_t::iterator it = mFontMap.begin();
-		 it != mFontMap.end();
-		 ++it)
-	{
+	for (auto& it : mFontMap)
+    {
 		// Reset the corresponding font but preserve the entry.
-		if (it->second)
-			it->second->reset();
+		if (it.second)
+            it.second->reset();
 	}
 }
 
 void LLFontRegistry::clear()
 {
-	for (font_reg_map_t::iterator it = mFontMap.begin();
-		 it != mFontMap.end();
-		 ++it)
-	{
-		LLFontGL *fontp = it->second;
+	for (auto& it : mFontMap)
+    {
+		LLFontGL *fontp = it.second;
 		delete fontp;
 	}
 	mFontMap.clear();
@@ -564,13 +554,11 @@ void LLFontRegistry::clear()
 
 void LLFontRegistry::destroyGL()
 {
-	for (font_reg_map_t::iterator it = mFontMap.begin();
-		 it != mFontMap.end();
-		 ++it)
-	{
+	for (auto& it : mFontMap)
+    {
 		// Reset the corresponding font but preserve the entry.
-		if (it->second)
-			it->second->destroyGL();
+		if (it.second)
+            it.second->destroyGL();
 	}
 }
 
@@ -637,11 +625,9 @@ const LLFontDescriptor *LLFontRegistry::getClosestFontTemplate(const LLFontDescr
 	LLFontDescriptor norm_desc = desc.normalize();
 
 	const LLFontDescriptor *best_match_desc = nullptr;
-	for (font_reg_map_t::iterator it = mFontMap.begin();
-		 it != mFontMap.end();
-		 ++it)
-	{
-		const LLFontDescriptor* curr_desc = &(it->first);
+	for (auto& it : mFontMap)
+    {
+		const LLFontDescriptor* curr_desc = &(it.first);
 
 		// Ignore if not a template.
 		if (!curr_desc->isTemplate())
@@ -690,27 +676,21 @@ const LLFontDescriptor *LLFontRegistry::getClosestFontTemplate(const LLFontDescr
 void LLFontRegistry::dump()
 {
 	LL_INFOS() << "LLFontRegistry dump: " << LL_ENDL;
-	for (font_size_map_t::iterator size_it = mFontSizes.begin();
-		 size_it != mFontSizes.end();
-		 ++size_it)
-	{
-		LL_INFOS() << "Size: " << size_it->first << " => " << size_it->second << LL_ENDL;
+	for (auto& size : mFontSizes)
+    {
+		LL_INFOS() << "Size: " << size.first << " => " << size.second << LL_ENDL;
 	}
-	for (font_reg_map_t::iterator font_it = mFontMap.begin();
-		 font_it != mFontMap.end();
-		 ++font_it)
-	{
-		const LLFontDescriptor& desc = font_it->first;
+	for (auto& font_it : mFontMap)
+    {
+		const LLFontDescriptor& desc = font_it.first;
 		LL_INFOS() << "Font: name=" << desc.getName()
 				<< " style=[" << ((S32)desc.getStyle()) << "]"
 				<< " size=[" << desc.getSize() << "]"
 				<< " fileNames="
 				<< LL_ENDL;
-		for (string_vec_t::const_iterator file_it=desc.getFileNames().begin();
-			 file_it != desc.getFileNames().end();
-			 ++file_it)
-		{
-			LL_INFOS() << "  file: " << *file_it <<LL_ENDL;
+		for (const auto& file_it : desc.getFileNames())
+        {
+			LL_INFOS() << "  file: " << file_it <<LL_ENDL;
 		}
 	}
 }

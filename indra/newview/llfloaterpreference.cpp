@@ -643,20 +643,19 @@ void LLFloaterPreference::refreshGridList()
 	LLScrollListCtrl* grid_list = getChild<LLScrollListCtrl>("grid_list");
 	grid_list->clearRows();
 	std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();
-	for (std::map<std::string, std::string>::iterator grid_iter = known_grids.begin();
-		 grid_iter != known_grids.end(); grid_iter++)
-	{
-		if (!grid_iter->first.empty() && !grid_iter->second.empty())
+	for (auto& known_grid : known_grids)
+    {
+		if (!known_grid.first.empty() && !known_grid.second.empty())
 		{
-			bool connected_grid = LLGridManager::getInstance()->getGrid() == grid_iter->first;
+			bool connected_grid = LLGridManager::getInstance()->getGrid() == known_grid.first;
 			std::vector<std::string> uris;
-			LLGridManager::getInstance()->getLoginURIs(grid_iter->first, uris);
+			LLGridManager::getInstance()->getLoginURIs(known_grid.first, uris);
 			LLURI login_uri = LLURI(uris.at(0));
 			
 			LLSD row;
-			row["id"] = grid_iter->first;
+			row["id"] = known_grid.first;
 			row["columns"][0]["column"] = "grid_label";
-			row["columns"][0]["value"] = grid_iter->second;
+			row["columns"][0]["value"] = known_grid.second;
 			row["columns"][0]["font"]["style"] = connected_grid ? "BOLD" : "NORMAL";
 			row["columns"][1]["column"] = "login_uri";
 			row["columns"][1]["value"] = login_uri.authority();
@@ -1042,11 +1041,9 @@ void LLFloaterPreference::apply()
 		sSkin = gSavedSettings.getString("SkinCurrent");
 	}
 	// Call apply() on all panels that derive from LLPanelPreference
-	for (child_list_t::const_iterator iter = tabcontainer->getChildList()->begin();
-		 iter != tabcontainer->getChildList()->end(); ++iter)
-	{
-		LLView* view = *iter;
-		LLPanelPreference* panel = dynamic_cast<LLPanelPreference*>(view);
+	for (auto view : *tabcontainer->getChildList())
+    {
+        LLPanelPreference* panel = dynamic_cast<LLPanelPreference*>(view);
 		if (panel)
 			panel->apply();
 	}
@@ -1107,11 +1104,9 @@ void LLFloaterPreference::cancel()
 {
 	LLTabContainer* tabcontainer = getChild<LLTabContainer>("pref core");
 	// Call cancel() on all panels that derive from LLPanelPreference
-	for (child_list_t::const_iterator iter = tabcontainer->getChildList()->begin();
-		iter != tabcontainer->getChildList()->end(); ++iter)
-	{
-		LLView* view = *iter;
-		LLPanelPreference* panel = dynamic_cast<LLPanelPreference*>(view);
+	for (auto view : *tabcontainer->getChildList())
+    {
+        LLPanelPreference* panel = dynamic_cast<LLPanelPreference*>(view);
 		if (panel)
 			panel->cancel();
 	}
@@ -1425,9 +1420,9 @@ void LLFloaterPreference::onNotificationsChange(const std::string& OptionName)
 	mNotificationOptions[OptionName] = getChild<LLComboBox>(OptionName)->getSelectedItemLabel();
 
 	bool show_notifications_alert = true;
-	for (notifications_map::iterator it_notification = mNotificationOptions.begin(); it_notification != mNotificationOptions.end(); it_notification++)
-	{
-		if(it_notification->second != "No action")
+	for (auto& notification_option : mNotificationOptions)
+    {
+		if(notification_option.second != "No action")
 		{
 			show_notifications_alert = false;
 			break;
@@ -2418,10 +2413,9 @@ void LLPanelPreference::saveSettings()
 		}
 			
 		// Push children onto the end of the work stack
-		for (child_list_t::const_iterator iter = curview->getChildList()->begin();
-			 iter != curview->getChildList()->end(); ++iter)
-		{
-			view_stack.push_back(*iter);
+		for (auto iter : *curview->getChildList())
+        {
+			view_stack.push_back(iter);
 		}
 	}	
 }
@@ -2463,11 +2457,10 @@ void LLPanelPreference::toggleMuteWhenMinimized()
 
 void LLPanelPreference::cancel()
 {
-	for (control_values_map_t::iterator iter =  mSavedValues.begin();
-		 iter !=  mSavedValues.end(); ++iter)
-	{
-		LLControlVariable* control = iter->first;
-		LLSD ctrl_value = iter->second;
+	for (auto& saved_value : mSavedValues)
+    {
+		LLControlVariable* control = saved_value.first;
+		LLSD ctrl_value = saved_value.second;
 
 		if((control->getName() == "InstantMessageLogPath") && (ctrl_value.asString().empty()))
 		{
@@ -2477,13 +2470,12 @@ void LLPanelPreference::cancel()
 		control->set(ctrl_value);
 	}
 
-	for (string_color_map_t::iterator iter = mSavedColors.begin();
-		 iter != mSavedColors.end(); ++iter)
-	{
-		LLColorSwatchCtrl* color_swatch = findChild<LLColorSwatchCtrl>(iter->first);
+	for (auto& saved_color : mSavedColors)
+    {
+		LLColorSwatchCtrl* color_swatch = findChild<LLColorSwatchCtrl>(saved_color.first);
 		if (color_swatch)
 		{
-			color_swatch->set(iter->second);
+			color_swatch->set(saved_color.second);
 			color_swatch->onCommit();
 		}
 	}
@@ -2587,10 +2579,9 @@ void LLPanelPreferenceGraphics::resetDirtyChilds()
 			ctrl->resetDirty();
 		}
 		// Push children onto the end of the work stack
-		for (child_list_t::const_iterator iter = curview->getChildList()->begin();
-			 iter != curview->getChildList()->end(); ++iter)
-		{
-			view_stack.push_back(*iter);
+		for (auto iter : *curview->getChildList())
+        {
+			view_stack.push_back(iter);
 		}
 	}	
 }

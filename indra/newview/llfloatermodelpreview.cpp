@@ -998,10 +998,9 @@ void LLFloaterModelPreview::onPhysicsStageCancel(LLUICtrl* ctrl, void*data)
 {
 	if (sInstance)
 	{
-		for (std::set<LLPointer<DecompRequest> >::iterator iter = sInstance->mCurRequest.begin();
-			iter != sInstance->mCurRequest.end(); ++iter)
-		{
-		    DecompRequest* req = *iter;
+		for (const auto& iter : sInstance->mCurRequest)
+        {
+		    DecompRequest* req = iter;
 		    req->mContinue = 0;
 		}
 
@@ -1325,11 +1324,9 @@ U32 LLModelPreview::calcResourceCost()
 
 	F32 streaming_cost = 0.f;
 	F32 physics_cost = 0.f;
-	for (U32 i = 0; i < mUploadData.size(); ++i)
-	{
-		LLModelInstance& instance = mUploadData[i];
-		
-		if (accounted.find(instance.mModel) == accounted.end())
+	for (auto& instance : mUploadData)
+    {
+        if (accounted.find(instance.mModel) == accounted.end())
 		{
 			accounted.insert(instance.mModel);
 
@@ -1339,11 +1336,11 @@ U32 LLModelPreview::calcResourceCost()
 			instance.mModel->mPhysics;
 			
 			//update instance skin info for each lods pelvisZoffset 
-			for ( int j=0; j<LLModel::NUM_LODS; ++j )
-			{	
-				if ( instance.mLOD[j] )
+			for (auto& j : instance.mLOD)
+            {	
+				if (j)
 				{
-					instance.mLOD[j]->mSkinInfo.mPelvisOffset = mPelvisZOffset;
+                    j->mSkinInfo.mPelvisOffset = mPelvisZOffset;
 				}
 			}
 
@@ -1363,9 +1360,9 @@ U32 LLModelPreview::calcResourceCost()
 					   instance.mModel->mSubmodelID);
 			
 			num_hulls += decomp.mHull.size();
-			for (U32 i = 0; i < decomp.mHull.size(); ++i)
-			{
-				num_points += decomp.mHull[i].size();
+			for (auto& i : decomp.mHull)
+            {
+				num_points += i.size();
 			}
 
 			//calculate streaming cost
@@ -1440,9 +1437,9 @@ void LLModelPreview::rebuildUploadData()
 	BOOL importerDebug = gSavedSettings.getBOOL("ImporterDebug");
 	BOOL legacyMatching = gSavedSettings.getBOOL("ImporterLegacyMatching");
 
-	for (LLModelLoader::scene::iterator iter = mBaseScene.begin(); iter != mBaseScene.end(); ++iter)
-	{ //for each transform in scene
-		LLMatrix4 mat		= iter->first;
+	for (auto& iter : mBaseScene)
+    { //for each transform in scene
+		LLMatrix4 mat		= iter.first;
 
 		// compute position
 		LLVector3 position = LLVector3(0, 0, 0) * mat;
@@ -1459,7 +1456,7 @@ void LLModelPreview::rebuildUploadData()
 
 		mat *= scale_mat;
 
-		for (LLModelLoader::model_instance_list::iterator model_iter = iter->second.begin(); model_iter != iter->second.end();)
+		for (LLModelLoader::model_instance_list::iterator model_iter = iter.second.begin(); model_iter != iter.second.end();)
 		{ //for each instance with said transform applied 
 			LLModelInstance instance = *model_iter++;
 
@@ -1660,10 +1657,9 @@ void LLModelPreview::rebuildUploadData()
 		for (U32 model_ind = 0; model_ind < mModel[lod].size(); ++model_ind)
 		{
 			bool found_model = false;
-			for (LLMeshUploadThread::instance_list::iterator iter = mUploadData.begin(); iter != mUploadData.end(); ++iter)
-			{
-				LLModelInstance& instance = *iter;
-				if (instance.mLOD[lod] == mModel[lod][model_ind])
+			for (auto& instance : mUploadData)
+            {
+                if (instance.mLOD[lod] == mModel[lod][model_ind])
 				{
 					found_model = true;
 					break;
@@ -1793,13 +1789,13 @@ void LLModelPreview::getJointAliases( JointMap& joint_map)
     std::vector<std::string> cv_names, attach_names;
     av->getSortedJointNames(1, cv_names);
     av->getSortedJointNames(2, attach_names);
-    for (std::vector<std::string>::iterator it = cv_names.begin(); it != cv_names.end(); ++it)
+    for (auto& cv_name : cv_names)
     {
-        joint_map[*it] = *it;
+        joint_map[cv_name] = cv_name;
     }
-    for (std::vector<std::string>::iterator it = attach_names.begin(); it != attach_names.end(); ++it)
+    for (auto& attach_name : attach_names)
     {
-        joint_map[*it] = *it;
+        joint_map[attach_name] = attach_name;
     }
 }
 
@@ -1958,9 +1954,9 @@ void LLModelPreview::clearGLODGroup()
 {
 	if (mGroup)
 	{
-		for (std::map<LLPointer<LLModel>, U32>::iterator iter = mObject.begin(); iter != mObject.end(); ++iter)
-		{
-			glodDeleteObject(iter->second);
+		for (auto& iter : mObject)
+        {
+			glodDeleteObject(iter.second);
 			stop_gloderror();
 		}
 		mObject.clear();
@@ -2030,34 +2026,34 @@ void LLModelPreview::loadModelCallback(S32 loaded_lod)
 				{
 					LLModelLoader::model_instance_list& list = iter->second;
 
-					for (LLModelLoader::model_instance_list::iterator list_iter = list.begin(); list_iter != list.end(); ++list_iter)
-					{	
+					for (auto& list_iter : list)
+                    {	
 						//override displayed model with current LoD
-						list_iter->mModel = list_iter->mLOD[lod];
+                        list_iter.mModel = list_iter.mLOD[lod];
 
-						if (!list_iter->mModel)
+						if (!list_iter.mModel)
 						{
 							continue;
 						}
 
 						//add current model to current LoD's model list (LLModel::mLocalID makes a good vector index)
-						S32 idx = list_iter->mModel->mLocalID;
+						S32 idx = list_iter.mModel->mLocalID;
 
 						if (mModel[lod].size() <= idx)
 						{ //stretch model list to fit model at given index
 							mModel[lod].resize(idx+1);
 						}
 
-						mModel[lod][idx] = list_iter->mModel;
-						if (!list_iter->mModel->mSkinWeights.empty())
+						mModel[lod][idx] = list_iter.mModel;
+						if (!list_iter.mModel->mSkinWeights.empty())
 						{
 							skin_weights = true;
 
-							if (!list_iter->mModel->mSkinInfo.mAlternateBindMatrix.empty())
+							if (!list_iter.mModel->mSkinInfo.mAlternateBindMatrix.empty())
 							{
 								joint_positions = true;
 							}
-							if (list_iter->mModel->mSkinInfo.mLockScaleIfJointPosition)
+							if (list_iter.mModel->mSkinInfo.mLockScaleIfJointPosition)
 							{
 								lock_scale_if_joint_position = true;
 							}
@@ -2131,9 +2127,9 @@ void LLModelPreview::loadModelCallback(S32 loaded_lod)
 				{ 
 					BOOL name_based = FALSE;
 					BOOL has_submodels = FALSE;
-					for (U32 idx = 0; idx < mBaseModel.size(); ++idx)
-					{
-						if (mBaseModel[idx]->mSubmodelID)
+					for (auto& idx : mBaseModel)
+                    {
+						if (idx->mSubmodelID)
 						{ // don't do index-based renaming when the base model has submodels
 							has_submodels = TRUE;
 							if (importerDebug)
@@ -2144,9 +2140,9 @@ void LLModelPreview::loadModelCallback(S32 loaded_lod)
 						}
 					}
 
-					for (U32 idx = 0; idx < mModel[loaded_lod].size(); ++idx)
-					{
-						std::string loaded_name = stripSuffix(mModel[loaded_lod][idx]->mLabel);
+					for (auto& idx : mModel[loaded_lod])
+                    {
+						std::string loaded_name = stripSuffix(idx->mLabel);
 
 						LLModel* found_model = nullptr;
 						LLMatrix4 transform;
@@ -2156,7 +2152,7 @@ void LLModelPreview::loadModelCallback(S32 loaded_lod)
 							name_based = TRUE;
 						}
 
-						if (mModel[loaded_lod][idx]->mSubmodelID)
+						if (idx->mSubmodelID)
 						{ // don't rename the models when loaded LOD model has submodels
 							has_submodels = TRUE;
 						}
@@ -2264,17 +2260,17 @@ void LLModelPreview::generateNormals()
 		if(mBaseModelFacesCopy.empty())
 		{
 			mBaseModelFacesCopy.reserve(mBaseModel.size());
-			for (LLModelLoader::model_list::iterator it = mBaseModel.begin(), itE = mBaseModel.end(); it != itE; ++it)
-			{
+			for (auto& it : mBaseModel)
+            {
 				v_LLVolumeFace_t faces;
-				(*it)->copyFacesTo(faces);
+                it->copyFacesTo(faces);
 				mBaseModelFacesCopy.push_back(faces);
 			}
 		}
 
-		for (LLModelLoader::model_list::iterator it = mBaseModel.begin(), itE = mBaseModel.end(); it != itE; ++it)
-		{
-			(*it)->generateNormals(angle_cutoff);
+		for (auto& it : mBaseModel)
+        {
+            it->generateNormals(angle_cutoff);
 		}
 
 		mVertexBuffer[5].clear();
@@ -2377,9 +2373,9 @@ void LLModelPreview::genLODs(S32 which_lod, U32 decimation, bool enforce_tri_lim
 	U32 instanced_triangle_count = 0;
 
 	//get the triangle count for the whole scene
-	for (LLModelLoader::scene::iterator iter = mBaseScene.begin(), endIter = mBaseScene.end(); iter != endIter; ++iter)
-	{
-		for (LLModelLoader::model_instance_list::iterator instance = iter->second.begin(), end_instance = iter->second.end(); instance != end_instance; ++instance)
+	for (auto& iter : mBaseScene)
+    {
+		for (LLModelLoader::model_instance_list::iterator instance = iter.second.begin(), end_instance = iter.second.end(); instance != end_instance; ++instance)
 		{
 			LLModel* mdl = instance->mModel;
 			if (mdl)
@@ -2390,9 +2386,9 @@ void LLModelPreview::genLODs(S32 which_lod, U32 decimation, bool enforce_tri_lim
 	}
 
 	//get the triangle count for the non-instanced set of models
-	for (U32 i = 0; i < mBaseModel.size(); ++i)
-	{
-		triangle_count += mBaseModel[i]->getNumTriangles();
+	for (auto& i : mBaseModel)
+    {
+		triangle_count += i->getNumTriangles();
 	}
 	
 	//get ratio of uninstanced triangles to instanced triangles
@@ -2688,13 +2684,13 @@ void LLModelPreview::genLODs(S32 which_lod, U32 decimation, bool enforce_tri_lim
 			LLModel* target = mModel[lod][i];
 			if (target)
 			{
-				for (LLModelLoader::scene::iterator iter = mScene[lod].begin(); iter != mScene[lod].end(); ++iter)
-				{
-					for (U32 j = 0; j < iter->second.size(); ++j)
+				for (auto& iter : mScene[lod])
+                {
+					for (U32 j = 0; j < iter.second.size(); ++j)
 					{
-						if (iter->second[j].mModel == mdl)
+						if (iter.second[j].mModel == mdl)
 						{
-							iter->second[j].mModel = target;
+                            iter.second[j].mModel = target;
 						}
 					}
 				}
@@ -2733,10 +2729,8 @@ void LLModelPreview::updateStatusMessages()
 	    total_submeshes[i] = 0;
     }
 
-    for (LLMeshUploadThread::instance_list::iterator iter = mUploadData.begin(); iter != mUploadData.end(); ++iter)
-	{
-		LLModelInstance& instance = *iter;
-
+    for (auto& instance : mUploadData)
+    {
         LLModel* model_high_lod = instance.mLOD[LLModel::LOD_HIGH];
         if (!model_high_lod)
 		{
@@ -3014,9 +3008,9 @@ void LLModelPreview::updateStatusMessages()
 	S32 phys_points = 0;
 
 	//get the triangle count for the whole scene
-	for (LLModelLoader::scene::iterator iter = mScene[LLModel::LOD_PHYSICS].begin(), endIter = mScene[LLModel::LOD_PHYSICS].end(); iter != endIter; ++iter)
-	{
-		for (LLModelLoader::model_instance_list::iterator instance = iter->second.begin(), end_instance = iter->second.end(); instance != end_instance; ++instance)
+	for (auto& iter : mScene[LLModel::LOD_PHYSICS])
+    {
+		for (LLModelLoader::model_instance_list::iterator instance = iter.second.begin(), end_instance = iter.second.end(); instance != end_instance; ++instance)
 		{
 			LLModel* model = instance->mModel;
 			if (model)
@@ -3028,9 +3022,9 @@ void LLModelPreview::updateStatusMessages()
 				if (!decomp.empty())
 				{
 					phys_hulls += decomp.size();
-					for (U32 i = 0; i < decomp.size(); ++i)
-					{
-						phys_points += decomp[i].size();
+					for (auto& i : decomp)
+                    {
+						phys_points += i.size();
 					}
 				}
 				else
@@ -3207,27 +3201,27 @@ void LLModelPreview::updateLodControls(S32 lod)
 	if (lod_mode == LOD_FROM_FILE) // LoD from file
 	{
 		fmp->mLODMode[lod] = 0;
-		for (U32 i = 0; i < num_file_controls; ++i)
-		{
-			mFMP->childSetVisible(file_controls[i] + lod_name[lod], true);
+		for (auto& file_control : file_controls)
+        {
+			mFMP->childSetVisible(file_control + lod_name[lod], true);
 		}
 
-		for (U32 i = 0; i < num_lod_controls; ++i)
-		{
-			mFMP->childSetVisible(lod_controls[i] + lod_name[lod], false);
+		for (auto& lod_control : lod_controls)
+        {
+			mFMP->childSetVisible(lod_control + lod_name[lod], false);
 		}
 	}
 	else if (lod_mode == USE_LOD_ABOVE) // use LoD above
 	{
 		fmp->mLODMode[lod] = 2;
-		for (U32 i = 0; i < num_file_controls; ++i)
-		{
-			mFMP->childSetVisible(file_controls[i] + lod_name[lod], false);
+		for (auto& file_control : file_controls)
+        {
+			mFMP->childSetVisible(file_control + lod_name[lod], false);
 		}
 
-		for (U32 i = 0; i < num_lod_controls; ++i)
-		{
-			mFMP->childSetVisible(lod_controls[i] + lod_name[lod], false);
+		for (auto& lod_control : lod_controls)
+        {
+			mFMP->childSetVisible(lod_control + lod_name[lod], false);
 		}
 
 		if (lod < LLModel::LOD_HIGH)
@@ -3250,14 +3244,14 @@ void LLModelPreview::updateLodControls(S32 lod)
 		//don't actually regenerate lod when refreshing UI
 		mLODFrozen = true;
 
-		for (U32 i = 0; i < num_file_controls; ++i)
-		{
-			mFMP->getChildView(file_controls[i] + lod_name[lod])->setVisible(false);
+		for (auto& file_control : file_controls)
+        {
+			mFMP->getChildView(file_control + lod_name[lod])->setVisible(false);
 		}
 
-		for (U32 i = 0; i < num_lod_controls; ++i)
-		{
-			mFMP->getChildView(lod_controls[i] + lod_name[lod])->setVisible(true);
+		for (auto& lod_control : lod_controls)
+        {
+			mFMP->getChildView(lod_control + lod_name[lod])->setVisible(true);
 		}
 
 
@@ -3300,9 +3294,9 @@ void LLModelPreview::setPreviewTarget(F32 distance)
 
 void LLModelPreview::clearBuffers()
 {
-	for (U32 i = 0; i < 6; i++)
-	{
-		mVertexBuffer[i].clear();
+	for (auto& i : mVertexBuffer)
+    {
+        i.clear();
 	}
 }
 
@@ -3334,9 +3328,9 @@ void LLModelPreview::genBuffers(S32 lod, bool include_skin_weights)
 
 	LLModelLoader::model_list::iterator base_iter = mBaseModel.begin();
 
-	for (LLModelLoader::model_list::iterator iter = model->begin(); iter != model->end(); ++iter)
-	{
-		LLModel* mdl = *iter;
+	for (auto& iter : *model)
+    {
+		LLModel* mdl = iter;
 		if (!mdl)
 		{
 			continue;
@@ -3671,9 +3665,9 @@ BOOL LLModelPreview::render()
 		mLastJointUpdate = upload_joints;
 	}
 
-	for (LLModelLoader::scene::iterator iter = mScene[mPreviewLOD].begin(); iter != mScene[mPreviewLOD].end(); ++iter)
-	{
-		for (LLModelLoader::model_instance_list::iterator model_iter = iter->second.begin(); model_iter != iter->second.end(); ++model_iter)
+	for (auto& iter : mScene[mPreviewLOD])
+    {
+		for (LLModelLoader::model_instance_list::iterator model_iter = iter.second.begin(); model_iter != iter.second.end(); ++model_iter)
 		{
 			LLModelInstance& instance = *model_iter;
 			LLModel* model = instance.mModel;
@@ -3835,11 +3829,9 @@ BOOL LLModelPreview::render()
 
 		if (!skin_weight)
 		{
-			for (LLMeshUploadThread::instance_list::iterator iter = mUploadData.begin(); iter != mUploadData.end(); ++iter)
-			{
-				LLModelInstance& instance = *iter;
-
-				LLModel* model = instance.mLOD[mPreviewLOD];
+			for (auto& instance : mUploadData)
+            {
+                LLModel* model = instance.mLOD[mPreviewLOD];
 
 					if (!model)
 					{
@@ -3919,11 +3911,9 @@ BOOL LLModelPreview::render()
 					
 					gGL.blendFunc(LLRender::BF_SOURCE_ALPHA, LLRender::BF_ONE_MINUS_SOURCE_ALPHA);
 
-					for (LLMeshUploadThread::instance_list::iterator iter = mUploadData.begin(); iter != mUploadData.end(); ++iter)
-					{
-						LLModelInstance& instance = *iter;
-
-						LLModel* model = instance.mLOD[LLModel::LOD_PHYSICS];
+					for (auto& instance : mUploadData)
+                    {
+                        LLModel* model = instance.mLOD[LLModel::LOD_PHYSICS];
 
 							if (!model)
 							{
@@ -4028,11 +4018,9 @@ BOOL LLModelPreview::render()
 					gGL.diffuseColor4f(1.f,0.f,0.f,1.f);
 					const LLVector4a scale(0.5f);
 
-					for (LLMeshUploadThread::instance_list::iterator iter = mUploadData.begin(); iter != mUploadData.end(); ++iter)
-					{
-						LLModelInstance& instance = *iter;
-
-						LLModel* model = instance.mLOD[LLModel::LOD_PHYSICS];
+					for (auto& instance : mUploadData)
+                    {
+                        LLModel* model = instance.mLOD[LLModel::LOD_PHYSICS];
 
 						if (!model)
 						{
@@ -4059,9 +4047,9 @@ BOOL LLModelPreview::render()
 									genBuffers(LLModel::LOD_PHYSICS, false);
 								}
 							
-								for (U32 i = 0; i < mVertexBuffer[LLModel::LOD_PHYSICS][model].size(); ++i)
-								{
-									LLVertexBuffer* buffer = mVertexBuffer[LLModel::LOD_PHYSICS][model][i];
+								for (auto& i : mVertexBuffer[LLModel::LOD_PHYSICS][model])
+                                {
+									LLVertexBuffer* buffer = i;
 
 									buffer->setBuffer(type_mask & buffer->getTypeMask());
 
@@ -4106,9 +4094,10 @@ BOOL LLModelPreview::render()
 															  LLVector3::z_axis,																	// up
 															  target_pos);											// point of interest
 
-			for (LLModelLoader::scene::iterator iter = mScene[mPreviewLOD].begin(); iter != mScene[mPreviewLOD].end(); ++iter)
-			{
-				for (LLModelLoader::model_instance_list::iterator model_iter = iter->second.begin(); model_iter != iter->second.end(); ++model_iter)
+			for (auto& iter : mScene[mPreviewLOD])
+            {
+				for (LLModelLoader::model_instance_list::iterator model_iter = iter.second.begin(); model_iter != iter
+                                                                                                                  .second.end(); ++model_iter)
 				{
 					LLModelInstance& instance = *model_iter;
 					LLModel* model = instance.mModel;

@@ -106,14 +106,14 @@ void LLGestureMgr::changed(U32 mask)
 		// active gestures and then notify observers
 		if (mask & LLInventoryObserver::LABEL)
 		{
-			for(item_map_t::iterator it = mActive.begin(); it != mActive.end(); ++it)
-			{
-				if(it->second)
+			for (auto& it : mActive)
+            {
+				if(it.second)
 				{
-					LLViewerInventoryItem* item = gInventory.getItem(it->first);
+					LLViewerInventoryItem* item = gInventory.getItem(it.first);
 					if(item)
 					{
-						it->second->mName = item->getName();
+                        it.second->mName = item->getName();
 					}
 				}
 			}
@@ -540,12 +540,9 @@ void LLGestureMgr::playGesture(LLMultiGesture* gesture)
 
 	// Load all needed assets to minimize the delays
 	// when gesture is playing.
-	for (std::vector<LLGestureStep*>::iterator steps_it = gesture->mSteps.begin();
-		 steps_it != gesture->mSteps.end();
-		 ++steps_it)
-	{
-		LLGestureStep* step = *steps_it;
-		switch(step->getType())
+	for (auto step : gesture->mSteps)
+    {
+        switch(step->getType())
 		{
 		case STEP_ANIMATION:
 			{
@@ -1200,12 +1197,9 @@ bool LLGestureMgr::hasLoadingAssets(LLMultiGesture* gesture)
 {
 	LLGestureMgr& self = LLGestureMgr::instance();
 
-	for (std::vector<LLGestureStep*>::iterator steps_it = gesture->mSteps.begin();
-		 steps_it != gesture->mSteps.end();
-		 ++steps_it)
-	{
-		LLGestureStep* step = *steps_it;
-		switch(step->getType())
+	for (auto step : gesture->mSteps)
+    {
+        switch(step->getType())
 		{
 		case STEP_ANIMATION:
 			{
@@ -1324,12 +1318,9 @@ void LLGestureMgr::notifyObservers()
 {
 	LL_DEBUGS() << "LLGestureMgr::notifyObservers" << LL_ENDL;
 
-	for(std::vector<LLGestureManagerObserver*>::iterator iter = mObservers.begin(); 
-		iter != mObservers.end(); 
-		++iter)
-	{
-		LLGestureManagerObserver* observer = (*iter);
-		observer->changed();
+	for (auto observer : mObservers)
+    {
+        observer->changed();
 	}
 }
 
@@ -1432,14 +1423,14 @@ void LLGestureMgr::getItemIDs(uuid_vec_t* ids)
 void LLGestureMgr::done()
 {
 	bool notify = false;
-	for(item_map_t::iterator it = mActive.begin(); it != mActive.end(); ++it)
-	{
-		if(it->second && it->second->mName.empty())
+	for (auto& it : mActive)
+    {
+		if(it.second && it.second->mName.empty())
 		{
-			LLViewerInventoryItem* item = gInventory.getItem(it->first);
+			LLViewerInventoryItem* item = gInventory.getItem(it.first);
 			if(item)
 			{
-				it->second->mName = item->getName();
+                it.second->mName = item->getName();
 				notify = true;
 			}
 		}

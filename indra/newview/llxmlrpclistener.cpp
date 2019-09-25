@@ -249,10 +249,9 @@ public:
         {
             LL_ERRS("LLXMLRPCListener") << mMethod << " request missing params: ";
             const char* separator = "";
-            for (std::set<std::string>::const_iterator mi(missing.begin()), mend(missing.end());
-                 mi != mend; ++mi)
+            for (const auto& mi : missing)
             {
-                LL_CONT << separator << *mi;
+                LL_CONT << separator << mi;
                 separator = ", ";
             }
             LL_CONT << LL_ENDL;

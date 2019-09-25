@@ -777,11 +777,11 @@ LLPanelGroupMembersSubTab::LLPanelGroupMembersSubTab()
 
 LLPanelGroupMembersSubTab::~LLPanelGroupMembersSubTab()
 {
-	for (avatar_name_cache_connection_map_t::iterator it = mAvatarNameCacheConnections.begin(); it != mAvatarNameCacheConnections.end(); ++it)
-	{
-		if (it->second.connected())
+	for (auto& connection : mAvatarNameCacheConnections)
+    {
+		if (connection.second.connected())
 		{
-			it->second.disconnect();
+            connection.second.disconnect();
 		}
 	}
 	mAvatarNameCacheConnections.clear();
@@ -1216,10 +1216,10 @@ void LLPanelGroupMembersSubTab::sendEjectNotifications(const LLUUID& group_id, c
 
 	if (group_data)
 	{
-		for (uuid_vec_t::const_iterator i = selected_members.begin(); i != selected_members.end(); ++i)
-		{
+		for (auto selected_member : selected_members)
+        {
 			LLSD args;
-			args["AVATAR_NAME"] = LLSLURL("agent", *i, "completename").getSLURLString();
+			args["AVATAR_NAME"] = LLSLURL("agent", selected_member, "completename").getSLURLString();
 			args["GROUP_NAME"] = group_data->mName;
 			
 			LLNotifications::instance().add(LLNotification::Params("EjectAvatarFromGroup").substitutions(args));
@@ -1247,10 +1247,9 @@ void LLPanelGroupMembersSubTab::handleRoleCheck(const LLUUID& role_id,
 		return;
 	}
 	
-	for (std::vector<LLScrollListItem*>::iterator itor = selection.begin() ; 
-		 itor != selection.end(); ++itor)
-	{
-		member_id = (*itor)->getUUID();
+	for (auto& itor : selection)
+    {
+		member_id = itor->getUUID();
 
 		//see if we requested a change for this member before
 		if ( mMemberRoleChangeData.find(member_id) == mMemberRoleChangeData.end() )
@@ -1468,19 +1467,18 @@ void LLPanelGroupMembersSubTab::applyMemberChanges()
 
 	//we need to add all of the changed roles data
 	//for each member whose role changed
-	for (member_role_changes_map_t::iterator member = mMemberRoleChangeData.begin();
-		 member != mMemberRoleChangeData.end(); ++member)
-	{
-		for (role_change_data_map_t::iterator role = member->second->begin();
-			 role != member->second->end(); ++role)
+	for (auto& member : mMemberRoleChangeData)
+    {
+		for (role_change_data_map_t::iterator role = member.second->begin();
+			 role != member.second->end(); ++role)
 		{
 			gdatap->changeRoleMember(role->first, //role_id
-									 member->first, //member_id
+                                     member.first, //member_id
 									 role->second); //add/remove
 		}
 
-		member->second->clear();
-		delete member->second;
+        member.second->clear();
+		delete member.second;
 	}
 	mMemberRoleChangeData.clear();
 
@@ -1560,16 +1558,15 @@ U64 LLPanelGroupMembersSubTab::getAgentPowersBasedOnRoleChanges(const LLUUID& ag
 	{
 		uuid_vec_t roles_to_be_removed;
 
-		for (role_change_data_map_t::iterator role = role_change_datap->begin();
-			 role != role_change_datap->end(); ++role)
-		{
-			if ( role->second == LLRoleMemberChangeType::RMC_ADD )
+		for (auto& role : *role_change_datap)
+        {
+			if (role.second == LLRoleMemberChangeType::RMC_ADD )
 			{
-				new_powers |= gdatap->getRolePowers(role->first);
+				new_powers |= gdatap->getRolePowers(role.first);
 			}
 			else
 			{
-				roles_to_be_removed.push_back(role->first);
+				roles_to_be_removed.push_back(role.first);
 			}
 		}
 
@@ -1895,10 +1892,9 @@ bool LLPanelGroupMembersSubTab::handleBanMemberCallback(const LLSD& notification
 		std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
 		if (selection.empty()) return false;
 		uuid_vec_t ban_ids;
-		for(std::vector<LLScrollListItem*>::iterator itor = selection.begin();
-			itor != selection.end(); ++itor)
-		{
-			LLUUID ban_id = (*itor)->getUUID();
+		for (auto& itor : selection)
+        {
+			LLUUID ban_id = itor->getUUID();
 			ban_ids.push_back(ban_id);
 		
 			LLGroupBanData ban_data;
@@ -2468,10 +2464,9 @@ void LLPanelGroupRolesSubTab::handleActionCheck(LLUICtrl* ctrl, bool force)
 			
 			std::vector<LLScrollListItem*> all_data = mAllowedActionsList->getAllData();
 			LLRoleAction* adp;
-			for(std::vector<LLScrollListItem*>::iterator ad_it = all_data.begin();
-				ad_it != all_data.end(); ++ad_it)
-			{
-				adp = (LLRoleAction*)(*ad_it)->getUserdata();
+			for (auto& ad_it : all_data)
+            {
+				adp = (LLRoleAction*)ad_it->getUserdata();
 				if(adp->mPowerBit == GP_MEMBER_EJECT)
 				{
 					args["ACTION_NAME_2"] = adp->mDescription;

@@ -598,21 +598,19 @@ std::ostream& operator<<(std::ostream &s, const LLViewerWearable &w)
 	//w.mSaleInfo
 
 	s << "    Params:" << "\n";
-	for (LLViewerWearable::visual_param_index_map_t::const_iterator iter = w.mVisualParamIndexMap.begin(); // <alchemy/>
-		 iter != w.mVisualParamIndexMap.end(); ++iter)
-	{
-		S32 param_id = iter->first;
-		LLVisualParam *wearable_param = iter->second;
+	for (const auto& iter : w.mVisualParamIndexMap)
+    {
+		S32 param_id = iter.first;
+		LLVisualParam *wearable_param = iter.second;
 		F32 param_weight = wearable_param->getWeight();
 		s << "        " << param_id << " " << param_weight << "\n";
 	}
 
 	s << "    Textures:" << "\n";
-	for (LLViewerWearable::te_map_t::const_iterator iter = w.mTEMap.begin();
-		 iter != w.mTEMap.end(); ++iter)
-	{
-		S32 te = iter->first;
-		const LLUUID& image_id = iter->second->getID();
+	for (const auto& iter : w.mTEMap)
+    {
+		S32 te = iter.first;
+		const LLUUID& image_id = iter.second->getID();
 		s << "        " << te << " " << image_id << "\n";
 	}
 	return s;

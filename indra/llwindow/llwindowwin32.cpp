@@ -1893,11 +1893,11 @@ void LLWindowWin32::initCursors()
 	mCursor[ UI_CURSOR_TOOLMEDIAOPEN ]	= loadColorCursor(TEXT("TOOLMEDIAOPEN"));
 
 	// Note: custom cursors that are not found make LoadCursor() return NULL.
-	for( S32 i = 0; i < UI_CURSOR_COUNT; i++ )
-	{
-		if( !mCursor[i] )
+	for (auto& i : mCursor)
+    {
+		if( !i)
 		{
-			mCursor[i] = LoadCursor(nullptr, IDC_ARROW);
+            i = LoadCursor(nullptr, IDC_ARROW);
 		}
 	}
 }

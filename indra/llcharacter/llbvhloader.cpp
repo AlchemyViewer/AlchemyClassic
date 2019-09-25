@@ -532,10 +532,9 @@ ELoadStatus LLBVHLoader::loadAliases(const char * filename)
 
 void LLBVHLoader::dumpBVHInfo()
 {
-	for (U32 j=0; j<mJoints.size(); j++)
-	{
-		Joint *joint = mJoints[j];
-		LL_DEBUGS("BVH") << joint->mName << LL_ENDL;
+	for (auto joint : mJoints)
+    {
+        LL_DEBUGS("BVH") << joint->mName << LL_ENDL;
 		for (S32 i=0; i<mNumFrames; i++)
 		{
             if (i<joint->mKeys.size()) // Check this in case file load failed.
@@ -901,10 +900,9 @@ ELoadStatus LLBVHLoader::loadBVHFile(const char *buffer, char* error_text, S32 &
             ++float_token_iter;
 		}
 		LL_DEBUGS("BVH") << "Got " << floats.size() << " floats " << LL_ENDL;
-		for (U32 j=0; j<mJoints.size(); j++)
-		{
-			Joint *joint = mJoints[j];
-			joint->mKeys.push_back( Key() );
+		for (auto joint : mJoints)
+        {
+            joint->mKeys.push_back( Key() );
 			Key &key = joint->mKeys.back();
 
 			if (floats.size() < joint->mNumChannels)
@@ -1480,24 +1478,22 @@ BOOL LLBVHLoader::serialize(LLDataPacker& dp)
 	S32 num_constraints = (S32)mConstraints.size();
 	dp.packS32(num_constraints, "num_constraints");
 
-	for (ConstraintVector::iterator constraint_it = mConstraints.begin();
-		constraint_it != mConstraints.end();
-		++constraint_it)
-		{
-			U8 byte = constraint_it->mChainLength;
+	for (auto& constraint : mConstraints)
+    {
+			U8 byte = constraint.mChainLength;
 			dp.packU8(byte, "chain_length");
 			
-			byte = constraint_it->mConstraintType;
+			byte = constraint.mConstraintType;
 			dp.packU8(byte, "constraint_type");
-			dp.packBinaryDataFixed((U8*)constraint_it->mSourceJointName, 16, "source_volume");
-			dp.packVector3(constraint_it->mSourceOffset, "source_offset");
-			dp.packBinaryDataFixed((U8*)constraint_it->mTargetJointName, 16, "target_volume");
-			dp.packVector3(constraint_it->mTargetOffset, "target_offset");
-			dp.packVector3(constraint_it->mTargetDir, "target_dir");
-			dp.packF32(constraint_it->mEaseInStart,	"ease_in_start");
-			dp.packF32(constraint_it->mEaseInStop,	"ease_in_stop");
-			dp.packF32(constraint_it->mEaseOutStart,	"ease_out_start");
-			dp.packF32(constraint_it->mEaseOutStop,	"ease_out_stop");
+			dp.packBinaryDataFixed((U8*)constraint.mSourceJointName, 16, "source_volume");
+			dp.packVector3(constraint.mSourceOffset, "source_offset");
+			dp.packBinaryDataFixed((U8*)constraint.mTargetJointName, 16, "target_volume");
+			dp.packVector3(constraint.mTargetOffset, "target_offset");
+			dp.packVector3(constraint.mTargetDir, "target_dir");
+			dp.packF32(constraint.mEaseInStart,	"ease_in_start");
+			dp.packF32(constraint.mEaseInStop,	"ease_in_stop");
+			dp.packF32(constraint.mEaseOutStart,	"ease_out_start");
+			dp.packF32(constraint.mEaseOutStop,	"ease_out_stop");
 		}
 
 	

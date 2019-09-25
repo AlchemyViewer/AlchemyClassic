@@ -159,9 +159,9 @@ void LLAvatarActions::removeFriendsDialog(const uuid_vec_t& ids)
 	}
 
 	LLSD payload;
-	for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
-	{
-		payload["ids"].append(*it);
+	for (auto id : ids)
+    {
+		payload["ids"].append(id);
 	}
 
 	LLNotificationsUtil::add(msgType,
@@ -257,9 +257,9 @@ void LLAvatarActions::startAdhocCall(const uuid_vec_t& ids, const LLUUID& floate
 	// convert vector into std::vector for addSession
 	std::vector<LLUUID> id_array;
 	id_array.reserve(ids.size());
-	for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
-	{
-		id_array.push_back(*it);
+	for (auto id : ids)
+    {
+		id_array.push_back(id);
 	}
 
 	// create the new ad hoc voice session
@@ -304,9 +304,9 @@ void LLAvatarActions::startConference(const uuid_vec_t& ids, const LLUUID& float
 	std::vector<LLUUID> id_array;
 
 	id_array.reserve(ids.size());
-	for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
-	{
-		id_array.push_back(*it);
+	for (auto id : ids)
+    {
+		id_array.push_back(id);
 	}
 	const std::string title = LLTrans::getString("conference-title");
 	LLUUID session_id = gIMMgr->addSession(title, IM_SESSION_CONFERENCE_START, ids[0], id_array, false, floater_id);
@@ -885,11 +885,9 @@ std::set<LLUUID> LLAvatarActions::getInventorySelectedUUIDs()
 	}
 
 	std::set<LLUUID> inventory_selected_uuids;
-	for (std::set<LLFolderViewItem*>::iterator it = inventory_selected.begin(), end_it = inventory_selected.end();
-		it != end_it;
-		++it)
-	{
-		inventory_selected_uuids.insert(static_cast<LLFolderViewModelItemInventory*>((*it)->getViewModelItem())->getUUID());
+	for (auto it : inventory_selected)
+    {
+		inventory_selected_uuids.insert(static_cast<LLFolderViewModelItemInventory*>(it->getViewModelItem())->getUUID());
 	}
 	return inventory_selected_uuids;
 }
@@ -1041,9 +1039,9 @@ bool LLAvatarActions::canOfferTeleport(const uuid_vec_t& ids)
 	if(ids.size() > 250) return false;
 	
 	bool result = true;
-	for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
-	{
-		if(!canOfferTeleport(*it))
+	for (auto id : ids)
+    {
+		if(!canOfferTeleport(id))
 		{
 			result = false;
 			break;
@@ -1441,10 +1439,9 @@ void LLAvatarActions::parcelFreeze(const uuid_vec_t& ids)
 	LLSD payload;
 	payload["avatar_ids"] = LLSDArray();
 	std::string avatars;
-	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
-	{
-		const auto id = *it;
-		if (id.notNull())
+	for (auto id : ids)
+    {
+        if (id.notNull())
 		{
 			payload["avatar_ids"].append(id);
 
@@ -1485,10 +1482,9 @@ void LLAvatarActions::parcelEject(const uuid_vec_t& ids)
 	std::string avatars;
 	bool ban_enabled = false;
 	bool ban_killed = false;
-	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
-	{
-		const auto id = *it;
-		if (id.notNull())
+	for (auto id : ids)
+    {
+        if (id.notNull())
 		{
 			payload["avatar_ids"].append(id);
 
@@ -1607,10 +1603,9 @@ void LLAvatarActions::estateTeleportHome(const uuid_vec_t& ids)
 	LLSD payload;
 	payload["avatar_ids"] = LLSDArray();
 	std::string avatars;
-	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
-	{
-		const auto id = *it;
-		if (id.notNull())
+	for (auto id : ids)
+    {
+        if (id.notNull())
 		{
 			payload["avatar_ids"].append(id);
 
@@ -1646,10 +1641,9 @@ void LLAvatarActions::estateKick(const uuid_vec_t& ids)
 	LLSD payload;
 	payload["avatar_ids"] = LLSDArray();
 	std::string avatars;
-	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
-	{
-		const auto id = *it;
-		if (id.notNull())
+	for (auto id : ids)
+    {
+        if (id.notNull())
 		{
 			payload["avatar_ids"].append(id);
 
@@ -1689,10 +1683,9 @@ void LLAvatarActions::estateBan(const uuid_vec_t& ids)
 	LLSD payload;
 	payload["avatar_ids"] = LLSDArray();
 	std::string avatars;
-	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
-	{
-		const auto id = *it;
-		if (id.notNull())
+	for (auto id : ids)
+    {
+        if (id.notNull())
 		{
 			payload["avatar_ids"].append(id);
 

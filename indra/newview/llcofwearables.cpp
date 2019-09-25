@@ -435,28 +435,22 @@ void LLCOFWearables::refresh()
 	populateClothingList(clothing_by_type);
 
 	// Restore previous selection
-	for (selection_map_t::iterator
-			 iter = preserve_selection.begin(),
-			 iter_end = preserve_selection.end();
-		 iter != iter_end; ++iter)
-	{
-		LLFlatListView* list = iter->first;
+	for (auto& iter : preserve_selection)
+    {
+		LLFlatListView* list = iter.first;
 		if (!list) continue;
 
 		//restoring selection should not fire commit callbacks
 		list->setCommitOnSelectionChange(false);
 
-		const values_vector_t& values = iter->second;
-		for (values_vector_t::const_iterator
-				 value_it = values.begin(),
-				 value_it_end = values.end();
-			 value_it != value_it_end; ++value_it)
-		{
+		const values_vector_t& values = iter.second;
+		for (const auto& value : values)
+        {
 			// value_it may be null because of dummy items
 			// Dummy items have no ID
-			if(value_it->asUUID().notNull())
+			if(value.asUUID().notNull())
 			{
-				list->selectItemByValue(*value_it);
+				list->selectItemByValue(value);
 			}
 		}
 
@@ -476,9 +470,9 @@ void LLCOFWearables::refresh()
 
 void LLCOFWearables::populateAttachmentsAndBodypartsLists(const LLInventoryModel::item_array_t& cof_items)
 {
-	for (U32 i = 0; i < cof_items.size(); ++i)
-	{
-		LLViewerInventoryItem* item = cof_items.at(i);
+	for (const auto& cof_item : cof_items)
+    {
+		LLViewerInventoryItem* item = cof_item;
 		if (!item) continue;
 
 		const LLAssetType::EType item_type = item->getType();
@@ -717,9 +711,9 @@ void LLCOFWearables::onListRightClick(LLUICtrl* ctrl, S32 x, S32 y, LLListContex
 		if(getSelectedUUIDs(selected_uuids))
 		{
 			bool show_menu = false;
-			for(uuid_vec_t::iterator it = selected_uuids.begin();it!=selected_uuids.end();++it)
-			{
-				if ((*it).notNull())
+			for (auto& selected_uuid : selected_uuids)
+            {
+				if (selected_uuid.notNull())
 				{
 					show_menu = true;
 					break;

@@ -86,9 +86,9 @@ HttpPolicy::~HttpPolicy()
 {
 	shutdown();
 
-	for (class_list_t::iterator it(mClasses.begin()); it != mClasses.end(); ++it)
-	{
-		delete (*it);
+	for (auto& class_state : mClasses)
+    {
+		delete class_state;
 	}
 	mClasses.clear();
 	
@@ -110,9 +110,9 @@ HttpRequest::policy_t HttpPolicy::createPolicyClass()
 
 void HttpPolicy::shutdown()
 {
-	for (int policy_class(0); policy_class < mClasses.size(); ++policy_class)
-	{
-		ClassState & state(*mClasses[policy_class]);
+	for (auto& class_state : mClasses)
+    {
+		ClassState & state(*class_state);
 		
 		HttpRetryQueue & retryq(state.mRetryQueue);
 		while (! retryq.empty())
@@ -333,18 +333,18 @@ HttpService::ELoopSpeed HttpPolicy::processReadyQueue()
 
 bool HttpPolicy::changePriority(HttpHandle handle, HttpRequest::priority_t priority)
 {
-	for (int policy_class(0); policy_class < mClasses.size(); ++policy_class)
-	{
-		ClassState & state(*mClasses[policy_class]);
+	for (auto& class_state : mClasses)
+    {
+		ClassState & state(*class_state);
 		// We don't scan retry queue because a priority change there
 		// is meaningless.  The request will be issued based on retry
 		// intervals not priority value, which is now moot.
 		
 		// Scan ready queue for requests that match policy
 		HttpReadyQueue::container_type & c(state.mReadyQueue.get_container());
-		for (HttpReadyQueue::container_type::iterator iter(c.begin()); c.end() != iter;)
+		for (auto iter(c.begin()); c.end() != iter;)
 		{
-			HttpReadyQueue::container_type::iterator cur(iter++);
+            auto cur(iter++);
 
 			if ((*cur)->getHandle() == handle)
 			{
@@ -363,15 +363,15 @@ bool HttpPolicy::changePriority(HttpHandle handle, HttpRequest::priority_t prior
 
 bool HttpPolicy::cancel(HttpHandle handle)
 {
-	for (int policy_class(0); policy_class < mClasses.size(); ++policy_class)
-	{
-		ClassState & state(*mClasses[policy_class]);
+	for (auto& class_state : mClasses)
+    {
+		ClassState & state(*class_state);
 
 		// Scan retry queue
 		HttpRetryQueue::container_type & c1(state.mRetryQueue.get_container());
-		for (HttpRetryQueue::container_type::iterator iter(c1.begin()); c1.end() != iter;)
+		for (auto iter(c1.begin()); c1.end() != iter;)
 		{
-			HttpRetryQueue::container_type::iterator cur(iter++);
+            auto cur(iter++);
 
 			if ((*cur)->getHandle() == handle)
 			{
@@ -384,9 +384,9 @@ bool HttpPolicy::cancel(HttpHandle handle)
 		
 		// Scan ready queue
 		HttpReadyQueue::container_type & c2(state.mReadyQueue.get_container());
-		for (HttpReadyQueue::container_type::iterator iter(c2.begin()); c2.end() != iter;)
+		for (auto iter(c2.begin()); c2.end() != iter;)
 		{
-			HttpReadyQueue::container_type::iterator cur(iter++);
+            auto cur(iter++);
 
 			if ((*cur)->getHandle() == handle)
 			{

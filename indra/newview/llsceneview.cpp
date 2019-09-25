@@ -190,10 +190,10 @@ void LLSceneView::draw()
 			F32 size_domain[] = { 128.f, 0.f };
 			
 			//get domain of sizes
-			for (U32 i = 0; i < size[idx].size(); ++i)
-			{
-				size_domain[0] = llmin(size_domain[0], size[idx][i]);
-				size_domain[1] = llmax(size_domain[1], size[idx][i]);
+			for (float i : size[idx])
+            {
+				size_domain[0] = llmin(size_domain[0], i);
+				size_domain[1] = llmax(size_domain[1], i);
 			}
 
 			F32 size_range = size_domain[1]-size_domain[0];
@@ -256,10 +256,10 @@ void LLSceneView::draw()
 			S32 tri_domain[] = { 65536, 0 };
 						
 			//get domain of triangle counts
-			for (U32 i = 0; i < triangles[idx].size(); ++i)
-			{
-				tri_domain[0] = llmin(tri_domain[0], triangles[idx][i]);
-				tri_domain[1] = llmax(tri_domain[1], triangles[idx][i]);		
+			for (int i : triangles[idx])
+            {
+				tri_domain[0] = llmin(tri_domain[0], i);
+				tri_domain[1] = llmax(tri_domain[1], i);		
 			}
 
 			U32 triangle_range = tri_domain[1]-tri_domain[0];
@@ -331,10 +331,10 @@ void LLSceneView::draw()
 			F32 streaming_domain[] = { 65536, 0 };
 						
 			//get domain of triangle counts
-			for (U32 i = 0; i < streaming_cost[idx].size(); ++i)
-			{
-				streaming_domain[0] = llmin(streaming_domain[0], streaming_cost[idx][i]);
-				streaming_domain[1] = llmax(streaming_domain[1], streaming_cost[idx][i]);		
+			for (float i : streaming_cost[idx])
+            {
+				streaming_domain[0] = llmin(streaming_domain[0], i);
+				streaming_domain[1] = llmax(streaming_domain[1], i);		
 			}
 
 			F32 cost_range = streaming_domain[1]-streaming_domain[0];
@@ -397,10 +397,10 @@ void LLSceneView::draw()
 			F32 physics_domain[] = { 65536, 0 };
 						
 			//get domain of triangle counts
-			for (U32 i = 0; i < physics_cost[idx].size(); ++i)
-			{
-				physics_domain[0] = llmin(physics_domain[0], physics_cost[idx][i]);
-				physics_domain[1] = llmax(physics_domain[1], physics_cost[idx][i]);		
+			for (float i : physics_cost[idx])
+            {
+				physics_domain[0] = llmin(physics_domain[0], i);
+				physics_domain[1] = llmax(physics_domain[1], i);		
 			}
 
 			F32 cost_range = physics_domain[1]-physics_domain[0];

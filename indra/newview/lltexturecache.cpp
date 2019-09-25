@@ -868,11 +868,9 @@ S32 LLTextureCache::update(F32 max_time_ms)
 	
 	lockWorkers();
 	
-	for (handle_list_t::iterator iter1 = priorty_list.begin();
-		 iter1 != priorty_list.end(); ++iter1)
-	{
-		handle_t handle = *iter1;
-		handle_map_t::iterator iter2 = mWriters.find(handle);
+	for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<unsigned int>>>::value_type handle : priorty_list)
+    {
+        handle_map_t::iterator iter2 = mWriters.find(handle);
 		if(iter2 != mWriters.end())
 		{
 			LLTextureCacheWorker* worker = iter2->second;
@@ -883,11 +881,10 @@ S32 LLTextureCache::update(F32 max_time_ms)
 	unlockWorkers(); 
 	
 	// call 'completed' with workers list unlocked (may call readComplete() or writeComplete()
-	for (responder_list_t::iterator iter1 = completed_list.begin();
-		 iter1 != completed_list.end(); ++iter1)
-	{
-		Responder *responder = iter1->first;
-		bool success = iter1->second;
+	for (auto& iter1 : completed_list)
+    {
+		Responder *responder = iter1.first;
+		bool success = iter1.second;
 		responder->completed(success);
 	}
 	
@@ -1464,16 +1461,16 @@ void LLTextureCache::updatedHeaderEntriesFile()
 		S32 entry_size = (S32)sizeof(Entry) ;
 		S32 prev_idx = -1 ;
 		S32 delta_idx ;
-		for (idx_entry_map_t::iterator iter = mUpdatedEntryMap.begin(); iter != mUpdatedEntryMap.end(); ++iter)
-		{
-			delta_idx = iter->first - prev_idx - 1;
-			prev_idx = iter->first ;
+		for (auto& iter : mUpdatedEntryMap)
+        {
+			delta_idx = iter.first - prev_idx - 1;
+			prev_idx = iter.first ;
 			if(delta_idx)
 			{
 				mHeaderAPRFile->seek(APR_CUR, delta_idx * entry_size);
 			}
 			
-			bytes_written = mHeaderAPRFile->write((void*)(&iter->second), entry_size);
+			bytes_written = mHeaderAPRFile->write((void*)(&iter.second), entry_size);
 			if(bytes_written != entry_size)
 			{
 				clearCorruptedCache() ; //clear the cache.
@@ -1555,9 +1552,9 @@ void LLTextureCache::readHeaderCache()
 			else
 			{
 				S32 lru_entries = (S32)((F32)sCacheMaxEntries * TEXTURE_CACHE_LRU_SIZE);
-				for (std::set<lru_data_t>::iterator iter = lru.begin(); iter != lru.end(); ++iter)
-				{
-					mLRU.insert(entries[iter->second].mID);
+				for (const auto& iter : lru)
+                {
+					mLRU.insert(entries[iter.second].mID);
 // 					LL_INFOS() << "LRU: " << iter->first << " : " << iter->second << LL_ENDL;
 					if (--lru_entries <= 0)
 						break;
@@ -1566,10 +1563,11 @@ void LLTextureCache::readHeaderCache()
 			
 			if (purge_list.size() > 0)
 			{
-				for (std::set<U32>::iterator iter = purge_list.begin(); iter != purge_list.end(); ++iter)
-				{
-					std::string tex_filename = getTextureFileName(entries[*iter].mID);
-					removeEntry((S32)*iter, entries[*iter], tex_filename);
+				for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type iter :
+                     purge_list)
+                {
+					std::string tex_filename = getTextureFileName(entries[iter].mID);
+					removeEntry((S32)iter, entries[iter], tex_filename);
 				}
 				// If we removed any entries, we need to rebuild the entries list,
 				// write the header, and call this again
@@ -1693,12 +1691,11 @@ void LLTextureCache::purgeTextures(bool validate)
 	// Use mTexturesSizeMap to collect UUIDs of textures with bodies
 	typedef std::set<std::pair<U32,S32> > time_idx_set_t;
 	std::set<std::pair<U32,S32> > time_idx_set;
-	for (size_map_t::iterator iter1 = mTexturesSizeMap.begin();
-		 iter1 != mTexturesSizeMap.end(); ++iter1)
-	{
-		if (iter1->second > 0)
+	for (auto& iter1 : mTexturesSizeMap)
+    {
+		if (iter1.second > 0)
 		{
-			id_map_t::iterator iter2 = mHeaderIDMap.find(iter1->first);
+			id_map_t::iterator iter2 = mHeaderIDMap.find(iter1.first);
 			if (iter2 != mHeaderIDMap.end())
 			{
 				S32 idx = iter2->second;
@@ -1725,10 +1722,9 @@ void LLTextureCache::purgeTextures(bool validate)
 	S64 cache_size = mTexturesSizeTotal;
 	S64 purged_cache_size = (sCacheMaxTexturesSize * (S64)((1.f-TEXTURE_CACHE_PURGE_AMOUNT)*100)) / 100;
 	S32 purge_count = 0;
-	for (time_idx_set_t::iterator iter = time_idx_set.begin();
-		 iter != time_idx_set.end(); ++iter)
-	{
-		S32 idx = iter->second;
+	for (const auto& iter : time_idx_set)
+    {
+		S32 idx = iter.second;
 		bool purge_entry = false;
 		std::string filename = getTextureFileName(entries[idx].mID);
 		if (cache_size >= purged_cache_size)

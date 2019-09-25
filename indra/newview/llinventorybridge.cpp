@@ -667,12 +667,9 @@ void disable_context_entries_if_present(LLMenuGL& menu,
                                         const menuentry_vec_t &disabled_entries)
 {
 	const LLView::child_list_t *list = menu.getChildList();
-	for (LLView::child_list_t::const_iterator itor = list->begin(); 
-		 itor != list->end(); 
-		 ++itor)
-	{
-		LLView *menu_item = (*itor);
-		std::string name = menu_item->getName();
+	for (auto menu_item : *list)
+    {
+        std::string name = menu_item->getName();
 
 		// descend into split menus:
 		LLMenuItemBranchGL* branchp = dynamic_cast<LLMenuItemBranchGL*>(menu_item);
@@ -713,12 +710,9 @@ void hide_context_entries(LLMenuGL& menu,
 	// if the first element is a separator, it will not be shown.
 	bool is_previous_entry_separator = true;
 
-	for (LLView::child_list_t::const_iterator itor = list->begin(); 
-		 itor != list->end(); 
-		 ++itor)
-	{
-		LLView *menu_item = (*itor);
-		std::string name = menu_item->getName();
+	for (auto menu_item : *list)
+    {
+        std::string name = menu_item->getName();
 
 		// descend into split menus:
 		LLMenuItemBranchGL* branchp = dynamic_cast<LLMenuItemBranchGL*>(menu_item);
@@ -2324,9 +2318,9 @@ BOOL LLFolderBridge::isItemCopyable() const
 
 	// Check the items
 	LLInventoryModel::item_array_t item_array_copy = *item_array;
-	for (LLInventoryModel::item_array_t::iterator iter = item_array_copy.begin(); iter != item_array_copy.end(); iter++)
-	{
-		LLInventoryItem* item = *iter;
+	for (auto& iter : item_array_copy)
+    {
+		LLInventoryItem* item = iter;
 		LLItemBridge item_br(mInventoryPanel.get(), mRoot, item->getUUID());
 		if (!item_br.isItemCopyable())
 			return FALSE;
@@ -2334,9 +2328,9 @@ BOOL LLFolderBridge::isItemCopyable() const
 
 	// Check the folders
 	LLInventoryModel::cat_array_t cat_array_copy = *cat_array;
-	for (LLInventoryModel::cat_array_t::iterator iter = cat_array_copy.begin(); iter != cat_array_copy.end(); iter++)
-{
-		LLViewerInventoryCategory* category = *iter;
+	for (auto& iter : cat_array_copy)
+    {
+		LLViewerInventoryCategory* category = iter;
 		LLFolderBridge cat_br(mInventoryPanel.get(), mRoot, category->getUUID());
 		if (!cat_br.isItemCopyable())
 			return FALSE;
@@ -2553,9 +2547,9 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 		if (is_movable)
 		{
 			model->collectDescendents(cat_id, descendent_categories, descendent_items, FALSE);
-			for (S32 i=0; i < descendent_categories.size(); ++i)
-			{
-				LLInventoryCategory* category = descendent_categories[i];
+			for (auto& descendent_categorie : descendent_categories)
+            {
+				LLInventoryCategory* category = descendent_categorie;
 				if(LLFolderType::lookupIsProtectedType(category->getPreferredType()))
 				{
 					// Can't move "special folders" (e.g. Textures Folder).
@@ -2589,9 +2583,9 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 		}
 		if (is_movable && move_is_into_trash)
 		{
-			for (S32 i=0; i < descendent_items.size(); ++i)
-			{
-				LLInventoryItem* item = descendent_items[i];
+			for (auto& descendent_item : descendent_items)
+            {
+				LLInventoryItem* item = descendent_item;
 				if (get_is_item_worn(item->getUUID()))
 				{
 					is_movable = FALSE;
@@ -2601,9 +2595,9 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 		}
 		if (is_movable && move_is_into_landmarks)
 		{
-			for (S32 i=0; i < descendent_items.size(); ++i)
-			{
-				LLViewerInventoryItem* item = descendent_items[i];
+			for (auto& descendent_item : descendent_items)
+            {
+				LLViewerInventoryItem* item = descendent_item;
 
 				// Don't move anything except landmarks and categories into Landmarks folder.
 				// We use getType() instead of getActua;Type() to allow links to landmarks and folders.
@@ -2708,9 +2702,9 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 			// Look for any gestures and deactivate them
 			if (move_is_into_trash)
 			{
-				for (S32 i=0; i < descendent_items.size(); i++)
-				{
-					LLInventoryItem* item = descendent_items[i];
+				for (auto& descendent_item : descendent_items)
+                {
+					LLInventoryItem* item = descendent_item;
 					if (item->getType() == LLAssetType::AT_GESTURE
 						&& LLGestureMgr::instance().isGestureActive(item->getUUID()))
 					{
@@ -2988,12 +2982,12 @@ void LLRightClickInventoryFetchDescendentsObserver::execute(bool clear_observer)
 		delete this;
 	}
 
-	for (uuid_vec_t::iterator current_folder = completed_folder.begin(); current_folder != completed_folder.end(); ++current_folder)
-	{
+	for (auto& current_folder : completed_folder)
+    {
 		// Get the information on the fetched folder items and subfolders and fetch those 
 		LLInventoryModel::cat_array_t* cat_array;
 		LLInventoryModel::item_array_t* item_array;
-		gInventory.getDirectDescendentsOf(*current_folder, cat_array, item_array);
+		gInventory.getDirectDescendentsOf(current_folder, cat_array, item_array);
 
 		S32 item_count(0);
 		if( item_array )
@@ -3639,9 +3633,9 @@ void LLFolderBridge::callback_pasteFromClipboard(const LLSD& notification, const
             parent_folders.insert(obj->getParentUUID());
         }
         perform_pasteFromClipboard();
-        for (std::set<LLUUID>::const_iterator iter = parent_folders.begin(); iter != parent_folders.end(); ++iter)
+        for (auto parent_folder : parent_folders)
         {
-            gInventory.addChangedMask(LLInventoryObserver::STRUCTURE, *iter);
+            gInventory.addChangedMask(LLInventoryObserver::STRUCTURE, parent_folder);
         }
 
     }
@@ -6304,12 +6298,11 @@ void rez_attachment(LLViewerInventoryItem* item, LLViewerJointAttachment* attach
 	S32 attach_pt = 0;
 	if (isAgentAvatarValid() && attachment)
 	{
-		for (LLVOAvatar::attachment_map_t::iterator iter = gAgentAvatarp->mAttachmentPoints.begin();
-			 iter != gAgentAvatarp->mAttachmentPoints.end(); ++iter)
-		{
-			if (iter->second == attachment)
+		for (auto& attachment_point : gAgentAvatarp->mAttachmentPoints)
+        {
+			if (attachment_point.second == attachment)
 			{
-				attach_pt = iter->first;
+				attach_pt = attachment_point.first;
 				break;
 			}
 		}

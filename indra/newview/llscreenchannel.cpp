@@ -208,10 +208,9 @@ std::list<const LLToast*> LLScreenChannel::findToasts(const Matcher& matcher)
 	std::list<const LLToast*> res;
 
 	// collect stored toasts
-	for (std::vector<ToastElem>::iterator it = mStoredToastList.begin(); it
-			!= mStoredToastList.end(); it++)
-	{
-		const LLToast* toast = it->getToast();
+	for (auto& it : mStoredToastList)
+    {
+		const LLToast* toast = it.getToast();
 		if (toast && matcher.matches(toast->getNotification()))
 		{
 			res.push_back(toast);
@@ -219,10 +218,9 @@ std::list<const LLToast*> LLScreenChannel::findToasts(const Matcher& matcher)
 	}
 
 	// collect displayed toasts
-	for (std::vector<ToastElem>::iterator it = mToastList.begin(); it
-			!= mToastList.end(); it++)
-	{
-		const LLToast* toast = it->getToast();
+	for (auto& it : mToastList)
+    {
+		const LLToast* toast = it.getToast();
 		if (toast && matcher.matches(toast->getNotification()))
 		{
 			res.push_back(toast);
@@ -541,10 +539,9 @@ void LLScreenChannel::removeToastByNotificationID(LLUUID id)
 void LLScreenChannel::killMatchedToasts(const Matcher& matcher)
 {
 	std::list<const LLToast*> to_delete = findToasts(matcher);
-	for (std::list<const LLToast*>::iterator it = to_delete.begin(); it
-			!= to_delete.end(); it++)
-	{
-		killToastByNotificationID((*it)-> getNotificationID());
+	for (auto& it : to_delete)
+    {
+		killToastByNotificationID(it-> getNotificationID());
 	}
 }
 
@@ -864,11 +861,9 @@ void LLScreenChannel::showToastsTop()
 		}
 	}
 
-	for (std::vector<LLToast*>::iterator it = toasts_to_hide.begin(), end_it = toasts_to_hide.end();
-		it != end_it;
-		++it)
-	{
-		(*it)->hide();
+	for (auto& it : toasts_to_hide)
+    {
+        it->hide();
 	}
 }
 
@@ -969,9 +964,9 @@ void LLNotificationsUI::LLScreenChannel::startToastTimer(LLToast* toast)
 //--------------------------------------------------------------------------
 void LLScreenChannel::hideToastsFromScreen()
 {
-	for(std::vector<ToastElem>::iterator it = mToastList.begin(); it != mToastList.end(); it++)
-	{
-		LLToast* toast = it->getToast();
+	for (auto& it : mToastList)
+    {
+		LLToast* toast = it.getToast();
 		if (toast)
 		{
 			toast->setVisible(FALSE);
@@ -1006,10 +1001,9 @@ void LLScreenChannel::closeHiddenToasts(const Matcher& matcher)
 	// since we can't guarantee that close toast operation doesn't change mToastList
 	// we collect matched toasts that should be closed into separate list
 	std::list<LLToast*> toasts;
-	for (std::vector<ToastElem>::iterator it = mToastList.begin(); it
-			!= mToastList.end(); it++)
-	{
-		LLToast* toast = it->getToast();
+	for (auto& it : mToastList)
+    {
+		LLToast* toast = it.getToast();
 		// add to list valid toast that match to provided matcher criteria
 		if (toast != nullptr && !toast->isDead() && toast->getNotification() != nullptr
 				&& !toast->getVisible() && matcher.matches(toast->getNotification()))
@@ -1019,11 +1013,9 @@ void LLScreenChannel::closeHiddenToasts(const Matcher& matcher)
 	}
 
 	// close collected toasts
-	for (std::list<LLToast*>::iterator it = toasts.begin(); it
-			!= toasts.end(); it++)
-	{
-		LLToast* toast = *it;
-		toast->closeFloater();
+	for (auto toast : toasts)
+    {
+        toast->closeFloater();
 	}
 }
 
@@ -1031,9 +1023,9 @@ void LLScreenChannel::closeHiddenToasts(const Matcher& matcher)
 void LLScreenChannel::removeToastsFromChannel()
 {
 	hideToastsFromScreen();
-	for(std::vector<ToastElem>::iterator it = mToastList.begin(); it != mToastList.end(); it++)
-	{
-		deleteToast(it->getToast());
+	for (auto& it : mToastList)
+    {
+		deleteToast(it.getToast());
 	}
 	mToastList.clear();
 }

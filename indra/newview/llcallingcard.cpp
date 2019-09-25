@@ -220,14 +220,14 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 {
 	U32 new_buddy_count = 0;
 	LLUUID agent_id;
-	for(buddy_map_t::const_iterator itr = buds.begin(); itr != buds.end(); ++itr)
-	{
-		agent_id = (*itr).first;
+	for (const auto& bud : buds)
+    {
+		agent_id = bud.first;
 		auto existing_buddy = mBuddyInfo.find(agent_id);
 		if(existing_buddy == mBuddyInfo.end())
 		{
 			++new_buddy_count;
-			auto buddy = (*itr).second;
+			auto buddy = bud.second;
 			/* auto it = */mBuddyInfo.emplace(agent_id, buddy);
 
 			// pre-request name for notifications?
@@ -244,7 +244,7 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 		else
 		{
 			LLRelationship* e_r = (*existing_buddy).second;
-			LLRelationship* n_r = (*itr).second;
+			LLRelationship* n_r = bud.second;
 			LL_WARNS() << "!! Add buddy for existing buddy: " << agent_id
 					<< " [" << (e_r->isOnline() ? "Online" : "Offline") << "->" << (n_r->isOnline() ? "Online" : "Offline")
 					<< ", " <<  e_r->getRightsGrantedTo() << "->" << n_r->getRightsGrantedTo()
@@ -513,9 +513,9 @@ void LLAvatarTracker::notifyParticularFriendObservers(const LLUUID& buddy_id)
 
     // Notify observers interested in buddy_id.
     observer_set_t& obs = obs_it->second;
-    for (observer_set_t::iterator ob_it = obs.begin(); ob_it != obs.end(); ++ob_it)
+    for (auto ob : obs)
     {
-        (*ob_it)->changed(mModifyMask);
+        ob->changed(mModifyMask);
     }
 }
 

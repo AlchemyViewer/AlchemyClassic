@@ -691,14 +691,14 @@ REGISTER_KEYBOARD_ACTION("start_gesture", start_gesture);
 
 LLViewerKeyboard::LLViewerKeyboard()
 {
-	for (S32 i = 0; i < MODE_COUNT; i++)
-	{
-		mBindingCount[i] = 0;
+	for (int& i : mBindingCount)
+    {
+        i = 0;
 	}
 
-	for (S32 i = 0; i < KEY_COUNT; i++)
-	{
-		mKeyHandledByUI[i] = FALSE;
+	for (int& i : mKeyHandledByUI)
+    {
+        i = FALSE;
 	}
 	// we want the UI to never see these keys so that they can always control the avatar/camera
 	for(KEY k = KEY_PAD_UP; k <= KEY_PAD_DIVIDE; k++) 

@@ -1704,10 +1704,9 @@ class LLAdvancedForceParamsToDefault : public view_listener_t
 static void set_all_animation_time_factors(F32	time_factor)
 {
 	LLMotionController::setCurrentTimeFactor(time_factor);
-	for (std::vector<LLCharacter*>::iterator iter = LLCharacter::sInstances.begin();
-		iter != LLCharacter::sInstances.end(); ++iter)
-	{
-		(*iter)->setAnimTimeFactor(time_factor);
+	for (auto& sInstance : LLCharacter::sInstances)
+    {
+        sInstance->setAnimTimeFactor(time_factor);
 	}
 }
 
@@ -6705,12 +6704,9 @@ class LLAttachmentDetachFromPoint : public view_listener_t
 		const LLViewerJointAttachment *attachment = get_if_there(gAgentAvatarp->mAttachmentPoints, user_data.asInteger(), (LLViewerJointAttachment*)NULL);
 		if (attachment && attachment->getNumObjects() > 0)
 		{
-			for (LLViewerJointAttachment::attachedobjs_vec_t::const_iterator iter = attachment->mAttachedObjects.begin();
-				 iter != attachment->mAttachedObjects.end();
-				 iter++)
-			{
-				LLViewerObject *attached_object = (*iter);
-				ids_to_remove.push_back(attached_object->getAttachmentItemID());
+			for (auto attached_object : attachment->mAttachedObjects)
+            {
+                ids_to_remove.push_back(attached_object->getAttachmentItemID());
 			}
         }
 		if (!ids_to_remove.empty())
@@ -6731,12 +6727,9 @@ static bool onEnableAttachmentLabel(LLUICtrl* ctrl, const LLSD& data)
 		if (attachment)
 		{
 			label = data["label"].asString();
-			for (LLViewerJointAttachment::attachedobjs_vec_t::const_iterator attachment_iter = attachment->mAttachedObjects.begin();
-				 attachment_iter != attachment->mAttachedObjects.end();
-				 ++attachment_iter)
-			{
-				const LLViewerObject* attached_object = (*attachment_iter);
-				if (attached_object)
+			for (auto attached_object : attachment->mAttachedObjects)
+            {
+                if (attached_object)
 				{
 					LLViewerInventoryItem* itemp = gInventory.getItem(attached_object->getAttachmentItemID());
 					if (itemp)
@@ -6846,20 +6839,18 @@ class LLAttachmentEnableDrop : public view_listener_t
 
 			if (attachment)
 			{
-				for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-					 attachment_iter != attachment->mAttachedObjects.end();
-					 ++attachment_iter)
-				{
+				for (auto& attached_object : attachment->mAttachedObjects)
+                {
 					// make sure item is in your inventory (it could be a delayed attach message being sent from the sim)
 					// so check to see if the item is in the inventory already
-					item = gInventory.getItem((*attachment_iter)->getAttachmentItemID());
+					item = gInventory.getItem(attached_object->getAttachmentItemID());
 					if (!item)
 					{
 						// Item does not exist, make an observer to enable the pie menu 
 						// when the item finishes fetching worst case scenario 
 						// if a fetch is already out there (being sent from a slow sim)
 						// we refetch and there are 2 fetches
-						LLWornItemFetchedObserver* worn_item_fetched = new LLWornItemFetchedObserver((*attachment_iter)->getAttachmentItemID());		
+						LLWornItemFetchedObserver* worn_item_fetched = new LLWornItemFetchedObserver(attached_object->getAttachmentItemID());		
 						worn_item_fetched->startFetch();
 						gInventory.addObserver(worn_item_fetched);
 					}
@@ -6921,10 +6912,9 @@ BOOL object_selected_and_point_valid()
 		LLSelectNode* node = *iter;
 		LLViewerObject* object = node->getObject();
 		LLViewerObject::const_child_list_t& child_list = object->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			 iter != child_list.end(); iter++)
-		{
-			LLViewerObject* child = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* child = iter;
 			if (child->isAvatar())
 			{
 				return FALSE;
@@ -7162,9 +7152,9 @@ void handle_selected_texture_info(void*)
    								width,
    								height,
    								(components == 4 ? "alpha" : "opaque")));
-   			for (U8 i = 0; i < it->second.size(); ++i)
-   			{
-   				msg.append( llformat("%d ", (S32)(it->second[i])));
+   			for (unsigned char& i : it->second)
+            {
+   				msg.append( llformat("%d ", (S32)i));
    			}
    		}
    		LLSD args;
@@ -7201,9 +7191,9 @@ void handle_selected_material_info()
 		{
 			const LLMaterialID& material_id = it->first;
 			msg += llformat("%s on face ", material_id.asString().c_str());
-			for (U8 i = 0; i < it->second.size(); ++i)
-			{
-				msg.append( llformat("%d ", (S32)(it->second[i])));
+			for (unsigned char& i : it->second)
+            {
+				msg.append( llformat("%d ", (S32)i));
 			}
 			msg.append("\n");
 		}
@@ -7236,12 +7226,9 @@ void handle_dump_attachments(void*)
 		LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 		LLViewerJointAttachment* attachment = curiter->second;
 		S32 key = curiter->first;
-		for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-			 attachment_iter != attachment->mAttachedObjects.end();
-			 ++attachment_iter)
-		{
-			LLViewerObject *attached_object = (*attachment_iter);
-			BOOL visible = (attached_object != NULL &&
+		for (auto attached_object : attachment->mAttachedObjects)
+        {
+            BOOL visible = (attached_object != NULL &&
 							attached_object->mDrawable.notNull() && 
 							!attached_object->mDrawable->isRenderType(0));
 			LLVector3 pos;

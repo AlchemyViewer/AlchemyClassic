@@ -520,10 +520,8 @@ void LLAssetStorage::getAssetData(const LLUUID uuid,
         BOOL duplicate = FALSE;
         
         // check to see if there's a pending download of this uuid already
-        for (request_list_t::iterator iter = mPendingDownloads.begin();
-             iter != mPendingDownloads.end(); ++iter )
+        for (auto tmp : mPendingDownloads)
         {
-            LLAssetRequest  *tmp = *iter;
             if ((type == tmp->getType()) && (uuid == tmp->getUUID()))
             {
                 if (callback == tmp->mDownCallback && user_data == tmp->mUserData)
@@ -645,10 +643,8 @@ void LLAssetStorage::downloadCompleteCallback(
         else
         {
 #if 1
-            for (request_list_t::iterator iter = gAssetStorage->mPendingDownloads.begin();
-                 iter != gAssetStorage->mPendingDownloads.end(); ++iter  )
+            for (auto dlreq : gAssetStorage->mPendingDownloads)
             {
-                LLAssetRequest* dlreq = *iter;
                 if ((dlreq->getUUID() == file_id) && (dlreq->getType()== file_type))
                 {
                     dlreq->mBytesFetched = vfile.getSize();

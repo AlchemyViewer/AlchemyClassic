@@ -417,11 +417,10 @@ void QToolAlign::align()
 				bbox.addBBoxAgent(object->getBoundingBoxAgent());
 				LLViewerObject::const_child_list_t& children = object->getChildren();
 
-				for (LLViewerObject::const_child_list_t::const_iterator i = children.begin();
-					i != children.end(); i++)
-				{
+				for (const auto& i : children)
+                {
 					// add the child's bbox
-					LLViewerObject* child = *i;
+					LLViewerObject* child = i;
 					bbox.addBBoxAgent(child->getBoundingBoxAgent());
 				}
 
@@ -520,9 +519,9 @@ void QToolAlign::align()
 	}
 
 	// now move them
-	for (U32 i = 0; i < objects.size(); i++)
-	{
-		LLViewerObject* object = objects[i];
+	for (auto& i : objects)
+    {
+		LLViewerObject* object = i;
 
 		LLBBox original_bbox = original_bboxes[object];
 		LLBBox new_bbox = new_bboxes[object];

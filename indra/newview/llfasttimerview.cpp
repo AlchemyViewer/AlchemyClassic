@@ -545,11 +545,9 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 	
 	buffer.bindTarget();
 
-	for (std::set<std::string>::iterator iter = chart_names.begin(); iter != chart_names.end(); ++iter)
-	{
-		std::string label = *iter;
-	
-		LLSD::Real max_time = 0.0;
+	for (auto label : chart_names)
+    {
+        LLSD::Real max_time = 0.0;
 		LLSD::Integer max_calls = 0;
 		LLSD::Real max_execution = 0.0;
 
@@ -736,12 +734,12 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 
 		last_p.clear();
 
-		for (std::vector<LLSD::Real>::iterator iter = base_execution.begin(); iter != base_execution.end(); ++iter)
-		{
+		for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>::value_type& iter : base_execution)
+        {
 			gGL.begin(LLRender::TRIANGLE_STRIP);
 			gGL.vertex3fv(last_p.mV);
 			gGL.vertex3f(last_p.mV[0], 0.f, 0.f);
-			last_p.set((F32)count/(F32)total_count, *iter/max_execution, 0.f);
+			last_p.set((F32)count/(F32)total_count, iter /max_execution, 0.f);
 			gGL.vertex3fv(last_p.mV);
 			gGL.vertex3f(last_p.mV[0], 0.f, 0.f);
 			gGL.end();
@@ -756,12 +754,12 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 			count = 0;
 			total_count = cur_execution.size();
 
-			for (std::vector<LLSD::Real>::iterator iter = cur_execution.begin(); iter != cur_execution.end(); ++iter)
-			{
+			for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>::value_type& iter : cur_execution)
+            {
 				gGL.begin(LLRender::TRIANGLE_STRIP);
 				gGL.vertex3f(last_p.mV[0], 0.f, 0.f);
 				gGL.vertex3fv(last_p.mV);
-				last_p.set((F32)count/(F32)total_count, *iter/max_execution, 0.f);			
+				last_p.set((F32)count/(F32)total_count, iter /max_execution, 0.f);			
 				gGL.vertex3f(last_p.mV[0], 0.f, 0.f);
 				gGL.vertex3fv(last_p.mV);
 				gGL.end();
@@ -942,10 +940,9 @@ void LLFastTimerView::outputAllMetrics()
 {
 	if (LLMetricPerformanceTesterBasic::hasMetricPerformanceTesters())
 	{
-		for (LLMetricPerformanceTesterBasic::name_tester_map_t::iterator iter = LLMetricPerformanceTesterBasic::sTesterMap.begin(); 
-			iter != LLMetricPerformanceTesterBasic::sTesterMap.end(); ++iter)
-		{
-			LLMetricPerformanceTesterBasic* tester = ((LLMetricPerformanceTesterBasic*)iter->second);	
+		for (auto& iter : LLMetricPerformanceTesterBasic::sTesterMap)
+        {
+			LLMetricPerformanceTesterBasic* tester = ((LLMetricPerformanceTesterBasic*)iter.second);	
 			tester->outputTestResults();
 		}
 	}

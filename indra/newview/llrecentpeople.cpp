@@ -83,8 +83,8 @@ bool LLRecentPeople::contains(const LLUUID& id) const
 void LLRecentPeople::get(uuid_vec_t& result) const
 {
 	result.clear();
-	for (recent_people_t::const_iterator pos = mPeople.begin(); pos != mPeople.end(); ++pos)
-		result.push_back((*pos).first);
+	for (const auto& pos : mPeople)
+        result.push_back(pos.first);
 }
 
 const LLDate LLRecentPeople::getDate(const LLUUID& id) const

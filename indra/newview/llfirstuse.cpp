@@ -53,10 +53,9 @@ void LLFirstUse::addConfigVariable(const std::string& var)
 void LLFirstUse::disableFirstUse()
 {
 	// Set all first-use warnings to disabled
-	for (std::set<std::string>::iterator iter = sConfigVariables.begin();
-		 iter != sConfigVariables.end(); ++iter)
-	{
-		gWarningSettings.setBOOL(*iter, FALSE);
+	for (const auto& sConfigVariable : sConfigVariables)
+    {
+		gWarningSettings.setBOOL(sConfigVariable, FALSE);
 	}
 }
 
@@ -64,10 +63,9 @@ void LLFirstUse::disableFirstUse()
 void LLFirstUse::resetFirstUse()
 {
 	// Set all first-use warnings to disabled
-	for (std::set<std::string>::iterator iter = sConfigVariables.begin();
-		 iter != sConfigVariables.end(); ++iter)
-	{
-		gWarningSettings.setBOOL(*iter, TRUE);
+	for (const auto& sConfigVariable : sConfigVariables)
+    {
+		gWarningSettings.setBOOL(sConfigVariable, TRUE);
 	}
 }
 

@@ -240,11 +240,9 @@ void LLControlAvatar::recursiveScaleJoint(LLJoint* joint, F32 factor)
 {
     joint->setScale(factor * joint->getScale());
     
-	for (LLJoint::child_list_t::iterator iter = joint->mChildren.begin();
-		 iter != joint->mChildren.end(); ++iter)
-	{
-		LLJoint* child = *iter;
-		recursiveScaleJoint(child, factor);
+	for (auto child : joint->mChildren)
+    {
+        recursiveScaleJoint(child, factor);
 	}
 }
 
@@ -263,10 +261,9 @@ void LLControlAvatar::updateVolumeGeom()
 	mRootVolp->mDrawable->setState(LLDrawable::USE_BACKLIGHT);
 
 	LLViewerObject::const_child_list_t& child_list = mRootVolp->getChildren();
-	for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-		 iter != child_list.end(); ++iter)
-	{
-		LLViewerObject* childp = *iter;
+	for (const auto& iter : child_list)
+    {
+		LLViewerObject* childp = iter;
 		if (childp && childp->mDrawable.notNull())
 		{
 			childp->mDrawable->setState(LLDrawable::USE_BACKLIGHT);
@@ -369,10 +366,8 @@ void LLControlAvatar::updateDebugText()
         S32 cam_dist_count = 0;
         F32 lod_radius = mRootVolp->mLODRadius;
 
-        for (std::vector<LLVOVolume*>::iterator it = volumes.begin();
-             it != volumes.end(); ++it)
+        for (auto volp : volumes)
         {
-            LLVOVolume *volp = *it;
             S32 verts = 0;
             total_tris += volp->getTriangleCount(&verts);
             total_verts += verts;
@@ -475,10 +470,9 @@ void LLControlAvatar::getAnimatedVolumes(std::vector<LLVOVolume*>& volumes)
     volumes.push_back(mRootVolp);
     
 	LLViewerObject::const_child_list_t& child_list = mRootVolp->getChildren();
-	for (LLViewerObject::const_child_list_t::const_iterator iter = child_list.begin();
-		 iter != child_list.end(); ++iter)
-	{
-		LLViewerObject* childp = *iter;
+	for (const auto& iter : child_list)
+    {
+		LLViewerObject* childp = iter;
         LLVOVolume *child_volp = childp ? childp->asVolume() : nullptr;
         if (child_volp && child_volp->isAnimatedObject())
         {
@@ -578,9 +572,8 @@ LLViewerObject* LLControlAvatar::lineSegmentIntersectRiggedAttachments(const LLV
             std::vector<LLVOVolume*> volumes;
             getAnimatedVolumes(volumes);
 
-            for (std::vector<LLVOVolume*>::iterator vol_it = volumes.begin(); vol_it != volumes.end(); ++vol_it)
+            for (auto volp : volumes)
             {
-                LLVOVolume *volp = *vol_it;
                 if (mRootVolp != volp && volp->lineSegmentIntersect(start, local_end, face, pick_transparent, pick_rigged, face_hit, &local_intersection, tex_coord, normal, tangent))
                 {
                     local_end = local_intersection;

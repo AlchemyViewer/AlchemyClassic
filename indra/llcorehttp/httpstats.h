@@ -66,7 +66,7 @@ namespace LLCore
 
         S32              mRequests;
 
-        std::map<S32, S32> mResutCodes;
+        std::map<S32, S32> mResultCodes;
     };
 
 

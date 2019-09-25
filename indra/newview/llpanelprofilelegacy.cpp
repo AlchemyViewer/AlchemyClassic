@@ -1002,12 +1002,12 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::onPanelClassifiedClose(LLPanelCl
 	{
 		std::vector<LLSD> values;
 		mClassifiedsList->getValues(values);
-		for(size_t n = 0; n < values.size(); ++n)
-		{
-			LLUUID c_id = values[n][CLASSIFIED_ID].asUUID();
+		for (auto& value : values)
+        {
+			LLUUID c_id = value[CLASSIFIED_ID].asUUID();
 			if(panel->getClassifiedId() == c_id)
 			{
-				LLClassifiedItem* c_item = dynamic_cast<LLClassifiedItem*>(mClassifiedsList->getItemByValue(values[n]));
+				LLClassifiedItem* c_item = dynamic_cast<LLClassifiedItem*>(mClassifiedsList->getItemByValue(value));
 				llassert(c_item);
 				if (c_item)
 				{

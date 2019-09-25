@@ -587,9 +587,9 @@ void LLFavoritesBarCtrl::handleNewFavoriteDragAndDrop(LLInventoryItem *item, con
 	LLPointer<LLItemCopiedCallback> cb;
 
 	// current order is saved by setting incremental values (1, 2, 3, ...) for the sort field
-	for (LLInventoryModel::item_array_t::iterator i = mItems.begin(); i != mItems.end(); ++i)
-	{
-		LLViewerInventoryItem* currItem = *i;
+	for (auto& inventory_item : mItems)
+    {
+		LLViewerInventoryItem* currItem = inventory_item;
 
 		if (currItem->getUUID() == item->getUUID())
 		{
@@ -654,9 +654,9 @@ void LLFavoritesBarCtrl::changed(U32 mask)
 		LLIsType is_type(LLAssetType::AT_LANDMARK);
 		gInventory.collectDescendentsIf(mFavoriteFolderId, cats, items, LLInventoryModel::EXCLUDE_TRASH, is_type);
 
-		for (LLInventoryModel::item_array_t::iterator i = items.begin(); i != items.end(); ++i)
-		{
-			LLFavoritesOrderStorage::instance().getSLURL((*i)->getAssetUUID());
+		for (auto& item : items)
+        {
+			LLFavoritesOrderStorage::instance().getSLURL(item->getAssetUUID());
 		}
 
 		updateButtons();
@@ -929,9 +929,9 @@ BOOL LLFavoritesBarCtrl::collectFavoriteItems(LLInventoryModel::item_array_t &it
 	if (needToSaveItemsOrder(items))
 	{
 		S32 sortField = 0;
-		for (LLInventoryModel::item_array_t::iterator i = items.begin(); i != items.end(); ++i)
-		{
-			LLFavoritesOrderStorage::instance().setSortIndex((*i), ++sortField);
+		for (auto& item : items)
+        {
+			LLFavoritesOrderStorage::instance().setSortIndex(item, ++sortField);
 		}
 	}
 
@@ -1353,17 +1353,17 @@ LLUICtrl* LLFavoritesBarCtrl::findChildByLocalCoords(S32 x, S32 y)
 	LLUICtrl* ctrl = NULL;
 	const child_list_t* list = getChildList();
 
-	for (child_list_const_iter_t i = list->begin(); i != list->end(); ++i)
-	{
+	for (auto i : *list)
+    {
 		// Look only for children that are favorite buttons
-		if ((*i)->getName() == "favorites_bar_btn")
+		if (i->getName() == "favorites_bar_btn")
 		{
-			LLRect rect = (*i)->getRect();
+			LLRect rect = i->getRect();
 			// We consider a button hit if the cursor is left of the right side
 			// This makes the hit a bit less finicky than hitting directly on the button itself
 			if (x <= rect.mRight)
 			{
-				ctrl = dynamic_cast<LLUICtrl*>(*i);
+				ctrl = dynamic_cast<LLUICtrl*>(i);
 				break;
 			}
 		}
@@ -1376,9 +1376,9 @@ BOOL LLFavoritesBarCtrl::needToSaveItemsOrder(const LLInventoryModel::item_array
 	BOOL result = FALSE;
 
 	// if there is an item without sort order field set, we need to save items order
-	for (LLInventoryModel::item_array_t::const_iterator i = items.begin(); i != items.end(); ++i)
-	{
-		if (LLFavoritesOrderStorage::instance().getSortIndex((*i)->getUUID()) < 0)
+	for (const auto& item : items)
+    {
+		if (LLFavoritesOrderStorage::instance().getSortIndex(item->getUUID()) < 0)
 		{
 			result = TRUE;
 			break;
@@ -1566,20 +1566,21 @@ void LLFavoritesOrderStorage::saveFavoritesSLURLs()
         gInventory.collectDescendents(fav_id, cats, items, LLInventoryModel::EXCLUDE_TRASH);
 
         LLSD user_llsd;
-        for (LLInventoryModel::item_array_t::const_iterator it = items.cbegin(); it != items.cend(); ++it)
+        for (const auto& item : items)
         {
             LLSD value;
-            value["name"] = (*it)->getName();
-            value["asset_id"] = (*it)->getAssetUUID();
+            value["name"] = item->getName();
+            value["asset_id"] = item->getAssetUUID();
 
             slurls_map_t::const_iterator slurl_iter = mSLURLs.find(value["asset_id"]);
             if (slurl_iter != mSLURLs.cend())
             {
-                LL_DEBUGS("FavoritesBar") << "Saving favorite: idx=" << LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID())
+                LL_DEBUGS("FavoritesBar") << "Saving favorite: idx=" << LLFavoritesOrderStorage::instance().getSortIndex(
+                    item->getUUID())
                     << ", SLURL=" <<  slurl_iter->second 
                     << ", value=" << value << LL_ENDL;
                 value["slurl"] = slurl_iter->second;
-                user_llsd[LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID())] = value;
+                user_llsd[LLFavoritesOrderStorage::instance().getSortIndex(item->getUUID())] = value;
             }
             else
             {
@@ -1760,9 +1761,9 @@ void LLFavoritesOrderStorage::saveItemsOrder( const LLInventoryModel::item_array
 
 	int sortField = 0;
 	// current order is saved by setting incremental values (1, 2, 3, ...) for the sort field
-	for (LLInventoryModel::item_array_t::const_iterator i = items.begin(); i != items.end(); ++i)
-	{
-		LLViewerInventoryItem* item = *i;
+	for (const auto& i : items)
+    {
+		LLViewerInventoryItem* item = i;
 
 		setSortIndex(item, ++sortField);
 

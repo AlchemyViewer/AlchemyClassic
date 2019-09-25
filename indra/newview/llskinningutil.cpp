@@ -392,19 +392,19 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
 LLQuaternion LLSkinningUtil::getUnscaledQuaternion(const LLMatrix4a& mat4)
 {
     LLMatrix3 bind_mat = LLMatrix4(mat4.getF32ptr()).getMat3();
-    for (auto i = 0; i < 3; i++)
+    for (auto& i : bind_mat.mMatrix)
     {
         F32 len = 0.0f;
         for (auto j = 0; j < 3; j++)
         {
-            len += bind_mat.mMatrix[i][j] * bind_mat.mMatrix[i][j];
+            len += i[j] * i[j];
         }
         if (len > 0.0f)
         {
             len = sqrt(len);
             for (auto j = 0; j < 3; j++)
             {
-                bind_mat.mMatrix[i][j] /= len;
+                i[j] /= len;
             }
         }
     }

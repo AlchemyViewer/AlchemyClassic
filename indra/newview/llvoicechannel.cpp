@@ -447,11 +447,9 @@ void LLVoiceChannelGroup::activate()
 			// called(both online and offline) as source to get people for recent (STORM-210).
 			if (session->isOutgoingAdHoc())
 			{
-				for (uuid_vec_t::iterator it = session->mInitialTargetIDs.begin();
-					it!=session->mInitialTargetIDs.end();++it)
-				{
-					const LLUUID id = *it;
-					LLRecentPeople::instance().add(id);
+				for (auto id : session->mInitialTargetIDs)
+                {
+                    LLRecentPeople::instance().add(id);
 				}
 			}
 			// If this ad-hoc is incoming then trying to get ids of people from mInitialTargetIDs

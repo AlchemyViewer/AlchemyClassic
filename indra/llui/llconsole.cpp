@@ -211,13 +211,11 @@ void LLConsole::draw()
 
 		if( alpha > 0.f )
 		{
-			for (lines_t::iterator line_it=(*paragraph_it).mLines.begin(); 
-					line_it != (*paragraph_it).mLines.end();
-					line_it ++)
-			{
-				for (line_color_segments_t::iterator seg_it = (*line_it).mLineColorSegments.begin();
-						seg_it != (*line_it).mLineColorSegments.end();
-						seg_it++)
+			for (auto& line : (*paragraph_it).mLines)
+            {
+				for (auto seg_it = line.mLineColorSegments.begin();
+						seg_it != line.mLineColorSegments.end();
+						++seg_it)
 				{
 					mFont->render((*seg_it).mText, 0, (*seg_it).mXPosition - 8, y_pos -  y_off,
 						LLColor4(

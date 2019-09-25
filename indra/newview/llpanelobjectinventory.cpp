@@ -412,9 +412,9 @@ void   LLTaskInvFVBridge::removeBatch(std::vector<LLFolderViewModelItem*>& batch
 	{
 		LLSD payload;
 		payload["task_id"] = mPanel->getTaskUUID();
-		for (S32 i = 0; i < (S32)batch.size(); i++)
-		{
-			LLTaskInvFVBridge* itemp = (LLTaskInvFVBridge*)batch[i];
+		for (auto& i : batch)
+        {
+			LLTaskInvFVBridge* itemp = (LLTaskInvFVBridge*)i;
 			payload["inventory_ids"].append(itemp->getUUID());
 		}
 		LLNotificationsUtil::add("RemoveItemWarn", LLSD(), payload, boost::bind(&remove_task_inventory_callback, _1, _2, mPanel));
@@ -422,9 +422,9 @@ void   LLTaskInvFVBridge::removeBatch(std::vector<LLFolderViewModelItem*>& batch
 	}
 	else
 	{
-		for (S32 i = 0; i < (S32)batch.size(); i++)
-		{
-			LLTaskInvFVBridge* itemp = (LLTaskInvFVBridge*)batch[i];
+		for (auto& i : batch)
+        {
+			LLTaskInvFVBridge* itemp = (LLTaskInvFVBridge*)i;
 
 			if(itemp->isItemRemovable())
 			{
@@ -1381,11 +1381,9 @@ void LLPanelObjectInventory::updateInventory()
 		selected_items = mFolders->getSelectionList();
 		inventory_has_focus = gFocusMgr.childHasKeyboardFocus(mFolders);
 	}
-	for (std::set<LLFolderViewItem*>::iterator it = selected_items.begin(), end_it = selected_items.end();
-		it != end_it;
-		++it)
-	{
-		selected_item_ids.push_back(static_cast<LLFolderViewModelItemInventory*>((*it)->getViewModelItem())->getUUID());
+	for (auto selected_item : selected_items)
+    {
+		selected_item_ids.push_back(static_cast<LLFolderViewModelItemInventory*>(selected_item->getViewModelItem())->getUUID());
 	}
 
 	LLViewerObject* objectp = gObjectList.findObject(mTaskUUID);
@@ -1549,11 +1547,11 @@ void LLPanelObjectInventory::createViewsForCategory(LLInventoryObject::object_li
 	}
 
 	// now, for each category, do the second pass
-	for(S32 i = 0; i < child_categories.size(); i++)
-	{
-		createViewsForCategory(inventory, child_categories[i]->first,
-							   child_categories[i]->second );
-		delete child_categories[i];
+	for (auto& child_categorie : child_categories)
+    {
+		createViewsForCategory(inventory, child_categorie->first,
+                               child_categorie->second );
+		delete child_categorie;
 	}
 }
 
@@ -1806,12 +1804,9 @@ BOOL LLPanelObjectInventory::isSelectionRemovable()
 	{
 		return FALSE;
 	}
-	for (std::set<LLFolderViewItem*>::iterator iter = selection_set.begin();
-		iter != selection_set.end();
-		++iter)
-	{
-		LLFolderViewItem *item = *iter;
-		const LLFolderViewModelItemInventory *listener = dynamic_cast<const LLFolderViewModelItemInventory*>(item->getViewModelItem());
+	for (auto item : selection_set)
+    {
+        const LLFolderViewModelItemInventory *listener = dynamic_cast<const LLFolderViewModelItemInventory*>(item->getViewModelItem());
 		if (!listener || !listener->isItemRemovable() || listener->isItemInTrash())
 		{
 			return FALSE;

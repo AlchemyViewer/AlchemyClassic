@@ -103,11 +103,9 @@ void LLTexLayerParamAlpha::getCacheByteCount(S32* gl_bytes)
 {
 	*gl_bytes = 0;
 
-	for (param_alpha_ptr_list_t::iterator iter = sInstances.begin();
-		 iter != sInstances.end(); ++iter)
-	{
-		LLTexLayerParamAlpha* instance = *iter;
-		LLGLTexture* tex = instance->mCachedProcessedTexture;
+	for (auto instance : sInstances)
+    {
+        LLGLTexture* tex = instance->mCachedProcessedTexture;
 		if (tex)
 		{
 			S32 bytes = (S32)tex->getWidth() * tex->getHeight() * tex->getComponents();

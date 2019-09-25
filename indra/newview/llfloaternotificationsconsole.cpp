@@ -168,11 +168,9 @@ BOOL LLFloaterNotificationConsole::postBuild()
 
 	LLComboBox* notifications = getChild<LLComboBox>("notification_types");
 	LLNotifications::TemplateNames names = LLNotifications::instance().getTemplateNames();
-	for (LLNotifications::TemplateNames::iterator template_it = names.begin();
-		template_it != names.end();
-		++template_it)
-	{
-		notifications->add(*template_it);
+	for (auto& name : names)
+    {
+		notifications->add(name);
 	}
 	notifications->sortByName();
 

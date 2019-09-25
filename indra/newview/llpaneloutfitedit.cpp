@@ -532,18 +532,18 @@ BOOL LLPanelOutfitEdit::postBuild()
 	mFolderViewFilterCmbBox = getChild<LLComboBox>("folder_view_filter_combobox");
 	mFolderViewFilterCmbBox->setCommitCallback(boost::bind(&LLPanelOutfitEdit::onFolderViewFilterCommitted, this, _1));
 	mFolderViewFilterCmbBox->removeall();
-	for (U32 i = 0; i < mFolderViewItemTypes.size(); ++i)
-	{
-		mFolderViewFilterCmbBox->add(mFolderViewItemTypes[i].displayName);
+	for (auto& item_type : mFolderViewItemTypes)
+    {
+		mFolderViewFilterCmbBox->add(item_type.displayName);
 	}
 	mFolderViewFilterCmbBox->setCurrentByIndex(FVIT_ALL);
 	
 	mListViewFilterCmbBox = getChild<LLComboBox>("list_view_filter_combobox");
 	mListViewFilterCmbBox->setCommitCallback(boost::bind(&LLPanelOutfitEdit::onListViewFilterCommitted, this, _1));
 	mListViewFilterCmbBox->removeall();
-	for (U32 i = 0; i < mListViewItemTypes.size(); ++i)
-	{
-		mListViewFilterCmbBox->add(mListViewItemTypes[i]->displayName);
+	for (auto& item_type : mListViewItemTypes)
+    {
+		mListViewFilterCmbBox->add(item_type->displayName);
 	}
 	mListViewFilterCmbBox->setCurrentByIndex(LVIT_ALL);
 
@@ -782,10 +782,9 @@ void LLPanelOutfitEdit::onPlusBtnClicked(void)
 
 	LLPointer<LLInventoryCallback> link_waiter = new LLUpdateAppearanceOnDestroy;
 	
-	for(uuid_vec_t::iterator iter = selected_items.begin(); iter != selected_items.end(); iter++)
-	{
-		LLUUID selected_id = *iter;
-		if (!selected_id.isNull())
+	for (auto selected_id : selected_items)
+    {
+        if (!selected_id.isNull())
 		{
 			//replacing instead of adding the item
 			LLAppearanceMgr::getInstance()->wearItemOnAvatar(selected_id, false, true, link_waiter);
@@ -1358,11 +1357,9 @@ void LLPanelOutfitEdit::getSelectedItemsUUID(uuid_vec_t& uuid_list)
 	if (mInventoryItemsPanel->getVisible())
 	{
 		std::set<LLFolderViewItem*> item_set =    mInventoryItemsPanel->getRootFolder()->getSelectionList();
-		for (std::set<LLFolderViewItem*>::iterator it = item_set.begin(),    end_it = item_set.end();
-			it != end_it;
-			++it)
-		{
-			uuid_list.push_back(static_cast<LLFolderViewModelItemInventory*>((*it)->getViewModelItem())->getUUID());
+		for (auto it : item_set)
+        {
+			uuid_list.push_back(static_cast<LLFolderViewModelItemInventory*>(it->getViewModelItem())->getUUID());
 		}
 	}
 	else if (mWearablesListViewPanel->getVisible())
@@ -1412,9 +1409,9 @@ void LLPanelOutfitEdit::saveListSelection()
 
 		if(!selected_ids.size()) return;
 
-		for (std::set<LLFolderViewItem*>::const_iterator item_id =    selected_ids.begin(); item_id != selected_ids.end(); ++item_id)
-		{
-			mWearableItemsList->selectItemByUUID(static_cast<LLFolderViewModelItemInventory*>((*item_id)->getViewModelItem())->getUUID(),    true);
+		for (auto selected_id : selected_ids)
+        {
+			mWearableItemsList->selectItemByUUID(static_cast<LLFolderViewModelItemInventory*>(selected_id->getViewModelItem())->getUUID(),    true);
 		}
 		mWearableItemsList->scrollToShowFirstSelectedItem();
 	}

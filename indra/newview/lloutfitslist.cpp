@@ -385,12 +385,10 @@ bool LLOutfitListBase::isActionEnabled(const LLSD& userdata)
 void LLOutfitsList::getSelectedItemsUUIDs(uuid_vec_t& selected_uuids) const
 {
 	// Collect selected items from all selected lists.
-	for (wearables_lists_map_t::const_iterator iter = mSelectedListsMap.begin();
-			iter != mSelectedListsMap.end();
-			++iter)
-	{
+	for (const auto& iter : mSelectedListsMap)
+    {
 		uuid_vec_t uuids;
-		(*iter).second->getSelectedUUIDs(uuids);
+        iter.second->getSelectedUUIDs(uuids);
 
 		S32 prev_size = selected_uuids.size();
 		selected_uuids.resize(prev_size + uuids.size());
@@ -461,11 +459,9 @@ void LLOutfitsList::onChangeOutfitSelection(LLWearableItemsList* list, const LLU
 	// if new selection is started.
 	if (list && !(mask & MASK_CONTROL))
 	{
-		for (wearables_lists_map_t::iterator iter = mSelectedListsMap.begin();
-				iter != mSelectedListsMap.end();
-				++iter)
-		{
-			LLWearableItemsList* selected_list = (*iter).second;
+		for (auto& iter : mSelectedListsMap)
+        {
+			LLWearableItemsList* selected_list = iter.second;
 			if (selected_list != list)
 			{
 				selected_list->resetSelection();
@@ -503,18 +499,15 @@ void LLOutfitsList::onFilteredWearableItemsListRefresh(LLUICtrl* ctrl)
 	if (!ctrl || sFilterSubString.empty())
 		return;
 
-	for (outfits_map_t::iterator
-			 iter = mOutfitsMap.begin(),
-			 iter_end = mOutfitsMap.end();
-		 iter != iter_end; ++iter)
-	{
-		LLAccordionCtrlTab* tab = iter->second;
+	for (auto& iter : mOutfitsMap)
+    {
+		LLAccordionCtrlTab* tab = iter.second;
 		if (!tab) continue;
 
 		LLWearableItemsList* list = dynamic_cast<LLWearableItemsList*>(tab->getAccordionView());
 		if (list != ctrl) continue;
 
-		applyFilterToTab(iter->first, tab, sFilterSubString);
+		applyFilterToTab(iter.first, tab, sFilterSubString);
 	}
 }
 
@@ -880,14 +873,12 @@ void LLOutfitListBase::refreshList(const LLUUID& category_id)
     // Get changed items from inventory model and update outfit tabs
     // which might have been renamed.
     const LLInventoryModel::changed_items_t& changed_items = gInventory.getChangedIDs();
-    for (LLInventoryModel::changed_items_t::const_iterator items_iter = changed_items.begin();
-        items_iter != changed_items.end();
-        ++items_iter)
+    for (auto changed_item : changed_items)
     {
-        LLViewerInventoryCategory *cat = gInventory.getCategory(*items_iter);
+        LLViewerInventoryCategory *cat = gInventory.getCategory(changed_item);
         if (!cat)
         {
-            LLInventoryObject* obj = gInventory.getObject(*items_iter);
+            LLInventoryObject* obj = gInventory.getObject(changed_item);
             if(!obj || (obj->getType() != LLAssetType::AT_CATEGORY))
             {
                 return;
@@ -909,11 +900,9 @@ void LLOutfitListBase::computeDifference(
 {
     uuid_vec_t vnew;
     // Creating a vector of newly collected sub-categories UUIDs.
-    for (LLInventoryModel::cat_array_t::const_iterator iter = vcats.begin();
-        iter != vcats.end();
-        iter++)
+    for (const auto& vcat : vcats)
     {
-        vnew.push_back((*iter)->getUUID());
+        vnew.push_back(vcat->getUUID());
     }
 
     uuid_vec_t vcur;

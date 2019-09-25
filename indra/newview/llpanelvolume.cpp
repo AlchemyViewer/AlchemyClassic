@@ -207,11 +207,9 @@ BOOL	LLPanelVolume::postBuild()
 	mComboMaterial->setCommitCallback(boost::bind(&LLPanelVolume::onCommitMaterial, this, _1));
 	mComboMaterial->removeall();
 
-	for (LLMaterialTable::info_list_t::iterator iter = LLMaterialTable::basic.mMaterialInfoList.begin();
-		 iter != LLMaterialTable::basic.mMaterialInfoList.end(); ++iter)
-	{
-		LLMaterialInfo* minfop = *iter;
-		if (minfop->mMCode != LL_MCODE_LIGHT)
+	for (auto minfop : LLMaterialTable::basic.mMaterialInfoList)
+    {
+        if (minfop->mMCode != LL_MCODE_LIGHT)
 		{
 			mComboMaterial->add(minfop->mName);  
 		}
@@ -392,10 +390,9 @@ void LLPanelVolume::getState( )
 		root_volobjp->refreshBakeTexture();
 
 		LLViewerObject::const_child_list_t& child_list = root_volobjp->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			iter != child_list.end(); ++iter)
-		{
-			LLViewerObject* objectp = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* objectp = iter;
 			if (objectp)
 			{
 				objectp->refreshBakeTexture();
@@ -941,10 +938,9 @@ void LLPanelVolume::onCommitAnimatedMeshCheckbox(LLUICtrl *, void*)
 		volobjp->refreshBakeTexture();
 
 		LLViewerObject::const_child_list_t& child_list = volobjp->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			iter != child_list.end(); ++iter)
-		{
-			LLViewerObject* objectp = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* objectp = iter;
 			if (objectp)
 			{
 				objectp->refreshBakeTexture();

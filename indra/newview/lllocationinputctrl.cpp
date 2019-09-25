@@ -113,9 +113,9 @@ private:
 	/*virtual*/ void done() override
     {
 		const uuid_set_t& added = gInventory.getAddedIDs();
-		for (uuid_set_t::const_iterator it = added.begin(); it != added.end(); ++it)
-		{
-			LLInventoryItem* item = gInventory.getItem(*it);
+		for (auto it : added)
+        {
+			LLInventoryItem* item = gInventory.getItem(it);
 			if (!item || item->getType() != LLAssetType::AT_LANDMARK)
 				continue;
 
@@ -727,14 +727,14 @@ void LLLocationInputCtrl::onLocationPrearrange(const LLSD& data)
 	{
 		LLInventoryModel::item_array_t landmark_items = LLLandmarkActions::fetchLandmarksByName(filter, TRUE);
 
-		for(U32 i=0; i < landmark_items.size(); i++)
-		{
+		for (auto& landmark_item : landmark_items)
+        {
 			LLSD value;
 			//TODO:: DO we need tooltip for Landmark??
 			
 			value["item_type"] = LANDMARK;
-			value["AssetUUID"] =  landmark_items[i]->getAssetUUID(); 
-			add(landmark_items[i]->getName(), value);
+			value["AssetUUID"] = landmark_item->getAssetUUID(); 
+			add(landmark_item->getName(), value);
 			
 		}
 	//Let's add teleport history items
@@ -905,9 +905,9 @@ void LLLocationInputCtrl::refreshParcelIcons()
 		x -= mAddLandmarkHPad;
 
 		// Slide the parcel icons rect from right to left, adjusting rectangles
-		for (S32 i = 0; i < ICON_COUNT; ++i)
-		{
-			x = layout_widget(mParcelIcon[i], x);
+		for (auto& i : mParcelIcon)
+        {
+			x = layout_widget(i, x);
 			x -= mIconHPad;
 		}
 		x = layout_widget(mDamageText, x);
@@ -915,9 +915,9 @@ void LLLocationInputCtrl::refreshParcelIcons()
 	}
 	else
 	{
-		for (S32 i = 0; i < ICON_COUNT; ++i)
-		{
-			mParcelIcon[i]->setVisible(false);
+		for (auto& i : mParcelIcon)
+        {
+            i->setVisible(false);
 		}
 		mDamageText->setVisible(false);
 	}

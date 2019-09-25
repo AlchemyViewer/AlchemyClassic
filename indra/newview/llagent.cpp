@@ -3130,14 +3130,14 @@ void LLAgent::sendAnimationRequests(const std::vector<LLUUID> &anim_ids, EAnimRe
 	msg->addUUIDFast(_PREHASH_AgentID, getID());
 	msg->addUUIDFast(_PREHASH_SessionID, getSessionID());
 
-	for (S32 i = 0; i < anim_ids.size(); i++)
-	{
-		if (anim_ids[i].isNull())
+	for (auto anim_id : anim_ids)
+    {
+		if (anim_id.isNull())
 		{
 			continue;
 		}
 		msg->nextBlockFast(_PREHASH_AnimationList);
-		msg->addUUIDFast(_PREHASH_AnimID, (anim_ids[i]) );
+		msg->addUUIDFast(_PREHASH_AnimID, anim_id);
 		msg->addBOOLFast(_PREHASH_StartAnim, (request == ANIM_REQUEST_START) ? TRUE : FALSE);
 		num_valid_anims++;
 	}
@@ -4559,12 +4559,10 @@ void LLAgent::dumpSentAppearance(const std::string& dump_prefix)
 		F32 value = appearance_version_param->getWeight();
 		dump_visual_param(file, appearance_version_param, value);
 	}
-	for (auto iter = LLAvatarAppearanceDictionary::getInstance()->getTextures().cbegin();
-		 iter != LLAvatarAppearanceDictionary::getInstance()->getTextures().cend();
-		 ++iter)
-	{
-		const ETextureIndex index = iter->first;
-		const LLAvatarAppearanceDictionary::TextureEntry *texture_dict = iter->second;
+	for (const auto& iter : LLAvatarAppearanceDictionary::getInstance()->getTextures())
+    {
+		const ETextureIndex index = iter.first;
+		const LLAvatarAppearanceDictionary::TextureEntry *texture_dict = iter.second;
 		if (texture_dict->mIsBakedTexture)
 		{
 			LLTextureEntry* entry = gAgentAvatarp->getTE((U8) index);
@@ -4996,9 +4994,9 @@ LLAgentQueryManager::LLAgentQueryManager() :
 	mWearablesCacheQueryID(0),
 	mUpdateSerialNum(0)
 {
-	for (U32 i = 0; i < BAKED_NUM_INDICES; i++)
-	{
-		mActiveCacheQueries[i] = 0;
+	for (int& mActiveCacheQuerie : mActiveCacheQueries)
+    {
+        mActiveCacheQuerie = 0;
 	}
 }
 

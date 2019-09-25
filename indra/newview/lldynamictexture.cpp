@@ -74,9 +74,9 @@ LLViewerDynamicTexture::LLViewerDynamicTexture(S32 width, S32 height, S32 compon
 //-----------------------------------------------------------------------------
 LLViewerDynamicTexture::~LLViewerDynamicTexture()
 {
-	for( S32 order = 0; order < ORDER_COUNT; order++ )
-	{
-		LLViewerDynamicTexture::sInstances[order].erase(this);  // will fail in all but one case.
+	for (auto& sInstance : LLViewerDynamicTexture::sInstances)
+    {
+        sInstance.erase(this);  // will fail in all but one case.
 	}
 }
 
@@ -228,10 +228,10 @@ BOOL LLViewerDynamicTexture::updateAllInstances()
 	
 	BOOL result = FALSE;
 	BOOL ret = FALSE ;
-	for( S32 order = 0; order < ORDER_COUNT; order++ )
-	{
-		for (instance_list_t::iterator iter = LLViewerDynamicTexture::sInstances[order].begin();
-			 iter != LLViewerDynamicTexture::sInstances[order].end(); ++iter)
+	for (auto& sInstance : LLViewerDynamicTexture::sInstances)
+    {
+		for (instance_list_t::iterator iter = sInstance.begin();
+			 iter != sInstance.end(); ++iter)
 		{
 			LLViewerDynamicTexture *dynamicTexture = *iter;
 			if (dynamicTexture->needsRender())
@@ -270,10 +270,10 @@ BOOL LLViewerDynamicTexture::updateAllInstances()
 //-----------------------------------------------------------------------------
 void LLViewerDynamicTexture::destroyGL()
 {
-	for( S32 order = 0; order < ORDER_COUNT; order++ )
-	{
-		for (instance_list_t::iterator iter = LLViewerDynamicTexture::sInstances[order].begin();
-			 iter != LLViewerDynamicTexture::sInstances[order].end(); ++iter)
+	for (auto& sInstance : LLViewerDynamicTexture::sInstances)
+    {
+		for (instance_list_t::iterator iter = sInstance.begin();
+			 iter != sInstance.end(); ++iter)
 		{
 			LLViewerDynamicTexture *dynamicTexture = *iter;
 			dynamicTexture->destroyGLTexture() ;
@@ -292,10 +292,10 @@ void LLViewerDynamicTexture::restoreGL()
 		return ;
 	}			
 	
-	for( S32 order = 0; order < ORDER_COUNT; order++ )
-	{
-		for (instance_list_t::iterator iter = LLViewerDynamicTexture::sInstances[order].begin();
-			 iter != LLViewerDynamicTexture::sInstances[order].end(); ++iter)
+	for (auto& sInstance : LLViewerDynamicTexture::sInstances)
+    {
+		for (instance_list_t::iterator iter = sInstance.begin();
+			 iter != sInstance.end(); ++iter)
 		{
 			LLViewerDynamicTexture *dynamicTexture = *iter;
 			dynamicTexture->restoreGLTexture() ;

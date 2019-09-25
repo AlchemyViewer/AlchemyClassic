@@ -120,11 +120,9 @@ S8 LLVisualParamHint::getType() const
 void LLVisualParamHint::requestHintUpdates( LLVisualParamHint* exception1, LLVisualParamHint* exception2 )
 {
 	S32 delay_frames = 0;
-	for (instance_list_t::iterator iter = sInstances.begin();
-		 iter != sInstances.end(); ++iter)
-	{
-		LLVisualParamHint* instance = *iter;
-		if( (instance != exception1) && (instance != exception2) )
+	for (auto instance : sInstances)
+    {
+        if( (instance != exception1) && (instance != exception2) )
 		{
 			if( instance->mAllowsUpdates )
 			{

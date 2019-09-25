@@ -97,11 +97,9 @@ LLCommandManager::LLCommandManager()
 
 LLCommandManager::~LLCommandManager()
 {
-	for (CommandVector::iterator cmdIt = mCommands.begin(); cmdIt != mCommands.end(); ++cmdIt)
-	{
-		LLCommand * command = *cmdIt;
-
-		delete command;
+	for (auto command : mCommands)
+    {
+        delete command;
 	}
 }
 
@@ -133,11 +131,11 @@ LLCommand * LLCommandManager::getCommand(const std::string& name)
 {
 	LLCommand * command_match = nullptr;
     
-	for (auto it = mCommands.cbegin(), it_end = mCommands.cend(); it != it_end; ++it)
-	{
-        if ((*it)->name() == name)
+	for (auto command : mCommands)
+    {
+        if (command->name() == name)
         {
-            command_match = *it;
+            command_match = command;
             break;
         }
 	}

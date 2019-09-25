@@ -209,11 +209,9 @@ void LLJoint::touch(U32 flags)
 			child_flags |= POSITION_DIRTY;
 		}
 
-		for (child_list_t::iterator iter = mChildren.begin();
-			 iter != mChildren.end(); ++iter)
-		{
-			LLJoint* joint = *iter;
-			joint->touch(child_flags);
+		for (auto joint : mChildren)
+        {
+            joint->touch(child_flags);
 		}
 	}
 }
@@ -251,11 +249,9 @@ LLJoint *LLJoint::findJoint( const std::string &name )
 	if (name == getName())
 		return this;
 
-	for (child_list_t::iterator iter = mChildren.begin();
-		 iter != mChildren.end(); ++iter)
-	{
-		LLJoint* joint = *iter;
-		if(joint) // <alchemy/>
+	for (auto joint : mChildren)
+    {
+        if(joint) // <alchemy/>
 		{
 			LLJoint *found = joint->findJoint(name);
 			if (found)
@@ -988,11 +984,9 @@ void LLJoint::updateWorldMatrixChildren()
 	{
 		updateWorldMatrix();
 	}
-	for (child_list_t::iterator iter = mChildren.begin();
-		 iter != mChildren.end(); ++iter)
-	{
-		LLJoint* joint = *iter;
-		joint->updateWorldMatrixChildren();
+	for (auto joint : mChildren)
+    {
+        joint->updateWorldMatrixChildren();
 	}
 }
 
@@ -1034,11 +1028,9 @@ void LLJoint::clampRotation(LLQuaternion old_rot, LLQuaternion new_rot)
 {
 	LLVector3 main_axis(1.f, 0.f, 0.f);
 
-	for (child_list_t::iterator iter = mChildren.begin();
-		 iter != mChildren.end(); ++iter)
-	{
-		LLJoint* joint = *iter;
-		if (joint->isAnimatable())
+	for (auto joint : mChildren)
+    {
+        if (joint->isAnimatable())
 		{
 			main_axis = joint->getPosition();
 			main_axis.normVec();

@@ -205,11 +205,9 @@ void LLFloaterLinkReplace::linkCreatedCallback(LLHandle<LLFloaterLinkReplace> fl
 										LLInventoryModel::EXCLUDE_TRASH,
 										is_target_link);
 
-		for (LLInventoryModel::item_array_t::iterator it = items.begin(); it != items.end(); ++it)
-		{
-			LLPointer<LLViewerInventoryItem> item = *it;
-
-			if ((item->getType() == LLAssetType::AT_BODYPART ||
+		for (auto item : items)
+        {
+            if ((item->getType() == LLAssetType::AT_BODYPART ||
 				item->getType() == LLAssetType::AT_OBJECT ||
 				item->getType() == LLAssetType::AT_GESTURE)
 				&& !item->getActualDescription().empty())
@@ -301,9 +299,9 @@ void LLFloaterLinkReplace::processBatch(LLInventoryModel::item_array_t items)
 	const LLUUID cof_folder_id = gInventory.findCategoryUUIDForType(LLFolderType::FT_CURRENT_OUTFIT, false);
 	const LLUUID outfit_folder_id = gInventory.findCategoryUUIDForType(LLFolderType::FT_MY_OUTFITS, false);
 
-	for (LLInventoryModel::item_array_t::iterator it = items.begin(); it != items.end(); ++it)
-	{
-		LLPointer<LLInventoryItem> source_item = *it;
+	for (auto& item : items)
+    {
+		LLPointer<LLInventoryItem> source_item = item;
 
 		if (source_item->getParentUUID() != cof_folder_id)
 		{

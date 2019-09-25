@@ -85,11 +85,9 @@ void LLTransientFloaterMgr::removeControlView(LLView* view)
 
 void LLTransientFloaterMgr::hideTransientFloaters(S32 x, S32 y)
 {
-	for (std::set<LLTransientFloater*>::iterator it = mTransSet.begin(); it
-			!= mTransSet.end(); it++)
-	{
-		LLTransientFloater* floater = *it;
-		if (floater->isTransientDocked())
+	for (auto floater : mTransSet)
+    {
+        if (floater->isTransientDocked())
 		{
 			ETransientGroup group = floater->getGroup();
 
@@ -107,13 +105,11 @@ bool LLTransientFloaterMgr::isControlClicked(ETransientGroup group, controls_set
 	std::list< LLHandle<LLView> > dead_handles;
 	
 	bool res = true;
-	for (controls_set_t::iterator it = set.begin(); it
-			!= set.end(); it++)
-	{
+	for (auto handle : set)
+    {
 		LLView* control_view = nullptr;
 
-		LLHandle<LLView> handle = *it;
-		if (handle.isDead())
+        if (handle.isDead())
 		{
 			dead_handles.push_back(handle);
 			continue;
@@ -135,10 +131,9 @@ bool LLTransientFloaterMgr::isControlClicked(ETransientGroup group, controls_set
 		}
 	}
 
-	for (std::list< LLHandle<LLView> >::iterator it = dead_handles.begin(); it != dead_handles.end(); ++it)
-	{
-		LLHandle<LLView> handle = *it;
-		mGroupControls.find(group)->second.erase(handle);
+	for (auto handle : dead_handles)
+    {
+        mGroupControls.find(group)->second.erase(handle);
 	}
 	
 	return res;

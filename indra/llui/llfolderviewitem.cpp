@@ -1024,20 +1024,18 @@ S32 LLFolderViewFolder::arrange( S32* width, S32* height )
 		// We have to verify that there's at least one child that's not filtered out
 		bool found = false;
 		// Try the items first
-		for (items_t::iterator iit = mItems.begin(); iit != mItems.end(); ++iit)
-		{
-			LLFolderViewItem* itemp = (*iit);
-			found = itemp->isPotentiallyVisible();
+		for (auto itemp : mItems)
+        {
+            found = itemp->isPotentiallyVisible();
 			if (found)
 				break;
 		}
 		if (!found)
 		{
 			// If no item found, try the folders
-			for (folders_t::iterator fit = mFolders.begin(); fit != mFolders.end(); ++fit)
-			{
-				LLFolderViewFolder* folderp = (*fit);
-				found = folderp->isPotentiallyVisible();
+			for (auto folderp : mFolders)
+            {
+                found = folderp->isPotentiallyVisible();
 				if (found)
 					break;
 			}
@@ -1073,10 +1071,9 @@ S32 LLFolderViewFolder::arrange( S32* width, S32* height )
 			// Add sizes of children
 			S32 parent_item_height = getRect().getHeight();
 
-			for(folders_t::iterator fit = mFolders.begin(); fit != mFolders.end(); ++fit)
-			{
-				LLFolderViewFolder* folderp = (*fit);
-				folderp->setVisible(folderp->isPotentiallyVisible());
+			for (auto folderp : mFolders)
+            {
+                folderp->setVisible(folderp->isPotentiallyVisible());
 
 				if (folderp->getVisible())
 				{
@@ -1091,11 +1088,9 @@ S32 LLFolderViewFolder::arrange( S32* width, S32* height )
 					folderp->setOrigin( 0, child_top - folderp->getRect().getHeight() );
 				}
 			}
-			for(items_t::iterator iit = mItems.begin();
-				iit != mItems.end(); ++iit)
-			{
-				LLFolderViewItem* itemp = (*iit);
-				itemp->setVisible(itemp->isPotentiallyVisible());
+			for (auto itemp : mItems)
+            {
+                itemp->setVisible(itemp->isPotentiallyVisible());
 
 				if (itemp->getVisible())
 				{
@@ -1411,40 +1406,36 @@ void LLFolderViewFolder::gatherChildRangeExclusive(LLFolderViewItem* start, LLFo
 	}
 	else
 	{
-		for (folders_t::iterator it = mFolders.begin(), end_it = mFolders.end();
-			it != end_it;
-			++it)
-		{
-			if (*it == end)
+		for (auto& folder : mFolders)
+        {
+			if (folder == end)
 			{
 				return;
 			}
 
-			if (selecting && (*it)->getVisible())
+			if (selecting && folder->getVisible())
 			{
-				items.push_back(*it);
+				items.push_back(folder);
 			}
 
-			if (*it == start)
+			if (folder == start)
 			{
 				selecting = true;
 			}
 		}
-		for (items_t::iterator it = mItems.begin(), end_it = mItems.end();
-			it != end_it;
-			++it)
-		{
-			if (*it == end)
+		for (auto& item : mItems)
+        {
+			if (item == end)
 			{
 				return;
 			}
 
-			if (selecting && (*it)->getVisible())
+			if (selecting && item->getVisible())
 			{
-				items.push_back(*it);
+				items.push_back(item);
 			}
 
-			if (*it == start)
+			if (item == start)
 			{
 				selecting = true;
 			}

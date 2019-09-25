@@ -69,9 +69,9 @@ void LLViewerTextureAnim::reset()
 //static 
 void LLViewerTextureAnim::updateClass()
 {
-	for (std::vector<LLViewerTextureAnim*>::iterator iter = sInstanceList.begin(); iter != sInstanceList.end(); ++iter)
-	{
-		(*iter)->mVObj->animateTextures();
+	for (auto& iter : sInstanceList)
+    {
+        iter->mVObj->animateTextures();
 	}
 }
 

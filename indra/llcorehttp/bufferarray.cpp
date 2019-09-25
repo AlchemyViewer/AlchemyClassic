@@ -99,12 +99,10 @@ BufferArray::BufferArray()
 
 BufferArray::~BufferArray()
 {
-	for (container_t::iterator it(mBlocks.begin());
-		 it != mBlocks.end();
-		 ++it)
-	{
-		delete *it;
-		*it = nullptr;
+	for (auto& block : mBlocks)
+    {
+		delete block;
+        block = nullptr;
 	}
 	mBlocks.clear();
 }

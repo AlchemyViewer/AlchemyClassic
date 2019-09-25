@@ -94,9 +94,9 @@ BOOL LLVector3::clampLength( F32 length_limit )
 	else
 	{	// this vector may still be salvagable
 		F32 max_abs_component = 0.f;
-		for (S32 i = 0; i < 3; ++i)
-		{
-			F32 abs_component = fabs(mV[i]);
+		for (float i : mV)
+        {
+			F32 abs_component = fabs(i);
 			if (llfinite(abs_component))
 			{
 				if (abs_component > max_abs_component)

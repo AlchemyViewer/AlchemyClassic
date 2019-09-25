@@ -177,11 +177,9 @@ void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
 	{
 		std::vector<LLDrawable*> potentials;
 				
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
-		{
-			LLViewerRegion* region = *iter;
-			for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
+		for (auto region : LLWorld::getInstance()->getRegionList())
+        {
+            for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 			{
 				LLSpatialPartition* part = region->getSpatialPartition(i);
 				if (part)
@@ -191,11 +189,9 @@ void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
 			}
 		}
 		
-		for (std::vector<LLDrawable*>::iterator iter = potentials.begin();
-			 iter != potentials.end(); iter++)
-		{
-			LLDrawable* drawable = *iter;
-			LLViewerObject* vobjp = drawable->getVObj();
+		for (auto drawable : potentials)
+        {
+            LLViewerObject* vobjp = drawable->getVObj();
 
 			if (!drawable || !vobjp ||
 				vobjp->getPCode() != LL_PCODE_VOLUME || 
@@ -785,10 +781,9 @@ void LLViewerObjectList::renderObjectBeacons()
 		S32 last_line_width = -1;
 		// gGL.begin(LLRender::LINES); // Always happens in (line_width != last_line_width)
 		
-		for (std::vector<LLDebugBeacon>::iterator iter = mDebugBeacons.begin(); iter != mDebugBeacons.end(); ++iter)
-		{
-			const LLDebugBeacon &debug_beacon = *iter;
-			LLColor4 color = debug_beacon.mColor;
+		for (auto& debug_beacon : mDebugBeacons)
+        {
+            LLColor4 color = debug_beacon.mColor;
 			color.mV[3] *= 0.25f;
 			S32 line_width = debug_beacon.mLineWidth;
 			if (line_width != last_line_width)
@@ -822,11 +817,9 @@ void LLViewerObjectList::renderObjectBeacons()
 		S32 last_line_width = -1;
 		// gGL.begin(LLRender::LINES); // Always happens in (line_width != last_line_width)
 		
-		for (std::vector<LLDebugBeacon>::iterator iter = mDebugBeacons.begin(); iter != mDebugBeacons.end(); ++iter)
-		{
-			const LLDebugBeacon &debug_beacon = *iter;
-
-			S32 line_width = debug_beacon.mLineWidth;
+		for (auto& debug_beacon : mDebugBeacons)
+        {
+            S32 line_width = debug_beacon.mLineWidth;
 			if (line_width != last_line_width)
 			{
 				gGL.flush();
@@ -852,10 +845,9 @@ void LLViewerObjectList::renderObjectBeacons()
 		gGL.flush();
 		gGL.setLineWidth(1.f);
 
-		for (std::vector<LLDebugBeacon>::iterator iter = mDebugBeacons.begin(); iter != mDebugBeacons.end(); ++iter)
-		{
-			LLDebugBeacon &debug_beacon = *iter;
-			if (debug_beacon.mString.empty())
+		for (auto& debug_beacon : mDebugBeacons)
+        {
+            if (debug_beacon.mString.empty())
 			{
 				continue;
 			}

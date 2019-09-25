@@ -441,10 +441,9 @@ std::string LLFloaterSpellCheckerImport::parseXcuFile(const std::string& file_pa
 			// Found a list of file locations, return the .dic (if present)
 			std::list<std::string> location_list;
 			boost::split(location_list, location_node->getValue(), boost::is_any_of(std::string(" ")));
-			for (std::list<std::string>::iterator it = location_list.begin(); it != location_list.end(); ++it)
-			{
-				std::string& location = *it;
-				if ("\\" != gDirUtilp->getDirDelimiter())
+			for (auto& location : location_list)
+            {
+                if ("\\" != gDirUtilp->getDirDelimiter())
 					LLStringUtil::replaceString(location, "\\", gDirUtilp->getDirDelimiter());
 				else
 					LLStringUtil::replaceString(location, "/", gDirUtilp->getDirDelimiter());

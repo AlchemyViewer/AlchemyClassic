@@ -175,9 +175,9 @@ void LLFloaterEditDayCycle::loadTrack()
 	LL_DEBUGS() << "Adding " << LLWLParamManager::getInstance()->mDay.mTimeMap.size() << " keys to slider" << LL_ENDL;
 
 	LLWLDayCycle& cur_dayp = LLWLParamManager::instance().mDay;
-	for (std::map<F32, LLWLParamKey>::iterator it = cur_dayp.mTimeMap.begin(); it != cur_dayp.mTimeMap.end(); ++it)
-	{
-		addSliderKey(it->first * sHoursPerDay, it->second);
+	for (auto& it : cur_dayp.mTimeMap)
+    {
+		addSliderKey(it.first * sHoursPerDay, it.second);
 	}
 
 	// set drop-down menu to match preset of currently-selected keyframe (one is automatically selected initially)
@@ -207,11 +207,10 @@ void LLFloaterEditDayCycle::applyTrack()
 	LLWLParamManager::getInstance()->mDay.clearKeyframes();
 
 	// add the keys one by one
-	for (std::map<std::string, SliderKey>::iterator it = mSliderToKey.begin();
-		it != mSliderToKey.end(); ++it)
-	{
-		LLWLParamManager::getInstance()->mDay.addKeyframe(it->second.time / sHoursPerDay,
-			it->second.keyframe);
+	for (auto& it : mSliderToKey)
+    {
+		LLWLParamManager::getInstance()->mDay.addKeyframe(it.second.time / sHoursPerDay,
+                                                          it.second.keyframe);
 	}
 
 	// set the param manager's track to the new one
@@ -498,12 +497,12 @@ void LLFloaterEditDayCycle::dumpTrack()
 	LL_DEBUGS("Windlight") << "Dumping day cycle" << LL_ENDL;
 
 	LLWLDayCycle& cur_dayp = LLWLParamManager::instance().mDay;
-	for (std::map<F32, LLWLParamKey>::iterator it = cur_dayp.mTimeMap.begin(); it != cur_dayp.mTimeMap.end(); ++it)
-	{
-		F32 time = it->first * 24.0f;
+	for (auto& it : cur_dayp.mTimeMap)
+    {
+		F32 time = it.first * 24.0f;
 		S32 h = (S32) time;
 		S32 m = (S32) ((time - h) * 60.0f);
-		LL_DEBUGS("Windlight") << llformat("(%.3f) %02d:%02d", time, h, m) << " => " << it->second.name << LL_ENDL;
+		LL_DEBUGS("Windlight") << llformat("(%.3f) %02d:%02d", time, h, m) << " => " << it.second.name << LL_ENDL;
 	}
 }
 

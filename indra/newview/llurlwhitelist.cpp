@@ -126,9 +126,9 @@ bool LLUrlWhiteList::save ()
 	if ( file.is_open () )
 	{
 		// for each entry we have
-		for ( string_list_t::iterator iter = mUrlList.begin (); iter != mUrlList.end (); ++iter )
-		{
-			file << ( *iter ) << std::endl;
+		for (auto& iter : mUrlList)
+        {
+			file << iter << std::endl;
 		}
 
 		file.close ();

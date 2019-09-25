@@ -51,9 +51,9 @@ bool LLPathfindingObjectList::isEmpty() const
 
 void LLPathfindingObjectList::clear()
 {
-	for (LLPathfindingObjectMap::iterator objectIter = mObjectMap.begin(); objectIter != mObjectMap.end(); ++objectIter)
-	{
-		objectIter->second.reset();
+	for (auto& objectIter : mObjectMap)
+    {
+        objectIter.second.reset();
 	}
 	mObjectMap.clear();
 }
@@ -80,10 +80,9 @@ void LLPathfindingObjectList::update(LLPathfindingObjectListPtr pUpdateObjectLis
 {
 	if ((pUpdateObjectListPtr != nullptr) && !pUpdateObjectListPtr->isEmpty())
 	{
-		for (LLPathfindingObjectMap::const_iterator updateObjectIter = pUpdateObjectListPtr->begin();
-			updateObjectIter != pUpdateObjectListPtr->end(); ++updateObjectIter)
-		{
-			const LLPathfindingObjectPtr updateObjectPtr = updateObjectIter->second;
+		for (const auto& updateObjectIter : *pUpdateObjectListPtr)
+        {
+			const LLPathfindingObjectPtr updateObjectPtr = updateObjectIter.second;
 			update(updateObjectPtr);
 		}
 	}

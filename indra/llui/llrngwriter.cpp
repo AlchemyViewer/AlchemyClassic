@@ -138,14 +138,12 @@ void LLRNGWriter::writeAttribute(const std::string& type, const Parser::name_sta
 
 	name_stack_t non_empty_names;
 	std::string attribute_name;
-	for (name_stack_t::const_iterator it = stack.begin();
-		it != stack.end();
-		++it)
-	{
-		const std::string& name = it->first;
+	for (const auto& it : stack)
+    {
+		const std::string& name = it.first;
 		if (!name.empty())
 		{
-			non_empty_names.push_back(*it);
+			non_empty_names.push_back(it);
 		}
 	}
 
@@ -281,11 +279,9 @@ void LLRNGWriter::addTypeNode(LLXMLNodePtr parent_node, const std::string& type,
 	if (possible_values)
 	{
 		LLXMLNodePtr enum_node = parent_node->createChild("choice", false);
-		for (std::vector<std::string>::const_iterator it = possible_values->begin();
-			it != possible_values->end();
-			++it)
-		{
-			enum_node->createChild("value", false)->setStringValue(*it);
+		for (const auto& possible_value : *possible_values)
+        {
+			enum_node->createChild("value", false)->setStringValue(possible_value);
 		}
 	}
 	else

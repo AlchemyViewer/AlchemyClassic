@@ -162,10 +162,10 @@ void LLDrawPoolTerrain::render(S32 pass)
 	// Hack! Get the region that this draw pool is rendering from!
 	LLViewerRegion *regionp = mDrawFace[0]->getDrawable()->getVObj()->getRegion();
 	LLVLComposition *compp = regionp->getComposition();
-	for (S32 i = 0; i < 4; i++)
-	{
-		compp->mDetailTextures[i]->setBoostLevel(LLGLTexture::BOOST_TERRAIN);
-		compp->mDetailTextures[i]->addTextureStats(1024.f*1024.f); // assume large pixel area
+	for (auto& detail_texture : compp->mDetailTextures)
+    {
+        detail_texture->setBoostLevel(LLGLTexture::BOOST_TERRAIN);
+        detail_texture->addTextureStats(1024.f*1024.f); // assume large pixel area
 	}
 
 	LLOverrideFaceColor override(this, 1.f, 1.f, 1.f, 1.f);
@@ -286,12 +286,9 @@ void LLDrawPoolTerrain::drawLoop()
 {
 	if (!mDrawFace.empty())
 	{
-		for (std::vector<LLFace*>::iterator iter = mDrawFace.begin();
-			 iter != mDrawFace.end(); iter++)
-		{
-			LLFace *facep = *iter;
-
-			LLMatrix4* model_matrix = &(facep->getDrawable()->getRegion()->mRenderMatrix);
+		for (auto facep : mDrawFace)
+        {
+            LLMatrix4* model_matrix = &(facep->getDrawable()->getRegion()->mRenderMatrix);
 
 			if (model_matrix != gGLLastMatrix)
 			{
@@ -936,11 +933,9 @@ void LLDrawPoolTerrain::renderOwnership()
 
 	const F32 TEXTURE_FUDGE = 257.f / 256.f;
 	gGL.scalef( TEXTURE_FUDGE, TEXTURE_FUDGE, 1.f );
-	for (std::vector<LLFace*>::iterator iter = mDrawFace.begin();
-		 iter != mDrawFace.end(); iter++)
-	{
-		LLFace *facep = *iter;
-		facep->renderIndexed(LLVertexBuffer::MAP_VERTEX |
+	for (auto facep : mDrawFace)
+    {
+        facep->renderIndexed(LLVertexBuffer::MAP_VERTEX |
 							LLVertexBuffer::MAP_TEXCOORD0);
 	}
 
@@ -955,11 +950,9 @@ void LLDrawPoolTerrain::dirtyTextures(const std::set<LLViewerFetchedTexture*>& t
 	LLViewerFetchedTexture* tex = LLViewerTextureManager::staticCastToFetchedTexture(mTexturep) ;
 	if (tex && textures.find(tex) != textures.end())
 	{
-		for (std::vector<LLFace*>::iterator iter = mReferences.begin();
-			 iter != mReferences.end(); iter++)
-		{
-			LLFace *facep = *iter;
-			gPipeline.markTextured(facep->getDrawable());
+		for (auto facep : mReferences)
+        {
+            gPipeline.markTextured(facep->getDrawable());
 		}
 	}
 }

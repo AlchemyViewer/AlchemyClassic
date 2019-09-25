@@ -835,9 +835,9 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	}
 	if (defines)
 	{
-		for (boost::unordered_map<std::string,std::string>::iterator iter = defines->begin(); iter != defines->end(); ++iter)
-		{
-			std::string define = "#define " + iter->first + " " + iter->second + "\n";
+		for (auto& iter : *defines)
+        {
+			std::string define = "#define " + iter.first + " " + iter.second + "\n";
 			text[count++] = (GLchar*) strdup(define.c_str());
 		}
 	}
@@ -1082,10 +1082,9 @@ void LLShaderMgr::cleanupShaderSources()
 {
 	if (!mProgramObjects.empty())
 	{
-		for (auto iter = mProgramObjects.cbegin(),
-			iter_end = mProgramObjects.cend(); iter != iter_end; ++iter)
-		{
-			GLuint program = iter->second;
+		for (const auto& mProgramObject : mProgramObjects)
+        {
+			GLuint program = mProgramObject.second;
 			if (program > 0 && glIsProgram(program))
 			{
 				GLuint shaders[1024] = {};
@@ -1109,10 +1108,9 @@ void LLShaderMgr::cleanupShaderSources()
 	}
 	if (!mShaderObjects.empty())
 	{
-		for (auto iter = mShaderObjects.cbegin(),
-			iter_end = mShaderObjects.cend(); iter != iter_end; ++iter)
-		{
-			GLuint shader = iter->second.mHandle;
+		for (const auto& mShaderObject : mShaderObjects)
+        {
+			GLuint shader = mShaderObject.second.mHandle;
 			if (shader > 0 && glIsShader(shader))
 			{
 				glDeleteShader(shader);

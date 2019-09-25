@@ -250,9 +250,9 @@ BOOL LLFloaterOutfitSnapshot::postBuild()
     // Filters
     LLComboBox* filterbox = getChild<LLComboBox>("filters_combobox");
     std::vector<std::string> filter_list = LLImageFiltersManager::getInstance()->getFiltersList();
-    for (U32 i = 0; i < filter_list.size(); i++)
+    for (const auto& i : filter_list)
     {
-        filterbox->add(filter_list[i]);
+        filterbox->add(i);
     }
     childSetCommitCallback("filters_combobox", ImplBase::onClickFilter, this);
 

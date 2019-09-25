@@ -243,14 +243,13 @@ void LLAttachmentsMgr::linkRecentlyArrivedAttachments()
                             << " recently arrived items" << LL_ENDL;
 
         uuid_vec_t ids_to_link;
-        for (std::set<LLUUID>::iterator it = mRecentlyArrivedAttachments.begin();
-             it != mRecentlyArrivedAttachments.end(); ++it)
+        for (auto attachment : mRecentlyArrivedAttachments)
         {
             if (isAgentAvatarValid() &&
-                gAgentAvatarp->isWearingAttachment(*it) &&
-                !LLAppearanceMgr::instance().isLinkedInCOF(*it))
+                gAgentAvatarp->isWearingAttachment(attachment) &&
+                !LLAppearanceMgr::instance().isLinkedInCOF(attachment))
             {
-                LLUUID item_id = *it;
+                LLUUID item_id = attachment;
                 LLViewerInventoryItem *item = gInventory.getItem(item_id);
                 LL_DEBUGS("Avatar") << "ATT adding COF link for attachment "
                                     << (item ? item->getName() : "UNKNOWN") << " " << item_id << LL_ENDL;
@@ -456,9 +455,9 @@ void LLAttachmentsMgr::checkInvalidCOFLinks()
         LLInventoryModel::item_array_t item_array;
         gInventory.collectDescendents(LLAppearanceMgr::instance().getCOF(),
                                       cat_array,item_array,LLInventoryModel::EXCLUDE_TRASH);
-        for (S32 i=0; i<item_array.size(); i++)
+        for (auto& i : item_array)
         {
-            const LLViewerInventoryItem* inv_item = item_array.at(i).get();
+            const LLViewerInventoryItem* inv_item = i.get();
             const LLUUID& item_id = inv_item->getLinkedUUID();
             if (inv_item->getType() == LLAssetType::AT_OBJECT)
             {

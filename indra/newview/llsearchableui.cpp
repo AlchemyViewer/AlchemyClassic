@@ -67,8 +67,8 @@ ll::prefs::PanelData::~PanelData()
 
 bool ll::prefs::PanelData::hightlightAndHide( LLWString const &aFilter )
 {
-	for( tSearchableItemList::iterator itr = mChildren.begin(); itr  != mChildren.end(); ++itr )
-		(*itr)->setNotHighlighted( );
+	for (auto& itr : mChildren)
+        itr->setNotHighlighted( );
 
 	if (aFilter.empty())
 	{
@@ -76,29 +76,29 @@ bool ll::prefs::PanelData::hightlightAndHide( LLWString const &aFilter )
 	}
 
 	bool bVisible(false);
-	for( tSearchableItemList::iterator itr = mChildren.begin(); itr  != mChildren.end(); ++itr )
-		bVisible |= (*itr)->hightlightAndHide( aFilter );
+	for (auto& itr : mChildren)
+        bVisible |= itr->hightlightAndHide( aFilter );
 
-	for( tPanelDataList::iterator itr = mChildPanel.begin(); itr  != mChildPanel.end(); ++itr )
-		bVisible |= (*itr)->hightlightAndHide( aFilter );
+	for (auto& itr : mChildPanel)
+        bVisible |= itr->hightlightAndHide( aFilter );
 
 	return bVisible;
 }
 
 bool ll::prefs::TabContainerData::hightlightAndHide( LLWString const &aFilter )
 {
-	for( tSearchableItemList::iterator itr = mChildren.begin(); itr  != mChildren.end(); ++itr )
-		(*itr)->setNotHighlighted( );
+	for (auto& itr : mChildren)
+        itr->setNotHighlighted( );
 
 	bool bVisible(false);
-	for( tSearchableItemList::iterator itr = mChildren.begin(); itr  != mChildren.end(); ++itr )
-		bVisible |= (*itr)->hightlightAndHide( aFilter );
+	for (auto& itr : mChildren)
+        bVisible |= itr->hightlightAndHide( aFilter );
 
-	for( tPanelDataList::iterator itr = mChildPanel.begin(); itr  != mChildPanel.end(); ++itr )
-	{
-		bool bPanelVisible = (*itr)->hightlightAndHide( aFilter );
-		if( (*itr)->mPanel )
-			mTabContainer->setTabVisibility( (*itr)->mPanel, bPanelVisible );
+	for (auto& itr : mChildPanel)
+    {
+		bool bPanelVisible = itr->hightlightAndHide( aFilter );
+		if(itr->mPanel )
+			mTabContainer->setTabVisibility(itr->mPanel, bPanelVisible );
 		bVisible |= bPanelVisible;
 	}
 
@@ -113,8 +113,8 @@ ll::statusbar::SearchableItem::SearchableItem()
 
 void ll::statusbar::SearchableItem::setNotHighlighted( )
 {
-	for( tSearchableItemList::iterator itr = mChildren.begin(); itr  != mChildren.end(); ++itr )
-		(*itr)->setNotHighlighted( );
+	for (auto& itr : mChildren)
+        itr->setNotHighlighted( );
 
 	if( mCtrl )
 	{
@@ -148,8 +148,8 @@ bool ll::statusbar::SearchableItem::hightlightAndHide(LLWString const &aFilter, 
 	}
 
 	bool bVisible(false);
-	for (tSearchableItemList::iterator itr = mChildren.begin(); itr != mChildren.end(); ++itr)
-		bVisible |= (*itr)->hightlightAndHide(aFilter, !bHighlighted);
+	for (auto& itr : mChildren)
+        bVisible |= itr->hightlightAndHide(aFilter, !bHighlighted);
 
 	if (mCtrl && !bVisible && !bHighlighted)
 	{

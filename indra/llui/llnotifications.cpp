@@ -851,10 +851,9 @@ void LLNotification::init(const std::string& template_name, const LLSD& form_ele
 
 	// add default substitutions
 	const LLStringUtil::format_map_t& default_args = LLTrans::getDefaultArgs();
-	for (LLStringUtil::format_map_t::const_iterator iter = default_args.begin();
-		 iter != default_args.end(); ++iter)
-	{
-		mSubstitutions[iter->first] = iter->second;
+	for (const auto& default_arg : default_args)
+    {
+		mSubstitutions[default_arg.first] = default_arg.second;
 	}
 	mSubstitutions["_URL"] = getURL();
 	mSubstitutions["_NAME"] = template_name;
@@ -987,9 +986,9 @@ LLBoundListener LLNotificationChannelBase::connectChangedImpl(const LLEventListe
 	// all of the notifications that are already in the channel
 	// we use a special signal called "load" in case the channel wants to care
 	// only about new notifications
-	for (LLNotificationSet::iterator it = mItems.begin(); it != mItems.end(); ++it)
-	{
-		slot(LLSD().with("sigtype", "load").with("id", (*it)->id()));
+	for (const auto& mItem : mItems)
+    {
+		slot(LLSD().with("sigtype", "load").with("id", mItem->id()));
 	}
 	// and then connect the signal so that all future notifications will also be
 	// forwarded.
@@ -998,9 +997,9 @@ LLBoundListener LLNotificationChannelBase::connectChangedImpl(const LLEventListe
 
 LLBoundListener LLNotificationChannelBase::connectAtFrontChangedImpl(const LLEventListener& slot)
 {
-	for (LLNotificationSet::iterator it = mItems.begin(); it != mItems.end(); ++it)
-	{
-		slot(LLSD().with("sigtype", "load").with("id", (*it)->id()));
+	for (const auto& mItem : mItems)
+    {
+		slot(LLSD().with("sigtype", "load").with("id", mItem->id()));
 	}
 	return mChanged.connect(slot, boost::signals2::at_front);
 }
@@ -1194,9 +1193,9 @@ std::string LLNotificationChannel::summarize()
 	std::string s("Channel '");
 	s += mName;
 	s += "'\n  ";
-	for (LLNotificationChannel::Iterator it = begin(); it != end(); ++it)
-	{
-		s += (*it)->summarize();
+	for (const auto& it : *this)
+    {
+		s += it->summarize();
 		s += "\n  ";
 	}
 	return s;
@@ -1460,9 +1459,9 @@ void LLNotifications::forceResponse(const LLNotification::Params& params, S32 op
 LLNotifications::TemplateNames LLNotifications::getTemplateNames() const
 {
 	TemplateNames names;
-	for (TemplateMap::const_iterator it = mTemplates.begin(); it != mTemplates.end(); ++it)
-	{
-		names.push_back(it->first);
+	for (const auto& mTemplate : mTemplates)
+    {
+		names.push_back(mTemplate.first);
 	}
 	return names;
 }
@@ -1702,23 +1701,17 @@ void LLNotifications::cancel(LLNotificationPtr pNotif)
 void LLNotifications::cancelByName(const std::string& name)
 {
 	std::vector<LLNotificationPtr> notifs_to_cancel;
-	for (LLNotificationSet::iterator it=mItems.begin(), end_it = mItems.end();
-		it != end_it;
-		++it)
-	{
-		LLNotificationPtr pNotif = *it;
-		if (pNotif->getName() == name)
+	for (auto pNotif : mItems)
+    {
+        if (pNotif->getName() == name)
 		{
 			notifs_to_cancel.push_back(pNotif);
 		}
 	}
 
-	for (std::vector<LLNotificationPtr>::iterator it = notifs_to_cancel.begin(), end_it = notifs_to_cancel.end();
-		it != end_it;
-		++it)
-	{
-		LLNotificationPtr pNotif = *it;
-		pNotif->cancel();
+	for (auto pNotif : notifs_to_cancel)
+    {
+        pNotif->cancel();
 		updateItem(LLSD().with("sigtype", "delete").with("id", pNotif->id()), pNotif);
 	}
 }
@@ -1726,23 +1719,17 @@ void LLNotifications::cancelByName(const std::string& name)
 void LLNotifications::cancelByOwner(const LLUUID ownerId)
 {
 	std::vector<LLNotificationPtr> notifs_to_cancel;
-	for (LLNotificationSet::iterator it = mItems.begin(), end_it = mItems.end();
-		 it != end_it;
-		 ++it)
-	{
-		LLNotificationPtr pNotif = *it;
-		if (pNotif && pNotif->getPayload().get("owner_id").asUUID() == ownerId)
+	for (auto pNotif : mItems)
+    {
+        if (pNotif && pNotif->getPayload().get("owner_id").asUUID() == ownerId)
 		{
 			notifs_to_cancel.push_back(pNotif);
 		}
 	}
 
-	for (std::vector<LLNotificationPtr>::iterator it = notifs_to_cancel.begin(), end_it = notifs_to_cancel.end();
-		 it != end_it;
-		 ++it)
-	{
-		LLNotificationPtr pNotif = *it;
-		pNotif->cancel();
+	for (auto pNotif : notifs_to_cancel)
+    {
+        pNotif->cancel();
 		updateItem(LLSD().with("sigtype", "delete").with("id", pNotif->id()), pNotif);
 	}
 }

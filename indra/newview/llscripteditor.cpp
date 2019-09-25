@@ -154,9 +154,9 @@ void LLScriptEditor::loadKeywords()
 	
 	mSegments.clear();
 	segment_set_t::iterator insert_it = mSegments.begin();
-	for (segment_vec_t::iterator list_it = segment_list.begin(); list_it != segment_list.end(); ++list_it)
-	{
-		insert_it = mSegments.insert(insert_it, *list_it);
+	for (auto& list_it : segment_list)
+    {
+		insert_it = mSegments.insert(insert_it, list_it);
 	}
 }
 
@@ -170,9 +170,9 @@ void LLScriptEditor::updateSegments()
 		mKeywords.findSegments(&segment_list, getWText(), mDefaultColor.get(), *this);
 		
 		clearSegments();
-		for (segment_vec_t::iterator list_it = segment_list.begin(); list_it != segment_list.end(); ++list_it)
-		{
-			insertSegment(*list_it);
+		for (auto& list_it : segment_list)
+        {
+			insertSegment(list_it);
 		}
 	}
 	
@@ -279,12 +279,10 @@ void LLScriptEditor::drawSelectionBackground()
 								 (1.f + color.mV[VBLUE]) * 0.5f,
 								 alpha);
 		
-		for (std::vector<LLRect>::iterator rect_it = selection_rects.begin();
-			 rect_it != selection_rects.end();
-			 ++rect_it)
-		{
-			LLRect selection_rect = *rect_it;
-			selection_rect = *rect_it;
+		for (auto& rect_it : selection_rects)
+        {
+			LLRect selection_rect = rect_it;
+			selection_rect = rect_it;
 			selection_rect.translate(mVisibleTextRect.mLeft - content_display_rect.mLeft, mVisibleTextRect.mBottom - content_display_rect.mBottom);
 			gl_rect_2d(selection_rect, selection_color);
 		}

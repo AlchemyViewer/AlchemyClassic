@@ -438,12 +438,9 @@ LLInventoryFetchComboObserver::LLInventoryFetchComboObserver(const uuid_vec_t& f
 	mFetchDescendents = new LLInventoryFetchDescendentsObserver(folder_ids);
 
 	uuid_vec_t pruned_item_ids;
-	for (uuid_vec_t::const_iterator item_iter = item_ids.begin();
-		 item_iter != item_ids.end();
-		 ++item_iter)
-	{
-		const LLUUID& item_id = (*item_iter);
-		const LLViewerInventoryItem* item = gInventory.getItem(item_id);
+	for (auto item_id : item_ids)
+    {
+        const LLViewerInventoryItem* item = gInventory.getItem(item_id);
 		if (item && std::find(folder_ids.begin(), folder_ids.end(), item->getParentUUID()) == folder_ids.end())
 		{
 			continue;
@@ -497,9 +494,9 @@ void LLInventoryAddItemByAssetObserver::changed(U32 mask)
 	}
 
 	const uuid_set_t& added = gInventory.getAddedIDs();
-	for (uuid_set_t::iterator it = added.begin(); it != added.end(); ++it)
-	{
-		LLInventoryItem *item = gInventory.getItem(*it);
+	for (auto it : added)
+    {
+		LLInventoryItem *item = gInventory.getItem(it);
 		if (!item)
 			continue;
 
@@ -584,9 +581,9 @@ void LLInventoryCategoryAddedObserver::changed(U32 mask)
 	
 	const LLInventoryModel::changed_items_t& added_ids = gInventory.getAddedIDs();
 	
-	for (LLInventoryModel::changed_items_t::const_iterator cit = added_ids.begin(); cit != added_ids.end(); ++cit)
-	{
-		LLViewerInventoryCategory* cat = gInventory.getCategory(*cit);
+	for (auto added_id : added_ids)
+    {
+		LLViewerInventoryCategory* cat = gInventory.getCategory(added_id);
 		
 		if (cat)
 		{
@@ -609,12 +606,10 @@ void LLInventoryCategoriesObserver::changed(U32 mask)
 
 	std::vector<LLUUID> deleted_categories_ids;
 
-	for (category_map_t::iterator iter = mCategoryMap.begin();
-		 iter != mCategoryMap.end();
-		 ++iter)
-	{
-		const LLUUID& cat_id = (*iter).first;
-		LLCategoryData& cat_data = (*iter).second;
+	for (auto& iter : mCategoryMap)
+    {
+		const LLUUID& cat_id = iter.first;
+		LLCategoryData& cat_data = iter.second;
         
 		LLViewerInventoryCategory* category = gInventory.getCategory(cat_id);
 		if (!category)
@@ -683,9 +678,9 @@ void LLInventoryCategoriesObserver::changed(U32 mask)
 	}
     
     // Remove deleted categories from the list
- 	for (std::vector<LLUUID>::iterator deleted_id = deleted_categories_ids.begin(); deleted_id != deleted_categories_ids.end(); ++deleted_id)
-	{
-		removeCategory(*deleted_id);
+ 	for (auto& deleted_categories_id : deleted_categories_ids)
+    {
+		removeCategory(deleted_categories_id);
     }
 }
 
@@ -775,10 +770,9 @@ void LLScrollOnRenameObserver::changed(U32 mask)
 	if (mask & LLInventoryObserver::LABEL)
 	{
 		const uuid_set_t& changed_item_ids = gInventory.getChangedIDs();
-		for (uuid_set_t::const_iterator it = changed_item_ids.begin(); it != changed_item_ids.end(); ++it)
-		{
-			const LLUUID& id = *it;
-			if (id == mUUID)
+		for (auto id : changed_item_ids)
+        {
+            if (id == mUUID)
 			{
 				mView->scrollToShowSelection();
 					

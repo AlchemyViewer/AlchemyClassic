@@ -328,9 +328,9 @@ void LLPanelTopInfoBar::updateParcelIcons()
 	}
 	else
 	{
-		for (S32 i = 0; i < ICON_COUNT; ++i)
-		{
-			mParcelIcon[i]->setVisible(false);
+		for (auto& i : mParcelIcon)
+        {
+            i->setVisible(false);
 		}
 		mDamageText->setVisible(false);
 	}

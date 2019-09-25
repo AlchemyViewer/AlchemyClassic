@@ -4361,11 +4361,9 @@ void LLVivoxVoiceClient::getParticipantList(std::set<LLUUID> &participants)
 {
 	if(mAudioSession)
 	{
-		for(participantUUIDMap::iterator iter = mAudioSession->mParticipantsByUUID.begin();
-			iter != mAudioSession->mParticipantsByUUID.end(); 
-			iter++)
-		{
-			participants.insert(iter->first);
+		for (auto& iter : mAudioSession->mParticipantsByUUID)
+        {
+			participants.insert(iter.first);
 		}
 	}
 }
@@ -6555,11 +6553,11 @@ void LLVivoxVoiceClient::onClickVoiceEffect(const std::string& voice_effect_name
 		const voice_effect_list_t& effect_list = effect_interfacep->getVoiceEffectList();
 		if (!effect_list.empty())
 		{
-			for (voice_effect_list_t::const_iterator it = effect_list.begin(); it != effect_list.end(); ++it)
-			{
-				if (voice_effect_name == it->first)
+			for (const auto& it : effect_list)
+            {
+				if (voice_effect_name == it.first)
 				{
-					effect_interfacep->setVoiceEffect(it->second);
+					effect_interfacep->setVoiceEffect(it.second);
 					return;
 				}
 			}
@@ -6588,13 +6586,13 @@ void LLVivoxVoiceClient::updateVoiceMorphingMenu()
 						voice_morphing_menup->erase(1, items - 3, false);
 
 						S32 pos = 1;
-						for (voice_effect_list_t::const_iterator it = effect_list.begin(); it != effect_list.end(); ++it)
-						{
+						for (const auto& it : effect_list)
+                        {
 							LLMenuItemCheckGL::Params p;
-							p.name = it->first;
-							p.label = it->first;
-							p.on_check.function(boost::bind(&LLVivoxVoiceClient::onCheckVoiceEffect, this, it->first));
-							p.on_click.function(boost::bind(&LLVivoxVoiceClient::onClickVoiceEffect, this, it->first));
+							p.name = it.first;
+							p.label = it.first;
+							p.on_check.function(boost::bind(&LLVivoxVoiceClient::onCheckVoiceEffect, this, it.first));
+							p.on_click.function(boost::bind(&LLVivoxVoiceClient::onClickVoiceEffect, this, it.first));
 							LLMenuItemCheckGL * voice_effect_itemp = LLUICtrlFactory::create<LLMenuItemCheckGL>(p);
 							voice_morphing_menup->insert(pos++, voice_effect_itemp, false);
 						}
@@ -7548,15 +7546,15 @@ LLVivoxSecurity::LLVivoxSecurity()
     #define VIVOX_TOKEN_BYTES 9
     U8  random_value[VIVOX_TOKEN_BYTES];
 
-    for (int b = 0; b < VIVOX_TOKEN_BYTES; b++)
+    for (unsigned char& b : random_value)
     {
-        random_value[b] = ll_rand() & 0xff;
+        b = ll_rand() & 0xff;
     }
     mConnectorHandle = LLBase64::encode(random_value, VIVOX_TOKEN_BYTES);
     
-    for (int b = 0; b < VIVOX_TOKEN_BYTES; b++)
+    for (unsigned char& b : random_value)
     {
-        random_value[b] = ll_rand() & 0xff;
+        b = ll_rand() & 0xff;
     }
     mAccountHandle = LLBase64::encode(random_value, VIVOX_TOKEN_BYTES);
 }

@@ -286,20 +286,18 @@ void LLHUDText::setFont(const LLFontGL* font)
 void LLHUDText::setColor(const LLColor4 &color)
 {
 	mColor = color;
-	for (std::vector<LLHUDTextSegment>::iterator segment_iter = mTextSegments.begin();
-		 segment_iter != mTextSegments.end(); ++segment_iter )
-	{
-		segment_iter->mColor = color;
+	for (auto& text_segment : mTextSegments)
+    {
+        text_segment.mColor = color;
 	}
 }
 
 void LLHUDText::setAlpha(F32 alpha)
 {
 	mColor.mV[VALPHA] = alpha;
-	for (std::vector<LLHUDTextSegment>::iterator segment_iter = mTextSegments.begin();
-		 segment_iter != mTextSegments.end(); ++segment_iter )
-	{
-		segment_iter->mColor.mV[VALPHA] = alpha;
+	for (auto& text_segment : mTextSegments)
+    {
+        text_segment.mColor.mV[VALPHA] = alpha;
 	}
 }
 

@@ -266,10 +266,9 @@ void LLViewerTextureList::shutdown()
 	// Write out list of currently loaded textures for precaching on startup
 	typedef std::set<std::pair<S32,LLViewerFetchedTexture*> > image_area_list_t;
 	image_area_list_t image_area_list;
-	for (image_priority_list_t::iterator iter = mImageList.begin();
-		 iter != mImageList.end(); ++iter)
-	{
-		LLViewerFetchedTexture* image = *iter;
+	for (const auto& iter : mImageList)
+    {
+		LLViewerFetchedTexture* image = iter;
 		if (!image->hasGLTexture() ||
 			!image->getUseDiscard() ||
 			image->needsAux() ||
@@ -337,9 +336,9 @@ void LLViewerTextureList::shutdown()
 void LLViewerTextureList::dump()
 {
 	LL_INFOS() << "LLViewerTextureList::dump()" << LL_ENDL;
-	for (image_priority_list_t::iterator it = mImageList.begin(); it != mImageList.end(); ++it)
-	{
-		LLViewerFetchedTexture* image = *it;
+	for (const auto& it : mImageList)
+    {
+		LLViewerFetchedTexture* image = it;
 
 		LL_INFOS() << "priority " << image->getDecodePriority()
 		<< " boost " << image->getBoostLevel()
@@ -857,10 +856,9 @@ void LLViewerTextureList::clearFetchingRequests()
 
 	LLAppViewer::getTextureFetch()->deleteAllRequests();
 
-	for (image_priority_list_t::iterator iter = mImageList.begin();
-		 iter != mImageList.end(); ++iter)
-	{
-		LLViewerFetchedTexture* imagep = *iter;
+	for (const auto& iter : mImageList)
+    {
+		LLViewerFetchedTexture* imagep = iter;
 		imagep->forceToDeleteRequest() ;
 	}
 }
@@ -1212,10 +1210,9 @@ void LLViewerTextureList::decodeAllImages(F32 max_time)
 
 	llassert_always(image_list.size() == mImageList.size()) ;
 	mImageList.clear();
-	for (std::vector<LLPointer<LLViewerFetchedTexture> >::iterator iter = image_list.begin();
-		 iter != image_list.end(); ++iter)
-	{
-		LLViewerFetchedTexture* imagep = *iter;
+	for (auto& iter : image_list)
+    {
+		LLViewerFetchedTexture* imagep = iter;
 		imagep->processTextureStats();
 		F32 decode_priority = imagep->calcDecodePriority();
 		imagep->setDecodePriority(decode_priority);

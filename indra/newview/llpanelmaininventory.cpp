@@ -591,9 +591,9 @@ void LLPanelMainInventory::onFilterEdit(const std::string& search_string )
  	LLPanelMainInventory* active_view = nullptr;
 	
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("inventory");
-	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin(); iter != inst_list.end(); ++iter)
-	{
-		LLPanelMainInventory* iv = dynamic_cast<LLPanelMainInventory*>(*iter);
+	for (auto iter : inst_list)
+    {
+		LLPanelMainInventory* iv = dynamic_cast<LLPanelMainInventory*>(iter);
 		if (iv)
 		{
 			if (gFocusMgr.childHasKeyboardFocus(iv))
@@ -765,9 +765,9 @@ void LLPanelMainInventory::updateItemcountText()
 
 
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("inventory");
-	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin(); iter != inst_list.end(); iter++)
-	{
-		LLFloaterSidePanelContainer* iv = dynamic_cast<LLFloaterSidePanelContainer*>(*iter);
+	for (auto iter : inst_list)
+    {
+		LLFloaterSidePanelContainer* iv = dynamic_cast<LLFloaterSidePanelContainer*>(iter);
 		if (iv)
 		{
 			iv->setTitle(text);

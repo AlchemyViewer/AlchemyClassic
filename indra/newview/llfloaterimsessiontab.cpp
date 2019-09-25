@@ -714,12 +714,12 @@ void LLFloaterIMSessionTab::updateSessionName(const std::string& name)
 
 void LLFloaterIMSessionTab::hideAllStandardButtons()
 {
-	for (S32 i = 0; i < BUTTON_COUNT; i++)
-	{
-		if (mButtons[i])
+	for (auto& button : mButtons)
+    {
+		if (button)
 		{
 			// Hide the standard header buttons in a docked IM floater.
-			mButtons[i]->setVisible(false);
+            button->setVisible(false);
 		}
 	}
 }
@@ -801,10 +801,9 @@ void LLFloaterIMSessionTab::showTranslationCheckbox(BOOL show)
 void LLFloaterIMSessionTab::processChatHistoryStyleUpdate(bool clean_messages/* = false*/)
 {
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("impanel");
-	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin();
-			iter != inst_list.end(); ++iter)
-	{
-		LLFloaterIMSession* floater = dynamic_cast<LLFloaterIMSession*>(*iter);
+	for (auto iter : inst_list)
+    {
+		LLFloaterIMSession* floater = dynamic_cast<LLFloaterIMSession*>(iter);
 		if (floater)
 		{
 			floater->reloadMessages(clean_messages);
@@ -822,10 +821,9 @@ void LLFloaterIMSessionTab::processChatHistoryStyleUpdate(bool clean_messages/* 
 void LLFloaterIMSessionTab::reloadEmptyFloaters()
 {
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("impanel");
-	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin();
-		iter != inst_list.end(); ++iter)
-	{
-		LLFloaterIMSession* floater = dynamic_cast<LLFloaterIMSession*>(*iter);
+	for (auto iter : inst_list)
+    {
+		LLFloaterIMSession* floater = dynamic_cast<LLFloaterIMSession*>(iter);
 		if (floater && floater->getLastChatMessageIndex() == -1)
 		{
 			floater->reloadMessages(true);

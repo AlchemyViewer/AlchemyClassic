@@ -830,11 +830,9 @@ public:
 	void draw()
 	{
 		LL_RECORD_BLOCK_TIME(FTM_DISPLAY_DEBUG_TEXT);
-		for (line_list_t::iterator iter = mLineList.begin();
-			 iter != mLineList.end(); ++iter)
-		{
-			const Line& line = *iter;
-			LLFontGL::getFontMonospace()->renderUTF8(line.text, 0, (F32)line.x, (F32)line.y, mTextColor,
+		for (auto& line : mLineList)
+        {
+            LLFontGL::getFontMonospace()->renderUTF8(line.text, 0, (F32)line.x, (F32)line.y, mTextColor,
 											 LLFontGL::LEFT, LLFontGL::TOP,
 											 LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, nullptr, FALSE);
 		}
@@ -3049,9 +3047,9 @@ void LLViewerWindow::updateUI()
 		// aggregate visible views that contain mouse cursor in display order
 		LLPopupView::popup_list_t popups = mPopupView->getCurrentPopups();
 
-		for(LLPopupView::popup_list_t::iterator popup_it = popups.begin(); popup_it != popups.end(); ++popup_it)
-		{
-			LLView* popup = popup_it->get();
+		for (auto& popup_it : popups)
+        {
+			LLView* popup = popup_it.get();
 			if (popup && popup->calcScreenBoundingRect().pointInRect(x, y))
 			{
 				// iterator over contents of top_ctrl, and throw into mouse_hover_set
@@ -3136,11 +3134,9 @@ void LLViewerWindow::updateUI()
 	std::set_difference(mouse_hover_set.begin(), mouse_hover_set.end(),
 						mMouseHoverViews.begin(), mMouseHoverViews.end(),
 						std::back_inserter(mouse_enter_views));
-	for (view_handle_list_t::iterator it = mouse_enter_views.begin();
-		it != mouse_enter_views.end();
-		++it)
-	{
-		LLView* viewp = it->get();
+	for (auto& mouse_enter_view : mouse_enter_views)
+    {
+		LLView* viewp = mouse_enter_view.get();
 		if (viewp)
 		{
 			LLRect view_screen_rect = viewp->calcScreenRect();
@@ -3153,11 +3149,9 @@ void LLViewerWindow::updateUI()
 	std::set_difference(mMouseHoverViews.begin(), mMouseHoverViews.end(),
 						mouse_hover_set.begin(), mouse_hover_set.end(),
 						std::back_inserter(mouse_leave_views));
-	for (view_handle_list_t::iterator it = mouse_leave_views.begin();
-		it != mouse_leave_views.end();
-		++it)
-	{
-		LLView* viewp = it->get();
+	for (auto& mouse_leave_view : mouse_leave_views)
+    {
+		LLView* viewp = mouse_leave_view.get();
 		if (viewp)
 		{
 			LLRect view_screen_rect = viewp->calcScreenRect();

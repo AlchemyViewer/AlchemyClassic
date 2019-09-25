@@ -74,9 +74,9 @@ LLToolBarView::LLToolBarView(const LLToolBarView::Params& p)
 	mShowToolbars(true),
 	mBottomToolbarPanel(nullptr)
 {
-	for (S32 i = 0; i < LLToolBarEnums::TOOLBAR_COUNT; i++)
-	{
-		mToolbars[i] = nullptr;
+	for (auto& toolbar : mToolbars)
+    {
+        toolbar = nullptr;
 	}
 }
 

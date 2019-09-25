@@ -1353,12 +1353,9 @@ void LLViewerRegion::createVisibleObjects(F32 max_time)
 	S32 throttle = sNewObjectCreationThrottle;
 	BOOL has_new_obj = FALSE;
 	LLTimer update_timer;	
-	for(LLVOCacheEntry::vocache_entry_priority_list_t::iterator iter = mImpl->mWaitingList.begin();
-		iter != mImpl->mWaitingList.end(); ++iter)
-	{
-		LLVOCacheEntry* vo_entry = *iter;		
-
-		if(vo_entry->getState() < LLVOCacheEntry::WAITING)
+	for (auto vo_entry : mImpl->mWaitingList)
+    {
+        if(vo_entry->getState() < LLVOCacheEntry::WAITING)
 		{
 			addNewObject(vo_entry);
 			has_new_obj = TRUE;
@@ -1410,10 +1407,9 @@ void LLViewerRegion::clearCachedVisibleObjects()
 	//remove all visible entries.
 	mLastVisitedEntry = nullptr;
 	std::vector<LLDrawable*> delete_list;
-	for(LLVOCacheEntry::vocache_entry_set_t::iterator iter = mImpl->mActiveSet.begin();
-		iter != mImpl->mActiveSet.end(); ++iter)
-	{
-		LLDrawable* drawablep = (LLDrawable*)(*iter)->getEntry()->getDrawable();
+	for (auto iter : mImpl->mActiveSet)
+    {
+		LLDrawable* drawablep = (LLDrawable*)iter->getEntry()->getDrawable();
 	
 		if(drawablep && !drawablep->getParent())
 		{
@@ -1423,9 +1419,9 @@ void LLViewerRegion::clearCachedVisibleObjects()
 
 	if(!delete_list.empty())
 	{
-		for(S32 i = 0; i < delete_list.size(); i++)
-		{
-			gObjectList.killObject(delete_list[i]->getVObj());
+		for (auto& i : delete_list)
+        {
+			gObjectList.killObject(i->getVObj());
 		}
 		delete_list.clear();
 	}
@@ -2319,10 +2315,10 @@ void LLViewerRegion::findOrphans(U32 parent_id)
 	if(iter != mOrphanMap.cend())
 	{
 		std::vector<U32>* children = &mOrphanMap[parent_id];
-		for(S32 i = 0; i < children->size(); i++)
-		{
+		for (unsigned int i : *children)
+        {
 			//parent is visible, so is the child.
-			addVisibleChildCacheEntry(nullptr, getCacheEntry((*children)[i]));
+			addVisibleChildCacheEntry(nullptr, getCacheEntry(i));
 		}
 		children->clear();
 		mOrphanMap.erase(parent_id);
@@ -2695,8 +2691,8 @@ void LLViewerRegion::requestCacheMisses()
 	S32 blocks = 0;
 
 	//send requests for all cache-missed objects
-	for (CacheMissItem::cache_miss_list_t::iterator iter = mCacheMissList.begin(); iter != mCacheMissList.end(); ++iter)
-	{
+	for (auto& iter : mCacheMissList)
+    {
 		if (start_new_message)
 		{
 			msg->newMessageFast(_PREHASH_RequestMultipleObjects);
@@ -2707,10 +2703,10 @@ void LLViewerRegion::requestCacheMisses()
 		}
 
 		msg->nextBlockFast(_PREHASH_ObjectData);
-		msg->addU8Fast(_PREHASH_CacheMissType, (*iter).mType);
-		msg->addU32Fast(_PREHASH_ID, (*iter).mID);
+		msg->addU8Fast(_PREHASH_CacheMissType, iter.mType);
+		msg->addU32Fast(_PREHASH_ID, iter.mID);
 
-        LL_DEBUGS("AnimatedObjects") << "Requesting cache missed object " << (*iter).mID << LL_ENDL;
+        LL_DEBUGS("AnimatedObjects") << "Requesting cache missed object " << iter.mID << LL_ENDL;
         
 		blocks++;
 
@@ -2749,9 +2745,9 @@ void LLViewerRegion::dumpCache()
 		change_bin[i] = 0;
 	}
 
-	for(LLVOCacheEntry::vocache_entry_map_t::iterator iter = mImpl->mCacheMap.begin(); iter != mImpl->mCacheMap.end(); ++iter)
-	{
-		LLVOCacheEntry *entry = iter->second;
+	for (auto& iter : mImpl->mCacheMap)
+    {
+		LLVOCacheEntry *entry = iter.second;
 
 		S32 hits = entry->getHitCount();
 		S32 changes = entry->getCRCChangeCount();
@@ -3267,9 +3263,9 @@ bool LLViewerRegion::isCapURLMapped(const std::string &cap_url)
 std::set<std::string> LLViewerRegion::getAllCaps()
 {
 	std::set<std::string> url_capnames;
-	for(CapabilityMap::iterator iter=mImpl->mCapabilities.begin(); iter!=mImpl->mCapabilities.end(); ++iter)
-	{
-		url_capnames.insert(iter->first);
+	for (auto& capability : mImpl->mCapabilities)
+    {
+		url_capnames.insert(capability.first);
 	}
 	return url_capnames;
 }

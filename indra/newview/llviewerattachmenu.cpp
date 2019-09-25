@@ -110,10 +110,9 @@ void LLViewerAttachMenu::attachObjects(const uuid_vec_t& items, const std::strin
 		return;
 	}
 
-	for (uuid_vec_t::const_iterator it = items.begin(); it != items.end(); ++it)
-	{
-		const LLUUID &id = *it;
-		LLViewerInventoryItem* item = (LLViewerInventoryItem*)gInventory.getLinkedItem(id);
+	for (auto id : items)
+    {
+        LLViewerInventoryItem* item = (LLViewerInventoryItem*)gInventory.getLinkedItem(id);
 		if(item && gInventory.isObjectDescendentOf(id, gInventory.getRootFolderID()))
 		{
 			rez_attachment(item, attachmentp); // don't replace if called from an "Attach To..." menu

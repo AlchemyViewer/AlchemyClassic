@@ -382,12 +382,9 @@ void LLIMWellWindow::closeAll()
 	const LLIMModel& im_model = LLIMModel::instance();
 	std::vector<LLSD> values;
 	mMessageList->getValues(values);
-	for (std::vector<LLSD>::iterator
-			 iter = values.begin(),
-			 iter_end = values.end();
-		 iter != iter_end; ++iter)
-	{
-		LLIMSpeakerMgr* speaker_mgr =  im_model.getSpeakerManager(*iter);
+	for (auto& value : values)
+    {
+		LLIMSpeakerMgr* speaker_mgr =  im_model.getSpeakerManager(value);
 		if (speaker_mgr && speaker_mgr->isVoiceActive())
 		{
 			need_confirmation = true;
@@ -412,17 +409,14 @@ void LLIMWellWindow::closeAllImpl()
 	std::vector<LLSD> values;
 	mMessageList->getValues(values);
 
-	for (std::vector<LLSD>::iterator
-			 iter = values.begin(),
-			 iter_end = values.end();
-		 iter != iter_end; ++iter)
-	{
-		LLPanel* panel = mMessageList->getItemByValue(*iter);
+	for (auto& value : values)
+    {
+		LLPanel* panel = mMessageList->getItemByValue(value);
 
 		ObjectRowPanel* obj_panel = dynamic_cast <ObjectRowPanel*> (panel);
 		if (obj_panel)
 		{
-			LLScriptFloaterManager::instance().removeNotification(*iter);
+			LLScriptFloaterManager::instance().removeNotification(value);
 		}
 	}
 }

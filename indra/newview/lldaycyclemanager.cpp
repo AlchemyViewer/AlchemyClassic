@@ -34,9 +34,9 @@ void LLDayCycleManager::getPresetNames(preset_name_list_t& names) const
 {
 	names.clear();
 
-	for (dc_map_t::const_iterator it = mDayCycleMap.begin(); it != mDayCycleMap.end(); ++it)
-	{
-		names.push_back(it->first);
+	for (const auto& it : mDayCycleMap)
+    {
+		names.push_back(it.first);
 	}
 }
 
@@ -45,9 +45,9 @@ void LLDayCycleManager::getPresetNames(preset_name_list_t& user, preset_name_lis
 	user.clear();
 	sys.clear();
 
-	for (dc_map_t::const_iterator it = mDayCycleMap.begin(); it != mDayCycleMap.end(); ++it)
-	{
-		const std::string& name = it->first;
+	for (const auto& it : mDayCycleMap)
+    {
+		const std::string& name = it.first;
 
 		if (isSystemPreset(name))
 		{
@@ -142,9 +142,9 @@ bool LLDayCycleManager::isSkyPresetReferenced(const std::string& preset_name) co
 	// We're traversing local day cycles, they can only reference local skies.
 	LLWLParamKey key(preset_name, LLEnvKey::SCOPE_LOCAL);
 
-	for (dc_map_t::const_iterator it = mDayCycleMap.begin(); it != mDayCycleMap.end(); ++it)
-	{
-		if (it->second.hasReferencesTo(key))
+	for (const auto& it : mDayCycleMap)
+    {
+		if (it.second.hasReferencesTo(key))
 		{
 			return true;
 		}

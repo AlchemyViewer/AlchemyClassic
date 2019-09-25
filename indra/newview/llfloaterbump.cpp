@@ -121,11 +121,9 @@ void LLFloaterBump::populateCollisionList()
 	mNames.clear();
 	mList->deleteAllItems();
 
-	for (mean_collision_list_t::iterator iter = gMeanCollisionList.begin();
-				 iter != gMeanCollisionList.end(); ++iter)
-	{
-		LLMeanCollisionData *mcd = *iter;
-		add(mList, mcd);
+	for (auto mcd : gMeanCollisionList)
+    {
+        add(mList, mcd);
 	}
 }
 

@@ -588,11 +588,9 @@ BOOL LLKeyframeMotion::setupPose()
 	}
 
 	// initialize joint constraints
-	for (JointMotionList::constraint_list_t::iterator iter = mJointMotionList->mConstraints.begin();
-		 iter != mJointMotionList->mConstraints.end(); ++iter)
-	{
-		JointConstraintSharedData* shared_constraintp = *iter;
-		JointConstraint* constraintp = new JointConstraint(shared_constraintp);
+	for (auto shared_constraintp : mJointMotionList->mConstraints)
+    {
+        JointConstraint* constraintp = new JointConstraint(shared_constraintp);
 		initializeConstraint(constraintp);
 		mConstraints.push_front(constraintp);
 	}
@@ -726,20 +724,16 @@ void LLKeyframeMotion::applyConstraints(F32 time, U8* joint_mask)
 	if (mCharacter->getSkeletonSerialNum() != mLastSkeletonSerialNum)
 	{
 		mLastSkeletonSerialNum = mCharacter->getSkeletonSerialNum();
-		for (constraint_list_t::iterator iter = mConstraints.begin();
-			 iter != mConstraints.end(); ++iter)
-		{
-			JointConstraint* constraintp = *iter;
-			initializeConstraint(constraintp);
+		for (auto constraintp : mConstraints)
+        {
+            initializeConstraint(constraintp);
 		}
 	}
 
 	// apply constraints
-	for (constraint_list_t::iterator iter = mConstraints.begin();
-		 iter != mConstraints.end(); ++iter)
-	{
-		JointConstraint* constraintp = *iter;
-		applyConstraint(constraintp, time, joint_mask);
+	for (auto constraintp : mConstraints)
+    {
+        applyConstraint(constraintp, time, joint_mask);
 	}
 }
 
@@ -748,11 +742,9 @@ void LLKeyframeMotion::applyConstraints(F32 time, U8* joint_mask)
 //-----------------------------------------------------------------------------
 void LLKeyframeMotion::onDeactivate()
 {
-	for (constraint_list_t::iterator iter = mConstraints.begin();
-		 iter != mConstraints.end(); ++iter)
-	{
-		JointConstraint* constraintp = *iter;
-		deactivateConstraint(constraintp);
+	for (auto constraintp : mConstraints)
+    {
+        deactivateConstraint(constraintp);
 	}
 }
 
@@ -2027,10 +2019,9 @@ BOOL LLKeyframeMotion::serialize(LLDataPacker& dp) const
 		success &= dp.packS32(joint_motionp->mRotationCurve.mNumKeys, "num_rot_keys");
 
 		LL_DEBUGS("BVH") << "Joint " << joint_motionp->mJointName << LL_ENDL;
-		for (RotationCurve::key_map_t::iterator iter = joint_motionp->mRotationCurve.mKeys.begin();
-			 iter != joint_motionp->mRotationCurve.mKeys.end(); ++iter)
-		{
-			RotationKey& rot_key = iter->second;
+		for (auto& key : joint_motionp->mRotationCurve.mKeys)
+        {
+			RotationKey& rot_key = key.second;
 			U16 time_short = F32_to_U16(rot_key.mTime, 0.f, mJointMotionList->mDuration);
 			success &= dp.packU16(time_short, "time");
 
@@ -2049,10 +2040,9 @@ BOOL LLKeyframeMotion::serialize(LLDataPacker& dp) const
 		}
 
 		success &= dp.packS32(joint_motionp->mPositionCurve.mNumKeys, "num_pos_keys");
-		for (PositionCurve::key_map_t::iterator iter = joint_motionp->mPositionCurve.mKeys.begin();
-			 iter != joint_motionp->mPositionCurve.mKeys.end(); ++iter)
-		{
-			PositionKey& pos_key = iter->second;
+		for (auto& key : joint_motionp->mPositionCurve.mKeys)
+        {
+			PositionKey& pos_key = key.second;
 			U16 time_short = F32_to_U16(pos_key.mTime, 0.f, mJointMotionList->mDuration);
 			success &= dp.packU16(time_short, "time");
 
@@ -2409,16 +2399,13 @@ void LLKeyframeDataCache::dumpDiagInfo()
 	LL_INFOS() << "-----------------------------------------------------" << LL_ENDL;
 
 	// print each loaded mesh, and it's memory usage
-	for (keyframe_data_map_t::iterator map_it = sKeyframeDataMap.begin();
-		 map_it != sKeyframeDataMap.end(); ++map_it)
-	{
-		U32 joint_motion_kb;
+	for (auto& map_it : sKeyframeDataMap)
+    {
+        LLKeyframeMotion::JointMotionList *motion_list_p = map_it.second;
 
-		LLKeyframeMotion::JointMotionList *motion_list_p = map_it->second;
+		LL_INFOS() << "Motion: " << map_it.first << LL_ENDL;
 
-		LL_INFOS() << "Motion: " << map_it->first << LL_ENDL;
-
-		joint_motion_kb = motion_list_p->dumpDiagInfo();
+		U32 joint_motion_kb = motion_list_p->dumpDiagInfo();
 
 		total_size += joint_motion_kb;
 	}

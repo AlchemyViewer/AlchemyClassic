@@ -158,10 +158,10 @@ BOOL LLViewerParcelOverlay::isOwnedOther(const LLVector3& pos) const
 bool LLViewerParcelOverlay::encroachesOwned(const std::vector<LLBBox>& boxes) const
 {
 	// boxes are expected to already be axis aligned
-	for (U32 i = 0; i < boxes.size(); ++i)
-	{
-		LLVector3 min = boxes[i].getMinAgent();
-		LLVector3 max = boxes[i].getMaxAgent();
+	for (const auto& boxe : boxes)
+    {
+		LLVector3 min = boxe.getMinAgent();
+		LLVector3 max = boxe.getMaxAgent();
 		
 		S32 left   = S32(llclamp((min.mV[VX] / PARCEL_GRID_STEP_METERS), 0.f, REGION_WIDTH_METERS - 1));
 		S32 right  = S32(llclamp((max.mV[VX] / PARCEL_GRID_STEP_METERS), 0.f, REGION_WIDTH_METERS - 1));
@@ -186,10 +186,10 @@ bool LLViewerParcelOverlay::encroachesOwned(const std::vector<LLBBox>& boxes) co
 bool LLViewerParcelOverlay::encroachesOnUnowned(const std::vector<LLBBox>& boxes) const
 {
 	// boxes are expected to already be axis aligned
-	for (U32 i = 0; i < boxes.size(); ++i)
-	{
-		LLVector3 min = boxes[i].getMinAgent();
-		LLVector3 max = boxes[i].getMaxAgent();
+	for (const auto& boxe : boxes)
+    {
+		LLVector3 min = boxe.getMinAgent();
+		LLVector3 max = boxe.getMaxAgent();
 		
 		S32 left   = S32(llclamp((min.mV[VX] / PARCEL_GRID_STEP_METERS), 0.f, REGION_WIDTH_METERS - 1));
 		S32 right  = S32(llclamp((max.mV[VX] / PARCEL_GRID_STEP_METERS), 0.f, REGION_WIDTH_METERS - 1));
@@ -214,10 +214,10 @@ bool LLViewerParcelOverlay::encroachesOnUnowned(const std::vector<LLBBox>& boxes
 bool LLViewerParcelOverlay::encroachesOnNearbyParcel(const std::vector<LLBBox>& boxes) const
 {
 	// boxes are expected to already be axis aligned
-	for (U32 i = 0; i < boxes.size(); ++i)
-	{
-		LLVector3 min = boxes[i].getMinAgent();
-		LLVector3 max = boxes[i].getMaxAgent();
+	for (const auto& boxe : boxes)
+    {
+		LLVector3 min = boxe.getMinAgent();
+		LLVector3 max = boxe.getMaxAgent();
 
 		// If an object crosses region borders it crosses a parcel
 		if (   min.mV[VX] < 0

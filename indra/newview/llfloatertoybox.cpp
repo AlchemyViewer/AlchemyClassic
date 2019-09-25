@@ -89,9 +89,9 @@ BOOL LLFloaterToybox::postBuild()
 	// Create Buttons
 	//
 
-	for (std::list<LLCommand *>::iterator it = alphabetized_commands.begin(); it != alphabetized_commands.end(); ++it)
-	{
-		mToolBar->addCommand((*it)->id());
+	for (auto& alphabetized_command : alphabetized_commands)
+    {
+		mToolBar->addCommand(alphabetized_command->id());
 	}
 
 	return TRUE;
@@ -103,11 +103,9 @@ void LLFloaterToybox::draw()
 
 	const command_id_list_t& command_list = mToolBar->getCommandsList();
 
-	for (command_id_list_t::const_iterator it = command_list.begin(); it != command_list.end(); ++it)
-	{
-		const LLCommandId& id = *it;
-
-		const bool command_not_present = (gToolBarView->hasCommand(id) == LLToolBarEnums::TOOLBAR_NONE);
+	for (auto id : command_list)
+    {
+        const bool command_not_present = (gToolBarView->hasCommand(id) == LLToolBarEnums::TOOLBAR_NONE);
 		mToolBar->enableCommand(id, command_not_present);
 	}
 

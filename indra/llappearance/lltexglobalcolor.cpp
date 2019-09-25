@@ -55,12 +55,10 @@ BOOL LLTexGlobalColor::setInfo(LLTexGlobalColorInfo *info)
 	//mID = info->mID; // No ID
 
 	mParamGlobalColorList.reserve(mInfo->mParamColorInfoList.size());
-	for (param_color_info_list_t::iterator iter = mInfo->mParamColorInfoList.begin(); 
-		 iter != mInfo->mParamColorInfoList.end(); 
-		 ++iter)
-	{
+	for (auto& iter : mInfo->mParamColorInfoList)
+    {
 		LLTexParamGlobalColor* param_color = new LLTexParamGlobalColor(this);
-		if (!param_color->setInfo(*iter, TRUE))
+		if (!param_color->setInfo(iter, TRUE))
 		{
 			mInfo = nullptr;
 			return FALSE;

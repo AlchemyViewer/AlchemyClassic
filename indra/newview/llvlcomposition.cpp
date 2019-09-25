@@ -215,20 +215,20 @@ BOOL LLVLComposition::generateComposition()
 		return FALSE;
 	}
 
-	for (S32 i = 0; i < 4; i++)
-	{
-		if (mDetailTextures[i]->getDiscardLevel() < 0)
+	for (auto& detail_texture : mDetailTextures)
+    {
+		if (detail_texture->getDiscardLevel() < 0)
 		{
-			mDetailTextures[i]->setBoostLevel(LLGLTexture::BOOST_TERRAIN); // in case we are at low detail
-			mDetailTextures[i]->addTextureStats(BASE_SIZE*BASE_SIZE);
+            detail_texture->setBoostLevel(LLGLTexture::BOOST_TERRAIN); // in case we are at low detail
+            detail_texture->addTextureStats(BASE_SIZE*BASE_SIZE);
 			return FALSE;
 		}
-		if ((mDetailTextures[i]->getDiscardLevel() != 0 &&
-			 (mDetailTextures[i]->getWidth() < BASE_SIZE ||
-			  mDetailTextures[i]->getHeight() < BASE_SIZE)))
+		if ((detail_texture->getDiscardLevel() != 0 &&
+			 (detail_texture->getWidth() < BASE_SIZE ||
+                 detail_texture->getHeight() < BASE_SIZE)))
 		{
-			S32 width = mDetailTextures[i]->getFullWidth();
-			S32 height = mDetailTextures[i]->getFullHeight();
+			S32 width = detail_texture->getFullWidth();
+			S32 height = detail_texture->getFullHeight();
 			S32 min_dim = llmin(width, height);
 			S32 ddiscard = 0;
 			while (min_dim > BASE_SIZE && ddiscard < MAX_DISCARD_LEVEL)
@@ -236,9 +236,9 @@ BOOL LLVLComposition::generateComposition()
 				ddiscard++;
 				min_dim /= 2;
 			}
-			mDetailTextures[i]->setBoostLevel(LLGLTexture::BOOST_TERRAIN); // in case we are at low detail
-			mDetailTextures[i]->setMinDiscardLevel(ddiscard);
-			mDetailTextures[i]->addTextureStats(BASE_SIZE*BASE_SIZE); // priority
+            detail_texture->setBoostLevel(LLGLTexture::BOOST_TERRAIN); // in case we are at low detail
+            detail_texture->setMinDiscardLevel(ddiscard);
+            detail_texture->addTextureStats(BASE_SIZE*BASE_SIZE); // priority
 			return FALSE;
 		}
 	}
@@ -447,11 +447,11 @@ BOOL LLVLComposition::generateTexture(const F32 x, const F32 y,
 	}
 	texturep->setSubImage(raw, tex_x_begin, tex_y_begin, tex_x_end - tex_x_begin, tex_y_end - tex_y_begin);
 
-	for (S32 i = 0; i < 4; i++)
-	{
-		// Un-boost detatil textures (will get re-boosted if rendering in high detail)
-		mDetailTextures[i]->setBoostLevel(LLGLTexture::BOOST_NONE);
-		mDetailTextures[i]->setMinDiscardLevel(MAX_DISCARD_LEVEL + 1);
+	for (auto& detail_texture : mDetailTextures)
+    {
+		// Un-boost detail textures (will get re-boosted if rendering in high detail)
+        detail_texture->setBoostLevel(LLGLTexture::BOOST_NONE);
+        detail_texture->setMinDiscardLevel(MAX_DISCARD_LEVEL + 1);
 	}
 	
 	return TRUE;

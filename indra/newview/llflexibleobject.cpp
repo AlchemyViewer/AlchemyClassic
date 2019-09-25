@@ -98,16 +98,14 @@ void LLVolumeImplFlexible::updateClass()
 	LL_RECORD_BLOCK_TIME(FTM_DO_FLEXIBLE_UPDATE);
 
 	U64 virtual_frame_num = LLTimer::getElapsedSeconds() / SEC_PER_FLEXI_FRAME;
-	for (std::vector<LLVolumeImplFlexible*>::iterator iter = sInstanceList.begin();
-			iter != sInstanceList.end();
-			++iter)
-	{
+	for (auto& iter : sInstanceList)
+    {
 		// Note: by now update period might have changed
-		if ((*iter)->mRenderRes == -1
-			|| (*iter)->mLastFrameNum + (*iter)->mLastUpdatePeriod <= virtual_frame_num
-			|| (*iter)->mLastFrameNum > virtual_frame_num) //time issues, overflow
+		if (iter->mRenderRes == -1
+			|| iter->mLastFrameNum + iter->mLastUpdatePeriod <= virtual_frame_num
+			|| iter->mLastFrameNum > virtual_frame_num) //time issues, overflow
 		{
-			(*iter)->doIdleUpdate();
+            iter->doIdleUpdate();
 		}
 	}
 }
@@ -135,9 +133,9 @@ void LLVolumeImplFlexible::onShift(const LLVector4a &shift_vector)
 {	
 	//VECTORIZE THIS
 	LLVector3 shift(shift_vector.getF32ptr());
-	for (int section = 0; section < (1<<FLEXIBLE_OBJECT_MAX_SECTIONS)+1; ++section)
-	{
-		mSection[section].mPosition += shift;	
+	for (auto& section : mSection)
+    {
+        section.mPosition += shift;	
 	}
 }
 

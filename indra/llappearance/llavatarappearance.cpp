@@ -202,12 +202,10 @@ void LLAvatarAppearance::initInstance()
 	mRoot->setName( "mRoot" );
 
 	const auto& mesh_entries = LLAvatarAppearanceDictionary::getInstance()->getMeshEntries();
-	for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator iter = mesh_entries.begin();
-		 iter != mesh_entries.end();
-		 ++iter)
-	{
-		const EMeshIndex mesh_index = iter->first;
-		const LLAvatarAppearanceDictionary::MeshEntry *mesh_dict = iter->second;
+	for (const auto& mesh : mesh_entries)
+    {
+		const EMeshIndex mesh_index = mesh.first;
+		const LLAvatarAppearanceDictionary::MeshEntry *mesh_dict = mesh.second;
 		LLAvatarJoint* joint = createAvatarJoint();
 		joint->setName(mesh_dict->mName);
 		joint->setMeshID(mesh_index);
@@ -248,22 +246,17 @@ void LLAvatarAppearance::initInstance()
 	//-------------------------------------------------------------------------
 	// associate baked textures with meshes
 	//-------------------------------------------------------------------------
-	for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator iter = mesh_entries.begin();
-		 iter != mesh_entries.end();
-		 ++iter)
-	{
-		const EMeshIndex mesh_index = iter->first;
-		const LLAvatarAppearanceDictionary::MeshEntry *mesh_dict = iter->second;
+	for (const auto& mesh : mesh_entries)
+    {
+		const EMeshIndex mesh_index = mesh.first;
+		const LLAvatarAppearanceDictionary::MeshEntry *mesh_dict = mesh.second;
 		const EBakedTextureIndex baked_texture_index = mesh_dict->mBakedID;
 		// Skip it if there's no associated baked texture.
 		if (baked_texture_index == BAKED_NUM_INDICES) continue;
 		
-		for (avatar_joint_mesh_list_t::iterator iter = mMeshLOD[mesh_index]->mMeshParts.begin();
-			 iter != mMeshLOD[mesh_index]->mMeshParts.end(); 
-			 ++iter)
-		{
-			LLAvatarJointMesh* mesh = (*iter);
-			mBakedTextureDatas[(S32)baked_texture_index].mJointMeshes.push_back(mesh);
+		for (auto mesh : mMeshLOD[mesh_index]->mMeshParts)
+        {
+            mBakedTextureDatas[(S32)baked_texture_index].mJointMeshes.push_back(mesh);
 		}
 	}
 
@@ -280,13 +273,13 @@ LLAvatarAppearance::~LLAvatarAppearance()
 	delete_and_clear(mTexHairColor);
 	delete_and_clear(mTexEyeColor);
 
-	for (U32 i = 0; i < mBakedTextureDatas.size(); i++)
-	{
-		delete_and_clear(mBakedTextureDatas[i].mTexLayerSet);
-		mBakedTextureDatas[i].mJointMeshes.clear();
+	for (auto& baked_texture_data : mBakedTextureDatas)
+    {
+		delete_and_clear(baked_texture_data.mTexLayerSet);
+        baked_texture_data.mJointMeshes.clear();
 
-		for (morph_list_t::iterator iter2 = mBakedTextureDatas[i].mMaskedMorphs.begin();
-			 iter2 != mBakedTextureDatas[i].mMaskedMorphs.end(); ++iter2)
+		for (auto iter2 = baked_texture_data.mMaskedMorphs.begin();
+			 iter2 != baked_texture_data.mMaskedMorphs.end(); ++iter2)
 		{
 			LLMaskedMorph* masked_morph = (*iter2);
 			delete masked_morph;
@@ -306,12 +299,9 @@ LLAvatarAppearance::~LLAvatarAppearance()
 	std::for_each(mPolyMeshes.begin(), mPolyMeshes.end(), DeletePairedPointer());
 	mPolyMeshes.clear();
 
-	for (avatar_joint_list_t::iterator jointIter = mMeshLOD.begin();
-		 jointIter != mMeshLOD.end(); 
-		 ++jointIter)
-	{
-		LLAvatarJoint* joint = *jointIter;
-		std::for_each(joint->mMeshParts.begin(), joint->mMeshParts.end(), DeletePointer());
+	for (auto joint : mMeshLOD)
+    {
+        std::for_each(joint->mMeshParts.begin(), joint->mMeshParts.end(), DeletePointer());
 		joint->mMeshParts.clear();
 	}
 	std::for_each(mMeshLOD.begin(), mMeshLOD.end(), DeletePointer());
@@ -805,15 +795,11 @@ void LLAvatarAppearance::buildCharacter()
 	//-------------------------------------------------------------------------
 	// clear mesh data
 	//-------------------------------------------------------------------------
-	for (avatar_joint_list_t::iterator jointIter = mMeshLOD.begin();
-		 jointIter != mMeshLOD.end(); ++jointIter)
-	{
-		LLAvatarJoint* joint = *jointIter;
-		for (avatar_joint_mesh_list_t::iterator meshIter = joint->mMeshParts.begin();
-			 meshIter != joint->mMeshParts.end(); ++meshIter)
-		{
-			LLAvatarJointMesh * mesh = *meshIter;
-			mesh->setMesh(nullptr);
+	for (auto joint : mMeshLOD)
+    {
+        for (auto mesh : joint->mMeshParts)
+        {
+            mesh->setMesh(nullptr);
 		}
 	}
 
@@ -983,13 +969,9 @@ BOOL LLAvatarAppearance::loadAvatar()
 	}
 
 	// avatar_lad.xml : <morph_masks>
-	for (LLAvatarXmlInfo::morph_info_list_t::iterator iter = sAvatarXmlInfo->mMorphMaskInfoList.begin();
-		 iter != sAvatarXmlInfo->mMorphMaskInfoList.end();
-		 ++iter)
-	{
-		LLAvatarXmlInfo::LLAvatarMorphInfo *info = *iter;
-
-		EBakedTextureIndex baked = LLAvatarAppearanceDictionary::findBakedByRegionName(info->mRegion); 
+	for (auto info : sAvatarXmlInfo->mMorphMaskInfoList)
+    {
+        EBakedTextureIndex baked = LLAvatarAppearanceDictionary::findBakedByRegionName(info->mRegion); 
 		if (baked != BAKED_NUM_INDICES)
 		{
 			LLVisualParam* morph_param;
@@ -1007,12 +989,9 @@ BOOL LLAvatarAppearance::loadAvatar()
 	loadLayersets();
 	
 	// avatar_lad.xml : <driver_parameters>
-	for (LLAvatarXmlInfo::driver_info_list_t::iterator iter = sAvatarXmlInfo->mDriverInfoList.begin();
-		 iter != sAvatarXmlInfo->mDriverInfoList.end(); 
-		 ++iter)
-	{
-		LLDriverParamInfo *info = *iter;
-		LLDriverParam* driver_param = new LLDriverParam( this );
+	for (auto info : sAvatarXmlInfo->mDriverInfoList)
+    {
+        LLDriverParam* driver_param = new LLDriverParam( this );
 		if (driver_param->setInfo(info))
 		{
 			addVisualParam( driver_param );
@@ -1044,12 +1023,9 @@ BOOL LLAvatarAppearance::loadSkeletonNode ()
 	mRoot->addChild( mSkeleton[0] );
 
 	// make meshes children before calling parent version of the function
-	for (avatar_joint_list_t::iterator iter = mMeshLOD.begin();
-		 iter != mMeshLOD.end(); 
-		 ++iter)
-	{
-		LLAvatarJoint *joint = *iter;
-		joint->mUpdateXform = FALSE;
+	for (auto joint : mMeshLOD)
+    {
+        joint->mUpdateXform = FALSE;
 		joint->setMeshesToChildren();
 	}
 
@@ -1125,12 +1101,10 @@ BOOL LLAvatarAppearance::loadMeshNodes()
 			switch(lod)
 			  case 0:
 				mesh = &mHairMesh0; */
-		for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator mesh_iter = LLAvatarAppearanceDictionary::getInstance()->getMeshEntries().begin();
-			 mesh_iter != LLAvatarAppearanceDictionary::getInstance()->getMeshEntries().end();
-			 ++mesh_iter)
-		{
-			const EMeshIndex mesh_index = mesh_iter->first;
-			const LLAvatarAppearanceDictionary::MeshEntry *mesh_dict = mesh_iter->second;
+		for (const auto& mesh_iter : LLAvatarAppearanceDictionary::getInstance()->getMeshEntries())
+        {
+			const EMeshIndex mesh_index = mesh_iter.first;
+			const LLAvatarAppearanceDictionary::MeshEntry *mesh_dict = mesh_iter.second;
 			if (type.compare(mesh_dict->mName) == 0)
 			{
 				mesh_id = mesh_index;
@@ -1198,11 +1172,9 @@ BOOL LLAvatarAppearance::loadMeshNodes()
 		mesh->setMesh( poly_mesh );
 		mesh->setLOD( info->mMinPixelArea );
 
-		for (LLAvatarXmlInfo::LLAvatarMeshInfo::morph_info_list_t::const_iterator xmlinfo_iter = info->mPolyMorphTargetInfoList.begin();
-			 xmlinfo_iter != info->mPolyMorphTargetInfoList.end(); 
-			 ++xmlinfo_iter)
-		{
-			const LLAvatarXmlInfo::LLAvatarMeshInfo::morph_info_pair_t *info_pair = &(*xmlinfo_iter);
+		for (const auto& xmlinfo_iter : info->mPolyMorphTargetInfoList)
+        {
+			const LLAvatarXmlInfo::LLAvatarMeshInfo::morph_info_pair_t *info_pair = &xmlinfo_iter;
 			LLPolyMorphTarget *param = new LLPolyMorphTarget(mesh->getMesh());
 			if (!param->setInfo((LLPolyMorphTargetInfo*)info_pair->first))
 			{
@@ -1254,14 +1226,12 @@ BOOL LLAvatarAppearance::loadLayersets()
 
 			// scan baked textures and associate the layerset with the appropriate one
 			EBakedTextureIndex baked_index = BAKED_NUM_INDICES;
-			for (LLAvatarAppearanceDictionary::BakedTextures::const_iterator baked_iter = LLAvatarAppearanceDictionary::getInstance()->getBakedTextures().begin();
-				 baked_iter != LLAvatarAppearanceDictionary::getInstance()->getBakedTextures().end();
-				 ++baked_iter)
-			{
-				const LLAvatarAppearanceDictionary::BakedEntry *baked_dict = baked_iter->second;
+			for (const auto& baked_iter : LLAvatarAppearanceDictionary::getInstance()->getBakedTextures())
+            {
+				const LLAvatarAppearanceDictionary::BakedEntry *baked_dict = baked_iter.second;
 				if (layer_set->isBodyRegion(baked_dict->mName))
 				{
-					baked_index = baked_iter->first;
+					baked_index = baked_iter.first;
 					// ensure both structures are aware of each other
 					mBakedTextureDatas[baked_index].mTexLayerSet = layer_set;
 					layer_set->setBakedTexIndex(baked_index);

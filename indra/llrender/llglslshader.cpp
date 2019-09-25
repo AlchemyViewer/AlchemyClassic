@@ -92,9 +92,9 @@ void LLGLSLShader::initProfile()
     sTotalSamplesDrawn = 0;
     sTotalDrawCalls = 0;
 
-    for (std::set<LLGLSLShader*>::iterator iter = sInstances.begin(); iter != sInstances.end(); ++iter)
+    for (auto sInstance : sInstances)
     {
-        (*iter)->clearStats();
+        sInstance->clearStats();
     }
 }
 
@@ -116,16 +116,16 @@ void LLGLSLShader::finishProfile(bool emit_report)
     {
         std::vector<LLGLSLShader*> sorted;
 
-        for (std::set<LLGLSLShader*>::iterator iter = sInstances.begin(); iter != sInstances.end(); ++iter)
+        for (auto sInstance : sInstances)
         {
-            sorted.push_back(*iter);
+            sorted.push_back(sInstance);
         }
 
         std::sort(sorted.begin(), sorted.end(), LLGLSLShaderCompareTimeElapsed());
 
-        for (std::vector<LLGLSLShader*>::iterator iter = sorted.begin(); iter != sorted.end(); ++iter)
+        for (auto& iter : sorted)
         {
-            (*iter)->dumpStats();
+            iter->dumpStats();
         }
             
     LL_INFOS() << "-----------------------------------" << LL_ENDL;
@@ -152,9 +152,9 @@ void LLGLSLShader::dumpStats()
     {
         LL_INFOS() << "=============================================" << LL_ENDL;
         LL_INFOS() << mName << LL_ENDL;
-        for (U32 i = 0; i < mShaderFiles.size(); ++i)
+        for (auto& shader_file : mShaderFiles)
         {
-            LL_INFOS() << mShaderFiles[i].first << LL_ENDL;
+            LL_INFOS() << shader_file.first << LL_ENDL;
         }
         for (U32 i = 0; i < mTexture.size(); ++i)
         {
@@ -368,9 +368,9 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
     sInstances.insert(this);
 
     //reloading, reset matrix hash values
-    for (U32 i = 0; i < LLRender::NUM_MATRIX_MODES; ++i)
+    for (unsigned int& i : mMatHash)
     {
-        mMatHash[i] = 0xFFFFFFFF;
+        i = 0xFFFFFFFF;
     }
     mLightHash = 0xFFFFFFFF;
 
@@ -466,13 +466,13 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
 BOOL LLGLSLShader::attachShader(const std::string& object)
 {
 	const auto& shader_objects = LLShaderMgr::instance()->mShaderObjects;
-	for (auto it = shader_objects.begin(); it != shader_objects.end(); it++)
-	{
-		if (it->first == object)
+	for (const auto& shader_object : shader_objects)
+    {
+		if (shader_object.first == object)
 		{
-			if (glIsShader(it->second.mHandle))
+			if (glIsShader(shader_object.second.mHandle))
 			{
-				glAttachShader(mProgramObject, it->second.mHandle);
+				glAttachShader(mProgramObject, shader_object.second.mHandle);
 				stop_glerror();
 				return TRUE;
 			}

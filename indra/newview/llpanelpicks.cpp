@@ -1017,13 +1017,13 @@ void LLPanelPicks::onPanelClassifiedClose(LLPanelClassifiedInfo* panel)
 	{
 		std::vector<LLSD> values;
 		mClassifiedsList->getValues(values);
-		for(size_t n = 0; n < values.size(); ++n)
-		{
-			LLUUID c_id = values[n][CLASSIFIED_ID].asUUID();
+		for (auto& value : values)
+        {
+			LLUUID c_id = value[CLASSIFIED_ID].asUUID();
 			if(panel->getClassifiedId() == c_id)
 			{
 				LLClassifiedItem* c_item = dynamic_cast<LLClassifiedItem*>(
-					mClassifiedsList->getItemByValue(values[n]));
+					mClassifiedsList->getItemByValue(value));
 				llassert(c_item);
 				if (c_item)
 				{
@@ -1128,9 +1128,9 @@ LLClassifiedItem *LLPanelPicks::findClassifiedById(const LLUUID& classified_id) 
 	std::vector<LLPanel*> items;
 	mClassifiedsList->getItems(items);
 	LLClassifiedItem* c_item = nullptr;
-	for(std::vector<LLPanel*>::iterator it = items.begin(); it != items.end(); ++it)
-	{
-		LLClassifiedItem *test_item = dynamic_cast<LLClassifiedItem*>(*it);
+	for (auto& item : items)
+    {
+		LLClassifiedItem *test_item = dynamic_cast<LLClassifiedItem*>(item);
 		if (test_item && test_item->getClassifiedId() == classified_id)
 		{
 			c_item = test_item;

@@ -356,9 +356,9 @@ void LLAppCoreHttp::cleanup()
 		}
 	}
 
-	for (int i(0); i < LL_ARRAY_SIZE(mHttpClasses); ++i)
-	{
-		mHttpClasses[i].mSettingsSignal.disconnect();
+	for (auto& http_class : mHttpClasses)
+    {
+        http_class.mSettingsSignal.disconnect();
 	}
 	mPipelinedSignal.disconnect();
 	

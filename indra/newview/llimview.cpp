@@ -1546,10 +1546,9 @@ void LLIMModel::addSpeakersToRecent(const LLUUID& im_session_id)
 	{
 		speaker_mgr->getSpeakerList(&speaker_list, true);
 	}
-	for (LLSpeakerMgr::speaker_list_t::iterator it = speaker_list.begin(); it != speaker_list.end(); ++it)
-	{
-		const LLPointer<LLSpeaker>& speakerp = *it;
-		LLRecentPeople::instance().add(speakerp->mID);
+	for (auto& speakerp : speaker_list)
+    {
+        LLRecentPeople::instance().add(speakerp->mID);
 	}
 }
 
@@ -1640,9 +1639,9 @@ bool LLIMModel::sendStartSession(
 	if (dialog == IM_SESSION_CONFERENCE_START)
 	{
 		LLSD agents;
-		for (size_t i = 0; i < ids.size(); i++)
-		{
-			agents.append(ids[i]);
+		for (auto id : ids)
+        {
+			agents.append(id);
 		}
 
 		//we have a new way of starting conference calls now
@@ -2829,9 +2828,9 @@ void LLIMMgr::addSystemMessage(const LLUUID& session_id, const std::string& mess
 S32 LLIMMgr::getNumberOfUnreadIM() const
 {
 	S32 num = 0;
-	for (auto it = LLIMModel::getInstance()->mId2SessionMap.begin(); it != LLIMModel::getInstance()->mId2SessionMap.end(); ++it)
-	{
-		num += (*it).second->mNumUnread;
+	for (auto& it : LLIMModel::getInstance()->mId2SessionMap)
+    {
+		num += it.second->mNumUnread;
 	}
 
 	return num;
@@ -2840,9 +2839,9 @@ S32 LLIMMgr::getNumberOfUnreadIM() const
 S32 LLIMMgr::getNumberOfUnreadParticipantMessages() const
 {
 	S32 num = 0;
-	for (auto it = LLIMModel::getInstance()->mId2SessionMap.begin(); it != LLIMModel::getInstance()->mId2SessionMap.end(); ++it)
-	{
-		num += (*it).second->mParticipantUnreadMessageCount;
+	for (auto& it : LLIMModel::getInstance()->mId2SessionMap)
+    {
+		num += it.second->mParticipantUnreadMessageCount;
 	}
 
 	return num;
@@ -3277,41 +3276,41 @@ void LLIMMgr::clearPendingAgentListUpdates(const LLUUID& session_id)
 
 void LLIMMgr::notifyObserverSessionAdded(const LLUUID& session_id, const std::string& name, const LLUUID& other_participant_id, bool has_offline_msg)
 {
-	for (session_observers_list_t::iterator it = mSessionObservers.begin(); it != mSessionObservers.end(); ++it)
-	{
-		(*it)->sessionAdded(session_id, name, other_participant_id, has_offline_msg);
+	for (auto& session_observer : mSessionObservers)
+    {
+        session_observer->sessionAdded(session_id, name, other_participant_id, has_offline_msg);
 	}
 }
 
 void LLIMMgr::notifyObserverSessionActivated(const LLUUID& session_id, const std::string& name, const LLUUID& other_participant_id)
 {
-	for (session_observers_list_t::iterator it = mSessionObservers.begin(); it != mSessionObservers.end(); ++it)
-	{
-		(*it)->sessionActivated(session_id, name, other_participant_id);
+	for (auto& session_observer : mSessionObservers)
+    {
+        session_observer->sessionActivated(session_id, name, other_participant_id);
 	}
 }
 
 void LLIMMgr::notifyObserverSessionVoiceOrIMStarted(const LLUUID& session_id)
 {
-	for (session_observers_list_t::iterator it = mSessionObservers.begin(); it != mSessionObservers.end(); ++it)
-	{
-		(*it)->sessionVoiceOrIMStarted(session_id);
+	for (auto& session_observer : mSessionObservers)
+    {
+        session_observer->sessionVoiceOrIMStarted(session_id);
 	}
 }
 
 void LLIMMgr::notifyObserverSessionRemoved(const LLUUID& session_id)
 {
-	for (session_observers_list_t::iterator it = mSessionObservers.begin(); it != mSessionObservers.end(); ++it)
-	{
-		(*it)->sessionRemoved(session_id);
+	for (auto& session_observer : mSessionObservers)
+    {
+        session_observer->sessionRemoved(session_id);
 	}
 }
 
 void LLIMMgr::notifyObserverSessionIDUpdated(const LLUUID& old_session_id, const LLUUID& new_session_id)
 {
-	for (session_observers_list_t::iterator it = mSessionObservers.begin(); it != mSessionObservers.end(); ++it)
-	{
-		(*it)->sessionIDUpdated(old_session_id, new_session_id);
+	for (auto& session_observer : mSessionObservers)
+    {
+        session_observer->sessionIDUpdated(old_session_id, new_session_id);
 	}
 }
 

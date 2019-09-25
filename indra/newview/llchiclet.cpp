@@ -514,9 +514,9 @@ void LLChicletPanel::onCurrentVoiceChannelChanged(const LLUUID& session_id)
 
 	std::list<LLChiclet*> chiclets = LLIMChiclet::sFindChicletsSignal(session_id);
 
-	for(std::list<LLChiclet *>::iterator it = chiclets.begin(); it != chiclets.end(); ++it)
-	{
-		LLIMChiclet* chiclet = dynamic_cast<LLIMChiclet*>(*it);
+	for (auto& it : chiclets)
+    {
+		LLIMChiclet* chiclet = dynamic_cast<LLIMChiclet*>(it);
 		if(chiclet)
 		{
 			if (gSavedSettings.getBOOL("OpenIMOnVoice"))
@@ -995,11 +995,10 @@ BOOL LLChicletPanel::handleScrollWheel(S32 x, S32 y, S32 clicks)
 bool LLChicletPanel::isAnyIMFloaterDoked()
 {
 	bool res = false;
-	for (chiclet_list_t::iterator it = mChicletList.begin(); it
-			!= mChicletList.end(); it++)
-	{
+	for (auto& it : mChicletList)
+    {
 		LLFloaterIMSession* im_floater = LLFloaterReg::findTypedInstance<LLFloaterIMSession>(
-				"impanel", (*it)->getSessionId());
+				"impanel", it->getSessionId());
 		if (im_floater != nullptr && im_floater->getVisible()
 				&& !im_floater->isMinimized() && im_floater->isDocked())
 		{

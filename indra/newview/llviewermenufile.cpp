@@ -398,9 +398,9 @@ const void upload_bulk(const std::vector<std::string>& filenames, LLFilePicker::
 	// Also fix single upload to charge first, then refund
 
 	S32 expected_upload_cost = LLGlobalEconomy::getInstance()->getPriceUpload();
-	for (std::vector<std::string>::const_iterator in_iter = filenames.begin(); in_iter != filenames.end(); ++in_iter)
-	{
-		std::string filename = (*in_iter);
+	for (const auto& in_iter : filenames)
+    {
+		std::string filename = in_iter;
 		if (!check_file_extension(filename, type)) continue;
 		
 		std::string name = gDirUtilp->getBaseFileName(filename, true);

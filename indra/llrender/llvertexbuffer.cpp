@@ -288,11 +288,9 @@ void LLVBOPool::cleanup()
 {
 	U32 size = LL_VBO_BLOCK_SIZE;
 
-	for (U32 i = 0; i < mFreeList.size(); ++i)
-	{
-		record_list_t& l = mFreeList[i];
-
-		while (!l.empty())
+	for (auto& l : mFreeList)
+    {
+        while (!l.empty())
 		{
 			Record& r = l.front();
 
@@ -991,9 +989,9 @@ LLVertexBuffer::LLVertexBuffer(U32 typemask, S32 usage)
 	mMappable = (mUsage == GL_DYNAMIC_DRAW_ARB && !sDisableVBOMapping);
 
 	//zero out offsets
-	for (U32 i = 0; i < TYPE_MAX; i++)
-	{
-		mOffsets[i] = 0;
+	for (int& mOffset : mOffsets)
+    {
+        mOffset = 0;
 	}
 
 	sCount++;
@@ -1576,10 +1574,9 @@ volatile U8* LLVertexBuffer::mapVertexBuffer(S32 type, S32 index, S32 count, boo
 
 			bool mapped = false;
 			//see if range is already mapped
-			for (U32 i = 0; i < mMappedVertexRegions.size(); ++i)
-			{
-				MappedRegion& region = mMappedVertexRegions[i];
-				if (region.mType == type)
+			for (auto& region : mMappedVertexRegions)
+            {
+                if (region.mType == type)
 				{
 					if (expand_region(region, index, count))
 					{
@@ -1757,10 +1754,9 @@ volatile U8* LLVertexBuffer::mapIndexBuffer(S32 index, S32 count, bool map_range
 
 			bool mapped = false;
 			//see if range is already mapped
-			for (U32 i = 0; i < mMappedIndexRegions.size(); ++i)
-			{
-				MappedRegion& region = mMappedIndexRegions[i];
-				if (expand_region(region, index, count))
+			for (auto& region : mMappedIndexRegions)
+            {
+                if (expand_region(region, index, count))
 				{
 					mapped = true;
 					break;
@@ -1924,10 +1920,9 @@ void LLVertexBuffer::unmapBuffer()
 			if (!mMappedVertexRegions.empty())
 			{
 				stop_glerror();
-				for (U32 i = 0; i < mMappedVertexRegions.size(); ++i)
-				{
-					const MappedRegion& region = mMappedVertexRegions[i];
-					S32 offset = region.mIndex >= 0 ? mOffsets[region.mType]+sTypeSize[region.mType]*region.mIndex : 0;
+				for (auto region : mMappedVertexRegions)
+                {
+                    S32 offset = region.mIndex >= 0 ? mOffsets[region.mType]+sTypeSize[region.mType]*region.mIndex : 0;
 					S32 length = sTypeSize[region.mType]*region.mCount;
 					if (mSize >= length + offset)
 					{
@@ -1964,10 +1959,9 @@ void LLVertexBuffer::unmapBuffer()
 				if (!mMappedVertexRegions.empty())
 				{
 					stop_glerror();
-					for (U32 i = 0; i < mMappedVertexRegions.size(); ++i)
-					{
-						const MappedRegion& region = mMappedVertexRegions[i];
-						S32 offset = region.mIndex >= 0 ? mOffsets[region.mType]+sTypeSize[region.mType]*region.mIndex : 0;
+					for (auto region : mMappedVertexRegions)
+                    {
+                        S32 offset = region.mIndex >= 0 ? mOffsets[region.mType]+sTypeSize[region.mType]*region.mIndex : 0;
 						S32 length = sTypeSize[region.mType]*region.mCount;
 						if (gGLManager.mHasMapBufferRange)
 						{
@@ -2007,10 +2001,9 @@ void LLVertexBuffer::unmapBuffer()
 		{
 			if (!mMappedIndexRegions.empty())
 			{
-				for (U32 i = 0; i < mMappedIndexRegions.size(); ++i)
-				{
-					const MappedRegion& region = mMappedIndexRegions[i];
-					S32 offset = region.mIndex >= 0 ? sizeof(U16)*region.mIndex : 0;
+				for (auto region : mMappedIndexRegions)
+                {
+                    S32 offset = region.mIndex >= 0 ? sizeof(U16)*region.mIndex : 0;
 					S32 length = sizeof(U16)*region.mCount;
 					if (mIndicesSize >= length + offset)
 					{
@@ -2046,10 +2039,9 @@ void LLVertexBuffer::unmapBuffer()
 			{
 				if (!mMappedIndexRegions.empty())
 				{
-					for (U32 i = 0; i < mMappedIndexRegions.size(); ++i)
-					{
-						const MappedRegion& region = mMappedIndexRegions[i];
-						S32 offset = region.mIndex >= 0 ? sizeof(U16)*region.mIndex : 0;
+					for (auto region : mMappedIndexRegions)
+                    {
+                        S32 offset = region.mIndex >= 0 ? sizeof(U16)*region.mIndex : 0;
 						S32 length = sizeof(U16)*region.mCount;
 						if (gGLManager.mHasMapBufferRange)
 						{

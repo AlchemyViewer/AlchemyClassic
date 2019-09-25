@@ -150,10 +150,9 @@ void LLNotificationsListener::listChannelNotifications(const LLSD& params) const
     if (channel)
     {
         LLSD notifications(LLSD::emptyArray());
-        for (LLNotificationChannel::Iterator ni(channel->begin()), nend(channel->end());
-             ni != nend; ++ni)
+        for (const auto& ni : *channel)
         {
-            notifications.append(asLLSD(*ni));
+            notifications.append(asLLSD(ni));
         }
         response["notifications"] = notifications;
     }

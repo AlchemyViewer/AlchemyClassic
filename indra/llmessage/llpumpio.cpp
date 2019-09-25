@@ -1041,9 +1041,9 @@ bool LLPumpIO::isChainExpired(LLChainInfo& chain)
 		return false ;
 	}
 
-	for(links_t::iterator iter = chain.mChainLinks.begin(); iter != chain.mChainLinks.end(); ++iter)
-	{
-		if(!(*iter).mPipe->isValid())
+	for (auto& link : chain.mChainLinks)
+    {
+		if(!link.mPipe->isValid())
 		{
 			return true ;
 		}

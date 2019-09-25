@@ -84,10 +84,9 @@ void LLManip::rebuild(LLViewerObject* vobj)
 		}
 
 		LLViewerObject::const_child_list_t& child_list = vobj->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin(), endIter = child_list.end();
-			 iter != endIter; ++iter)
-		{
-			LLViewerObject* child = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* child = iter;
 			rebuild(child);
 		}
 	}

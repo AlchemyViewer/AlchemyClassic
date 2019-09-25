@@ -80,11 +80,9 @@ struct ViewerFolderEntry : public LLDictionaryEntry
 	{
 		if (mAllowedNames.empty())
 			return false;
-		for (name_vec_t::const_iterator iter = mAllowedNames.begin();
-			 iter != mAllowedNames.end();
-			 iter++)
-		{
-			if (name == (*iter))
+		for (const auto& mAllowedName : mAllowedNames)
+        {
+			if (name == mAllowedName)
 				return true;
 		}
 		return false;

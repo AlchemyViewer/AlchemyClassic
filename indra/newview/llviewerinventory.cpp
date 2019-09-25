@@ -1038,10 +1038,10 @@ void LLInventoryCallbackManager::destroyClass()
 {
 	if (sInstance)
 	{
-		for (callback_map_t::iterator it = sInstance->mMap.begin(), end_it = sInstance->mMap.end(); it != end_it; ++it)
-		{
+		for (auto& it : sInstance->mMap)
+        {
 			// drop LLPointer reference to callback
-			it->second = NULL;
+            it.second = NULL;
 		}
 		sInstance->mMap.clear();
 	}
@@ -1567,11 +1567,9 @@ void remove_inventory_items(
 	LLPointer<LLInventoryCallback> cb
 	)
 {
-	for (LLInventoryObject::object_list_t::iterator it = items_to_kill.begin();
-		 it != items_to_kill.end();
-		 ++it)
-	{
-		remove_inventory_item(*it, cb);
+	for (auto& it : items_to_kill)
+    {
+		remove_inventory_item(it, cb);
 	}
 }
 
@@ -1966,9 +1964,9 @@ void remove_folder_contents(const LLUUID& category, bool keep_outfit_links,
 	LLInventoryModel::item_array_t items;
 	gInventory.collectDescendents(category, cats, items,
 								  LLInventoryModel::EXCLUDE_TRASH);
-	for (S32 i = 0; i < items.size(); ++i)
-	{
-		LLViewerInventoryItem *item = items.at(i);
+	for (auto& i : items)
+    {
+		LLViewerInventoryItem *item = i;
 		if (keep_outfit_links && (item->getActualType() == LLAssetType::AT_LINK_FOLDER))
 			continue;
 		if (item->getIsLinkType())
@@ -2386,11 +2384,9 @@ BOOL LLViewerInventoryItem::regenerateLink()
 									items,
 									LLInventoryModel::EXCLUDE_TRASH,
 									asset_id_matches);
-	for (LLViewerInventoryItem::item_array_t::iterator item_iter = items.begin();
-		 item_iter != items.end();
-		 item_iter++)
-	{
-	    LLViewerInventoryItem *item = (*item_iter);
+	for (auto& item_iter : items)
+    {
+	    LLViewerInventoryItem *item = item_iter;
 		item->setAssetUUID(target_item_id);
 		item->updateServer(FALSE);
 		gInventory.addChangedMask(LLInventoryObserver::REBUILD, item->getUUID());

@@ -126,10 +126,10 @@ void LLItemPropertiesObserver::changed(U32 mask)
 
 	const LLUUID& item_id = mFloater->getItemID();
 
-	for (std::set<LLUUID>::const_iterator it = mChangedItemIDs.begin(); it != mChangedItemIDs.end(); ++it)
-	{
+	for (auto id : mChangedItemIDs)
+    {
 		// set dirty for 'item profile panel' only if changed item is the item for which 'item profile panel' is shown (STORM-288)
-		if (*it == item_id)
+		if (id == item_id)
 		{
 			// if there's a change we're interested in.
 			if((mask & (LLInventoryObserver::LABEL | LLInventoryObserver::INTERNAL | LLInventoryObserver::REMOVE)) != 0)

@@ -766,12 +766,9 @@ static void highlight_inventory_objects_in_panel(const std::vector<LLUUID>& item
 {
 	if (nullptr == inventory_panel) return;
 
-	for (std::vector<LLUUID>::const_iterator item_iter = items.begin();
-	     item_iter != items.end();
-	     ++item_iter)
-	{
-		const LLUUID& item_id = (*item_iter);
-		if (!highlight_offered_object(item_id))
+	for (auto item_id : items)
+    {
+        if (!highlight_offered_object(item_id))
 		{
 			continue;
 		}
@@ -883,11 +880,9 @@ private:
 		if (LLInventoryPanel::getActiveInventoryPanel())
 		{
 			std::set<LLFolderViewItem*> selection = LLInventoryPanel::getActiveInventoryPanel()->getRootFolder()->getSelectionList();
-			for (std::set<LLFolderViewItem*>::iterator it = selection.begin(), end_it = selection.end();
-			     it != end_it;
-			     ++it)
-			{
-				mSelectedItems.insert(static_cast<LLFolderViewModelItemInventory*>((*it)->getViewModelItem())->getUUID());
+			for (auto it : selection)
+            {
+				mSelectedItems.insert(static_cast<LLFolderViewModelItemInventory*>(it->getViewModelItem())->getUUID());
 			}
 		}
 		mSelectedItems.erase(mMoveIntoFolderID);
@@ -926,11 +921,9 @@ private:
 		selected_items_t selected_items;
 
 		std::set<LLFolderViewItem*> selection = active_panel->getRootFolder()->getSelectionList();
-		for (std::set<LLFolderViewItem*>::iterator it = selection.begin(), end_it = selection.end();
-		     it != end_it;
-		     ++it)
-		{
-			selected_items.insert(static_cast<LLFolderViewModelItemInventory*>((*it)->getViewModelItem())->getUUID());
+		for (auto it : selection)
+        {
+			selected_items.insert(static_cast<LLFolderViewModelItemInventory*>(it->getViewModelItem())->getUUID());
 		}
 		selected_items.erase(mMoveIntoFolderID);
 
@@ -1057,9 +1050,9 @@ protected:
 	void done() override
 	{
 		uuid_vec_t added;
-		for (uuid_set_t::const_iterator it = gInventory.getAddedIDs().begin(); it != gInventory.getAddedIDs().end(); ++it)
-		{
-			added.push_back(*it);
+		for (auto it : gInventory.getAddedIDs())
+        {
+			added.push_back(it);
 		}
 		for (uuid_vec_t::iterator it = added.begin(); it != added.end();)
 		{
@@ -1099,9 +1092,9 @@ protected:
 	void done() override
 	{
 		uuid_vec_t added;
-		for (uuid_set_t::const_iterator it = gInventory.getAddedIDs().begin(); it != gInventory.getAddedIDs().end(); ++it)
-		{
-			added.push_back(*it);
+		for (auto it : gInventory.getAddedIDs())
+        {
+			added.push_back(it);
 		}
 		open_inventory_offer(added, "group_offer");
 		gInventory.removeObserver(this);
@@ -1261,12 +1254,9 @@ bool check_asset_previewable(const LLAssetType::EType asset_type)
 
 void open_inventory_offer(const uuid_vec_t& objects, const std::string& from_name)
 {
-	for (uuid_vec_t::const_iterator obj_iter = objects.begin();
-	     obj_iter != objects.end();
-	     ++obj_iter)
-	{
-		const LLUUID& obj_id = (*obj_iter);
-		if (!highlight_offered_object(obj_id))
+	for (auto obj_id : objects)
+    {
+        if (!highlight_offered_object(obj_id))
 		{
 			const LLViewerInventoryCategory *parent = gInventory.getFirstNondefaultParent(obj_id);
 			if (parent && (parent->getPreferredType() == LLFolderType::FT_TRASH))
@@ -2978,12 +2968,11 @@ void process_agent_movement_complete(LLMessageSystem* msg, void**)
 		regionp->reInitPartitions();
 		gAgent.setRegion(regionp);
 		// Kill objects in the regions we left behind
-		for (LLWorld::region_list_t::const_iterator r = LLWorld::getInstance()->getRegionList().begin();
-		     r != LLWorld::getInstance()->getRegionList().end(); ++r)
-		{
-			if (*r != regionp)
+		for (auto r : LLWorld::getInstance()->getRegionList())
+        {
+			if (r != regionp)
 			{
-				gObjectList.killObjects(*r);
+				gObjectList.killObjects(r);
 			}
 		}
 	}
@@ -5270,11 +5259,9 @@ void mean_name_callback(const LLUUID& id, const LLAvatarName& av_name)
 		gMeanCollisionList.erase(iter, gMeanCollisionList.end());
 	}
 
-	for (mean_collision_list_t::iterator iter = gMeanCollisionList.begin();
-	     iter != gMeanCollisionList.end(); ++iter)
-	{
-		LLMeanCollisionData* mcd = *iter;
-		if (mcd->mPerp == id)
+	for (auto mcd : gMeanCollisionList)
+    {
+        if (mcd->mPerp == id)
 		{
 			mcd->mFullName = av_name.getUserName();
 		}
@@ -5313,11 +5300,9 @@ void process_mean_collision_alert_message(LLMessageSystem* msgsystem, void** use
 
 		BOOL b_found = FALSE;
 
-		for (mean_collision_list_t::iterator iter = gMeanCollisionList.begin();
-		     iter != gMeanCollisionList.end(); ++iter)
-		{
-			LLMeanCollisionData* mcd = *iter;
-			if ((mcd->mPerp == perp) && (mcd->mType == type))
+		for (auto mcd : gMeanCollisionList)
+        {
+            if ((mcd->mPerp == perp) && (mcd->mType == type))
 			{
 				mcd->mTime = time;
 				mcd->mMag = mag;
@@ -6165,11 +6150,9 @@ void handle_lure(const uuid_vec_t& ids)
 	edit_args["REGION"] = gAgent.getRegion()->getName();
 
 	LLSD payload;
-	for (std::vector<LLUUID>::const_iterator it = ids.begin();
-	     it != ids.end();
-	     ++it)
-	{
-		payload["ids"].append(*it);
+	for (auto id : ids)
+    {
+		payload["ids"].append(id);
 	}
 	if (gAgent.isGodlike())
 	{

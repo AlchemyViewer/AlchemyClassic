@@ -235,10 +235,8 @@ bool LLNotecard::exportEmbeddedItemsStream( std::ostream& out_stream )
 	out_stream << llformat("count %d\n", mItems.size() );
 
 	S32 idx = 0;
-	for (std::vector<LLPointer<LLInventoryItem> >::iterator iter = mItems.begin();
-		 iter != mItems.end(); ++iter)
-	{
-		LLInventoryItem* item = *iter;
+	for (auto& item : mItems)
+    {
 		if (item)
 		{
 			out_stream << "{\n";

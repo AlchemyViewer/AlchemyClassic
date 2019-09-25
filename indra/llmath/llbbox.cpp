@@ -83,9 +83,9 @@ void LLBBox::addBBoxAgent(const LLBBox& b)
 	m.translate( -mPosAgent );
 	m.rotate( ~mRotation );
 
-	for( S32 i=0; i<8; i++ )
-	{
-		addPointLocal( vertex[i] * m );
+	for (auto i : vertex)
+    {
+		addPointLocal(i * m );
 	}
 }
 

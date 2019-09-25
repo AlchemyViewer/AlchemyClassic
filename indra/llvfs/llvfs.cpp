@@ -1561,9 +1561,9 @@ LLVFSBlock *LLVFS::findFreeBlock(S32 size, LLVFSFileBlock *immune)
 			// this is far faster than sorting a linked list
 			if (! have_lru_list)
 			{
-				for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-				{
-					LLVFSFileBlock *tmp = (*it).second;
+				for (auto& file_block : mFileBlocks)
+                {
+					LLVFSFileBlock *tmp = file_block.second;
 
 					if (tmp != immune &&
 						tmp->mLength > 0 &&
@@ -1676,18 +1676,16 @@ void LLVFS::pokeFiles()
 void LLVFS::dumpMap()
 {
 	LL_INFOS() << "Files:" << LL_ENDL;
-	for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-	{
-		LLVFSFileBlock *file_block = (*it).second;
+	for (auto& block : mFileBlocks)
+    {
+		LLVFSFileBlock *file_block = block.second;
 		LL_INFOS() << "Location: " << file_block->mLocation << "\tLength: " << file_block->mLength << "\t" << file_block->mFileID << "\t" << file_block->mFileType << LL_ENDL;
 	}
     
 	LL_INFOS() << "Free Blocks:" << LL_ENDL;
-	for (blocks_location_map_t::iterator iter = mFreeBlocksByLocation.begin(),
-			 end = mFreeBlocksByLocation.end();
-		 iter != end; iter++)
-	{
-		LLVFSBlock *free_block = iter->second;
+	for (auto& iter : mFreeBlocksByLocation)
+    {
+		LLVFSBlock *free_block = iter.second;
 		LL_INFOS() << "Location: " << free_block->mLocation << "\tLength: " << free_block->mLength << LL_ENDL;
 	}
 }
@@ -1789,9 +1787,9 @@ void LLVFS::audit()
     
 	if (!vfs_corrupt)
 	{
-		for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-		{
-			LLVFSFileBlock* block = (*it).second;
+		for (auto& file_block : mFileBlocks)
+        {
+			LLVFSFileBlock* block = file_block.second;
 
 			if (block->mSize > 0)
 			{
@@ -1819,10 +1817,9 @@ void LLVFS::audit()
 			}
 		}
     
-		for (std::map<LLVFSFileSpecifier, LLVFSFileBlock*>::iterator iter = found_files.begin();
-			 iter != found_files.end(); iter++)
-		{
-			LLVFSFileBlock* block = iter->second;
+		for (auto& found_file : found_files)
+        {
+			LLVFSFileBlock* block = found_file.second;
 			LL_WARNS() << "VFile " << block->mFileID << ":" << block->mFileType << " szie:" << block->mSize << " leftover" << LL_ENDL;
 		}
     
@@ -1841,9 +1838,9 @@ void LLVFS::checkMem()
 {
 	lockData();
 	
-	for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-	{
-		LLVFSFileBlock *block = (*it).second;
+	for (auto& file_block : mFileBlocks)
+    {
+		LLVFSFileBlock *block = file_block.second;
 		llassert(block->mFileType >= LLAssetType::AT_NONE &&
 				 block->mFileType < LLAssetType::AT_COUNT &&
 				 block->mFileID != LLUUID::null);
@@ -1885,9 +1882,9 @@ void LLVFS::dumpStatistics()
 	S32 max_file_size = 0;
 	S32 total_file_size = 0;
 	S32 invalid_file_count = 0;
-	for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-	{
-		LLVFSFileBlock *file_block = (*it).second;
+	for (auto& block : mFileBlocks)
+    {
+		LLVFSFileBlock *file_block = block.second;
 		if (file_block->mLength == BLOCK_LENGTH_INVALID)
 		{
 			invalid_file_count++;
@@ -1912,16 +1909,16 @@ void LLVFS::dumpStatistics()
 		filetype_counts[file_block->mFileType].second += file_block->mLength;
 	}
     
-	for (std::map<S32,S32>::iterator it = size_counts.begin(); it != size_counts.end(); ++it)
-	{
-		S32 size = it->first;
-		S32 size_count = it->second;
+	for (auto& it : size_counts)
+    {
+		S32 size = it.first;
+		S32 size_count = it.second;
 		LL_INFOS() << "Bad files size " << size << " count " << size_count << LL_ENDL;
 	}
-	for (std::map<U32,S32>::iterator it = location_counts.begin(); it != location_counts.end(); ++it)
-	{
-		U32 location = it->first;
-		S32 location_count = it->second;
+	for (auto& it : location_counts)
+    {
+		U32 location = it.first;
+		S32 location_count = it.second;
 		LL_INFOS() << "Bad files location " << location << " count " << location_count << LL_ENDL;
 	}
 
@@ -1929,11 +1926,9 @@ void LLVFS::dumpStatistics()
 	S32 max_free_size = 0;
 	S32 total_free_size = 0;
 	std::map<S32, S32> free_length_counts;
-	for (blocks_location_map_t::iterator iter = mFreeBlocksByLocation.begin(),
-			 end = mFreeBlocksByLocation.end();
-		 iter != end; iter++)
-	{
-		LLVFSBlock *free_block = iter->second;
+	for (auto& iter : mFreeBlocksByLocation)
+    {
+		LLVFSBlock *free_block = iter.second;
 		if (free_block->mLength <= 0)
 		{
 			LL_INFOS() << "Bad free block at: " << free_block->mLocation << "\tLength: " << free_block->mLength << LL_ENDL;
@@ -1956,9 +1951,9 @@ void LLVFS::dumpStatistics()
 	}
 
 	// Dump histogram of free block sizes
-	for (std::map<S32,S32>::iterator it = free_length_counts.begin(); it != free_length_counts.end(); ++it)
-	{
-		LL_INFOS() << "Free length " << it->first << " count " << it->second << LL_ENDL;
+	for (auto& free_length_count : free_length_counts)
+    {
+		LL_INFOS() << "Free length " << free_length_count.first << " count " << free_length_count.second << LL_ENDL;
 	}
 
 	LL_INFOS() << "Invalid blocks: " << invalid_file_count << LL_ENDL;
@@ -1984,12 +1979,11 @@ void LLVFS::dumpStatistics()
 	LL_INFOS() << llformat("%.0f%% full",((F32)(total_file_size)/(F32)(total_file_size+total_free_size))*100.f) << LL_ENDL;
 
 	LL_INFOS() << " " << LL_ENDL;
-	for (std::map<LLAssetType::EType, std::pair<S32,S32> >::iterator iter = filetype_counts.begin();
-		 iter != filetype_counts.end(); ++iter)
-	{
-		LL_INFOS() << "Type: " << LLAssetType::getDesc(iter->first)
-				<< " Count: " << iter->second.first
-				<< " Bytes: " << (iter->second.second>>20) << " MB" << LL_ENDL;
+	for (auto& filetype_count : filetype_counts)
+    {
+		LL_INFOS() << "Type: " << LLAssetType::getDesc(filetype_count.first)
+				<< " Count: " << filetype_count.second.first
+				<< " Bytes: " << (filetype_count.second.second>>20) << " MB" << LL_ENDL;
 	}
 	
 	// Look for potential merges 
@@ -2049,10 +2043,10 @@ void LLVFS::listFiles()
 {
 	lockData();
 	
-	for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-	{
-		LLVFSFileSpecifier file_spec = it->first;
-		LLVFSFileBlock *file_block = it->second;
+	for (auto& block : mFileBlocks)
+    {
+		LLVFSFileSpecifier file_spec = block.first;
+		LLVFSFileBlock *file_block = block.second;
 		S32 length = file_block->mLength;
 		S32 size = file_block->mSize;
 		if (length != BLOCK_LENGTH_INVALID && size > 0)
@@ -2074,10 +2068,10 @@ void LLVFS::dumpFiles()
 	lockData();
 	
 	S32 files_extracted = 0;
-	for (fileblock_map::iterator it = mFileBlocks.begin(); it != mFileBlocks.end(); ++it)
-	{
-		LLVFSFileSpecifier file_spec = it->first;
-		LLVFSFileBlock *file_block = it->second;
+	for (auto& block : mFileBlocks)
+    {
+		LLVFSFileSpecifier file_spec = block.first;
+		LLVFSFileBlock *file_block = block.second;
 		S32 length = file_block->mLength;
 		apr_size_t size = (apr_size_t)file_block->mSize;
 		if (length != BLOCK_LENGTH_INVALID && size > 0)

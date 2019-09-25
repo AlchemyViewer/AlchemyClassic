@@ -226,10 +226,9 @@ void LLSceneMonitor::freezeScene()
 	}
 
 	//freeze all avatars
-	for (std::vector<LLCharacter*>::iterator iter = LLCharacter::sInstances.begin();
-		iter != LLCharacter::sInstances.end(); ++iter)
-	{
-		freezeAvatar((LLCharacter*)(*iter));
+	for (auto& sInstance : LLCharacter::sInstances)
+    {
+		freezeAvatar((LLCharacter*)sInstance);
 	}
 
 	// freeze everything else

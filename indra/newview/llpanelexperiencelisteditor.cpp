@@ -86,9 +86,9 @@ void LLPanelExperienceListEditor::addExperienceIds( const uuid_vec_t& experience
 	//onItems();
 	if(!mAddedCallback.empty())
 	{
-		for(uuid_vec_t::const_iterator it = experience_ids.begin(); it != experience_ids.end(); ++it)
-		{
-			mAddedCallback(*it);
+		for (auto experience_id : experience_ids)
+        {
+			mAddedCallback(experience_id);
 		}
 	}
 }

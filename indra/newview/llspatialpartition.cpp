@@ -1547,9 +1547,9 @@ void pushVertsColorCoded(LLSpatialGroup* group, U32 mask)
 
 	U32 col = 0;
 
-	for (LLSpatialGroup::draw_map_t::iterator i = group->mDrawMap.begin(); i != group->mDrawMap.end(); ++i)
-	{
-		for (LLSpatialGroup::drawmap_elem_t::iterator j = i->second.begin(); j != i->second.end(); ++j) 
+	for (auto& i : group->mDrawMap)
+    {
+		for (LLSpatialGroup::drawmap_elem_t::iterator j = i.second.begin(); j != i.second.end(); ++j) 
 		{
 			params = *j;
 			LLRenderPass::applyModelMatrix(*params);
@@ -1916,9 +1916,9 @@ void renderComplexityDisplay(LLDrawable* drawablep)
 
 	// add any child volumes
 	LLViewerObject::const_child_list_t children = voVol->getChildren();
-	for (LLViewerObject::const_child_list_t::const_iterator iter = children.begin(); iter != children.end(); ++iter)
-	{
-		const LLViewerObject *child = *iter;
+	for (const auto& iter : children)
+    {
+		const LLViewerObject *child = iter;
 		const LLVOVolume *child_volume = dynamic_cast<const LLVOVolume*>(child);
 		if (child_volume)
 		{
@@ -1927,10 +1927,10 @@ void renderComplexityDisplay(LLDrawable* drawablep)
 	}
 
 	// add texture cost
-	for (LLVOVolume::texture_cost_t::iterator iter = textures.begin(); iter != textures.end(); ++iter)
-	{
+	for (auto& texture : textures)
+    {
 		// add the cost of each individual texture in the linkset
-		cost += iter->second;
+		cost += texture.second;
 	}
 
 	F32 cost_max = (F32) LLVOVolume::getRenderComplexityMax();
@@ -1981,9 +1981,9 @@ void renderComplexityDisplay(LLDrawable* drawablep)
 			}
 		}
 		LLViewerObject::const_child_list_t children = voVol->getChildren();
-		for (LLViewerObject::const_child_list_t::const_iterator iter = children.begin(); iter != children.end(); ++iter)
-		{
-			const LLViewerObject *child = *iter;
+		for (const auto& iter : children)
+        {
+			const LLViewerObject *child = iter;
 			if (child)
 			{
 				num_faces = child->getNumFaces();
@@ -2299,9 +2299,9 @@ void renderPhysicsShape(LLDrawable* drawable, LLVOVolume* volume)
 					gMeshRepo.buildPhysicsMesh(*decomp);
 				}
 
-				for (U32 i = 0; i < decomp->mMesh.size(); ++i)
-				{		
-					render_hull(decomp->mMesh[i], color, line_color);
+				for (auto& i : decomp->mMesh)
+                {		
+					render_hull(i, color, line_color);
 				}
 			}
 			else if (!decomp->mPhysicsShapeMesh.empty())
@@ -3331,12 +3331,12 @@ public:
 			}
 		}
 		
-		for (LLSpatialGroup::draw_map_t::iterator i = group->mDrawMap.begin(); i != group->mDrawMap.end(); ++i)
-		{
-			LLSpatialGroup::drawmap_elem_t& draw_vec = i->second;	
-			for (LLSpatialGroup::drawmap_elem_t::iterator j = draw_vec.begin(); j != draw_vec.end(); ++j)	
-			{
-				LLDrawInfo* draw_info = *j;
+		for (auto& i : group->mDrawMap)
+        {
+			LLSpatialGroup::drawmap_elem_t& draw_vec = i.second;	
+			for (auto& j : draw_vec)
+            {
+				LLDrawInfo* draw_info = j;
 				if (gPipeline.hasRenderDebugMask(LLPipeline::RENDER_DEBUG_TEXTURE_ANIM))
 				{
 					renderTextureAnim(draw_info);
@@ -3490,9 +3490,9 @@ public:
 
 	LLOctreeStateCheck()
 	{ 
-		for (U32 i = 0; i < LLViewerCamera::NUM_CAMERAS; i++)
-		{
-			mInheritedMask[i] = 0;
+		for (unsigned int& i : mInheritedMask)
+        {
+            i = 0;
 		}
 	}
 
@@ -4157,9 +4157,9 @@ void LLCullResult::pushDrawInfo(U32 type, LLDrawInfo* draw_info)
 
 void LLCullResult::assertDrawMapsEmpty()
 {
-	for (U32 i = 0; i < LLRenderPass::NUM_RENDER_TYPES; i++)
-	{
-		if (mRenderMapSize[i] != 0)
+	for (unsigned int i : mRenderMapSize)
+    {
+		if (i != 0)
 		{
 			LL_ERRS() << "Stale LLDrawInfo's in LLCullResult!" << LL_ENDL;
 		}

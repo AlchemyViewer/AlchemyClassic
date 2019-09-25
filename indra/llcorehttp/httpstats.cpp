@@ -41,7 +41,7 @@ HTTPStats::~HTTPStats()
 
 void HTTPStats::resetStats()
 {
-    mResutCodes.clear();
+    mResultCodes.clear();
     mDataDown.reset();
     mDataUp.reset();
     mRequests = 0;
@@ -52,10 +52,10 @@ void HTTPStats::recordResultCode(S32 code)
 {
     std::map<S32, S32>::iterator it;
 
-    it = mResutCodes.find(code);
+    it = mResultCodes.find(code);
 
-    if (it == mResutCodes.end())
-        mResutCodes[code] = 1;
+    if (it == mResultCodes.end())
+        mResultCodes[code] = 1;
     else
         (*it).second = (*it).second + 1;
 
@@ -96,9 +96,9 @@ void HTTPStats::dumpStats()
     out << std::endl;
     out << "Result Codes:" << std::endl << "--- -----" << std::endl;
 
-    for (std::map<S32, S32>::iterator it = mResutCodes.begin(); it != mResutCodes.end(); ++it)
+    for (auto& code : mResultCodes)
     { 
-        out << (*it).first << " " << (*it).second << std::endl;
+        out << code.first << " " << code.second << std::endl;
     }
 
     LL_WARNS("HTTPCore") << out.str() << LL_ENDL;

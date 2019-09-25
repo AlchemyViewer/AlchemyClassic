@@ -830,9 +830,9 @@ void LLToolDragAndDrop::dragOrDrop( S32 x, S32 y, MASK mask, BOOL drop,
         const LLUUID marketplacelistings_id = gInventory.findCategoryUUIDForType(LLFolderType::FT_MARKETPLACE_LISTINGS, false);
 		if (marketplacelistings_id.notNull())
 		{
-			for (S32 item_index = 0; item_index < (S32)mCargoIDs.size(); item_index++)
-			{
-				if (gInventory.isObjectDescendentOf(mCargoIDs[item_index], marketplacelistings_id))
+			for (auto cargo_id : mCargoIDs)
+            {
+				if (gInventory.isObjectDescendentOf(cargo_id, marketplacelistings_id))
 				{
 					*acceptance = ACCEPT_NO;
 					mToolTipMsg = LLTrans::getString("TooltipOutboxDragToWorld");

@@ -214,9 +214,9 @@ void LLVOCacheEntry::removeAllChildren()
 		return;
 	}
 
-	for(vocache_entry_set_t::iterator iter = mChildrenList.begin(); iter != mChildrenList.end(); ++iter)
- 	{
-		(*iter)->setParentID(0);
+	for (auto iter : mChildrenList)
+    {
+        iter->setParentID(0);
  	}
 	mChildrenList.clear();
 
@@ -595,9 +595,9 @@ void LLVOCacheEntry::updateParentBoundingInfo()
 		return;
 	}
 
-	for(vocache_entry_set_t::iterator iter = mChildrenList.begin(); iter != mChildrenList.end(); ++iter)
-	{
-		updateParentBoundingInfo(*iter);
+	for (auto iter : mChildrenList)
+    {
+		updateParentBoundingInfo(iter);
 	}
 	resetVisible();
 }
@@ -678,9 +678,9 @@ LLVOCachePartition::LLVOCachePartition(LLViewerRegion* regionp)
 	mBackSlectionEnabled = -1;
 	mIdleHash = 0;
 	
-	for(S32 i = 0; i < LLViewerCamera::NUM_CAMERAS; i++)
-	{
-		mCulledTime[i] = 0;	
+	for (unsigned int& i : mCulledTime)
+    {
+        i = 0;	
 	}
 	mCullHistory = static_cast<U32>(-1);
 
@@ -1024,10 +1024,9 @@ void LLVOCachePartition::processOccluders(LLCamera* camera)
 
 	LLVector3 region_agent = mRegionp->getOriginAgent();
 	LLVector4a shift(region_agent[0], region_agent[1], region_agent[2]);
-	for(std::set<LLVOCacheGroup*>::iterator iter = mOccludedGroups.begin(); iter != mOccludedGroups.end(); ++iter)
-	{
-		LLVOCacheGroup* group = *iter;
-		if(group->isOcclusionState(LLOcclusionCullingGroup::ACTIVE_OCCLUSION))
+	for (auto group : mOccludedGroups)
+    {
+        if(group->isOcclusionState(LLOcclusionCullingGroup::ACTIVE_OCCLUSION))
 		{
 			group->doOcclusion(camera, &shift);
 			group->clearOcclusionState(LLOcclusionCullingGroup::ACTIVE_OCCLUSION);
@@ -1046,10 +1045,9 @@ void LLVOCachePartition::resetOccluders()
 		return;
 	}
 
-	for(std::set<LLVOCacheGroup*>::iterator iter = mOccludedGroups.begin(); iter != mOccludedGroups.end(); ++iter)
-	{
-		LLVOCacheGroup* group = *iter;
-		group->clearOcclusionState(LLOcclusionCullingGroup::ACTIVE_OCCLUSION);
+	for (auto group : mOccludedGroups)
+    {
+        group->clearOcclusionState(LLOcclusionCullingGroup::ACTIVE_OCCLUSION);
 	}	
 	mOccludedGroups.clear();
 	sNeedsOcclusionCheck = FALSE;
@@ -1237,9 +1235,9 @@ void LLVOCache::clearCacheInMemory()
 {
 	if(!mHeaderEntryQueue.empty()) 
 	{
-		for(header_entry_queue_t::iterator iter = mHeaderEntryQueue.begin(); iter != mHeaderEntryQueue.end(); ++iter)
-		{
-			delete *iter ;
+		for (auto iter : mHeaderEntryQueue)
+        {
+			delete iter;
 		}
 		mHeaderEntryQueue.clear();
 		mHandleEntryMap.clear();

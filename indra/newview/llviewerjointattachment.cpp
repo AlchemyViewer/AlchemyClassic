@@ -136,10 +136,9 @@ void LLViewerJointAttachment::setupDrawable(LLViewerObject *object)
 	}
 
 	LLViewerObject::const_child_list_t& child_list = object->getChildren();
-	for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-		 iter != child_list.end(); ++iter)
-	{
-		LLViewerObject* childp = *iter;
+	for (const auto& iter : child_list)
+    {
+		LLViewerObject* childp = iter;
 		if (childp && childp->mDrawable.notNull())
 		{
 			childp->mDrawable->setState(LLDrawable::USE_BACKLIGHT);
@@ -199,10 +198,9 @@ BOOL LLViewerJointAttachment::addObject(LLViewerObject* object)
 			object->mText->setOnHUDAttachment(TRUE);
 		}
 		LLViewerObject::const_child_list_t& child_list = object->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			 iter != child_list.end(); ++iter)
-		{
-			LLViewerObject* childp = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* childp = iter;
 			if (childp && childp->mText.notNull())
 			{
 				childp->mText->setOnHUDAttachment(TRUE);
@@ -272,10 +270,9 @@ void LLViewerJointAttachment::removeObject(LLViewerObject *object)
 	}
 
 	LLViewerObject::const_child_list_t& child_list = object->getChildren();
-	for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-		 iter != child_list.end(); ++iter)
-	{
-		LLViewerObject* childp = *iter;
+	for (const auto& iter : child_list)
+    {
+		LLViewerObject* childp = iter;
 		if (childp && childp->mDrawable.notNull())
 		{
 			childp->mDrawable->clearState(LLDrawable::USE_BACKLIGHT);
@@ -301,10 +298,9 @@ void LLViewerJointAttachment::removeObject(LLViewerObject *object)
 			object->mText->setOnHUDAttachment(FALSE);
 		}
 		LLViewerObject::const_child_list_t& child_list = object->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			 iter != child_list.end(); ++iter)
-		{
-			LLViewerObject* childp = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* childp = iter;
 			if (childp->mText.notNull())
 			{
 				childp->mText->setOnHUDAttachment(FALSE);
@@ -362,11 +358,8 @@ void LLViewerJointAttachment::setOriginalPosition(LLVector3& position)
 S32 LLViewerJointAttachment::getNumAnimatedObjects() const
 {
     S32 count = 0;
-	for (attachedobjs_vec_t::const_iterator iter = mAttachedObjects.begin();
-		 iter != mAttachedObjects.end();
-		 ++iter)
-	{
-        const LLViewerObject *attached_object = *iter;
+	for (auto attached_object : mAttachedObjects)
+    {
         if (attached_object->isAnimatedObject())
         {
             count++;
@@ -410,10 +403,9 @@ void LLViewerJointAttachment::calcLOD()
 		{
 			maxarea = llmax(maxarea,attached_object->getMaxScale() * attached_object->getMidScale());
 			LLViewerObject::const_child_list_t& child_list = attached_object->getChildren();
-			for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-				 iter != child_list.end(); ++iter)
-			{
-				LLViewerObject* childp = *iter;
+			for (const auto& iter : child_list)
+            {
+				LLViewerObject* childp = iter;
 				F32 area = childp->getMaxScale() * childp->getMidScale();
 				maxarea = llmax(maxarea, area);
 			}
@@ -441,12 +433,9 @@ BOOL LLViewerJointAttachment::updateLOD(F32 pixel_area, BOOL activate)
 
 BOOL LLViewerJointAttachment::isObjectAttached(const LLViewerObject *viewer_object) const
 {
-	for (attachedobjs_vec_t::const_iterator iter = mAttachedObjects.begin();
-		 iter != mAttachedObjects.end();
-		 ++iter)
-	{
-		const LLViewerObject* attached_object = (*iter);
-		if (attached_object == viewer_object)
+	for (auto attached_object : mAttachedObjects)
+    {
+        if (attached_object == viewer_object)
 		{
 			return TRUE;
 		}
@@ -456,12 +445,9 @@ BOOL LLViewerJointAttachment::isObjectAttached(const LLViewerObject *viewer_obje
 
 const LLViewerObject *LLViewerJointAttachment::getAttachedObject(const LLUUID &object_id) const
 {
-	for (attachedobjs_vec_t::const_iterator iter = mAttachedObjects.begin();
-		 iter != mAttachedObjects.end();
-		 ++iter)
-	{
-		const LLViewerObject* attached_object = (*iter);
-		if (attached_object->getAttachmentItemID() == object_id)
+	for (auto attached_object : mAttachedObjects)
+    {
+        if (attached_object->getAttachmentItemID() == object_id)
 		{
 			return attached_object;
 		}
@@ -471,12 +457,9 @@ const LLViewerObject *LLViewerJointAttachment::getAttachedObject(const LLUUID &o
 
 LLViewerObject *LLViewerJointAttachment::getAttachedObject(const LLUUID &object_id)
 {
-	for (attachedobjs_vec_t::iterator iter = mAttachedObjects.begin();
-		 iter != mAttachedObjects.end();
-		 ++iter)
-	{
-		LLViewerObject* attached_object = (*iter);
-		if (attached_object->getAttachmentItemID() == object_id)
+	for (auto attached_object : mAttachedObjects)
+    {
+        if (attached_object->getAttachmentItemID() == object_id)
 		{
 			return attached_object;
 		}

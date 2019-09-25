@@ -322,17 +322,16 @@ void LLHUDNameTag::renderText(BOOL for_select)
 	{
 		//gGL.getTexUnit(0)->setTextureBlendType(LLTexUnit::TB_MULT);
 
-		for(std::vector<LLHUDTextSegment>::iterator segment_iter = mLabelSegments.begin();
-			segment_iter != mLabelSegments.end(); ++segment_iter )
-		{
+		for (auto& label_segment : mLabelSegments)
+        {
 			// Label segments use default font
-			const LLFontGL* fontp = (segment_iter->mStyle == LLFontGL::BOLD) ? mBoldFontp : mFontp;
+			const LLFontGL* fontp = (label_segment.mStyle == LLFontGL::BOLD) ? mBoldFontp : mFontp;
 			y_offset -= fontp->getLineHeight();
 
 			F32 x_offset;
 			if (mTextAlignment == ALIGN_TEXT_CENTER)
 			{
-				x_offset = -0.5f*segment_iter->getWidth(fontp);
+				x_offset = -0.5f* label_segment.getWidth(fontp);
 			}
 			else // ALIGN_LEFT
 			{
@@ -341,7 +340,7 @@ void LLHUDNameTag::renderText(BOOL for_select)
 
 			LLColor4 label_color(0.f, 0.f, 0.f, 1.f);
 			label_color.mV[VALPHA] = alpha_factor;
-			hud_render_text(segment_iter->getText(), render_position, *fontp, segment_iter->mStyle, LLFontGL::NO_SHADOW, x_offset, y_offset, label_color, FALSE);
+			hud_render_text(label_segment.getText(), render_position, *fontp, label_segment.mStyle, LLFontGL::NO_SHADOW, x_offset, y_offset, label_color, FALSE);
 		}
 	}
 
@@ -497,20 +496,18 @@ void LLHUDNameTag::setFont(const LLFontGL* font)
 void LLHUDNameTag::setColor(const LLColor4 &color)
 {
 	mColor = color;
-	for (std::vector<LLHUDTextSegment>::iterator segment_iter = mTextSegments.begin();
-		 segment_iter != mTextSegments.end(); ++segment_iter )
-	{
-		segment_iter->mColor = color;
+	for (auto& text_segment : mTextSegments)
+    {
+        text_segment.mColor = color;
 	}
 }
 
 void LLHUDNameTag::setAlpha(F32 alpha)
 {
 	mColor.mV[VALPHA] = alpha;
-	for (std::vector<LLHUDTextSegment>::iterator segment_iter = mTextSegments.begin();
-		 segment_iter != mTextSegments.end(); ++segment_iter )
-	{
-		segment_iter->mColor.mV[VALPHA] = alpha;
+	for (auto& text_segment : mTextSegments)
+    {
+        text_segment.mColor.mV[VALPHA] = alpha;
 	}
 }
 

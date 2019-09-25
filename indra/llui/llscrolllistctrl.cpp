@@ -261,18 +261,14 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 		setRemoveCallback(initCommitCallback(p.remove_callback));
 	}
 	
-	for (LLInitParam::ParamIterator<LLScrollListColumn::Params>::const_iterator row_it = p.contents.columns.begin();
-		row_it != p.contents.columns.end();
-		++row_it)
-	{
-		addColumn(*row_it);
+	for (const auto& column : p.contents.columns)
+    {
+		addColumn(column);
 	}
 
-	for (LLInitParam::ParamIterator<LLScrollListItem::Params>::const_iterator row_it = p.contents.rows.begin();
-		row_it != p.contents.rows.end();
-		++row_it)
-	{
-		addRow(*row_it);
+	for (const auto& row : p.contents.rows)
+    {
+		addRow(row);
 	}
 
 	LLTextBox::Params text_p;
@@ -2441,9 +2437,9 @@ BOOL LLScrollListCtrl::isRepeatedChars(const LLWString& string) const
 
 	llwchar first_char = string[0];
 
-	for (U32 i = 0; i < string.size(); i++)
-	{
-		if (string[i] != first_char)
+	for (unsigned int i : string)
+    {
+		if (i != first_char)
 		{
 			return FALSE;
 		}
@@ -2804,14 +2800,12 @@ void LLScrollListCtrl::addColumn(const LLScrollListColumn::Params& column_params
 			S32 top = mItemListRect.mTop;
 
 			S32 left = mItemListRect.mLeft;
-			for (column_map_t::iterator itor = mColumns.begin(); 
-				itor != mColumns.end(); 
-				++itor)
-			{
-				if (itor->second->mIndex < new_column->mIndex &&
-					itor->second->getWidth() > 0)
+			for (auto& column : mColumns)
+            {
+				if (column.second->mIndex < new_column->mIndex &&
+                    column.second->getWidth() > 0)
 				{
-					left += itor->second->getWidth() + mColumnPadding;
+					left += column.second->getWidth() + mColumnPadding;
 				}
 			}
 
@@ -2981,11 +2975,9 @@ LLScrollListItem* LLScrollListCtrl::addRow(LLScrollListItem *new_item, const LLS
 	// Add any columns we don't already have
 	S32 col_index = 0;
 
-	for(LLInitParam::ParamIterator<LLScrollListCell::Params>::const_iterator itor = item_p.columns.begin();
-		itor != item_p.columns.end();
-		++itor)
-	{
-		LLScrollListCell::Params cell_p = *itor;
+	for (const auto& itor : item_p.columns)
+    {
+		LLScrollListCell::Params cell_p = itor;
 		std::string column = cell_p.column;
 
 		// empty columns strings index by ordinal
@@ -3063,12 +3055,12 @@ LLScrollListItem* LLScrollListCtrl::addRow(LLScrollListItem *new_item, const LLS
 	}
 
 	// add dummy cells for missing columns
-	for (column_map_t::iterator column_it = mColumns.begin(); column_it != mColumns.end(); ++column_it)
-	{
-		S32 column_idx = column_it->second->mIndex;
+	for (auto& column : mColumns)
+    {
+		S32 column_idx = column.second->mIndex;
 		if (new_item->getColumn(column_idx) == NULL)
 		{
-			LLScrollListColumn* column_ptr = column_it->second;
+			LLScrollListColumn* column_ptr = column.second;
 			LLScrollListCell::Params cell_p;
 			cell_p.width = column_ptr->getWidth();
 			

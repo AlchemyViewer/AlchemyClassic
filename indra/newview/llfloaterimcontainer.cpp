@@ -411,10 +411,10 @@ LLFloaterIMContainer* LLFloaterIMContainer::getInstance()
 void LLFloaterIMContainer::processParticipantsStyleUpdate()
 {
 	// On each session in mConversationsItems
-	for (conversations_items_map::iterator it_session = mConversationsItems.begin(); it_session != mConversationsItems.end(); ++it_session)
-	{
+	for (auto& conversations_item : mConversationsItems)
+    {
 		// Get the current session descriptors
-		LLConversationItem* session_model = it_session->second;
+		LLConversationItem* session_model = conversations_item.second;
 		// Iterate through each model participant child
 		LLFolderViewModelItemCommon::child_list_t::const_iterator current_participant_model = session_model->getChildrenBegin();
 		LLFolderViewModelItemCommon::child_list_t::const_iterator end_participant_model = session_model->getChildrenEnd();
@@ -850,10 +850,9 @@ void LLFloaterIMContainer::collapseConversationsPane(bool collapse, bool save_is
 
 	reshapeFloaterAndSetResizeLimits(collapse, delta_width);
 
-	for (conversations_widgets_map::iterator widget_it = mConversationsWidgets.begin();
-	     widget_it != mConversationsWidgets.end(); ++widget_it)
-	{
-		LLConversationViewSession* widget = dynamic_cast<LLConversationViewSession*>(widget_it->second);
+	for (auto& conversations_widget : mConversationsWidgets)
+    {
+		LLConversationViewSession* widget = dynamic_cast<LLConversationViewSession*>(conversations_widget.second);
 		if (widget)
 		{
 			widget->toggleCollapsedMode(collapse);
@@ -1049,9 +1048,9 @@ void LLFloaterIMContainer::setSortOrder(const LLConversationSort& order)
 
 	// Notify all conversation (torn off or not) of the change to the sort order
 	// Note: For the moment, the sort order is *unique* across all conversations. That might change in the future.
-	for (conversations_items_map::iterator it_session = mConversationsItems.begin(); it_session != mConversationsItems.end(); it_session++)
-	{
-		LLUUID session_id = it_session->first;
+	for (auto& conversations_item : mConversationsItems)
+    {
+		LLUUID session_id = conversations_item.first;
 		LLFloaterIMSessionTab* conversation_floater = (session_id.isNull() ? (LLFloaterIMSessionTab*)(LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat")) : (LLFloaterIMSessionTab*)(LLFloaterIMSession::findInstance(session_id)));
 		if (conversation_floater)
 		{
@@ -1382,9 +1381,9 @@ bool LLFloaterIMContainer::enableContextMenuItem(const LLSD& userdata)
 	{
 		const std::set<LLFolderViewItem*> selectedItems = mConversationsRoot->getSelectionList();
 		LLConversationItem* conversationItem;
-		for (std::set<LLFolderViewItem*>::const_iterator it = selectedItems.begin(); it != selectedItems.end(); ++it)
-		{
-			conversationItem = static_cast<LLConversationItem *>((*it)->getViewModelItem());
+		for (auto selectedItem : selectedItems)
+        {
+			conversationItem = static_cast<LLConversationItem *>(selectedItem->getViewModelItem());
 			if ((conversationItem->getType() == LLConversationItem::CONV_SESSION_GROUP) || (conversationItem->getType() == LLConversationItem::CONV_SESSION_AD_HOC))
 			{
 				return false;
@@ -1716,10 +1715,10 @@ void LLFloaterIMContainer::setNearbyDistances()
 		// Get the position of the agent
 		const LLVector3d& me_pos = gAgent.getPositionGlobal();
 		// For each nearby avatar, compute and update the distance
-		for (auto iter = positions.cbegin(), iter_end = positions.cend(); iter != iter_end; ++iter)
-		{
-			const auto& id = iter->first;
-			const auto& pos = iter->second;
+		for (const auto& position : positions)
+        {
+			const auto& id = position.first;
+			const auto& pos = position.second;
 			F64 dist = dist_vec_squared(pos, me_pos);
 			item->setDistance(id, dist);
 		}
@@ -2352,9 +2351,9 @@ void LLFloaterIMContainer::closeHostedFloater()
 void LLFloaterIMContainer::closeAllConversations()
 {
 	std::vector<LLUUID> ids;
-	for (conversations_items_map::iterator it_session = mConversationsItems.begin(); it_session != mConversationsItems.end(); ++it_session)
-	{
-		LLUUID session_id = it_session->first;
+	for (auto& conversations_item : mConversationsItems)
+    {
+		LLUUID session_id = conversations_item.first;
 		if (session_id != LLUUID())
 		{
 			ids.push_back(session_id);
@@ -2370,12 +2369,12 @@ void LLFloaterIMContainer::closeAllConversations()
 
 void LLFloaterIMContainer::closeSelectedConversations(const uuid_vec_t& ids)
 {
-	for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
-	{
+	for (auto id : ids)
+    {
 		//We don't need to close Nearby chat, so skip it
-		if (*it != LLUUID())
+		if (id != LLUUID())
 		{
-			LLFloaterIMSession* conversationFloater = LLFloaterIMSession::findInstance(*it);
+			LLFloaterIMSession* conversationFloater = LLFloaterIMSession::findInstance(id);
 			if (conversationFloater)
 			{
 				onClickClose(conversationFloater);

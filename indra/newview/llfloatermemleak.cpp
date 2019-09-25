@@ -96,9 +96,9 @@ void LLFloaterMemLeak::release()
 		return ;
 	}
 
-	for(S32 i = 0 ; i < (S32)mLeakedMem.size() ; i++)
-	{
-		delete[] mLeakedMem[i] ;
+	for (auto& i : mLeakedMem)
+    {
+		delete[] i;
 	}
 	mLeakedMem.clear() ;
 

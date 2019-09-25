@@ -347,13 +347,9 @@ void LLTeleportHistoryFlatItemStorage::removeItem(LLTeleportHistoryFlatItem* ite
 
 void LLTeleportHistoryFlatItemStorage::purge()
 {
-	for ( flat_item_list_t::iterator
-			  it = mItems.begin(),
-			  it_end = mItems.end();
-		  it != it_end; ++it )
-	{
-		LLHandle <LLTeleportHistoryFlatItem> item_handle = *it;
-		if ( !item_handle.isDead() && item_handle.get()->getParent() == nullptr )
+	for (auto item_handle : mItems)
+    {
+        if ( !item_handle.isDead() && item_handle.get()->getParent() == nullptr )
 		{
 			item_handle.get()->die();
 		}

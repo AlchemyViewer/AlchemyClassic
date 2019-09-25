@@ -569,9 +569,9 @@ public:
 		//get 8 corners of bounding box
 		LLVector4Logical mask[6];
 
-		for (U32 i = 0; i < 6; ++i)
-		{
-			mask[i].clear();
+		for (auto& i : mask)
+        {
+            i.clear();
 		}
 
 		mask[0].setElement<2>(); //001

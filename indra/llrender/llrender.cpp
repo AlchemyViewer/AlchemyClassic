@@ -1046,9 +1046,9 @@ LLRender::LLRender()
 		mLightState.push_back(new LLLightState(i));
 	}
 
-	for (U32 i = 0; i < 4; i++)
-	{
-		mCurrColorMask[i] = true;
+	for (bool& i : mCurrColorMask)
+    {
+        i = true;
 	}
 
 	mCurrAlphaFunc = CF_DEFAULT;
@@ -1090,17 +1090,17 @@ void LLRender::init()
 
 void LLRender::shutdown()
 {
-	for (U32 i = 0; i < mTexUnits.size(); i++)
-	{
-		delete mTexUnits[i];
+	for (auto& unit : mTexUnits)
+    {
+		delete unit;
 	}
 	mTexUnits.clear();
 	delete mDummyTexUnit;
 	mDummyTexUnit = nullptr;
 
-	for (U32 i = 0; i < mLightState.size(); ++i)
-	{
-		delete mLightState[i];
+	for (auto& i : mLightState)
+    {
+		delete i;
 	}
 	mLightState.clear();
 	mBuffer = nullptr ;
@@ -1112,9 +1112,9 @@ void LLRender::refreshState(void)
 
 	U32 active_unit = mCurrTextureUnitIndex;
 
-	for (U32 i = 0; i < mTexUnits.size(); i++)
-	{
-		mTexUnits[i]->refreshState();
+	for (auto& tex_unit : mTexUnits)
+    {
+        tex_unit->refreshState();
 	}
 	
 	mTexUnits[active_unit]->activate();

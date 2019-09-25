@@ -702,11 +702,9 @@ void LLWearableItemsList::updateChangedItems(const uuid_vec_t& changed_items_uui
 	item_panel_list_t items;
 	getItems(items);
 
-	for (item_panel_list_t::iterator items_iter = items.begin();
-			items_iter != items.end();
-			++items_iter)
-	{
-		LLPanelInventoryListItemBase* item = dynamic_cast<LLPanelInventoryListItemBase*>(*items_iter);
+	for (auto& items_iter : items)
+    {
+		LLPanelInventoryListItemBase* item = dynamic_cast<LLPanelInventoryListItemBase*>(items_iter);
 		if (!item) continue;
 
 		LLViewerInventoryItem* inv_item = item->getItem();
@@ -714,11 +712,9 @@ void LLWearableItemsList::updateChangedItems(const uuid_vec_t& changed_items_uui
 
 		LLUUID linked_uuid = inv_item->getLinkedUUID();
 
-		for (uuid_vec_t::const_iterator iter = changed_items_uuids.begin();
-				iter != changed_items_uuids.end();
-				++iter)
-		{
-			if (linked_uuid == *iter)
+		for (auto changed_items_uuid : changed_items_uuids)
+        {
+			if (linked_uuid == changed_items_uuid)
 			{
 				item->setNeedsRefresh(true);
 				break;
@@ -846,10 +842,9 @@ void LLWearableItemsList::ContextMenu::updateItemsVisibility(LLContextMenu* menu
 
 	bool can_be_worn = true;
 
-	for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
-	{
-		LLUUID id = *it;
-		LLViewerInventoryItem* item = gInventory.getItem(id);
+	for (auto id : ids)
+    {
+        LLViewerInventoryItem* item = gInventory.getItem(id);
 
 		if (!item)
 		{

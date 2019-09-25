@@ -359,11 +359,9 @@ std::string LLDXDevice::dump()
 	LL_INFOS() << "PCIString:" << mPCIString << LL_ENDL;
 	LL_INFOS() << "Drivers" << LL_ENDL;
 	LL_INFOS() << "-------" << LL_ENDL;
-	for (driver_file_map_t::iterator iter = mDriverFiles.begin(),
-			 end = mDriverFiles.end();
-		 iter != end; iter++)
-	{
-		LLDXDriverFile *filep = iter->second;
+	for (auto& driver_file : mDriverFiles)
+    {
+		LLDXDriverFile *filep = driver_file.second;
 		filep->dump();
 	}
 	if (gWriteDebug)
@@ -376,11 +374,9 @@ std::string LLDXDevice::dump()
 
 LLDXDriverFile *LLDXDevice::findDriver(const std::string &driver)
 {
-	for (driver_file_map_t::iterator iter = mDriverFiles.begin(),
-			 end = mDriverFiles.end();
-		 iter != end; iter++)
-	{
-		LLDXDriverFile *filep = iter->second;
+	for (auto& driver_file : mDriverFiles)
+    {
+		LLDXDriverFile *filep = driver_file.second;
 		if (!utf8str_compare_insensitive(filep->mName,driver))
 		{
 			return filep;

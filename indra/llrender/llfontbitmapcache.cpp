@@ -143,28 +143,23 @@ BOOL LLFontBitmapCache::nextOpenPos(S32 width, S32 &pos_x, S32 &pos_y, S32& bitm
 
 void LLFontBitmapCache::destroyGL()
 {
-	for (std::vector<LLPointer<LLImageGL> >::iterator it = mImageGLVec.begin();
-		 it != mImageGLVec.end(); ++it)
-	{
-		(*it)->destroyGLTexture();
+	for (auto& it : mImageGLVec)
+    {
+        it->destroyGLTexture();
 	}
 }
 
 void LLFontBitmapCache::reset()
 {
-	for (std::vector<LLPointer<LLImageRaw> >::iterator it = mImageRawVec.begin(), end_it = mImageRawVec.end();
-		it != end_it;
-		++it)
-	{
-		disclaimMem(**it);
+	for (auto& it : mImageRawVec)
+    {
+		disclaimMem(*it);
 	}
 	mImageRawVec.clear();
 
-	for (std::vector<LLPointer<LLImageGL> >::iterator it = mImageGLVec.begin(), end_it = mImageGLVec.end();
-		it != end_it;
-		++it)
-	{
-		disclaimMem(**it);
+	for (auto& it : mImageGLVec)
+    {
+		disclaimMem(*it);
 	}
 	mImageGLVec.clear();
 	

@@ -731,12 +731,9 @@ void LLPanelNearByMedia::refreshList()
 	// Iterate over the rows in the control, updating ones whose impl exists, and deleting ones whose impl has gone away.
 	std::vector<LLScrollListItem*> items = mMediaList->getAllData();
 
-	for (std::vector<LLScrollListItem*>::iterator item_it = items.begin();
-		item_it != items.end();
-		++item_it)
-	{
-		LLScrollListItem* item = (*item_it);
-		LLUUID row_id = item->getUUID();
+	for (auto item : items)
+    {
+        LLUUID row_id = item->getUUID();
 		
 		if (row_id != PARCEL_MEDIA_LIST_ITEM_UUID &&
 			row_id != PARCEL_AUDIO_LIST_ITEM_UUID)

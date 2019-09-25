@@ -65,11 +65,9 @@ void LLBaseEconomy::removeObserver(LLEconomyObserver* observer)
 
 void LLBaseEconomy::notifyObservers()
 {
-	for (std::list<LLEconomyObserver*>::iterator it = mObservers.begin();
-		it != mObservers.end();
-		++it)
-	{
-		(*it)->onEconomyDataChange();
+	for (auto& observer : mObservers)
+    {
+        observer->onEconomyDataChange();
 	}
 }
 

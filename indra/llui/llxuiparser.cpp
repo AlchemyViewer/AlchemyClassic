@@ -364,9 +364,9 @@ void LLXSDWriter::writeXSD(const std::string& type_name, LLXMLNodePtr node, cons
 	// duplicate element choices
 	LLXMLNodeList children;
 	mElementNode->getChildren("xs:element", children, FALSE);
-	for (LLXMLNodeList::iterator child_it = children.begin(); child_it != children.end(); ++child_it)
-	{
-		LLXMLNodePtr child_copy = child_it->second->deepCopy();
+	for (auto& child_it : children)
+    {
+		LLXMLNodePtr child_copy = child_it.second->deepCopy();
 		std::string child_name;
 		child_copy->getAttributeString("name", child_name);
 		child_copy->setAttributeString("name", type_name + "." + child_name);
@@ -382,14 +382,12 @@ void LLXSDWriter::writeAttribute(const std::string& type, const Parser::name_sta
 {
 	name_stack_t non_empty_names;
 	std::string attribute_name;
-	for (name_stack_t::const_iterator it = stack.begin();
-		it != stack.end();
-		++it)
-	{
-		const std::string& name = it->first;
+	for (const auto& it : stack)
+    {
+		const std::string& name = it.first;
 		if (!name.empty())
 		{
-			non_empty_names.push_back(*it);
+			non_empty_names.push_back(it);
 		}
 	}
 
@@ -500,12 +498,10 @@ void LLXSDWriter::addAttributeToSchema(LLXMLNodePtr type_declaration_node, const
 			LLXMLNodePtr restriction_node = new_enum_type_node->createChild("xs:restriction", false);
 			restriction_node->createChild("base", true)->setStringValue("xs:string");
 
-			for (std::vector<std::string>::const_iterator it = possible_values->begin();
-				it != possible_values->end();
-				++it)
-			{
+			for (const auto& possible_value : *possible_values)
+            {
 				LLXMLNodePtr enum_node = restriction_node->createChild("xs:enumeration", false);
-				enum_node->createChild("value", true)->setStringValue(*it);
+				enum_node->createChild("value", true)->setStringValue(possible_value);
 			}
 		}
 
@@ -1295,11 +1291,9 @@ bool LLXUIParser::writeSDValue(Parser& parser, const void* val_ptr, name_stack_t
 /*virtual*/ std::string LLXUIParser::getCurrentElementName()
 {
 	std::string full_name;
-	for (name_stack_t::iterator it = mNameStack.begin();	
-		it != mNameStack.end();
-		++it)
-	{
-		full_name += it->first + "."; // build up dotted names: "button.param.nestedparam."
+	for (auto& it : mNameStack)
+    {
+		full_name += it.first + "."; // build up dotted names: "button.param.nestedparam."
 	}
 
 	return full_name;
@@ -1617,11 +1611,9 @@ bool LLSimpleXUIParser::processText()
 /*virtual*/ std::string LLSimpleXUIParser::getCurrentElementName()
 {
 	std::string full_name;
-	for (name_stack_t::iterator it = mNameStack.begin();	
-		it != mNameStack.end();
-		++it)
-	{
-		full_name += it->first + "."; // build up dotted names: "button.param.nestedparam."
+	for (auto& it : mNameStack)
+    {
+		full_name += it.first + "."; // build up dotted names: "button.param.nestedparam."
 	}
 
 	return full_name;

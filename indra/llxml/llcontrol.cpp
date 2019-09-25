@@ -434,17 +434,17 @@ void LLControlGroup::cleanup()
 			}
 			sort(getCount_v.begin(), getCount_v.end(), compareRoutine);
 
-			for (settings_vec_t::iterator iter = getCount_v.begin(); iter != getCount_v.end(); ++iter)
-			{
+			for (auto& iter : getCount_v)
+            {
 				U32 access_rate = 0;
 				if (total_seconds != 0)
 				{
-					access_rate = iter->second / total_seconds;
+					access_rate = iter.second / total_seconds;
 				}
 				if (access_rate >= 2)
 				{
 					std::ostringstream data_msg;
-					msg = llformat("%13d        %7d       %s", iter->second, access_rate, iter->first.c_str());
+					msg = llformat("%13d        %7d       %s", iter.second, access_rate, iter.first.c_str());
 					data_msg << msg << "\n";
 					size_t data_size = data_msg.str().size();
 					if (fwrite(data_msg.str().c_str(), 1, data_size, out) != data_size)
@@ -930,19 +930,18 @@ U32 LLControlGroup::saveToFile(const std::string& filename, BOOL nondefault_only
 {
 	LLSD settings;
 	int num_saved = 0;
-	for (ctrl_name_table_t::iterator iter = mNameTable.begin();
-		 iter != mNameTable.end(); iter++)
-	{
-		LLControlVariable* control = iter->second;
+	for (auto& iter : mNameTable)
+    {
+		LLControlVariable* control = iter.second;
 		if (!control)
 		{
-			LL_WARNS("Settings") << "Tried to save invalid control: " << iter->first << LL_ENDL;
+			LL_WARNS("Settings") << "Tried to save invalid control: " << iter.first << LL_ENDL;
 		}
 		else if( control->shouldSave(nondefault_only) )
 		{
-			settings[iter->first]["Type"] = typeEnumToString(control->type());
-			settings[iter->first]["Comment"] = control->getComment();
-			settings[iter->first]["Value"] = control->getSaveValue();
+			settings[iter.first]["Type"] = typeEnumToString(control->type());
+			settings[iter.first]["Comment"] = control->getComment();
+			settings[iter.first]["Value"] = control->getSaveValue();
 			++num_saved;
 		}
 	}
@@ -1133,10 +1132,9 @@ void LLControlGroup::resetToDefaults()
 
 void LLControlGroup::applyToAll(ApplyFunctor* func)
 {
-	for (ctrl_name_table_t::iterator iter = mNameTable.begin();
-		 iter != mNameTable.end(); iter++)
-	{
-		func->apply(iter->first, iter->second);
+	for (auto& iter : mNameTable)
+    {
+		func->apply(iter.first, iter.second);
 	}
 }
 

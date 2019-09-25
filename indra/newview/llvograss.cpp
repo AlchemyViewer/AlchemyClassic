@@ -697,10 +697,9 @@ void LLGrassPartition::getGeometry(LLSpatialGroup* group)
 
 	LLSpatialGroup::drawmap_elem_t& draw_vec = group->mDrawMap[mRenderPass];	
 
-	for (std::vector<LLFace*>::iterator i = mFaceList.begin(); i != mFaceList.end(); ++i)
-	{
-		LLFace* facep = *i;
-		LLAlphaObject* object = (LLAlphaObject*) facep->getViewerObject();
+	for (auto facep : mFaceList)
+    {
+        LLAlphaObject* object = (LLAlphaObject*) facep->getViewerObject();
 		facep->setGeomIndex(vertex_count);
 		facep->setIndicesIndex(index_count);
 		facep->setVertexBuffer(buffer);

@@ -107,9 +107,9 @@ BOOL LLColor4U::parseColor4U(const std::string& buf, LLColor4U* value)
 		return FALSE;
 	}
 
-	for( S32 i = 0; i < 4; i++ )
-	{
-		if( v[i] > U8_MAX )
+	for (unsigned int i : v)
+    {
+		if(i > U8_MAX )
 		{
 			return FALSE;
 		}

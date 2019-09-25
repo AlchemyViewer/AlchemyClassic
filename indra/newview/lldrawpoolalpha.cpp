@@ -334,9 +334,9 @@ void LLDrawPoolAlpha::renderAlphaHighlight(U32 mask)
 		{
 			LLSpatialGroup::drawmap_elem_t& draw_info = group->mDrawMap[LLRenderPass::PASS_ALPHA];	
 
-			for (LLSpatialGroup::drawmap_elem_t::iterator k = draw_info.begin(); k != draw_info.end(); ++k)	
-			{
-				LLDrawInfo& params = **k;
+			for (auto& k : draw_info)
+            {
+				LLDrawInfo& params = *k;
 				
 				if (params.mParticle)
 				{
@@ -390,9 +390,9 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 
 			LLSpatialGroup::drawmap_elem_t& draw_info = group->mDrawMap[LLRenderPass::PASS_ALPHA];
 
-			for (LLSpatialGroup::drawmap_elem_t::iterator k = draw_info.begin(), k_end = draw_info.end(); k != k_end; ++k)
-			{
-				LLDrawInfo& params = **k;
+			for (auto& k : draw_info)
+            {
+				LLDrawInfo& params = *k;
 
 				if ((params.mVertexBuffer->getTypeMask() & mask) != mask)
 				{ //FIXME!

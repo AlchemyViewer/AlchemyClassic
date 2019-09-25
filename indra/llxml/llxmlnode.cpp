@@ -141,17 +141,15 @@ LLXMLNodePtr LLXMLNode::deepCopy()
 	LLXMLNodePtr newnode = LLXMLNodePtr(new LLXMLNode(*this));
 	if (mChildren.notNull())
 	{
-		for (LLXMLChildList::iterator iter = mChildren->map.begin();
-			 iter != mChildren->map.end(); ++iter)	
-		{
-			LLXMLNodePtr temp_ptr_for_gcc(iter->second->deepCopy());
+		for (auto& iter : mChildren->map)
+        {
+			LLXMLNodePtr temp_ptr_for_gcc(iter.second->deepCopy());
 			newnode->addChild(temp_ptr_for_gcc);
 		}
 	}
-	for (LLXMLAttribList::iterator iter = mAttributes.begin();
-		 iter != mAttributes.end(); ++iter)
-	{
-		LLXMLNodePtr temp_ptr_for_gcc(iter->second->deepCopy());
+	for (auto& attr : mAttributes)
+    {
+		LLXMLNodePtr temp_ptr_for_gcc(attr.second->deepCopy());
 		newnode->addChild(temp_ptr_for_gcc);
 	}
 
@@ -167,10 +165,9 @@ LLXMLNode::~LLXMLNode()
 	// mess.
 	if (mChildren.notNull())
 	{
-		for (LLXMLChildList::iterator iter = mChildren->map.begin();
-			 iter != mChildren->map.end(); ++iter)
-		{
-			LLXMLNodePtr child = iter->second;
+		for (auto& iter : mChildren->map)
+        {
+			LLXMLNodePtr child = iter.second;
 			child->mParent = NULL;
 			child->mNext = NULL;
 			child->mPrev = NULL;
@@ -180,10 +177,9 @@ LLXMLNode::~LLXMLNode()
 		mChildren->tail = NULL;
 		mChildren = NULL;
 	}
-	for (LLXMLAttribList::iterator iter = mAttributes.begin();
-		 iter != mAttributes.end(); ++iter)
-	{
-		LLXMLNodePtr attr = iter->second;
+	for (auto& attr : mAttributes)
+    {
+		LLXMLNodePtr attr = attr.second;
 		attr->mParent = NULL;
 		attr->mNext = NULL;
 		attr->mPrev = NULL;
@@ -508,10 +504,9 @@ void XMLCALL EndXMLNode(void *userData,
 	{
 		std::string value = node->getValue();
 		BOOL is_empty = TRUE;
-		for (std::string::size_type s = 0; s < value.length(); s++)
-		{
-			char c = value[s];
-			if (c != ' ' && c != '\t' && c != '\n')
+		for (char c : value)
+        {
+            if (c != ' ' && c != '\t' && c != '\n')
 			{
 				is_empty = FALSE;
 				break;
@@ -1212,10 +1207,9 @@ void LLXMLNode::getDescendants(const LLStringTableEntry* name, LLXMLNodeList &ch
 {
 	if (mChildren.notNull())
 	{
-		for (LLXMLChildList::const_iterator child_itr = mChildren->map.begin();
-			 child_itr != mChildren->map.end(); ++child_itr)
-		{
-			LLXMLNodePtr child = (*child_itr).second;
+		for (const auto& child_itr : mChildren->map)
+        {
+			LLXMLNodePtr child = child_itr.second;
 			if (name == child->mName)
 			{
 				children.insert(std::make_pair(child->mName->mString, child));
@@ -2501,10 +2495,9 @@ void LLXMLNode::setDoubleValue(U32 length, const F64 *array, Encoding encoding, 
 std::string LLXMLNode::escapeXML(const std::string& xml)
 {
 	std::string out;
-	for (std::string::size_type i = 0; i < xml.size(); ++i)
-	{
-		char c = xml[i];
-		switch(c)
+	for (char c : xml)
+    {
+        switch(c)
 		{
 		case '"':	out.append("&quot;");	break;
 		case '\'':	out.append("&apos;");	break;

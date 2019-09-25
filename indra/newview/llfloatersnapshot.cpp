@@ -207,10 +207,9 @@ void LLFloaterSnapshotBase::ImplBase::updateLayout(LLFloaterSnapshotBase* floate
 
 		//RN: freeze all avatars
 		LLCharacter* avatarp;
-		for (std::vector<LLCharacter*>::iterator iter = LLCharacter::sInstances.begin();
-			iter != LLCharacter::sInstances.end(); ++iter)
-		{
-			avatarp = *iter;
+		for (auto& sInstance : LLCharacter::sInstances)
+        {
+			avatarp = sInstance;
 			floaterp->impl->mAvatarPauseHandles.push_back(avatarp->requestPause());
 		}
 
@@ -1002,9 +1001,9 @@ BOOL LLFloaterSnapshot::postBuild()
 	// Filters
 	LLComboBox* filterbox = getChild<LLComboBox>("filters_combobox");
 	std::vector<std::string> filter_list = LLImageFiltersManager::getInstance()->getFiltersList();
-	for (U32 i = 0; i < filter_list.size(); i++)
-	{
-		filterbox->add(filter_list[i]);
+	for (const auto& i : filter_list)
+    {
+		filterbox->add(i);
 	}
 	childSetCommitCallback("filters_combobox", ImplBase::onClickFilter, this);
     
@@ -1253,10 +1252,9 @@ BOOL LLFloaterSnapshotBase::ImplBase::updatePreviewList(bool initialized)
 
 	BOOL changed = FALSE;
 	LL_DEBUGS() << "npreviews: " << LLSnapshotLivePreview::sList.size() << LL_ENDL;
-	for (std::set<LLSnapshotLivePreview*>::iterator iter = LLSnapshotLivePreview::sList.begin();
-		iter != LLSnapshotLivePreview::sList.end(); ++iter)
-	{
-		changed |= LLSnapshotLivePreview::onIdle(*iter);
+	for (auto iter : LLSnapshotLivePreview::sList)
+    {
+		changed |= LLSnapshotLivePreview::onIdle(iter);
 	}
 	return changed;
 }

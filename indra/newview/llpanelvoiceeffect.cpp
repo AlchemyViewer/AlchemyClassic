@@ -136,9 +136,9 @@ void LLPanelVoiceEffect::update(bool list_updated)
 			const voice_effect_list_t& effect_list = effect_interface->getVoiceEffectList();
 			if (!effect_list.empty())
 			{
-				for (voice_effect_list_t::const_iterator it = effect_list.begin(); it != effect_list.end(); ++it)
-				{
-					mVoiceEffectCombo->add(it->first, it->second, ADD_BOTTOM);
+				for (const auto& it : effect_list)
+                {
+					mVoiceEffectCombo->add(it.first, it.second, ADD_BOTTOM);
 				}
 
 				mVoiceEffectCombo->addSeparator();

@@ -449,12 +449,12 @@ LLFontGlyphInfo* LLFontFreetype::addGlyph(llwchar wch) const
 	if (glyph_index == 0)
 	{
 		//LL_INFOS() << "Trying to add glyph from fallback font!" << LL_ENDL;
-		for(auto iter = mFallbackFonts.begin(); iter != mFallbackFonts.end(); ++iter)
-		{
-			glyph_index = FT_Get_Char_Index((*iter)->mFTFace, wch);
+		for (const auto& mFallbackFont : mFallbackFonts)
+        {
+			glyph_index = FT_Get_Char_Index(mFallbackFont->mFTFace, wch);
 			if (glyph_index)
 			{
-				return addGlyphFromFont(*iter, wch, glyph_index);
+				return addGlyphFromFont(mFallbackFont, wch, glyph_index);
 			}
 		}
 	}
@@ -626,11 +626,9 @@ void LLFontFreetype::reset(F32 vert_dpi, F32 horz_dpi)
 		}
 		else
 		{
-			for(font_vector_t::iterator it = mFallbackFonts.begin();
-				it != mFallbackFonts.end();
-				++it)
-			{
-				(*it)->reset(vert_dpi, horz_dpi);
+			for (auto& font : mFallbackFonts)
+            {
+                font->reset(vert_dpi, horz_dpi);
 			}
 		}
 	}
@@ -638,12 +636,10 @@ void LLFontFreetype::reset(F32 vert_dpi, F32 horz_dpi)
 
 void LLFontFreetype::resetBitmapCache()
 {
-	for (char_glyph_info_map_t::iterator it = mCharGlyphInfoMap.begin(), end_it = mCharGlyphInfoMap.end();
-		it != end_it;
-		++it)
-	{
-		disclaimMem(it->second);
-		delete it->second;
+	for (auto& it : mCharGlyphInfoMap)
+    {
+		disclaimMem(it.second);
+		delete it.second;
 	}
 	mCharGlyphInfoMap.clear();
 	disclaimMem(mFontBitmapCachep);

@@ -307,9 +307,9 @@ void LLFlatListView::getSelectedValues(std::vector<LLSD>& selected_values) const
 {
 	if (mSelectedItemPairs.empty()) return;
 
-	for (pairs_const_iterator_t it = mSelectedItemPairs.begin(); it != mSelectedItemPairs.end(); ++it)
-	{
-		selected_values.push_back((*it)->second);
+	for (auto item_pair : mSelectedItemPairs)
+    {
+		selected_values.push_back(item_pair->second);
 	}
 }
 
@@ -330,9 +330,9 @@ void LLFlatListView::getSelectedUUIDs(uuid_vec_t& selected_uuids) const
 {
 	if (mSelectedItemPairs.empty()) return;
 
-	for (pairs_const_iterator_t it = mSelectedItemPairs.begin(); it != mSelectedItemPairs.end(); ++it)
-	{
-		selected_uuids.push_back((*it)->second.asUUID());
+	for (auto item_pair : mSelectedItemPairs)
+    {
+		selected_uuids.push_back(item_pair->second.asUUID());
 	}
 }
 
@@ -347,9 +347,9 @@ void LLFlatListView::getSelectedItems(std::vector<LLPanel*>& selected_items) con
 {
 	if (mSelectedItemPairs.empty()) return;
 
-	for (pairs_const_iterator_t it = mSelectedItemPairs.begin(); it != mSelectedItemPairs.end(); ++it)
-	{
-		selected_items.push_back((*it)->first);
+	for (auto item_pair : mSelectedItemPairs)
+    {
+		selected_items.push_back(item_pair->first);
 	}
 }
 
@@ -357,10 +357,9 @@ void LLFlatListView::resetSelection(bool no_commit_on_deselection /*= false*/)
 {
 	if (mSelectedItemPairs.empty()) return;
 
-	for (pairs_iterator_t it= mSelectedItemPairs.begin(); it != mSelectedItemPairs.end(); ++it)
-	{
-		item_pair_t* pair_to_deselect = *it;
-		LLPanel* item = pair_to_deselect->first;
+	for (auto pair_to_deselect : mSelectedItemPairs)
+    {
+        LLPanel* item = pair_to_deselect->first;
 		item->setValue(UNSELECTED_EVENT);
 	}
 
@@ -385,12 +384,9 @@ U32 LLFlatListView::size(const bool only_visible_items) const
 	if (only_visible_items)
 	{
 		U32 size = 0;
-		for (pairs_const_iterator_t
-				 iter = mItemPairs.begin(),
-				 iter_end = mItemPairs.end();
-			 iter != iter_end; ++iter)
-		{
-			if ((*iter)->first->getVisible())
+		for (auto item_pair : mItemPairs)
+        {
+			if (item_pair->first->getVisible())
 				++size;
 		}
 		return size;
@@ -407,11 +403,11 @@ void LLFlatListView::clear()
 	resetSelection();
 	
 	// do not use LLView::deleteAllChildren to avoid removing nonvisible items. drag-n-drop for ex.
-	for (pairs_iterator_t it = mItemPairs.begin(); it != mItemPairs.end(); ++it)
-	{
-		mItemsPanel->removeChild((*it)->first);
-		(*it)->first->die();
-		delete *it;
+	for (auto& item_pair : mItemPairs)
+    {
+		mItemsPanel->removeChild(item_pair->first);
+        item_pair->first->die();
+		delete item_pair;
 	}
 	mItemPairs.clear();
 
@@ -632,13 +628,9 @@ void LLFlatListView::onItemMouseClick(item_pair_t* item_pair, MASK mask)
 		pairs_list_t pairs_to_select;
 
 		// Pick out items from list between last selected and current clicked item_pair.
-		for (pairs_iterator_t
-				 iter = mItemPairs.begin(),
-				 iter_end = mItemPairs.end();
-			 iter != iter_end; ++iter)
-		{
-			item_pair_t* cur = *iter;
-			if (cur == last_selected_pair || cur == item_pair)
+		for (auto cur : mItemPairs)
+        {
+            if (cur == last_selected_pair || cur == item_pair)
 			{
 				// We've got reverse selection if last grabed item isn't a new selection.
 				reverse = grab_items && (cur != item_pair);
@@ -664,13 +656,9 @@ void LLFlatListView::onItemMouseClick(item_pair_t* item_pair, MASK mask)
 
 		pairs_to_select.push_back(item_pair);
 
-		for (pairs_iterator_t
-				 iter = pairs_to_select.begin(),
-				 iter_end = pairs_to_select.end();
-			 iter != iter_end; ++iter)
-		{
-			item_pair_t* pair_to_select = *iter;
-			if (isSelected(pair_to_select))
+		for (auto pair_to_select : pairs_to_select)
+        {
+            if (isSelected(pair_to_select))
 			{
 				// Item was already selected but there is a need to keep order from last selected pair to new selection.
 				// Do it here to prevent extra mCommitOnSelectionChange in selectItemPair().
@@ -790,10 +778,9 @@ LLFlatListView::item_pair_t* LLFlatListView::getItemPair(LLPanel* item) const
 {
 	llassert(item);
 
-	for (pairs_const_iterator_t it= mItemPairs.begin(); it != mItemPairs.end(); ++it)
-	{
-		item_pair_t* item_pair = *it;
-		if (item_pair->first == item) return item_pair;
+	for (auto item_pair : mItemPairs)
+    {
+        if (item_pair->first == item) return item_pair;
 	}
 	return nullptr;
 }
@@ -832,10 +819,9 @@ LLFlatListView::item_pair_t* LLFlatListView::getItemPair(const LLSD& value) cons
 {
 	llassert(value.isDefined());
 	
-	for (pairs_const_iterator_t it= mItemPairs.begin(); it != mItemPairs.end(); ++it)
-	{
-		item_pair_t* item_pair = *it;
-		if (llsds_are_equal(item_pair->second, value)) return item_pair;
+	for (auto item_pair : mItemPairs)
+    {
+        if (llsds_are_equal(item_pair->second, value)) return item_pair;
 	}
 	return nullptr;
 }
@@ -901,15 +887,12 @@ void LLFlatListView::selectFirstItem	()
 	if (0 == size()) return;
 
 	// Select first visible item
-	for (pairs_iterator_t
-			 iter = mItemPairs.begin(),
-			 iter_end = mItemPairs.end();
-		 iter != iter_end; ++iter)
-	{
+	for (auto& item_pair : mItemPairs)
+    {
 		// skip invisible items
-		if ( (*iter)->first->getVisible() )
+		if (item_pair->first->getVisible() )
 		{
-			selectItemPair(*iter, true);
+			selectItemPair(item_pair, true);
 			ensureSelectedVisible();
 			break;
 		}
@@ -1177,9 +1160,9 @@ void LLFlatListView::getItems(std::vector<LLPanel*>& items) const
 	if (mItemPairs.empty()) return;
 
 	items.clear();
-	for (pairs_const_iterator_t it = mItemPairs.begin(); it != mItemPairs.end(); ++it)
-	{
-		items.push_back((*it)->first);
+	for (auto item_pair : mItemPairs)
+    {
+		items.push_back(item_pair->first);
 	}
 }
 
@@ -1188,9 +1171,9 @@ void LLFlatListView::getValues(std::vector<LLSD>& values) const
 	if (mItemPairs.empty()) return;
 
 	values.clear();
-	for (pairs_const_iterator_t it = mItemPairs.begin(); it != mItemPairs.end(); ++it)
-	{
-		values.push_back((*it)->second);
+	for (auto item_pair : mItemPairs)
+    {
+		values.push_back(item_pair->second);
 	}
 }
 
@@ -1250,15 +1233,12 @@ void LLFlatListView::detachItems(std::vector<LLPanel*>& detached_items)
 	detached_items.clear();
 	// Go through items and detach valid items, remove them from items panel
 	// and add to detached_items.
-	for (pairs_iterator_t
-			 iter = mItemPairs.begin(),
-			 iter_end = mItemPairs.end();
-		 iter != iter_end; ++iter)
-	{
-		LLPanel* pItem = (*iter)->first;
+	for (auto& item_pair : mItemPairs)
+    {
+		LLPanel* pItem = item_pair->first;
 		if (1 == pItem->notify(action))
 		{
-			selectItemPair((*iter), false);
+			selectItemPair(item_pair, false);
 			mItemsPanel->removeChild(pItem);
 			detached_items.push_back(pItem);
 		}
@@ -1269,13 +1249,10 @@ void LLFlatListView::detachItems(std::vector<LLPanel*>& detached_items)
 		if (detached_items.size() == mItemPairs.size())
 		{
 			// This way will be faster if all items were disconnected
-			for (pairs_iterator_t
-					 iter = mItemPairs.begin(),
-					 iter_end = mItemPairs.end();
-				 iter != iter_end; ++iter)
-			{
-				(*iter)->first = nullptr;
-				delete *iter;
+			for (auto& item_pair : mItemPairs)
+            {
+                item_pair->first = nullptr;
+				delete item_pair;
 			}
 			mItemPairs.clear();
 			// Also set items panel height to zero.
@@ -1412,13 +1389,9 @@ void LLFlatListViewEx::filterItems()
 	getItems(items);
 
 	mHasMatchedItems = false;
-	for (item_panel_list_t::iterator
-			 iter = items.begin(),
-			 iter_end = items.end();
-		 iter != iter_end; ++iter)
-	{
-		LLPanel* pItem = (*iter);
-		updateItemVisibility(pItem, action);
+	for (auto pItem : items)
+    {
+        updateItemVisibility(pItem, action);
 	}
 
 	sort();

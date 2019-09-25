@@ -271,10 +271,9 @@ void LLPanelProfile::ChildStack::postParentReshape()
 	for (stack_t::const_iterator stack_it = mStack.begin(); stack_it != mStack.end(); ++stack_it)
 	{
 		const view_list_t& vlist = (*stack_it);
-		for (view_list_t::const_iterator list_it = vlist.begin(); list_it != vlist.end(); ++list_it)
-		{
-			LLView* viewp = *list_it;
-			LL_DEBUGS() << "removing " << viewp->getName() << LL_ENDL;
+		for (auto viewp : vlist)
+        {
+            LL_DEBUGS() << "removing " << viewp->getName() << LL_ENDL;
 			mParent->removeChild(viewp);
 		}
 	}
@@ -289,9 +288,9 @@ void LLPanelProfile::ChildStack::dump()
 		std::ostringstream dbg_line;
 		dbg_line << "lvl #" << lvl << ":";
 		const view_list_t& vlist = (*stack_it);
-		for (view_list_t::const_iterator list_it = vlist.begin(); list_it != vlist.end(); ++list_it)
-		{
-			dbg_line << " " << (*list_it)->getName();
+		for (auto list_it : vlist)
+        {
+			dbg_line << " " << list_it->getName();
 		}
 		LL_DEBUGS() << dbg_line.str() << LL_ENDL;
 	}

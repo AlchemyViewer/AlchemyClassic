@@ -647,11 +647,11 @@ void LLViewerStats::PhaseMap::clearPhases()
 LLSD LLViewerStats::PhaseMap::asLLSD()
 {
 	LLSD result;
-	for (phase_map_t::iterator iter = mPhaseMap.begin(); iter != mPhaseMap.end(); ++iter)
-	{
-		const std::string& phase_name = iter->first;
-		result[phase_name]["completed"] = LLSD::Integer(!(iter->second.getStarted()));
-		result[phase_name]["elapsed"] = iter->second.getElapsedTimeF32();
+	for (auto& iter : mPhaseMap)
+    {
+		const std::string& phase_name = iter.first;
+		result[phase_name]["completed"] = LLSD::Integer(!(iter.second.getStarted()));
+		result[phase_name]["elapsed"] = iter.second.getElapsedTimeF32();
 	}
 	return result;
 }

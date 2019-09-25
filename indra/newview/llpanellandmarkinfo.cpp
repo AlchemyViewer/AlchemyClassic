@@ -450,9 +450,9 @@ void LLPanelLandmarkInfo::populateFoldersList()
 	typedef std::vector<folder_pair_t> folder_vec_t;
 	folder_vec_t folders;
 	// Sort the folders by their full name.
-	for (S32 i = 0; i < cats.size(); i++)
-	{
-		const LLViewerInventoryCategory* cat = cats.at(i);
+	for (auto& i : cats)
+    {
+		const LLViewerInventoryCategory* cat = i;
 		std::string cat_full_name = getFullFolderName(cat);
 		folders.push_back(folder_pair_t(cat->getUUID(), cat_full_name));
 	}

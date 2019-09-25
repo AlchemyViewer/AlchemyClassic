@@ -262,10 +262,10 @@ void LLVolumeOctreeValidate::visit(const LLOctreeNode<LLVolumeTriangle>* branch)
 		const LLVolumeTriangle* tri = *iter;
 
 		//validate triangle
-		for (U32 i = 0; i < 3; i++)
-		{
-			if (tri->mV[i]->greaterThan(test_max).areAnySet(LLVector4Logical::MASK_XYZ) ||
-				tri->mV[i]->lessThan(test_min).areAnySet(LLVector4Logical::MASK_XYZ))
+		for (auto i : tri->mV)
+        {
+			if (i->greaterThan(test_max).areAnySet(LLVector4Logical::MASK_XYZ) ||
+                i->lessThan(test_min).areAnySet(LLVector4Logical::MASK_XYZ))
 			{
 				LL_ERRS() << "Triangle protrudes from node." << LL_ENDL;
 			}

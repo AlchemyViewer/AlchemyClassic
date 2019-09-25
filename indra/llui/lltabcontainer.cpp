@@ -394,15 +394,15 @@ void LLTabContainer::draw()
 		S32 available_width_with_arrows = getRect().getWidth() - mRightTabBtnOffset - 2 * (LLPANEL_BORDER_WIDTH + tabcntr_arrow_btn_size  + tabcntr_arrow_btn_size + 1);
 		if (!mIsVertical)
 		{
-			for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-			{
+			for (auto& iter : mTabList)
+            {
 				if (cur_scroll_pos == 0)
 				{
 					break;
 				}
 
-				if( (*iter)->mVisible )
-					target_pixel_scroll += (*iter)->mButton->getRect().getWidth();
+				if(iter->mVisible )
+					target_pixel_scroll += iter->mButton->getRect().getWidth();
 
 				cur_scroll_pos--;
 			}
@@ -441,10 +441,9 @@ void LLTabContainer::draw()
 	// Hide all the buttons
 	if (getTabsHidden())
 	{
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-		{
-			LLTabTuple* tuple = *iter;
-			tuple->mButton->setVisible( FALSE );
+		for (auto tuple : mTabList)
+        {
+            tuple->mButton->setVisible( FALSE );
 		}
 	}
 
@@ -460,19 +459,16 @@ void LLTabContainer::draw()
 	if (!getTabsHidden())
 	{
 		// Show all the buttons
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-		{
-			LLTabTuple* tuple = *iter;
-			tuple->mButton->setVisible( TRUE );
+		for (auto tuple : mTabList)
+        {
+            tuple->mButton->setVisible( TRUE );
 		}
 
 		S32 max_scroll_visible = getTabCount() - getMaxScrollPos() + getScrollPos();
 		S32 idx = 0;
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-		{
-			LLTabTuple* tuple = *iter;
-
-			if( !tuple->mVisible )
+		for (auto tuple : mTabList)
+        {
+            if( !tuple->mVisible )
 			{
 				tuple->mButton->setVisible( false );
 				continue;
@@ -733,9 +729,9 @@ BOOL LLTabContainer::handleToolTip( S32 x, S32 y, MASK mask)
 
 		if( clip.pointInRect( x, y ) )
 		{
-			for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-			{
-				LLButton* tab_button = (*iter)->mButton;
+			for (auto& iter : mTabList)
+            {
+				LLButton* tab_button = iter->mButton;
 				if (!tab_button->getVisible()) continue;
 				S32 local_x = x - tab_button->getRect().mLeft;
 				S32 local_y = y - tab_button->getRect().mBottom;
@@ -877,10 +873,9 @@ BOOL LLTabContainer::handleDragAndDrop(S32 x, S32 y, MASK mask,	BOOL drop,	EDrag
 					}
 				}
 
-				for(tuple_list_t::iterator iter	= mTabList.begin();	iter !=	 mTabList.end(); ++iter)
-				{
-					LLTabTuple*	tuple =	*iter;
-					tuple->mButton->setVisible(	TRUE );
+				for (auto tuple : mTabList)
+                {
+                    tuple->mButton->setVisible(	TRUE );
 					S32	local_x	= x	- tuple->mButton->getRect().mLeft;
 					S32	local_y	= y	- tuple->mButton->getRect().mBottom;
 					if (tuple->mButton->pointInView(local_x, local_y) &&  tuple->mButton->getEnabled() && !tuple->mTabPanel->getVisible())
@@ -1195,10 +1190,9 @@ void LLTabContainer::removeTabPanel(LLPanel* child)
 	{
 		// Fix-up button sizes
 		S32 tab_count = 0;
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-		{
-			LLTabTuple* tuple = *iter;
-			LLRect rect;
+		for (auto tuple : mTabList)
+        {
+            LLRect rect;
 			rect.setLeftTopAndSize(tabcntrv_pad + LLPANEL_BORDER_WIDTH + 2,	// JC - Fudge factor
 								   (getRect().getHeight() - LLPANEL_BORDER_WIDTH - 1) - ((BTN_HEIGHT + tabcntrv_pad) * (tab_count)),
 								   mMinTabWidth,
@@ -1217,10 +1211,9 @@ void LLTabContainer::removeTabPanel(LLPanel* child)
 	else
 	{
 		// Adjust the total tab width.
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-		{
-			LLTabTuple* tuple = *iter;
-			if( tuple->mTabPanel == child )
+		for (auto tuple : mTabList)
+        {
+            if( tuple->mTabPanel == child )
 			{
 				mTotalTabWidth -= tuple->mButton->getRect().getWidth();
 				break;
@@ -1312,11 +1305,9 @@ void LLTabContainer::enableTabButton(S32 which, BOOL enable)
 void LLTabContainer::deleteAllTabs()
 {
 	// Remove all the tab buttons and delete them.  Also, unlink all the child panels.
-	for(std::vector<LLTabTuple*>::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-	{
-		LLTabTuple* tuple = *iter;
-
-		removeChild( tuple->mButton );
+	for (auto tuple : mTabList)
+    {
+        removeChild( tuple->mButton );
 		delete tuple->mButton;
         tuple->mButton = nullptr;
 
@@ -1387,9 +1378,9 @@ S32 LLTabContainer::getPanelIndexByTitle(const std::string& title)
 
 LLPanel* LLTabContainer::getPanelByName(const std::string& name)
 {
-	for (S32 index = 0 ; index < (S32)mTabList.size(); index++)
-	{
-		LLPanel *panel = mTabList[index]->mTabPanel;
+	for (auto& index : mTabList)
+    {
+		LLPanel *panel = index->mTabPanel;
 		if (name == panel->getName())
 		{
 			return panel;
@@ -1465,10 +1456,9 @@ void LLTabContainer::selectPrevTab()
 BOOL LLTabContainer::selectTabPanel(LLPanel* child)
 {
 	S32 idx = 0;
-	for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-	{
-		LLTabTuple* tuple = *iter;
-		if( tuple->mTabPanel == child )
+	for (auto tuple : mTabList)
+    {
+        if( tuple->mTabPanel == child )
 		{
 			return selectTab( idx );
 		}
@@ -2009,10 +1999,9 @@ void LLTabContainer::initFromParams(const LLPanel::Params& p)
 
 LLTabTuple* LLTabContainer::getTabByPanel(LLPanel* child)
 {
-	for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-	{
-		LLTabTuple* tuple = *iter;
-		if( tuple->mTabPanel == child )
+	for (auto tuple : mTabList)
+    {
+        if( tuple->mTabPanel == child )
 		{
 			return tuple;
 		}
@@ -2115,10 +2104,9 @@ void LLTabContainer::commitHoveredButton(S32 x, S32 y)
 {
 	if (!getTabsHidden() && hasMouseCapture())
 	{
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
-		{
-			LLTabTuple* tuple = *iter;
-			S32 local_x = x - tuple->mButton->getRect().mLeft;
+		for (auto tuple : mTabList)
+        {
+            S32 local_x = x - tuple->mButton->getRect().mLeft;
 			S32 local_y = y - tuple->mButton->getRect().mBottom;
 			if (tuple->mButton->pointInView(local_x, local_y) && tuple->mButton->getEnabled() && !tuple->mTabPanel->getVisible())
 			{

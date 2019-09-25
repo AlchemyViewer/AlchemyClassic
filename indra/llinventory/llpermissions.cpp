@@ -903,9 +903,9 @@ const LLAggregatePermissions LLAggregatePermissions::empty;
 
 LLAggregatePermissions::LLAggregatePermissions()
 {
-	for(S32 i = 0; i < PI_COUNT; ++i)
-	{
-		mBits[i] = AP_EMPTY;
+	for (unsigned char& mBit : mBits)
+    {
+        mBit = AP_EMPTY;
 	}
 }
 
@@ -935,9 +935,9 @@ U8 LLAggregatePermissions::getU8() const
 
 BOOL LLAggregatePermissions::isEmpty() const
 {
-	for(S32 i = 0; i < PI_END; ++i)
-	{
-		if(mBits[i] != AP_EMPTY)
+	for (unsigned char mBit : mBits)
+    {
+		if(mBit != AP_EMPTY)
 		{
 			return FALSE;
 		}

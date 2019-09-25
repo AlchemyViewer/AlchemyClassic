@@ -233,11 +233,11 @@ void LLManipScale::render()
 
 		if (mObjectSelection->getSelectType() == SELECT_TYPE_HUD)
 		{
-			for (S32 i = 0; i < NUM_MANIPULATORS; i++)
-			{
-				mBoxHandleSize[i] = BOX_HANDLE_BASE_SIZE * BOX_HANDLE_BASE_FACTOR / (F32) LLViewerCamera::getInstance()->getViewHeightInPixels();
-				mBoxHandleSize[i] /= gAgentCamera.mHUDCurZoom;
-				mBoxHandleSize[i] *= ui_scale_factor;
+			for (float& i : mBoxHandleSize)
+            {
+                i = BOX_HANDLE_BASE_SIZE * BOX_HANDLE_BASE_FACTOR / (F32) LLViewerCamera::getInstance()->getViewHeightInPixels();
+                i /= gAgentCamera.mHUDCurZoom;
+                i *= ui_scale_factor;
 			}
 		}
 		else
@@ -526,11 +526,9 @@ void LLManipScale::highlightManipulators(S32 x, S32 y)
 
 		mHighlightedPart = LL_NO_PART;
 
-		for (manipulator_list_t::iterator iter = mProjectedManipulators.begin();
-			 iter != mProjectedManipulators.end(); ++iter)
-		{
-			ManipulatorHandle* manipulator = *iter;
-			{
+		for (auto manipulator : mProjectedManipulators)
+        {
+            {
 				manip2d.set(manipulator->mPosition.mV[VX] * half_width, manipulator->mPosition.mV[VY] * half_height);
 
 				delta = manip2d - mousePos;
@@ -1001,10 +999,9 @@ void LLManipScale::dragCorner( S32 x, S32 y )
 			{
 				// counter-translate child objects if we are moving the root as an individual
 				LLViewerObject::const_child_list_t& child_list = cur->getChildren();
-				for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-					 iter != child_list.end(); iter++)
-				{
-					LLViewerObject* childp = *iter;
+				for (const auto& iter : child_list)
+                {
+					LLViewerObject* childp = iter;
 
 					if (cur->isAttachment())
 					{
@@ -1297,10 +1294,9 @@ void LLManipScale::stretchFace( const LLVector3& drag_start_agent, const LLVecto
 			{
 				// counter-translate child objects if we are moving the root as an individual
 				LLViewerObject::const_child_list_t& child_list = cur->getChildren();
-				for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-					 iter != child_list.end(); iter++)
-				{
-					LLViewerObject* childp = *iter;
+				for (const auto& iter : child_list)
+                {
+					LLViewerObject* childp = iter;
 					if (!getUniform())
 					{
 						LLVector3 child_pos = childp->getPosition() - (delta_pos * ~cur->getRotationEdit());

@@ -479,10 +479,9 @@ void LLDrawable::mergeFaces(LLDrawable* src)
 	U32 face_count = mFaces.size() + src->mFaces.size();
 
 	mFaces.reserve(face_count);
-	for (U32 i = 0; i < src->mFaces.size(); i++)
-	{
-		LLFace* facep = src->mFaces[i];
-		facep->setDrawable(this);
+	for (auto facep : src->mFaces)
+    {
+        facep->setDrawable(this);
 		mFaces.push_back(facep);
 	}
 	src->mFaces.clear();
@@ -542,10 +541,9 @@ void LLDrawable::makeActive()
 		llassert_always(mVObjp);
 		
 		LLViewerObject::const_child_list_t& child_list = mVObjp->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			 iter != child_list.end(); iter++)
-		{
-			LLViewerObject* child = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* child = iter;
 			LLDrawable* drawable = child->mDrawable;
 			if (drawable)
 			{
@@ -584,10 +582,9 @@ void LLDrawable::makeStatic(BOOL warning_enabled)
 		llassert(mParent.isNull() || !mParent->isActive() || !warning_enabled);
 
 		LLViewerObject::const_child_list_t& child_list = mVObjp->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			 iter != child_list.end(); iter++)
-		{
-			LLViewerObject* child = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* child = iter;
 			LLDrawable* child_drawable = child->mDrawable;
 			if (child_drawable)
 			{
@@ -1311,10 +1308,10 @@ void LLSpatialBridge::updateSpatialExtents()
 	LLVector4a newMin;
 	LLVector4a newMax;	
 	newMin = newMax = center;
-	for (U32 i = 0; i < 4; i++)
-	{
+	for (auto i : v)
+    {
 		LLVector4a delta;
-		delta.setAbs(v[i]);
+		delta.setAbs(i);
 		LLVector4a min;
 		min.setSub(center, delta);
 		LLVector4a max;
@@ -1505,10 +1502,9 @@ void LLSpatialBridge::setVisible(LLCamera& camera_in, std::vector<LLDrawable*>* 
 			if (mDrawable->getVObj())
 			{
 				LLViewerObject::const_child_list_t& child_list = mDrawable->getVObj()->getChildren();
-				for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-					 iter != child_list.end(); iter++)
-				{
-					LLViewerObject* child = *iter;
+				for (const auto& iter : child_list)
+                {
+					LLViewerObject* child = iter;
 					LLDrawable* drawable = child->mDrawable;					
 					results->push_back(drawable);
 				}
@@ -1556,10 +1552,9 @@ void LLSpatialBridge::updateDistance(LLCamera& camera_in, bool force_update)
 		mDrawable->updateDistance(camera, force_update);
 	
 		LLViewerObject::const_child_list_t& child_list = mDrawable->getVObj()->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			 iter != child_list.end(); iter++)
-		{
-			LLViewerObject* child = *iter;
+		for (const auto& iter : child_list)
+        {
+			LLViewerObject* child = iter;
 			LLDrawable* drawable = child->mDrawable;					
 			if (!drawable)
 			{
@@ -1616,10 +1611,9 @@ void LLSpatialBridge::cleanupReferences()
 		if (mDrawable->getVObj())
 		{
 			LLViewerObject::const_child_list_t& child_list = mDrawable->getVObj()->getChildren();
-			for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-				 iter != child_list.end(); iter++)
-			{
-				LLViewerObject* child = *iter;
+			for (const auto& iter : child_list)
+            {
+				LLViewerObject* child = iter;
 				LLDrawable* drawable = child->mDrawable;					
 				if (drawable)
 				{

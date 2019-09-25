@@ -157,9 +157,9 @@ bool LLWLDayCycle::getSkyRefs(std::map<LLWLParamKey, LLWLParamSet>& refs) const
 	LLWLParamManager& wl_mgr = LLWLParamManager::instance();
 
 	refs.clear();
-	for (std::map<F32, LLWLParamKey>::const_iterator iter = mTimeMap.begin(); iter != mTimeMap.end(); ++iter)
-	{
-		const LLWLParamKey& key = iter->second;
+	for (const auto& iter : mTimeMap)
+    {
+		const LLWLParamKey& key = iter.second;
 		if (!wl_mgr.getParamSet(key, refs[key]))
 		{
 			LL_WARNS() << "Cannot find sky [" << key.name << "] referenced by a day cycle" << LL_ENDL;

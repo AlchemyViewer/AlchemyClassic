@@ -181,11 +181,9 @@ void LLContainerView::arrange(S32 width, S32 height, BOOL called_from_parent)
 	{
 		// Determine total height
 		U32 child_height = 0;
-		for (child_list_const_iter_t child_iter = getChildList()->begin();
-			 child_iter != getChildList()->end(); ++child_iter)
-		{
-			LLView *childp = *child_iter;
-			if (!childp->getVisible())
+		for (auto childp : *getChildList())
+        {
+            if (!childp->getVisible())
 			{
 				LL_WARNS() << "Incorrect visibility!" << LL_ENDL;
 			}
@@ -223,11 +221,9 @@ void LLContainerView::arrange(S32 width, S32 height, BOOL called_from_parent)
 	if (mDisplayChildren)
 	{
 		// Iterate through all children, and put in container from top down.
-		for (child_list_const_iter_t child_iter = getChildList()->begin();
-			 child_iter != getChildList()->end(); ++child_iter)
-		{
-			LLView *childp = *child_iter;
-			LLRect child_rect = childp->getRequiredRect();
+		for (auto childp : *getChildList())
+        {
+            LLRect child_rect = childp->getRequiredRect();
 			bottom -= child_rect.getHeight();
 			LLRect r(left, bottom + child_rect.getHeight(), right, bottom);
 			childp->setRect(r);
@@ -267,11 +263,9 @@ LLRect LLContainerView::getRequiredRect()
 	{
 		// Determine total height
 		U32 child_height = 0;
-		for (child_list_const_iter_t child_iter = getChildList()->begin();
-			 child_iter != getChildList()->end(); ++child_iter)
-		{
-			LLView *childp = *child_iter;
-			LLRect child_rect = childp->getRequiredRect();
+		for (auto childp : *getChildList())
+        {
+            LLRect child_rect = childp->getRequiredRect();
 			child_height += child_rect.getHeight();
 			child_height += 2;
 		}
@@ -290,10 +284,8 @@ void LLContainerView::setLabel(const std::string& label)
 void LLContainerView::setDisplayChildren(const BOOL displayChildren)
 {
 	mDisplayChildren = displayChildren;
-	for (child_list_const_iter_t child_iter = getChildList()->begin();
-		 child_iter != getChildList()->end(); ++child_iter)
-	{
-		LLView *childp = *child_iter;
-		childp->setVisible(mDisplayChildren);
+	for (auto childp : *getChildList())
+    {
+        childp->setVisible(mDisplayChildren);
 	}
 }

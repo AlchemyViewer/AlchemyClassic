@@ -163,12 +163,11 @@ bool LLAOEngine::foreignAnimations(const LLUUID& seat)
 {
 	LL_DEBUGS("AOEngine") << "Checking for foreign animation on seat " << seat << LL_ENDL;
 
-	for (LLVOAvatar::AnimSourceIterator sourceIterator = gAgentAvatarp->mAnimationSources.begin();
-		sourceIterator != gAgentAvatarp->mAnimationSources.end(); ++sourceIterator)
-	{
-		LL_DEBUGS("AOEngine") << "Source " << sourceIterator->first << " runs animation " << sourceIterator->second << LL_ENDL;
+	for (auto& animation_source : gAgentAvatarp->mAnimationSources)
+    {
+		LL_DEBUGS("AOEngine") << "Source " << animation_source.first << " runs animation " << animation_source.second << LL_ENDL;
 
-		if (sourceIterator->first != gAgentID)
+		if (animation_source.first != gAgentID)
 		{
 			// special case when the AO gets disabled while sitting
 			if (seat.isNull())
@@ -177,7 +176,7 @@ bool LLAOEngine::foreignAnimations(const LLUUID& seat)
 			}
 
 			// find the source object where the animation came from
-			LLViewerObject* source=gObjectList.findObject(sourceIterator->first);
+			LLViewerObject* source=gObjectList.findObject(animation_source.first);
 
 			// proceed if it's not an attachment
 			if(!source->isAttachment())
@@ -188,7 +187,7 @@ bool LLAOEngine::foreignAnimations(const LLUUID& seat)
 				// if the root prim is the same as the animation source, report back as TRUE
 				if (sourceRoot && source->getID() == seat)
 				{
-					LL_DEBUGS("AOEngine") << "foreign animation " << sourceIterator->second << " found on seat." << LL_ENDL;
+					LL_DEBUGS("AOEngine") << "foreign animation " << animation_source.second << " found on seat." << LL_ENDL;
 					return true;
 				}
 			}
@@ -835,10 +834,10 @@ bool LLAOEngine::findForeignItems(const LLUUID& uuid) const
 	LLInventoryModel::cat_array_t* cats;
 
 	gInventory.getDirectDescendentsOf(uuid, cats, items);
-	for (S32 index = 0; index < cats->size(); ++index)
-	{
+	for (auto& cat : *cats)
+    {
 		// recurse into subfolders
-		if (findForeignItems(cats->at(index)->getUUID()))
+		if (findForeignItems(cat->getUUID()))
 		{
 			moved = true;
 		}
@@ -947,9 +946,9 @@ bool LLAOEngine::removeAnimation(const LLAOSet* set, LLAOSet::AOState* state, S3
 		LLInventoryModel::cat_array_t* cats;
 		gInventory.getDirectDescendentsOf(set->getInventoryUUID(), cats, items);
 
-		for (LLInventoryModel::cat_array_t::iterator it = cats->begin(); it != cats->end(); ++it)
-		{
-			LLPointer<LLInventoryCategory> cat = (*it);
+		for (auto& it : *cats)
+        {
+			LLPointer<LLInventoryCategory> cat = it;
 			std::vector<std::string> params;
 			LLStringUtil::getTokens(cat->getName(), params, ":");
 			std::string stateName = params[0];
@@ -1014,21 +1013,21 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 	state->mAnimations.clear();
 
 	gInventory.getDirectDescendentsOf(state->mInventoryUUID, dummy, items);
-	for (S32 num = 0; num < items->size(); ++num)
-	{
-		LL_DEBUGS("AOEngine")	<< "Found animation link " << items->at(num)->LLInventoryItem::getName()
-					<< " desc " << items->at(num)->LLInventoryItem::getDescription()
-					<< " asset " << items->at(num)->getAssetUUID() << LL_ENDL;
+	for (auto& item : *items)
+    {
+		LL_DEBUGS("AOEngine")	<< "Found animation link " << item->LLInventoryItem::getName()
+					<< " desc " << item->LLInventoryItem::getDescription()
+					<< " asset " << item->getAssetUUID() << LL_ENDL;
 
-		LLViewerInventoryItem* linkedItem = items->at(num)->getLinkedItem();
+		LLViewerInventoryItem* linkedItem = item->getLinkedItem();
 		if (!linkedItem)
 		{
-			LL_WARNS("AOEngine") << "linked item for link " << items->at(num)->LLInventoryItem::getName() << " not found (broken link). Skipping." << LL_ENDL;
+			LL_WARNS("AOEngine") << "linked item for link " << item->LLInventoryItem::getName() << " not found (broken link). Skipping." << LL_ENDL;
 			continue;
 		}
 
 		S32 sortOrder;
-		if (!LLStringUtil::convertToS32(items->at(num)->LLInventoryItem::getDescription(), sortOrder))
+		if (!LLStringUtil::convertToS32(item->LLInventoryItem::getDescription(), sortOrder))
 		{
 			sortOrder = -1;
 		}
@@ -1038,7 +1037,7 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 		if (sortOrder == -1)
 		{
 			LL_WARNS("AOEngine") << "sort order was unknown so append to the end of the list" << LL_ENDL;
-			state->mAnimations.emplace_back(linkedItem->LLInventoryItem::getName(), items->at(num)->getAssetUUID(), items->at(num)->getUUID(), sortOrder);
+			state->mAnimations.emplace_back(linkedItem->LLInventoryItem::getName(), item->getAssetUUID(), item->getUUID(), sortOrder);
 		}
 		else
 		{
@@ -1049,7 +1048,7 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 				{
 					LL_DEBUGS("AOEngine") << "inserting at index " << index << LL_ENDL;
 					state->mAnimations.emplace(state->mAnimations.begin() + index, 
-						linkedItem->LLInventoryItem::getName(), items->at(num)->getAssetUUID(), items->at(num)->getUUID(), sortOrder);
+						linkedItem->LLInventoryItem::getName(), item->getAssetUUID(), item->getUUID(), sortOrder);
 					inserted = true;
 					break;
 				}
@@ -1057,7 +1056,7 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 			if (!inserted)
 			{
 				LL_DEBUGS("AOEngine") << "not inserted yet, appending to the list instead" << LL_ENDL;
-				state->mAnimations.emplace_back(linkedItem->LLInventoryItem::getName(), items->at(num)->getAssetUUID(), items->at(num)->getUUID(), sortOrder);
+				state->mAnimations.emplace_back(linkedItem->LLInventoryItem::getName(), item->getAssetUUID(), item->getUUID(), sortOrder);
 			}
 		}
 		LL_DEBUGS("AOEngine") << "Animation count now: " << state->mAnimations.size() << LL_ENDL;
@@ -1083,9 +1082,9 @@ void LLAOEngine::update()
 	mTimerCollection.setSettingsTimer(false);
 
 	gInventory.getDirectDescendentsOf(mAOFolder, categories, items);
-	for (S32 index = 0; index < categories->size(); ++index)
-	{
-		LLViewerInventoryCategory* currentCategory = categories->at(index);
+	for (auto& categorie : *categories)
+    {
+		LLViewerInventoryCategory* currentCategory = categorie;
 		const std::string& setFolderName = currentCategory->getName();
 
 		if (setFolderName.empty())
@@ -1153,10 +1152,10 @@ void LLAOEngine::update()
 			gInventory.getDirectDescendentsOf(currentCategory->getUUID(), stateCategories, items);
 			newSet->setComplete(TRUE);
 
-			for (S32 state_index = 0; state_index < stateCategories->size(); ++state_index)
-			{
+			for (auto& stateCategorie : *stateCategories)
+            {
 				std::vector<std::string> state_params;
-				LLStringUtil::getTokens(stateCategories->at(state_index)->getName(), state_params, ":");
+				LLStringUtil::getTokens(stateCategorie->getName(), state_params, ":");
 				std::string stateName = state_params[0];
 
 				LLAOSet::AOState* state = newSet->getStateByName(stateName);
@@ -1167,7 +1166,7 @@ void LLAOEngine::update()
 				}
 				LL_DEBUGS("AOEngine") << "Reading state " << stateName << LL_ENDL;
 
-				state->mInventoryUUID = stateCategories->at(state_index)->getUUID();
+				state->mInventoryUUID = stateCategorie->getUUID();
 				for (U32 num = 1; num < state_params.size(); ++num)
 				{
 					if (state_params[num] == "CY")
@@ -1385,10 +1384,9 @@ void LLAOEngine::saveState(const LLAOSet::AOState* state)
 
 void LLAOEngine::saveSettings()
 {
-	for (U32 index = 0; index < mSets.size(); ++index)
-	{
-		LLAOSet* set = mSets[index];
-		if (set->getDirty())
+	for (auto set : mSets)
+    {
+        if (set->getDirty())
 		{
 			saveSet(set);
 			LL_INFOS("AOEngine") << "dirty set saved " << set->getName() << LL_ENDL;
@@ -1457,9 +1455,9 @@ void LLAOEngine::inMouselook(const bool in_mouselook)
 void LLAOEngine::setDefaultSet(LLAOSet* set)
 {
 	mDefaultSet = set;
-	for (U32 index = 0; index < mSets.size(); ++index)
-	{
-		mSets[index]->setDirty(TRUE);
+	for (auto& ao_set : mSets)
+    {
+        ao_set->setDirty(TRUE);
 	}
 }
 
@@ -1699,10 +1697,9 @@ void LLAOEngine::parseNotecard(std::unique_ptr<char[]>&& buffer)
 	LLInventoryModel::item_array_t* items;
 
 	gInventory.getDirectDescendentsOf(mImportSet->getInventoryUUID(), dummy, items);
-	for (U32 index = 0; index < items->size(); ++index)
-	{
-		const auto& inv_item = items->at(index);
-		animationMap[inv_item->getName()] = inv_item->getUUID();
+	for (const auto& inv_item : *items)
+    {
+        animationMap[inv_item->getName()] = inv_item->getUUID();
 		LL_DEBUGS("AOEngine")	<<	"animation " << inv_item->getName() <<
 						" has inventory UUID " << animationMap[inv_item->getName()] << LL_ENDL;
 	}

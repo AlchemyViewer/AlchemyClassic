@@ -71,15 +71,15 @@ LLUploadDialog::LLUploadDialog( const std::string& msg)
 
 	const LLFontGL* font = LLFontGL::getFontSansSerif();
 	LLRect msg_rect;
-	for (int line_num=0; line_num<16; ++line_num)
-	{
+	for (auto& line_num : mLabelBox)
+    {
 		LLTextBox::Params params;
 		params.name("Filename");
 		params.rect(msg_rect);
 		params.initial_value("Filename");
 		params.font(font);
-		mLabelBox[line_num] = LLUICtrlFactory::create<LLTextBox> (params);
-		addChild(mLabelBox[line_num]);
+        line_num = LLUICtrlFactory::create<LLTextBox> (params);
+		addChild(line_num);
 	}
 
 	setMessage(msg);
@@ -130,11 +130,9 @@ void LLUploadDialog::setMessage( const std::string& msg)
 		mLabelBox[line_num]->setVisible(FALSE);
 	}
 	line_num = 0;
-	for (std::list<std::string>::iterator iter = msg_lines.begin();
-		 iter != msg_lines.end(); ++iter)
-	{
-		std::string& cur_line = *iter;
-		LLRect msg_rect;
+	for (auto& cur_line : msg_lines)
+    {
+        LLRect msg_rect;
 		msg_rect.setOriginAndSize( msg_x, msg_y, max_msg_width, line_height );
 		mLabelBox[line_num]->setRect(msg_rect);
 		mLabelBox[line_num]->setText(cur_line);

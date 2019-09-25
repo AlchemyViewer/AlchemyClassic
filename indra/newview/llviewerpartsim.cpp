@@ -447,19 +447,19 @@ void LLViewerPartGroup::shift(const LLVector3 &offset)
 	mMinObjPos += offset;
 	mMaxObjPos += offset;
 
-	for (S32 i = 0 ; i < (S32)mParticles.size(); i++)
-	{
-		mParticles[i]->mPosAgent += offset;
+	for (auto& particle : mParticles)
+    {
+        particle->mPosAgent += offset;
 	}
 }
 
 void LLViewerPartGroup::removeParticlesByID(const U32 source_id)
 {
-	for (S32 i = 0; i < (S32)mParticles.size(); i++)
-	{
-		if(mParticles[i]->mPartSourcep->getID() == source_id)
+	for (auto& particle : mParticles)
+    {
+		if(particle->mPartSourcep->getID() == source_id)
 		{
-			mParticles[i]->mFlags = LLViewerPart::LL_PART_DEAD_MASK;
+            particle->mFlags = LLViewerPart::LL_PART_DEAD_MASK;
 		}		
 	}
 }
@@ -867,15 +867,15 @@ void LLViewerPartSim::cleanupRegion(LLViewerRegion *regionp)
 
 void LLViewerPartSim::clearParticlesByID(const U32 system_id)
 {
-	for (group_list_t::iterator g = mViewerPartGroups.begin(); g != mViewerPartGroups.end(); ++g)
-	{
-		(*g)->removeParticlesByID(system_id);
+	for (auto& part_group : mViewerPartGroups)
+    {
+        part_group->removeParticlesByID(system_id);
 	}
-	for (source_list_t::iterator i = mViewerPartSources.begin(); i != mViewerPartSources.end(); ++i)
-	{
-		if ((*i)->getID() == system_id)
+	for (auto& part_source : mViewerPartSources)
+    {
+		if (part_source->getID() == system_id)
 		{
-			(*i)->setDead();	
+            part_source->setDead();	
 			break;
 		}
 	}
@@ -884,11 +884,11 @@ void LLViewerPartSim::clearParticlesByID(const U32 system_id)
 
 void LLViewerPartSim::clearParticlesByOwnerID(const LLUUID& task_id)
 {
-	for (source_list_t::iterator iter = mViewerPartSources.begin(); iter != mViewerPartSources.end(); ++iter)
-	{
-		if ((*iter)->getOwnerUUID() == task_id)
+	for (auto& part_source : mViewerPartSources)
+    {
+		if (part_source->getOwnerUUID() == task_id)
 		{
-			clearParticlesByID((*iter)->getID());
+			clearParticlesByID(part_source->getID());
 		}
 	}
 }

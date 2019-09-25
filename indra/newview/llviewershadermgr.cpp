@@ -836,10 +836,10 @@ BOOL LLViewerShaderMgr::loadBasicShaders()
 	attribs["MAX_JOINTS_PER_MESH_OBJECT"] = fmt::to_string(LLSkinningUtil::getMaxJointCount());
 
 	// We no longer have to bind the shaders to global glhandles, they are automatically added to a map now.
-	for (U32 i = 0; i < shaders.size(); i++)
-	{
+	for (auto& shader : shaders)
+    {
 		// Note usage of GL_VERTEX_SHADER
-		if (loadShaderFile(shaders[i].first, shaders[i].second, GL_VERTEX_SHADER, &attribs) == 0)
+		if (loadShaderFile(shader.first, shader.second, GL_VERTEX_SHADER, &attribs) == 0)
 		{
 			return FALSE;
 		}
@@ -1083,9 +1083,9 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredImpostorProgram.unload();
 		gDeferredTerrainProgram.unload();
 		gDeferredLightProgram.unload();
-		for (U32 i = 0; i < LL_DEFERRED_MULTI_LIGHT_COUNT; ++i)
-		{
-			gDeferredMultiLightProgram[i].unload();
+		for (auto& i : gDeferredMultiLightProgram)
+        {
+            i.unload();
 		}
 		gDeferredSpotLightProgram.unload();
 		gDeferredMultiSpotLightProgram.unload();

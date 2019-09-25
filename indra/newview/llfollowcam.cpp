@@ -671,9 +671,9 @@ LLFollowCam::~LLFollowCam()
 //static
 void LLFollowCamMgr::cleanupClass()
 {
-	for (param_map_t::iterator iter = sParamMap.begin(); iter != sParamMap.end(); ++iter)
-	{
-		LLFollowCamParams* params = iter->second;
+	for (auto& iter : sParamMap)
+    {
+		LLFollowCamParams* params = iter.second;
 		delete params;
 	}
 	sParamMap.clear();
@@ -877,24 +877,22 @@ void LLFollowCamMgr::dump()
 {
 	S32 param_count = 0;
 	LL_INFOS() << "Scripted camera active stack" << LL_ENDL;
-	for (param_stack_t::iterator param_it = sParamStack.begin();
-		param_it != sParamStack.end();
-		++param_it)
-	{
+	for (auto& param_it : sParamStack)
+    {
 		LL_INFOS() << param_count++ << 
-			" rot_limit: " << (*param_it)->getBehindnessAngle() << 
-			" rot_lag: " << (*param_it)->getBehindnessLag() << 
-			" distance: " << (*param_it)->getDistance() << 
-			" focus: " << (*param_it)->getFocus() << 
-			" foc_lag: " << (*param_it)->getFocusLag() << 
-			" foc_lock: " << ((*param_it)->getFocusLocked() ? "Y" : "N") << 
-			" foc_offset: " << (*param_it)->getFocusOffset() << 
-			" foc_thresh: " << (*param_it)->getFocusThreshold() << 
-			" pitch: " << (*param_it)->getPitch() << 
-			" pos: " << (*param_it)->getPosition() << 
-			" pos_lag: " << (*param_it)->getPositionLag() << 
-			" pos_lock: " << ((*param_it)->getPositionLocked() ? "Y" : "N") << 
-			" pos_thresh: " << (*param_it)->getPositionThreshold() << LL_ENDL;
+			" rot_limit: " << param_it->getBehindnessAngle() << 
+			" rot_lag: " << param_it->getBehindnessLag() << 
+			" distance: " << param_it->getDistance() << 
+			" focus: " << param_it->getFocus() << 
+			" foc_lag: " << param_it->getFocusLag() << 
+			" foc_lock: " << (param_it->getFocusLocked() ? "Y" : "N") << 
+			" foc_offset: " << param_it->getFocusOffset() << 
+			" foc_thresh: " << param_it->getFocusThreshold() << 
+			" pitch: " << param_it->getPitch() << 
+			" pos: " << param_it->getPosition() << 
+			" pos_lag: " << param_it->getPositionLag() << 
+			" pos_lock: " << (param_it->getPositionLocked() ? "Y" : "N") << 
+			" pos_thresh: " << param_it->getPositionThreshold() << LL_ENDL;
 	}
 }
 

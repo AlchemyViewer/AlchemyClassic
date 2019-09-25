@@ -403,10 +403,9 @@ void LLPanelClassifiedInfo::setClickThrough(
 			<< teleport << ", " << map << ", " << profile << "] ("
 			<< (from_new_table ? "new" : "old") << ")" << LL_ENDL;
 
-	for (panel_list_t::iterator iter = sAllPanels.begin(); iter != sAllPanels.end(); ++iter)
-	{
-		LLPanelClassifiedInfo* self = *iter;
-		if (self->getClassifiedId() != classified_id)
+	for (auto self : sAllPanels)
+    {
+        if (self->getClassifiedId() != classified_id)
 		{
 			continue;
 		}

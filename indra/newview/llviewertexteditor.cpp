@@ -446,19 +446,17 @@ void LLEmbeddedItems::removeUnusedChars()
 {
 	std::set<llwchar> used = mEmbeddedUsedChars;
 	const LLWString& wtext = mEditor->getWText();
-	for (S32 i=0; i<(S32)wtext.size(); i++)
-	{
-		llwchar wc = wtext[i];
-		if( wc >= LLTextEditor::FIRST_EMBEDDED_CHAR && wc <= LLTextEditor::LAST_EMBEDDED_CHAR )
+	for (unsigned int wc : wtext)
+    {
+        if( wc >= LLTextEditor::FIRST_EMBEDDED_CHAR && wc <= LLTextEditor::LAST_EMBEDDED_CHAR )
 		{
 			used.erase(wc);
 		}
 	}
 	// Remove chars not actually used
-	for (std::set<llwchar>::iterator iter = used.begin();
-		 iter != used.end(); ++iter)
-	{
-		removeEmbeddedItem(*iter);
+	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type iter : used)
+    {
+		removeEmbeddedItem(iter);
 	}
 }
 
@@ -469,20 +467,20 @@ void LLEmbeddedItems::copyUsedCharsToIndexed()
 
 	// Copy all used llwchars to mEmbeddedIndexedChars
 	mEmbeddedIndexedChars.clear();
-	for (std::set<llwchar>::iterator iter = mEmbeddedUsedChars.begin();
-		 iter != mEmbeddedUsedChars.end(); ++iter)
-	{
-		mEmbeddedIndexedChars.push_back(*iter);
+	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type mEmbeddedUsedChar
+         : mEmbeddedUsedChars)
+    {
+		mEmbeddedIndexedChars.push_back(mEmbeddedUsedChar);
 	}
 }
 
 S32 LLEmbeddedItems::getIndexFromEmbeddedChar(llwchar wch)
 {
 	S32 idx = 0;
-	for (std::vector<llwchar>::iterator iter = mEmbeddedIndexedChars.begin();
-		 iter != mEmbeddedIndexedChars.end(); ++iter)
-	{
-		if (wch == *iter)
+	for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<unsigned int>>>::value_type& mEmbeddedIndexedChar :
+         mEmbeddedIndexedChars)
+    {
+		if (wch == mEmbeddedIndexedChar)
 			break;
 		++idx;
 	}
@@ -552,10 +550,9 @@ LLUIImagePtr LLEmbeddedItems::getItemImage(llwchar ext_char) const
 
 void LLEmbeddedItems::addItems(const std::vector<LLPointer<LLInventoryItem> >& items)
 {
-	for (std::vector<LLPointer<LLInventoryItem> >::const_iterator iter = items.begin();
-		 iter != items.end(); ++iter)
-	{
-		LLInventoryItem* item = *iter;
+	for (const auto& iter : items)
+    {
+		LLInventoryItem* item = iter;
 		if (item)
 		{
 			llwchar wc;
@@ -570,10 +567,10 @@ void LLEmbeddedItems::addItems(const std::vector<LLPointer<LLInventoryItem> >& i
 
 void LLEmbeddedItems::getEmbeddedItemList( std::vector<LLPointer<LLInventoryItem> >& items )
 {
-	for (std::set<llwchar>::iterator iter = mEmbeddedUsedChars.begin(); iter != mEmbeddedUsedChars.end(); ++iter)
-	{
-		llwchar wc = *iter;
-		LLPointer<LLInventoryItem> item = getEmbeddedItemPtr(wc);
+	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type wc :
+         mEmbeddedUsedChars)
+    {
+        LLPointer<LLInventoryItem> item = getEmbeddedItemPtr(wc);
 		if (item)
 		{
 			items.push_back(item);
@@ -583,10 +580,10 @@ void LLEmbeddedItems::getEmbeddedItemList( std::vector<LLPointer<LLInventoryItem
 
 void LLEmbeddedItems::markSaved()
 {
-	for (std::set<llwchar>::iterator iter = mEmbeddedUsedChars.begin(); iter != mEmbeddedUsedChars.end(); ++iter)
-	{
-		llwchar wc = *iter;
-		sEntries[wc].mSaved = TRUE;
+	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type wc :
+         mEmbeddedUsedChars)
+    {
+        sEntries[wc].mSaved = TRUE;
 	}
 }
 
@@ -955,13 +952,13 @@ void LLViewerTextEditor::setASCIIEmbeddedText(const std::string& instr)
 void LLViewerTextEditor::setEmbeddedText(const std::string& instr)
 {
 	LLWString wtext = utf8str_to_wstring(instr);
-	for (S32 i=0; i<(S32)wtext.size(); i++)
-	{
-		llwchar wch = wtext[i];
+	for (unsigned int& i : wtext)
+    {
+		llwchar wch = i;
 		if( wch >= FIRST_EMBEDDED_CHAR && wch <= LAST_EMBEDDED_CHAR )
 		{
 			S32 index = wch - FIRST_EMBEDDED_CHAR;
-			wtext[i] = mEmbeddedItemList->getEmbeddedCharFromIndex(index);
+            i = mEmbeddedItemList->getEmbeddedCharFromIndex(index);
 		}
 	}
 	setWText(wtext);
@@ -973,10 +970,9 @@ std::string LLViewerTextEditor::getEmbeddedText()
 	// New version (Version 2)
 	mEmbeddedItemList->copyUsedCharsToIndexed();
 	LLWString outtextw;
-	for (S32 i=0; i<(S32)getWText().size(); i++)
-	{
-		llwchar wch = getWText()[i];
-		if( wch >= FIRST_EMBEDDED_CHAR && wch <= LAST_EMBEDDED_CHAR )
+	for (unsigned int wch : getWText())
+    {
+        if( wch >= FIRST_EMBEDDED_CHAR && wch <= LAST_EMBEDDED_CHAR )
 		{
 			S32 index = mEmbeddedItemList->getIndexFromEmbeddedChar(wch);
 			wch = FIRST_EMBEDDED_CHAR + index;

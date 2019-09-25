@@ -62,9 +62,9 @@ LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageRead
         {
             CapUrlMatches matches = LLWorld::getInstance()->getCapURLMatches(base_url);
             mNames = matches.mCapNames;
-            for (auto iter = matches.mRegions.begin(); iter != matches.mRegions.end(); ++iter)
+            for (auto region : matches.mRegions)
             {
-                mRegionHosts.insert((*iter)->getHost());
+                mRegionHosts.insert(region->getHost());
             }
         }
         else

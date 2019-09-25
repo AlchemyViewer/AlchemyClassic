@@ -1446,12 +1446,9 @@ void LLAgentCamera::updateCamera()
 		{
 			auto curiter = iter++;
 			auto attachment = curiter->second;
-			for (auto attachment_iter = attachment->mAttachedObjects.begin();
-				 attachment_iter != attachment->mAttachedObjects.end();
-				 ++attachment_iter)
-			{
-				auto attached_object = (*attachment_iter);
-				if (attached_object && !attached_object->isDead() && attached_object->mDrawable.notNull())
+			for (auto attached_object : attachment->mAttachedObjects)
+            {
+                if (attached_object && !attached_object->isDead() && attached_object->mDrawable.notNull())
 				{
 					// clear any existing "early" movements of attachment
 					attached_object->mDrawable->clearState(LLDrawable::EARLY_MOVE);

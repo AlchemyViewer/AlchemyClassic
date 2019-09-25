@@ -92,11 +92,9 @@ BOOL LLImageGL::sSkipAnalyzeAlpha;
 //do not delete them even though they are not currently being used.
 void check_all_images()
 {
-	for (std::set<LLImageGL*>::iterator iter = LLImageGL::sImageList.begin();
-		 iter != LLImageGL::sImageList.end(); iter++)
-	{
-		LLImageGL* glimage = *iter;
-		if (glimage->getTexName() && glimage->isGLTextureCreated())
+	for (auto glimage : LLImageGL::sImageList)
+    {
+        if (glimage->getTexName() && glimage->isGLTextureCreated())
 		{
 			gGL.getTexUnit(0)->bind(glimage) ;
 			glimage->checkTexSize() ;
@@ -278,11 +276,9 @@ void LLImageGL::destroyGL(BOOL save_state)
 	}
 	
 	sAllowReadBackRaw = true ;
-	for (std::set<LLImageGL*>::iterator iter = sImageList.begin();
-		 iter != sImageList.end(); iter++)
-	{
-		LLImageGL* glimage = *iter;
-		if (glimage->mTexName)
+	for (auto glimage : sImageList)
+    {
+        if (glimage->mTexName)
 		{
 			if (save_state && glimage->isGLTextureCreated() && glimage->mComponents)
 			{
@@ -305,11 +301,9 @@ void LLImageGL::destroyGL(BOOL save_state)
 //static 
 void LLImageGL::restoreGL()
 {
-	for (std::set<LLImageGL*>::iterator iter = sImageList.begin();
-		 iter != sImageList.end(); iter++)
-	{
-		LLImageGL* glimage = *iter;
-		if(glimage->getTexName())
+	for (auto glimage : sImageList)
+    {
+        if(glimage->getTexName())
 		{
 			LL_ERRS() << "tex name is not 0." << LL_ENDL ;
 		}
@@ -328,11 +322,9 @@ void LLImageGL::restoreGL()
 //static 
 void LLImageGL::dirtyTexOptions()
 {
-	for (std::set<LLImageGL*>::iterator iter = sImageList.begin();
-		 iter != sImageList.end(); iter++)
-	{
-		LLImageGL* glimage = *iter;
-		glimage->mTexOptionsDirty = true;
+	for (auto glimage : sImageList)
+    {
+        glimage->mTexOptionsDirty = true;
 		stop_glerror();
 	}
 	

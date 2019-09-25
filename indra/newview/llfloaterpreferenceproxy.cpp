@@ -127,10 +127,9 @@ void LLFloaterPreferenceProxy::saveSettings()
 		}
 
 		// Push children onto the end of the work stack
-		for (child_list_t::const_iterator iter = curview->getChildList()->begin();
-			iter != curview->getChildList()->end(); ++iter)
-		{
-			view_stack.push_back(*iter);
+		for (auto iter : *curview->getChildList())
+        {
+			view_stack.push_back(iter);
 		}
 	}
 }
@@ -198,11 +197,10 @@ void LLFloaterPreferenceProxy::onClickCloseBtn(bool app_quitting)
 void LLFloaterPreferenceProxy::cancel()
 {
 
-	for (control_values_map_t::iterator iter = mSavedValues.begin();
-		iter != mSavedValues.end(); ++iter)
-	{
-		LLControlVariable* control = iter->first;
-		LLSD ctrl_value = iter->second;
+	for (auto& saved_value : mSavedValues)
+    {
+		LLControlVariable* control = saved_value.first;
+		LLSD ctrl_value = saved_value.second;
 		control->set(ctrl_value);
 	}
 	mSocksSettingsDirty = false;

@@ -93,13 +93,13 @@ bool LLLocationHistory::getMatchingItems(const std::string& substring, location_
 	std::string needle = substring;
 	LLStringUtil::toLower(needle);
 
-	for (location_list_t::const_iterator it = mItems.begin(); it != mItems.end(); ++it)
-	{
-		std::string haystack = it->getLocation();
+	for (const auto& mItem : mItems)
+    {
+		std::string haystack = mItem.getLocation();
 		LLStringUtil::toLower(haystack);
 
 		if (haystack.find(needle) != std::string::npos)
-			result.push_back(*it);
+			result.push_back(mItem);
 	}
 	
 	return result.size();
@@ -134,9 +134,9 @@ void LLLocationHistory::save() const
 		return;
 	}
 
-	for (location_list_t::const_iterator it = mItems.begin(); it != mItems.end(); ++it)
-	{
-		file << LLSDOStreamer<LLSDNotationFormatter>((*it).toLLSD()) << std::endl;
+	for (const auto& mItem : mItems)
+    {
+		file << LLSDOStreamer<LLSDNotationFormatter>(mItem.toLLSD()) << std::endl;
 	}
 
 	file.close();

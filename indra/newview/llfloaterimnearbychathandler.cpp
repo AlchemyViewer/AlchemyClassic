@@ -100,9 +100,9 @@ public:
 	// removes all toasts from a channel
 	void		removeToastsFromChannel() override
 	{
-		for (toast_vec_t::iterator it = m_active_toasts.begin(); it != m_active_toasts.end(); ++it)
-		{
-			addToToastPool(it->get());
+		for (auto& toast : m_active_toasts)
+        {
+			addToToastPool(toast.get());
 		}
 		m_active_toasts.clear();
 	};

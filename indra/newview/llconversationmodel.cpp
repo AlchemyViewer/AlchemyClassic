@@ -473,9 +473,9 @@ void LLConversationItemSession::dumpDebugData(bool dump_children)
 	// Children info
 	if (dump_children)
 	{
-		for (child_list_t::iterator iter = mChildren.begin(); iter != mChildren.end(); iter++)
-		{
-			LLConversationItemParticipant* participant = dynamic_cast<LLConversationItemParticipant*>(*iter);
+		for (auto& iter : mChildren)
+        {
+			LLConversationItemParticipant* participant = dynamic_cast<LLConversationItemParticipant*>(iter);
 			if (participant)
 			{
 				participant->dumpDebugData();

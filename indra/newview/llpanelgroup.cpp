@@ -284,8 +284,8 @@ void LLPanelGroup::onBtnJoin() const
 
 void LLPanelGroup::changed(LLGroupChange gc)
 {
-	for(std::vector<LLPanelGroupTab* >::iterator it = mTabs.begin();it!=mTabs.end();++it)
-		(*it)->update(gc);
+	for (auto& tab : mTabs)
+        tab->update(gc);
 	update(gc);
 }
 
@@ -362,8 +362,8 @@ void LLPanelGroup::setGroupID(const LLUUID& group_id)
 	sGroupPanelInstances.emplace(std::make_pair(LLUUID(mID), static_cast<LLPanelGroup*>(this)));
 	LLGroupMgr::getInstance()->addObserver(this);
 
-	for(std::vector<LLPanelGroupTab* >::iterator it = mTabs.begin();it!=mTabs.end();++it)
-		(*it)->setGroupID(group_id);
+	for (auto& tab : mTabs)
+        tab->setGroupID(group_id);
 
 	LLGroupMgrGroupData* gdatap = LLGroupMgr::getInstance()->getGroupData(mID);
 	if(gdatap)
@@ -551,8 +551,8 @@ void LLPanelGroup::draw()
 	{
 		bool enable = false;
 		std::string mesg;
-		for(std::vector<LLPanelGroupTab* >::iterator it = mTabs.begin();it!=mTabs.end();++it)
-			enable = enable || (*it)->needsApply(mesg);
+		for (auto& tab : mTabs)
+            enable = enable || tab->needsApply(mesg);
 
 		mButtonApply->setEnabled(enable);
 	}

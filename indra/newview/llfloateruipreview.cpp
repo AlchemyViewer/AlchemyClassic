@@ -945,9 +945,9 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 		// highlight and enable them
 		if(mHighlightingOverlaps)
 		{
-			for(LLOverlapPanel::OverlapMap::iterator iter = mOverlapPanel->mOverlapMap.begin(); iter != mOverlapPanel->mOverlapMap.end(); ++iter)
-			{
-				LLView* viewp = iter->first;
+			for (auto& iter : mOverlapPanel->mOverlapMap)
+            {
+				LLView* viewp = iter.first;
 				LLView::sPreviewHighlightedElements.insert(viewp);
 			}
 		}
@@ -1251,10 +1251,10 @@ void LLFloaterUIPreview::highlightChangedElements()
 	}
 	if (changed_element_paths)
 	{
-		for (std::list<std::string>::iterator iter = changed_element_paths->begin(); iter != changed_element_paths->end(); ++iter)	// for every changed element path
+		for (auto& iter : *changed_element_paths) // for every changed element path
 		{
 			LLView* element = mDisplayedFloater;
-			if (!strncmp(iter->c_str(), ".", 1))	// if it's the root floater itself
+			if (!strncmp(iter.c_str(), ".", 1))	// if it's the root floater itself
 			{
 				continue;
 			}
@@ -1262,7 +1262,7 @@ void LLFloaterUIPreview::highlightChangedElements()
 			// Split element hierarchy path on period (*HACK: it's possible that the element name will have a period in it, in which case this won't work.  See https://wiki.lindenlab.com/wiki/Viewer_Localization_Tool_Documentation.)
 			typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 			boost::char_separator<char> sep(".");
-			tokenizer tokens(*iter, sep);
+			tokenizer tokens(iter, sep);
 			tokenizer::iterator token_iter;
 			BOOL failed = FALSE;
 			for (token_iter = tokens.begin(); token_iter != tokens.end(); ++token_iter)
@@ -1272,7 +1272,7 @@ void LLFloaterUIPreview::highlightChangedElements()
 				// if we still didn't find it...
 				if (nullptr == element)
 				{
-					LL_INFOS() << "Unable to find element in XuiDelta file named \"" << *iter << "\" in file \"" << mLiveFile->mFileName <<
+					LL_INFOS() << "Unable to find element in XuiDelta file named \"" << iter << "\" in file \"" << mLiveFile->mFileName <<
 						"\". The element may no longer exist, the path may be incorrect, or it may not be a non-displayable element (not an LLView) such as a \"string\" type." << LL_ENDL;
 					failed = TRUE;
 					break;
@@ -1299,9 +1299,10 @@ void LLFloaterUIPreview::highlightChangedElements()
 	}
 	if (error_list)
 	{
-		for (std::list<std::string>::iterator iter = error_list->begin(); iter != error_list->end(); ++iter)	// for every changed element path
+		for (auto& iter : *error_list) // for every changed element path
 		{
-			std::string warning = LLStringExplicit("Error listed among differences.  Filename: \"") + mLiveFile->mFileName + "\".  Message: \"" + *iter + "\"";
+			std::string warning = LLStringExplicit("Error listed among differences.  Filename: \"") + mLiveFile->mFileName + "\".  Message: \"" +
+                iter + "\"";
 			popupAndPrintWarning(warning);
 		}
 	}
@@ -1309,9 +1310,9 @@ void LLFloaterUIPreview::highlightChangedElements()
 
 void LLFloaterUIPreview::highlightChangedFiles()
 {
-	for(DiffMap::iterator iter = mDiffsMap.begin(); iter != mDiffsMap.end(); ++iter)	// for every file listed in diffs
+	for (auto& iter : mDiffsMap) // for every file listed in diffs
 	{
-		LLScrollListItem* item = mFileList->getItemByLabel(std::string(iter->first), FALSE, 1);
+		LLScrollListItem* item = mFileList->getItemByLabel(std::string(iter.first), FALSE, 1);
 		if(item)
 		{
 			item->setHighlighted(TRUE);
@@ -1448,10 +1449,9 @@ BOOL LLPreviewedFloater::selectElement(LLView* parent, int x, int y, int depth)
 		BOOL handled = FALSE;
 		if(LLFloaterUIPreview::containerType(parent))
 		{
-			for(child_list_const_iter_t child_it = parent->getChildList()->begin(); child_it != parent->getChildList()->end(); ++child_it)
-			{
-				LLView* child = *child_it;
-				S32 local_x = x - child->getRect().mLeft;
+			for (auto child : *parent->getChildList())
+            {
+                S32 local_x = x - child->getRect().mLeft;
 				S32 local_y = y - child->getRect().mBottom;
 				if (child->pointInView(local_x, local_y) &&
 					child->getVisible() &&
@@ -1552,10 +1552,9 @@ void LLFloaterUIPreview::findOverlapsInChildren(LLView* parent)
 		}
 
 		// for every sibling
-		for(child_list_const_iter_t sibling_it = parent->getChildList()->begin(); sibling_it != parent->getChildList()->end(); ++sibling_it)	// for each sibling
+		for (auto sibling : *parent->getChildList()) // for each sibling
 		{
-			LLView* sibling = *sibling_it;
-			if(overlapIgnorable(sibling))
+            if(overlapIgnorable(sibling))
 			{
 				continue;
 			}
@@ -1669,10 +1668,9 @@ void LLOverlapPanel::draw()
 			setRect(LLRect(rect.mLeft,rect.mTop,rect.getWidth() < text_width ? rect.mLeft + text_width : rect.mRight,rect.mTop));
 
 			std::list<LLView*> overlappers = mOverlapMap[LLView::sPreviewClickedElement];
-			for(std::list<LLView*>::iterator overlap_it = overlappers.begin(); overlap_it != overlappers.end(); ++overlap_it)
-			{
-				LLView* viewp = *overlap_it;
-				height_sum += viewp->getRect().getHeight() + mSpacing*3;
+			for (auto viewp : overlappers)
+            {
+                height_sum += viewp->getRect().getHeight() + mSpacing*3;
 		
 				// widen panel's rectangle to accommodate widest overlapping element of this floater
 				rect = getRect();
@@ -1699,11 +1697,9 @@ void LLOverlapPanel::draw()
 		LLUI::translate(0,-mSpacing-LLView::sPreviewClickedElement->getRect().getHeight());	// skip spacing distance + height
 		LLView::sPreviewClickedElement->draw();
 
-		for(std::list<LLView*>::iterator overlap_it = overlappers.begin(); overlap_it != overlappers.end(); ++overlap_it)
-		{
-			LLView* viewp = *overlap_it;
-
-			// draw separating line
+		for (auto viewp : overlappers)
+        {
+            // draw separating line
 			LLUI::translate(0,-mSpacing);
 			gl_line_2d(0,0,getRect().getWidth()-10,0,LLColor4(192.0f/255.0f,192.0f/255.0f,192.0f/255.0f));
 

@@ -1708,12 +1708,9 @@ void LLAgentWearables::findAttachmentsAddRemoveInfo(LLInventoryModel::item_array
 	{
 		LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 		LLViewerJointAttachment* attachment = curiter->second;
-		for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-			 attachment_iter != attachment->mAttachedObjects.end();
-			 ++attachment_iter)
-		{
-			LLViewerObject *objectp = (*attachment_iter);
-			if (objectp)
+		for (auto objectp : attachment->mAttachedObjects)
+        {
+            if (objectp)
 			{
 				LLUUID object_item_id = objectp->getAttachmentItemID();
 
@@ -1743,11 +1740,9 @@ void LLAgentWearables::findAttachmentsAddRemoveInfo(LLInventoryModel::item_array
 		}
 	}
 
-	for (LLInventoryModel::item_array_t::iterator it = obj_item_array.begin();
-		 it != obj_item_array.end();
-		 ++it)
-	{
-		LLUUID linked_id = (*it).get()->getLinkedUUID();
+	for (auto& it : obj_item_array)
+    {
+		LLUUID linked_id = it.get()->getLinkedUUID();
 		if (current_item_ids.find(linked_id) != current_item_ids.end())
 		{
 			// Requested attachment is already worn.
@@ -1755,7 +1750,7 @@ void LLAgentWearables::findAttachmentsAddRemoveInfo(LLInventoryModel::item_array
 		else
 		{
 			// Requested attachment is not worn yet.
-			items_to_add.push_back(*it);
+			items_to_add.push_back(it);
 		}
 	}
 	// S32 remove_count = objects_to_remove.size();
@@ -1772,12 +1767,9 @@ std::vector<LLViewerObject*> LLAgentWearables::getTempAttachments()
 		{
 			LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 			LLViewerJointAttachment* attachment = curiter->second;
-			for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-				attachment_iter != attachment->mAttachedObjects.end();
-				++attachment_iter)
-			{
-				LLViewerObject *objectp = (*attachment_iter);
-				if (objectp && objectp->isTempAttachment())
+			for (auto objectp : attachment->mAttachedObjects)
+            {
+                if (objectp && objectp->isTempAttachment())
 				{
 					temp_attachs.push_back(objectp);
 				}
@@ -1800,12 +1792,9 @@ void LLAgentWearables::userRemoveMultipleAttachments(llvo_vec_t& objects_to_remo
 	gMessageSystem->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
 	gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
 	
-	for (llvo_vec_t::iterator it = objects_to_remove.begin();
-		 it != objects_to_remove.end();
-		 ++it)
-	{
-		LLViewerObject *objectp = *it;
-		//gAgentAvatarp->resetJointPositionsOnDetach(objectp);
+	for (auto objectp : objects_to_remove)
+    {
+        //gAgentAvatarp->resetJointPositionsOnDetach(objectp);
 		gMessageSystem->nextBlockFast(_PREHASH_ObjectData);
 		gMessageSystem->addU32Fast(_PREHASH_ObjectLocalID, objectp->getLocalID());
 		const LLUUID& item_id = objectp->getAttachmentItemID();

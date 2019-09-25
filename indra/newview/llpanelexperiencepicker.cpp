@@ -206,10 +206,9 @@ bool LLPanelExperiencePicker::isSelectButtonEnabled()
 void LLPanelExperiencePicker::getSelectedExperienceIds( const LLScrollListCtrl* results, uuid_vec_t &experience_ids )
 {
 	std::vector<LLScrollListItem*> items = results->getAllSelected();
-	for(std::vector<LLScrollListItem*>::iterator it = items.begin(); it != items.end(); ++it)
-	{
-		LLScrollListItem* item = *it;
-		if (item->getUUID().notNull())
+	for (auto item : items)
+    {
+        if (item->getUUID().notNull())
 		{
 			experience_ids.push_back(item->getUUID());
 		}

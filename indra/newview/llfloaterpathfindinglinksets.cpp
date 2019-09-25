@@ -234,9 +234,9 @@ void LLFloaterPathfindingLinksets::buildObjectsScrollList(const LLPathfindingObj
 	{
 		LLStringUtil::toUpper(nameFilter);
 		LLStringUtil::toUpper(descriptionFilter);
-		for (LLPathfindingObjectList::const_iterator objectIter = pObjectListPtr->begin();	objectIter != pObjectListPtr->end(); ++objectIter)
-		{
-			const LLPathfindingObjectPtr objectPtr = objectIter->second;
+		for (const auto& objectIter : *pObjectListPtr)
+        {
+			const LLPathfindingObjectPtr objectPtr = objectIter.second;
 			const LLPathfindingLinkset *linksetPtr = dynamic_cast<const LLPathfindingLinkset *>(objectPtr.get());
 			llassert(linksetPtr != NULL);
 
@@ -256,9 +256,9 @@ void LLFloaterPathfindingLinksets::buildObjectsScrollList(const LLPathfindingObj
 	}
 	else
 	{
-		for (LLPathfindingObjectList::const_iterator objectIter = pObjectListPtr->begin();	objectIter != pObjectListPtr->end(); ++objectIter)
-		{
-			const LLPathfindingObjectPtr objectPtr = objectIter->second;
+		for (const auto& objectIter : *pObjectListPtr)
+        {
+			const LLPathfindingObjectPtr objectPtr = objectIter.second;
 			const LLPathfindingLinkset *linksetPtr = dynamic_cast<const LLPathfindingLinkset *>(objectPtr.get());
 			llassert(linksetPtr != NULL);
 

@@ -2776,10 +2776,9 @@ void LLTextureFetch::addToNetworkQueue(LLTextureFetchWorker* worker)
 		// i.e. a delete has not been requested
 		mNetworkQueue.insert(worker->mID);
 	}
-	for (cancel_queue_t::iterator iter1 = mCancelQueue.begin();
-		 iter1 != mCancelQueue.end(); ++iter1)
-	{
-		iter1->second.erase(worker->mID);
+	for (auto& iter1 : mCancelQueue)
+    {
+        iter1.second.erase(worker->mID);
 	}
 }																		// -Mfnq
 
@@ -3283,10 +3282,9 @@ void LLTextureFetch::sendRequestListToSimulators()
 		}
 	}																	// -Mfnq
 
-	for (work_request_map_t::iterator iter1 = requests.begin();
-		 iter1 != requests.end(); ++iter1)
-	{
-		LLHost host = iter1->first;
+	for (auto& request : requests)
+    {
+		LLHost host = request.first;
 		// invalid host = use agent host
 		if (host.isInvalid())
 		{
@@ -3295,8 +3293,8 @@ void LLTextureFetch::sendRequestListToSimulators()
 
 		S32 sim_request_count = 0;
 		
-		for (request_list_t::iterator iter2 = iter1->second.begin();
-			 iter2 != iter1->second.end(); ++iter2)
+		for (request_list_t::iterator iter2 = request.second.begin();
+			 iter2 != request.second.end(); ++iter2)
 		{
 			LLTextureFetchWorker* req = *iter2;
 			if (gMessageSystem)
@@ -3364,17 +3362,16 @@ void LLTextureFetch::sendRequestListToSimulators()
 		LLMutexLock lock2(&mNetworkQueueMutex);							// +Mfnq
 		if (gMessageSystem && !mCancelQueue.empty())
 		{
-			for (cancel_queue_t::iterator iter1 = mCancelQueue.begin();
-				 iter1 != mCancelQueue.end(); ++iter1)
-			{
-				LLHost host = iter1->first;
+			for (auto& iter1 : mCancelQueue)
+            {
+				LLHost host = iter1.first;
 				if (host.isInvalid())
 				{
 					host = gAgent.getRegionHost();
 				}
 				S32 request_count = 0;
-				for (queue_t::iterator iter2 = iter1->second.begin();
-					 iter2 != iter1->second.end(); ++iter2)
+				for (queue_t::iterator iter2 = iter1.second.begin();
+					 iter2 != iter1.second.end(); ++iter2)
 				{
 					if (0 == request_count)
 					{
@@ -3661,11 +3658,9 @@ S32 LLTextureFetch::getFetchState(const LLUUID& id, F32& data_progress_p, F32& r
 void LLTextureFetch::dump()
 {
 	LL_INFOS(LOG_TXT) << "LLTextureFetch REQUESTS:" << LL_ENDL;
-	for (request_queue_t::iterator iter = mRequestQueue.begin();
-		 iter != mRequestQueue.end(); ++iter)
-	{
-		LLQueuedThread::QueuedRequest* qreq = *iter;
-		LLWorkerThread::WorkRequest* wreq = (LLWorkerThread::WorkRequest*)qreq;
+	for (auto qreq : mRequestQueue)
+    {
+        LLWorkerThread::WorkRequest* wreq = (LLWorkerThread::WorkRequest*)qreq;
 		LLTextureFetchWorker* worker = (LLTextureFetchWorker*)wreq->getWorkerClass();
 		LL_INFOS(LOG_TXT) << " ID: " << worker->mID
 						  << " PRI: " << llformat("0x%08x",wreq->getPriority())

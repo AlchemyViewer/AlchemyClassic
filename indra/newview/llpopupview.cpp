@@ -103,11 +103,9 @@ BOOL LLPopupView::handleMouseEvent(std::function<BOOL(LLView*, S32, S32)> func,
 
 	// make a copy of list of popups, in case list is modified during mouse event handling
 	popup_list_t popups(mPopups);
-	for (popup_list_t::iterator popup_it = popups.begin(), popup_end = popups.end();
-		popup_it != popup_end;
-		++popup_it)
-	{
-		LLView* popup = popup_it->get();
+	for (auto& popup_it : popups)
+    {
+		LLView* popup = popup_it.get();
 		if (!popup 
 			|| !predicate(popup))
 		{
@@ -127,7 +125,7 @@ BOOL LLPopupView::handleMouseEvent(std::function<BOOL(LLView*, S32, S32)> func,
 
 		if (close_popups)
 		{
-			mPopups.remove(*popup_it);
+			mPopups.remove(popup_it);
 			popup->onTopLost();
 		}
 	}

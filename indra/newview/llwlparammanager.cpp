@@ -106,17 +106,17 @@ void LLWLParamManager::clearParamSetsOfScope(LLWLParamKey::EScope scope)
 	}
 
 	std::set<LLWLParamKey> to_remove;
-	for(std::map<LLWLParamKey, LLWLParamSet>::iterator iter = mParamList.begin(); iter != mParamList.end(); ++iter)
-	{
-		if(iter->first.scope == scope)
+	for (auto& iter : mParamList)
+    {
+		if(iter.first.scope == scope)
 		{
-			to_remove.insert(iter->first);
+			to_remove.insert(iter.first);
 		}
 	}
 
-	for(std::set<LLWLParamKey>::iterator iter = to_remove.begin(); iter != to_remove.end(); ++iter)
-	{
-		mParamList.erase(*iter);
+	for (const auto& iter : to_remove)
+    {
+		mParamList.erase(iter);
 	}
 }
 
@@ -126,10 +126,10 @@ std::map<LLWLParamKey, LLWLParamSet> LLWLParamManager::finalizeFromDayCycle(LLWL
 {
 	LL_DEBUGS() << "mDay before finalizing:" << LL_ENDL;
 	{
-		for (std::map<F32, LLWLParamKey>::iterator iter = mDay.mTimeMap.begin(); iter != mDay.mTimeMap.end(); ++iter)
-		{
-			LLWLParamKey& key = iter->second;
-			LL_DEBUGS() << iter->first << "->" << key.name << LL_ENDL;
+		for (auto& iter : mDay.mTimeMap)
+        {
+			LLWLParamKey& key = iter.second;
+			LL_DEBUGS() << iter.first << "->" << key.name << LL_ENDL;
 		}
 	}
 
@@ -143,11 +143,9 @@ std::map<LLWLParamKey, LLWLParamSet> LLWLParamManager::finalizeFromDayCycle(LLWL
 	std::map<std::string, unsigned int> conflicted_names; // integer later used as a count, for uniquely renaming conflicts
 
 	LLWLDayCycle& cycle = mDay;
-	for(std::map<F32, LLWLParamKey>::iterator iter = cycle.mTimeMap.begin();
-		iter != cycle.mTimeMap.end();
-		++iter)
-	{
-		LLWLParamKey& key = iter->second;
+	for (auto& iter : cycle.mTimeMap)
+    {
+		LLWLParamKey& key = iter.second;
 		std::string desired_name = key.name;
 		replace_newlines_with_whitespace(desired_name); // already shouldn't have newlines, but just in case
 		if(inserted_names.find(desired_name) == inserted_names.end())
@@ -164,9 +162,9 @@ std::map<LLWLParamKey, LLWLParamSet> LLWLParamManager::finalizeFromDayCycle(LLWL
 
 	// forget all old skies in target scope, and rebuild, renaming as needed
 	clearParamSetsOfScope(scope);
-	for(std::map<LLWLParamKey, LLWLParamSet>::iterator iter = current_references.begin(); iter != current_references.end(); ++iter)
-	{
-		const LLWLParamKey& old_key = iter->first;
+	for (auto& current_reference : current_references)
+    {
+		const LLWLParamKey& old_key = current_reference.first;
 
 		std::string desired_name(old_key.name);
 		replace_newlines_with_whitespace(desired_name);
@@ -197,30 +195,30 @@ std::map<LLWLParamKey, LLWLParamSet> LLWLParamManager::finalizeFromDayCycle(LLWL
 				<< new_key.name << " (scope " << new_key.scope << ")" << LL_ENDL;
 
 			// update name in sky
-			iter->second.mName = new_name;
+            current_reference.second.mName = new_name;
 
 			// update keys in day cycle
-			for(std::map<F32, LLWLParamKey>::iterator frame = cycle.mTimeMap.begin(); frame != cycle.mTimeMap.end(); ++frame)
-			{
-				if (frame->second == old_key)
+			for (auto& frame : cycle.mTimeMap)
+            {
+				if (frame.second == old_key)
 				{
-					frame->second = new_key;
+                    frame.second = new_key;
 				}
 			}
 
 			// add to master sky map
-			mParamList[new_key] = iter->second;
+			mParamList[new_key] = current_reference.second;
 		}
 
-		final_references[new_key] = iter->second;
+		final_references[new_key] = current_reference.second;
 	}
 
 	LL_DEBUGS() << "mDay after finalizing:" << LL_ENDL;
 	{
-		for (std::map<F32, LLWLParamKey>::iterator iter = mDay.mTimeMap.begin(); iter != mDay.mTimeMap.end(); ++iter)
-		{
-			LLWLParamKey& key = iter->second;
-			LL_DEBUGS() << iter->first << "->" << key.name << LL_ENDL;
+		for (auto& iter : mDay.mTimeMap)
+        {
+			LLWLParamKey& key = iter.second;
+			LL_DEBUGS() << iter.first << "->" << key.name << LL_ENDL;
 		}
 	}
 
@@ -231,9 +229,9 @@ std::map<LLWLParamKey, LLWLParamSet> LLWLParamManager::finalizeFromDayCycle(LLWL
 LLSD LLWLParamManager::createSkyMap(std::map<LLWLParamKey, LLWLParamSet> refs)
 {
 	LLSD skies = LLSD::emptyMap();
-	for(std::map<LLWLParamKey, LLWLParamSet>::iterator iter = refs.begin(); iter != refs.end(); ++iter)
-	{
-		skies.insert(iter->first.name, iter->second.getAll());
+	for (auto& ref : refs)
+    {
+		skies.insert(ref.first.name, ref.second.getAll());
 	}
 	return skies;
 }
@@ -640,9 +638,9 @@ void LLWLParamManager::getPresetNames(preset_name_list_t& region, preset_name_li
 	user.clear();
 	sys.clear();
 
-	for (std::map<LLWLParamKey, LLWLParamSet>::const_iterator it = mParamList.begin(); it != mParamList.end(); it++)
-	{
-		const LLWLParamKey& key = it->first;
+	for (const auto& it : mParamList)
+    {
+		const LLWLParamKey& key = it.first;
 		const std::string& name = key.name;
 
 		if (key.scope == LLEnvKey::SCOPE_REGION)
@@ -673,9 +671,9 @@ void LLWLParamManager::getPresetKeys(preset_key_list_t& keys) const
 {
 	keys.clear();
 
-	for (std::map<LLWLParamKey, LLWLParamSet>::const_iterator it = mParamList.begin(); it != mParamList.end(); it++)
-	{
-		keys.push_back(it->first);
+	for (const auto& it : mParamList)
+    {
+		keys.push_back(it.first);
 	}
 }
 
@@ -712,9 +710,9 @@ std::string LLWLParamManager::escapeString(const std::string& str)
 {
 	static const char hex[] = "0123456789ABCDEF";
 	std::stringstream escaped_str;
-	for (std::string::const_iterator iter = str.begin(); iter != str.end(); ++iter)
-	{
-		switch (*iter) {
+	for (std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>::value_type iter : str)
+    {
+		switch (iter) {
 		case '0': case '1': case '2': case '3': case '4':
 		case '5': case '6': case '7': case '8': case '9':
 		case 'a': case 'b': case 'c': case 'd': case 'e':
@@ -727,10 +725,10 @@ std::string LLWLParamManager::escapeString(const std::string& str)
 		case 'K': case 'L': case 'M': case 'N': case 'O':
 		case 'P': case 'Q': case 'R': case 'S': case 'T':
 		case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z':
-			escaped_str << (*iter);
+			escaped_str << iter;
 			break;
 		default:
-			unsigned char c = (unsigned char)(*iter);
+			unsigned char c = (unsigned char)iter;
 			escaped_str << '%' << hex[c >> 4] << hex[c & 0xF];
 		}
 	}

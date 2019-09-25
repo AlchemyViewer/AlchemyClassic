@@ -114,9 +114,9 @@ public:
         {
                 mJointState = new LLJointState;
 
-				for (U32 i = 0; i < NUM_PARAMS; ++i)
-				{
-					mParamCache[i] = nullptr;
+				for (auto& i : mParamCache)
+                {
+                    i = nullptr;
 				}
         }
 

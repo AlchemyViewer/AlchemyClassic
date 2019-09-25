@@ -1228,11 +1228,9 @@ void LLPanelRequestTools::refresh()
 	list->selectItemRange(2,last_item);
 	list->operateOnSelection(LLCtrlListInterface::OP_DELETE);
 	}
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
-		 iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
-	{
-		LLViewerRegion* regionp = *iter;
-		std::string name = regionp->getName();
+	for (auto regionp : LLWorld::getInstance()->getRegionList())
+    {
+        std::string name = regionp->getName();
 		if (!name.empty())
 		{
 			list->addSimpleElement(name);
@@ -1287,11 +1285,9 @@ void LLPanelRequestTools::onClickRequest()
 	else
 	{
 		// find region by name
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
-			 iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
-		{
-			LLViewerRegion* regionp = *iter;
-			if(dest == regionp->getName())
+		for (auto regionp : LLWorld::getInstance()->getRegionList())
+        {
+            if(dest == regionp->getName())
 			{
 				// found it
 				sendRequest(regionp->getHost());

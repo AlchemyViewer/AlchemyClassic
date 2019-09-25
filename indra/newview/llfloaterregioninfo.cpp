@@ -578,10 +578,9 @@ void LLFloaterRegionInfo::refreshFromRegion(LLViewerRegion* region)
 // public
 void LLFloaterRegionInfo::refresh()
 {
-	for(info_panels_t::iterator iter = mInfoPanels.begin();
-		iter != mInfoPanels.end(); ++iter)
-	{
-		(*iter)->refresh();
+	for (auto& info_panel : mInfoPanels)
+    {
+        info_panel->refresh();
 	}
 }
 
@@ -3190,9 +3189,9 @@ LLSD LLPanelRegionExperiences::addIds(LLPanelExperienceListEditor* panel)
 {
 	LLSD ids;
 	const uuid_list_t& id_list = panel->getExperienceIds();
-	for(uuid_list_t::const_iterator it = id_list.begin(); it != id_list.end(); ++it)
-	{
-		ids.append(*it);
+	for (auto it : id_list)
+    {
+		ids.append(it);
 	}
 	return ids;
 }

@@ -118,11 +118,9 @@ void LLToolBrushLand::modifyLandAtPointGlobal(const LLVector3d &pos_global,
 	
 	mLastAffectedRegions.clear();
 	determineAffectedRegions(mLastAffectedRegions, pos_global);
-	for(region_list_t::iterator iter = mLastAffectedRegions.begin();
-		iter != mLastAffectedRegions.end(); ++iter)
-	{
-		LLViewerRegion* regionp = *iter;
-		//BOOL is_changed = FALSE;
+	for (auto regionp : mLastAffectedRegions)
+    {
+        //BOOL is_changed = FALSE;
 		LLVector3 pos_region = regionp->getPosRegionFromGlobal(pos_global);
 		LLSurface &land = regionp->getLand();
 		char action = E_LAND_LEVEL;
@@ -234,22 +232,18 @@ void LLToolBrushLand::modifyLandInSelectionGlobal()
 	}
 
 	// Stop if our selection include a no-terraform region
-	for(region_list_t::iterator iter = mLastAffectedRegions.begin();
-		iter != mLastAffectedRegions.end(); ++iter)
-	{
-		LLViewerRegion* regionp = *iter;
-		if (!canTerraformRegion(regionp))
+	for (auto regionp : mLastAffectedRegions)
+    {
+        if (!canTerraformRegion(regionp))
 		{
 			alertNoTerraformRegion(regionp);
 			return;
 		}
 	}
 
-	for(region_list_t::iterator iter = mLastAffectedRegions.begin();
-		iter != mLastAffectedRegions.end(); ++iter)
-	{
-		LLViewerRegion* regionp = *iter;
-		//BOOL is_changed = FALSE;
+	for (auto regionp : mLastAffectedRegions)
+    {
+        //BOOL is_changed = FALSE;
 		LLVector3 min_region = regionp->getPosRegionFromGlobal(min);
 		LLVector3 max_region = regionp->getPosRegionFromGlobal(max);
 	
@@ -484,11 +478,9 @@ void LLToolBrushLand::render()
 
 			// Now, for each region, render the overlay
 			LLVector3 pos_world = gAgent.getRegion()->getPosRegionFromGlobal(spot);
-			for(region_list_t::iterator iter = regions.begin();
-				iter != regions.end(); ++iter)
-			{
-				LLViewerRegion* region = *iter;
-				renderOverlay(region->getLand(), 
+			for (auto region : regions)
+            {
+                renderOverlay(region->getLand(), 
 							  region->getPosRegionFromGlobal(spot),
 							  pos_world);
 			}
@@ -638,11 +630,9 @@ void LLToolBrushLand::onMouseCaptureLost()
 // static
 void LLToolBrushLand::undo()
 {
-	for(region_list_t::iterator iter = mLastAffectedRegions.begin();
-		iter != mLastAffectedRegions.end(); ++iter)
-	{
-		LLViewerRegion* regionp = *iter;
-		gMessageSystem->newMessageFast(_PREHASH_UndoLand);
+	for (auto regionp : mLastAffectedRegions)
+    {
+        gMessageSystem->newMessageFast(_PREHASH_UndoLand);
 		gMessageSystem->nextBlockFast(_PREHASH_AgentData);
 		gMessageSystem->addUUIDFast(_PREHASH_AgentID, gAgent.getID() );
 		gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());

@@ -382,9 +382,9 @@ void LLJointStateBlender::blendJointStates(BOOL apply_now)
 	if (apply_now)
 	{
 		// now clear joint states
-		for(S32 i = 0; i < JSB_NUM_JOINT_STATES; i++)
-		{
-			mJointStates[i] = nullptr;
+		for (auto& joint_state : mJointStates)
+        {
+            joint_state = nullptr;
 		}
 	}
 }
@@ -418,9 +418,9 @@ void LLJointStateBlender::interpolate(F32 u)
 void LLJointStateBlender::clear()
 {
 	// now clear joint states
-	for(S32 i = 0; i < JSB_NUM_JOINT_STATES; i++)
-	{
-		mJointStates[i] = nullptr;
+	for (auto& joint_state : mJointStates)
+    {
+        joint_state = nullptr;
 	}
 }
 

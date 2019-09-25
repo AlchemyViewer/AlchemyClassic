@@ -241,9 +241,9 @@ LLViewerOctreeEntry::LLViewerOctreeEntry()
 	mExtents[0].clear();
 	mExtents[1].clear();	
 
-	for(S32 i = 0; i < NUM_DATA_TYPE; i++)
-	{
-		mData[i] = NULL;
+	for (auto& i : mData)
+    {
+        i = NULL;
 	}
 }
 
@@ -920,12 +920,12 @@ void LLOcclusionCullingGroup::releaseOcclusionQueryObjectNames()
 {
 	if (gGLManager.mHasOcclusionQuery)
 	{
-		for (U32 i = 0; i < LLViewerCamera::NUM_CAMERAS; ++i)
-		{
-			if (mOcclusionQuery[i])
+		for (unsigned int& i : mOcclusionQuery)
+        {
+			if (i)
 			{
-				releaseOcclusionQueryObjectName(mOcclusionQuery[i]);
-				mOcclusionQuery[i] = 0;
+				releaseOcclusionQueryObjectName(i);
+                i = 0;
 			}
 		}
 	}
@@ -1023,9 +1023,9 @@ void LLOcclusionCullingGroup::clearOcclusionState(U32 state, S32 mode)
 		}
 		else
 		{
-			for (U32 i = 0; i < LLViewerCamera::NUM_CAMERAS; i++)
-			{
-				mOcclusionState[i] &= ~state;
+			for (unsigned int& i : mOcclusionState)
+            {
+                i &= ~state;
 			}
 		}
 	}

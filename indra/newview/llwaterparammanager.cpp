@@ -367,9 +367,9 @@ void LLWaterParamManager::getPresetNames(preset_name_list_t& presets) const
 {
 	presets.clear();
 
-	for (preset_map_t::const_iterator it = mParamList.begin(); it != mParamList.end(); ++it)
-	{
-		presets.push_back(it->first);
+	for (const auto& it : mParamList)
+    {
+		presets.push_back(it.first);
 	}
 }
 
@@ -378,15 +378,15 @@ void LLWaterParamManager::getPresetNames(preset_name_list_t& user_presets, prese
 	user_presets.clear();
 	system_presets.clear();
 
-	for (preset_map_t::const_iterator it = mParamList.begin(); it != mParamList.end(); ++it)
-	{
-		if (isSystemPreset(it->first))
+	for (const auto& it : mParamList)
+    {
+		if (isSystemPreset(it.first))
 		{
-			system_presets.push_back(it->first);
+			system_presets.push_back(it.first);
 		}
 		else
 		{
-			user_presets.push_back(it->first);
+			user_presets.push_back(it.first);
 		}
 	}
 }

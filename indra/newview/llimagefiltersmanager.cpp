@@ -91,9 +91,9 @@ void LLImageFiltersManager::loadFiltersFromDir(const std::string& dir)
 const std::vector<std::string> LLImageFiltersManager::getFiltersList() const
 {
     std::vector<std::string> filter_list;
-    for (std::map<std::string,std::string>::const_iterator it = mFiltersList.begin(); it != mFiltersList.end(); ++it)
+    for (const auto& it : mFiltersList)
     {
-        filter_list.push_back(it->first);
+        filter_list.push_back(it.first);
     }
     return filter_list;
 }

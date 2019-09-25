@@ -442,12 +442,9 @@ void LLLocalBitmap::updateUserPrims(LLUUID old_id, LLUUID new_id, U32 channel)
 {
 	std::vector<LLViewerObject*> objectlist = prepUpdateObjects(old_id, channel);
 
-	for(std::vector<LLViewerObject*>::iterator object_iterator = objectlist.begin();
-		object_iterator != objectlist.end(); object_iterator++)
-	{
-		LLViewerObject* object = *object_iterator;
-
-		if(object)
+	for (auto object : objectlist)
+    {
+        if(object)
 		{
 			bool update_tex = false;
 			bool update_mat = false;
@@ -552,12 +549,9 @@ void LLLocalBitmap::updateUserLayers(LLUUID old_id, LLUUID new_id, LLWearableTyp
 		if (wearable)
 		{
 			std::vector<LLLocalTextureObject*> texture_list = wearable->getLocalTextureListSeq();
-			for(std::vector<LLLocalTextureObject*>::iterator texture_iter = texture_list.begin();
-				texture_iter != texture_list.end(); texture_iter++)
-			{
-				LLLocalTextureObject* lto = *texture_iter;
-
-				if (lto && lto->getID() == old_id)
+			for (auto lto : texture_list)
+            {
+                if (lto && lto->getID() == old_id)
 				{
 					U32 local_texlayer_index = 0; /* can't keep that as static const, gives errors, so i'm leaving this var here */
 					LLAvatarAppearanceDefines::EBakedTextureIndex baked_texind =
@@ -1011,20 +1005,17 @@ void LLLocalBitmapMgr::delUnit(LLUUID tracking_id)
 	if (!sBitmapList.empty())
 	{	
 		std::vector<LLLocalBitmap*> to_delete;
-		for (local_list_iter iter = sBitmapList.begin(); iter != sBitmapList.end(); iter++)
-		{   /* finding which ones we want deleted and making a separate list */
-			LLLocalBitmap* unit = *iter;
-			if (unit->getTrackingID() == tracking_id)
+		for (auto unit : sBitmapList)
+        {   /* finding which ones we want deleted and making a separate list */
+            if (unit->getTrackingID() == tracking_id)
 			{
 				to_delete.push_back(unit);
 			}
 		}
 
-		for(std::vector<LLLocalBitmap*>::iterator del_iter = to_delete.begin();
-			del_iter != to_delete.end(); del_iter++)
-		{   /* iterating over a temporary list, hence preserving the iterator validity while deleting. */
-			LLLocalBitmap* unit = *del_iter;
-			sBitmapList.remove(unit);
+		for (auto unit : to_delete)
+        {   /* iterating over a temporary list, hence preserving the iterator validity while deleting. */
+            sBitmapList.remove(unit);
 			delete unit;
 			unit = nullptr;
 		}
@@ -1035,10 +1026,9 @@ LLUUID LLLocalBitmapMgr::getWorldID(LLUUID tracking_id)
 {
 	LLUUID world_id = LLUUID::null;
 
-	for (local_list_iter iter = sBitmapList.begin(); iter != sBitmapList.end(); iter++)
-	{
-		LLLocalBitmap* unit = *iter;
-		if (unit->getTrackingID() == tracking_id)
+	for (auto unit : sBitmapList)
+    {
+        if (unit->getTrackingID() == tracking_id)
 		{
 			world_id = unit->getWorldID();
 		}
@@ -1051,10 +1041,9 @@ std::string LLLocalBitmapMgr::getFilename(LLUUID tracking_id)
 {
 	std::string filename = "";
 
-	for (local_list_iter iter = sBitmapList.begin(); iter != sBitmapList.end(); iter++)
-	{
-		LLLocalBitmap* unit = *iter;
-		if (unit->getTrackingID() == tracking_id)
+	for (auto unit : sBitmapList)
+    {
+        if (unit->getTrackingID() == tracking_id)
 		{
 			filename = unit->getFilename();
 		}
@@ -1071,17 +1060,16 @@ void LLLocalBitmapMgr::feedScrollList(LLScrollListCtrl* ctrl)
 
 		if (!sBitmapList.empty())
 		{
-			for (local_list_iter iter = sBitmapList.begin();
-				 iter != sBitmapList.end(); iter++)
-			{
+			for (auto& iter : sBitmapList)
+            {
 				LLSD element;
 				element["columns"][0]["column"] = "unit_name";
 				element["columns"][0]["type"]   = "text";
-				element["columns"][0]["value"]  = (*iter)->getShortName();
+				element["columns"][0]["value"]  = iter->getShortName();
 
 				element["columns"][1]["column"] = "unit_id_HIDDEN";
 				element["columns"][1]["type"]   = "text";
-				element["columns"][1]["value"]  = (*iter)->getTrackingID();
+				element["columns"][1]["value"]  = iter->getTrackingID();
 
 				ctrl->addElement(element);
 			}
@@ -1096,9 +1084,9 @@ void LLLocalBitmapMgr::doUpdates()
 	sTimer.stopTimer();
 	sNeedsRebake = false;
 
-	for (local_list_iter iter = sBitmapList.begin(); iter != sBitmapList.end(); iter++)
-	{
-		(*iter)->updateSelf();
+	for (auto& iter : sBitmapList)
+    {
+        iter->updateSelf();
 	}
 
 	doRebake();

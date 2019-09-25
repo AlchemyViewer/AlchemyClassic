@@ -554,11 +554,11 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                         if (isLOD())
                         {
                                 // store largest index in case of LODs
-                                for (S32 j = 0; j < 3; j++)
+                                for (short j : face)
                                 {
-                                        if (face[j] > mNumVertices - 1)
+                                        if (j > mNumVertices - 1)
                                         {
-                                                mNumVertices = face[j] + 1;
+                                                mNumVertices = j + 1;
                                         }
                                 }
                         }
@@ -914,11 +914,10 @@ void LLPolyMesh::dumpDiagInfo()
         LL_INFOS() << "-----------------------------------------------------" << LL_ENDL;
 
         // print each loaded mesh, and it's memory usage
-        for(LLPolyMeshSharedDataTable::iterator iter = sGlobalSharedMeshList.begin();
-            iter != sGlobalSharedMeshList.end(); ++iter)
+        for (auto& iter : sGlobalSharedMeshList)
         {
-                const std::string& mesh_name = iter->first;
-                LLPolyMeshSharedData* mesh = iter->second;
+                const std::string& mesh_name = iter.first;
+                LLPolyMeshSharedData* mesh = iter.second;
 
                 S32 num_verts = mesh->mNumVertices;
                 S32 num_faces = mesh->mNumFaces;
@@ -1021,11 +1020,9 @@ LLPolyMorphData*        LLPolyMesh::getMorphData(const std::string& morph_name)
 {
         if (!mSharedData)
                 return nullptr;
-        for (LLPolyMeshSharedData::morphdata_list_t::iterator iter = mSharedData->mMorphData.begin();
-             iter != mSharedData->mMorphData.end(); ++iter)
+        for (auto morph_data : mSharedData->mMorphData)
         {
-                LLPolyMorphData *morph_data = *iter;
-                if (morph_data->getName() == morph_name)
+            if (morph_data->getName() == morph_name)
                 {
                         return morph_data;
                 }

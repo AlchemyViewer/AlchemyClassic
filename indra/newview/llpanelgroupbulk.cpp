@@ -123,12 +123,12 @@ void LLPanelGroupBulkImpl::callbackSelect(void* userdata)
 
 void LLPanelGroupBulkImpl::callbackAddUsers(const uuid_vec_t& agent_ids, void* user_data)
 {
-	for (S32 i = 0; i < (S32)agent_ids.size(); i++)
-	{
+	for (auto agent_id : agent_ids)
+    {
 		LLAvatarName av_name;
-		if (LLAvatarNameCache::get(agent_ids[i], &av_name))
+		if (LLAvatarNameCache::get(agent_id, &av_name))
 		{
-			onAvatarNameCache(agent_ids[i], av_name, user_data);
+			onAvatarNameCache(agent_id, av_name, user_data);
 		}
 		else 
 		{
@@ -140,7 +140,7 @@ void LLPanelGroupBulkImpl::callbackAddUsers(const uuid_vec_t& agent_ids, void* u
 					selfp->mAvatarNameCacheConnection.disconnect();
 				}
 				// *TODO : Add a callback per avatar name being fetched.
-				selfp->mAvatarNameCacheConnection = LLAvatarNameCache::get(agent_ids[i],boost::bind(onAvatarNameCache, _1, _2, user_data));
+				selfp->mAvatarNameCacheConnection = LLAvatarNameCache::get(agent_id,boost::bind(onAvatarNameCache, _1, _2, user_data));
 			}
 		}
 	}

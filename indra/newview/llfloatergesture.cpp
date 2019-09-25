@@ -149,12 +149,12 @@ void LLFloaterGesture::done()
 			return;
 		}
 		LL_DEBUGS("Gesture")<< "There are " << categories->size() << " Folders "<< LL_ENDL;
-		for (LLInventoryModel::cat_array_t::iterator it = categories->begin(); it != categories->end(); it++)
-		{
-			if (!gInventory.isCategoryComplete(it->get()->getUUID()))
+		for (auto& categorie : *categories)
+        {
+			if (!gInventory.isCategoryComplete(categorie.get()->getUUID()))
 			{
-				unloaded_folders.push_back(it->get()->getUUID());
-				LL_DEBUGS("Gesture")<< it->get()->getName()<< " Folder added to fetchlist"<< LL_ENDL;
+				unloaded_folders.push_back(categorie.get()->getUUID());
+				LL_DEBUGS("Gesture")<< categorie.get()->getName()<< " Folder added to fetchlist"<< LL_ENDL;
 			}
 
 		}
@@ -281,9 +281,9 @@ void LLFloaterGesture::buildGestureList()
 		gInventory.collectDescendentsIf(mGestureFolderID, categories, items,
 				LLInventoryModel::EXCLUDE_TRASH, is_gesture);
 
-		for (LLInventoryModel::item_array_t::iterator it = items.begin(); it!= items.end(); ++it)
-		{
-			LLInventoryItem* item = it->get();
+		for (auto& it : items)
+        {
+			LLInventoryItem* item = it.get();
 			if (active_gestures.find(item->getUUID()) == active_gestures.end())
 			{
 				// if gesture wasn't loaded yet, we can display only name
@@ -294,9 +294,9 @@ void LLFloaterGesture::buildGestureList()
 
 	// attempt to preserve scroll position through re-builds
 	// since we do re-build whenever something gets dirty
-	for(uuid_vec_t::iterator it = selected_items.begin(); it != selected_items.end(); it++)
-	{
-		mGestureList->selectByID(*it);
+	for (auto& selected_item : selected_items)
+    {
+		mGestureList->selectByID(selected_item);
 	}
 	mGestureList->setScrollPos(scroll_pos);
 }
@@ -416,9 +416,9 @@ bool LLFloaterGesture::isActionEnabled(const LLSD& command)
 
 		std::vector<LLUUID> ids;
 		LLClipboard::instance().pasteFromClipboard(ids);
-		for(std::vector<LLUUID>::iterator it = ids.begin(); it != ids.end(); it++)
-		{
-			LLInventoryItem* item = gInventory.getItem(*it);
+		for (auto& id : ids)
+        {
+			LLInventoryItem* item = gInventory.getItem(id);
 			
 			if(item && item->getInventoryType() == LLInventoryType::IT_GESTURE)
 			{
@@ -525,9 +525,9 @@ void LLFloaterGesture::onCopyPasteAction(const LLSD& command)
 		getSelectedIds(ids);
 		// Make sure the clipboard is empty
 		LLClipboard::instance().reset();
-		for(uuid_vec_t::iterator it = ids.begin(); it != ids.end(); it++)
-		{
-			LLInventoryItem* item = gInventory.getItem(*it);
+		for (auto& id : ids)
+        {
+			LLInventoryItem* item = gInventory.getItem(id);
 			if(item  && item->getInventoryType() == LLInventoryType::IT_GESTURE)
 			{
 				LLWString item_name = utf8str_to_wstring(item->getName());
@@ -545,9 +545,9 @@ void LLFloaterGesture::onCopyPasteAction(const LLSD& command)
 		llassert(gesture_dir);
 		LLPointer<GestureCopiedCallback> cb = new GestureCopiedCallback(this);
 
-		for(std::vector<LLUUID>::iterator it = ids.begin(); it != ids.end(); it++)
-		{
-			LLInventoryItem* item = gInventory.getItem(*it);
+		for (auto& id : ids)
+        {
+			LLInventoryItem* item = gInventory.getItem(id);
 			if(gesture_dir && item && item->getInventoryType() == LLInventoryType::IT_GESTURE)
 			{
 				LLStringUtil::format_map_t string_args;

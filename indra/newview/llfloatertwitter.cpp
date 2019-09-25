@@ -115,9 +115,9 @@ BOOL LLTwitterPhotoPanel::postBuild()
 	// Update filter list
     std::vector<std::string> filter_list = LLImageFiltersManager::getInstance()->getFiltersList();
 	LLComboBox* filterbox = static_cast<LLComboBox *>(mFilterComboBox);
-    for (U32 i = 0; i < filter_list.size(); i++)
-	{
-        filterbox->add(filter_list[i]);
+    for (const auto& i : filter_list)
+    {
+        filterbox->add(i);
     }
 
 	return LLPanel::postBuild();

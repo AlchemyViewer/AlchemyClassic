@@ -324,9 +324,9 @@ void LLFace::dirtyTexture()
 
 	if (mVObjp.notNull() && mVObjp->getVolume())
 	{
-		for (U32 ch = 0; ch < LLRender::NUM_TEXTURE_CHANNELS; ++ch)
-		{
-			if (mTexture[ch].notNull() && mTexture[ch]->getComponents() == 4)
+		for (auto& ch : mTexture)
+        {
+			if (ch.notNull() && ch->getComponents() == 4)
 			{ //dirty texture on an alpha object should be treated as an LoD update
 				LLVOVolume* vobj = drawablep->getVOVolume();
 				if (vobj)
@@ -755,11 +755,9 @@ void LLFace::printDebugInfo() const
 		poolp->printDebugInfo();
 
 		S32 pool_references = 0;
-		for (std::vector<LLFace*>::iterator iter = poolp->mReferences.begin();
-			 iter != poolp->mReferences.end(); iter++)
-		{
-			LLFace *facep = *iter;
-			if (facep == this)
+		for (auto facep : poolp->mReferences)
+        {
+            if (facep == this)
 			{
 				LL_INFOS() << "Pool reference: " << pool_references << LL_ENDL;
 				pool_references++;
@@ -2651,9 +2649,9 @@ void LLFace::setRiggedIndex(U32 type, S32 index)
 	if (mRiggedIndex.empty())
 	{
 		mRiggedIndex.resize(LLDrawPoolAvatar::NUM_RIGGED_PASSES);
-		for (U32 i = 0; i < mRiggedIndex.size(); ++i)
-		{
-			mRiggedIndex[i] = -1;
+		for (int& i : mRiggedIndex)
+        {
+            i = -1;
 		}
 	}
 

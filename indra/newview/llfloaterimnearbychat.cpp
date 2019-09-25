@@ -168,10 +168,10 @@ void LLFloaterIMNearbyChat::reloadMessages(bool clean_messages/* = false*/)
 
 	LLSD do_not_log;
 	do_not_log["do_not_log"] = true;
-	for(std::vector<LLChat>::iterator it = mMessageArchive.begin();it!=mMessageArchive.end();++it)
-	{
+	for (auto& it : mMessageArchive)
+    {
 		// Update the messages without re-writing them to a log file.
-		addMessage(*it,false, do_not_log);
+		addMessage(it,false, do_not_log);
 	}
 	mInputEditor->setFont(LLViewerChat::getChatFont());
 }
@@ -580,10 +580,9 @@ void LLFloaterIMNearbyChat::displaySpeakingIndicator()
 	mSpeakerMgr->update(FALSE);
 	mSpeakerMgr->getSpeakerList(&speaker_list, FALSE);
 
-	for (LLSpeakerMgr::speaker_list_t::iterator i = speaker_list.begin(); i != speaker_list.end(); ++i)
-	{
-		LLPointer<LLSpeaker> s = *i;
-		if (s->mSpeechVolume > 0 || s->mStatus == LLSpeaker::STATUS_SPEAKING)
+	for (auto s : speaker_list)
+    {
+        if (s->mSpeechVolume > 0 || s->mStatus == LLSpeaker::STATUS_SPEAKING)
 		{
 			id = s->mID;
 			break;

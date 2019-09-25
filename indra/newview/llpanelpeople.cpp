@@ -456,9 +456,9 @@ private:
 
 				bool friendFound = false;
 				std::set<LLUUID> changedIDs = gInventory.getChangedIDs();
-				for (std::set<LLUUID>::const_iterator it = changedIDs.begin(); it != changedIDs.end(); ++it)
-				{
-					if (isDescendentOfInventoryFriends(*it))
+				for (auto changedID : changedIDs)
+                {
+					if (isDescendentOfInventoryFriends(changedID))
 					{
 						friendFound = true;
 						break;
@@ -1234,12 +1234,9 @@ void LLPanelPeople::onAddFriendButtonClicked()
 bool LLPanelPeople::isItemsFreeOfFriends(const uuid_vec_t& uuids)
 {
 	const LLAvatarTracker& av_tracker = LLAvatarTracker::instance();
-	for ( uuid_vec_t::const_iterator
-			  id = uuids.begin(),
-			  id_end = uuids.end();
-		  id != id_end; ++id )
-	{
-		if (av_tracker.isBuddy (*id))
+	for (auto uuid : uuids)
+    {
+		if (av_tracker.isBuddy (uuid))
 		{
 			return false;
 		}

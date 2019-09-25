@@ -187,9 +187,9 @@ void LLChatBar::refreshGestures()
 		// collect list of unique gestures
 		std::map <std::string, BOOL> unique;
 		const LLGestureMgr::item_map_t& active_gestures = LLGestureMgr::instance().getActiveGestures();
-		for (auto it = active_gestures.cbegin(); it != active_gestures.cend(); ++it)
-		{
-			LLMultiGesture* gesture = (*it).second;
+		for (const auto& active_gesture : active_gestures)
+        {
+			LLMultiGesture* gesture = active_gesture.second;
 			if (gesture)
 			{
 				if (!gesture->mTrigger.empty())
@@ -199,9 +199,9 @@ void LLChatBar::refreshGestures()
 			}
 		}
 
-		for (auto it2 = unique.begin(); it2 != unique.end(); ++it2)
-		{
-			mGestureCombo->addSimpleElement((*it2).first);
+		for (auto& it2 : unique)
+        {
+			mGestureCombo->addSimpleElement(it2.first);
 		}
 		
 		mGestureCombo->sortByName();

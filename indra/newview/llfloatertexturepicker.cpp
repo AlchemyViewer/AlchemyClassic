@@ -589,9 +589,9 @@ const LLUUID& LLFloaterTexturePicker::findItemID(const LLUUID& asset_id, BOOL co
 	if (items.size())
 	{
 		// search for copyable version first
-		for (S32 i = 0; i < items.size(); i++)
-		{
-			LLInventoryItem* itemp = items[i];
+		for (auto& item : items)
+        {
+			LLInventoryItem* itemp = item;
 			LLPermissions item_permissions = itemp->getPermissions();
 			if (item_permissions.allowCopyBy(gAgent.getID(), gAgent.getGroupID()))
 			{

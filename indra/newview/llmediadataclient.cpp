@@ -676,9 +676,9 @@ void LLObjectMediaDataClient::sortQueue()
 	if(!mQueue.empty())
 	{
 		// score all elements in the sorted queue.
-		for(request_queue_t::iterator iter = mQueue.begin(); iter != mQueue.end(); iter++)
-		{
-			(*iter)->updateScore();
+		for (auto& iter : mQueue)
+        {
+            iter->updateScore();
 		}
 		
 		// Re-sort the list...

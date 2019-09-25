@@ -425,9 +425,9 @@ void LLGroupMgrGroupData::removeData()
 
 void LLGroupMgrGroupData::removeMemberData()
 {
-	for (member_list_t::iterator mi = mMembers.begin(); mi != mMembers.end(); ++mi)
-	{
-		delete mi->second;
+	for (auto& member : mMembers)
+    {
+		delete member.second;
 	}
 	mMembers.clear();
 	mMemberDataComplete = false;
@@ -436,18 +436,18 @@ void LLGroupMgrGroupData::removeMemberData()
 
 void LLGroupMgrGroupData::removeRoleData()
 {
-	for (member_list_t::iterator mi = mMembers.begin(); mi != mMembers.end(); ++mi)
-	{
-		LLGroupMemberData* data = mi->second;
+	for (auto& member : mMembers)
+    {
+		LLGroupMemberData* data = member.second;
 		if (data)
 		{
 			data->clearRoles();
 		}
 	}
 
-	for (role_list_t::iterator ri = mRoles.begin(); ri != mRoles.end(); ++ri)
-	{
-		LLGroupRoleData* data = ri->second;
+	for (auto& role : mRoles)
+    {
+		LLGroupRoleData* data = role.second;
 		delete data;
 	}
 	mRoles.clear();
@@ -458,18 +458,18 @@ void LLGroupMgrGroupData::removeRoleData()
 
 void LLGroupMgrGroupData::removeRoleMemberData()
 {
-	for (member_list_t::iterator mi = mMembers.begin(); mi != mMembers.end(); ++mi)
-	{
-		LLGroupMemberData* data = mi->second;
+	for (auto& member : mMembers)
+    {
+		LLGroupMemberData* data = member.second;
 		if (data)
 		{
 			data->clearRoles();
 		}
 	}
 
-	for (role_list_t::iterator ri = mRoles.begin(); ri != mRoles.end(); ++ri)
-	{
-		LLGroupRoleData* data = ri->second;
+	for (auto& role : mRoles)
+    {
+		LLGroupRoleData* data = role.second;
 		if (data)
 		{
 			data->clearMembers();
@@ -576,10 +576,9 @@ void LLGroupMgrGroupData::recalcAllAgentPowers()
 {
 	LLGroupMemberData* gmd;
 
-	for (member_list_t::iterator mit = mMembers.begin();
-		 mit != mMembers.end(); ++mit)
-	{
-		gmd = mit->second;
+	for (auto& member : mMembers)
+    {
+		gmd = member.second;
 		if (!gmd) continue;
 
 		gmd->mAgentPowers = 0;
@@ -1297,10 +1296,9 @@ void LLGroupMgr::processGroupRoleMembersReply(LLMessageSystem* msg, void** data)
 		}
 		else
 		{
-			for (LLGroupMgrGroupData::member_list_t::iterator mi = group_datap->mMembers.begin();
-				 mi != group_datap->mMembers.end(); ++mi)
-			{
-				LLGroupMemberData* data = mi->second;
+			for (auto& member : group_datap->mMembers)
+            {
+				LLGroupMemberData* data = member.second;
 				if (data)
 				{
 					data->addRole(LLUUID::null,everyone);
@@ -1491,10 +1489,10 @@ LLGroupMgrGroupData* LLGroupMgr::createGroupData(const LLUUID& id)
 
 void LLGroupMgr::notifyObservers(LLGroupChange gc)
 {
-	for (group_map_t::iterator gi = mGroups.begin(); gi != mGroups.end(); ++gi)
-	{
-		LLUUID group_id = gi->first;
-		if (gi->second->mChanged)
+	for (auto& group : mGroups)
+    {
+		LLUUID group_id = group.first;
+		if (group.second->mChanged)
 		{
 			// notify LLGroupMgrObserver
 			// Copy the map because observers may remove themselves on update
@@ -1507,7 +1505,7 @@ void LLGroupMgr::notifyObservers(LLGroupChange gc)
 			{
 				oi->second->changed(gc);
 			}
-			gi->second->mChanged = FALSE;
+            group.second->mChanged = FALSE;
 
 
 			// notify LLParticularGroupObserver
@@ -1516,9 +1514,9 @@ void LLGroupMgr::notifyObservers(LLGroupChange gc)
 		        return;
 
 		    observer_set_t& obs = obs_it->second;
-		    for (observer_set_t::iterator ob_it = obs.begin(); ob_it != obs.end(); ++ob_it)
-		    {
-		        (*ob_it)->changed(group_id, gc);
+		    for (auto ob : obs)
+            {
+                ob->changed(group_id, gc);
 		    }
 		}
 	}
@@ -1693,16 +1691,15 @@ void LLGroupMgr::sendGroupTitleUpdate(const LLUUID& group_id, const LLUUID& titl
 
 	// Save the change locally
 	LLGroupMgrGroupData* group_datap = createGroupData(group_id);
-	for (std::vector<LLGroupTitle>::iterator iter = group_datap->mTitles.begin();
-		 iter != group_datap->mTitles.end(); ++iter)
-	{
-		if (iter->mRoleID == title_role_id)
+	for (auto& title : group_datap->mTitles)
+    {
+		if (title.mRoleID == title_role_id)
 		{
-			iter->mSelected = TRUE;
+            title.mSelected = TRUE;
 		}
-		else if (iter->mSelected)
+		else if (title.mSelected)
 		{
-			iter->mSelected = FALSE;
+            title.mSelected = FALSE;
 		}
 	}
 }
@@ -1833,9 +1830,8 @@ void LLGroupMgr::sendGroupMemberInvites(const LLUUID& group_id, std::map<LLUUID,
 	bool start_message = true;
 	LLMessageSystem* msg = gMessageSystem;
 
-	for (std::map<LLUUID,LLUUID>::iterator it = member_role_pairs.begin();
-		 it != member_role_pairs.end(); ++it)
-	{
+	for (auto& member_role_pair : member_role_pairs)
+    {
 		if (start_message)
 		{
 			msg->newMessage("InviteGroupRequest");
@@ -1848,8 +1844,8 @@ void LLGroupMgr::sendGroupMemberInvites(const LLUUID& group_id, std::map<LLUUID,
 		}
 
 		msg->nextBlock("InviteData");
-		msg->addUUID("InviteeID",(*it).first);
-		msg->addUUID("RoleID",(*it).second);
+		msg->addUUID("InviteeID", member_role_pair.first);
+		msg->addUUID("RoleID", member_role_pair.second);
 
 		if (msg->isSendFull())
 		{
@@ -1874,12 +1870,9 @@ void LLGroupMgr::sendGroupMemberEjects(const LLUUID& group_id,
 	LLGroupMgrGroupData* group_datap = LLGroupMgr::getInstance()->getGroupData(group_id);
 	if (!group_datap) return;
 
-	for (uuid_vec_t::iterator it = member_ids.begin();
-		 it != member_ids.end(); ++it)
-	{
-		LLUUID& ejected_member_id = (*it);
-
-		// Can't use 'eject' to leave a group.
+	for (auto& ejected_member_id : member_ids)
+    {
+        // Can't use 'eject' to leave a group.
 		if (ejected_member_id == gAgent.getID()) continue;
 
 		// Make sure they are in the group, and we need the member data
@@ -2372,9 +2365,9 @@ bool LLGroupMgr::parseRoleActions(const std::string& xml_filename)
 
 	root->getChildren("action_set", role_list, false);
 	
-	for (LLXMLNodeList::iterator role_iter = role_list.begin(); role_iter != role_list.end(); ++role_iter)
-	{
-		LLXMLNodePtr action_set = role_iter->second;
+	for (auto& role_iter : role_list)
+    {
+		LLXMLNodePtr action_set = role_iter.second;
 
 		LLRoleActionSet* role_action_set = new LLRoleActionSet();
 		LLRoleAction* role_action_data = new LLRoleAction();

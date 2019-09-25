@@ -223,9 +223,9 @@ void LLCoprocedureManager::setPropertyMethods(SettingQuery_t queryfn, SettingUpd
 size_t LLCoprocedureManager::countPending() const
 {
     size_t count = 0;
-    for (poolMap_t::const_iterator it = mPoolMap.begin(); it != mPoolMap.end(); ++it)
+    for (const auto& it : mPoolMap)
     {
-        count += (*it).second->countPending();
+        count += it.second->countPending();
     }
     return count;
 }
@@ -242,9 +242,9 @@ size_t LLCoprocedureManager::countPending(const std::string &pool) const
 size_t LLCoprocedureManager::countActive() const
 {
     size_t count = 0;
-    for (poolMap_t::const_iterator it = mPoolMap.begin(); it != mPoolMap.end(); ++it)
+    for (const auto& it : mPoolMap)
     {
-        count += (*it).second->countActive();
+        count += it.second->countActive();
     }
     return count;
 }
@@ -261,9 +261,9 @@ size_t LLCoprocedureManager::countActive(const std::string &pool) const
 size_t LLCoprocedureManager::count() const
 {
     size_t count = 0;
-    for (poolMap_t::const_iterator it = mPoolMap.begin(); it != mPoolMap.end(); ++it)
+    for (const auto& it : mPoolMap)
     {
-        count += (*it).second->count();
+        count += it.second->count();
     }
     return count;
 }

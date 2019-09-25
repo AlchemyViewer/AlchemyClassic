@@ -181,11 +181,9 @@ void LLPanelGroupInvite::impl::submitInvitations()
 	bool already_in_group = false;
 	//loop over the users
 	std::vector<LLScrollListItem*> items = mInvitees->getAllData();
-	for (std::vector<LLScrollListItem*>::iterator iter = items.begin();
-		 iter != items.end(); ++iter)
-	{
-		LLScrollListItem* item = *iter;
-		if(LLGroupActions::isAvatarMemberOfGroup(mGroupID, item->getUUID()))
+	for (auto item : items)
+    {
+        if(LLGroupActions::isAvatarMemberOfGroup(mGroupID, item->getUUID()))
 		{
 			already_in_group = true;
 			continue;
@@ -392,12 +390,12 @@ void LLPanelGroupInvite::impl::callbackClickOK(void* userdata)
 //static
 void LLPanelGroupInvite::impl::callbackAddUsers(const uuid_vec_t& agent_ids, void* user_data)
 {	
-	for (S32 i = 0; i < (S32)agent_ids.size(); i++)
-	{
+	for (auto agent_id : agent_ids)
+    {
 		LLAvatarName av_name;
-		if (LLAvatarNameCache::get(agent_ids[i], &av_name))
+		if (LLAvatarNameCache::get(agent_id, &av_name))
 		{
-			LLPanelGroupInvite::impl::onAvatarNameCache(agent_ids[i], av_name, user_data);
+			LLPanelGroupInvite::impl::onAvatarNameCache(agent_id, av_name, user_data);
 		}
 		else 
 		{
@@ -409,7 +407,7 @@ void LLPanelGroupInvite::impl::callbackAddUsers(const uuid_vec_t& agent_ids, voi
 					selfp->mAvatarNameCacheConnection.disconnect();
 				}
 				// *TODO : Add a callback per avatar name being fetched.
-				selfp->mAvatarNameCacheConnection = LLAvatarNameCache::get(agent_ids[i],boost::bind(&LLPanelGroupInvite::impl::onAvatarNameCache, _1, _2, user_data));
+				selfp->mAvatarNameCacheConnection = LLAvatarNameCache::get(agent_id,boost::bind(&LLPanelGroupInvite::impl::onAvatarNameCache, _1, _2, user_data));
 			}
 		}
 	}	

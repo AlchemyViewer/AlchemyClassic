@@ -499,13 +499,9 @@ find_picker_ctrl_entry_if(LLWearableType::EType type, const Predicate pred)
                 return nullptr;
         }
         const texture_vec_t& indexes = get_pickers_indexes<CtrlType>(wearable_entry);
-        for (texture_vec_t::const_iterator
-                         iter = indexes.begin(),
-                         iter_end = indexes.end();
-                 iter != iter_end; ++iter)
+        for (auto te : indexes)
         {
-                const ETextureIndex te = *iter;
-                const LLEditWearableDictionary::PickerControlEntry*     entry
+            const LLEditWearableDictionary::PickerControlEntry*     entry
                         = get_picker_entry<CtrlType>(te);
                 if (!entry)
                 {
@@ -537,13 +533,9 @@ for_each_picker_ctrl_entry(LLPanel* panel, LLWearableType::EType type, function_
                 return;
         }
         const texture_vec_t& indexes = get_pickers_indexes<CtrlType>(wearable_entry);
-        for (texture_vec_t::const_iterator
-                         iter = indexes.begin(),
-                         iter_end = indexes.end();
-                 iter != iter_end; ++iter)
+        for (auto te : indexes)
         {
-                const ETextureIndex te = *iter;
-                const LLEditWearableDictionary::PickerControlEntry*     entry
+            const LLEditWearableDictionary::PickerControlEntry*     entry
                         = get_picker_entry<CtrlType>(te);
                 if (!entry)
                 {
@@ -1477,11 +1469,9 @@ void LLPanelEditWearable::getSortedParams(value_map_t &sorted_params, const std:
 
         mWearablePtr->getVisualParams(param_list);
 
-        for (LLWearable::visual_param_vec_t::iterator iter = param_list.begin();
-                iter != param_list.end();
-                ++iter)
+        for (auto& iter : param_list)
         {
-                LLViewerVisualParam *param = (LLViewerVisualParam*) *iter;
+                LLViewerVisualParam *param = (LLViewerVisualParam*)iter;
 
                 if (param->getID() == -1 
                         || !param->isTweakable()
@@ -1623,11 +1613,10 @@ void LLPanelEditWearable::onInvisibilityCommit(LLCheckBoxCtrl* checkbox_ctrl, LL
 
 void LLPanelEditWearable::updateAlphaCheckboxes()
 {
-        for(string_texture_index_map_t::iterator iter = mAlphaCheckbox2Index.begin();
-                iter != mAlphaCheckbox2Index.end(); ++iter )
+        for (auto& iter : mAlphaCheckbox2Index)
         {
-                LLAvatarAppearanceDefines::ETextureIndex te = (LLAvatarAppearanceDefines::ETextureIndex)iter->second;
-                LLCheckBoxCtrl* ctrl = mPanelAlpha->getChild<LLCheckBoxCtrl>(iter->first);
+                LLAvatarAppearanceDefines::ETextureIndex te = (LLAvatarAppearanceDefines::ETextureIndex)iter.second;
+                LLCheckBoxCtrl* ctrl = mPanelAlpha->getChild<LLCheckBoxCtrl>(iter.first);
                 if (ctrl)
                 {
                         ctrl->set(!gAgentAvatarp->isTextureVisible(te, mWearablePtr));

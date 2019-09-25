@@ -910,9 +910,9 @@ S32 LLViewerTexture::getTotalNumFaces() const
 {
 	S32 ret = 0;
 
-	for (U32 i = 0; i < LLRender::NUM_TEXTURE_CHANNELS; ++i)
-	{
-		ret += mNumFaces[i];
+	for (unsigned int mNumFace : mNumFaces)
+    {
+		ret += mNumFace;
 	}
 
 	return ret;
@@ -3601,9 +3601,9 @@ void LLViewerMediaTexture::initVirtualSize()
 	}
 
 	findFaces();
-	for(std::list< LLFace* >::iterator iter = mMediaFaceList.begin(); iter!= mMediaFaceList.end(); ++iter)
-	{
-		addTextureStats((*iter)->getVirtualSize());
+	for (auto& iter : mMediaFaceList)
+    {
+		addTextureStats(iter->getVirtualSize());
 	}
 }
 
@@ -3836,9 +3836,9 @@ void LLViewerMediaTexture::setPlaying(BOOL playing)
 			return;
 		}
 
-		for(std::list< LLFace* >::iterator iter = mMediaFaceList.begin(); iter!= mMediaFaceList.end(); ++iter)
-		{
-			switchTexture(LLRender::DIFFUSE_MAP, *iter);
+		for (auto& iter : mMediaFaceList)
+        {
+			switchTexture(LLRender::DIFFUSE_MAP, iter);
 		}
 	}
 	else //stop playing this media
@@ -3889,10 +3889,9 @@ F32 LLViewerMediaTexture::getMaxVirtualSize()
 	
 		if(!mMediaFaceList.empty())
 		{
-			for(std::list< LLFace* >::iterator iter = mMediaFaceList.begin(); iter!= mMediaFaceList.end(); ++iter)
-			{
-				LLFace* facep = *iter;
-				if(facep->getDrawable()->isRecentlyVisible())
+			for (auto facep : mMediaFaceList)
+            {
+                if(facep->getDrawable()->isRecentlyVisible())
 				{
 					addTextureStats(facep->getVirtualSize());
 				}

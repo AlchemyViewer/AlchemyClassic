@@ -431,15 +431,15 @@ bool LLCommandLineParser::notify()
 
 void LLCommandLineParser::printOptions() const
 {
-    for(po::variables_map::iterator i = gVariableMap.begin(); i != gVariableMap.end(); ++i)
+    for (auto& i : gVariableMap)
     {
-        std::string name = i->first;
-        token_vector_t values = i->second.as<token_vector_t>();
+        std::string name = i.first;
+        token_vector_t values = i.second.as<token_vector_t>();
         std::ostringstream oss;
         oss << name << ": ";
-        for(token_vector_t::iterator t_itr = values.begin(); t_itr != values.end(); ++t_itr)
+        for (auto& value : values)
         {
-            oss << t_itr->c_str() << " ";
+            oss << value.c_str() << " ";
         }
         LL_INFOS() << oss.str() << LL_ENDL;
     }

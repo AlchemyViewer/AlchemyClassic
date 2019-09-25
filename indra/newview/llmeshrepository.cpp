@@ -947,9 +947,9 @@ void LLMeshRepoThread::run()
             if (!incomplete.empty())
             {
                 LLMutexLock locker(mMutex);
-                for (std::list<LODRequest>::iterator iter = incomplete.begin(); iter != incomplete.end(); iter++)
+                for (auto& iter : incomplete)
                 {
-                    mLODReqQ.push(*iter);
+                    mLODReqQ.push(iter);
                     ++LLMeshRepository::sLODProcessing;
                 }
             }
@@ -992,9 +992,9 @@ void LLMeshRepoThread::run()
             if (!incomplete.empty())
             {
                 LLMutexLock locker(mMutex);
-                for (std::list<HeaderRequest>::iterator iter = incomplete.begin(); iter != incomplete.end(); iter++)
+                for (auto& iter : incomplete)
                 {
-                    mHeaderReqQ.push(*iter);
+                    mHeaderReqQ.push(iter);
                 }
             }
         }
@@ -1896,9 +1896,9 @@ bool LLMeshRepoThread::headerReceived(const LLVolumeParams& mesh_params, U8* dat
 		pending_lod_map::iterator iter = mPendingLOD.find(mesh_params);
 		if (iter != mPendingLOD.end())
 		{
-			for (U32 i = 0; i < iter->second.size(); ++i)
-			{
-				LODRequest req(mesh_params, iter->second[i]);
+			for (int i : iter->second)
+            {
+				LODRequest req(mesh_params, i);
 				mLODReqQ.push(req);
 				LLMeshRepository::sLODProcessing++;
 			}
@@ -2132,9 +2132,9 @@ void LLMeshUploadThread::DecompRequest::completed()
 void LLMeshUploadThread::preStart()
 {
 	//build map of LLModel refs to instances for callbacks
-	for (instance_list::iterator iter = mInstanceList.begin(); iter != mInstanceList.end(); ++iter)
-	{
-		mInstance[iter->mModel].push_back(*iter);
+	for (auto& iter : mInstanceList)
+    {
+		mInstance[iter.mModel].push_back(iter);
 	}
 }
 
@@ -2207,10 +2207,10 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 
 	S32 instance_num = 0;
 	
-	for (instance_map::iterator iter = mInstance.begin(); iter != mInstance.end(); ++iter)
-	{
+	for (auto& iter : mInstance)
+    {
 		LLMeshUploadData data;
-		data.mBaseModel = iter->first;
+		data.mBaseModel = iter.first;
 
 		if (data.mBaseModel->mSubmodelID)
 		{
@@ -2219,7 +2219,7 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 			continue;
 		}
 
-		LLModelInstance& first_instance = *(iter->second.begin());
+		LLModelInstance& first_instance = *(iter.second.begin());
 		for (S32 i = 0; i < 5; i++)
 		{
 			data.mModel[i] = first_instance.mLOD[i];
@@ -2266,8 +2266,8 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 		}
 
 		// For all instances that use this model
-		for (instance_list::iterator instance_iter = iter->second.begin();
-			 instance_iter != iter->second.end();
+		for (instance_list::iterator instance_iter = iter.second.begin();
+			 instance_iter != iter.second.end();
 			 ++instance_iter)
 		{
 
@@ -2361,10 +2361,10 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 		}
 	}
 
-	for (instance_map::iterator iter = mInstance.begin(); iter != mInstance.end(); ++iter)
-	{
+	for (auto& iter : mInstance)
+    {
 		LLMeshUploadData data;
-		data.mBaseModel = iter->first;
+		data.mBaseModel = iter.first;
 
 		if (!data.mBaseModel->mSubmodelID)
 		{
@@ -2373,7 +2373,7 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 			continue;
 		}
 
-		LLModelInstance& first_instance = *(iter->second.begin());
+		LLModelInstance& first_instance = *(iter.second.begin());
 		for (S32 i = 0; i < 5; i++)
 		{
 			data.mModel[i] = first_instance.mLOD[i];
@@ -2420,8 +2420,8 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 		}
 
 		// For all instances that use this model
-		for (instance_list::iterator instance_iter = iter->second.begin();
-			 instance_iter != iter->second.end();
+		for (instance_list::iterator instance_iter = iter.second.begin();
+			 instance_iter != iter.second.end();
 			 ++instance_iter)
 		{
 
@@ -2528,12 +2528,12 @@ void LLMeshUploadThread::generateHulls()
 {
 	bool has_valid_requests = false ;
 
-	for (instance_map::iterator iter = mInstance.begin(); iter != mInstance.end(); ++iter)
-	{
+	for (auto& iter : mInstance)
+    {
 		LLMeshUploadData data;
-		data.mBaseModel = iter->first;
+		data.mBaseModel = iter.first;
 
-		LLModelInstance& instance = *(iter->second.begin());
+		LLModelInstance& instance = *(iter.second.begin());
 
 		for (S32 i = 0; i < 5; i++)
 		{
@@ -3222,11 +3222,10 @@ void LLMeshHeaderHandler::processData(LLCore::BufferArray * /* body */, S32 /* b
 		{
 			S32 lod_bytes = 0;
 
-			for (U32 i = 0; i < LLModel::LOD_PHYSICS; ++i)
-			{
+			for (const auto& lod_name : header_lod)
+            {
 				// figure out how many bytes we'll need to reserve in the file
-				const std::string & lod_name = header_lod[i];
-				lod_bytes = llmax(lod_bytes, header[lod_name]["offset"].asInteger()+header[lod_name]["size"].asInteger());
+                lod_bytes = llmax(lod_bytes, header[lod_name]["offset"].asInteger()+header[lod_name]["size"].asInteger());
 			}
 		
 			// just in case skin info or decomposition is at the end of the file (which it shouldn't be)
@@ -3531,10 +3530,10 @@ void LLMeshRepository::shutdown()
 
 	metrics_teleport_started_signal.disconnect();
 
-	for (U32 i = 0; i < mUploads.size(); ++i)
-	{
+	for (auto& upload : mUploads)
+    {
 		LL_INFOS(LOG_MESH) << "Discard the pending mesh uploads." << LL_ENDL;
-		mUploads[i]->discard() ; //discard the uploading requests.
+        upload->discard() ; //discard the uploading requests.
 	}
 
 	mThread->mSignal->signal();
@@ -3907,9 +3906,9 @@ void LLMeshRepository::notifyLoadedMeshes()
 				}
 
 				//set "score" for pending requests
-				for (auto iter = mPendingRequests.begin(); iter != mPendingRequests.end(); ++iter)
-				{
-					iter->mScore = score_map[iter->mMeshParams.getSculptID()];
+				for (auto& request : mPendingRequests)
+                {
+                    request.mScore = score_map[request.mMeshParams.getSculptID()];
 				}
 
 				//sort by "score"
@@ -4866,10 +4865,10 @@ void LLPhysicsDecomp::doDecomposition()
 
 	U32 ret = LLCD_OK;
 	//set parameter values
-	for (decomp_params::iterator iter = mCurRequest->mParams.begin(); iter != mCurRequest->mParams.end(); ++iter)
-	{
-		const std::string& name = iter->first;
-		const LLSD& value = iter->second;
+	for (auto& param_pair : mCurRequest->mParams)
+    {
+		const std::string& name = param_pair.first;
+		const LLSD& value = param_pair.second;
 
 		const LLCDParam* param = param_map[name];
 
@@ -4997,9 +4996,9 @@ void make_box(LLPhysicsDecomp::Request * request)
 	min = request->mPositions[0];
 	max = min;
 
-	for (U32 i = 0; i < request->mPositions.size(); ++i)
-	{
-		update_min_max(min, max, request->mPositions[i]);
+	for (auto position : request->mPositions)
+    {
+		update_min_max(min, max, position);
 	}
 
 	request->mHull.clear();

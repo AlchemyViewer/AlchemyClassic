@@ -58,9 +58,9 @@ LLSD LLPathfindingLinksetList::encodeObjectFields(LLPathfindingLinkset::ELinkset
 {
 	LLSD listData;
 
-	for (const_iterator linksetIter = begin(); linksetIter != end(); ++linksetIter)
-	{
-		const LLPathfindingObjectPtr objectPtr = linksetIter->second;
+	for (const auto& linksetIter : *this)
+    {
+		const LLPathfindingObjectPtr objectPtr = linksetIter.second;
 		const LLPathfindingLinkset *linkset = dynamic_cast<const LLPathfindingLinkset *>(objectPtr.get());
 
 		if (!linkset->isTerrain())
@@ -68,7 +68,7 @@ LLSD LLPathfindingLinksetList::encodeObjectFields(LLPathfindingLinkset::ELinkset
 			LLSD linksetData = linkset->encodeAlteredFields(pLinksetUse, pA, pB, pC, pD);
 			if (!linksetData.isUndefined())
 			{
-				const std::string& uuid(linksetIter->first);
+				const std::string& uuid(linksetIter.first);
 				listData[uuid] = linksetData;
 			}
 		}
@@ -81,9 +81,9 @@ LLSD LLPathfindingLinksetList::encodeTerrainFields(LLPathfindingLinkset::ELinkse
 {
 	LLSD terrainData;
 
-	for (const_iterator linksetIter = begin(); linksetIter != end(); ++linksetIter)
-	{
-		const LLPathfindingObjectPtr objectPtr = linksetIter->second;
+	for (const auto& linksetIter : *this)
+    {
+		const LLPathfindingObjectPtr objectPtr = linksetIter.second;
 		const LLPathfindingLinkset *linkset = dynamic_cast<const LLPathfindingLinkset *>(objectPtr.get());
 
 		if (linkset->isTerrain())

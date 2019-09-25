@@ -533,9 +533,9 @@ void LLPipeline::init()
 
 	stop_glerror();
 
-	for (U32 i = 0; i < 2; ++i)
-	{
-		mSpotLightFade[i] = 1.f;
+	for (float& i : mSpotLightFade)
+    {
+        i = 1.f;
 	}
 
 	if (mCubeVB.isNull())
@@ -1008,9 +1008,9 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 	{
 		mDeferredLight.release();
 				
-		for (U32 i = 0; i < 6; i++)
-		{
-			mShadow[i].release();
+		for (auto& i : mShadow)
+        {
+            i.release();
 		}
 		mFXAABuffer.release();
 		mScreen.release();
@@ -1176,9 +1176,9 @@ void LLPipeline::releaseGLBuffers()
 	mWaterDis.release();
 	mHighlight.release();
 	
-	for (U32 i = 0; i < 2; i++)
-	{
-		mGlow[i].release();
+	for (auto& i : mGlow)
+    {
+        i.release();
 	}
 
 	releaseScreenBuffers();
@@ -1208,9 +1208,9 @@ void LLPipeline::releaseScreenBuffers()
 	mDeferredDownsampledDepth.release();
 	mDeferredLight.release();
 		
-	for (U32 i = 0; i < 6; i++)
-	{
-		mShadow[i].release();
+	for (auto& i : mShadow)
+    {
+        i.release();
 	}
 }
 
@@ -1262,13 +1262,13 @@ void LLPipeline::createGLBuffers()
 
 		glClearColor(0,0,0,0);
 		gGL.setColorMask(true, true);
-		for (U32 i = 0; i < 2; i++)
-		{
-			if(mGlow[i].allocate(512,glow_res,GL_RGBA,FALSE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV))
+		for (auto& i : mGlow)
+        {
+			if(i.allocate(512,glow_res,GL_RGBA,FALSE,FALSE, LLTexUnit::TT_TEXTURE, false, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV))
 			{
-				mGlow[i].bindTarget();
-				mGlow[i].clear();
-				mGlow[i].flush();
+                i.bindTarget();
+                i.clear();
+                i.flush();
 			}
 		}
 
@@ -2254,12 +2254,12 @@ void LLPipeline::checkReferences(LLDrawable* drawable)
 
 void check_references(LLSpatialGroup* group, LLDrawInfo* draw_info)
 {
-	for (LLSpatialGroup::draw_map_t::iterator i = group->mDrawMap.begin(); i != group->mDrawMap.end(); ++i)
-	{
-		LLSpatialGroup::drawmap_elem_t& draw_vec = i->second;
-		for (LLSpatialGroup::drawmap_elem_t::iterator j = draw_vec.begin(); j != draw_vec.end(); ++j)
-		{
-			LLDrawInfo* params = *j;
+	for (auto& i : group->mDrawMap)
+    {
+		LLSpatialGroup::drawmap_elem_t& draw_vec = i.second;
+		for (auto& j : draw_vec)
+        {
+			LLDrawInfo* params = j;
 			if (params == draw_info)
 			{
 				LL_ERRS() << "LLDrawInfo deleted while actively referenced by LLPipeline." << LL_ENDL;
@@ -3483,12 +3483,9 @@ void LLPipeline::stateSort(LLDrawable* drawablep, LLCamera& camera)
 
 	if (!drawablep->getVOVolume())
 	{
-		for (LLDrawable::face_list_t::iterator iter = drawablep->mFaces.begin();
-				iter != drawablep->mFaces.end(); iter++)
-		{
-			LLFace* facep = *iter;
-
-			if (facep->hasGeometry())
+		for (auto facep : drawablep->mFaces)
+        {
+            if (facep->hasGeometry())
 			{
 				if (facep->getPool())
 				{
@@ -4006,9 +4003,9 @@ void LLPipeline::renderHighlights()
         }
 
 		gGL.setColorMask(false, false);
-		for (std::set<HighlightItem>::iterator iter = mHighlightSet.begin(); iter != mHighlightSet.end(); ++iter)
-		{
-			renderHighlight(iter->mItem->getVObj(), 1.f);
+		for (const auto& iter : mHighlightSet)
+        {
+			renderHighlight(iter.mItem->getVObj(), 1.f);
 		}
 		gGL.setColorMask(true, false);
 
@@ -4864,11 +4861,9 @@ void LLPipeline::renderDebug()
 		gDebugProgram.bind();
 		LLGLDepthTest depth(GL_TRUE, GL_FALSE);
 		gGL.diffuseColor3f(1,0,1);
-		for (std::set<LLSpatialGroup*>::iterator iter = visible_selected_groups.begin(); iter != visible_selected_groups.end(); ++iter)
-		{
-			LLSpatialGroup* group = *iter;
-
-			LLVector4a fudge;
+		for (auto group : visible_selected_groups)
+        {
+            LLVector4a fudge;
 			fudge.splat(0.25f); //SG_OCCLUSION_FUDGE
 
 			LLVector4a size;
@@ -4911,9 +4906,9 @@ void LLPipeline::renderDebug()
 				
 				gGL.begin(LLRender::LINES);
 				gGL.diffuseColor3f(1.f, 1.f, 0.f);
-				for (U32 i = 0; i < 6; i++)
-				{
-					gGL.vertex3fv(p[i].mV);
+				for (auto& i : p)
+                {
+					gGL.vertex3fv(i.mV);
 				}
 				gGL.end();
 				gGL.flush();
@@ -5000,9 +4995,9 @@ void LLPipeline::renderDebug()
 					F32* c = col+i*4;
 					gGL.color3fv(c);
 
-					for (U32 j = 0; j < mShadowFrustPoints[i].size(); ++j)
-						{
-							gGL.vertex3fv(mShadowFrustPoints[i][j].mV);
+					for (auto& j : mShadowFrustPoints[i])
+                    {
+							gGL.vertex3fv(j.mV);
 						
 						}
 					gGL.end();
@@ -5113,9 +5108,9 @@ void LLPipeline::renderDebug()
 		gGL.loadMatrix(gGLModelView);
 		gGLLastMatrix = nullptr;
 
-		for (LLSpatialGroup::sg_vector_t::iterator iter = mGroupQ2.begin(); iter != mGroupQ2.end(); ++iter)
-		{
-			LLSpatialGroup* group = *iter;
+		for (auto& iter : mGroupQ2)
+        {
+			LLSpatialGroup* group = iter;
 			if (group->isDead())
 			{
 				continue;
@@ -5638,11 +5633,9 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 		
 		// UPDATE THE EXISTING NEARBY LIGHTS
 		light_set_t cur_nearby_lights;
-		for (auto iter = mNearbyLights.cbegin(), end_iter = mNearbyLights.cend();
-			iter != end_iter; ++iter)
-		{
-			const Light& light = *iter;
-			LLDrawable* drawable = light.drawable;
+		for (const auto& light : mNearbyLights)
+        {
+            LLDrawable* drawable = light.drawable;
             const LLViewerObject *vobj = light.drawable->getVObj();
 			LLVOAvatar* avatarp = vobj ? vobj->getAvatar() : nullptr;
             if(avatarp && avatarp->isVisuallyMuted())
@@ -5675,10 +5668,9 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 				
 		// FIND NEW LIGHTS THAT ARE IN RANGE
 		light_set_t new_nearby_lights;
-		for (auto iter = mLights.cbegin(), end_iter = mLights.cend();
-			 iter != end_iter; ++iter)
-		{
-			LLDrawable* drawable = *iter;
+		for (const auto& mLight : mLights)
+        {
+			LLDrawable* drawable = mLight;
 			LLVOVolume* light = drawable->getVOVolume();
 			if (!light || drawable->isState(LLDrawable::NEARBY_LIGHT))
 			{
@@ -5707,11 +5699,9 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 		}
 
 		// INSERT ANY NEW LIGHTS
-		for (auto iter = new_nearby_lights.cbegin(), end_iter = new_nearby_lights.cend();
-			 iter != end_iter; ++iter)
-		{
-			const Light& light = (*iter);
-			if (mNearbyLights.size() < (U32)MAX_LOCAL_LIGHTS)
+		for (const auto& light : new_nearby_lights)
+        {
+            if (mNearbyLights.size() < (U32)MAX_LOCAL_LIGHTS)
 			{
 				mNearbyLights.emplace(light);
 				((LLDrawable*) light.drawable)->setState(LLDrawable::NEARBY_LIGHT);
@@ -5737,10 +5727,9 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 		}
 		
 		//mark nearby lights not-removable.
-		for (auto iter = mNearbyLights.cbegin(), end_iter = mNearbyLights.cend();
-			 iter != end_iter; iter++)
-		{
-			const Light* light = &(*iter);
+		for (const auto& mNearbyLight : mNearbyLights)
+        {
+			const Light* light = &mNearbyLight;
 			((LLViewerOctreeEntryData*) light->drawable)->setVisible();
 		}
 	}
@@ -5813,10 +5802,9 @@ void LLPipeline::setupHWLights(LLDrawPool* pool)
 	
 	if (mLightingDetail >= 1)
 	{
-		for (light_set_t::iterator iter = mNearbyLights.begin(), iter_end = mNearbyLights.end();
-			 iter != iter_end; ++iter)
-		{
-			LLDrawable* drawable = iter->drawable;
+		for (const auto& mNearbyLight : mNearbyLights)
+        {
+			LLDrawable* drawable = mNearbyLight.drawable;
 			LLVOVolume* light = drawable->getVOVolume();
 			if (!light)
 			{
@@ -5830,19 +5818,19 @@ void LLPipeline::setupHWLights(LLDrawPool* pool)
 			LLColor4  light_color = light->getLightColor();
 			light_color.mV[3] = 0.0f;
 
-			F32 fade = iter->fade;
+			F32 fade = mNearbyLight.fade;
 			if (fade < LIGHT_FADE_TIME)
 			{
 				// fade in/out light
 				if (fade >= 0.f)
 				{
 					fade = fade / LIGHT_FADE_TIME;
-					((Light*) (&(*iter)))->fade += gFrameIntervalSeconds.value();
+					((Light*) (&mNearbyLight))->fade += gFrameIntervalSeconds.value();
 				}
 				else
 				{
 					fade = 1.f + fade / LIGHT_FADE_TIME;
-					((Light*) (&(*iter)))->fade -= gFrameIntervalSeconds.value();
+					((Light*) (&mNearbyLight))->fade -= gFrameIntervalSeconds.value();
 				}
 				fade = llclamp(fade,0.f,1.f);
 				light_color *= fade;
@@ -8002,9 +7990,9 @@ void LLPipeline::renderDeferredLighting()
 			LLDrawable::drawable_list_t spot_lights;
 			LLDrawable::drawable_list_t fullscreen_spot_lights;
 
-			for (U32 i = 0; i < 2; i++)
-			{
-				mTargetShadowSpotLight[i] = nullptr;
+			for (auto& i : mTargetShadowSpotLight)
+            {
+                i = nullptr;
 			}
 
 			std::list<LLVector4> light_colors;
@@ -8544,9 +8532,9 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 			LLDrawable::drawable_list_t spot_lights;
 			LLDrawable::drawable_list_t fullscreen_spot_lights;
 
-			for (U32 i = 0; i < 2; i++)
-			{
-				mTargetShadowSpotLight[i] = nullptr;
+			for (auto& i : mTargetShadowSpotLight)
+            {
+                i = nullptr;
 			}
 
 			std::list<LLVector4> light_colors;
@@ -8978,19 +8966,19 @@ void LLPipeline::setupSpotLight(LLGLSLShader& shader, LLDrawable* drawablep)
 		//determine if this is a good light for casting shadows
 		F32 m_pri = volume->getSpotLightPriority();
 
-		for (U32 i = 0; i < 2; i++)
-		{
+		for (auto& i : mTargetShadowSpotLight)
+        {
 			F32 pri = 0.f;
 
-			if (mTargetShadowSpotLight[i].notNull())
+			if (i.notNull())
 			{
-				pri = mTargetShadowSpotLight[i]->getVOVolume()->getSpotLightPriority();			
+				pri = i->getVOVolume()->getSpotLightPriority();			
 			}
 
 			if (m_pri > pri)
 			{
-				LLDrawable* temp = mTargetShadowSpotLight[i];
-				mTargetShadowSpotLight[i] = potential;
+				LLDrawable* temp = i;
+                i = potential;
 				potential = temp;
 				m_pri = pri;
 			}
@@ -9518,9 +9506,9 @@ void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCa
 		LL_RECORD_BLOCK_TIME(FTM_SHADOW_SIMPLE);
 		
 		gGL.getTexUnit(0)->disable();
-		for (U32 i = 0; i < sizeof(types)/sizeof(U32); ++i)
-		{
-			renderObjects(types[i], LLVertexBuffer::MAP_VERTEX, FALSE);
+		for (unsigned int type : types)
+        {
+			renderObjects(type, LLVertexBuffer::MAP_VERTEX, FALSE);
 		}
 		gGL.getTexUnit(0)->enable(LLTexUnit::TT_TEXTURE);
 		if (!use_shader)
@@ -9632,9 +9620,9 @@ bool LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 	pp.emplace_back(max.mV[0], max.mV[1], max.mV[2]);
 
 	//add corners of camera frustum
-	for (U32 i = 0; i < LLCamera::AGENT_FRUSTRUM_NUM; i++)
-	{
-		pp.emplace_back(camera.mAgentFrustum[i]);
+	for (auto& i : camera.mAgentFrustum)
+    {
+		pp.emplace_back(i);
 	}
 
 
@@ -9703,12 +9691,11 @@ bool LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 
 	for (U32 i = 0; i < 12; i++)
 	{
-		for (U32 j = 0; j < 6; ++j)
-		{
+		for (auto cp : bp)
+        {
 			const LLVector3& v1 = pp[fs[i*2+0]+8];
 			const LLVector3& v2 = pp[fs[i*2+1]+8];
-			const LLPlane& cp = bp[j];
-			LLVector3 n;
+            LLVector3 n;
 			cp.getVector3(n);
 
 			LLVector3 line = v1-v2;
@@ -9729,11 +9716,11 @@ bool LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 	LLVector3 ext[] = { min-LLVector3(0.05f,0.05f,0.05f),
 		max+LLVector3(0.05f,0.05f,0.05f) };
 
-	for (U32 i = 0; i < pp.size(); ++i)
-	{
+	for (auto& i : pp)
+    {
 		bool found = true;
 
-		const F32* p = pp[i].mV;
+		const F32* p = i.mV;
 			
 		for (U32 j = 0; j < 3; ++j)
 		{
@@ -9748,7 +9735,7 @@ bool LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 		for (U32 j = 0; j < LLCamera::AGENT_PLANE_NO_USER_CLIP_NUM; ++j)
 		{
 			const LLPlane& cp = camera.getAgentPlane(j);
-			F32 dist = cp.dist(pp[i]);
+			F32 dist = cp.dist(i);
 			if (dist > 0.05f) //point is above some plane, not contained
 			{
 				found = false;
@@ -9758,7 +9745,7 @@ bool LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 
 		if (found)
 		{
-			fp.push_back(pp[i]);
+			fp.push_back(i);
 		}
 	}
 	
@@ -10010,11 +9997,11 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 		}
 
 		//get good split distances for frustum
-		for (U32 i = 0; i < fp.size(); ++i)
-		{
-			glm::vec3 v(glm::make_vec3(fp[i].mV));
+		for (auto& i : fp)
+        {
+			glm::vec3 v(glm::make_vec3(i.mV));
 			v = llglmhelpers::perspectiveTransform(saved_view, v);
-			fp[i].setVec(glm::value_ptr(v));
+            i.setVec(glm::value_ptr(v));
 		}
 
 		min = fp[0];
@@ -10159,9 +10146,9 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 
 			std::vector<LLVector3> wpf;
 
-			for (U32 i = 0; i < fp.size(); i++)
-			{
-				glm::vec3 p = glm::make_vec3(fp[i].mV);
+			for (auto& i : fp)
+            {
+				glm::vec3 p = glm::make_vec3(i.mV);
 				p = llglmhelpers::perspectiveTransform(view[j], p);
 				wpf.emplace_back(glm::value_ptr(p));
 			}
@@ -10195,11 +10182,11 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 			F32 bfm = 0.f;
 			F32 bfb = 0.f;
 
-			for (U32 i = 0; i < wpf.size(); ++i)
-			{
-				wpf[i] -= center;
-				wpf[i].mV[0] = fabsf(wpf[i].mV[0]);
-				wpf[i].mV[2] = fabsf(wpf[i].mV[2]);
+			for (auto& i : wpf)
+            {
+                i -= center;
+                i.mV[0] = fabsf(i.mV[0]);
+                i.mV[2] = fabsf(i.mV[2]);
 			}
 
 			if (!wpf.empty())
@@ -10209,12 +10196,12 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 				F32 sy = 0.f;
 				F32 sxy = 0.f;
 			
-				for (U32 i = 0; i < wpf.size(); ++i)
-				{		
-					sx += wpf[i].mV[0];
-					sx2 += wpf[i].mV[0]*wpf[i].mV[0];
-					sy += wpf[i].mV[1];
-					sxy += wpf[i].mV[0]*wpf[i].mV[1]; 
+				for (auto& i : wpf)
+                {		
+					sx += i.mV[0];
+					sx2 += i.mV[0]* i.mV[0];
+					sy += i.mV[1];
+					sxy += i.mV[0]* i.mV[1]; 
 				}
 
 				bfm = (sy*sx-wpf.size()*sxy)/(sx*sx-wpf.size()*sx2);
@@ -10228,18 +10215,18 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 				F32 off_x = -1.f;
 				LLVector3 lp;
 
-				for (U32 i = 0; i < wpf.size(); ++i)
-				{
+				for (auto& i : wpf)
+                {
 					//y = bfm*x+bfb
 					//x = (y-bfb)/bfm
-					F32 lx = (wpf[i].mV[1]-bfb)/bfm;
+					F32 lx = (i.mV[1]-bfb)/bfm;
 
-					lx = wpf[i].mV[0]-lx;
+					lx = i.mV[0]-lx;
 				
 					if (off_x < lx)
 					{
 						off_x = lx;
-						lp = wpf[i];
+						lp = i;
 					}
 				}
 
@@ -10250,10 +10237,10 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 				//calculate error
 				mShadowError.mV[j] = 0.f;
 
-				for (U32 i = 0; i < wpf.size(); ++i)
-				{
-					F32 lx = (wpf[i].mV[1]-bfb)/bfm;
-					mShadowError.mV[j] += fabsf(wpf[i].mV[0]-lx);
+				for (auto& i : wpf)
+                {
+					F32 lx = (i.mV[1]-bfb)/bfm;
+					mShadowError.mV[j] += fabsf(i.mV[0]-lx);
 				}
 
 				mShadowError.mV[j] /= wpf.size();
@@ -10278,24 +10265,24 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 					LLVector3 zp;
 					LLVector3 xp;
 
-					for (U32 i = 0; i < wpf.size(); ++i)
-					{
-						LLVector3 atz = wpf[i]-origin;
+					for (auto i : wpf)
+                    {
+						LLVector3 atz = i -origin;
 						atz.mV[0] = 0.f;
 						atz.normVec();
 						if (fovz > -atz.mV[1])
 						{
-							zp = wpf[i];
+							zp = i;
 							fovz = -atz.mV[1];
 						}
 					
-						LLVector3 atx = wpf[i]-origin;
+						LLVector3 atx = i -origin;
 						atx.mV[2] = 0.f;
 						atx.normVec();
 						if (fovx > -atx.mV[1])
 						{
 							fovx = -atx.mV[1];
-							xp = wpf[i];
+							xp = i;
 						}
 					}
 
@@ -10317,14 +10304,14 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 						fovz = 1.f;
 						fovx = 1.f;
 
-						for (U32 i = 0; i < wpf.size(); ++i)
-						{
-							LLVector3 atz = wpf[i]-origin;
+						for (auto i : wpf)
+                        {
+							LLVector3 atz = i -origin;
 							atz.mV[0] = 0.f;
 							atz.normVec();
 							fovz = llmin(fovz, -atz.mV[1]);
 
-							LLVector3 atx = wpf[i]-origin;
+							LLVector3 atx = i -origin;
 							atx.mV[2] = 0.f;
 							atx.normVec();
 							fovx = llmin(fovx, -atx.mV[1]);
@@ -11056,9 +11043,9 @@ void LLPipeline::andRenderTypeMask(U32 type, ...)
 	va_list args;
 
 	bool tmp[NUM_RENDER_TYPES];
-	for (U32 i = 0; i < NUM_RENDER_TYPES; ++i)
-	{
-		tmp[i] = false;
+	for (bool& i : tmp)
+    {
+        i = false;
 	}
 
 	va_start(args, type);
@@ -11106,17 +11093,17 @@ void LLPipeline::clearRenderTypeMask(U32 type, ...)
 
 void LLPipeline::setAllRenderTypes()
 {
-	for (U32 i = 0; i < NUM_RENDER_TYPES; ++i)
-	{
-		mRenderTypeEnabled[i] = true;
+	for (bool& i : mRenderTypeEnabled)
+    {
+        i = true;
 	}
 }
 
 void LLPipeline::clearAllRenderTypes()
 {
-	for (U32 i = 0; i < NUM_RENDER_TYPES; ++i)
-	{
-		mRenderTypeEnabled[i] = false;
+	for (bool& i : mRenderTypeEnabled)
+    {
+        i = false;
 	}
 }
 
@@ -11218,10 +11205,9 @@ void LLPipeline::hideDrawable( LLDrawable *pDrawable )
 	markRebuild( pDrawable, LLDrawable::REBUILD_ALL, TRUE );
 	//hide the children
 	LLViewerObject::const_child_list_t& child_list = pDrawable->getVObj()->getChildren();
-	for ( LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-		  iter != child_list.end(); iter++ )
-	{
-		LLViewerObject* child = *iter;
+	for (const auto& iter : child_list)
+    {
+		LLViewerObject* child = iter;
 		LLDrawable* drawable = child->mDrawable;					
 		if ( drawable )
 		{
@@ -11236,10 +11222,9 @@ void LLPipeline::unhideDrawable( LLDrawable *pDrawable )
 	markRebuild( pDrawable, LLDrawable::REBUILD_ALL, TRUE );
 	//restore children
 	const LLViewerObject::const_child_list_t& child_list = pDrawable->getVObj()->getChildren();
-	for ( LLViewerObject::child_list_t::const_iterator iter = child_list.begin(), end_iter = child_list.end();
-		  iter != end_iter; iter++)
-	{
-		LLViewerObject* child = *iter;
+	for (const auto& iter : child_list)
+    {
+		LLViewerObject* child = iter;
 		LLDrawable* drawable = child->mDrawable;					
 		if ( drawable )
 		{

@@ -222,10 +222,9 @@ LLObjectSelectionHandle LLToolSelect::handleObjectSelection(const LLPickInfo& pi
 				}
 
 				LLViewerObject::const_child_list_t& child_list = root_object->getChildren();
-				for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-					 iter != child_list.end(); iter++)
-				{
-					LLViewerObject* child = *iter;
+				for (const auto& iter : child_list)
+                {
+					LLViewerObject* child = iter;
 					select_node = selection->findNode(child);
 					if (select_node)
 					{

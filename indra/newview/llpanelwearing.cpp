@@ -386,11 +386,9 @@ bool LLPanelWearing::populateAttachmentsList(bool update)
 		std::vector<LLViewerObject*> attachs = LLAgentWearables::getTempAttachments();
 
 		std::string icon_name = LLInventoryIcon::getIconName(LLAssetType::AT_OBJECT, LLInventoryType::IT_OBJECT);
-		for (std::vector<LLViewerObject*>::iterator iter = attachs.begin();
-				iter != attachs.end(); ++iter)
-		{
-			LLViewerObject *attachment = *iter;
-			LLSD row;
+		for (auto attachment : attachs)
+        {
+            LLSD row;
 			row["id"] = attachment->getID();
 			row["columns"][0]["column"] = "icon";
 			row["columns"][0]["type"] = "icon";

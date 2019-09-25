@@ -86,9 +86,9 @@ void LLAccountingCostManager::accountingCostCoro(std::string url,
 
         LLSD objectList(LLSD::emptyMap());
 
-        for (uuid_set_t::iterator it = diffSet.begin(); it != diffSet.end(); ++it)
+        for (auto it : diffSet)
         {
-            objectList.append(*it);
+            objectList.append(it);
         }
 
         mPendingObjectQuota.insert(diffSet.begin(), diffSet.end());

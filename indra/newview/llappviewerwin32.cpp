@@ -345,7 +345,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 void LLAppViewerWin32::disableWinErrorReporting()
 {
-	std::string executable_name = gDirUtilp->getExecutableFilename();
+	std::string const& executable_name = gDirUtilp->getExecutableFilename();
 
 	if( S_OK == WerAddExcludedApplication( ll_convert_string_to_wide(executable_name).c_str(), FALSE ) )
 	{

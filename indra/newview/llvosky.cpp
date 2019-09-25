@@ -233,10 +233,10 @@ void LLSkyTex::cleanupGL()
 
 void LLSkyTex::restoreGL()
 {
-	for (S32 i = 0; i < 2; i++)
-	{
-		mTexture[i] = LLViewerTextureManager::getLocalTexture(FALSE);
-		mTexture[i]->setAddressMode(LLTexUnit::TAM_CLAMP);
+	for (auto& i : mTexture)
+    {
+        i = LLViewerTextureManager::getLocalTexture(FALSE);
+        i->setAddressMode(LLTexUnit::TAM_CLAMP);
 	}
 }
 
@@ -356,9 +356,9 @@ LLVOSky::LLVOSky(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp)
 		mSkyTex[i].init();
 		mShinyTex[i].init();
 	}
-	for (S32 i=0; i<FACE_COUNT; i++)
-	{
-		mFace[i] = nullptr;
+	for (auto& i : mFace)
+    {
+        i = nullptr;
 	}
 	
 	mCameraPosAgent = gAgentCamera.getCameraPositionAgent();
@@ -436,9 +436,9 @@ void LLVOSky::init()
 void LLVOSky::initCubeMap() 
 {
 	std::vector<LLPointer<LLImageRaw> > images;
-	for (S32 side = 0; side < 6; side++)
-	{
-		images.emplace_back(mShinyTex[side].getImageRaw());
+	for (auto& side : mShinyTex)
+    {
+		images.emplace_back(side.getImageRaw());
 	}
 	if (mCubeMap)
 	{
@@ -489,9 +489,9 @@ void LLVOSky::restoreGL()
 		LLCubeMap* cube_map = getCubeMap();
 
 		std::vector<LLPointer<LLImageRaw> > images;
-		for (S32 side = 0; side < 6; side++)
-		{
-			images.push_back(mShinyTex[side].getImageRaw());
+		for (auto& side : mShinyTex)
+        {
+			images.push_back(side.getImageRaw());
 		}
 
 		if(cube_map)
@@ -1134,9 +1134,9 @@ BOOL LLVOSky::updateSky()
 			{
 				std::vector<LLPointer<LLImageRaw> > images;
 				images.reserve(6);
-				for (S32 side = 0; side < 6; side++)
-				{
-					images.push_back(mShinyTex[side].getImageRaw(TRUE));
+				for (auto& side : mShinyTex)
+                {
+					images.push_back(side.getImageRaw(TRUE));
 				}
 				mCubeMap->init(images);
 				gGL.getTexUnit(0)->disable();
@@ -1913,10 +1913,10 @@ void LLVOSky::updateReflectionGeometry(LLDrawable *drawable, F32 H,
 	{
 		if (dt_clip >= 1)
 		{
-			for (S32 vtx = 0; vtx < 4; ++vtx)
-			{
-				F32 ratio = far_clip / v_refl_corner[vtx].length();
-				*(verticesp++) = v_refl_corner[vtx] = ratio * v_refl_corner[vtx] + mCameraPosAgent;
+			for (auto& vtx : v_refl_corner)
+            {
+				F32 ratio = far_clip / vtx.length();
+				*(verticesp++) = vtx = ratio * vtx + mCameraPosAgent;
 			}
 			const LLVector3 draw_pos = 0.25 *
 				(v_refl_corner[0] + v_refl_corner[1] + v_refl_corner[2] + v_refl_corner[3]);
@@ -1935,9 +1935,9 @@ void LLVOSky::updateReflectionGeometry(LLDrawable *drawable, F32 H,
 			v_sprite_corner[0] = v_refl_corner[1];
 			v_sprite_corner[2] = v_refl_corner[3];
 
-			for (S32 vtx = 0; vtx < 4; ++vtx)
-			{
-				*(verticesp++) = v_sprite_corner[vtx] + mCameraPosAgent;
+			for (auto vtx : v_sprite_corner)
+            {
+				*(verticesp++) = vtx + mCameraPosAgent;
 			}
 
 			const LLVector3 draw_pos = 0.25 *

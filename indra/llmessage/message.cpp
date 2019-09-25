@@ -797,9 +797,9 @@ void LLMessageSystem::processAcks(F32 collect_time)
 		if (!mDenyTrustedCircuitSet.empty())
 		{
 			LL_INFOS("Messaging") << "Sending queued DenyTrustedCircuit messages." << LL_ENDL;
-			for (host_set_t::iterator hostit = mDenyTrustedCircuitSet.begin(); hostit != mDenyTrustedCircuitSet.end(); ++hostit)
-			{
-				reallySendDenyTrustedCircuit(*hostit);
+			for (const auto& hostit : mDenyTrustedCircuitSet)
+            {
+				reallySendDenyTrustedCircuit(hostit);
 			}
 			mDenyTrustedCircuitSet.clear();
 		}
@@ -2122,11 +2122,9 @@ void LLMessageSystem::setMessageBans(
 	LL_DEBUGS("AppInit") << "LLMessageSystem::setMessageBans:" << LL_ENDL;
 	bool any_set = false;
 
-	for (message_template_name_map_t::iterator iter = mMessageTemplates.begin(),
-			 end = mMessageTemplates.end();
-		 iter != end; ++iter)
-	{
-		LLMessageTemplate* mt = iter->second;
+	for (auto& message_template : mMessageTemplates)
+    {
+		LLMessageTemplate* mt = message_template.second;
 
 		std::string name(mt->mName);
 		bool ban_from_trusted
@@ -2714,11 +2712,9 @@ void LLMessageSystem::resetReceiveCounts()
 {
 	mNumMessageCounts = 0;
 
-	for (message_template_name_map_t::iterator iter = mMessageTemplates.begin(),
-			 end = mMessageTemplates.end();
-		 iter != end; ++iter)
-	{
-		LLMessageTemplate* mt = iter->second;
+	for (auto& message_template : mMessageTemplates)
+    {
+		LLMessageTemplate* mt = message_template.second;
 		mt->mDecodeTimeThisFrame = 0.f;
 	}
 }
@@ -2728,18 +2724,15 @@ void LLMessageSystem::dumpReceiveCounts()
 {
 	LLMessageTemplate		*mt;
 
-	for (message_template_name_map_t::iterator iter = mMessageTemplates.begin(),
-			 end = mMessageTemplates.end();
-		 iter != end; ++iter)
-	{
-		LLMessageTemplate* mt = iter->second;
+	for (auto& message_template : mMessageTemplates)
+    {
+		LLMessageTemplate* mt = message_template.second;
 		mt->mReceiveCount = 0;
 		mt->mReceiveBytes = 0;
 		mt->mReceiveInvalid = 0;
 	}
 
-	S32 i;
-	for (i = 0; i < mNumMessageCounts; i++)
+    for (auto i = 0; i < mNumMessageCounts; ++i)
 	{
 		mt = get_ptr_in_map(mMessageNumbers,mMessageCountList[i].mMessageNum);
 		if (mt)
@@ -3210,9 +3203,9 @@ bool LLMessageSystem::isMatchingDigestForWindowAndUUIDs(const char* digest, cons
 	window_bin[0] = now;
 	window_bin[1] = now - 1;
 	window_bin[2] = now + 1;
-	for(S32 i = 0; i < WINDOW_BIN_COUNT; ++i)
-	{
-		generateDigestForNumberAndUUIDs(our_digest, window_bin[i], id2, id1);
+	for (unsigned int i : window_bin)
+    {
+		generateDigestForNumberAndUUIDs(our_digest, i, id2, id1);
 		if(0 == strncmp(digest, our_digest, MD5HEX_STR_BYTES))
 		{
 			return true;
@@ -3276,9 +3269,9 @@ bool LLMessageSystem::isMatchingDigestForWindow(const char* digest, S32 const wi
 	window_bin[0] = now;
 	window_bin[1] = now - 1;
 	window_bin[2] = now + 1;
-	for(S32 i = 0; i < WINDOW_BIN_COUNT; ++i)
-	{
-		generateDigestForNumber(our_digest, window_bin[i]);
+	for (unsigned int i : window_bin)
+    {
+		generateDigestForNumber(our_digest, i);
 		if(0 == strncmp(digest, our_digest, MD5HEX_STR_BYTES))
 		{
 			return true;

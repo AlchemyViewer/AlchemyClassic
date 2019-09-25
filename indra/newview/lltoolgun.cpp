@@ -157,10 +157,10 @@ void LLToolGun::draw()
 
 			LLWorld::pos_map_t positions;
 			LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), iff_range);
-			for (auto iter = positions.cbegin(), iter_end = positions.cend(); iter != iter_end; ++iter)
-			{
-				const auto& id = iter->first;
-				const auto& targetPosition = iter->second;
+			for (const auto& position : positions)
+            {
+				const auto& id = position.first;
+				const auto& targetPosition = position.second;
 				if (id == gAgentID || targetPosition.isNull())
 				{
 					continue;

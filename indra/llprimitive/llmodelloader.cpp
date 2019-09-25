@@ -58,10 +58,10 @@ void stretch_extents(LLModel* model, LLMatrix4a& mat, LLVector4a& min, LLVector4
 		size.setSub(face.mExtents[1],face.mExtents[0]);
 		size.mul(0.5f);
 
-		for (U32 i = 0; i < 8; i++)
-		{
+		for (auto i : box)
+        {
 			LLVector4a t;
-			t.setMul(size, box[i]);
+			t.setMul(size, i);
 			t.add(center);
 
 			LLVector4a v;
@@ -331,10 +331,9 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 
 	//convert instance_list to mScene
 	mFirstTransform = TRUE;
-	for (U32 i = 0; i < instance_list.size(); ++i)
-	{
-		LLModelInstance& cur_instance = instance_list[i];
-		mScene[cur_instance.mTransform].push_back(cur_instance);
+	for (auto& cur_instance : instance_list)
+    {
+        mScene[cur_instance.mTransform].push_back(cur_instance);
 		stretch_extents(cur_instance.mModel, cur_instance.mTransform, mExtents[0], mExtents[1], mFirstTransform);
 	}
 	
@@ -433,12 +432,11 @@ bool LLModelLoader::isRigLegacy( const std::vector<std::string> &jointListFromAs
 
     // Unknown joints in asset
     S32 unknown_joint_count = 0;
-    for (std::vector<std::string>::const_iterator it = jointListFromAsset.begin();
-         it != jointListFromAsset.end(); ++it)
+    for (const auto& it : jointListFromAsset)
     {
-        if (mJointMap.find(*it)==mJointMap.end())
+        if (mJointMap.find(it)==mJointMap.end())
         {
-            LL_WARNS() << "Rigged to unrecognized joint name " << *it << LL_ENDL;
+            LL_WARNS() << "Rigged to unrecognized joint name " << it << LL_ENDL;
             unknown_joint_count++;
         }
     }
@@ -465,12 +463,12 @@ void LLModelLoader::loadTextures()
 	BOOL is_paused = isPaused() ;
 	pause() ; //pause the loader 
 
-	for(scene::iterator iter = mScene.begin(); iter != mScene.end(); ++iter)
-	{
-		for(U32 i = 0 ; i < iter->second.size(); i++)
+	for (auto& iter : mScene)
+    {
+		for(U32 i = 0 ; i < iter.second.size(); i++)
 		{
-			for(std::map<std::string, LLImportMaterial>::iterator j = iter->second[i].mMaterial.begin();
-				j != iter->second[i].mMaterial.end(); ++j)
+			for(std::map<std::string, LLImportMaterial>::iterator j = iter.second[i].mMaterial.begin();
+				j != iter.second[i].mMaterial.end(); ++j)
 			{
 				LLImportMaterial& material = j->second;
 

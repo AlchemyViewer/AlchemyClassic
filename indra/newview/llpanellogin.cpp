@@ -906,9 +906,8 @@ void LLPanelLogin::updateServer()
         std::vector<LLSD> lIdentifiers;
         if (gSecAPIHandler->getCredentialIdentifierList(LLGridManager::getInstance()->getGrid(), lIdentifiers))
         {
-            for (auto itId = lIdentifiers.cbegin(); itId != lIdentifiers.cend(); ++itId)
+            for (const auto& sdIdentifier : lIdentifiers)
             {
-                const auto& sdIdentifier = *itId;
                 user_combo->addRemovable(LLCredential::usernameFromIdentifier(sdIdentifier), LLSD(sdIdentifier));
             }
             user_combo->sortByName();
@@ -1057,12 +1056,11 @@ void LLPanelLogin::refreshGridList()
 	
 	const std::string& current_grid = LLGridManager::getInstance()->getGrid();
 	auto known_grids = LLGridManager::getInstance()->getKnownGrids();
-	for (auto grid_choice = known_grids.begin();
-		 grid_choice != known_grids.end(); ++grid_choice)
-	{
-		if (!grid_choice->first.empty() && current_grid != grid_choice->first)
+	for (auto& known_grid : known_grids)
+    {
+		if (!known_grid.first.empty() && current_grid != known_grid.first)
 		{
-			server_choice_combo->add(grid_choice->second, grid_choice->first);
+			server_choice_combo->add(known_grid.second, known_grid.first);
 		}
 	}
 	server_choice_combo->sortByName();

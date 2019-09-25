@@ -962,10 +962,9 @@ void LLFolderView::cut()
 		std::set<LLFolderViewItem*> inventory_selected = getSelectionList();
 
 		// Move each item to the clipboard and out of their folder
-		for (std::set<LLFolderViewItem*>::iterator item_it = inventory_selected.begin(); item_it != inventory_selected.end(); ++item_it)
-		{
-			LLFolderViewItem* item_to_cut = *item_it;
-			LLFolderViewModelItem* listener = item_to_cut->getViewModelItem();
+		for (auto item_to_cut : inventory_selected)
+        {
+            LLFolderViewModelItem* listener = item_to_cut->getViewModelItem();
 			if (listener)
 			{
 				listener->cutToClipboard();
@@ -1491,12 +1490,9 @@ BOOL LLFolderView::addNoOptions(LLMenuGL* menu) const
 	LLView *nooptions_item = nullptr;
 	
 	const LLView::child_list_t *list = menu->getChildList();
-	for (LLView::child_list_t::const_iterator itor = list->begin(); 
-		 itor != list->end(); 
-		 ++itor)
-	{
-		LLView *menu_item = (*itor);
-		if (menu_item->getVisible())
+	for (auto menu_item : *list)
+    {
+        if (menu_item->getVisible())
 		{
 			return FALSE;
 		}
@@ -1885,11 +1881,9 @@ void LLFolderView::updateMenu()
 
 bool LLFolderView::selectFirstItem()
 {
-	for (folders_t::iterator iter = mFolders.begin();
-		 iter != mFolders.end();++iter)
-	{
-		LLFolderViewFolder* folder = (*iter );
-		if (folder->getVisible())
+	for (auto folder : mFolders)
+    {
+        if (folder->getVisible())
 		{
 			LLFolderViewItem* itemp = folder->getNextFromChild(nullptr,true);
 			if(itemp)
@@ -1898,11 +1892,9 @@ bool LLFolderView::selectFirstItem()
 		}
 		
 	}
-	for(items_t::iterator iit = mItems.begin();
-		iit != mItems.end(); ++iit)
-	{
-		LLFolderViewItem* itemp = (*iit);
-		if (itemp->getVisible())
+	for (auto itemp : mItems)
+    {
+        if (itemp->getVisible())
 		{
 			setSelection(itemp,FALSE,TRUE);
 			return true;	

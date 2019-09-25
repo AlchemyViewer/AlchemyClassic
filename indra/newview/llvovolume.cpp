@@ -255,11 +255,11 @@ LLVOVolume::~LLVOVolume()
 
 	if(!mMediaImplList.empty())
 	{
-		for(U32 i = 0 ; i < mMediaImplList.size() ; i++)
-		{
-			if(mMediaImplList[i].notNull())
+		for (auto& i : mMediaImplList)
+        {
+			if(i.notNull())
 			{
-				mMediaImplList[i]->removeObject(this) ;
+                i->removeObject(this) ;
 			}
 		}
 	}
@@ -1322,10 +1322,9 @@ std::string get_debug_object_lod_text(LLVOVolume *rootp)
     F32 lod_radius = rootp->mLODRadius;
     S32 cam_dist_count = 0;
     LLViewerObject::const_child_list_t& child_list = rootp->getChildren();
-    for (LLViewerObject::const_child_list_t::const_iterator iter = child_list.begin();
-         iter != child_list.end(); ++iter)
+    for (const auto& iter : child_list)
     {
-        LLViewerObject *childp = *iter;
+        LLViewerObject *childp = iter;
         LLVOVolume *volp = childp ? childp->asVolume() : nullptr;
         if (volp)
         {

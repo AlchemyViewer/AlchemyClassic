@@ -118,11 +118,11 @@ void LLAvatarIconIDCache::save	()
 		return;
 	}
 
-	for(std::map<LLUUID,LLAvatarIconIDCacheItem>::iterator it = mCache.begin();it!=mCache.end();++it)
-	{
-		if(!it->second.expired())
+	for (auto& it : mCache)
+    {
+		if(!it.second.expired())
 		{
-			file << it->first << it->second.icon_id << it->second.cached_time << std::endl;	
+			file << it.first << it.second.icon_id << it.second.cached_time << std::endl;	
 		}
 	}
 	

@@ -129,11 +129,9 @@ BOOL LLRadioGroup::postBuild()
 void LLRadioGroup::setIndexEnabled(S32 index, BOOL enabled)
 {
 	S32 count = 0;
-	for (button_list_t::iterator iter = mRadioButtons.begin();
-		 iter != mRadioButtons.end(); ++iter)
-	{
-		LLRadioCtrl* child = *iter;
-		if (count == index)
+	for (auto child : mRadioButtons)
+    {
+        if (count == index)
 		{
 			child->setEnabled(enabled);
 			if (index == mSelectedIndex && enabled == FALSE)
@@ -150,11 +148,9 @@ void LLRadioGroup::setIndexEnabled(S32 index, BOOL enabled)
 		// Set to highest enabled value < index,
 		// or lowest value above index if none lower are enabled
 		// or 0 if none are enabled
-		for (button_list_t::iterator iter = mRadioButtons.begin();
-			 iter != mRadioButtons.end(); ++iter)
-		{
-			LLRadioCtrl* child = *iter;
-			if (count >= index && mSelectedIndex >= 0)
+		for (auto child : mRadioButtons)
+        {
+            if (count >= index && mSelectedIndex >= 0)
 			{
 				break;
 			}
@@ -308,11 +304,9 @@ void LLRadioGroup::onClickButton(LLUICtrl* ctrl)
 	if (!clicked_radio)
 	    return;
 	S32 index = 0;
-	for (button_list_t::iterator iter = mRadioButtons.begin();
-		 iter != mRadioButtons.end(); ++iter)
-	{
-		LLRadioCtrl* radio = *iter;
-		if (radio == clicked_radio)
+	for (auto radio : mRadioButtons)
+    {
+        if (radio == clicked_radio)
 		{
 			if (index == mSelectedIndex && mAllowDeselect)
 			{
@@ -369,10 +363,9 @@ LLSD LLRadioGroup::getValue() const
 {
 	int index = getSelectedIndex();
 	int idx = 0;
-	for (button_list_t::const_iterator iter = mRadioButtons.begin();
-		 iter != mRadioButtons.end(); ++iter)
-	{
-		if (idx == index) return LLSD((*iter)->getPayload());
+	for (auto button : mRadioButtons)
+    {
+		if (idx == index) return LLSD(button->getPayload());
 		++idx;
 	}
 	return LLSD();
@@ -414,10 +407,9 @@ LLSD	LLRadioGroup::getSelectedValue()
 BOOL	LLRadioGroup::isSelected(const LLSD& value) const
 {
 	S32 idx = 0;
-	for (button_list_t::const_iterator iter = mRadioButtons.begin();
-		 iter != mRadioButtons.end(); ++iter)
-	{
-		if((*iter)->getPayload().asString() == value.asString())
+	for (auto button : mRadioButtons)
+    {
+		if(button->getPayload().asString() == value.asString())
 		{
 			if (idx == mSelectedIndex) 
 			{

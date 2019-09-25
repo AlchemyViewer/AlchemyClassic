@@ -171,9 +171,9 @@ void LLTeleportHistoryStorage::save()
 		return;
 	}
 
-	for (size_t i=0; i<mItems.size(); i++)
-	{
-		LLSD s_item = mItems[i].toLLSD();
+	for (auto& item : mItems)
+    {
+		LLSD s_item = item.toLLSD();
 		file << LLSDOStreamer<LLSDNotationFormatter>(s_item) << std::endl;
 	}
 

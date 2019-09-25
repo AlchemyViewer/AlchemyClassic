@@ -119,14 +119,12 @@ public:
 		// Link to all fetched items in COF.
 		LLPointer<LLInventoryCallback> link_waiter = new LLUpdateAppearanceOnDestroy;
 		LLInventoryObject::const_object_list_t item_array;
-		for (uuid_vec_t::iterator it = mIDs.begin();
-			 it != mIDs.end();
-			 ++it)
-		{
-			LLConstPointer<LLInventoryObject> item = gInventory.getItem(*it);
+		for (auto& id : mIDs)
+        {
+			LLConstPointer<LLInventoryObject> item = gInventory.getItem(id);
 			if (!item)
 			{
-				LL_WARNS() << "fetch failed for item " << (*it) << "!" << LL_ENDL;
+				LL_WARNS() << "fetch failed for item " << id << "!" << LL_ENDL;
 				continue;
 			}
 
@@ -142,12 +140,10 @@ void LLInitialWearablesFetch::processWearablesMessage()
 	{
         (void) LLAppearanceMgr::instance().getCOF();
 		uuid_vec_t ids;
-		for (U8 i = 0; i < mAgentInitialWearables.size(); ++i)
-		{
+		for (const auto& wearable_data : mAgentInitialWearables)
+        {
 			// Populate the current outfit folder with links to the wearables passed in the message
-			const InitialWearableData& wearable_data = mAgentInitialWearables[i];
-			
-			if (wearable_data.mAssetID.notNull())
+            if (wearable_data.mAssetID.notNull())
 			{
 				ids.push_back(wearable_data.mItemID);
 			}
@@ -166,12 +162,9 @@ void LLInitialWearablesFetch::processWearablesMessage()
 			{
 				LLViewerJointAttachment* attachment = iter->second;
 				if (!attachment) continue;
-				for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-					 attachment_iter != attachment->mAttachedObjects.end();
-					 ++attachment_iter)
-				{
-					LLViewerObject* attached_object = (*attachment_iter);
-					if (!attached_object) continue;
+				for (auto attached_object : attachment->mAttachedObjects)
+                {
+                    if (!attached_object) continue;
 					const LLUUID& item_id = attached_object->getAttachmentItemID();
 					if (item_id.isNull()) continue;
 					ids.push_back(item_id);

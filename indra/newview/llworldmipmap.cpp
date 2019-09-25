@@ -50,9 +50,9 @@ LLWorldMipmap::~LLWorldMipmap()
 // Delete all sublevel maps and clean them
 void LLWorldMipmap::reset()
 {
-	for (int level = 0; level < MAP_LEVELS; level++)
-	{
-		mWorldObjectsMipMap[level].clear();
+	for (auto& level : mWorldObjectsMipMap)
+    {
+        level.clear();
 	}
 }
 
@@ -68,13 +68,12 @@ void LLWorldMipmap::equalizeBoostLevels()
 	S32 nb_visible = 0;
 #endif // DEBUG_TILES_STAT
 	// For each level
-	for (S32 level = 0; level < MAP_LEVELS; level++)
-	{
-		sublevel_tiles_t& level_mipmap = mWorldObjectsMipMap[level];
-		// For each tile
-		for (sublevel_tiles_t::iterator iter = level_mipmap.begin(); iter != level_mipmap.end(); iter++)
-		{
-			LLPointer<LLViewerFetchedTexture> img = iter->second;
+	for (auto& level_mipmap : mWorldObjectsMipMap)
+    {
+        // For each tile
+		for (auto& iter : level_mipmap)
+        {
+			LLPointer<LLViewerFetchedTexture> img = iter.second;
 			S32 current_boost_level = img->getBoostLevel();
 			if (current_boost_level == LLGLTexture::BOOST_MAP_VISIBLE)
 			{
@@ -110,13 +109,12 @@ void LLWorldMipmap::equalizeBoostLevels()
 void LLWorldMipmap::dropBoostLevels()
 {
 	// For each level
-	for (S32 level = 0; level < MAP_LEVELS; level++)
-	{
-		sublevel_tiles_t& level_mipmap = mWorldObjectsMipMap[level];
-		// For each tile
-		for (sublevel_tiles_t::iterator iter = level_mipmap.begin(); iter != level_mipmap.end(); iter++)
-		{
-			LLPointer<LLViewerFetchedTexture> img = iter->second;
+	for (auto& level_mipmap : mWorldObjectsMipMap)
+    {
+        // For each tile
+		for (auto& iter : level_mipmap)
+        {
+			LLPointer<LLViewerFetchedTexture> img = iter.second;
 			img->setBoostLevel(LLGLTexture::BOOST_NONE);
 		}
 	}

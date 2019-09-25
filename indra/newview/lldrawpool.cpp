@@ -324,11 +324,9 @@ BOOL LLFacePool::verify() const
 {
 	BOOL ok = TRUE;
 	
-	for (std::vector<LLFace*>::const_iterator iter = mDrawFace.begin();
-		 iter != mDrawFace.end(); iter++)
-	{
-		const LLFace* facep = *iter;
-		if (facep->getPool() != this)
+	for (auto facep : mDrawFace)
+    {
+        if (facep->getPool() != this)
 		{
 			LL_INFOS() << "Face in wrong pool!" << LL_ENDL;
 			facep->printDebugInfo();
@@ -394,9 +392,9 @@ void LLRenderPass::renderGroup(LLSpatialGroup* group, U32 type, U32 mask, BOOL t
 {					
 	LLSpatialGroup::drawmap_elem_t& draw_info = group->mDrawMap[type];
 	
-	for (LLSpatialGroup::drawmap_elem_t::iterator k = draw_info.begin(); k != draw_info.end(); ++k)	
-	{
-		LLDrawInfo *pparams = *k;
+	for (auto& k : draw_info)
+    {
+		LLDrawInfo *pparams = k;
 		if (pparams) {
 			pushBatch(*pparams, mask, texture);
 		}

@@ -157,9 +157,9 @@ void LLSimInfo::updateAgentCount(F64 time)
 const S32 LLSimInfo::getAgentCount() const
 {
 	S32 total_agent_count = 0;
-	for (LLSimInfo::item_info_list_t::const_iterator it = mAgentLocations.begin(); it != mAgentLocations.end(); ++it)
-	{
-		total_agent_count += it->getCount();
+	for (const auto& mAgentLocation : mAgentLocations)
+    {
+		total_agent_count += mAgentLocation.getCount();
 	}
 	return total_agent_count;
 }

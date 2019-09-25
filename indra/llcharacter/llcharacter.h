@@ -38,7 +38,6 @@
 #include "llrefcount.h"
 #if !USE_LL_APPEARANCE_CODE
 #include "llsortedvector.h"
-#include <boost/unordered_map.hpp>
 #endif
 
 #include <absl/container/flat_hash_map.h>

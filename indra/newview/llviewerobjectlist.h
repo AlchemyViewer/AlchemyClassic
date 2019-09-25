@@ -27,7 +27,6 @@
 #ifndef LL_LLVIEWEROBJECTLIST_H
 #define LL_LLVIEWEROBJECTLIST_H
 
-#include <boost/unordered_map.hpp>
 #include <absl/container/flat_hash_map.h>
 #include <absl/container/flat_hash_set.h>
 

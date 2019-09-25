@@ -40,7 +40,6 @@
 #include <boost/call_traits.hpp>
 #include <boost/type_traits/remove_pointer.hpp>
 #include <boost/utility/value_init.hpp>
-#include <boost/unordered_map.hpp>
 #include <boost/signals2/signal.hpp>
 
 // Forward declare the user template, since we want to be able to point to it

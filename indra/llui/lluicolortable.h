@@ -27,7 +27,6 @@
 #ifndef LL_LLUICOLORTABLE_H_
 #define LL_LLUICOLORTABLE_H_
 
-#include <boost/unordered_map.hpp>
 #include "absl/container/node_hash_map.h"
 
 #include "llinitparam.h"

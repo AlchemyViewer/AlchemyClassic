@@ -33,7 +33,7 @@
 #include "httprequest.h"
 #include "httpheaders.h"
 #include "httpoptions.h"
-#include "absl/hash/hash.h"
+#include "absl/container/flat_hash_map.h"
 
 class LLViewerRegion;
 
@@ -88,7 +88,6 @@ private:
 	class TEMaterialPair
 	{
 	public:
-
 		U32 te;
 		LLMaterialID materialID;
 
@@ -101,13 +100,6 @@ private:
 		bool operator<(const TEMaterialPair& b) const { return (te < b.te) ? TRUE : (materialID < b.materialID);}
 	};
 	
-	struct TEMaterialPairHasher
-	{
-		enum { bucket_size = 8 };
-		size_t operator()(const TEMaterialPair& key_value) const { return key_value.materialID.hash();  }
-		bool   operator()(const TEMaterialPair& left, const TEMaterialPair& right) const { return left < right; }
-	};
-
 	typedef std::set<LLMaterialID> material_queue_t;
 	typedef std::map<LLUUID, material_queue_t> get_queue_t;
 	typedef std::pair<const LLUUID, LLMaterialID> pending_material_t;
@@ -115,7 +107,7 @@ private:
 	typedef std::map<LLMaterialID, get_callback_t*> get_callback_map_t;
 
 
-	typedef boost::unordered_map<TEMaterialPair, get_callback_te_t*, absl::Hash<TEMaterialPair> > get_callback_te_map_t;
+	typedef absl::flat_hash_map<TEMaterialPair, get_callback_te_t*> get_callback_te_map_t;
 	typedef std::set<LLUUID> getall_queue_t;
 	typedef std::map<LLUUID, F64> getall_pending_map_t;
 	typedef std::map<LLUUID, getall_callback_t*> getall_callback_map_t;

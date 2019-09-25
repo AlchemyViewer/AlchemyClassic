@@ -25,7 +25,7 @@
 #ifndef LLSINGLETON_H
 #define LLSINGLETON_H
 
-#include <boost/unordered_set.hpp>
+#include "absl/container/flat_hash_set.h"
 #include <list>
 #include <vector>
 #include <typeinfo>
@@ -52,7 +52,7 @@ private:
 
     bool mCleaned;                  // cleanupSingleton() has been called
     // we directly depend on these other LLSingletons
-    typedef boost::unordered_set<LLSingletonBase*> set_t;
+    typedef absl::flat_hash_set<LLSingletonBase*> set_t;
     set_t mDepends;
 
 protected:

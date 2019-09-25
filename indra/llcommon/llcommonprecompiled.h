@@ -68,6 +68,7 @@
 #include <apr_signal.h>
 #include <apr_thread_proc.h>
 
+#include <absl/container/node_hash_map.h>
 #include <absl/container/flat_hash_map.h>
 #include <fmt/format.h>
 #include <boost/bind.hpp>
@@ -88,8 +89,6 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/signals2.hpp>
-#include <boost/unordered_map.hpp>
-#include <boost/unordered_set.hpp>
 #include <boost/visit_each.hpp>
 #include <boost/ref.hpp>            // reference_wrapper
 #include <boost/static_assert.hpp>

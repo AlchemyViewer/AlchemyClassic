@@ -27,6 +27,8 @@
 #ifndef LL_SHADERMGR_H
 #define LL_SHADERMGR_H
 
+#include <boost/unordered_map.hpp>
+
 #include "llgl.h"
 #include "llglslshader.h"
 

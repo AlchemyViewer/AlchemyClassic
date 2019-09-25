@@ -33,6 +33,8 @@
 #define UNIFORM_ERRS LL_ERRS("Shader")
 #endif
 
+#include <boost/unordered_map.hpp>
+
 #include "llgl.h"
 #include "llrender.h"
 #include "llstaticstringtable.h"

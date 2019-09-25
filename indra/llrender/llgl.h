@@ -29,7 +29,6 @@
 
 // This file contains various stuff for handling gl extensions and other gl related stuff.
 
-#include <boost/unordered_map.hpp>
 #include <list>
 
 #include "llstring.h"

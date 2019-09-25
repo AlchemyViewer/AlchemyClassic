@@ -30,7 +30,7 @@
 #include "llerror.h"
 
 #include <vector>
-#include <map>
+#include <absl/container/flat_hash_map.h>
 
 //--------------------------------------------------------
 // LLIndexedVector
@@ -47,7 +47,7 @@ public:
 	typedef typename std::vector<Type>::size_type size_type;
 protected:
 	std::vector<Type> mVector;
-	std::map<Key, U32> mIndexMap;
+	absl::flat_hash_map<Key, size_t> mIndexMap;
 	
 public:
 	LLIndexedVector() { mVector.reserve(BlockSize); }
@@ -68,11 +68,11 @@ public:
 	
 	Type& operator[](const Key& k)
 	{
-		typename std::map<Key, U32>::const_iterator iter = mIndexMap.find(k);
+		auto iter = mIndexMap.find(k);
 		if (iter == mIndexMap.end())
 		{
-			U32 n = mVector.size();
-			mIndexMap[k] = n;
+			size_t n = mVector.size();
+			mIndexMap.insert_or_assign(k, n);
 			mVector.push_back(Type());
 			llassert(mVector.size() == mIndexMap.size());
 			return mVector[n];

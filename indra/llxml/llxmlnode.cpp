@@ -177,9 +177,9 @@ LLXMLNode::~LLXMLNode()
 		mChildren->tail = NULL;
 		mChildren = NULL;
 	}
-	for (auto& attr : mAttributes)
+	for (auto& iter : mAttributes)
     {
-		LLXMLNodePtr attr = attr.second;
+		LLXMLNodePtr attr = iter.second;
 		attr->mParent = NULL;
 		attr->mNext = NULL;
 		attr->mPrev = NULL;

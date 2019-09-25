@@ -440,8 +440,8 @@ void	LLAccordionCtrl::arrangeSinge()
 		// make sure at least header is shown
 		panel_height = llmax(panel_height, accordion_tab->getHeaderHeight());
 
-		ctrlSetLeftTopAndSize(tab, panel_left, panel_top, panel_width, panel_height);
-		panel_top-= tab->getRect().getHeight();
+		ctrlSetLeftTopAndSize(accordion_tab, panel_left, panel_top, panel_width, panel_height);
+		panel_top-= accordion_tab->getRect().getHeight();
 	}
 
 	show_hide_scrollbar(getRect().getWidth(), getRect().getHeight());

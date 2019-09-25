@@ -148,6 +148,7 @@ set(llmessage_HEADER_FILES
     llmessagebuilder.h
     llmessageconfig.h
     llmessagelog.h
+    llmessageprecompiled.h
     llmessagereader.h
     llmessagetemplate.h
     llmessagetemplateparser.h
@@ -208,6 +209,12 @@ set_source_files_properties(${llmessage_HEADER_FILES}
 list(APPEND llmessage_SOURCE_FILES ${llmessage_HEADER_FILES})
 
 add_library (llmessage ${llmessage_SOURCE_FILES})
+
+if(USE_PRECOMPILED_HEADERS)
+  target_precompiled_header(llmessage
+    ${CMAKE_CURRENT_SOURCE_DIR}/llmessageprecompiled.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/llmessageprecompiled.cpp)
+endif(USE_PRECOMPILED_HEADERS)
 
 target_link_libraries(
   llmessage

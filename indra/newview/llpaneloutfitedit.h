@@ -244,7 +244,7 @@ private:
 
 	LLCOFWearables*		mCOFWearables;
 	bool				mInitialized;
-	boost::scoped_ptr<LLSaveOutfitComboBtn> mSaveComboBtn;
+	std::unique_ptr<LLSaveOutfitComboBtn> mSaveComboBtn;
 	LLMenuButton*		mWearablesGearMenuBtn;
 	LLMenuButton*		mGearMenuBtn;
 

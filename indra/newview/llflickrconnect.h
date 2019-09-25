@@ -90,9 +90,9 @@ private:
 	bool mRefreshInfo;
 	bool mReadFromMaster;
 	
-	static boost::scoped_ptr<LLEventPump> sStateWatcher;
-	static boost::scoped_ptr<LLEventPump> sInfoWatcher;
-	static boost::scoped_ptr<LLEventPump> sContentWatcher;
+	static std::unique_ptr<LLEventPump> sStateWatcher;
+	static std::unique_ptr<LLEventPump> sInfoWatcher;
+	static std::unique_ptr<LLEventPump> sContentWatcher;
 
     bool testShareStatus(LLSD &result);
     void flickrConnectCoro(std::string requestToken, std::string oauthVerifier);

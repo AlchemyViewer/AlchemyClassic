@@ -86,7 +86,6 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/regex.hpp>
-#include <boost/scoped_ptr.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/signals2.hpp>
 #include <boost/visit_each.hpp>

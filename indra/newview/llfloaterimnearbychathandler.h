@@ -55,7 +55,7 @@ public:
 protected:
 	void initChannel() override;
 
-	static boost::scoped_ptr<LLEventPump> sChatWatcher;
+	static std::unique_ptr<LLEventPump> sChatWatcher;
 };
 
 }

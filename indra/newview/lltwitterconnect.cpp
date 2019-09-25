@@ -44,9 +44,9 @@
 #include "llcorehttputil.h"
 #include "bufferstream.h"
 
-boost::scoped_ptr<LLEventPump> LLTwitterConnect::sStateWatcher(new LLEventStream("TwitterConnectState"));
-boost::scoped_ptr<LLEventPump> LLTwitterConnect::sInfoWatcher(new LLEventStream("TwitterConnectInfo"));
-boost::scoped_ptr<LLEventPump> LLTwitterConnect::sContentWatcher(new LLEventStream("TwitterConnectContent"));
+std::unique_ptr<LLEventPump> LLTwitterConnect::sStateWatcher(new LLEventStream("TwitterConnectState"));
+std::unique_ptr<LLEventPump> LLTwitterConnect::sInfoWatcher(new LLEventStream("TwitterConnectInfo"));
+std::unique_ptr<LLEventPump> LLTwitterConnect::sContentWatcher(new LLEventStream("TwitterConnectContent"));
 
 // Local functions
 void log_twitter_connect_error(const std::string& request, U32 status, const std::string& reason, const std::string& code, const std::string& description)

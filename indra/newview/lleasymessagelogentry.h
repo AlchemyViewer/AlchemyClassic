@@ -49,7 +49,7 @@ public:
 private:
     LogPayload mEntry;
 
-    boost::scoped_ptr<LLEasyMessageLogEntry> mResponseMsg;
+	std::unique_ptr<LLEasyMessageLogEntry> mResponseMsg;
     LLEasyMessageReader* mEasyMessageReader;
 };
 

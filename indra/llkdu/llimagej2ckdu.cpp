@@ -292,7 +292,7 @@ void LLImageJ2CKDU::setupCodeStream(LLImageJ2C &base, bool keep_codestream, ECod
 
 	if (mInputp)
 	{
-		// This is LLKDUMemSource::reset(), not boost::scoped_ptr::reset().
+		// This is LLKDUMemSource::reset(), not std::unique_ptr::reset().
 		mInputp->reset();
 	}
 

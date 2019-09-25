@@ -160,7 +160,7 @@ protected:
 		LLFloaterMessageLog* mParent;
 	};
 	
-	boost::scoped_ptr<LLMessageLogNetMan> mNetListTimer;
+	std::unique_ptr<LLMessageLogNetMan> mNetListTimer;
 	
 	//this needs to be able to look through the list of raw messages
 	//to be able to create floater message items on a timer.

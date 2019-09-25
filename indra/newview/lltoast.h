@@ -219,7 +219,7 @@ private:
 	LLPanel*	 mWrapperPanel;
 
 	// timer counts a lifetime of a toast
-	boost::scoped_ptr<LLToastLifeTimer> mTimer;
+	std::unique_ptr<LLToastLifeTimer> mTimer;
 
 	F32			mToastLifetime; // in seconds
 	F32			mToastFadingTime; // in seconds

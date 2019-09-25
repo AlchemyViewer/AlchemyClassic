@@ -42,9 +42,9 @@
 #include "llcorehttputil.h"
 #include "bufferstream.h"
 
-boost::scoped_ptr<LLEventPump> LLFlickrConnect::sStateWatcher(new LLEventStream("FlickrConnectState"));
-boost::scoped_ptr<LLEventPump> LLFlickrConnect::sInfoWatcher(new LLEventStream("FlickrConnectInfo"));
-boost::scoped_ptr<LLEventPump> LLFlickrConnect::sContentWatcher(new LLEventStream("FlickrConnectContent"));
+std::unique_ptr<LLEventPump> LLFlickrConnect::sStateWatcher(new LLEventStream("FlickrConnectState"));
+std::unique_ptr<LLEventPump> LLFlickrConnect::sInfoWatcher(new LLEventStream("FlickrConnectInfo"));
+std::unique_ptr<LLEventPump> LLFlickrConnect::sContentWatcher(new LLEventStream("FlickrConnectContent"));
 
 // Local functions
 void log_flickr_connect_error(const std::string& request, U32 status, const std::string& reason, const std::string& code, const std::string& description)

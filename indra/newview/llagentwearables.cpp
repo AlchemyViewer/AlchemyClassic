@@ -52,8 +52,6 @@
 #include "llwearablelist.h"
 #include "llfloaterperms.h"
 
-#include <boost/scoped_ptr.hpp>
-
 #include "llagentwearablesfetch.h"
 #include "llviewernetwork.h"
 LLAgentWearables gAgentWearables;

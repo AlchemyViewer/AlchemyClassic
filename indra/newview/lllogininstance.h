@@ -29,7 +29,6 @@
 
 #include "lleventdispatcher.h"
 #include "lleventapi.h"
-#include <boost/scoped_ptr.hpp>
 #include <memory>                   // std::shared_ptr
 #include "llsecapi.h"
 
@@ -88,7 +87,7 @@ private:
 
 	void attemptComplete();
 
-	boost::scoped_ptr<LLLogin> mLoginModule;
+	std::unique_ptr<LLLogin> mLoginModule;
 	LLNotificationsInterface* mNotifications;
 
 	std::string mLoginState;

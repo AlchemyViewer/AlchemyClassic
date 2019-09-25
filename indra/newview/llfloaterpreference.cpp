@@ -3057,7 +3057,7 @@ void collectChildren( LLView const *aView, ll::prefs::PanelDataPtr aParentPanel,
 		}
 		else if( pSCtrl && !pSCtrl->getSearchText().empty())
 		{
-			ll::prefs::SearchableItemPtr item = boost::make_shared<ll::prefs::SearchableItem>();
+			ll::prefs::SearchableItemPtr item = std::make_shared<ll::prefs::SearchableItem>();
 			item->mView = pView;
 			item->mCtrl = pSCtrl;
 

@@ -4584,8 +4584,12 @@ void LLAgent::sendAgentSetAppearance()
 		return;
 	}
 
-	if (!isAgentAvatarValid() || gAgentAvatarp->isEditingAppearance() || (getRegion() && getRegion()->getCentralBakeVersion())) return;
-
+    LLViewerRegion* region = getRegion();
+	if (!isAgentAvatarValid() || gAgentAvatarp->isEditingAppearance()
+        || (region && region->getCentralBakeVersion()))
+    {
+        return;
+    }
 	// At this point we have a complete appearance to send and are in a non-baking region.
 	// DRANO FIXME
 	//gAgentAvatarp->setIsUsingServerBakes(FALSE);
@@ -4624,7 +4628,10 @@ void LLAgent::sendAgentSetAppearance()
 	// NOTE -- when we start correcting all of the other Havok geometry 
 	// to compensate for the COLLISION_TOLERANCE ugliness we will have 
 	// to tweak this number again
-	const LLVector3 body_size = gAgentAvatarp->mBodySize + gAgentAvatarp->mAvatarOffset;
+    LLVector3 body_size = gAgentAvatarp->mBodySize;
+    if (region->simulatorFeaturesReceived() && region->avatarHoverHeightEnabled()) {
+        body_size += gAgentAvatarp->mAvatarOffset;
+    }
 	msg->addVector3Fast(_PREHASH_Size, body_size);	
 
 	// To guard against out of order packets

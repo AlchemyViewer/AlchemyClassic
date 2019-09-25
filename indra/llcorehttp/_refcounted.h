@@ -30,12 +30,11 @@
 
 #include "linden_common.h"
 
+#include <atomic>
+
 #include "fix_macros.h"
 #include <boost/thread.hpp>
 #include <boost/intrusive_ptr.hpp>
-
-#include "llatomic.h"
-
 
 namespace LLCoreInt
 {
@@ -65,7 +64,7 @@ protected:
 	virtual void destroySelf();
 
 private:
-	mutable LLAtomicS32			mRefCount;
+	mutable std::atomic<int32_t>		mRefCount;
 
 }; // end class RefCounted
 

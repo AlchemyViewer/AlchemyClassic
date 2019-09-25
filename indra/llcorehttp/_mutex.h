@@ -27,27 +27,32 @@
 #ifndef LLCOREINT_MUTEX_H_
 #define LLCOREINT_MUTEX_H_
 
+#include <condition_variable>
+#include <mutex>
+#include <shared_mutex>
 
 #include <boost/thread.hpp>
 
-
 namespace LLCoreInt
 {
-
 // MUTEX TYPES
 
 // unique mutex type
-typedef boost::mutex HttpMutex;
+#if LL_WINDOWS
+typedef std::shared_mutex HttpMutex;
+#else
+typedef std::mutex HttpMutex;
+#endif
 
 // CONDITION VARIABLES
 
 // standard condition variable
-typedef boost::condition_variable HttpConditionVariable;
+typedef std::condition_variable_any HttpConditionVariable;
 
 // LOCKS AND FENCES
 
 // scoped unique lock
-typedef boost::unique_lock<HttpMutex> HttpScopedLock;
+typedef std::unique_lock<HttpMutex> HttpScopedLock;
 
 }
 

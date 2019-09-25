@@ -95,7 +95,6 @@ protected:
 									   << LL_ENDL;
 				}
 			}
-			delete mThread;
 		}
 
 public:
@@ -109,24 +108,24 @@ public:
 		{
 			// this creates a boost thread that will call HttpThread::run on this instance
 			// and pass it the threadfunc callable...
-			std::function<void()> f = std::bind(&HttpThread::run, this);
+			auto f = std::bind(&HttpThread::run, this);
 
-			mThread = new boost::thread(f);
+			mThread = boost::thread(f);
 		}
 
 	inline void join()
 		{
-			mThread->join();
+			mThread.join();
 		}
 
 	inline bool timedJoin(S32 millis)
 		{
-			return mThread->try_join_for(boost::chrono::milliseconds(millis));
+			return mThread.try_join_for(boost::chrono::milliseconds(millis));
 		}
 
 	inline bool joinable() const
 		{
-			return mThread->joinable();
+			return mThread.joinable();
 		}
 
 	inline void yield()
@@ -137,7 +136,7 @@ public:
 	// A very hostile method to force a thread to quit
 	inline void cancel()
 		{
-			boost::thread::native_handle_type thread(mThread->native_handle());
+			boost::thread::native_handle_type thread(mThread.native_handle());
 #if		LL_WINDOWS
 			TerminateThread(thread, 0);
 #else
@@ -147,7 +146,7 @@ public:
 	
 private:
 	std::function<void(HttpThread *)> mThreadFunc;
-	boost::thread * mThread;
+	boost::thread mThread;
 }; // end class HttpThread
 
 } // end namespace LLCoreInt

@@ -114,8 +114,7 @@ void LLGLSLShader::finishProfile(bool emit_report)
 
     if (emit_report)
     {
-        std::vector<LLGLSLShader*> sorted;
-
+        std::vector<LLGLSLShader*> sorted(sInstances.size());
         for (auto sInstance : sInstances)
         {
             sorted.push_back(sInstance);

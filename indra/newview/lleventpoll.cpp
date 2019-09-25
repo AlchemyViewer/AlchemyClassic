@@ -48,7 +48,7 @@ namespace LLEventPolling
 namespace Details
 {
 
-    class LLEventPollImpl: public boost::enable_shared_from_this<LLEventPollImpl>
+    class LLEventPollImpl: public std::enable_shared_from_this<LLEventPollImpl>
     {
     public:
         LLEventPollImpl(const LLHost &sender);
@@ -98,8 +98,8 @@ namespace Details
     {
         LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 
-        mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
-        mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
+        mHttpRequest = std::make_shared<LLCore::HttpRequest>();
+        mHttpOptions = std::make_shared<LLCore::HttpOptions>();
         if (!LLGridManager::instance().isInSecondlife())
         {
             mHttpOptions->setRetries(0);
@@ -284,7 +284,7 @@ namespace Details
 LLEventPoll::LLEventPoll(const std::string&	poll_url, const LLHost& sender):
     mImpl()
 { 
-    mImpl = boost::make_shared<LLEventPolling::Details::LLEventPollImpl>(sender);
+    mImpl = std::make_shared<LLEventPolling::Details::LLEventPollImpl>(sender);
     mImpl->start(poll_url);
 }
 

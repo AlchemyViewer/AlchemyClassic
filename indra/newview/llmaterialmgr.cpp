@@ -125,9 +125,9 @@ LLMaterialMgr::LLMaterialMgr():
 {
 	LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 
-	mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
-	mHttpHeaders = boost::make_shared<LLCore::HttpHeaders>();
-	mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
+	mHttpRequest = std::make_shared<LLCore::HttpRequest>();
+	mHttpHeaders = std::make_shared<LLCore::HttpHeaders>();
+	mHttpOptions = std::make_shared<LLCore::HttpOptions>();
 	mHttpPolicy = app_core_http.getPolicy(LLAppCoreHttp::AP_MATERIALS);
 
 	mMaterials.insert(std::pair<LLMaterialID, LLMaterialPtr>(LLMaterialID::null, LLMaterialPtr(NULL)));

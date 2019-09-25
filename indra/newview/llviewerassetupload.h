@@ -40,7 +40,7 @@
 class LLResourceUploadInfo
 {
 public:
-    typedef boost::shared_ptr<LLResourceUploadInfo> ptr_t;
+    typedef std::shared_ptr<LLResourceUploadInfo> ptr_t;
 
     LLResourceUploadInfo(
         LLTransactionID transactId,
@@ -56,8 +56,7 @@ public:
         S32 expectedCost,
         bool showInventory = true);
 
-    virtual ~LLResourceUploadInfo()
-    { }
+	virtual ~LLResourceUploadInfo() = default;
 
     virtual LLSD        prepareUpload();
     virtual LLSD        generatePostBody();

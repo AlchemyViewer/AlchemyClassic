@@ -58,7 +58,7 @@ public:
 	HttpPolicy(const HttpPolicy &) = delete;				// Not defined
 	HttpPolicy& operator=(const HttpPolicy &) = delete;		// Not defined
 
-    typedef boost::shared_ptr<HttpOpRequest> opReqPtr_t;
+    typedef std::shared_ptr<HttpOpRequest> opReqPtr_t;
 
 	/// Threading:  called by init thread.
 	HttpRequest::policy_t createPolicyClass();

@@ -58,7 +58,7 @@ public:
 	HttpRequestQueue(const HttpRequestQueue &) = delete;				// Not defined
 	HttpRequestQueue& operator=(const HttpRequestQueue &) = delete;		// Not defined
 
-    typedef boost::shared_ptr<HttpOperation> opPtr_t;
+    typedef std::shared_ptr<HttpOperation> opPtr_t;
 
 	static void init();
 	static void term();

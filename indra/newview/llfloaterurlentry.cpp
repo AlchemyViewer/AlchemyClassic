@@ -203,7 +203,7 @@ void LLFloaterURLEntry::getMediaTypeCoro(std::string url, LLHandle<LLFloater> pa
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMediaTypeCoro", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
+    LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setHeadersOnly(true);
 

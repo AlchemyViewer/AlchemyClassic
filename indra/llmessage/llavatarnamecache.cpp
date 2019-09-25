@@ -486,9 +486,9 @@ void LLAvatarNameCache::initClass(bool running, bool usePeopleAPI)
 	sRunning = running;
 	sUsePeopleAPI = usePeopleAPI;
 
-    sHttpRequest = boost::make_shared<LLCore::HttpRequest>();
-    sHttpHeaders = boost::make_shared<LLCore::HttpHeaders>();
-    sHttpOptions = boost::make_shared<LLCore::HttpOptions>();
+    sHttpRequest = std::make_shared<LLCore::HttpRequest>();
+    sHttpHeaders = std::make_shared<LLCore::HttpHeaders>();
+    sHttpOptions = std::make_shared<LLCore::HttpOptions>();
     sHttpPolicy = LLCore::HttpRequest::DEFAULT_POLICY_ID;
     sHttpPriority = 0;
 }

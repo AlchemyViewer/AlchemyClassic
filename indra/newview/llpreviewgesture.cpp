@@ -1123,8 +1123,8 @@ void LLPreviewGesture::saveIfNeeded()
                 refresh();
                 item->setComplete(true);
 
-                uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(
-                    boost::make_shared<LLBufferedAssetUploadInfo>(mItemUUID, LLAssetType::AT_GESTURE, buffer.get(),
+                uploadInfo = std::static_pointer_cast<LLResourceUploadInfo>(
+					std::make_shared<LLBufferedAssetUploadInfo>(mItemUUID, LLAssetType::AT_GESTURE, buffer.get(),
                                                                   boost::bind(
                                                                       &LLPreviewGesture::finishInventoryUpload, _1,
                                                                       _2)));
@@ -1132,8 +1132,8 @@ void LLPreviewGesture::saveIfNeeded()
             }
             else if (!mObjectUUID.isNull() && !task_url.empty())
             {
-                uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(
-                    boost::make_shared<LLBufferedAssetUploadInfo>(mObjectUUID, mItemUUID, LLAssetType::AT_GESTURE,
+                uploadInfo = std::static_pointer_cast<LLResourceUploadInfo>(
+					std::make_shared<LLBufferedAssetUploadInfo>(mObjectUUID, mItemUUID, LLAssetType::AT_GESTURE,
                                                                   buffer.get(), nullptr));
                 url = task_url;
             }

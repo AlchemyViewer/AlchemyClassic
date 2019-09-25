@@ -60,7 +60,7 @@ class HttpOptions
 public:
 	HttpOptions();
 
-	typedef boost::shared_ptr<HttpOptions> ptr_t;
+	typedef std::shared_ptr<HttpOptions> ptr_t;
 
     virtual ~HttpOptions();						// Use release()
 

@@ -2295,7 +2295,7 @@ void LLVOAvatarSelf::appearanceChangeMetricsCoro(std::string url)
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("appearanceChangeMetrics", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
+    LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     S32 currentSequence = mMetricSequence;
     if (S32_MAX == ++mMetricSequence)

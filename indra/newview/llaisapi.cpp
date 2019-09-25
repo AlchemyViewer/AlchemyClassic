@@ -378,7 +378,7 @@ void AISAPI::InvokeAISCommandCoro(LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t ht
 {
     LLCore::HttpOptions::ptr_t httpOptions(new LLCore::HttpOptions);
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest());
-    auto httpHeaders = boost::make_shared<LLCore::HttpHeaders>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpOptions->setTimeout(LLCoreHttpUtil::HTTP_REQUEST_EXPIRY_SECS);
 

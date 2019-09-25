@@ -105,7 +105,7 @@ public:
 	void handleTerrainLinksetsResult(const LLSD &pContent);
 	void handleTerrainLinksetsError();
 
-    typedef boost::shared_ptr<LinksetsResponder> ptr_t;
+    typedef std::shared_ptr<LinksetsResponder> ptr_t;
 
 protected:
 

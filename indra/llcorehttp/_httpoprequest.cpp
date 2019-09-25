@@ -202,14 +202,14 @@ HttpOpRequest::~HttpOpRequest()
 
 void HttpOpRequest::stageFromRequest(HttpService * service)
 {
-    HttpOpRequest::ptr_t self(boost::dynamic_pointer_cast<HttpOpRequest>(shared_from_this()));
+    HttpOpRequest::ptr_t self(std::dynamic_pointer_cast<HttpOpRequest>(shared_from_this()));
     service->getPolicy().addOp(self);			// transfers refcount
 }
 
 
 void HttpOpRequest::stageFromReady(HttpService * service)
 {
-    HttpOpRequest::ptr_t self(boost::dynamic_pointer_cast<HttpOpRequest>(shared_from_this()));
+    HttpOpRequest::ptr_t self(std::dynamic_pointer_cast<HttpOpRequest>(shared_from_this()));
     service->getTransport().addOp(self);		// transfers refcount
 }
 
@@ -270,7 +270,7 @@ void HttpOpRequest::visitNotifier(HttpRequest * request)
 		response->setContentType(mReplyConType);
 		response->setRetries(mPolicyRetries, mPolicy503Retries);
 		
-		HttpResponse::TransferStats::ptr_t stats = boost::make_shared<HttpResponse::TransferStats>();
+		HttpResponse::TransferStats::ptr_t stats = std::make_shared<HttpResponse::TransferStats>();
 
 		curl_easy_getinfo(mCurlHandle, CURLINFO_SIZE_DOWNLOAD, &stats->mSizeDownload);
 		curl_easy_getinfo(mCurlHandle, CURLINFO_TOTAL_TIME, &stats->mTotalTime);
@@ -288,7 +288,7 @@ void HttpOpRequest::visitNotifier(HttpRequest * request)
 // HttpOpRequest::ptr_t HttpOpRequest::fromHandle(HttpHandle handle)
 // {
 // 
-//     return boost::dynamic_pointer_cast<HttpOpRequest>((static_cast<HttpOpRequest *>(handle))->shared_from_this());
+//     return std::dynamic_pointer_cast<HttpOpRequest>((static_cast<HttpOpRequest *>(handle))->shared_from_this());
 // }
 
 
@@ -953,7 +953,7 @@ size_t HttpOpRequest::headerCallback(void * data, size_t size, size_t nmemb, voi
 		// Save headers in response
 		if (! op->mReplyHeaders)
 		{
-			op->mReplyHeaders = boost::make_shared<HttpHeaders>();
+			op->mReplyHeaders = std::make_shared<HttpHeaders>();
 		}
 		op->mReplyHeaders->append(name, value ? value : "");
 	}

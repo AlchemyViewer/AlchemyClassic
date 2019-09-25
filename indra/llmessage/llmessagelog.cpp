@@ -139,7 +139,7 @@ EHTTPMethod convertEMethodToEHTTPMethod(const LLCore::HttpOpRequest::EMethod e_m
 /* static */
 void LLMessageLog::log(const LLCore::HttpRequestQueue::opPtr_t& op)
 {
-    auto req = boost::static_pointer_cast<LLCore::HttpOpRequest>(op);
+    auto req = std::static_pointer_cast<LLCore::HttpOpRequest>(op);
     U8* data = nullptr;
     size_t data_size = 0;
     LLCore::BufferArray * body = req->mReqBody;

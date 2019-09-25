@@ -97,7 +97,7 @@ public:
     }
 
 private:
-    boost::shared_ptr<LLPluginClassMedia> mPlugin;
+	std::shared_ptr<LLPluginClassMedia> mPlugin;
 };
 
 void init_threaded_picker_load_dialog(LLPluginClassMedia* plugin, LLFilePicker::ELoadFilter filter, bool get_multiple)

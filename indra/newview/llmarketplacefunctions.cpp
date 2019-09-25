@@ -279,7 +279,7 @@ namespace LLMarketplaceImport
 
         if (buildHeaders)
         {
-            httpHeaders = boost::make_shared<LLCore::HttpHeaders>();
+            httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
             httpHeaders->append(HTTP_OUT_HEADER_ACCEPT, "*/*");
             httpHeaders->append(HTTP_OUT_HEADER_COOKIE, sMarketplaceCookie);

@@ -94,7 +94,7 @@ public:
 private:
     struct QueuedCoproc
     {
-        typedef boost::shared_ptr<QueuedCoproc> ptr_t;
+        typedef std::shared_ptr<QueuedCoproc> ptr_t;
 
         QueuedCoproc(const std::string &name, const LLUUID &id, CoProcedure_t proc) :
             mName(name),
@@ -334,7 +334,7 @@ LLUUID LLCoprocedurePool::enqueueCoprocedure(const std::string &name, LLCoproced
 {
     LLUUID id(LLUUID::generateNewID());
 
-    mPendingCoprocs.push_back(boost::make_shared<QueuedCoproc>(name, id, proc));
+    mPendingCoprocs.push_back(std::make_shared<QueuedCoproc>(name, id, proc));
     LL_INFOS() << "Coprocedure(" << name << ") enqueued with id=" << id.asString() << " in pool \"" << mPoolName << "\"" << LL_ENDL;
 
     mWakeupTrigger.post(LLSD());

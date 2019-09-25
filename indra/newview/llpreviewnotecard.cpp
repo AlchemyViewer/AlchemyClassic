@@ -545,13 +545,13 @@ bool LLPreviewNotecard::saveIfNeeded(LLInventoryItem* copyitem, bool sync)
 
                 if (mObjectUUID.isNull() && !agent_url.empty())
                 {
-                    uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(boost::make_shared<LLBufferedAssetUploadInfo>(mItemUUID, LLAssetType::AT_NOTECARD, buffer,
+                    uploadInfo = std::static_pointer_cast<LLResourceUploadInfo>(std::make_shared<LLBufferedAssetUploadInfo>(mItemUUID, LLAssetType::AT_NOTECARD, buffer,
                                                                                                                                 boost::bind(&LLPreviewNotecard::finishInventoryUpload, _1, _2, _3)));
                     url = agent_url;
                 }
                 else if (!mObjectUUID.isNull() && !task_url.empty())
                 {
-                    uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(boost::make_shared<LLBufferedAssetUploadInfo>(mObjectUUID, mItemUUID, LLAssetType::AT_NOTECARD, buffer,
+                    uploadInfo = std::static_pointer_cast<LLResourceUploadInfo>(std::make_shared<LLBufferedAssetUploadInfo>(mObjectUUID, mItemUUID, LLAssetType::AT_NOTECARD, buffer,
                                                                                                                                 boost::bind(&LLPreviewNotecard::finishTaskUpload, _1, _3, mObjectUUID)));
                     url = task_url;
                 }

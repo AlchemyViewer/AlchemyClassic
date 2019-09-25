@@ -325,7 +325,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		target = boost::algorithm::join(split_url, "/");
 	}
 
-    auto headers = boost::make_shared<LLCore::HttpHeaders>();
+    auto headers = std::make_shared<LLCore::HttpHeaders>();
     auto body = LLCore::BufferArray::ptr_t(new LLCore::BufferArray());
     LLCore::BufferArrayStream bas(body.get());
 

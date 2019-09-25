@@ -420,7 +420,7 @@ bool LLCrashLogger::runCrashLogPost(std::string host, LLSD data, std::string msg
 
         LL_INFOS("CRASHREPORT") << "POST crash data to " << host << LL_ENDL;
         LLCore::HttpHandle handle = LLCoreHttpUtil::requestPostWithLLSD(httpRequest.get(), LLCore::HttpRequest::DEFAULT_POLICY_ID, 0,
-            host, data, httpOpts, LLCore::HttpHeaders::ptr_t(), boost::static_pointer_cast<LLCore::HttpHandler>(boost::make_shared<LLCrashLoggerHandler>()));
+            host, data, httpOpts, LLCore::HttpHeaders::ptr_t(), std::static_pointer_cast<LLCore::HttpHandler>(std::make_shared<LLCrashLoggerHandler>()));
 
         if (handle == LLCORE_HTTP_HANDLE_INVALID)
         {

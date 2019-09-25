@@ -4084,7 +4084,7 @@ void LLMessageSystem::sendUntrustedSimulatorMessageCoro(std::string url, std::st
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("untrustedSimulatorMessage", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
+    LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
 
     if (url.empty())

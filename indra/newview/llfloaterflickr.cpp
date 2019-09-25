@@ -370,7 +370,7 @@ void LLFlickrPhotoPanel::sendPhoto()
 			S32 pos_z = S32(agent_pos_region.mV[VZ]);
 			
 			std::string parcel_name = LLViewerParcelMgr::getInstance()->getAgentParcelName();
-			std::string region_name = region->getName();
+			std::string const& region_name = region->getName();
 			
 			if (!region_name.empty())
 			{

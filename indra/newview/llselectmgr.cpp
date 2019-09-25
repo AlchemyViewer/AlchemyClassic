@@ -7356,7 +7356,7 @@ S32 LLObjectSelection::getSelectedObjectRenderCost()
 				   cost += object->getRenderCost(textures);
 				   computed_objects.insert(object->getID());
 
-				   const_child_list_t children = object->getChildren();
+				   const_child_list_t const& children = object->getChildren();
 				   for (const auto& child_iter : children)
                    {
 					   LLViewerObject* child_obj = child_iter;

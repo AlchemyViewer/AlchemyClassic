@@ -258,7 +258,7 @@ bool LLFriendCardsManager::isObjDirectDescendentOfCategory(const LLInventoryObje
 		{
 			// Else check that items have same type and name.
 			// Note: UUID's of compared items also may be not equal.
-			std::string obj_name = obj->getName();
+			std::string const& obj_name = obj->getName();
 			LLViewerInventoryItem* cur_item = nullptr;
 			for ( S32 i = items->size() - 1; i >= 0; --i )
 			{
@@ -278,7 +278,7 @@ bool LLFriendCardsManager::isObjDirectDescendentOfCategory(const LLInventoryObje
 		// There is no direct descendent in items, so check categories.
 		// If target obj and descendent category have same type and name
 		// then return true. Note: UUID's of compared items also may be not equal.
-		std::string obj_name = obj->getName();
+		std::string const& obj_name = obj->getName();
 		LLViewerInventoryCategory* cur_cat = nullptr;
 		for ( S32 i = cats->size() - 1; i >= 0; --i )
 		{

@@ -64,7 +64,7 @@ void LLViewerAttachMenu::populateMenus(const std::string& attach_to_menu_name, c
 		LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 		LLViewerJointAttachment* attachment = curiter->second;
 		LLMenuItemCallGL::Params p;
-		std::string submenu_name = attachment->getName();
+		std::string const& submenu_name = attachment->getName();
 		std::string translated_submenu_name;
 
 		if (LLTrans::findString(translated_submenu_name, submenu_name))

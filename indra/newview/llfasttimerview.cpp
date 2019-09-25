@@ -545,7 +545,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 	
 	buffer.bindTarget();
 
-	for (auto label : chart_names)
+	for (auto const& label : chart_names)
     {
         LLSD::Real max_time = 0.0;
 		LLSD::Integer max_calls = 0;

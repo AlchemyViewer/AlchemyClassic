@@ -10267,7 +10267,7 @@ void LLVOAvatar::accountRenderComplexityForObject(
                 }
 							attachment_volume_cost += volume->getRenderCost(textures);
 
-							const_child_list_t children = volume->getChildren();
+							const_child_list_t const& children = volume->getChildren();
 							for (const auto& child_iter : children)
                             {
 								LLViewerObject* child_obj = child_iter;

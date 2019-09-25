@@ -105,7 +105,7 @@ bool LLTransientFloaterMgr::isControlClicked(ETransientGroup group, controls_set
 	std::list< LLHandle<LLView> > dead_handles;
 	
 	bool res = true;
-	for (auto handle : set)
+	for (auto const& handle : set)
     {
 		LLView* control_view = nullptr;
 
@@ -131,7 +131,7 @@ bool LLTransientFloaterMgr::isControlClicked(ETransientGroup group, controls_set
 		}
 	}
 
-	for (auto handle : dead_handles)
+	for (auto const& handle : dead_handles)
     {
         mGroupControls.find(group)->second.erase(handle);
 	}

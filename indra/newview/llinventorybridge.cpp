@@ -6424,7 +6424,7 @@ void LLObjectBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 						LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 						LLViewerJointAttachment* attachment = curiter->second;
 						LLMenuItemCallGL::Params p;
-						std::string submenu_name = attachment->getName();
+						std::string const& submenu_name = attachment->getName();
 						if (!LLTrans::getString(submenu_name).empty())
 						{
 						    p.name = (" ")+LLTrans::getString(submenu_name)+" ";

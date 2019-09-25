@@ -347,7 +347,7 @@ void LLTeleportHistoryFlatItemStorage::removeItem(LLTeleportHistoryFlatItem* ite
 
 void LLTeleportHistoryFlatItemStorage::purge()
 {
-	for (auto item_handle : mItems)
+	for (auto const& item_handle : mItems)
     {
         if ( !item_handle.isDead() && item_handle.get()->getParent() == nullptr )
 		{

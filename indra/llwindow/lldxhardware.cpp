@@ -268,20 +268,16 @@ LLVersion::LLVersion()
 
 BOOL LLVersion::set(const std::string &version_string)
 {
-	S32 i;
-	for (i = 0; i < 4; i++)
-	{
-		mFields[i] = 0;
-	}
+    memset(mFields, 0, sizeof(mFields));
+
 	// Split the version string.
-	std::string str(version_string);
 	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 	boost::char_separator<char> sep(".", "", boost::keep_empty_tokens);
-	tokenizer tokens(str, sep);
+	tokenizer tokens(version_string, sep);
 
-	tokenizer::iterator iter = tokens.begin();
+    
 	S32 count = 0;
-	for (;(iter != tokens.end()) && (count < 4);++iter)
+	for (auto iter = tokens.begin(); iter != tokens.end() && count < 4; ++iter)
 	{
 		mFields[count] = atoi(iter->c_str());
 		count++;
@@ -289,10 +285,7 @@ BOOL LLVersion::set(const std::string &version_string)
 	if (count < 4)
 	{
 		//LL_WARNS() << "Potentially bogus version string!" << version_string << LL_ENDL;
-		for (i = 0; i < 4; i++)
-		{
-			mFields[i] = 0;
-		}
+        memset(mFields, 0, sizeof(mFields));
 		mValid = FALSE;
 	}
 	else

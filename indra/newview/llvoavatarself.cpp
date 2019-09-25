@@ -440,7 +440,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 				{
 					LLMenuItemCallGL::Params item_params;
 						
-					std::string sub_piemenu_name = attachment->getName();
+					std::string const& sub_piemenu_name = attachment->getName();
 					if (!LLTrans::getString(sub_piemenu_name).empty())
 					{
 						item_params.label = LLTrans::getString(sub_piemenu_name);
@@ -476,7 +476,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 				if (attachment && attachment->getGroup() == i)
 				{
 					LLMenuItemCallGL::Params item_params;
-					std::string sub_piemenu_name = attachment->getName();
+					std::string const& sub_piemenu_name = attachment->getName();
 					if (!LLTrans::getString(sub_piemenu_name).empty())
 					{
 						item_params.label = LLTrans::getString(sub_piemenu_name);
@@ -507,7 +507,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 		if (attachment->getGroup() == 9)
 		{
 			LLMenuItemCallGL::Params item_params;
-			std::string sub_piemenu_name = attachment->getName();
+			std::string const& sub_piemenu_name = attachment->getName();
 			if (!LLTrans::getString(sub_piemenu_name).empty())
 			{
 				item_params.label = LLTrans::getString(sub_piemenu_name);
@@ -548,7 +548,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 				continue;
 			}
 			LLMenuItemCallGL::Params item_params;
-			std::string sub_piemenu_name = attachment->getName();
+			std::string const& sub_piemenu_name = attachment->getName();
 			if (!LLTrans::getString(sub_piemenu_name).empty())
 			{
 				item_params.label = LLTrans::getString(sub_piemenu_name);

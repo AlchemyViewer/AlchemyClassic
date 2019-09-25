@@ -692,7 +692,7 @@ void LLFloaterMessageLog::onConfirmCloseCircuit(const LLSD& notification, const 
 		gMessageSystem->getCircuit()->removeCircuitData(cdp->getHost());
 	if(regionp)
 	{
-		LLHost myhost = regionp->getHost();
+		LLHost const& myhost = regionp->getHost();
 		LLSD args;
 		args["MESSAGE"] = "That host had a region associated with it.\nDo you want to clean that up?";
 		LLSD payload;

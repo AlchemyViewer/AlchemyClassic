@@ -1856,7 +1856,7 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
                 // Only update stream if parcel changed (recreated) or music is playing (enabled)
                 if (!agent_parcel_update || gSavedSettings.getBOOL("MediaTentativeAutoPlay"))
                 {
-                    std::string music_url_raw = parcel->getMusicURL();
+                    std::string const& music_url_raw = parcel->getMusicURL();
 
                     // Trim off whitespace from front and back
                     std::string music_url = music_url_raw;

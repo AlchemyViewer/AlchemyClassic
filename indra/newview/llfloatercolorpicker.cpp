@@ -689,7 +689,7 @@ void LLFloaterColorPicker::updateTextEntry ()
 void LLFloaterColorPicker::onTextEntryChanged ( LLUICtrl* ctrl )
 {
 	// value in RGB boxes changed
-	std::string name = ctrl->getName();
+	std::string const& name = ctrl->getName();
 	if ( ( name == "rspin" ) || ( name == "gspin" ) || ( name == "bspin" ) )
 	{
 		// get current RGB

@@ -400,7 +400,7 @@ const void upload_bulk(const std::vector<std::string>& filenames, LLFilePicker::
 	S32 expected_upload_cost = LLGlobalEconomy::getInstance()->getPriceUpload();
 	for (const auto& in_iter : filenames)
     {
-		std::string filename = in_iter;
+		std::string const& filename = in_iter;
 		if (!check_file_extension(filename, type)) continue;
 		
 		std::string name = gDirUtilp->getBaseFileName(filename, true);

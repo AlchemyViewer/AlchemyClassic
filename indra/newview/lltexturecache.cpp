@@ -911,7 +911,7 @@ std::string LLTextureCache::getLocalFileName(const LLUUID& id)
 std::string LLTextureCache::getTextureFileName(const LLUUID& id)
 {
 	std::string idstr = id.asString();
-	std::string delem = gDirUtilp->getDirDelimiter();
+	std::string const& delem = gDirUtilp->getDirDelimiter();
 	std::string filename = mTexturesDirName + delem + idstr[0] + delem + idstr + ".texture";
 	return filename;
 }

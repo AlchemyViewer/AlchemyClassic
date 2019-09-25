@@ -1517,7 +1517,7 @@ void LLFloaterTools::updateMediaTitle()
 	if ( media_plugin )
 	{
 		// get the media name (asynchronous - must call repeatedly)
-		std::string media_title = media_plugin->getMediaName();
+		std::string const& media_title = media_plugin->getMediaName();
 
 		// only replace the title if what we get contains something
 		if ( ! media_title.empty() )

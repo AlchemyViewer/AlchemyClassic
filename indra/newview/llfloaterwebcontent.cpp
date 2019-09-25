@@ -385,7 +385,7 @@ void LLFloaterWebContent::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent
 		// flags are sent with this event
 		mBtnBack->setEnabled(self->getHistoryBackAvailable());
 		mBtnForward->setEnabled(self->getHistoryForwardAvailable());
-		std::string page_title = self->getMediaName();
+		std::string const& page_title = self->getMediaName();
 		// simulate browser behavior - title is empty, use the current URL
 		if (mShowPageTitle)
 		{

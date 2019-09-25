@@ -149,7 +149,7 @@ void LLFloaterAO::updateAnimationList()
 		return;
 	}
 	
-	for (auto stateName : mSelectedSet->mStateNames)
+	for (auto const& stateName : mSelectedSet->mStateNames)
     {
         LLAOSet::AOState* state = mSelectedSet->getStateByName(stateName);
 		mStateSelector->add(stateName, state, ADD_BOTTOM, TRUE);

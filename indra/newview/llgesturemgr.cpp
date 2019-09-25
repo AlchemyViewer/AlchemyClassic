@@ -622,14 +622,12 @@ void LLGestureMgr::playGesture(const LLUUID& item_id)
 // and (as a minor side effect) has multiple spaces in a row replaced by single spaces.
 BOOL LLGestureMgr::triggerAndReviseString(const std::string &utf8str, std::string* revised_string)
 {
-	std::string tokenized = utf8str;
-
 	BOOL found_gestures = FALSE;
 	BOOL first_token = TRUE;
 
 	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 	boost::char_separator<char> sep(" ");
-	tokenizer tokens(tokenized, sep);
+	tokenizer tokens(utf8str, sep);
 	tokenizer::iterator token_iter;
 
 	for( token_iter = tokens.begin(); token_iter != tokens.end(); ++token_iter)

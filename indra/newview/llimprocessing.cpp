@@ -855,13 +855,11 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
                 info->mHost = sender;
             }
 
-            std::string str(message);
-
             // Tokenize the string.
             // TODO: Support escaped tokens ("||" -> "|")
             typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
             boost::char_separator<char> sep("|", "", boost::keep_empty_tokens);
-            tokenizer tokens(str, sep);
+            tokenizer tokens(message, sep);
             tokenizer::iterator iter = tokens.begin();
 
             std::string subj(*iter++);

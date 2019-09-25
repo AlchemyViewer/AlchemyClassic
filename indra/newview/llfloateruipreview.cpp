@@ -79,7 +79,7 @@ static LLDefaultChildRegistry::Register<LLOverlapPanel> register_overlap_panel("
 
 static std::string get_xui_dir()
 {
-	std::string delim = gDirUtilp->getDirDelimiter();
+	std::string const& delim = gDirUtilp->getDirDelimiter();
 	return gDirUtilp->getSkinBaseDir() + delim + "default" + delim + "xui" + delim;
 }
 

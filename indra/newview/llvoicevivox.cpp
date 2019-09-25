@@ -4438,7 +4438,7 @@ bool LLVivoxVoiceClient::checkParcelChanged(bool update)
 	if(region && parcel)
 	{
 		S32 parcelLocalID = parcel->getLocalID();
-		std::string regionName = region->getName();
+		std::string const& regionName = region->getName();
 		
 		//			LL_DEBUGS("Voice") << "Region name = \"" << regionName << "\", parcel local ID = " << parcelLocalID << ", cap URI = \"" << capURI << "\"" << LL_ENDL;
 		

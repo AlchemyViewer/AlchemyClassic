@@ -1115,9 +1115,8 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
                                                           FALSE /* pick_rigged */);
 
 					S32 object_face = pick_info.mObjectFace;
-					std::string url = data;
 
-					LL_DEBUGS() << "Object: picked at " << pos.mX << ", " << pos.mY << " - face = " << object_face << " - URL = " << url << LL_ENDL;
+					LL_DEBUGS() << "Object: picked at " << pos.mX << ", " << pos.mY << " - face = " << object_face << " - URL = " << data << LL_ENDL;
 
 					LLViewerObject* vobjp = static_cast<LLViewerObject*>(pick_info.getObject());
 					LLVOVolume *obj = vobjp ? vobjp->asVolume() : nullptr;
@@ -1143,8 +1142,8 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 											// Create new media entry
 											LLSD media_data;
 											// XXX Should we really do Home URL too?
-											media_data[LLMediaEntry::HOME_URL_KEY] = url;
-											media_data[LLMediaEntry::CURRENT_URL_KEY] = url;
+											media_data[LLMediaEntry::HOME_URL_KEY] = data;
+											media_data[LLMediaEntry::CURRENT_URL_KEY] = data;
 											media_data[LLMediaEntry::AUTO_PLAY_KEY] = true;
 											obj->syncMediaData(object_face, media_data, true, true);
 											// XXX This shouldn't be necessary, should it ?!?
@@ -1159,12 +1158,12 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 										// object HAS media already
 									{
 										// URL passes the whitelist
-										if (te->getMediaData()->checkCandidateUrl(url))
+										if (te->getMediaData()->checkCandidateUrl(data))
 										{
 											// just navigate to the URL
 											if (obj->getMediaImpl(object_face))
 											{
-												obj->getMediaImpl(object_face)->navigateTo(url);
+												obj->getMediaImpl(object_face)->navigateTo(data);
 											}
 											else
 											{
@@ -1173,7 +1172,7 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 												// This sends it to the server, which /should/
 												// trigger us getting it.  Hopefully.
 												LLSD media_data;
-												media_data[LLMediaEntry::CURRENT_URL_KEY] = url;
+												media_data[LLMediaEntry::CURRENT_URL_KEY] = data;
 												obj->syncMediaData(object_face, media_data, true, true);
 												obj->sendMediaDataUpdate();
 											}
@@ -1188,7 +1187,7 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 								else
 								{
 									// Check the whitelist, if there's media (otherwise just show it)
-									if (te->getMediaData() == nullptr || te->getMediaData()->checkCandidateUrl(url))
+									if (te->getMediaData() == nullptr || te->getMediaData()->checkCandidateUrl(data))
 									{
 										if (obj != mDragHoveredObject)
 										{
@@ -4252,7 +4251,7 @@ void LLViewerWindow::saveImageNumbered(LLImageFormatted *image, BOOL force_picke
 	// Get a base file location if needed.
 	if (force_picker || !isSnapshotLocSet())
 	{
-		std::string proposed_name(sSnapshotBaseName);
+		std::string const& proposed_name(sSnapshotBaseName);
 
 		// getSaveFile will append an appropriate extension to the proposed name, based on the ESaveFilter constant passed in.
 		LLFilePicker::ESaveFilter pick_type;
@@ -4434,8 +4433,7 @@ void LLViewerWindow::playSnapshotAnimAndSound()
 
 BOOL LLViewerWindow::isSnapshotLocSet() const
 {
-	std::string snapshot_dir = sSnapshotDir;
-	return !snapshot_dir.empty();
+	return !sSnapshotDir().empty();
 }
 
 void LLViewerWindow::resetSnapshotLoc() const

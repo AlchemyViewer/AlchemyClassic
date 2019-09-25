@@ -94,7 +94,7 @@ void LLPanelVolumePulldown::setControlFalse(const LLSD& user_data)
 
 void LLPanelVolumePulldown::updateMediaAutoPlayCheckbox(LLUICtrl* ctrl)
 {
-	std::string name = ctrl->getName();
+	std::string const& name = ctrl->getName();
 
 	// Disable "Allow Media to auto play" only when both
 	// "Streaming Music" and "Media" are unchecked. STORM-513.

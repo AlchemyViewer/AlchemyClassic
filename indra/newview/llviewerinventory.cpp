@@ -567,7 +567,7 @@ bool LLViewerInventoryItem::exportFileLocal(LLFILE* fp) const
 	fprintf(fp, "\t\tparent_id\t%s\n", uuid_str.c_str());
 	mPermissions.exportFile(fp);
 	fprintf(fp, "\t\ttype\t%s\n", LLAssetType::lookup(mType));
-	const std::string inv_type_str = LLInventoryType::lookup(mInventoryType);
+	const std::string& inv_type_str = LLInventoryType::lookup(mInventoryType);
 	if(!inv_type_str.empty()) fprintf(fp, "\t\tinv_type\t%s\n", inv_type_str.c_str());
 	fprintf(fp, "\t\tname\t%s|\n", mName.c_str());
 	fprintf(fp, "\t\tcreation_date\t%d\n", (S32) mCreationDate);

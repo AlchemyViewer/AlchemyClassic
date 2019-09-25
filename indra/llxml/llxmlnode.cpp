@@ -823,7 +823,7 @@ bool LLXMLNode::getLayeredXMLNode(LLXMLNodePtr& root,
 {
 	if (paths.empty()) return false;
 
-	std::string filename = paths.front();
+	std::string const& filename = paths.front();
 	if (filename.empty())
 	{
 		return false;

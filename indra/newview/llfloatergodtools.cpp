@@ -1230,7 +1230,7 @@ void LLPanelRequestTools::refresh()
 	}
 	for (auto regionp : LLWorld::getInstance()->getRegionList())
     {
-        std::string name = regionp->getName();
+        std::string const& name = regionp->getName();
 		if (!name.empty())
 		{
 			list->addSimpleElement(name);

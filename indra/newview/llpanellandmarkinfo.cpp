@@ -130,7 +130,7 @@ void LLPanelLandmarkInfo::setInfoType(EInfoType type)
 			mNotesEditor->setEnabled(TRUE);
 
 			LLViewerParcelMgr* parcel_mgr = LLViewerParcelMgr::getInstance();
-			std::string name = parcel_mgr->getAgentParcelName();
+			std::string const& name = parcel_mgr->getAgentParcelName();
 			LLVector3 agent_pos = gAgent.getPositionAgent();
 			
 			std::string desc;

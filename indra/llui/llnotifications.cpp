@@ -1701,7 +1701,7 @@ void LLNotifications::cancel(LLNotificationPtr pNotif)
 void LLNotifications::cancelByName(const std::string& name)
 {
 	std::vector<LLNotificationPtr> notifs_to_cancel;
-	for (auto pNotif : mItems)
+	for (auto const& pNotif : mItems)
     {
         if (pNotif->getName() == name)
 		{
@@ -1709,7 +1709,7 @@ void LLNotifications::cancelByName(const std::string& name)
 		}
 	}
 
-	for (auto pNotif : notifs_to_cancel)
+	for (auto const& pNotif : notifs_to_cancel)
     {
         pNotif->cancel();
 		updateItem(LLSD().with("sigtype", "delete").with("id", pNotif->id()), pNotif);
@@ -1719,7 +1719,7 @@ void LLNotifications::cancelByName(const std::string& name)
 void LLNotifications::cancelByOwner(const LLUUID ownerId)
 {
 	std::vector<LLNotificationPtr> notifs_to_cancel;
-	for (auto pNotif : mItems)
+	for (auto const& pNotif : mItems)
     {
         if (pNotif && pNotif->getPayload().get("owner_id").asUUID() == ownerId)
 		{
@@ -1727,7 +1727,7 @@ void LLNotifications::cancelByOwner(const LLUUID ownerId)
 		}
 	}
 
-	for (auto pNotif : notifs_to_cancel)
+	for (auto const& pNotif : notifs_to_cancel)
     {
         pNotif->cancel();
 		updateItem(LLSD().with("sigtype", "delete").with("id", pNotif->id()), pNotif);

@@ -162,7 +162,7 @@ void LLAppCoreHttp::init()
 	}
 
 	// Point to our certs or SSH/https: will fail on connect
-    std::string ca_file = gDirUtilp->getCAFile();
+    std::string const& ca_file = gDirUtilp->getCAFile();
     if ( LLFile::isfile(ca_file) )
     {
         LL_DEBUGS("Init") << "Setting CA File to " << ca_file << LL_ENDL;

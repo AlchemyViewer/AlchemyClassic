@@ -849,9 +849,8 @@ void LLIMSpeakerMgr::moderateVoiceParticipant(const LLUUID& avatar_id, bool unmu
 void LLIMSpeakerMgr::moderationActionCoro(std::string url, LLSD action)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("moderationActionCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("moderationActionCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
     LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setWantHeaders(true);

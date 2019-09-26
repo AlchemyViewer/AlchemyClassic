@@ -364,11 +364,10 @@ void LLFloaterExperiences::retrieveExperienceListCoro(std::string url,
     std::string errorNotify, Callback_t cback, invokationFn_t invoker)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("retrieveExperienceListCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOptions(new LLCore::HttpOptions);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("retrieveExperienceListCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+	auto httpOptions = std::make_shared<LLCore::HttpOptions>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
 
     if (url.empty())

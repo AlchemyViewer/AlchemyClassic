@@ -200,9 +200,8 @@ void LLFloaterURLEntry::onBtnOK( void* userdata )
 void LLFloaterURLEntry::getMediaTypeCoro(std::string url, LLHandle<LLFloater> parentHandle)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMediaTypeCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("getMediaTypeCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
     LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setHeadersOnly(true);

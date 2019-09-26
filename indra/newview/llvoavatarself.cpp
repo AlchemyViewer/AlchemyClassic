@@ -2292,9 +2292,8 @@ const std::string LLVOAvatarSelf::debugDumpAllLocalTextureDataInfo() const
 void LLVOAvatarSelf::appearanceChangeMetricsCoro(std::string url)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("appearanceChangeMetrics", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("appearanceChangeMetrics", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
     LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     S32 currentSequence = mMetricSequence;

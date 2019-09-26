@@ -454,10 +454,9 @@ BOOL LLFloaterAvatarPicker::visibleItemsSelected() const
 void LLFloaterAvatarPicker::findCoro(std::string url, LLUUID queryID, std::string name)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("genericPostCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("genericPostCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     LL_INFOS("HttpCoroutineAdapter", "genericPostCoro") << "Generic POST for " << url << LL_ENDL;
 

@@ -289,7 +289,7 @@ LLCoprocedurePool::LLCoprocedurePool(const std::string &poolName, size_t size):
 {
     for (size_t count = 0; count < mPoolSize; ++count)
     {
-        LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter( mPoolName + "Adapter", mHTTPPolicy));
+        auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>( mPoolName + "Adapter", mHTTPPolicy);
 
         std::string pooledCoro = LLCoros::instance().launch("LLCoprocedurePool("+mPoolName+")::coprocedureInvokerCoro",
             boost::bind(&LLCoprocedurePool::coprocedureInvokerCoro, this, httpAdapter));
@@ -371,7 +371,7 @@ bool LLCoprocedurePool::cancelCoprocedure(const LLUUID &id)
 //-------------------------------------------------------------------------
 void LLCoprocedurePool::coprocedureInvokerCoro(LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t httpAdapter)
 {
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
     while (!mShutdown)
     {

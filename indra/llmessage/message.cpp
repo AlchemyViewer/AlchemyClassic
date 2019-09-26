@@ -4081,11 +4081,9 @@ LLCircuit* LLMessageSystem::getCircuit()
 void LLMessageSystem::sendUntrustedSimulatorMessageCoro(std::string url, std::string message, LLSD body, UntrustedCallback_t callback)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("untrustedSimulatorMessage", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
-
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("untrustedSimulatorMessage", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     if (url.empty())
     {

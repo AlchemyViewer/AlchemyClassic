@@ -207,11 +207,10 @@ namespace LLMarketplaceImport
     void marketplacePostCoro(std::string url)
     {
         LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-        LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-            httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("marketplacePostCoro", httpPolicy));
-        LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-        LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
-        LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+		auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("marketplacePostCoro", httpPolicy);
+        auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+        auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
+        auto httpOpts = std::make_shared<LLCore::HttpOptions>();
 
         httpOpts->setWantHeaders(true);
         httpOpts->setFollowRedirects(true);
@@ -268,11 +267,10 @@ namespace LLMarketplaceImport
     void marketplaceGetCoro(std::string url, bool buildHeaders)
     {
         LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-        LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-            httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("marketplaceGetCoro", httpPolicy));
-        LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+		auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("marketplaceGetCoro", httpPolicy);
+        auto httpRequest = std::make_shared<LLCore::HttpRequest>();
         LLCore::HttpHeaders::ptr_t httpHeaders; 
-        LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+        auto httpOpts = std::make_shared<LLCore::HttpOptions>();
 
         httpOpts->setWantHeaders(true);
         httpOpts->setFollowRedirects(!sMarketplaceCookie.empty());
@@ -773,10 +771,9 @@ void LLMarketplaceData::initializeSLM(const status_updated_signal_t::slot_type& 
 void LLMarketplaceData::getMerchantStatusCoro()
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("getMerchantStatusCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setFollowRedirects(true);
 
@@ -852,10 +849,9 @@ void LLMarketplaceData::getSLMListings()
 void LLMarketplaceData::getSLMListingsCoro(LLUUID folderId)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("getSLMListingsCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpHeaders->append("Accept", "application/json");
     httpHeaders->append("Content-Type", "application/json");
@@ -917,10 +913,9 @@ void LLMarketplaceData::getSLMListing(S32 listingId)
 void LLMarketplaceData::getSingleListingCoro(S32 listingId, LLUUID folderId)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("getSingleListingCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpHeaders->append("Accept", "application/json");
     httpHeaders->append("Content-Type", "application/json");
@@ -988,10 +983,9 @@ void LLMarketplaceData::createSLMListing(const LLUUID& folder_id, const LLUUID& 
 void LLMarketplaceData::createSLMListingCoro(LLUUID folderId, LLUUID versionId, S32 count)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("createSLMListingCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpHeaders->append("Accept", "application/json");
     httpHeaders->append("Content-Type", "application/json");
@@ -1056,10 +1050,9 @@ void LLMarketplaceData::updateSLMListing(const LLUUID& folder_id, S32 listing_id
 void LLMarketplaceData::updateSLMListingCoro(LLUUID folderId, S32 listingId, LLUUID versionId, bool isListed, S32 count)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("updateSLMListingCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpHeaders->append("Accept", "application/json");
     httpHeaders->append("Content-Type", "application/json");
@@ -1138,10 +1131,9 @@ void LLMarketplaceData::associateSLMListing(const LLUUID& folder_id, S32 listing
 void LLMarketplaceData::associateSLMListingCoro(LLUUID folderId, S32 listingId, LLUUID versionId, LLUUID sourceFolderId)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("associateSLMListingCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpHeaders->append("Accept", "application/json");
     httpHeaders->append("Content-Type", "application/json");
@@ -1219,10 +1211,9 @@ void LLMarketplaceData::deleteSLMListing(S32 listingId)
 void LLMarketplaceData::deleteSLMListingCoro(S32 listingId)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMerchantStatusCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("deleteSLMListingCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpHeaders->append("Accept", "application/json");
     httpHeaders->append("Content-Type", "application/json");

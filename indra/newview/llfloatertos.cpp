@@ -246,9 +246,8 @@ void LLFloaterTOS::handleMediaEvent(LLPluginClassMedia* /*self*/, EMediaEvent ev
 void LLFloaterTOS::testSiteIsAliveCoro(LLHandle<LLFloater> handle, std::string url)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("genericPostCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("testSiteIsAliveCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
     LLCore::HttpOptions::ptr_t httpOpts = std::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setWantHeaders(true);

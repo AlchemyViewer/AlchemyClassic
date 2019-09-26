@@ -1072,9 +1072,8 @@ void LLViewerObjectList::reportObjectCostFailure(LLSD &objectList)
 void LLViewerObjectList::fetchObjectCostsCoro(std::string url)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("genericPostCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("genericPostCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
 
 
@@ -1196,9 +1195,8 @@ void LLViewerObjectList::reportPhysicsFlagFailure(LLSD &objectList)
 void LLViewerObjectList::fetchPhisicsFlagsCoro(std::string url)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("genericPostCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("genericPostCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
     LLSD idList;
     U32 objectIndex = 0;

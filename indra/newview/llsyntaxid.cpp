@@ -119,9 +119,8 @@ void LLSyntaxIdLSL::fetchKeywordsFile(const std::string& filespec)
 void LLSyntaxIdLSL::fetchKeywordsFileCoro(std::string url, std::string fileSpec)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("genericPostCoro", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("fetchKeywordsFileCoro", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
     std::pair<std::set<std::string>::iterator, bool> insrt = mInflightFetches.insert(fileSpec);
     if (!insrt.second)

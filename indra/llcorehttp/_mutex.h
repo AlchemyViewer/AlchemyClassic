@@ -31,8 +31,6 @@
 #include <mutex>
 #include <shared_mutex>
 
-#include <boost/thread.hpp>
-
 namespace LLCoreInt
 {
 // MUTEX TYPES

@@ -34,8 +34,6 @@
 #include <utility>
 
 #include "llwin32headerslean.h"
-
-#include "apr.h" // thread-related functions
 #include "_refcounted.h"
 
 namespace LLCoreInt

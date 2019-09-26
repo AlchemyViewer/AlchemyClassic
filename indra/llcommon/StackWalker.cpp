@@ -1287,14 +1287,14 @@ void StackWalker::OnLoadModule(LPCSTR img, LPCSTR mod, DWORD64 baseAddr, DWORD s
 {
   CHAR buffer[STACKWALK_MAX_NAMELEN];
   if (fileVersion == 0)
-    _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%s:%s (%p), size: %d (result: %d), SymType: '%s', PDB: '%s'\n", img, mod, (LPVOID) baseAddr, size, result, symType, pdbName);
+    _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%s:%s (%p), size: %ld (result: %ld), SymType: '%s', PDB: '%s'\n", img, mod, (LPVOID) baseAddr, size, result, symType, pdbName);
   else
   {
     DWORD v4 = (DWORD) (fileVersion & 0xFFFF);
     DWORD v3 = (DWORD) ((fileVersion>>16) & 0xFFFF);
     DWORD v2 = (DWORD) ((fileVersion>>32) & 0xFFFF);
     DWORD v1 = (DWORD) ((fileVersion>>48) & 0xFFFF);
-    _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%s:%s (%p), size: %d (result: %d), SymType: '%s', PDB: '%s', fileVersion: %d.%d.%d.%d\n", img, mod, (LPVOID) baseAddr, size, result, symType, pdbName, v1, v2, v3, v4);
+    _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%s:%s (%p), size: %ld (result: %ld), SymType: '%s', PDB: '%s', fileVersion: %ld.%ld.%ld.%ld\n", img, mod, (LPVOID) baseAddr, size, result, symType, pdbName, v1, v2, v3, v4);
   }
   if (m_verbose)
   {
@@ -1321,7 +1321,7 @@ void StackWalker::OnCallstackEntry(CallstackEntryType eType, CallstackEntry &ent
       _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%p (%s): %s: %s\n", (LPVOID) entry.offset, entry.moduleName, entry.lineFileName, entry.name);
     }
     else
-      _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%s (%d): %s\n", entry.lineFileName, entry.lineNumber, entry.name);
+      _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "%s (%ld): %s\n", entry.lineFileName, entry.lineNumber, entry.name);
     buffer[STACKWALK_MAX_NAMELEN-1] = 0;
     OnOutput(buffer);
   }
@@ -1330,7 +1330,7 @@ void StackWalker::OnCallstackEntry(CallstackEntryType eType, CallstackEntry &ent
 void StackWalker::OnDbgHelpErr(LPCSTR szFuncName, DWORD gle, DWORD64 addr)
 {
   CHAR buffer[STACKWALK_MAX_NAMELEN];
-  _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "ERROR: %s, GetLastError: %d (Address: %p)\n", szFuncName, gle, (LPVOID) addr);
+  _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "ERROR: %s, GetLastError: %ld (Address: %p)\n", szFuncName, gle, (LPVOID) addr);
   if (m_verbose)
   {
       OnOutput(buffer);
@@ -1340,7 +1340,7 @@ void StackWalker::OnDbgHelpErr(LPCSTR szFuncName, DWORD gle, DWORD64 addr)
 void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUserName)
 {
   CHAR buffer[STACKWALK_MAX_NAMELEN];
-  _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "SymInit: Symbol-SearchPath: '%s', symOptions: %d, UserName: '%s'\n", szSearchPath, symOptions, szUserName);
+  _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "SymInit: Symbol-SearchPath: '%s', symOptions: %ld, UserName: '%s'\n", szSearchPath, symOptions, szUserName);
   if (m_verbose)
   {
       OnOutput(buffer);
@@ -1370,7 +1370,7 @@ void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUser
   ver.dwOSVersionInfoSize = sizeof(ver);
   if (GetVersionExA( (OSVERSIONINFOA*) &ver) != FALSE)
   {
-    _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "OS-Version: %d.%d.%d (%s) 0x%x-0x%x\n", 
+    _snprintf_s(buffer, STACKWALK_MAX_NAMELEN, "OS-Version: %ld.%ld.%ld (%s) 0x%x-0x%x\n", 
       ver.dwMajorVersion, ver.dwMinorVersion, ver.dwBuildNumber,
       ver.szCSDVersion, ver.wSuiteMask, ver.wProductType);
     if (m_verbose)

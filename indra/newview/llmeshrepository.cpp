@@ -1390,7 +1390,7 @@ bool LLMeshRepoThread::fetchMeshSkinInfo(const LLUUID& mesh_id, bool can_retry)
 
 			if (!http_url.empty())
 			{
-                LLMeshHandlerBase::ptr_t handler(new LLMeshSkinInfoHandler(mesh_id, offset, size));
+                LLMeshHandlerBase::ptr_t handler = std::make_shared<LLMeshSkinInfoHandler>(mesh_id, offset, size);
 				LLCore::HttpHandle handle = getByteRange(http_url, legacy_cap_version, offset, size, handler);
 				if (LLCORE_HTTP_HANDLE_INVALID == handle)
 				{
@@ -1403,7 +1403,7 @@ bool LLMeshRepoThread::fetchMeshSkinInfo(const LLUUID& mesh_id, bool can_retry)
 				else if(can_retry)
 				{
 					handler->mHttpHandle = handle;
-					mHttpRequestSet.insert(handler);
+					mHttpRequestSet.emplace(std::move(handler));
 				}
 				else
 				{
@@ -1505,7 +1505,7 @@ bool LLMeshRepoThread::fetchMeshDecomposition(const LLUUID& mesh_id)
 			
 			if (!http_url.empty())
 			{
-                LLMeshHandlerBase::ptr_t handler(new LLMeshDecompositionHandler(mesh_id, offset, size));
+                LLMeshHandlerBase::ptr_t handler = std::make_shared<LLMeshDecompositionHandler>(mesh_id, offset, size);
 				LLCore::HttpHandle handle = getByteRange(http_url, legacy_cap_version, offset, size, handler);
 				if (LLCORE_HTTP_HANDLE_INVALID == handle)
 				{
@@ -1604,7 +1604,7 @@ bool LLMeshRepoThread::fetchMeshPhysicsShape(const LLUUID& mesh_id)
 			
 			if (!http_url.empty())
 			{
-                LLMeshHandlerBase::ptr_t handler(new LLMeshPhysicsShapeHandler(mesh_id, offset, size));
+                LLMeshHandlerBase::ptr_t handler = std::make_shared<LLMeshPhysicsShapeHandler>(mesh_id, offset, size);
 				LLCore::HttpHandle handle = getByteRange(http_url, legacy_cap_version, offset, size, handler);
 				if (LLCORE_HTTP_HANDLE_INVALID == handle)
 				{
@@ -1702,7 +1702,7 @@ bool LLMeshRepoThread::fetchMeshHeader(const LLVolumeParams& mesh_params, bool c
 		//within the first 4KB
 		//NOTE -- this will break of headers ever exceed 4KB		
 
-        LLMeshHandlerBase::ptr_t handler(new LLMeshHeaderHandler(mesh_params, 0, MESH_HEADER_SIZE));
+        LLMeshHandlerBase::ptr_t handler = std::make_shared<LLMeshHeaderHandler>(mesh_params, 0, MESH_HEADER_SIZE);
 		LLCore::HttpHandle handle = getByteRange(http_url, legacy_cap_version, 0, MESH_HEADER_SIZE, handler);
 		if (LLCORE_HTTP_HANDLE_INVALID == handle)
 		{
@@ -1797,7 +1797,7 @@ bool LLMeshRepoThread::fetchMeshLOD(const LLVolumeParams& mesh_params, S32 lod, 
 			
 			if (!http_url.empty())
 			{
-                LLMeshHandlerBase::ptr_t handler(new LLMeshLODHandler(mesh_params, lod, offset, size));
+                LLMeshHandlerBase::ptr_t handler = std::make_shared<LLMeshLODHandler>(mesh_params, lod, offset, size);
 				LLCore::HttpHandle handle = getByteRange(http_url, legacy_cap_version, offset, size, handler);
 				if (LLCORE_HTTP_HANDLE_INVALID == handle)
 				{

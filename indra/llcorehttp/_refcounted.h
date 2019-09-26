@@ -33,7 +33,6 @@
 #include <atomic>
 
 #include "fix_macros.h"
-#include <boost/thread.hpp>
 #include <boost/intrusive_ptr.hpp>
 
 namespace LLCoreInt

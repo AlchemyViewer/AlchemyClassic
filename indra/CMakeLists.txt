@@ -65,9 +65,9 @@ if (LL_TESTS)
   add_subdirectory(${VIEWER_PREFIX}test)
 endif (LL_TESTS)
 
-if (ENABLE_MEDIA_PLUGINS)
 # viewer media plugins
-add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)
+if (ENABLE_MEDIA_PLUGINS)
+  add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)
 endif (ENABLE_MEDIA_PLUGINS)
 
 if (LINUX)
@@ -82,13 +82,13 @@ elseif (WINDOWS)
 endif (LINUX)
 
 add_subdirectory(${VIEWER_PREFIX}newview)
-add_dependencies(viewer alchemy-bin)
+add_dependencies(viewer ${VIEWER_BINARY_NAME})
 
 add_subdirectory(${VIEWER_PREFIX}doxygen EXCLUDE_FROM_ALL)
 
 if (WINDOWS)
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    PROPERTY VS_STARTUP_PROJECT alchemy-bin)
+    PROPERTY VS_STARTUP_PROJECT ${VIEWER_BINARY_NAME})
 endif (WINDOWS)
 
 if (LL_TESTS)

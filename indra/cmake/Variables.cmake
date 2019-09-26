@@ -17,6 +17,8 @@ if(NOT DEFINED COMMON_CMAKE_DIR)
     set(COMMON_CMAKE_DIR "${CMAKE_SOURCE_DIR}/cmake")
 endif(NOT DEFINED COMMON_CMAKE_DIR)
 
+include(Python)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -119,7 +121,7 @@ else (ADDRESS_SIZE EQUAL 32)
   # you're running 32-bit cygwin or 64-bit cygwin! But even 32-bit Python will
   # report a 64-bit processor.
   execute_process(COMMAND
-                  "${PYTHON_EXECUTABLE}" "-c"
+                  "${Python2_EXECUTABLE}" "-c"
                   "import platform; print platform.machine()"
                   OUTPUT_VARIABLE ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
   # We expect values of the form i386, i686, x86_64, AMD64.
@@ -293,6 +295,9 @@ set(VIEWER_CHANNEL "${VIEWER_CHANNEL_BASE} ${VIEWER_CHANNEL_TYPE} ${VIEWER_CHANN
 else()
 set(VIEWER_CHANNEL "${VIEWER_CHANNEL_BASE} ${VIEWER_CHANNEL_TYPE}" CACHE INTERNAL "Viewer Channel Combined Name" FORCE)
 endif()
+
+set(VIEWER_BINARY_NAME "alchemy-bin" CACHE STRING
+    "The name of the viewer executable to create.")
 
 option(ENABLE_SIGNING "Enable signing the viewer" OFF)
 set(SIGNING_IDENTITY "" CACHE STRING "Specifies the signing identity to use, if necessary.")

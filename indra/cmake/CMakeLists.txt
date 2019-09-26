@@ -10,9 +10,9 @@ set(cmake_SOURCE_FILES
     APR.cmake
     Audio.cmake
     Boost.cmake
+    BuildPackagesInfo.cmake
     BuildVersion.cmake
     CEFPlugin.cmake
-    CheckPython.cmake
     CMakeCopyIfDifferent.cmake
     ConfigurePkgConfig.cmake
     CURL.cmake

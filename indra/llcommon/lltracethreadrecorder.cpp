@@ -28,6 +28,7 @@
 #include "lltracethreadrecorder.h"
 #include "llfasttimer.h"
 #include "lltrace.h"
+#include "llstl.h"
 
 namespace LLTrace
 {

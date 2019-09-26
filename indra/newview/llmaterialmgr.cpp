@@ -677,9 +677,9 @@ void LLMaterialMgr::processGetQueue()
 		LLSD postData = LLSD::emptyMap();
 		postData[MATERIALS_CAP_ZIP_FIELD] = materialBinary;
 
-        LLCore::HttpHandler::ptr_t handler(new LLMaterialHttpHandler("POST",
+        LLCore::HttpHandler::ptr_t handler = std::make_shared<LLMaterialHttpHandler>("POST",
 				boost::bind(&LLMaterialMgr::onGetResponse, this, _1, _2, region_id)
-				));
+				);
 
 		LL_DEBUGS("Materials") << "POSTing to region '" << regionp->getName() << "' at '" << capURL << " for " << materialsData.size() << " materials."
 			<< "\ndata: " << ll_pretty_print_sd(materialsData) << LL_ENDL;
@@ -965,9 +965,9 @@ void LLMaterialMgr::processPutQueue()
 
 			LL_DEBUGS("Materials") << "put for " << itRequest->second.size() << " faces to region " << itRequest->first->getName() << LL_ENDL;
 
-			LLCore::HttpHandler::ptr_t handler (new LLMaterialHttpHandler("PUT",
+			LLCore::HttpHandler::ptr_t handler = std::make_shared<LLMaterialHttpHandler>("PUT",
 										boost::bind(&LLMaterialMgr::onPutResponse, this, _1, _2)
-										));
+										);
 
 			LLCore::HttpHandle handle = LLCoreHttpUtil::requestPutWithLLSD(
 				mHttpRequest, mHttpPolicy, mHttpPriority, capURL,

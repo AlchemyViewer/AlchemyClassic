@@ -28,12 +28,11 @@
 #ifndef LL_LLINSTANCETRACKER_H
 #define LL_LLINSTANCETRACKER_H
 
-#include <atomic>
-#include <map>
 #include <typeinfo>
 
 #include "llatomic.h"
-#include "llstringtable.h"
+#include "absl/container/flat_hash_map.h"
+#include "absl/container/flat_hash_set.h"
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 
@@ -111,7 +110,7 @@ template<typename T, typename KEY = void, EInstanceTrackerAllowKeyCollisions KEY
 class LLInstanceTracker : public LLInstanceTrackerBase
 {
 	typedef LLInstanceTracker<T, KEY> self_t;
-	typedef typename std::multimap<KEY, T*> InstanceMap;
+	typedef typename absl::flat_hash_map<KEY, T*> InstanceMap;
 	struct StaticData: public StaticBase
 	{
 		InstanceMap sMap;
@@ -262,9 +261,8 @@ private:
 	{ 
 		mInstanceKey = key; 
 		InstanceMap& map = getMap_();
-		typename InstanceMap::iterator insertion_point_it = map.lower_bound(key);
-		if (insertion_point_it != map.end() 
-			&& insertion_point_it->first == key)
+		typename InstanceMap::iterator insertion_point_it = map.find(key);
+		if (insertion_point_it != map.end())
 		{ // found existing entry with that key
 			switch(KEY_COLLISION_BEHAVIOR)
 			{
@@ -286,7 +284,7 @@ private:
 		}
 		else
 		{ // new key
-			map.insert(insertion_point_it, std::make_pair(key, static_cast<T*>(this)));
+			map.emplace(key, static_cast<T*>(this));
 		}
 	}
 	void remove_()
@@ -309,7 +307,7 @@ template<typename T, EInstanceTrackerAllowKeyCollisions KEY_COLLISION_BEHAVIOR>
 class LLInstanceTracker<T, void, KEY_COLLISION_BEHAVIOR> : public LLInstanceTrackerBase
 {
 	typedef LLInstanceTracker<T, void> self_t;
-	typedef typename std::set<T*> InstanceSet;
+	typedef typename absl::flat_hash_set<T*> InstanceSet;
 	struct StaticData: public StaticBase
 	{
 		InstanceSet sSet;

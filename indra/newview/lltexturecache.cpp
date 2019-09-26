@@ -29,6 +29,8 @@
 #include "lltexturecache.h"
 #include <utility>
 
+#include <boost/exception/diagnostic_information.hpp>
+
 #include "llapr.h"
 #include "lldir.h"
 #include "llimage.h"
@@ -39,6 +41,7 @@
 // Included to allow LLTextureCache::purgeTextures() to pause watchdog timeout
 #include "llappviewer.h" 
 #include "llmemory.h"
+
 
 // Cache organization:
 // cache/texture.entries

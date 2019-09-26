@@ -4,7 +4,6 @@
 project(llcommon LANGUAGES CXX)
 
 include(00-Common)
-include(CXXFeatureDetection)
 include(GeneratePrecompiledHeader)
 include(LLCommon)
 include(LLDarwin)
@@ -158,6 +157,7 @@ set(llcommon_HEADER_FILES
     llcallstack.h
     llcleanup.h
     llcommon.h
+    llcommonprecompiled.h
     llcommonutils.h
     llcoro_get_id.h
     llcoros.h
@@ -284,9 +284,6 @@ if(USE_PRECOMPILED_HEADERS)
 endif(USE_PRECOMPILED_HEADERS)
 
 set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
-
-target_compile_features(llcommon PRIVATE cxx_nullptr cxx_range_for)
-target_compile_features(llcommon PUBLIC cxx_nullptr cxx_static_assert)
 
 target_link_libraries(
     llcommon

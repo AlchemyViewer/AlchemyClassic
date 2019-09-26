@@ -3,6 +3,7 @@
 project(llcorehttp LANGUAGES CXX)
 
 include(00-Common)
+include(Python)
 include(CURL)
 include(OpenSSL)
 include(NGHTTP2)
@@ -149,7 +150,7 @@ if (LL_TESTS)
                           "${llcorehttp_TEST_SOURCE_FILES}"
                           "${test_libs}"
                           "-Dhttp_proxy"
-                          ${PYTHON_EXECUTABLE}
+                          ${Python2_EXECUTABLE}
                           "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_llcorehttp_peer.py"
                           )
 

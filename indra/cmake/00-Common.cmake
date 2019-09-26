@@ -17,7 +17,6 @@ if(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)
 set(${CMAKE_CURRENT_LIST_FILE}_INCLUDED "YES")
 
 include(CheckCCompilerFlag)
-include(CheckPython)
 include(Variables)
 
 # Portable compilation flags.
@@ -110,9 +109,25 @@ if (WINDOWS)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Dynamic library link options" FORCE)
   set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Static library link options" FORCE)
 
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "C++ compiler debug options" FORCE)
-  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}" CACHE STRING "C++ compiler release-with-debug options" FORCE)
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "C++ compiler release options" FORCE)
+  set(GLOBAL_CXX_FLAGS 
+      "/GS /TP /W4 /c /Zc:__cplusplus /Zc:externConstexpr /Zc:forScope /Zc:referenceBinding /Zc:rvalueCast /Zc:strictStrings /Zc:ternary /Zc:throwingNew /Zc:wchar_t /nologo /diagnostics:caret"
+      )
+
+  if(FAVOR_AMD AND FAVOR_INTEL)
+      message(FATAL_ERROR "Cannot enable FAVOR_AMD and FAVOR_INTEL at the same time")
+  elseif(FAVOR_AMD)
+      set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /favor:AMD64")
+  elseif(FAVOR_INTEL)
+      set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /favor:INTEL64")
+  endif()
+
+  if (NOT VS_DISABLE_FATAL_WARNINGS)
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /WX")
+  endif (NOT VS_DISABLE_FATAL_WARNINGS)
+
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${GLOBAL_CXX_FLAGS}" CACHE STRING "C++ compiler debug options" FORCE)
+  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} ${GLOBAL_CXX_FLAGS}" CACHE STRING "C++ compiler release-with-debug options" FORCE)
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${GLOBAL_CXX_FLAGS}" CACHE STRING "C++ compiler release options" FORCE)
 
   set(CMAKE_CXX_STANDARD_LIBRARIES "")
   set(CMAKE_C_STANDARD_LIBRARIES "")
@@ -128,38 +143,6 @@ if (WINDOWS)
       /D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING
       /DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
       )
-
-  add_compile_options(
-      /GS
-      /TP
-      /W4
-      /c
-      /Zc:__cplusplus
-      /Zc:externConstexpr
-      /Zc:forScope
-      /Zc:referenceBinding
-      /Zc:rvalueCast
-      /Zc:strictStrings
-      /Zc:ternary
-      /Zc:throwingNew
-      /Zc:wchar_t
-      /nologo
-      /diagnostics:caret
-      )
-
-
-
-  if(FAVOR_AMD AND FAVOR_INTEL)
-    message(FATAL_ERROR "Cannot enable FAVOR_AMD and FAVOR_INTEL at the same time")
-  elseif(FAVOR_AMD)
-    add_compile_options(/favor:AMD64)
-  elseif(FAVOR_INTEL)
-    add_compile_options(/favor:INTEL64)
-  endif()
-
-  if (NOT VS_DISABLE_FATAL_WARNINGS)
-    add_compile_options(/WX)
-  endif (NOT VS_DISABLE_FATAL_WARNINGS)
 
   # configure win32 API for 7 and above compatibility
   set(WINVER "0x0601" CACHE STRING "Win32 API Target version (see http://msdn.microsoft.com/en-us/library/aa383745%28v=VS.85%29.aspx)")

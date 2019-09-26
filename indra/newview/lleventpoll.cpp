@@ -148,7 +148,7 @@ namespace Details
 
     void LLEventPollImpl::eventPollCoro(std::string url)
     {
-        LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("EventPoller", mHttpPolicy));
+		auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("EventPoller", mHttpPolicy);
         LLSD acknowledge;
         int errorCount = 0;
         int counter = mCounter; // saved on the stack for logging. 

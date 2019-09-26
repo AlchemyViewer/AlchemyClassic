@@ -63,7 +63,7 @@ HttpRequest::HttpRequest()
 	mRequestQueue = HttpRequestQueue::instanceOf();
 	mRequestQueue->addRef();
 
-	mReplyQueue.reset( new HttpReplyQueue() );
+	mReplyQueue = std::make_shared<HttpReplyQueue>();
 
     HTTPStats::instance().recordHTTPRequest();
 }
@@ -132,7 +132,7 @@ HttpHandle HttpRequest::setPolicyOption(EPolicyOption opt, policy_t pclass,
 {
 	HttpStatus status;
 
-    HttpOpSetGet::ptr_t op(new HttpOpSetGet());
+	auto op = std::make_shared<HttpOpSetGet>();
 	if (! (status = op->setupSet(opt, pclass, value)))
 	{
 		mLastReqStatus = status;
@@ -155,7 +155,7 @@ HttpHandle HttpRequest::setPolicyOption(EPolicyOption opt, policy_t pclass,
 {
 	HttpStatus status;
 
-	HttpOpSetGet::ptr_t op (new HttpOpSetGet());
+	auto op = std::make_shared<HttpOpSetGet>();
 	if (! (status = op->setupSet(opt, pclass, value)))
 	{
 		mLastReqStatus = status;
@@ -193,7 +193,7 @@ HttpHandle HttpRequest::requestGet(policy_t policy_id,
 {
 	HttpStatus status;
 
-	HttpOpRequest::ptr_t op(new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
 	if (! (status = op->setupGet(policy_id, priority, url, options, headers)))
 	{
 		mLastReqStatus = status;
@@ -222,7 +222,7 @@ HttpHandle HttpRequest::requestGetByteRange(policy_t policy_id,
 {
 	HttpStatus status;
 
-	HttpOpRequest::ptr_t op(new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
 	if (! (status = op->setupGetByteRange(policy_id, priority, url, offset, len, options, headers)))
 	{
 		mLastReqStatus = status;
@@ -250,7 +250,7 @@ HttpHandle HttpRequest::requestPost(policy_t policy_id,
 {
 	HttpStatus status;
 
-	HttpOpRequest::ptr_t op(new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
 	if (! (status = op->setupPost(policy_id, priority, url, body, options, headers)))
 	{
 		mLastReqStatus = status;
@@ -278,7 +278,7 @@ HttpHandle HttpRequest::requestPut(policy_t policy_id,
 {
 	HttpStatus status;
 
-	HttpOpRequest::ptr_t op (new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
 	if (! (status = op->setupPut(policy_id, priority, url, body, options, headers)))
 	{
 		mLastReqStatus = status;
@@ -304,7 +304,7 @@ HttpHandle HttpRequest::requestDelete(policy_t policy_id,
 {
     HttpStatus status;
 
-    HttpOpRequest::ptr_t op(new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
     if (!(status = op->setupDelete(policy_id, priority, url, options, headers)))
     {
         mLastReqStatus = status;
@@ -331,7 +331,7 @@ HttpHandle HttpRequest::requestPatch(policy_t policy_id,
 {
     HttpStatus status;
 
-    HttpOpRequest::ptr_t op (new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
     if (!(status = op->setupPatch(policy_id, priority, url, body, options, headers)))
     {
         mLastReqStatus = status;
@@ -357,7 +357,7 @@ HttpHandle HttpRequest::requestCopy(policy_t policy_id,
 {
     HttpStatus status;
 
-    HttpOpRequest::ptr_t op(new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
     if (!(status = op->setupCopy(policy_id, priority, url, options, headers)))
     {
         mLastReqStatus = status;
@@ -384,7 +384,7 @@ HttpHandle HttpRequest::requestMove(policy_t policy_id,
 {
     HttpStatus status;
 
-    HttpOpRequest::ptr_t op (new HttpOpRequest());
+	auto op = std::make_shared<HttpOpRequest>();
     if (!(status = op->setupMove(policy_id, priority, url, options, headers)))
     {
         mLastReqStatus = status;
@@ -406,7 +406,7 @@ HttpHandle HttpRequest::requestNoOp(HttpHandler::ptr_t user_handler)
 {
 	HttpStatus status;
 
-	HttpOperation::ptr_t op (new HttpOpNull());
+	auto op = std::make_shared<HttpOpNull>();
 	op->setReplyPath(mReplyQueue, user_handler);
 	if (! (status = mRequestQueue->addOp(op)))			// transfers refcount
 	{
@@ -472,7 +472,7 @@ HttpHandle HttpRequest::requestCancel(HttpHandle request, HttpHandler::ptr_t use
 {
 	HttpStatus status;
 
-	HttpOperation::ptr_t op(new HttpOpCancel(request));
+	auto op = std::make_shared<HttpOpCancel>(request);
 	op->setReplyPath(mReplyQueue, user_handler);
 	if (! (status = mRequestQueue->addOp(op, NO_LOG)))			// transfers refcount
 	{
@@ -490,7 +490,7 @@ HttpHandle HttpRequest::requestSetPriority(HttpHandle request, priority_t priori
 {
 	HttpStatus status;
 
-	HttpOperation::ptr_t op (new HttpOpSetPriority(request, priority));
+	auto op = std::make_shared<HttpOpSetPriority>(request, priority);
 	op->setReplyPath(mReplyQueue, handler);
 	if (! (status = mRequestQueue->addOp(op)))			// transfers refcount
 	{
@@ -553,7 +553,7 @@ HttpHandle HttpRequest::requestStopThread(HttpHandler::ptr_t user_handler)
 	HttpStatus status;
 	HttpHandle handle(LLCORE_HTTP_HANDLE_INVALID);
 
-	HttpOperation::ptr_t op(new HttpOpStop());
+	auto op = std::make_shared<HttpOpStop>();
 	op->setReplyPath(mReplyQueue, user_handler);
 	if (! (status = mRequestQueue->addOp(op, NO_LOG)))			// transfers refcount
 	{
@@ -573,7 +573,7 @@ HttpHandle HttpRequest::requestSpin(int mode)
 	HttpStatus status;
 	HttpHandle handle(LLCORE_HTTP_HANDLE_INVALID);
 
-	HttpOperation::ptr_t op(new HttpOpSpin(mode));
+	auto op = std::make_shared<HttpOpSpin>(mode);
     op->setReplyPath(mReplyQueue, HttpHandler::ptr_t());
 	if (! (status = mRequestQueue->addOp(op, NO_LOG)))			// transfers refcount
 	{

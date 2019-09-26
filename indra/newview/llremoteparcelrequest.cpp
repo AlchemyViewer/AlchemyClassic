@@ -183,9 +183,8 @@ void LLRemoteParcelInfoProcessor::regionParcelInfoCoro(std::string url,
     LLHandle<LLRemoteParcelInfoObserver> observerHandle)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("RemoteParcelRequest", httpPolicy));
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("RemoteParcelRequest", httpPolicy);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
     LLSD bodyData;
 

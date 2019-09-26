@@ -404,9 +404,9 @@ std::string LLCrashLogger::loadCrashURLSetting()
 
 bool LLCrashLogger::runCrashLogPost(std::string host, LLSD data, std::string msg, int retries, int timeout)
 {
-    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
-    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+    auto httpRequest = std::make_shared<LLCore::HttpRequest>();
+    auto httpOpts = std::make_shared<LLCore::HttpOptions>();
+    auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
 
     httpOpts->setTimeout(timeout);
     httpOpts->setSSLVerifyHost(true);

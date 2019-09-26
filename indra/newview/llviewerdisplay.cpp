@@ -1148,7 +1148,7 @@ void render_hud_attachments()
 		LLSpatialGroup::sNoDelete = TRUE;
 
 		LLViewerCamera::sCurCameraID = LLViewerCamera::CAMERA_WORLD;
-		gPipeline.updateCull(hud_cam, result);
+		gPipeline.updateCull(hud_cam, result, 0, NULL, true);
 
 		gPipeline.toggleRenderType(LLPipeline::RENDER_TYPE_BUMP);
 		gPipeline.toggleRenderType(LLPipeline::RENDER_TYPE_SIMPLE);

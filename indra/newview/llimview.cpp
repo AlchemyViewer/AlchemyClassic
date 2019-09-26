@@ -403,9 +403,8 @@ void startConfrenceCoro(std::string url,
                         LLUUID tempSessionId, LLUUID creatorId, LLUUID otherParticipantId, LLSD agents)
 {
 	LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-	LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-		httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("TwitterConnect", httpPolicy));
-	LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("startConfrenceCoro", httpPolicy);
+	auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
 	LLSD postData;
 	postData["method"] = "start conference";
@@ -443,9 +442,8 @@ void startConfrenceCoro(std::string url,
 void chatterBoxInvitationCoro(std::string url, LLUUID sessionId, LLIMMgr::EInvitationType invitationType)
 {
 	LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-	LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
-		httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("TwitterConnect", httpPolicy));
-	LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("chatterBoxInvitationCoro", httpPolicy);
+	auto httpRequest = std::make_shared<LLCore::HttpRequest>();
 
 	LLSD postData;
 	postData["method"] = "accept invitation";

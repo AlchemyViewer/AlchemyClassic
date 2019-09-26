@@ -7216,6 +7216,7 @@ void LLVOAvatar::lazyAttach()
 	
 	for (auto cur_attachment : mPendingAttachment)
     {
+        if (cur_attachment.isNull()) { continue; }
         if (cur_attachment->mDrawable)
 		{
 			if (isSelf())

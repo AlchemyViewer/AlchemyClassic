@@ -1759,7 +1759,7 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 
 			media_source->setTarget(target);
 
-			const std::string const& plugin_dir = gDirUtilp->getLLPluginDir();
+			const std::string& plugin_dir = gDirUtilp->getLLPluginDir();
 			if (media_source->init(launcher_name, plugin_dir, plugin_name, gSavedSettings.getBOOL("PluginAttachDebuggerToPlugins")))
 			{
 				return media_source;

@@ -1,3 +1,3 @@
 # -*- cmake -*-
 
-find_package(Python2 REQUIRED COMPONENTS Interpreter)
+find_package(Python2 2.7 REQUIRED COMPONENTS Interpreter)

@@ -3243,7 +3243,7 @@ void LLAppearanceMgr::divvyWearablesByType(const LLInventoryModel::item_array_t&
 			LL_WARNS("Appearance") << "Invalid wearable type. Inventory type does not match wearable flag bitfield." << LL_ENDL;
 			continue;
 		}
-		items_by_type[type].push_back(item);
+		items_by_type[type].emplace_back(item);
 	}
 }
 

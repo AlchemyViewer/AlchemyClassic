@@ -1094,7 +1094,7 @@ void LLMotionController::flushAllMotions()
 	for(auto motionp : mActiveMotions)
 	{
 		F32 dtime = mAnimTime - motionp->mActivationTimestamp;
-		active_motions.push_back(std::make_pair(motionp->getID(),dtime));
+		active_motions.emplace_back(motionp->getID(), dtime);
 		motionp->deactivate(); // don't call deactivateMotionInstance() because we are going to reactivate it
 	}
  	mActiveMotions.clear();

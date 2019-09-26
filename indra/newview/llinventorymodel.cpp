@@ -3243,7 +3243,7 @@ void LLInventoryModel::processBulkUpdateInventory(LLMessageSystem* msg, void**)
 		if(titem->getUUID().notNull() ) // && callback_id.notNull() )
 		{
 			items.push_back(titem);
-			cblist.push_back(InventoryCallbackInfo(callback_id, titem->getUUID()));
+			cblist.emplace_back(callback_id, titem->getUUID());
 			if (titem->getInventoryType() == LLInventoryType::IT_WEARABLE)
 			{
 				wearable_ids.push_back(titem->getUUID());
@@ -3273,7 +3273,7 @@ void LLInventoryModel::processBulkUpdateInventory(LLMessageSystem* msg, void**)
 		}
 		else
 		{
-			cblist.push_back(InventoryCallbackInfo(callback_id, LLUUID::null));
+			cblist.emplace_back(callback_id, LLUUID::null);
 		}
 	}
 	gInventory.accountForUpdate(update);

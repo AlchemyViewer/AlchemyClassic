@@ -6239,12 +6239,12 @@ void LLSelectNode::saveShinyColors()
 	if (mObject.notNull())
 	{
 		mSavedShinyColors.clear();
-		for (S32 i = 0; i < mObject->getNumTEs(); i++)
+		for (auto i = 0; i < mObject->getNumTEs(); ++i)
 		{
 			const LLMaterialPtr mat = mObject->getTE(i)->getMaterialParams();
 			if (!mat.isNull())
 			{
-				mSavedShinyColors.push_back(LLColor4(mat->getSpecularLightColor()));
+				mSavedShinyColors.emplace_back(mat->getSpecularLightColor());
 			}
 			else
 			{

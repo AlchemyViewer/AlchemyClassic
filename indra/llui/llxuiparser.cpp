@@ -1468,7 +1468,7 @@ void LLSimpleXUIParser::startElement(const char *name, const char **atts)
 		LLInitParam::BaseBlock* blockp = mElementCB(*this, name);
 		if (blockp)
 		{
-			mOutputStack.push_back(std::make_pair(blockp, 0));
+			mOutputStack.emplace_back(blockp, 0);
 		}
 	}
 

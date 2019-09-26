@@ -433,7 +433,7 @@ LLPanelOutfitEdit::LLPanelOutfitEdit()
 	mFolderViewItemTypes.reserve(NUM_FOLDER_VIEW_ITEM_TYPES);
 	for (U32 i = 0; i < NUM_FOLDER_VIEW_ITEM_TYPES; i++)
 	{
-		mFolderViewItemTypes.push_back(LLLookItemType());
+		mFolderViewItemTypes.emplace_back(LLLookItemType());
 	}
 
 }

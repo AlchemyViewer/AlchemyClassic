@@ -214,16 +214,14 @@ void LLConsole::draw()
 		{
 			for (auto& line : (*paragraph_it).mLines)
             {
-				for (auto seg_it = line.mLineColorSegments.begin();
-						seg_it != line.mLineColorSegments.end();
-						++seg_it)
-				{
-					mFont->render((*seg_it).mText, 0, (*seg_it).mXPosition - 8, y_pos -  y_off,
+				for (auto& color_segment : line.mLineColorSegments)
+                {
+					mFont->render(color_segment.mText, 0, color_segment.mXPosition - 8, y_pos -  y_off,
 						LLColor4(
-							(*seg_it).mColor.mV[VRED], 
-							(*seg_it).mColor.mV[VGREEN], 
-							(*seg_it).mColor.mV[VBLUE], 
-							(*seg_it).mColor.mV[VALPHA]*alpha),
+                            color_segment.mColor.mV[VRED],
+                            color_segment.mColor.mV[VGREEN],
+                            color_segment.mColor.mV[VBLUE],
+                            color_segment.mColor.mV[VALPHA]*alpha),
 						LLFontGL::LEFT, 
 						LLFontGL::BASELINE,
 						LLFontGL::NORMAL,

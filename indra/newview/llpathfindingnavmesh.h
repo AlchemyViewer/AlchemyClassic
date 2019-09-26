@@ -54,9 +54,9 @@ public:
 	typedef boost::signals2::connection                                                                                     navmesh_slot_t;
 
 	LLPathfindingNavMesh(const LLUUID &pRegionUUID);
-	virtual ~LLPathfindingNavMesh();
+	virtual ~LLPathfindingNavMesh() = default;
 
-	navmesh_slot_t registerNavMeshListener(navmesh_callback_t pNavMeshCallback);
+	navmesh_slot_t registerNavMeshListener(navmesh_callback_t const& pNavMeshCallback);
 
 	bool hasNavMeshVersion(const LLPathfindingNavMeshStatus &pNavMeshStatus) const;
 

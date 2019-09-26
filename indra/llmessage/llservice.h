@@ -120,7 +120,7 @@ public:
 	 * @param aParameter A brief description of aParameter.
 	 * @return Returns true if a service was successfully registered.
 	 */
-	static bool registerCreator(const std::string& name, creator_t fn);
+	static bool registerCreator(const std::string& name, const creator_t& fn);
 
 	/** 
 	 * @brief This method connects to a service by name.
@@ -154,8 +154,8 @@ protected:
 	// deal with construction and not a public method. How that
 	// construction takes place will be handled by the service
 	// creators.
-	LLService();
-	virtual ~LLService();
+	LLService() = default;
+	virtual ~LLService() = default;
 
 protected:
 	// This frame timer records how long this service has

@@ -130,6 +130,7 @@ protected:
  *    <name>foo</name><value><string>bar</string></value></member>
  *    </struct></value></param>
  *  </params></methodCall>
+ * </code>
  *
  * This class will accept 2 different kinds of encodings. The first
  * just an array of params as long as you specify the method in the

@@ -35,7 +35,8 @@
 static LLLayoutPanel* sToolbarPanel = nullptr;
 
 LLDockControl::LLDockControl(LLView* dockWidget, LLFloater* dockableFloater,
-                             LLUIImagePtr dockTongue, DocAt dockAt, get_allowed_rect_callback_t get_allowed_rect_callback) :
+                             LLUIImagePtr dockTongue, DocAt dockAt, 
+                             get_allowed_rect_callback_t const& get_allowed_rect_callback) :
 		mDockableFloater(dockableFloater),
 		mDockTongue(std::move(dockTongue)),
 		mDockTongueX(0),

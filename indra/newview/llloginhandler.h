@@ -39,7 +39,7 @@ class LLLoginHandler : public LLCommandHandler
 
 	// Fill in our internal fields from a SLURL like
 	// secondlife:///app/login?first=Bob&last=Dobbs
-	bool parseDirectLogin(std::string url);
+	bool parseDirectLogin(std::string const& url);
 
 	// Web-based login unsupported
 	//LLUUID getWebLoginKey() const { return mWebLoginKey; }

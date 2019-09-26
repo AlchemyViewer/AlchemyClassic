@@ -3294,11 +3294,9 @@ void LLTextureFetch::sendRequestListToSimulators()
 
 		S32 sim_request_count = 0;
 		
-		for (request_list_t::iterator iter2 = request.second.begin();
-			 iter2 != request.second.end(); ++iter2)
-		{
-			LLTextureFetchWorker* req = *iter2;
-			if (gMessageSystem)
+		for (auto req : request.second)
+        {
+            if (gMessageSystem)
 			{
 				if (req->mSentRequest != LLTextureFetchWorker::SENT_SIM)
 				{
@@ -3371,9 +3369,8 @@ void LLTextureFetch::sendRequestListToSimulators()
 					host = gAgent.getRegionHost();
 				}
 				S32 request_count = 0;
-				for (queue_t::iterator iter2 = iter1.second.begin();
-					 iter2 != iter1.second.end(); ++iter2)
-				{
+				for (auto iter2 : iter1.second)
+                {
 					if (0 == request_count)
 					{
 						gMessageSystem->newMessageFast(_PREHASH_RequestImage);
@@ -3382,7 +3379,7 @@ void LLTextureFetch::sendRequestListToSimulators()
 						gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
 					}
 					gMessageSystem->nextBlockFast(_PREHASH_RequestImage);
-					gMessageSystem->addUUIDFast(_PREHASH_Image, *iter2);
+					gMessageSystem->addUUIDFast(_PREHASH_Image, iter2);
 					gMessageSystem->addS8Fast(_PREHASH_DiscardLevel, -1);
 					gMessageSystem->addF32Fast(_PREHASH_DownloadPriority, 0);
 					gMessageSystem->addU32Fast(_PREHASH_Packet, 0);

@@ -44,18 +44,12 @@
 
 LLPathfindingNavMesh::LLPathfindingNavMesh(const LLUUID &pRegionUUID)
 	: mNavMeshStatus(pRegionUUID),
-	mNavMeshRequestStatus(kNavMeshRequestUnknown),
-	mNavMeshSignal(),
-	mNavMeshData()
+	mNavMeshRequestStatus(kNavMeshRequestUnknown)
 
 {
 }
 
-LLPathfindingNavMesh::~LLPathfindingNavMesh()
-{
-}
-
-LLPathfindingNavMesh::navmesh_slot_t LLPathfindingNavMesh::registerNavMeshListener(navmesh_callback_t pNavMeshCallback)
+LLPathfindingNavMesh::navmesh_slot_t LLPathfindingNavMesh::registerNavMeshListener(navmesh_callback_t const& pNavMeshCallback)
 {
 	return mNavMeshSignal.connect(pNavMeshCallback);
 }

@@ -395,16 +395,16 @@ LLQuaternion LLSkinningUtil::getUnscaledQuaternion(const LLMatrix4a& mat4)
     for (auto& i : bind_mat.mMatrix)
     {
         F32 len = 0.0f;
-        for (auto j = 0; j < 3; j++)
+        for (auto j : i)
         {
-            len += i[j] * i[j];
+            len += j * j;
         }
         if (len > 0.0f)
         {
             len = sqrt(len);
-            for (auto j = 0; j < 3; j++)
+            for (auto& j : i)
             {
-                i[j] /= len;
+                j /= len;
             }
         }
     }

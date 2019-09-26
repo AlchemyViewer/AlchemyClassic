@@ -50,7 +50,7 @@ LLLoginHandler gLoginHandler;
 
 //parses the input url and returns true if afterwards
 //a web-login-key, firstname and lastname  is set
-bool LLLoginHandler::parseDirectLogin(std::string url)
+bool LLLoginHandler::parseDirectLogin(std::string const& url)
 {
 	LLURI uri(url);
 	parse(uri.queryMap());

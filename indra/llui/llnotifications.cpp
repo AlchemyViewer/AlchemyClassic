@@ -1145,7 +1145,7 @@ LLNotificationChannel::LLNotificationChannel(const Params& p)
 	LLInstanceTracker<LLNotificationChannel, std::string>(p.name.isProvided() ? p.name : LLUUID::generateNewID().asString()),
 	mName(p.name.isProvided() ? p.name : LLUUID::generateNewID().asString())
 {
-	for (const std::string& source : p.sources)
+	for (const auto& source : p.sources)
     {
 		connectToChannel(source);
 	}

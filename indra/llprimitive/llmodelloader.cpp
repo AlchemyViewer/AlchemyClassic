@@ -467,12 +467,11 @@ void LLModelLoader::loadTextures()
 
 	for (auto& iter : mScene)
     {
-		for(U32 i = 0 ; i < iter.second.size(); i++)
-		{
-			for(std::map<std::string, LLImportMaterial>::iterator j = iter.second[i].mMaterial.begin();
-				j != iter.second[i].mMaterial.end(); ++j)
-			{
-				LLImportMaterial& material = j->second;
+		for (auto& i : iter.second)
+        {
+			for (auto& j : i.mMaterial)
+            {
+				LLImportMaterial& material = j.second;
 
 				if(!material.mDiffuseMapFilename.empty())
 				{

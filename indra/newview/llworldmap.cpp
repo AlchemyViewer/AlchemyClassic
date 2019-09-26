@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llworldmap.h"
+#include <utility>
 
 #include "llworldmapmessage.h"
 #include "message.h"
@@ -45,9 +46,9 @@ const F32 REQUEST_ITEMS_TIMER = 10.f * 60.f;	// Seconds before we consider re-re
 //---------------------------------------------------------------------------
 
 LLItemInfo::LLItemInfo(F32 global_x, F32 global_y,
-					   const std::string& name, 
+                       std::string name, 
 					   LLUUID id)
-:	mName(name),
+:	mName(std::move(name)),
 	mToolTip(""),
 	mPosGlobal(global_x, global_y, 40.0),
 	mID(id),

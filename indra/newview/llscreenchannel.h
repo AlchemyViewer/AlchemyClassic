@@ -27,6 +27,7 @@
 #ifndef LL_LLSCREENCHANNEL_H
 #define LL_LLSCREENCHANNEL_H
 
+#include <utility>
 #include "lltoast.h"
 
 namespace LLNotificationsUI
@@ -233,7 +234,7 @@ private:
 	class ToastElem
 	{
 	public:
-		ToastElem(const LLHandle<LLToast>& toast) : mToast(toast)
+		ToastElem(LLHandle<LLToast> toast) : mToast(std::move(toast))
 		{
 		}
 

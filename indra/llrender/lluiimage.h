@@ -48,7 +48,7 @@ public:
 
 	typedef boost::signals2::signal<void (void)> image_loaded_signal_t;
 
-	LLUIImage(const std::string& name, LLPointer<LLTexture> image);
+	LLUIImage(std::string name, LLPointer<LLTexture> image);
 	virtual ~LLUIImage();
 
 	void setClipRegion(const LLRectf& region);

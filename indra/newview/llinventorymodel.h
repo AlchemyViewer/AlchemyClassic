@@ -85,7 +85,7 @@ public:
 	public:
 		LOG_CLASS(FetchItemHttpHandler);
 
-		FetchItemHttpHandler(const LLSD & request_sd);
+		FetchItemHttpHandler(LLSD request_sd);
 		virtual ~FetchItemHttpHandler();
 
 		FetchItemHttpHandler(const FetchItemHttpHandler &) = delete;				// Not defined

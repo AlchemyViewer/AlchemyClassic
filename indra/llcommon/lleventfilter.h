@@ -60,9 +60,9 @@ class LLEventMatching: public LLEventFilter
 {
 public:
     /// Pass an LLSD map with keys and values the incoming event must match
-    LLEventMatching(const LLSD& pattern);
+    LLEventMatching(LLSD pattern);
     /// instantiate and connect
-    LLEventMatching(LLEventPump& source, const LLSD& pattern);
+    LLEventMatching(LLEventPump& source, LLSD pattern);
 
     /// Only pass through events matching the pattern
 	bool post(const LLSD& event) override;

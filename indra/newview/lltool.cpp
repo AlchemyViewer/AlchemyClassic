@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lltool.h"
+#include <utility>
 
 #include "indra_constants.h"
 #include "llerror.h"
@@ -45,9 +46,9 @@ extern BOOL gDebugClicks;
 //static
 const std::string LLTool::sNameNull("null");
 
-LLTool::LLTool( const std::string& name, LLToolComposite* composite ) :
+LLTool::LLTool(std::string name, LLToolComposite* composite ) :
 	mComposite( composite ),
-	mName(name)
+	mName(std::move(name))
 {
 }
 

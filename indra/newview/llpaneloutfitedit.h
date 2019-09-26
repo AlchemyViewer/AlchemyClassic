@@ -27,6 +27,7 @@
 #ifndef LL_LLPANELOUTFITEDIT_H
 #define LL_LLPANELOUTFITEDIT_H
 
+#include <utility>
 #include "llpanel.h"
 
 #include "v3dmath.h"
@@ -107,14 +108,14 @@ public:
 		std::string displayName;
 		U64 inventoryMask;
 		LLLookItemType() : displayName("NONE"), inventoryMask(0) {}
-		LLLookItemType(std::string name, U64 mask) : displayName(name), inventoryMask(mask) {}
+		LLLookItemType(std::string name, U64 mask) : displayName(std::move(name)), inventoryMask(mask) {}
 	};
 
 	struct LLFilterItem {
 		std::string displayName;
 		LLInventoryCollectFunctor* collector;
 		LLFilterItem() : displayName("NONE"), collector(nullptr) {}
-		LLFilterItem(std::string name, LLInventoryCollectFunctor* _collector) : displayName(name), collector(_collector) {}
+		LLFilterItem(std::string name, LLInventoryCollectFunctor* _collector) : displayName(std::move(name)), collector(_collector) {}
 		~LLFilterItem() { delete collector; }
 
 	//the struct is not supposed to by copied, either way the destructor kills collector

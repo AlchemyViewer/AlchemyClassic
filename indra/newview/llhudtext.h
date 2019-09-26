@@ -36,6 +36,7 @@
 #include "llrect.h"
 #include "llfontgl.h"
 #include <set>
+#include <utility>
 
 // Renders a 2D text billboard floating at the location specified.
 class LLDrawable;
@@ -52,11 +53,11 @@ protected:
 	class LLHUDTextSegment
 	{
 	public:
-		LLHUDTextSegment(const LLWString& text, const LLFontGL::StyleFlags style, const LLColor4& color, const LLFontGL* font)
+		LLHUDTextSegment(LLWString text, const LLFontGL::StyleFlags style, const LLColor4& color, const LLFontGL* font)
 		:	mColor(color),
 			mStyle(style),
 			mFont(font),
-			mText(text)
+			mText(std::move(text))
 		{}
 		F32 getWidth(const LLFontGL* font);
 		const LLWString& getText() const { return mText; }

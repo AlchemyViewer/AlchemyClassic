@@ -26,6 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llattachmentsmgr.h"
+#include <utility>
 
 #include "llvoavatarself.h"
 #include "llagent.h"
@@ -269,9 +270,9 @@ void LLAttachmentsMgr::linkRecentlyArrivedAttachments()
     }
 }
 
-LLAttachmentsMgr::LLItemRequestTimes::LLItemRequestTimes(const std::string& op_name, F32 timeout):
+LLAttachmentsMgr::LLItemRequestTimes::LLItemRequestTimes(std::string op_name, F32 timeout):
     mTimeout(timeout),
-    mOpName(op_name)
+    mOpName(std::move(op_name))
 {
 }
 

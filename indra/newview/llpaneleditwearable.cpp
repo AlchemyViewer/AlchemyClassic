@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpaneleditwearable.h"
+
 #include "llpanel.h"
 #include "llviewerwearable.h"
 #include "lluictrl.h"
@@ -52,7 +53,6 @@
 #include "llcolorswatch.h"
 #include "llfilepicker.h"
 #include "lltexturectrl.h"
-#include "lltextureentry.h"
 #include "llviewercontrol.h"    // gSavedSettings
 #include "llviewerregion.h"
 #include "llviewertexturelist.h"
@@ -60,8 +60,8 @@
 #include "llmorphview.h"
 
 #include "llcommandhandler.h"
-#include "lltextutil.h"
 #include "llappearancemgr.h"
+#include <utility>
 
 // register panel with appropriate XML
 static LLPanelInjector<LLPanelEditWearable> t_edit_wearable("panel_edit_wearable");
@@ -130,10 +130,10 @@ public:
         {
                 WearableEntry(LLWearableType::EType type,
                                           const std::string &title,
-                                          const std::string &desc_title,
-                                          const texture_vec_t& color_swatches,  // 'color_swatches'
-                                          const texture_vec_t& texture_pickers, // 'texture_pickers'
-                                          const subpart_vec_t& subparts); // subparts
+                                          std::string desc_title,
+                                          texture_vec_t color_swatches,  // 'color_swatches'
+                                          texture_vec_t texture_pickers, // 'texture_pickers'
+                                          subpart_vec_t subparts); // subparts
 
 
                 const LLWearableType::EType mWearableType;
@@ -158,10 +158,10 @@ public:
         struct SubpartEntry final : public LLDictionaryEntry
         {
                 SubpartEntry(ESubpart part,
-                                         const std::string &joint,
+                             std::string joint,
                                          const std::string &edit_group,
-                                         const std::string &param_list,
-                                         const std::string &accordion_tab,
+                             std::string param_list,
+                             std::string accordion_tab,
                                          const LLVector3d  &target_offset,
                                          const LLVector3d  &camera_offset,
                                          const ESex        &sex);
@@ -249,17 +249,17 @@ LLEditWearableDictionary::Wearables::Wearables()
 
 LLEditWearableDictionary::WearableEntry::WearableEntry(LLWearableType::EType type,
                                           const std::string &title,
-                                          const std::string &desc_title,
-                                          const texture_vec_t& color_swatches,
-                                          const texture_vec_t& texture_pickers,
-                                          const subpart_vec_t& subparts) :
+                                          std::string desc_title,
+                                          texture_vec_t color_swatches,
+                                          texture_vec_t texture_pickers,
+                                          subpart_vec_t subparts) :
         LLDictionaryEntry(title),
         mWearableType(type),
         mTitle(title),
-        mDescTitle(desc_title),
-        mSubparts(subparts),
-        mColorSwatchCtrls(color_swatches),
-        mTextureCtrls(texture_pickers)
+        mDescTitle(std::move(desc_title)),
+        mSubparts(std::move(subparts)),
+        mColorSwatchCtrls(std::move(color_swatches)),
+        mTextureCtrls(std::move(texture_pickers))
 {}
 
 LLEditWearableDictionary::Subparts::Subparts()
@@ -309,19 +309,19 @@ LLEditWearableDictionary::Subparts::Subparts()
 }
 
 LLEditWearableDictionary::SubpartEntry::SubpartEntry(ESubpart part,
-                                         const std::string &joint,
+                                                     std::string joint,
                                          const std::string &edit_group,
-                                         const std::string &param_list,
-                                         const std::string &accordion_tab,
+                                                     std::string param_list,
+                                                     std::string accordion_tab,
                                          const LLVector3d  &target_offset,
                                          const LLVector3d  &camera_offset,
                                          const ESex        &sex) :
         LLDictionaryEntry(edit_group),
         mSubpart(part),
-        mTargetJoint(joint),
+        mTargetJoint(std::move(joint)),
         mEditGroup(edit_group),
-        mParamList(param_list),
-        mAccordionTab(accordion_tab),
+        mParamList(std::move(param_list)),
+        mAccordionTab(std::move(accordion_tab)),
         mTargetOffset(target_offset),
         mCameraOffset(camera_offset),
         mSex(sex)

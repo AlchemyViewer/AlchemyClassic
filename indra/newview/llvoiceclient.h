@@ -28,6 +28,7 @@
 
 class LLVOAvatar;
 
+#include <utility>
 #include "lliopipe.h"
 #include "llpumpio.h"
 #include "llchainio.h"
@@ -46,9 +47,9 @@ class LLVoiceDevice
     std::string display_name; // friendly value for the user
     std::string full_name;  // internal value for selection
 
-    LLVoiceDevice(const std::string& display_name, const std::string& full_name)
-        :display_name(display_name)
-        ,full_name(full_name)
+    LLVoiceDevice(std::string display_name, std::string full_name)
+        :display_name(std::move(display_name))
+        ,full_name(std::move(full_name))
     {
     };
 };

@@ -31,6 +31,7 @@
 
 #include <boost/chrono.hpp>
 #include <boost/thread.hpp>
+#include <utility>
 
 #include "llwin32headerslean.h"
 
@@ -104,7 +105,7 @@ public:
 	/// out for the exit handler.
 	explicit HttpThread(std::function<void (HttpThread *)> threadFunc)
 		: RefCounted(true), // implicit reference
-		  mThreadFunc(threadFunc)
+		  mThreadFunc(std::move(threadFunc))
 		{
 			// this creates a boost thread that will call HttpThread::run on this instance
 			// and pass it the threadfunc callable...

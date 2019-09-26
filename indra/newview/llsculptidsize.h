@@ -31,6 +31,7 @@
 
 //std
 #include <set>
+#include <utility>
 //boost
 #include "boost/multi_index_container.hpp"
 #include "boost/multi_index/ordered_index.hpp"
@@ -57,7 +58,7 @@ public:
 		Info(const LLDrawable *drawable, int size, PtrSizeSum sizeInfo, LLUUID sculptId)
 			: mDrawable(drawable)
 			, mSize(size)
-			, mSharedSizeSum(sizeInfo)
+			, mSharedSizeSum(std::move(sizeInfo))
 			, mSculptId(sculptId)
 		{}
 

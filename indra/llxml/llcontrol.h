@@ -91,8 +91,8 @@ private:
 	validate_signal_t mValidateSignal;
 	
 public:
-	LLControlVariable(const std::string& name, eControlType type,
-					  LLSD initial, const std::string& comment,
+	LLControlVariable(std::string name, eControlType type,
+					  LLSD initial, std::string comment,
 					  ePersist persist = PERSIST_NONDFT, bool hidefromsettingseditor = false);
 
 	virtual ~LLControlVariable();

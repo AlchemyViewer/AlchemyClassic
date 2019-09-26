@@ -34,6 +34,7 @@
 #include "llsd.h"
 #include "message.h"
 #include <boost/tokenizer.hpp>
+#include <utility>
 
 #include "llsdutil.h"
 
@@ -73,12 +74,12 @@ const LLUUID MAGIC_ID("3c115e51-04f4-523c-9fa6-98aff1034730");
 LLInventoryObject::LLInventoryObject(const LLUUID& uuid,
 									 const LLUUID& parent_uuid,
 									 LLAssetType::EType type,
-									 const std::string& name) 
+                                     std::string name) 
 :	LLTrace::MemTrackable<LLInventoryObject>("LLInventoryObject"),
 	mUUID(uuid),
 	mParentUUID(parent_uuid),
 	mType(type),
-	mName(name),
+	mName(std::move(name)),
 	mCreationDate(0)
 {
 	claimMem(mName);
@@ -310,15 +311,15 @@ LLInventoryItem::LLInventoryItem(const LLUUID& uuid,
 								 const LLUUID& asset_uuid,
 								 LLAssetType::EType type,
 								 LLInventoryType::EType inv_type,
-								 const std::string& name, 
-								 const std::string& desc,
+								 const std::string& name,
+                                 std::string desc,
 								 const LLSaleInfo& sale_info,
 								 U32 flags,
 								 S32 creation_date_utc) :
 	LLInventoryObject(uuid, parent_uuid, type, name),
 	mPermissions(permissions),
 	mAssetUUID(asset_uuid),
-	mDescription(desc),
+	mDescription(std::move(desc)),
 	mSaleInfo(sale_info),
 	mInventoryType(inv_type),
 	mFlags(flags)

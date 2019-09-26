@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llwearablelist.h"
+#include <utility>
 
 #include "message.h"
 #include "llassetstorage.h"
@@ -41,14 +42,14 @@
 struct LLWearableArrivedData
 {
 	LLWearableArrivedData(LLAssetType::EType asset_type,
-		const std::string& wearable_name,
+                          std::string wearable_name,
 		LLAvatarAppearance* avatarp,
 		void(*asset_arrived_callback)(LLViewerWearable*, void* userdata),
 						  void* userdata) :
 		mAssetType( asset_type ),
 		mCallback( asset_arrived_callback ), 
 		mUserdata( userdata ),
-		mName( wearable_name ),
+		mName(std::move(wearable_name)),
 		mRetries(0),
 		mAvatarp(avatarp)
 		{}

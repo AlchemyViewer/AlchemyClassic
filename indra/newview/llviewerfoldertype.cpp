@@ -28,27 +28,27 @@
 
 #include "llviewerfoldertype.h"
 #include "lldictionary.h"
-#include "llmemory.h"
 #include "llvisualparam.h"
 #include "llviewercontrol.h"
+#include <utility>
 
 static const std::string empty_string;
 
 struct ViewerFolderEntry : public LLDictionaryEntry
 {
 	// Constructor for non-ensembles
-	ViewerFolderEntry(const std::string &new_category_name, // default name when creating a new category of this type
-					  const std::string &icon_name_open,	// name of the folder icon
-					  const std::string &icon_name_closed,
+	ViewerFolderEntry(std::string new_category_name, // default name when creating a new category of this type
+                      std::string icon_name_open,	// name of the folder icon
+                      std::string icon_name_closed,
 					  BOOL is_quiet,						// folder doesn't need a UI update when changed
 					  bool hide_if_empty,					// folder not shown if empty
 					  const std::string &dictionary_name = empty_string // no reverse lookup needed on non-ensembles, so in most cases just leave this blank
 		) 
 		:
 		LLDictionaryEntry(dictionary_name),
-		mIconNameOpen(icon_name_open),
-		mIconNameClosed(icon_name_closed),
-		mNewCategoryName(new_category_name),
+		mIconNameOpen(std::move(icon_name_open)),
+		mIconNameClosed(std::move(icon_name_closed)),
+		mNewCategoryName(std::move(new_category_name)),
 		mIsQuiet(is_quiet),
 		mHideIfEmpty(hide_if_empty)
 	{
@@ -57,7 +57,7 @@ struct ViewerFolderEntry : public LLDictionaryEntry
 
 	// Constructor for ensembles
 	ViewerFolderEntry(const std::string &xui_name, 			// name of the xui menu item
-					  const std::string &new_category_name, // default name when creating a new category of this type
+                      std::string new_category_name, // default name when creating a new category of this type
 					  const std::string &icon_name, 		// name of the folder icon
 					  const std::string allowed_names 		// allowed item typenames for this folder type
 		) 
@@ -68,7 +68,7 @@ struct ViewerFolderEntry : public LLDictionaryEntry
 		mIconNameClosed(icon_name),
 		*/
 		mIconNameOpen("Inv_FolderOpen"), mIconNameClosed("Inv_FolderClosed"),
-		mNewCategoryName(new_category_name),
+		mNewCategoryName(std::move(new_category_name)),
 		mIsQuiet(FALSE),
 		mHideIfEmpty(false)
 	{

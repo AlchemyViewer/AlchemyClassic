@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llfloaterurlentry.h"
+#include <utility>
 
 #include "llpanellandmedia.h"
 #include "llpanelface.h"
@@ -47,7 +48,7 @@ static LLFloaterURLEntry* sInstance = nullptr;
 LLFloaterURLEntry::LLFloaterURLEntry(LLHandle<LLPanel> parent)
 	: LLFloater(LLSD()),
 	  mMediaURLEdit(nullptr),
-	  mPanelLandMediaHandle(parent)
+	  mPanelLandMediaHandle(std::move(parent))
 {
 	buildFromFile("floater_url_entry.xml");
 }

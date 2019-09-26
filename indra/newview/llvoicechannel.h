@@ -63,7 +63,7 @@ public:
 	static boost::signals2::connection setCurrentVoiceChannelChangedCallback(channel_changed_callback_t cb, bool at_front = false);
 
 
-	LLVoiceChannel(const LLUUID& session_id, const std::string& session_name);
+	LLVoiceChannel(const LLUUID& session_id, std::string session_name);
 	virtual ~LLVoiceChannel();
 
 	/*virtual*/ void onChange(EStatusType status, const std::string &channelURI, bool proximal) override;

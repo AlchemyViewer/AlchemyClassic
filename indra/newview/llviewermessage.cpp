@@ -33,6 +33,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
 #include <boost/tokenizer.hpp>
+#include <utility>
 
 // Linden libraries
 #include "llanimationstates.h"
@@ -817,9 +818,9 @@ class LLOpenAgentOffer : public LLInventoryFetchItemsObserver
 {
 public:
 	LLOpenAgentOffer(const LLUUID& object_id,
-	                 const std::string& from_name) :
+                     std::string from_name) :
 		LLInventoryFetchItemsObserver(object_id),
-		mFromName(from_name)
+		mFromName(std::move(from_name))
 	{
 	}
 

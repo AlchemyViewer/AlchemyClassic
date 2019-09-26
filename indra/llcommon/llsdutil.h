@@ -29,6 +29,7 @@
 #ifndef LL_LLSDUTIL_H
 #define LL_LLSDUTIL_H
 
+#include <utility>
 #include "llsd.h"
 
 // U32
@@ -380,8 +381,8 @@ namespace llsd
 class inArray
 {
 public:
-    inArray(const LLSD& array):
-        _array(array)
+    inArray(LLSD array):
+        _array(std::move(array))
     {}
 
     typedef LLSD::array_const_iterator const_iterator;
@@ -403,8 +404,8 @@ typedef std::map<LLSD::String, LLSD>::value_type MapEntry;
 class inMap
 {
 public:
-    inMap(const LLSD& map):
-        _map(map)
+    inMap(LLSD map):
+        _map(std::move(map))
     {}
 
     typedef LLSD::map_const_iterator const_iterator;

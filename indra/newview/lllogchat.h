@@ -26,6 +26,8 @@
 
 #ifndef LL_LLLOGCHAT_H
 #define LL_LLLOGCHAT_H
+
+#include <utility>
 #include "llthread.h"
 
 class LLChat;
@@ -54,7 +56,7 @@ private:
 	LLSD mLoadParams;
 	bool mNewLoad;
 public:
-	LLLoadHistoryThread(const std::string& file_name, std::list<LLSD>* messages, const LLSD& load_params);
+    LLLoadHistoryThread(const std::string& file_name, std::list<LLSD>* messages, LLSD load_params);
 	~LLLoadHistoryThread();
 	//void setHistoryParams(const std::string& file_name, const LLSD& load_params);
 	virtual void loadHistory(const std::string& file_name, std::list<LLSD>* messages, const LLSD& load_params);
@@ -146,7 +148,7 @@ private:
 class LLChatLogFormatter
 {
 public:
-	LLChatLogFormatter(const LLSD& im) : mIM(im) {}
+	LLChatLogFormatter(LLSD im) : mIM(std::move(im)) {}
 	virtual ~LLChatLogFormatter() {};
 
 	friend std::ostream& operator<<(std::ostream& str, const LLChatLogFormatter& formatter)

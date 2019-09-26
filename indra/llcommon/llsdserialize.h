@@ -30,6 +30,7 @@
 #define LL_LLSDSERIALIZE_H
 
 #include <iosfwd>
+#include <utility>
 #include "llpointer.h"
 #include "llrefcount.h"
 #include "llsd.h"
@@ -669,8 +670,8 @@ public:
 	/** 
 	 * @brief Constructor
 	 */
-	LLSDOStreamer(const LLSD& data, U32 options = LLSDFormatter::OPTIONS_NONE) :
-		mSD(data), mOptions(options) {}
+	LLSDOStreamer(LLSD data, U32 options = LLSDFormatter::OPTIONS_NONE) :
+		mSD(std::move(data)), mOptions(options) {}
 
 	/**
 	 * @brief Stream operator.

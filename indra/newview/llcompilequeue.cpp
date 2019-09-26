@@ -35,6 +35,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llcompilequeue.h"
+#include <utility>
 
 #include "llagent.h"
 #include "llchat.h"
@@ -102,8 +103,8 @@ namespace
     class HandleScriptUserData
     {
     public:
-        HandleScriptUserData(const std::string &pumpname) :
-            mPumpname(pumpname)
+        HandleScriptUserData(std::string pumpname) :
+            mPumpname(std::move(pumpname))
         { }
 
         const std::string &getPumpName() const { return mPumpname; }
@@ -126,7 +127,7 @@ public:
         LLScriptAssetUpload(taskId, itemId, targetType, isRunning, 
                             exerienceId, std::string(), finish),
         mQueueId(queueId),
-        mScriptName(scriptName)
+        mScriptName(std::move(scriptName))
     {
         setAssetId(assetId);
     }

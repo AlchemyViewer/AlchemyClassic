@@ -44,7 +44,7 @@ class LLTextBox;
 class LLPanelAvatarTag : public LLPanel
 {
 public:
-	LLPanelAvatarTag(const LLUUID& key, const std::string im_time);
+	LLPanelAvatarTag(const LLUUID& key, const std::string& im_time);
 	virtual ~LLPanelAvatarTag() = default;
 	
 	/**

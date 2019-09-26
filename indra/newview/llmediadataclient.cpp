@@ -27,14 +27,15 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llmediadataclient.h"
-#include "llviewercontrol.h"
 
+#include "llviewercontrol.h"
 #include "llhttpconstants.h"
 #include "llsdutil.h"
 #include "llmediaentry.h"
 #include "lltextureentry.h"
 #include "llviewerregion.h"
 #include "llcorehttputil.h"
+#include <utility>
 
 //
 // When making a request
@@ -94,7 +95,7 @@ std::ostream& operator<<(std::ostream &s, const LLMediaDataClient::Request &q);
 class PredicateMatchRequest
 {
 public:
-    PredicateMatchRequest(const LLMediaDataClient::Request::ptr_t &request, LLMediaDataClient::Request::Type matchType = LLMediaDataClient::Request::ANY);
+    PredicateMatchRequest(LLMediaDataClient::Request::ptr_t request, LLMediaDataClient::Request::Type matchType = LLMediaDataClient::Request::ANY);
     PredicateMatchRequest(const LLUUID &id, LLMediaDataClient::Request::Type matchType = LLMediaDataClient::Request::ANY);
 
     PredicateMatchRequest(const PredicateMatchRequest &other);
@@ -108,8 +109,8 @@ private:
 };
 
 
-PredicateMatchRequest::PredicateMatchRequest(const LLMediaDataClient::Request::ptr_t &request, LLMediaDataClient::Request::Type matchType) :
-    mRequest(request),
+PredicateMatchRequest::PredicateMatchRequest(LLMediaDataClient::Request::ptr_t request, LLMediaDataClient::Request::Type matchType) :
+    mRequest(std::move(request)),
     mMatchType(matchType),
     mId()
 {}
@@ -438,7 +439,7 @@ BOOL LLMediaDataClient::QueueTimer::tick()
 //////////////////////////////////////////////////////////////////////////////////////
 
 LLMediaDataClient::RetryTimer::RetryTimer(F32 time, Request::ptr_t request)
-: LLEventTimer(time), mRequest(request)
+: LLEventTimer(time), mRequest(std::move(request))
 {
 	mRequest->startTracking();
 }
@@ -596,8 +597,8 @@ std::ostream& operator<<(std::ostream &s, const LLMediaDataClient::Request &r)
 
 //========================================================================
 
-LLMediaDataClient::Handler::Handler(const Request::ptr_t &request):
-    mRequest(request)
+LLMediaDataClient::Handler::Handler(Request::ptr_t request):
+    mRequest(std::move(request))
 {
 }
 
@@ -1038,9 +1039,10 @@ void LLObjectMediaNavigateClient::navigate(LLMediaDataClientObject *object, U8 t
 	enqueue(std::static_pointer_cast<Request>(std::make_shared<RequestNavigate>(object, this, texture_index, url)));
 }
 
-LLObjectMediaNavigateClient::RequestNavigate::RequestNavigate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc, U8 texture_index, const std::string &url):
+LLObjectMediaNavigateClient::RequestNavigate::RequestNavigate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc, U8 texture_index,
+                                                              std::string url):
 	LLMediaDataClient::Request(LLMediaDataClient::Request::NAVIGATE, obj, mdc, (S32)texture_index),
-	mURL(url)
+	mURL(std::move(url))
 {
 }
 

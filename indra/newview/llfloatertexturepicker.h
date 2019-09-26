@@ -51,7 +51,7 @@ public:
         LLUUID blank_image_asset_id,
         BOOL tentative,
         BOOL allow_no_texture,
-        const std::string& label,
+        std::string label,
         PermissionMask immediate_filter_perm_mask,
         PermissionMask dnd_filter_perm_mask,
         PermissionMask non_immediate_filter_perm_mask,

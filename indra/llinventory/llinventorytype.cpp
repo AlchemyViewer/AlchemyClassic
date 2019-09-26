@@ -27,9 +27,11 @@
 #include "linden_common.h"
 
 #include "llinventorytype.h"
+
 #include "lldictionary.h"
 #include "llmemory.h"
 #include "llsingleton.h"
+#include <utility>
 
 ///----------------------------------------------------------------------------
 /// Class LLInventoryType
@@ -37,11 +39,11 @@
 struct InventoryEntry : public LLDictionaryEntry
 {
 	InventoryEntry(const std::string &name, // unlike asset type names, not limited to 8 characters; need not match asset type names
-				   const std::string &human_name, // for decoding to human readable form; put any and as many printable characters you want in each one.
+                   std::string human_name, // for decoding to human readable form; put any and as many printable characters you want in each one.
 				   int num_asset_types = 0, ...)
 		:
 		LLDictionaryEntry(name),
-		mHumanName(human_name)
+		mHumanName(std::move(human_name))
 	{
 		va_list argp;
 		va_start(argp, num_asset_types);

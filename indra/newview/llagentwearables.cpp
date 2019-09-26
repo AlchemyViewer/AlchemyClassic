@@ -52,6 +52,8 @@
 #include "llwearablelist.h"
 #include "llfloaterperms.h"
 
+#include <utility>
+
 #include "llagentwearablesfetch.h"
 #include "llviewernetwork.h"
 LLAgentWearables gAgentWearables;
@@ -175,7 +177,7 @@ void LLAgentWearables::dump()
 struct LLAgentDumper
 {
 	LLAgentDumper(std::string name):
-		mName(name)
+		mName(std::move(name))
 	{
 		LL_INFOS() << LL_ENDL;
 		LL_INFOS() << "LLAgentDumper " << mName << LL_ENDL;
@@ -243,7 +245,7 @@ LLAgentWearables::AddWearableToAgentInventoryCallback::AddWearableToAgentInvento
 	mIndex(index),	
 	mWearable(wearable),
 	mTodo(todo),
-	mCB(cb),
+	mCB(std::move(cb)),
 	mDescription(description)
 {
 	LL_INFOS() << "constructor" << LL_ENDL;

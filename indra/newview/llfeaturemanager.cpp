@@ -28,6 +28,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <utility>
 
 #include "llfeaturemanager.h"
 #include "lldir.h"
@@ -65,13 +66,13 @@ const char FEATURE_TABLE_FILENAME[] = "featuretable.txt";
 
 #if 0                               // consuming code in #if 0 below
 #endif
-LLFeatureInfo::LLFeatureInfo(const std::string& name, const BOOL available, const F32 level)
-	: mValid(TRUE), mName(name), mAvailable(available), mRecommendedLevel(level)
+LLFeatureInfo::LLFeatureInfo(std::string name, const BOOL available, const F32 level)
+	: mValid(TRUE), mName(std::move(name)), mAvailable(available), mRecommendedLevel(level)
 {
 }
 
-LLFeatureList::LLFeatureList(const std::string& name)
-	: mName(name)
+LLFeatureList::LLFeatureList(std::string name)
+	: mName(std::move(name))
 {
 }
 

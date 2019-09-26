@@ -32,7 +32,7 @@ public:
      */
     typedef std::function<LLBoundListener(LLEventPump&, const std::string& listener)>
             ConnectFunc;
-    LLLeapListener(const ConnectFunc& connect);
+    LLLeapListener(ConnectFunc connect);
     ~LLLeapListener();
 
     static LLSD getFeatures();

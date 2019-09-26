@@ -43,6 +43,8 @@
 #include "llviewercontrol.h"
 
 #include "llavatarappearancedefines.h"
+#include <utility>
+
 static const F32 CONTEXT_CONE_IN_ALPHA = 0.0f;
 static const F32 CONTEXT_CONE_OUT_ALPHA = 1.f;
 static const F32 CONTEXT_FADE_TIME = 0.08f;
@@ -57,7 +59,7 @@ LLFloaterTexturePicker::LLFloaterTexturePicker(
     LLUUID blank_image_asset_id,
     BOOL tentative,
     BOOL allow_no_texture,
-    const std::string& label,
+    std::string label,
     PermissionMask immediate_filter_perm_mask,
     PermissionMask dnd_filter_perm_mask,
     PermissionMask non_immediate_filter_perm_mask,
@@ -66,14 +68,14 @@ LLFloaterTexturePicker::LLFloaterTexturePicker(
     : LLFloater(LLSD()),
     mOwner(owner),
     mImageAssetID(image_asset_id),
-    mFallbackImage(fallback_image),
+    mFallbackImage(std::move(fallback_image)),
     mDefaultImageAssetID(default_image_asset_id),
     mTransparentImageAssetID(transparent_image_asset_id),
     mBlankImageAssetID(blank_image_asset_id),
     mTentative(tentative),
     mAllowNoTexture(allow_no_texture),
     mOriginalImageAssetID(image_asset_id),
-    mLabel(label),
+    mLabel(std::move(label)),
     mTentativeLabel(nullptr),
     mResolutionLabel(nullptr),
     mActive(TRUE),

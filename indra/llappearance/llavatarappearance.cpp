@@ -28,6 +28,7 @@
 
 #include "indra_constants.h"
 #include "llavatarappearance.h"
+
 #include "llavatarappearancedefines.h"
 #include "llavatarjointmesh.h"
 #include "llstl.h"
@@ -35,10 +36,10 @@
 #include "llpolymorph.h"
 #include "llpolymesh.h"
 #include "llpolyskeletaldistortion.h"
-#include "llstl.h"
 #include "lltexglobalcolor.h"
 #include "llwearabledata.h"
 #include "boost/tokenizer.hpp"
+#include <utility>
 
 using namespace LLAvatarAppearanceDefines;
 
@@ -2108,7 +2109,7 @@ BOOL LLAvatarAppearance::LLAvatarXmlInfo::parseXmlMorphNodes(LLXmlTreeNode* root
 LLAvatarAppearance::LLMaskedMorph::LLMaskedMorph(LLVisualParam *morph_target, BOOL invert, std::string layer) :
 			mMorphTarget(morph_target), 
 			mInvert(invert),
-			mLayer(layer)
+			mLayer(std::move(layer))
 {
 	LLPolyMorphTarget *target = dynamic_cast<LLPolyMorphTarget*>(morph_target);
 	if (target)

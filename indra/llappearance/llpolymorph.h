@@ -42,7 +42,7 @@ LL_ALIGN_PREFIX(16)
 class LLPolyMorphData
 {
 public:
-	LLPolyMorphData(const std::string& morph_name);
+	LLPolyMorphData(std::string morph_name);
 	~LLPolyMorphData();
 	LLPolyMorphData(const LLPolyMorphData &rhs);
 

@@ -51,7 +51,7 @@ class LLFeatureInfo
 {
 public:
 	LLFeatureInfo() : mValid(FALSE), mAvailable(FALSE), mRecommendedLevel(-1) {}
-	LLFeatureInfo(const std::string& name, const BOOL available, const F32 level);
+	LLFeatureInfo(std::string name, const BOOL available, const F32 level);
 
 	BOOL isValid() const	{ return mValid; };
 
@@ -68,7 +68,7 @@ class LLFeatureList
 public:
 	typedef std::map<std::string, LLFeatureInfo> feature_map_t;
 
-	LLFeatureList(const std::string& name);
+	LLFeatureList(std::string name);
 	virtual ~LLFeatureList();
 
 	BOOL isFeatureAvailable(const std::string& name);

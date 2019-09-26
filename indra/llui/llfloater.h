@@ -202,7 +202,7 @@ public:
 	// Load translations for tooltips for standard buttons
 	static void initClass();
 
-	LLFloater(const LLSD& key, const Params& params = getDefaultParams());
+	LLFloater(LLSD key, const Params& params = getDefaultParams());
 
 	virtual ~LLFloater();
 

@@ -44,6 +44,7 @@
 
 // Have to include these last to avoid queue redefinition!
 #include <xmlrpc-epi/xmlrpc.h>
+#include <utility>
 
 #include "llappviewer.h"
 #include "lltrans.h"
@@ -201,8 +202,8 @@ public:
 	std::string         mCertStore;
 	LLSD mErrorCertData;
 
-	Impl(const std::string& uri, XMLRPC_REQUEST request, bool useGzip, const LLSD& httpParams);
-	Impl(const std::string& uri,
+	Impl(std::string uri, XMLRPC_REQUEST request, bool useGzip, const LLSD& httpParams);
+	Impl(std::string uri,
 		const std::string& method, LLXMLRPCValue params, bool useGzip);
 	~Impl();
 
@@ -307,22 +308,22 @@ void LLXMLRPCTransaction::Handler::onCompleted(LLCore::HttpHandle handle,
 
 //=========================================================================
 
-LLXMLRPCTransaction::Impl::Impl(const std::string& uri,
+LLXMLRPCTransaction::Impl::Impl(std::string uri,
 		XMLRPC_REQUEST request, bool useGzip, const LLSD& httpParams)
 	: mHttpRequest(),
 	  mStatus(LLXMLRPCTransaction::StatusNotStarted),
-	  mURI(uri),
+	  mURI(std::move(uri)),
 	  mResponse(nullptr)
 {
 	init(request, useGzip, httpParams);
 }
 
 
-LLXMLRPCTransaction::Impl::Impl(const std::string& uri,
+LLXMLRPCTransaction::Impl::Impl(std::string uri,
 		const std::string& method, LLXMLRPCValue params, bool useGzip)
 	: mHttpRequest(),
 	  mStatus(LLXMLRPCTransaction::StatusNotStarted),
-	  mURI(uri),
+	  mURI(std::move(uri)),
 	  mResponse(nullptr)
 {
 	XMLRPC_REQUEST request = XMLRPC_RequestNew();

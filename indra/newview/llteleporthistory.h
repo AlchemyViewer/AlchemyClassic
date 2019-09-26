@@ -27,6 +27,7 @@
 #ifndef LL_LLTELEPORTHISTORY_H
 #define LL_LLTELEPORTHISTORY_H
 
+#include <utility>
 #include "llteleporthistorystorage.h"
 
 
@@ -42,7 +43,7 @@ public:
 	{}
 
 	LLTeleportHistoryItem(std::string title, LLVector3d global_pos)
-		: mTitle(title), mGlobalPos(global_pos)
+		: mTitle(std::move(title)), mGlobalPos(global_pos)
 	{}
 
 	/**

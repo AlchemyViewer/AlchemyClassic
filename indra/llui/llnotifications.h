@@ -76,6 +76,7 @@
  */
 
 #include <iomanip>
+#include <utility>
 
 #include "llevents.h"
 #include "llfunctorregistry.h"
@@ -728,7 +729,7 @@ class LLNotificationChannelBase :
 public:
 	LLNotificationChannelBase(LLNotificationFilter filter) 
 	:	mItems(), 
-		mFilter(filter) 
+		mFilter(std::move(filter)) 
 	{}
 	virtual ~LLNotificationChannelBase() {}
 	// you can also connect to a Channel, so you can be notified of

@@ -31,6 +31,7 @@
 #include "llfontgl.h"
 #include "llfontregistry.h"
 #include <boost/tokenizer.hpp>
+#include <utility>
 #include "llcontrol.h"
 #include "lldir.h"
 #include "llwindow.h"
@@ -46,13 +47,13 @@ LLFontDescriptor::LLFontDescriptor():
 {
 }
 
-LLFontDescriptor::LLFontDescriptor(const std::string& name,
-								   const std::string& size, 
+LLFontDescriptor::LLFontDescriptor(std::string name,
+                                   std::string size, 
 								   const U8 style,
-								   const string_vec_t& file_names):
-	mName(name),
-	mSize(size),
-	mFileNames(file_names),
+                                   string_vec_t file_names):
+	mName(std::move(name)),
+	mSize(std::move(size)),
+	mFileNames(std::move(file_names)),
 	mStyle(style)
 {
 }
@@ -67,11 +68,11 @@ LLFontDescriptor::LLFontDescriptor(const std::string& name,
 	mFontCollectionsList = ft_collection_listections;
 }
 
-LLFontDescriptor::LLFontDescriptor(const std::string& name,
-								   const std::string& size, 
+LLFontDescriptor::LLFontDescriptor(std::string name,
+                                   std::string size, 
 								   const U8 style):
-	mName(name),
-	mSize(size),
+	mName(std::move(name)),
+	mSize(std::move(size)),
 	mStyle(style)
 {
 }

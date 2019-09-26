@@ -27,6 +27,7 @@
 #ifndef LL_LLVIEWERINVENTORY_H
 #define LL_LLVIEWERINVENTORY_H
 
+#include <utility>
 #include "llinventory.h"
 #include "llframetimer.h"
 #include "llwearable.h"
@@ -286,8 +287,8 @@ public:
 
 	LLBoostFuncInventoryCallback(inventory_func_type fire_func = no_op_inventory_func,
 								 nullary_func_type destroy_func = no_op):
-		mFireFunc(fire_func),
-		mDestroyFunc(destroy_func)
+		mFireFunc(std::move(fire_func)),
+		mDestroyFunc(std::move(destroy_func))
 	{
 	}
 

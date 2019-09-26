@@ -30,16 +30,14 @@
 #include "linden_common.h"
 // associated header
 #include "lleventapi.h"
-// STL headers
-// std headers
-// external library headers
+
 // other Linden headers
 #include "llerror.h"
 
-LLEventAPI::LLEventAPI(const std::string& name, const std::string& desc, const std::string& field):
+LLEventAPI::LLEventAPI(const std::string& name, std::string desc, const std::string& field):
     lbase(name, field),
     ibase(name),
-    mDesc(desc)
+    mDesc(std::move(desc))
 {
 }
 
@@ -47,10 +45,10 @@ LLEventAPI::~LLEventAPI()
 {
 }
 
-LLEventAPI::Response::Response(const LLSD& seed, const LLSD& request, const LLSD::String& replyKey):
-    mResp(seed),
-    mReq(request),
-    mKey(replyKey)
+LLEventAPI::Response::Response(LLSD seed, LLSD request, LLSD::String replyKey):
+    mResp(std::move(seed)),
+    mReq(std::move(request)),
+    mKey(std::move(replyKey))
 {}
 
 LLEventAPI::Response::~Response()

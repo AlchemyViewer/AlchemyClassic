@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llviewertexture.h"
+#include <utility>
 
 // Library includes
 #include "llmath.h"
@@ -1090,9 +1091,9 @@ LLViewerFetchedTexture::LLViewerFetchedTexture(const LLImageRaw* raw, FTType f_t
 	mGLTexturep->setNeedsAlphaAndPickMask(TRUE);
 }
 	
-LLViewerFetchedTexture::LLViewerFetchedTexture(const std::string& url, FTType f_type, const LLUUID& id, BOOL usemipmaps)
+LLViewerFetchedTexture::LLViewerFetchedTexture(std::string url, FTType f_type, const LLUUID& id, BOOL usemipmaps)
 	: LLViewerTexture(id, usemipmaps),
-	mUrl(url)
+	mUrl(std::move(url))
 {
 	init(TRUE);
 	mFTType = f_type;

@@ -55,6 +55,7 @@
 #include <shared_mutex>
 #include <typeinfo>
 #include <type_traits>
+#include <utility>
 
 #include <apr_pools.h>
 #include <apr_dso.h>

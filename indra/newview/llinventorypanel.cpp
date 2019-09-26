@@ -106,7 +106,7 @@ public:
 	typedef std::function<void()> callback_t;
 
 	LLInvPanelComplObserver(callback_t cb)
-	:	mCallback(cb)
+	:	mCallback(std::move(cb))
 	{
 	}
 

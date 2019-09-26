@@ -27,6 +27,7 @@
 #ifndef LL_WATER_PARAMMANAGER_H
 #define LL_WATER_PARAMMANAGER_H
 
+#include <utility>
 #include "llwaterparamset.h"
 #include "llviewercamera.h"
 #include "v4color.h"
@@ -42,8 +43,8 @@ struct WaterColorControl {
 	bool mHasSliderName;			/// only set slider name for true color types
 
 	inline WaterColorControl(F32 red, F32 green, F32 blue, F32 alpha,
-							 F32 intensity, const std::string& n, const std::string& sliderName = LLStringUtil::null)
-		: mR(red), mG(green), mB(blue), mA(alpha), mI(intensity), mName(n), mSliderName(sliderName)
+							 F32 intensity, std::string n, std::string sliderName = LLStringUtil::null)
+		: mR(red), mG(green), mB(blue), mA(alpha), mI(intensity), mName(std::move(n)), mSliderName(std::move(sliderName))
 	{
 		// if there's a slider name, say we have one
 		mHasSliderName = false;
@@ -100,8 +101,8 @@ struct WaterVector3Control
 	std::string mName;
 
 	// basic constructor
-	inline WaterVector3Control(F32 valX, F32 valY, F32 valZ, const std::string& n)
-		: mX(valX), mY(valY), mZ(valZ), mName(n)
+	inline WaterVector3Control(F32 valX, F32 valY, F32 valZ, std::string n)
+		: mX(valX), mY(valY), mZ(valZ), mName(std::move(n))
 	{
 	}
 
@@ -129,8 +130,8 @@ struct WaterVector2Control
 	std::string mName;
 
 	// basic constructor
-	inline WaterVector2Control(F32 valX, F32 valY, const std::string& n)
-		: mX(valX), mY(valY), mName(n)
+	inline WaterVector2Control(F32 valX, F32 valY, std::string n)
+		: mX(valX), mY(valY), mName(std::move(n))
 	{
 	}
 
@@ -155,8 +156,8 @@ struct WaterFloatControl
 	std::string mName;
 	F32 mMult;
 
-	inline WaterFloatControl(F32 val, const std::string& n, F32 m=1.0f)
-		: mX(val), mName(n), mMult(m)
+	inline WaterFloatControl(F32 val, std::string n, F32 m=1.0f)
+		: mX(val), mName(std::move(n)), mMult(m)
 	{
 	}
 
@@ -185,8 +186,8 @@ struct WaterExpFloatControl
 	std::string mName;
 	F32 mBase;
 
-	inline WaterExpFloatControl(F32 val, const std::string& n, F32 b)
-		: mExp(val), mName(n), mBase(b)
+	inline WaterExpFloatControl(F32 val, std::string n, F32 b)
+		: mExp(val), mName(std::move(n)), mBase(b)
 	{
 	}
 

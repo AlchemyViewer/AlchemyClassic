@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lltexturecache.h"
+#include <utility>
 
 #include "llapr.h"
 #include "lldir.h"
@@ -161,12 +162,12 @@ protected:
 class LLTextureCacheLocalFileWorker final : public LLTextureCacheWorker
 {
 public:
-	LLTextureCacheLocalFileWorker(LLTextureCache* cache, U32 priority, const std::string& filename, const LLUUID& id,
+	LLTextureCacheLocalFileWorker(LLTextureCache* cache, U32 priority, std::string filename, const LLUUID& id,
 						 U8* data, S32 datasize, S32 offset,
 						 S32 imagesize, // for writes
 						 LLTextureCache::Responder* responder) 
 			: LLTextureCacheWorker(cache, priority, id, data, datasize, offset, imagesize, responder),
-			mFileName(filename)
+			mFileName(std::move(filename))
 
 	{
 	}
@@ -290,7 +291,7 @@ public:
 						 LLTextureCache::Responder* responder) 
 			: LLTextureCacheWorker(cache, priority, id, data, datasize, offset, imagesize, responder),
 			mState(INIT),
-			mRawImage(raw),
+			mRawImage(std::move(raw)),
 			mRawDiscardLevel(discardlevel)
 	{
 	}

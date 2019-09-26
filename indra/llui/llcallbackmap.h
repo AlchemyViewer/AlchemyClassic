@@ -28,6 +28,7 @@
 #define LLCALLBACKMAP_H
 
 #include <functional>
+#include <utility>
 
 class LLCallbackMap
 {
@@ -47,7 +48,7 @@ public:
 	}
 	
 	LLCallbackMap() : mCallback(NULL), mData(NULL) { }
-	LLCallbackMap(callback_t callback, void* data = NULL) : mCallback(callback), mData(data) { }
+	LLCallbackMap(callback_t callback, void* data = NULL) : mCallback(std::move(callback)), mData(data) { }
 
 	callback_t	mCallback;
 	void*		mData;

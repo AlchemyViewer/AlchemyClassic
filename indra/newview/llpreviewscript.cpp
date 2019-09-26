@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpreviewscript.h"
+#include <utility>
 
 #include "llassetstorage.h"
 #include "llbutton.h"
@@ -122,7 +123,7 @@ static bool have_script_upload_cap(LLUUID& object_id)
 
 LLLiveLSLFile::LLLiveLSLFile(std::string file_path, change_callback_t change_cb)
 :	LLLiveFile(file_path, 1.0)
-,	mOnChangeCallback(change_cb)
+,	mOnChangeCallback(std::move(change_cb))
 ,	mIgnoreNextUpdate(false)
 {
 	llassert(mOnChangeCallback);
@@ -340,7 +341,7 @@ struct LLSECKeywordCompare
 
 LLScriptEdCore::LLScriptEdCore(
 	LLScriptEdContainer* container,
-	const std::string& sample,
+    std::string sample,
 	const LLHandle<LLFloater>& floater_handle,
 	void (*load_callback)(void*),
 	void (*save_callback)(void*, BOOL),
@@ -351,7 +352,7 @@ LLScriptEdCore::LLScriptEdCore(
 	:
 	LLPanel(),
 	mLive(live),
-	mSampleText(sample),
+	mSampleText(std::move(sample)),
 	mEditor( NULL ),
 	mLoadCallback( load_callback ),
 	mSaveCallback( save_callback ),
@@ -1481,8 +1482,8 @@ struct LLScriptSaveInfo
 	std::string mDescription;
 	LLTransactionID mTransactionID;
 
-	LLScriptSaveInfo(const LLUUID& uuid, const std::string& desc, LLTransactionID tid) :
-		mItemUUID(uuid), mDescription(desc),  mTransactionID(tid) {}
+	LLScriptSaveInfo(const LLUUID& uuid, std::string desc, LLTransactionID tid) :
+		mItemUUID(uuid), mDescription(std::move(desc)),  mTransactionID(tid) {}
 };
 
 

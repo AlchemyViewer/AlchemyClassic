@@ -25,11 +25,13 @@
  */
 
 #include "llmodelloader.h"
+
 #include "llsdserialize.h"
 #include "lljoint.h"
 #include "llcallbacklist.h"
 
 #include "llmatrix4a.h"
+#include <utility>
 
 std::list<LLModelLoader*> LLModelLoader::sActiveLoaderList;
 
@@ -112,7 +114,7 @@ LLModelLoader::LLModelLoader(
     JointMap&           legalJointNamesMap,
     U32					maxJointsPerMesh)
 : LLThread("Model Loader")
-, mFilename(filename)
+, mFilename(std::move(filename))
 , mLod(lod)
 , mFirstTransform(TRUE)
 , mTrySLM(false)
@@ -122,10 +124,10 @@ LLModelLoader::LLModelLoader(
 , mJointsFromNode( jointsFromNodes )
 , mMaxJointsPerMesh(maxJointsPerMesh)
 , mNumOfFetchingTextures(0)
-, mLoadCallback(load_cb)
-, mJointLookupFunc(joint_lookup_func)
-, mTextureLoadFunc(texture_load_func)
-, mStateCallback(state_cb)
+, mLoadCallback(std::move(load_cb))
+, mJointLookupFunc(std::move(joint_lookup_func))
+, mTextureLoadFunc(std::move(texture_load_func))
+, mStateCallback(std::move(state_cb))
 , mOpaqueData(opaque_userdata)
 , mRigValidJointUpload(true)
 , mLegacyRigValid(true)

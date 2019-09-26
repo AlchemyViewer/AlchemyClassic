@@ -29,6 +29,7 @@
 #include "linden_common.h"
 
 #include "llpluginmessagepipe.h"
+#include <utility>
 
 #include "llapr.h"
 
@@ -95,7 +96,7 @@ LLPluginMessagePipe::LLPluginMessagePipe(LLPluginMessagePipeOwner *owner, LLSock
 	mOutputMutex(),
 	mOutputStartIndex(0),
 	mOwner(owner),
-	mSocket(socket)
+	mSocket(std::move(socket))
 {
 	mOwner->setMessagePipe(this);
 }
@@ -176,7 +177,7 @@ bool LLPluginMessagePipe::pumpOutput()
 		
 		LLMutexLock lock(&mOutputMutex);
 
-		const char * output_data = &(mOutput.data()[mOutputStartIndex]);
+		const char * output_data = &(mOutput[mOutputStartIndex]);
 		if(*output_data != '\0')
 		{
 			// write any outgoing messages

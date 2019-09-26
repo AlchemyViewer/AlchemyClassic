@@ -27,6 +27,7 @@
 #ifndef LL_LLEVENTNOTIFIER_H
 #define LL_LLEVENTNOTIFIER_H
 
+#include <utility>
 #include "llframetimer.h"
 #include "v3dmath.h"
 
@@ -47,8 +48,8 @@ typedef struct event_st{
 	std::string simName;
 	LLVector3d globalPos;
 	U32 flags = 0;
-	event_st(U32 id, F64 epoch, const std::string& date_str, const std::string& name)
-		: eventId(id), eventEpoch(epoch), eventDateStr(date_str), eventName(name){}
+	event_st(U32 id, F64 epoch, std::string date_str, std::string name)
+		: eventId(id), eventEpoch(epoch), eventDateStr(std::move(date_str)), eventName(std::move(name)){}
 	event_st(){}
 } LLEventStruct;
 
@@ -90,7 +91,7 @@ protected:
 class LLEventNotification
 {
 public:
-	LLEventNotification(U32 eventId, F64 eventEpoch, const std::string& eventDateStr, const std::string &eventName);
+	LLEventNotification(U32 eventId, F64 eventEpoch, std::string eventDateStr, std::string eventName);
 
 
 	U32					getEventID() const				{ return mEventID; }

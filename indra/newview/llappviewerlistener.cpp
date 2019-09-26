@@ -30,16 +30,14 @@
 #include "llviewerprecompiledheaders.h"
 // associated header
 #include "llappviewerlistener.h"
-// STL headers
-// std headers
-// external library headers
+
 // other Linden headers
 #include "llappviewer.h"
 
-LLAppViewerListener::LLAppViewerListener(const LLAppViewerGetter& getter):
+LLAppViewerListener::LLAppViewerListener(LLAppViewerGetter getter):
     LLEventAPI("LLAppViewer",
                "LLAppViewer listener to (e.g.) request shutdown"),
-    mAppViewerGetter(getter)
+    mAppViewerGetter(std::move(getter))
 {
     // add() every method we want to be able to invoke via this event API.
     add("requestQuit",

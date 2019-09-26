@@ -29,6 +29,7 @@
 #include "llviewertexteditor.h"
 
 #include <stack>
+#include <utility>
 #include "llagent.h"
 #include "llaudioengine.h"
 #include "llavataractions.h"
@@ -166,7 +167,7 @@ class LLEmbeddedItemSegment final : public LLTextSegment
 public:
 	LLEmbeddedItemSegment(S32 pos, LLUIImagePtr image, LLPointer<LLInventoryItem> inv_item, LLTextEditor& editor)
 	:	LLTextSegment(pos, pos + 1),
-		mImage(image),
+		mImage(std::move(image)),
 		mLabel(utf8str_to_wstring(inv_item->getName())),
 		mItem(inv_item),
 		mEditor(editor)

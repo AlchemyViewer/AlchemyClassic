@@ -32,6 +32,7 @@
 // associated header
 #include "llxmlrpclistener.h"
 // external library headers
+#include <utility>
 #include <xmlrpc-epi/xmlrpc.h>
 #include <curl/curl.h>
 
@@ -47,8 +48,8 @@ class StatusMapperBase
     typedef std::map<STATUS, std::string> MapType;
 
 public:
-    StatusMapperBase(const std::string& desc):
-        mDesc(desc)
+    StatusMapperBase(std::string desc):
+        mDesc(std::move(desc))
     {}
 
     std::string lookup(STATUS status) const

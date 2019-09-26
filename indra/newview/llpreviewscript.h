@@ -82,7 +82,7 @@ protected:
 	// Supposed to be invoked only by the container.
 	LLScriptEdCore(
 		LLScriptEdContainer* container,
-		const std::string& sample,
+        std::string sample,
 		const LLHandle<LLFloater>& floater_handle,
 		void (*load_callback)(void* userdata),
 		void (*save_callback)(void* userdata, BOOL close_after_save),

@@ -25,10 +25,12 @@
  */
 
 #include "llviewerprecompiledheaders.h"
-#include <algorithm>
+
 #include "llvoicevivox.h"
 
 #include "llsdutil.h"
+#include <algorithm>
+#include <utility>
 
 // Linden library includes
 #include "llavatarnamecache.h"
@@ -39,7 +41,7 @@
 #ifdef LL_USESYSTEMLIBS
 # include "expat.h"
 #else
-# include "expat/expat.h"
+# include <expat/expat.h>
 #endif
 #include "llcallbacklist.h"
 #include "llviewerregion.h"
@@ -52,7 +54,6 @@
 // Viewer includes
 #include "llmutelist.h"  // to check for muted avatars
 #include "llagent.h"
-#include "llcachename.h"
 #include "llimview.h" // for LLIMMgr
 #include "llparcel.h"
 #include "llviewerparcelmgr.h"
@@ -63,7 +64,6 @@
 #include "llviewercamera.h"
 #include "llversioninfo.h"
 
-#include "llviewernetwork.h"
 #include "llnotificationsutil.h"
 
 #include "llcorehttputil.h"
@@ -4189,8 +4189,8 @@ void LLVivoxVoiceClient::muteListChanged()
 
 /////////////////////////////
 // Managing list of participants
-LLVivoxVoiceClient::participantState::participantState(const std::string &uri) : 
-	 mURI(uri), 
+LLVivoxVoiceClient::participantState::participantState(std::string uri) : 
+	 mURI(std::move(uri)), 
 	 mLastSpokeTimestamp(0.f), 
 	 mPower(0.f), 
 	 mVolume(LLVoiceClient::VOLUME_DEFAULT), 

@@ -29,6 +29,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpathfindingmanager.h"
+#include <utility>
 
 #include "llagent.h"
 #include "llhttpnode.h"
@@ -829,7 +830,7 @@ void LLAgentStateChangeNode::post(ResponsePtr pResponse, const LLSD &pContext, c
 //---------------------------------------------------------------------------
 LinksetsResponder::LinksetsResponder(LLPathfindingManager::request_id_t pRequestId, LLPathfindingManager::object_request_callback_t pLinksetsCallback, bool pIsObjectRequested, bool pIsTerrainRequested)
 	: mRequestId(pRequestId),
-	mLinksetsCallback(pLinksetsCallback),
+	mLinksetsCallback(std::move(pLinksetsCallback)),
 	mObjectMessagingState(pIsObjectRequested ? kWaiting : kNotRequested),
 	mTerrainMessagingState(pIsTerrainRequested ? kWaiting : kNotRequested),
 	mObjectLinksetListPtr(),

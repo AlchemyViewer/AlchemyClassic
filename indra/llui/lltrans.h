@@ -30,6 +30,7 @@
 #include "llpointer.h"
 #include "llstring.h"
 #include <set>
+#include <utility>
 #include "absl/container/flat_hash_map.h"
 
 class LLXMLNode;
@@ -42,7 +43,10 @@ class LLSD;
 class LLTransTemplate
 {
 public:
-	LLTransTemplate(const std::string& name = LLStringUtil::null, const std::string& text = LLStringUtil::null) : mName(name), mText(text) {}
+	LLTransTemplate(std::string name = LLStringUtil::null, std::string text = LLStringUtil::null) : mName(
+                                                                                                               std::
+                                                                                                               move(name)), mText(
+                                                                                                        std::move(text)) {}
 
 	std::string mName;
 	std::string mText;

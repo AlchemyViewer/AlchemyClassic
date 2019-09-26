@@ -29,9 +29,10 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <boost/algorithm/string.hpp>
+#include <utility>
 
 LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader)
-:   mEntry(entry)
+:   mEntry(std::move(entry))
 ,   mResponseMsg(nullptr)
 ,   mEasyMessageReader(message_reader)
 {

@@ -26,6 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llinventorymodelbackgroundfetch.h"
+#include <utility>
 
 #include "llagent.h"
 #include "llappviewer.h"
@@ -139,10 +140,10 @@ class BGFolderHttpHandler : public LLCore::HttpHandler
 	LOG_CLASS(BGFolderHttpHandler);
 	
 public:
-	BGFolderHttpHandler(const LLSD & request_sd, const uuid_vec_t & recursive_cats)
+	BGFolderHttpHandler(LLSD request_sd, uuid_vec_t recursive_cats)
 		: LLCore::HttpHandler(),
-		  mRequestSD(request_sd),
-		  mRecursiveCatUUIDs(recursive_cats)
+		  mRequestSD(std::move(request_sd)),
+		  mRecursiveCatUUIDs(std::move(recursive_cats))
 		{
 			LLInventoryModelBackgroundFetch::instance().incrFetchCount(1);
 		}

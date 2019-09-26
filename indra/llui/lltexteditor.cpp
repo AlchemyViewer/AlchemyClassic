@@ -61,6 +61,7 @@
 #include "llmenugl.h"
 
 #include <queue>
+#include <utility>
 #include "llcombobox.h"
 
 // 
@@ -83,8 +84,8 @@ const F32	SPELLCHECK_DELAY = 0.5f;	// delay between the last keypress and spell 
 class LLTextEditor::TextCmdInsert final: public LLTextBase::TextCmd
 {
 public:
-	TextCmdInsert(S32 pos, BOOL group_with_next, const LLWString &ws, LLTextSegmentPtr segment)
-		: TextCmd(pos, group_with_next, segment), mWString(ws)
+	TextCmdInsert(S32 pos, BOOL group_with_next, LLWString ws, LLTextSegmentPtr segment)
+		: TextCmd(pos, group_with_next, segment), mWString(std::move(ws))
 	{
 	}
 	virtual ~TextCmdInsert() {}

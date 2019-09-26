@@ -81,8 +81,8 @@ public:
 	LLGroupMemberData(const LLUUID& id, 
 						S32 contribution,
 						U64 agent_powers,
-						const std::string& title,
-						const std::string& online_status,
+                        std::string title,
+                        std::string online_status,
 						BOOL is_owner);
 
 	~LLGroupMemberData();

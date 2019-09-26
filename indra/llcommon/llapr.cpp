@@ -138,9 +138,9 @@ apr_pool_t* LLAPRPool::getAPRPool()
 	return mPool ; 
 }
 
-LLVolatileAPRPool::LLVolatileAPRPool(const std::string& name, BOOL is_local, apr_pool_t *parent, apr_size_t size, BOOL releasePoolFlag) 
+LLVolatileAPRPool::LLVolatileAPRPool(std::string name, BOOL is_local, apr_pool_t *parent, apr_size_t size, BOOL releasePoolFlag) 
 				  : LLAPRPool(parent, size, releasePoolFlag),
-				  mName(name),
+				  mName(std::move(name)),
 				  mNumActiveRef(0),
 				  mNumTotalRef(0)
 {

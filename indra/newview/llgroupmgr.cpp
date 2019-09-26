@@ -55,6 +55,7 @@
 #include "roles_constants.h"
 #include <boost/format.hpp>
 #include <boost/regex.hpp>
+#include <utility>
 
 constexpr U32 MAX_CACHED_GROUPS = 20;
 
@@ -79,14 +80,14 @@ LLRoleActionSet::~LLRoleActionSet()
 LLGroupMemberData::LLGroupMemberData(const LLUUID& id, 
 										S32 contribution,
 										U64 agent_powers,
-										const std::string& title,
-										const std::string& online_status,
+                                        std::string title,
+                                        std::string online_status,
 										BOOL is_owner) : 
 	mID(id), 
 	mContribution(contribution), 
 	mAgentPowers(agent_powers), 
-	mTitle(title), 
-	mOnlineStatus(online_status),
+	mTitle(std::move(title)), 
+	mOnlineStatus(std::move(online_status)),
 	mIsOwner(is_owner)
 {
 }

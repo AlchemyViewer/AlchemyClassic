@@ -31,14 +31,16 @@
 
 // Project includes
 #include "lluiimage.h"
-#include "llrender2dutils.h"
 
-LLUIImage::LLUIImage(const std::string& name, LLPointer<LLTexture> image)
+#include "llrender2dutils.h"
+#include <utility>
+
+LLUIImage::LLUIImage(std::string name, LLPointer<LLTexture> image)
 :	mImageLoaded(nullptr),
-	mName(name),
+	mName(std::move(name)),
 	mScaleRegion(0.f, 1.f, 1.f, 0.f),
 	mClipRegion(0.f, 1.f, 1.f, 0.f),
-	mImage(image),
+	mImage(std::move(image)),
 	mScaleStyle(SCALE_INNER)
 {}
 

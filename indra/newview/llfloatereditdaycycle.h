@@ -27,6 +27,7 @@
 #ifndef LL_LLFLOATEREDITDAYCYCLE_H
 #define LL_LLFLOATEREDITDAYCYCLE_H
 
+#include <utility>
 #include "llfloater.h"
 
 #include "llwlparammanager.h" // for LLWLParamKey
@@ -112,7 +113,7 @@ private:
 	struct SliderKey
 	{
 	public:
-		SliderKey(LLWLParamKey kf, F32 t) : keyframe(kf), time(t) {}
+		SliderKey(LLWLParamKey kf, F32 t) : keyframe(std::move(kf)), time(t) {}
 		SliderKey() : keyframe(), time(0.f) {} // Don't use this default constructor
 
 		LLWLParamKey keyframe;

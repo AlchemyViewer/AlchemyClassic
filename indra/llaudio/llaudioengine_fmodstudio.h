@@ -53,7 +53,7 @@ public:
 		RESAMPLE_CUBIC,
 		RESAMPLE_SPLINE
 	};
-	LLAudioEngine_FMODSTUDIO(const std::string& app_name, bool enable_profiler, U32 resample_method);
+	LLAudioEngine_FMODSTUDIO(std::string app_name, bool enable_profiler, U32 resample_method);
 	virtual ~LLAudioEngine_FMODSTUDIO();
 
 	// initialization/startup/shutdown

@@ -28,6 +28,7 @@
 #ifndef LL_LLPARAM_H
 #define LL_LLPARAM_H
 
+#include <utility>
 #include <vector>
 #include <list>
 #include <boost/function.hpp>
@@ -2619,8 +2620,8 @@ namespace LLInitParam
 		ParamValue()
 		{}
 
-		ParamValue(const default_value_t& other)
-		:	mValue(other)
+		ParamValue(default_value_t other)
+		:	mValue(std::move(other))
 		{}
 
 		void setValue(const value_t& val) { mValue = val; }

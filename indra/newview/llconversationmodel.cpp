@@ -36,6 +36,7 @@
 #include "llconversationmodel.h"
 #include "llimview.h" //For LLIMModel
 #include "lltrans.h"
+#include <utility>
 
 //
 // Conversation items : common behaviors
@@ -43,7 +44,7 @@
 
 LLConversationItem::LLConversationItem(std::string display_name, const LLUUID& uuid, LLFolderViewModelInterface& root_view_model) :
 	LLFolderViewModelItemCommon(root_view_model),
-	mName(display_name),
+	mName(std::move(display_name)),
 	mUUID(uuid),
 	mConvType(CONV_UNKNOWN),
 	mNeedsRefresh(true),

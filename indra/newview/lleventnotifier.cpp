@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lleventnotifier.h"
+#include <utility>
 
 #include "llnotificationsutil.h"
 #include "message.h"
@@ -275,11 +276,11 @@ void LLEventNotifier::serverPushRequest(U32 event_id, bool add)
 }
 
 
-LLEventNotification::LLEventNotification(U32 eventId, F64 eventEpoch, const std::string& eventDateStr, const std::string &eventName) :
+LLEventNotification::LLEventNotification(U32 eventId, F64 eventEpoch, std::string eventDateStr, std::string eventName) :
 	mEventID(eventId),
-	mEventName(eventName),
+	mEventName(std::move(eventName)),
 	mEventDateEpoch(eventEpoch),
-    mEventDateStr(eventDateStr)
+    mEventDateStr(std::move(eventDateStr))
 {
 	
 }

@@ -34,6 +34,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpanelobjectinventory.h"
+#include <utility>
 
 #include "llmenugl.h"
 #include "llnotificationsutil.h"
@@ -92,7 +93,7 @@ protected:
 public:
 	LLTaskInvFVBridge(LLPanelObjectInventory* panel,
 					  const LLUUID& uuid,
-					  const std::string& name,
+                      std::string name,
 					  U32 flags=0);
 	virtual ~LLTaskInvFVBridge() = default;
 
@@ -160,11 +161,11 @@ public:
 LLTaskInvFVBridge::LLTaskInvFVBridge(
 	LLPanelObjectInventory* panel,
 	const LLUUID& uuid,
-	const std::string& name,
+    std::string name,
 	U32 flags)
 :	LLFolderViewModelItemInventory(panel->getRootViewModel()),
 	mUUID(uuid),
-	mName(name),
+	mName(std::move(name)),
 	mPanel(panel),
 	mFlags(flags),
 	mAssetType(LLAssetType::AT_NONE),

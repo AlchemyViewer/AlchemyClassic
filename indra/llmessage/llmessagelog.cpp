@@ -23,11 +23,12 @@
 #include "httpresponse.h"
 #include "llmemory.h"
 #include <boost/circular_buffer.hpp>
+#include <utility>
 #include "_httpoprequest.h"
 
 static boost::circular_buffer<LogPayload> sRingBuffer = boost::circular_buffer<LogPayload>(2048);
 
-LLMessageLogEntry::LLMessageLogEntry(LLHost from_host, LLHost to_host, U8* data, size_t data_size)
+LLMessageLogEntry::LLMessageLogEntry(LLHost const& from_host, LLHost const& to_host, U8* data, size_t data_size)
 :   mType(TEMPLATE)
 ,   mFromHost(from_host)
 ,	mToHost(to_host)
@@ -48,15 +49,15 @@ LLMessageLogEntry::LLMessageLogEntry(LLHost from_host, LLHost to_host, U8* data,
 	}
 }
 
-LLMessageLogEntry::LLMessageLogEntry(EEntryType etype, U8* data, size_t data_size, const std::string& url, 
-    const std::string& content_type, const LLCore::HttpHeaders::ptr_t& headers, 
+LLMessageLogEntry::LLMessageLogEntry(EEntryType etype, U8* data, size_t data_size, std::string url,
+                                     std::string content_type, LLCore::HttpHeaders::ptr_t headers, 
     EHTTPMethod method, U8 status_code, U64 request_id)
 :   mType(etype)
 ,   mDataSize(data_size)
 ,   mData(nullptr)
-,   mURL(url)
-,   mContentType(content_type)
-,   mHeaders(headers)
+,   mURL(std::move(url))
+,   mContentType(std::move(content_type))
+,   mHeaders(std::move(headers))
 ,   mMethod(method)
 ,   mStatusCode(status_code)
 ,   mRequestId(request_id)

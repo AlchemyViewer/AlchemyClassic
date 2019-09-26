@@ -27,6 +27,7 @@
 #ifndef LL_LLENVMANAGER_H
 #define LL_LLENVMANAGER_H
 
+#include <utility>
 #include "llmemory.h"
 #include "llsd.h"
 
@@ -59,8 +60,8 @@ public:
 	static const int NAME_IDX = 0;
 	static const int SCOPE_IDX = 1;
 
-	inline LLWLParamKey(const std::string& n, EScope s)
-		: name(n), scope(s)
+	inline LLWLParamKey(std::string n, EScope s)
+		: name(std::move(n)), scope(s)
 	{
 	}
 
@@ -138,10 +139,10 @@ public:
 		mSkyMap(LLSD::emptyMap()),
 		mDayTime(0.f)
 	{}
-	LLEnvironmentSettings(const LLSD& dayCycle, const LLSD& skyMap, const LLSD& waterParams, F64 dayTime) :
-		mWLDayCycle(dayCycle),
-		mWaterParams(waterParams),
-		mSkyMap(skyMap),
+	LLEnvironmentSettings(LLSD dayCycle, LLSD skyMap, LLSD waterParams, F64 dayTime) :
+		mWLDayCycle(std::move(dayCycle)),
+		mWaterParams(std::move(waterParams)),
+		mSkyMap(std::move(skyMap)),
 		mDayTime(dayTime)
 	{}
 	~LLEnvironmentSettings() {}

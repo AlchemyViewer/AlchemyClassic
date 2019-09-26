@@ -30,15 +30,12 @@
 #include "llviewerprecompiledheaders.h"
 #include "linden_common.h"
 
-#include "m3math.h"
-#include "v3dmath.h"
-
 #include "llphysicsmotion.h"
-#include "llagent.h"
 #include "llcharacter.h"
 #include "llviewercontrol.h"
 #include "llviewervisualparam.h"
 #include "llvoavatarself.h"
+#include <utility>
 
 typedef std::map<std::string, std::string> controller_map_t;
 typedef std::map<std::string, F32> default_controller_map_t;
@@ -96,19 +93,19 @@ public:
           controllers: The various settings (e.g. spring force, mass) that determine how
           the body part behaves.
         */
-        LLPhysicsMotion(const std::string &param_driver_name, 
-                        const std::string &joint_name,
+        LLPhysicsMotion(std::string param_driver_name,
+                        std::string joint_name,
                         LLCharacter *character,
                         const LLVector3 &motion_direction_vec,
-                        const controller_map_t &controllers) :
-                mParamDriverName(param_driver_name),
+                        controller_map_t controllers) :
+                mParamDriverName(std::move(param_driver_name)),
                 mMotionDirectionVec(motion_direction_vec),
-                mJointName(joint_name),
+                mJointName(std::move(joint_name)),
                 mPosition_local(0),
                 mVelocityJoint_local(0),
                 mPositionLastUpdate_local(0),
                 mParamDriver(nullptr),
-                mParamControllers(controllers),
+                mParamControllers(std::move(controllers)),
                 mCharacter(character),
                 mLastTime(0)
         {

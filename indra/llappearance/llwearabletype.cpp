@@ -26,8 +26,10 @@
 
 #include "linden_common.h"
 #include "llwearabletype.h"
+
 #include "llinventorytype.h"
 #include "llinventorydefines.h"
+#include <utility>
 
 static LLTranslationBridge* sTrans = nullptr;
 
@@ -45,7 +47,7 @@ void LLWearableType::cleanupClass()
 struct WearableEntry : public LLDictionaryEntry
 {
 	WearableEntry(const std::string &name,
-				  const std::string& default_new_name,
+                  std::string default_new_name,
 				  LLAssetType::EType assetType,
 				  LLInventoryType::EIconName iconName,
 				  BOOL disable_camera_switch = FALSE,
@@ -53,7 +55,7 @@ struct WearableEntry : public LLDictionaryEntry
 		LLDictionaryEntry(name),
 		mAssetType(assetType),
 		mLabel(sTrans->getString(name)),
-		mDefaultNewName(default_new_name),
+		mDefaultNewName(std::move(default_new_name)),
 		mIconName(iconName),
 		mDisableCameraSwitch(disable_camera_switch),
 		mAllowMultiwear(allow_multiwear)

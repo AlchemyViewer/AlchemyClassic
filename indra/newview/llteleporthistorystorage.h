@@ -27,6 +27,7 @@
 #ifndef LL_LLTELEPORTHISTORYSTORAGE_H
 #define LL_LLTELEPORTHISTORYSTORAGE_H
 
+#include <utility>
 #include "lldate.h"
 #include "v3dmath.h"
 
@@ -43,12 +44,12 @@ public:
 	LLTeleportHistoryPersistentItem()
 	{}
 
-	LLTeleportHistoryPersistentItem(const std::string& title, const LLVector3d& global_pos)
-		: mTitle(title), mGlobalPos(global_pos), mDate(LLDate::now())
+	LLTeleportHistoryPersistentItem(std::string title, const LLVector3d& global_pos)
+		: mTitle(std::move(title)), mGlobalPos(global_pos), mDate(LLDate::now())
 	{}
 
-	LLTeleportHistoryPersistentItem(const std::string& title, const LLVector3d& global_pos, const LLDate& date)
-		: mTitle(title), mGlobalPos(global_pos), mDate(date)
+	LLTeleportHistoryPersistentItem(std::string title, const LLVector3d& global_pos, const LLDate& date)
+		: mTitle(std::move(title)), mGlobalPos(global_pos), mDate(date)
 	{}
 
 	LLTeleportHistoryPersistentItem(const LLSD& val);

@@ -33,6 +33,7 @@
 #include "llfilepicker.h"
 #include "llthread.h"
 #include <queue>
+#include <utility>
 
 #include "llviewerassetupload.h"
 
@@ -130,8 +131,8 @@ public:
 	{
 	}
 
-	LLFilePickerThread(LLFilePicker::ESaveFilter filter, const std::string &proposed_name)
-		: LLThread("file picker"), mProposedName(proposed_name), mSaveFilter(filter), mIsSaveDialog(true)
+	LLFilePickerThread(LLFilePicker::ESaveFilter filter, std::string proposed_name)
+		: LLThread("file picker"), mProposedName(std::move(proposed_name)), mSaveFilter(filter), mIsSaveDialog(true)
 	{
 	}
 

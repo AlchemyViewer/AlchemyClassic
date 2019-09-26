@@ -30,9 +30,7 @@
 #include "linden_common.h"
 // associated header
 #include "lleventdispatcher.h"
-// STL headers
-// std headers
-// external library headers
+
 // other Linden headers
 #include "llevents.h"
 #include "llerror.h"
@@ -49,7 +47,7 @@
 class LL_COMMON_API LLSDArgsSource
 {
 public:
-    LLSDArgsSource(const std::string function, const LLSD& args);
+    LLSDArgsSource(const std::string function, LLSD args);
     ~LLSDArgsSource();
 
     LLSD next();
@@ -62,9 +60,9 @@ private:
     LLSD::Integer _index;
 };
 
-LLSDArgsSource::LLSDArgsSource(const std::string function, const LLSD& args):
+LLSDArgsSource::LLSDArgsSource(const std::string function, LLSD args):
     _function(function),
-    _args(args),
+    _args(std::move(args)),
     _index(0)
 {
     if (! (_args.isUndefined() || _args.isArray()))
@@ -430,9 +428,9 @@ struct LLEventDispatcher::LLSDDispatchEntry: public LLEventDispatcher::DispatchE
  */
 struct LLEventDispatcher::ParamsDispatchEntry: public LLEventDispatcher::DispatchEntry
 {
-    ParamsDispatchEntry(const std::string& desc, const invoker_function& func):
+    ParamsDispatchEntry(const std::string& desc, invoker_function func):
         DispatchEntry(desc),
-        mInvoker(func)
+        mInvoker(std::move(func))
     {}
 
     invoker_function mInvoker;

@@ -92,7 +92,7 @@ private:
     class LLItemRequestTimes: public std::map<LLUUID,LLTimer>
     {
     public:
-        LLItemRequestTimes(const std::string& op_name, F32 timeout);
+        LLItemRequestTimes(std::string op_name, F32 timeout);
         void addTime(const LLUUID& inv_item_id);
         void removeTime(const LLUUID& inv_item_id);
         BOOL wasRequestedRecently(const LLUUID& item_id) const;

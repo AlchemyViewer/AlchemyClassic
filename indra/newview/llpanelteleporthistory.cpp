@@ -41,11 +41,11 @@
 #include "llfloatersidepanelcontainer.h"
 #include "llnotificationsutil.h"
 #include "lltextbox.h"
-#include "lltoggleablemenu.h"
 #include "llviewermenu.h"
 #include "lllandmarkactions.h"
 #include "llclipboard.h"
 #include "lltrans.h"
+#include <utility>
 
 // Maximum number of items that can be added to a list in one pass.
 // Used to limit time spent for items list update per frame.
@@ -56,8 +56,8 @@ static const std::string COLLAPSED_BY_USER = "collapsed_by_user";
 class LLTeleportHistoryFlatItem final : public LLPanel
 {
 public:
-	LLTeleportHistoryFlatItem(S32 index, LLTeleportHistoryPanel::ContextMenu *context_menu, const std::string &region_name,
-										 	 LLDate date, const std::string &hl);
+	LLTeleportHistoryFlatItem(S32 index, LLTeleportHistoryPanel::ContextMenu *context_menu, std::string region_name,
+										 	 LLDate date, std::string hl);
 	virtual ~LLTeleportHistoryFlatItem();
 
 	BOOL postBuild() override;
@@ -130,13 +130,14 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-LLTeleportHistoryFlatItem::LLTeleportHistoryFlatItem(S32 index, LLTeleportHistoryPanel::ContextMenu *context_menu, const std::string &region_name,
-																LLDate date, const std::string &hl)
+LLTeleportHistoryFlatItem::LLTeleportHistoryFlatItem(S32 index, LLTeleportHistoryPanel::ContextMenu *context_menu,
+                                                     std::string region_name,
+																LLDate date, std::string hl)
 :	LLPanel(),
 	mContextMenu(context_menu),
 	mIndex(index),
-	mRegionName(region_name),
-	mHighlight(hl),
+	mRegionName(std::move(region_name)),
+	mHighlight(std::move(hl)),
 	mDate(date)
 {
 	buildFromFile( "panel_teleport_history_item.xml");

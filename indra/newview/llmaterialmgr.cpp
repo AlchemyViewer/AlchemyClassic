@@ -269,7 +269,7 @@ boost::signals2::connection LLMaterialMgr::getTE(const LLUUID& region_id, const 
         auto itCallback = mGetTECallbacks.find(te_mat_pair);
 		if (itCallback == mGetTECallbacks.end())
 		{
-			std::pair<get_callback_te_map_t::iterator, bool> ret = mGetTECallbacks.emplace(std::move(te_mat_pair), new get_callback_te_t());
+			std::pair<get_callback_te_map_t::iterator, bool> ret = mGetTECallbacks.emplace(te_mat_pair, new get_callback_te_t());
 			itCallback = ret.first;
 		}
 		connection = itCallback->second->connect(cb);

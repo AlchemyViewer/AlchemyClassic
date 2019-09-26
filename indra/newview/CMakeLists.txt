@@ -777,9 +777,6 @@ set(viewer_SOURCE_FILES
     qtoolalign.cpp
     )
 
-set(VIEWER_BINARY_NAME "alchemy-bin" CACHE STRING
-    "The name of the viewer executable to create.")
-
 set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
@@ -1811,7 +1808,7 @@ if (WINDOWS)
     set_target_properties(${VIEWER_BINARY_NAME}
         PROPERTIES
         LINK_FLAGS "/debug /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS} ${TBBMALLOC_LINK_FLAGS}"
-        LINK_FLAGS_RELEASE "/MAP:\"alchemy-bin.MAP\""
+        LINK_FLAGS_RELEASE "/MAP:\"${VIEWER_BINARY_NAME}.MAP\""
         )
 
     set(COPY_INPUT_DEPENDENCIES
@@ -1896,7 +1893,7 @@ if (WINDOWS)
 
     add_custom_command(
       OUTPUT  ${CMAKE_CFG_INTDIR}/copy_touched.bat
-      COMMAND ${PYTHON_EXECUTABLE}
+      COMMAND ${Python2_EXECUTABLE}
       ARGS
         ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
         --actions=copy
@@ -1904,7 +1901,7 @@ if (WINDOWS)
         --artwork=${ARTWORK_DIR}
         --build=${CMAKE_CURRENT_BINARY_DIR}
         --buildtype=${CMAKE_BUILD_TYPE}
-        "--channel=${VIEWER_CHANNEL}"
+        --channel="${VIEWER_CHANNEL}"
         --configuration=${CMAKE_CFG_INTDIR}
         --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
         --grid=${GRID}
@@ -1940,7 +1937,7 @@ if (WINDOWS)
     if (PACKAGE)
       add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/event_host.tar.bz2
-        COMMAND ${PYTHON_EXECUTABLE}
+        COMMAND ${Python2_EXECUTABLE}
         ARGS
           ${CMAKE_CURRENT_SOURCE_DIR}/event_host_manifest.py
           ${CMAKE_CURRENT_SOURCE_DIR}/..
@@ -1954,14 +1951,14 @@ if (WINDOWS)
 
       add_custom_command(
         OUTPUT ${CMAKE_CFG_INTDIR}/touched.bat
-        COMMAND ${PYTHON_EXECUTABLE}
+        COMMAND ${Python2_EXECUTABLE}
         ARGS
           ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
           --arch=${ARCH}
           --artwork=${ARTWORK_DIR}
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
-          "--channel=${VIEWER_CHANNEL}"
+          --channel="${VIEWER_CHANNEL}"
           --configuration=${CMAKE_CFG_INTDIR}
           --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
           --grid=${GRID}
@@ -2096,7 +2093,7 @@ if (LINUX)
 
   add_custom_command(
       OUTPUT ${product}.tar.xz
-      COMMAND ${PYTHON_EXECUTABLE}
+      COMMAND ${Python2_EXECUTABLE}
       ARGS
         ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
         --arch=${ARCH}
@@ -2120,7 +2117,7 @@ if (LINUX)
 
   add_custom_command(
     OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/.${product}.copy_touched
-    COMMAND ${PYTHON_EXECUTABLE}
+    COMMAND ${Python2_EXECUTABLE}
     ARGS
       ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
       --actions=copy
@@ -2128,7 +2125,7 @@ if (LINUX)
       --artwork=${ARTWORK_DIR}
       --build=${CMAKE_CURRENT_BINARY_DIR}
       --buildtype=${CMAKE_BUILD_TYPE}
-      "--channel=${VIEWER_CHANNEL}"
+      --channel="${VIEWER_CHANNEL}"
       --configuration=${CMAKE_CFG_INTDIR}
       --dest=${CMAKE_CURRENT_BINARY_DIR}/packaged
       --grid=${GRID}
@@ -2197,7 +2194,7 @@ if (DARWIN)
 
   add_custom_command(
     TARGET ${VIEWER_BINARY_NAME} POST_BUILD
-    COMMAND ${PYTHON_EXECUTABLE}
+    COMMAND ${Python2_EXECUTABLE}
     ARGS
       ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
       --actions=copy
@@ -2206,7 +2203,7 @@ if (DARWIN)
       --build=${CMAKE_CURRENT_BINARY_DIR}
       --buildtype=${CMAKE_BUILD_TYPE}
       --bundleid=${MACOSX_BUNDLE_GUI_IDENTIFIER}
-      "--channel=${VIEWER_CHANNEL}"
+      --channel="${VIEWER_CHANNEL}"
       --configuration=${CMAKE_CFG_INTDIR}
       --dest=${VIEWER_APP_BUNDLE}
       --grid=${GRID}
@@ -2230,14 +2227,14 @@ if (DARWIN)
 
       add_custom_command(
         TARGET llpackage POST_BUILD
-        COMMAND ${PYTHON_EXECUTABLE}
+        COMMAND ${Python2_EXECUTABLE}
         ARGS
           ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
           --arch=${ARCH}
           --artwork=${ARTWORK_DIR}
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
-          "--channel=${VIEWER_CHANNEL}"
+          --channel="${VIEWER_CHANNEL}"
           --configuration=${CMAKE_CFG_INTDIR}
           --dest=${VIEWER_APP_BUNDLE}
           --grid=${GRID}
@@ -2277,8 +2274,8 @@ if (PACKAGE AND (RELEASE_CRASH_REPORTING OR NON_RELEASE_CRASH_REPORTING) AND VIE
     endif (DARWIN)
     if (LINUX)
       list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_CURRENT_BINARY_DIR}/packaged")
-      set(VIEWER_EXE_GLOBS "do-not-directly-run-alchemy-bin AlchemPlugin")
-      set(VIEWER_EXE_GLOBS "do-not-directly-run-alchemy-bin")
+      set(VIEWER_EXE_GLOBS "do-not-directly-run-${VIEWER_BINARY_NAME} AlchemPlugin")
+      set(VIEWER_EXE_GLOBS "do-not-directly-run-${VIEWER_BINARY_NAME}")
       set(VIEWER_LIB_GLOB "*${CMAKE_SHARED_MODULE_SUFFIX}*")
       set(VIEWER_COPY_MANIFEST copy_l_viewer_manifest)
     endif (LINUX)
@@ -2291,7 +2288,7 @@ if (PACKAGE AND (RELEASE_CRASH_REPORTING OR NON_RELEASE_CRASH_REPORTING) AND VIE
         set(LLBUILD_CONFIG ${CMAKE_CFG_INTDIR})
     endif(CMAKE_CFG_INTDIR STREQUAL ".")
     add_custom_command(OUTPUT "${VIEWER_SYMBOL_FILE}"
-      COMMAND "${PYTHON_EXECUTABLE}"
+      COMMAND "${Python2_EXECUTABLE}"
       ARGS
         "${CMAKE_CURRENT_SOURCE_DIR}/generate_breakpad_symbols.py"
         "${LLBUILD_CONFIG}"

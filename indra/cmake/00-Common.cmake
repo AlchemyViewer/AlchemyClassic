@@ -17,7 +17,6 @@ if(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)
 set(${CMAKE_CURRENT_LIST_FILE}_INCLUDED "YES")
 
 include(CheckCCompilerFlag)
-include(CheckPython)
 include(Variables)
 
 # Portable compilation flags.

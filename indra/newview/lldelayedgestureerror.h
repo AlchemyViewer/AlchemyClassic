@@ -30,6 +30,7 @@
 #define LL_DELAYEDGESTUREERROR_H
 
 #include <list>
+#include <utility>
 #include "lltimer.h"
 
 // TODO: Refactor to be more generic - this may be useful for other delayed notifications in the future
@@ -56,7 +57,7 @@ private:
 
 	struct LLErrorEntry
 	{
-		LLErrorEntry(const std::string& notify, const LLUUID &item) : mTimer(), mNotifyName(notify), mItemID(item) {}
+		LLErrorEntry(std::string notify, const LLUUID &item) : mTimer(), mNotifyName(std::move(notify)), mItemID(item) {}
 
 		LLTimer mTimer;
 		std::string mNotifyName;

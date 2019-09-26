@@ -64,6 +64,7 @@
 
 // Boost (for linux/unix command-line execv)
 #include <boost/tokenizer.hpp>
+#include <utility>
 
 #if LL_DARWIN
 #include <CoreFoundation/CFURL.h>
@@ -309,7 +310,7 @@ LLGUIPreviewLiveFile::LLGUIPreviewLiveFile(std::string path, std::string name, L
 		mParent(parent),
 		mFadeTimer(nullptr),
 		mFirstFade(TRUE),
-		mFileName(name)
+		mFileName(std::move(name))
 {}
 
 LLGUIPreviewLiveFile::~LLGUIPreviewLiveFile()

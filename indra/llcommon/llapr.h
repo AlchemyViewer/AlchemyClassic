@@ -111,7 +111,7 @@ protected:
 class LL_COMMON_API LLVolatileAPRPool : public LLAPRPool
 {
 public:
-	LLVolatileAPRPool(const std::string& name, BOOL is_local = TRUE, apr_pool_t *parent = nullptr, apr_size_t size = 0, BOOL releasePoolFlag = TRUE);
+	LLVolatileAPRPool(std::string name, BOOL is_local = TRUE, apr_pool_t *parent = nullptr, apr_size_t size = 0, BOOL releasePoolFlag = TRUE);
 	virtual ~LLVolatileAPRPool();
 
 	/*virtual*/ apr_pool_t* getAPRPool() override; //define this virtual function to avoid any mistakenly calling LLAPRPool::getAPRPool().

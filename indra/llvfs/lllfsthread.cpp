@@ -26,6 +26,7 @@
 
 #include "linden_common.h"
 #include "lllfsthread.h"
+#include <utility>
 #include "llstl.h"
 #include "llapr.h"
 
@@ -131,13 +132,13 @@ LLLFSThread::handle_t LLLFSThread::write(const std::string& filename,
 
 LLLFSThread::Request::Request(LLLFSThread* thread,
 							  handle_t handle, U32 priority,
-							  operation_t op, const std::string& filename,
+							  operation_t op, std::string filename,
 							  U8* buffer, S32 offset, S32 numbytes,
 							  Responder* responder) :
 	QueuedRequest(handle, priority, FLAG_AUTO_COMPLETE),
 	mThread(thread),
 	mOperation(op),
-	mFileName(filename),
+	mFileName(std::move(filename)),
 	mBuffer(buffer),
 	mOffset(offset),
 	mBytes(numbytes),

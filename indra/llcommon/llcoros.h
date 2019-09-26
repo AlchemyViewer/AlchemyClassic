@@ -217,7 +217,7 @@ private:
     // coroutine-local storage, as it were: one per coro we track
     struct CoroData
     {
-        CoroData(CoroData* prev, const std::string& name,
+        CoroData(CoroData* prev, std::string name,
                  const callable_t& callable, S32 stacksize);
 
         // The boost::dcoroutines library supports asymmetric coroutines. Every

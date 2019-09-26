@@ -75,6 +75,7 @@
 
 #include <boost/iostreams/device/array.hpp>
 #include <boost/iostreams/stream.hpp>
+#include <utility>
 
 #ifndef LL_WINDOWS
 #include "netdb.h"
@@ -2054,15 +2055,15 @@ bool LLMeshRepoThread::physicsShapeReceived(const LLUUID& mesh_id, U8* data, S32
 
 LLMeshUploadThread::LLMeshUploadThread(LLMeshUploadThread::instance_list& data, LLVector3& scale, bool upload_textures,
 									   bool upload_skin, bool upload_joints, bool lock_scale_if_joint_position,
-                                       const std::string & upload_url, bool do_upload,
+                                       std::string upload_url, bool do_upload,
 									   LLHandle<LLWholeModelFeeObserver> fee_observer,
 									   LLHandle<LLWholeModelUploadObserver> upload_observer)
   : LLThread("mesh upload"),
 	LLCore::HttpHandler(),
 	mDiscarded(false),
-	mWholeModelUploadURL(upload_url),
-	mFeeObserverHandle(fee_observer),
-	mUploadObserverHandle(upload_observer),
+	mWholeModelUploadURL(std::move(upload_url)),
+	mFeeObserverHandle(std::move(fee_observer)),
+	mUploadObserverHandle(std::move(upload_observer)),
 	mDoUpload(do_upload)
 {
 	mInstanceList = data;

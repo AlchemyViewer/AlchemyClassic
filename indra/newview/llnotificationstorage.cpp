@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h" // must be first include
 
 #include "llnotificationstorage.h"
+#include <utility>
 
 #include "llerror.h"
 #include "llfile.h"
@@ -74,7 +75,7 @@ LLResponderRegistry::StaticRegistrar sRegisterOfferInfo("offer_info", &LLRespond
 
 
 LLNotificationStorage::LLNotificationStorage(std::string pFileName)
-	: mFileName(pFileName)
+	: mFileName(std::move(pFileName))
 {
 }
 

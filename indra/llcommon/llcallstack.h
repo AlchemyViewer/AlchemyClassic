@@ -28,6 +28,7 @@
 #define LL_CALLSTACK_H
 
 #include <map>
+#include <utility>
 
 class LLCallStackImpl;
 
@@ -61,8 +62,8 @@ private:
 class LLScopedContextString
 {
 public:
-    LLScopedContextString(const std::string& str):
-        m_str(str)
+    LLScopedContextString(std::string str):
+        m_str(std::move(str))
     {
         LLContextStrings::addContextString(m_str);
     }

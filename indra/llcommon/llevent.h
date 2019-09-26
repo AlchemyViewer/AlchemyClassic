@@ -28,6 +28,7 @@
 #ifndef LL_EVENT_H
 #define LL_EVENT_H
 
+#include <utility>
 #include "llsd.h"
 #include "llrefcount.h"
 #include "llpointer.h"
@@ -47,7 +48,7 @@ protected:
 	virtual ~LLEvent() = default;
 	
 public:
-	LLEvent(LLObservable* source, const std::string& desc = "") : mSource(source), mDesc(desc) { }
+	LLEvent(LLObservable* source, std::string desc = "") : mSource(source), mDesc(std::move(desc)) { }
 
 	LLObservable* getSource() { return mSource; }
 	virtual LLSD		getValue() { return LLSD(); }
@@ -186,7 +187,7 @@ protected:
 class LLValueChangedEvent : public LLEvent
 {
 public:
-	LLValueChangedEvent(LLObservable* source, LLSD value) : LLEvent(source, "value_changed"), mValue(value) { }
+	LLValueChangedEvent(LLObservable* source, LLSD value) : LLEvent(source, "value_changed"), mValue(std::move(value)) { }
 	LLSD getValue() override { return mValue; }
 	LLSD mValue;
 };

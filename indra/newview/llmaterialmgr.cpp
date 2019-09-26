@@ -40,6 +40,8 @@
 #include "httpcommon.h"
 #include "llcorehttputil.h"
 
+#include <utility>
+
 /**
  * Materials cap parameters
  */
@@ -70,7 +72,7 @@ public:
 	typedef std::function<void(bool, const LLSD&)> CallbackFunction;
 	typedef std::shared_ptr<LLMaterialHttpHandler> ptr_t;
 
-	LLMaterialHttpHandler(const std::string& method, CallbackFunction cback);
+	LLMaterialHttpHandler(std::string method, CallbackFunction cback);
 
 	virtual ~LLMaterialHttpHandler();
 
@@ -83,10 +85,10 @@ private:
 	CallbackFunction mCallback;
 };
 
-LLMaterialHttpHandler::LLMaterialHttpHandler(const std::string& method, CallbackFunction cback):
+LLMaterialHttpHandler::LLMaterialHttpHandler(std::string method, CallbackFunction cback):
 	LLHttpSDHandler(),
-	mMethod(method),
-	mCallback(cback)
+	mMethod(std::move(method)),
+	mCallback(std::move(cback))
 {
 
 }

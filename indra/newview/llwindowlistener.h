@@ -37,7 +37,7 @@ class LLWindowListener : public LLEventAPI
 {
 public:
 	typedef std::function<LLKeyboard*()> KeyboardGetter;
-	LLWindowListener(LLViewerWindow * window, const KeyboardGetter& kbgetter);
+	LLWindowListener(LLViewerWindow * window, KeyboardGetter kbgetter);
 
 	void getInfo(LLSD const & evt);
 	void getPaths(LLSD const & evt);

@@ -49,6 +49,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <utility>
 
 #include "lldispatcher.h"
 #include "llxfermanager.h"
@@ -107,9 +108,9 @@ static LLDispatchEmptyMuteList sDispatchEmptyMuteList;
 // LLMute()
 //-----------------------------------------------------------------------------
 
-LLMute::LLMute(const LLUUID& id, const std::string& name, EType type, U32 flags)
+LLMute::LLMute(const LLUUID& id, std::string name, EType type, U32 flags)
   : mID(id),
-	mName(name),
+	mName(std::move(name)),
 	mType(type),
 	mFlags(flags)
 {

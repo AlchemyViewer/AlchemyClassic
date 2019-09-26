@@ -35,6 +35,7 @@
 #include "llpointer.h"
 
 #include <deque>
+#include <utility>
 
 class LLTextSegment;
 typedef LLPointer<LLTextSegment> LLTextSegmentPtr;
@@ -70,13 +71,13 @@ public:
 		TT_TYPE								// WORD
 	} ETokenType;
 
-	LLKeywordToken( ETokenType type, const LLColor4& color, const LLWString& token, const LLWString& tool_tip, const LLWString& delimiter  )
+	LLKeywordToken( ETokenType type, const LLColor4& color, LLWString token, LLWString tool_tip, LLWString delimiter  )
 		:
 		mType( type ),
-		mToken( token ),
+		mToken(std::move(token)),
 		mColor( color ),
-		mToolTip( tool_tip ),
-		mDelimiter( delimiter )		// right delimiter
+		mToolTip(std::move(tool_tip)),
+		mDelimiter(std::move(delimiter))		// right delimiter
 	{
 	}
 

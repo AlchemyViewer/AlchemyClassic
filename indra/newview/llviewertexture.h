@@ -278,7 +278,7 @@ protected:
 public:
 	LLViewerFetchedTexture(const LLUUID& id, FTType f_type, const LLHost& host = LLHost(), BOOL usemipmaps = TRUE);
 	LLViewerFetchedTexture(const LLImageRaw* raw, FTType f_type, BOOL usemipmaps);
-	LLViewerFetchedTexture(const std::string& url, FTType f_type, const LLUUID& id, BOOL usemipmaps = TRUE);
+	LLViewerFetchedTexture(std::string url, FTType f_type, const LLUUID& id, BOOL usemipmaps = TRUE);
 
 public:
 	static F32 maxDecodePriority();

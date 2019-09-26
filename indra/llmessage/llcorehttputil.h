@@ -325,7 +325,7 @@ public:
     typedef std::shared_ptr<HttpCoroutineAdapter> ptr_t;
     typedef std::weak_ptr<HttpCoroutineAdapter>   wptr_t;
 
-    HttpCoroutineAdapter(const std::string &name, LLCore::HttpRequest::policy_t policyId,
+    HttpCoroutineAdapter(std::string name, LLCore::HttpRequest::policy_t policyId,
         LLCore::HttpRequest::priority_t priority = 0L);
     ~HttpCoroutineAdapter();
 

@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llspeakers.h"
+#include <utility>
 
 #include "llagent.h"
 #include "llavatarnamecache.h"
@@ -176,7 +177,7 @@ bool LLSortRecentSpeakers::operator()(const LLPointer<LLSpeaker> lhs, const LLPo
 
 LLSpeakerActionTimer::LLSpeakerActionTimer(action_callback_t action_cb, F32 action_period, const LLUUID& speaker_id)
 : LLEventTimer(action_period)
-, mActionCallback(action_cb)
+, mActionCallback(std::move(action_cb))
 , mSpeakerId(speaker_id)
 {
 }
@@ -196,7 +197,7 @@ void LLSpeakerActionTimer::unset()
 }
 
 LLSpeakersDelayActionsStorage::LLSpeakersDelayActionsStorage(LLSpeakerActionTimer::action_callback_t action_cb, F32 action_delay)
-: mActionCallback(action_cb)
+: mActionCallback(std::move(action_cb))
 , mActionDelay(action_delay)
 {
 }

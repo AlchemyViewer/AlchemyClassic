@@ -49,6 +49,7 @@
 
 #include <boost/exception/diagnostic_information.hpp> 
 #include <boost/exception_ptr.hpp>
+#include <utility>
 
 #if LL_RELEASE_WITH_DEBUG_INFO || LL_DEBUG
 #define CONTROL_ERRS LL_ERRS("ControlErrors")
@@ -147,11 +148,11 @@ bool LLControlVariable::llsd_compare(const LLSD& a, const LLSD & b)
 	return result;
 }
 
-LLControlVariable::LLControlVariable(const std::string& name, eControlType type,
-							 LLSD initial, const std::string& comment,
+LLControlVariable::LLControlVariable(std::string name, eControlType type,
+							 LLSD initial, std::string comment,
 							 ePersist persist, bool hidefromsettingseditor)
-	: mName(name),
-	  mComment(comment),
+	: mName(std::move(name)),
+	  mComment(std::move(comment)),
 	  mType(type),
 	  mPersist(persist),
 	  mHideFromSettingsEditor(hidefromsettingseditor)

@@ -40,6 +40,7 @@
 #include "lltoggleablemenu.h"
 
 #include "llpanelpeople.h"
+#include <utility>
 
 // newview
 #include "llaccordionctrl.h"
@@ -253,7 +254,7 @@ class LLPanelPeople::Updater
 public:
 	typedef std::function<void()> callback_t;
 	Updater(callback_t cb)
-	: mCallback(cb)
+	: mCallback(std::move(cb))
 	{
 	}
 

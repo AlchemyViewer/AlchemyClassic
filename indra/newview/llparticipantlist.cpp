@@ -32,6 +32,7 @@
 #include "llfloaterimcontainer.h"
 #include "llparticipantlist.h"
 #include "llspeakers.h"
+#include <utility>
 
 //LLParticipantList retrieves add, clear and remove events and updates view accordingly 
 
@@ -54,8 +55,8 @@ public:
 	typedef std::function<void(const LLUUID& speaker_id)> process_avaline_callback_t;
 
 	LLAvalineUpdater(process_avaline_callback_t found_cb, process_avaline_callback_t removed_cb)
-		: mAvalineFoundCallback(found_cb)
-		, mAvalineRemovedCallback(removed_cb)
+		: mAvalineFoundCallback(std::move(found_cb))
+		, mAvalineRemovedCallback(std::move(removed_cb))
 	{
 		LLVoiceClient::getInstance()->addObserver(this);
 	}

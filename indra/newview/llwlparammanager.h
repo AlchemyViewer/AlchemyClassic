@@ -27,6 +27,7 @@
 #ifndef LL_WLPARAMMANAGER_H
 #define LL_WLPARAMMANAGER_H
 
+#include <utility>
 #include "llenvmanager.h"
 #include "llwlparamset.h"
 #include "llwlanimator.h"
@@ -47,8 +48,8 @@ struct WLColorControl {
 	bool isBlueHorizonOrDensity;		/// flag for if it's the Blue Horizon or Density color controller
 
 	inline WLColorControl(F32 red, F32 green, F32 blue, F32 intensity,
-						  const std::string& n, const std::string& sliderName = LLStringUtil::null)
-		: r(red), g(green), b(blue), i(intensity), mName(n), mSliderName(sliderName)
+                          std::string n, std::string sliderName = LLStringUtil::null)
+		: r(red), g(green), b(blue), i(intensity), mName(std::move(n)), mSliderName(std::move(sliderName))
 	{
 		// if there's a slider name, say we have one
 		hasSliderName = false;
@@ -95,8 +96,8 @@ struct WLFloatControl {
 	std::string mName;
 	F32 mult;
 
-	inline WLFloatControl(F32 val, const std::string& n, F32 m=1.0f)
-		: x(val), mName(n), mult(m)
+	inline WLFloatControl(F32 val, std::string n, F32 m=1.0f)
+		: x(val), mName(std::move(n)), mult(m)
 	{
 	}
 

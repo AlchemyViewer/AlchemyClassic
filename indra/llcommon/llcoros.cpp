@@ -383,10 +383,10 @@ void LLCoros::toplevel(coro::self& self, CoroData* data, const callable_t& calla
 //#pragma optimize("", off)
 //#endif // LL_MSVC
 
-LLCoros::CoroData::CoroData(CoroData* prev, const std::string& name,
+LLCoros::CoroData::CoroData(CoroData* prev, std::string name,
                             const callable_t& callable, S32 stacksize):
     mPrev(prev),
-    mName(name),
+    mName(std::move(name)),
     // Wrap the caller's callable in our toplevel() function so we can manage
     // Current appropriately at startup and shutdown of each coroutine.
     mCoro(boost::bind(toplevel, _1, this, callable), stacksize),

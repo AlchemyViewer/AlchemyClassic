@@ -28,7 +28,9 @@
 
 #include "llbadgeholder.h"
 #include "llbadgeowner.h"
+
 #include "llpanel.h"
+#include <utility>
 
 //
 // Classes
@@ -37,7 +39,7 @@
 LLBadgeOwner::LLBadgeOwner(LLHandle< LLView > viewHandle)
 	: mHasBadgeHolderParent(false),
 	mBadge(nullptr),
-	mBadgeOwnerView(viewHandle)
+	mBadgeOwnerView(std::move(viewHandle))
 {
 }
 

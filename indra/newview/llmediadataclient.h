@@ -203,7 +203,7 @@ protected:
     {
         LOG_CLASS(Handler);
     public:
-        Handler(const Request::ptr_t &request);
+        Handler(Request::ptr_t request);
         Request::ptr_t getRequest() const { return mRequest; }
 
     protected:
@@ -407,7 +407,7 @@ public:
 	class RequestNavigate: public Request
 	{
 	public:
-		RequestNavigate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc, U8 texture_index, const std::string &url);
+		RequestNavigate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc, U8 texture_index, std::string url);
 		/*virtual*/ LLSD getPayload() const override;
         /*virtual*/ LLCore::HttpHandler::ptr_t createHandler() override;
 		/*virtual*/ std::string getURL() override { return mURL; }

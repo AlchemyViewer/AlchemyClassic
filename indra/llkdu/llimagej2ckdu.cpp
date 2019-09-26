@@ -38,6 +38,7 @@
 #include <boost/exception/diagnostic_information.hpp>
 #include <sstream>
 #include <iomanip>
+#include <utility>
 
 // stream kdu_dims to std::ostream
 // Turns out this must NOT be in the anonymous namespace!
@@ -171,8 +172,8 @@ private:
 class LLKDUMessage: public kdu_message
 {
 public:
-	LLKDUMessage(const std::string& type):
-		mType(type)
+	LLKDUMessage(std::string type):
+		mType(std::move(type))
 	{}
 
 	virtual void put_text(const char *s)

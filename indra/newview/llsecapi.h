@@ -32,6 +32,7 @@
 #include "llpointer.h"
 #include "llsdutil.h"
 
+#include <utility>
 #include <vector>
 #include <ostream>
 
@@ -63,7 +64,7 @@ class LLCredential  : public LLThreadSafeRefCount
 {
 public:
 	LLCredential() {}
-    LLCredential(const std::string& grid) : mGrid(grid) {}
+    LLCredential(std::string grid) : mGrid(std::move(grid)) {}
 	
 	virtual ~LLCredential() {}
 	

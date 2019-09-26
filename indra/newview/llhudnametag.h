@@ -39,6 +39,7 @@
 #include "llfontgl.h"
 #include "lluiimage.h"
 #include <set>
+#include <utility>
 
 class LLDrawable;
 class LLHUDNameTag;
@@ -54,11 +55,11 @@ protected:
 	class LLHUDTextSegment
 	{
 	public:
-		LLHUDTextSegment(const LLWString& text, const LLFontGL::StyleFlags style, const LLColor4& color, const LLFontGL* font)
+		LLHUDTextSegment(LLWString text, const LLFontGL::StyleFlags style, const LLColor4& color, const LLFontGL* font)
 		:	mColor(color),
 			mStyle(style),
 			mFont(font),
-			mText(text)
+			mText(std::move(text))
 		{}
 		F32 getWidth(const LLFontGL* font);
 		const LLWString& getText() const { return mText; }

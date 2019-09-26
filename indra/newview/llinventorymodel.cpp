@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include <typeinfo>
+#include <utility>
 
 #include "llinventorymodel.h"
 
@@ -2635,7 +2636,7 @@ void LLInventoryModel::createCommonSystemCategories()
 struct LLUUIDAndName
 {
 	LLUUIDAndName() {}
-	LLUUIDAndName(const LLUUID& id, const std::string& name);
+	LLUUIDAndName(const LLUUID& id, std::string name);
 	bool operator==(const LLUUIDAndName& rhs) const;
 	bool operator<(const LLUUIDAndName& rhs) const;
 	bool operator>(const LLUUIDAndName& rhs) const;
@@ -2644,8 +2645,8 @@ struct LLUUIDAndName
 	std::string mName;
 };
 
-LLUUIDAndName::LLUUIDAndName(const LLUUID& id, const std::string& name) :
-	mID(id), mName(name)
+LLUUIDAndName::LLUUIDAndName(const LLUUID& id, std::string name) :
+	mID(id), mName(std::move(name))
 {
 }
 
@@ -4171,9 +4172,9 @@ BOOL decompress_file(const char* src_filename, const char* dst_filename)
 /// Class LLInventoryModel::FetchItemHttpHandler
 ///----------------------------------------------------------------------------
 
-LLInventoryModel::FetchItemHttpHandler::FetchItemHttpHandler(const LLSD & request_sd)
+LLInventoryModel::FetchItemHttpHandler::FetchItemHttpHandler(LLSD request_sd)
 	: LLCore::HttpHandler(),
-	  mRequestSD(request_sd)
+	  mRequestSD(std::move(request_sd))
 {}
 
 LLInventoryModel::FetchItemHttpHandler::~FetchItemHttpHandler()

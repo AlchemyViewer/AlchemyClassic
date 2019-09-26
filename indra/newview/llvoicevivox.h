@@ -270,7 +270,7 @@ protected:
 	struct participantState
 	{
 	public:
-		participantState(const std::string &uri);
+		participantState(std::string uri);
 		
 	        bool updateMuteState();	// true if mute state has changed
 		bool isAvatar();

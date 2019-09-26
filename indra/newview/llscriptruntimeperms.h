@@ -27,12 +27,14 @@
 #ifndef LL_LLSCRIPTRUNTIME_PERMS_H
 #define LL_LLSCRIPTRUNTIME_PERMS_H
 
+#include <utility>
+
 typedef struct _script_perm {
 	std::string question;
 	U32 permbit;
 	bool caution;
-	_script_perm(const std::string& q, const U32 b, const bool c) :
-	question(q), permbit(b), caution(c) {}
+	_script_perm(std::string q, const U32 b, const bool c) :
+	question(std::move(q)), permbit(b), caution(c) {}
 } script_perm_t;
 
 const U32 NUM_SCRIPT_PERMISSIONS = 16;

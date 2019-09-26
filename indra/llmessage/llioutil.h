@@ -29,6 +29,7 @@
 #ifndef LL_LLIOUTIL_H
 #define LL_LLIOUTIL_H
 
+#include <utility>
 #include "llbuffer.h"
 #include "lliopipe.h"
 #include "llpumpio.h"
@@ -102,8 +103,8 @@ protected:
 class LLIOAddChain : public LLIOPipe
 {
 public:
-	LLIOAddChain(const LLPumpIO::chain_t& chain, F32 timeout) :
-		mChain(chain),
+	LLIOAddChain(LLPumpIO::chain_t chain, F32 timeout) :
+		mChain(std::move(chain)),
 		mTimeout(timeout)
 	{}
 	virtual ~LLIOAddChain() {}

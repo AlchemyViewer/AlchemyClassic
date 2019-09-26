@@ -33,6 +33,7 @@
 #include "m4math.h"
 #include <queue>
 #include <boost/align/aligned_allocator.hpp>
+#include <utility>
 
 class daeElement;
 class domMesh;
@@ -366,8 +367,8 @@ public:
 	LLUUID mMeshID;
 	S32 mLocalMeshID;
 
-	LLModelInstance(LLModel* model, const std::string& label, LLMatrix4& transform, material_map& materials)
-		: LLModelInstanceBase(model, transform, materials), mLabel(label)
+	LLModelInstance(LLModel* model, std::string label, LLMatrix4& transform, material_map& materials)
+		: LLModelInstanceBase(model, transform, materials), mLabel(std::move(label))
 	{
 		mLocalMeshID = -1;
 	}

@@ -13,6 +13,7 @@
 #include "linden_common.h"
 // associated header
 #include "llleaplistener.h"
+
 // other Linden headers
 #include "lluuid.h"
 #include "llsdutil.h"
@@ -46,12 +47,12 @@
     return features;
 }
 
-LLLeapListener::LLLeapListener(const ConnectFunc& connect):
+LLLeapListener::LLLeapListener(ConnectFunc connect):
     // Each LEAP plugin has an instance of this listener. Make the command
     // pump name difficult for other such plugins to guess.
     LLEventAPI(LLUUID::generateNewID().asString(),
                "Operations relating to the LLSD Event API Plugin (LEAP) protocol"),
-    mConnect(connect)
+    mConnect(std::move(connect))
 {
     LLSD need_name(LLSDMap("name", LLSD()));
     add("newpump",

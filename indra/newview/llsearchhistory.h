@@ -27,6 +27,7 @@
 #ifndef LL_LLSEARCHHISTORY_H
 #define LL_LLSEARCHHISTORY_H
 
+#include <utility>
 #include "llsingleton.h"
 #include "llinitdestroyclass.h"
 #include "llui.h"
@@ -84,8 +85,8 @@ public:
 		LLSearchHistoryItem()
 		{}
 
-		LLSearchHistoryItem(const std::string& query)
-			: search_query(query)
+		LLSearchHistoryItem(std::string query)
+			: search_query(std::move(query))
 		{}
 
 		LLSearchHistoryItem(const LLSD& item)

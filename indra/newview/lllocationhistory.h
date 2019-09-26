@@ -27,6 +27,8 @@
 #ifndef LL_LLLOCATIONHISTORY_H
 #define LL_LLLOCATIONHISTORY_H
 
+#include <utility>
+
 class LLSD;
 /**
  * This enum is responsible for identifying of history item.
@@ -43,8 +45,8 @@ public:
 	LLLocationHistoryItem(std::string typed_location, 
 			LLVector3d global_position, std::string tooltip,ELocationType type ):
 		mGlobalPos(global_position),		
-		mToolTip(tooltip),
-		mLocation(typed_location),
+		mToolTip(std::move(tooltip)),
+		mLocation(std::move(typed_location)),
 		mType(type)
 	{}
 	LLLocationHistoryItem(const LLLocationHistoryItem& item):

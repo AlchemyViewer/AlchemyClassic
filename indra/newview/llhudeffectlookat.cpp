@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llhudeffectlookat.h"
+#include <utility>
 
 #include "llrender.h"
 
@@ -76,8 +77,8 @@ public:
 		: mTimeout(0.f),
 		  mPriority(0.f)
 	{}
-	LLAttention(F32 timeout, F32 priority, const std::string& name, LLColor3 color) :
-	  mTimeout(timeout), mPriority(priority), mName(name), mColor(color)
+	LLAttention(F32 timeout, F32 priority, std::string name, LLColor3 color) :
+	  mTimeout(timeout), mPriority(priority), mName(std::move(name)), mColor(color)
 	{
 	}
 	F32 mTimeout, mPriority;

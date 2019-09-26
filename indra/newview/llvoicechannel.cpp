@@ -31,12 +31,12 @@
 #include "llimview.h"
 #include "llnotifications.h"
 #include "llnotificationsutil.h"
-#include "llpanel.h"
 #include "llrecentpeople.h"
 #include "llviewercontrol.h"
 #include "llviewerregion.h"
 #include "llvoicechannel.h"
 #include "llcorehttputil.h"
+#include <utility>
 
 LLVoiceChannel::voice_channel_map_t LLVoiceChannel::sVoiceChannelMap;
 LLVoiceChannel::voice_channel_map_uri_t LLVoiceChannel::sVoiceChannelURIMap;
@@ -54,11 +54,11 @@ const U32 DEFAULT_RETRIES_COUNT = 3;
 //
 // LLVoiceChannel
 //
-LLVoiceChannel::LLVoiceChannel(const LLUUID& session_id, const std::string& session_name) : 
+LLVoiceChannel::LLVoiceChannel(const LLUUID& session_id, std::string session_name) : 
 	mCallDirection(OUTGOING_CALL), 
 	mSessionID(session_id), 
 	mState(STATE_NO_CHANNEL_INFO),
-	mSessionName(session_name),
+	mSessionName(std::move(session_name)),
 	mCallEndedByAgent(false),
 	mIgnoreNextSessionLeave(FALSE)
 {

@@ -31,7 +31,7 @@
 #include "llavatariconctrl.h"
 #include "lltextbox.h"
 
-LLPanelAvatarTag::LLPanelAvatarTag(const LLUUID& key, const std::string im_time)
+LLPanelAvatarTag::LLPanelAvatarTag(const LLUUID& key, const std::string& im_time)
 	: LLPanel()
 	, mAvatarId(LLUUID::null)
 //	, mFadeTimer()

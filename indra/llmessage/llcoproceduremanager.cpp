@@ -27,8 +27,10 @@
 
 #include "linden_common.h" 
 #include "llcoproceduremanager.h"
+
 #include "llexception.h"
 #include "stringize.h"
+#include <utility>
 
 //=========================================================================
 // Map of pool sizes for known pools
@@ -96,10 +98,10 @@ private:
     {
         typedef std::shared_ptr<QueuedCoproc> ptr_t;
 
-        QueuedCoproc(const std::string &name, const LLUUID &id, CoProcedure_t proc) :
-            mName(name),
+        QueuedCoproc(std::string name, const LLUUID &id, CoProcedure_t proc) :
+            mName(std::move(name)),
             mId(id),
-            mProc(proc)
+            mProc(std::move(proc))
         {}
 
         std::string mName;

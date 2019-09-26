@@ -30,6 +30,7 @@
 #include "llfloaterreporter.h"
 
 #include <sstream>
+#include <utility>
 
 // linden library includes
 #include "llassetstorage.h"
@@ -114,7 +115,7 @@ private:
 
 LLARScreenShotUploader::LLARScreenShotUploader(LLSD report, LLUUID assetId, LLAssetType::EType assetType) :
     LLResourceUploadInfo(assetId, assetType, "Abuse Report"),
-    mReport(report)
+    mReport(std::move(report))
 {
 }
 

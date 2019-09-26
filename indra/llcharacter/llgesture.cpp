@@ -47,17 +47,17 @@ LLGesture::LLGesture()
 { }
 
 LLGesture::LLGesture(KEY key, MASK mask, const std::string &trigger,
-					 const LLUUID &sound_item_id, 
-					 const std::string &animation,
-					 const std::string &output_string)
+					 const LLUUID &sound_item_id,
+                     std::string animation,
+                     std::string output_string)
 :
 	mKey(key),
 	mMask(mask),
 	mTrigger(trigger),
 	mTriggerLower(trigger),
 	mSoundItemID(sound_item_id),
-	mAnimation(animation),
-	mOutputString(output_string)
+	mAnimation(std::move(animation)),
+	mOutputString(std::move(output_string))
 {
 	mTriggerLower = utf8str_tolower(mTriggerLower);
 }

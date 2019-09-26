@@ -26,6 +26,7 @@
 
 #include "linden_common.h"
 #include "lluistring.h"
+#include <utility>
 
 #include "llfasttimer.h"
 #include "llsd.h"
@@ -35,8 +36,8 @@
 LLTrace::BlockTimerStatHandle FTM_UI_STRING("UI String");
 
 
-LLUIString::LLUIString(const std::string& instring, const LLStringUtil::format_map_t& args)
-:	mOrig(instring),
+LLUIString::LLUIString(std::string instring, const LLStringUtil::format_map_t& args)
+:	mOrig(std::move(instring)),
 	mArgs(new LLStringUtil::format_map_t(args))
 {
 	dirty();

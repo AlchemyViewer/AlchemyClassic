@@ -26,6 +26,7 @@
 #ifndef LL_AOSET_H
 #define LL_AOSET_H
 
+#include <utility>
 #include "lleventtimer.h"
 
 class LLAOSet : public LLEventTimer
@@ -69,8 +70,8 @@ public:
 	struct AOAnimation
 	{
 		AOAnimation(): mSortOrder( 0 ) {}
-		AOAnimation(const std::string& name, const LLUUID& asset_id, const LLUUID& inv_id, S32 sort_order)
-			: mName(name)
+		AOAnimation(std::string name, const LLUUID& asset_id, const LLUUID& inv_id, S32 sort_order)
+			: mName(std::move(name))
 			, mAssetUUID(asset_id)
 			, mInventoryUUID(inv_id)
 			, mSortOrder(sort_order)

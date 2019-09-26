@@ -26,6 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llpreviewgesture.h"
+#include <utility>
 
 #include "llagent.h"
 #include "llanimstatelabels.h"
@@ -1017,9 +1018,9 @@ void LLPreviewGesture::loadUIFromGesture(LLMultiGesture* gesture)
 // after the save finishes.
 struct LLSaveInfo
 {
-	LLSaveInfo(const LLUUID& item_id, const LLUUID& object_id, const std::string& desc,
+	LLSaveInfo(const LLUUID& item_id, const LLUUID& object_id, std::string desc,
 				const LLTransactionID tid)
-		: mItemUUID(item_id), mObjectUUID(object_id), mDesc(desc), mTransactionID(tid)
+		: mItemUUID(item_id), mObjectUUID(object_id), mDesc(std::move(desc)), mTransactionID(tid)
 	{
 	}
 

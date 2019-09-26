@@ -38,8 +38,8 @@ class LLFontDescriptor
 {
 public:
 	LLFontDescriptor();
-	LLFontDescriptor(const std::string& name, const std::string& size, const U8 style);
-	LLFontDescriptor(const std::string& name, const std::string& size, const U8 style, const string_vec_t& file_names);
+	LLFontDescriptor(std::string name, std::string size, const U8 style);
+	LLFontDescriptor(std::string name, std::string size, const U8 style, string_vec_t file_names);
 	LLFontDescriptor(const std::string& name, const std::string& size, const U8 style, const string_vec_t& file_names, const string_vec_t& font_collections);
 	LLFontDescriptor normalize() const;
 

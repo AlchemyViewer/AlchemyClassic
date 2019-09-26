@@ -28,6 +28,7 @@
 
 #include "linden_common.h"
 #include "lliosocket.h"
+#include <utility>
 
 #include "llapr.h"
 
@@ -287,7 +288,7 @@ void LLSocket::setNonBlocking()
 ///
 
 LLIOSocketReader::LLIOSocketReader(LLSocket::ptr_t socket) :
-	mSource(socket),
+	mSource(std::move(socket)),
 	mInitialized(false)
 {
 }
@@ -386,7 +387,7 @@ LLIOPipe::EStatus LLIOSocketReader::process_impl(
 ///
 
 LLIOSocketWriter::LLIOSocketWriter(LLSocket::ptr_t socket) :
-	mDestination(socket),
+	mDestination(std::move(socket)),
 	mLastWritten(nullptr),
 	mInitialized(false)
 {
@@ -536,8 +537,8 @@ LLIOServerSocket::LLIOServerSocket(
 	LLIOServerSocket::socket_t listener,
 	factory_t factory) :
 	mPool(pool),
-	mListenSocket(listener),
-	mReactor(factory),
+	mListenSocket(std::move(listener)),
+	mReactor(std::move(factory)),
 	mInitialized(false),
 	mResponseTimeout(DEFAULT_CHAIN_EXPIRY_SECS)
 {

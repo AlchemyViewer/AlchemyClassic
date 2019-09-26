@@ -97,15 +97,15 @@ LLFloaterTextureFetchDebugger::~LLFloaterTextureFetchDebugger()
 
 void LLFloaterTextureFetchDebugger::updateButtons()
 {
-	for(std::map<std::string, bool>::iterator iter = mButtonStateMap.begin(); iter != mButtonStateMap.end(); ++iter)
-	{
-		if(iter->second)
+	for (auto& iter : mButtonStateMap)
+    {
+		if(iter.second)
 		{
-			childEnable(iter->first.c_str());
+			childEnable(iter.first);
 		}
 		else
 		{
-			childDisable(iter->first.c_str());
+			childDisable(iter.first);
 		}
 	}
 }

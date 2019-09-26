@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llfriendcard.h"
+#include <utility>
 
 #include "llagent.h"
 #include "llavatarnamecache.h"
@@ -141,7 +142,7 @@ public:
 	LLInitialFriendCardsFetch(const LLUUID& folder_id,
 							  callback_t cb) :
 		LLInventoryFetchDescendentsObserver(folder_id),
-		mCheckFolderCallback(cb)	
+		mCheckFolderCallback(std::move(cb))	
 	{}
 
 	void done() override;

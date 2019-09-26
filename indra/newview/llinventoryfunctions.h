@@ -28,6 +28,7 @@
 #ifndef LL_LLINVENTORYFUNCTIONS_H
 #define LL_LLINVENTORYFUNCTIONS_H
 
+#include <utility>
 #include "llinventorymodel.h"
 #include "llinventory.h"
 #include "llhandle.h"
@@ -284,7 +285,7 @@ protected:
 class LLNameCategoryCollector : public LLInventoryCollectFunctor
 {
 public:
-	LLNameCategoryCollector(const std::string& name) : mName(name) {}
+	LLNameCategoryCollector(std::string name) : mName(std::move(name)) {}
 	virtual ~LLNameCategoryCollector() {}
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;

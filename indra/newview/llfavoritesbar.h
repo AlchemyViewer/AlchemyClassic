@@ -27,6 +27,7 @@
 #ifndef LL_LLFAVORITESBARCTRL_H
 #define LL_LLFAVORITESBARCTRL_H
 
+#include <utility>
 #include "llbutton.h"
 #include "lluictrl.h"
 #include "lltextbox.h"
@@ -240,8 +241,8 @@ private:
 
 	struct IsNotInFavorites
 	{
-		IsNotInFavorites(const LLInventoryModel::item_array_t& items)
-			: mFavoriteItems(items)
+		IsNotInFavorites(LLInventoryModel::item_array_t items)
+			: mFavoriteItems(std::move(items))
 		{
 
 		}

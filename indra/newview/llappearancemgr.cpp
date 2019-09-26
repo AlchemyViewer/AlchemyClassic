@@ -26,7 +26,6 @@
  
 #include "llviewerprecompiledheaders.h"
 
-#include "llaccordionctrltab.h"
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llagentwearables.h"
@@ -49,8 +48,6 @@
 #include "llvoavatarself.h"
 #include "llviewerregion.h"
 #include "llwearablelist.h"
-#include "llsdutil.h"
-#include "llsdserialize.h"
 #include "llhttpretrypolicy.h"
 #include "llaisapi.h"
 #include "llhttpsdhandler.h"
@@ -168,17 +165,17 @@ class LLCallAfterInventoryBatchMgr: public LLEventTimer
 {
 public:
 	LLCallAfterInventoryBatchMgr(const LLUUID& dst_cat_id,
-								 const std::string& phase_name,
+                                 std::string phase_name,
 								 nullary_func_t on_completion_func,
 								 nullary_func_t on_failure_func = no_op,
 								 F32 retry_after = DEFAULT_RETRY_AFTER_INTERVAL,
 								 S32 max_retries = DEFAULT_MAX_RETRIES
 		):
 		LLEventTimer(5.0),
-		mTrackingPhase(phase_name),
+		mTrackingPhase(std::move(phase_name)),
 		mDstCatID(dst_cat_id),
-		mOnCompletionFunc(on_completion_func),
-		mOnFailureFunc(on_failure_func),
+		mOnCompletionFunc(std::move(on_completion_func)),
+		mOnFailureFunc(std::move(on_failure_func)),
 		mRetryAfter(retry_after),
 		mMaxRetries(max_retries),
 		mPendingRequests(0),
@@ -445,9 +442,9 @@ private:
 class LLTrackPhaseWrapper : public LLInventoryCallback
 {
 public:
-	LLTrackPhaseWrapper(const std::string& phase_name, LLPointer<LLInventoryCallback> cb = nullptr):
-		mTrackingPhase(phase_name),
-		mCB(cb)
+	LLTrackPhaseWrapper(std::string phase_name, LLPointer<LLInventoryCallback> cb = nullptr):
+		mTrackingPhase(std::move(phase_name)),
+		mCB(std::move(cb))
 	{
 		selfStartPhase(mTrackingPhase);
 	}
@@ -479,7 +476,7 @@ LLUpdateAppearanceOnDestroy::LLUpdateAppearanceOnDestroy(bool enforce_item_restr
 	mFireCount(0),
 	mEnforceItemRestrictions(enforce_item_restrictions),
 	mEnforceOrdering(enforce_ordering),
-	mPostUpdateFunc(post_update_func)
+	mPostUpdateFunc(std::move(post_update_func))
 {
 	selfStartPhase("update_appearance_on_destroy");
 }
@@ -561,14 +558,14 @@ struct LLFoundData
 
 	LLFoundData(const LLUUID& item_id,
 				const LLUUID& asset_id,
-				const std::string& name,
+                std::string name,
 				const LLAssetType::EType& asset_type,
 				const LLWearableType::EType& wearable_type,
 				const bool is_replacement = false
 		) :
 		mItemID(item_id),
 		mAssetID(asset_id),
-		mName(name),
+		mName(std::move(name)),
 		mAssetType(asset_type),
 		mWearableType(wearable_type),
 		mWearable( NULL ),
@@ -2682,10 +2679,10 @@ bool areMatchingWearables(const LLViewerInventoryItem *a, const LLViewerInventor
 class LLDeferredCOFLinkObserver: public LLInventoryObserver
 {
 public:
-	LLDeferredCOFLinkObserver(const LLUUID& item_id, LLPointer<LLInventoryCallback> cb, const std::string& description):
+	LLDeferredCOFLinkObserver(const LLUUID& item_id, LLPointer<LLInventoryCallback> cb, std::string description):
 		mItemID(item_id),
-		mDescription(description),
-		mCallback(cb)
+		mDescription(std::move(description)),
+		mCallback(std::move(cb))
 	{
 	}
 
@@ -2870,7 +2867,7 @@ class LLUpdateOnCOFLinkRemove : public LLInventoryCallback
 public:
 	LLUpdateOnCOFLinkRemove(const LLUUID& remove_item_id, LLPointer<LLInventoryCallback> cb = NULL):
 		mItemID(remove_item_id),
-		mCB(cb)
+		mCB(std::move(cb))
 	{
 	}
 
@@ -4090,7 +4087,7 @@ public:
 	CallAfterCategoryFetchStage2(const uuid_vec_t& ids,
 								 nullary_func_t callable) :
 		LLInventoryFetchItemsObserver(ids),
-		mCallable(callable)
+		mCallable(std::move(callable))
 	{
 	}
 	~CallAfterCategoryFetchStage2()
@@ -4115,7 +4112,7 @@ class CallAfterCategoryFetchStage1: public LLInventoryFetchDescendentsObserver
 public:
 	CallAfterCategoryFetchStage1(const LLUUID& cat_id, nullary_func_t callable) :
 		LLInventoryFetchDescendentsObserver(cat_id),
-		mCallable(callable)
+		mCallable(std::move(callable))
 	{
 	}
 	~CallAfterCategoryFetchStage1()

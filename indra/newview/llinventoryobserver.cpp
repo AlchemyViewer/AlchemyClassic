@@ -55,6 +55,7 @@
 #include "llvoavatarself.h"
 #include "llsdutil.h"
 #include <deque>
+#include <utility>
 
 const F32 LLInventoryFetchItemsObserver::FETCH_TIMER_EXPIRY = 60.0f;
 
@@ -744,7 +745,7 @@ void LLInventoryCategoriesObserver::removeCategory(const LLUUID& cat_id)
 LLInventoryCategoriesObserver::LLCategoryData::LLCategoryData(
 	const LLUUID& cat_id, callback_t cb, S32 version, S32 num_descendents)
 	
-	: mCallback(cb)
+	: mCallback(std::move(cb))
 	, mVersion(version)
 	, mDescendentsCount(num_descendents)
 	, mIsNameHashInitialized(false)
@@ -756,7 +757,7 @@ LLInventoryCategoriesObserver::LLCategoryData::LLCategoryData(
 LLInventoryCategoriesObserver::LLCategoryData::LLCategoryData(
 	const LLUUID& cat_id, callback_t cb, S32 version, S32 num_descendents, LLMD5 name_hash)
 
-	: mCallback(cb)
+	: mCallback(std::move(cb))
 	, mVersion(version)
 	, mDescendentsCount(num_descendents)
 	, mItemNameHash(name_hash)

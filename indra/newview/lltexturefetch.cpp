@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lltexturefetch.h"
+#include <utility>
 
 #include "lldir.h"
 #include "llhttpconstants.h"
@@ -436,7 +437,7 @@ public:
 
 protected:
 	LLTextureFetchWorker(LLTextureFetch* fetcher, FTType f_type,
-						 const std::string& url, const LLUUID& id, const LLHost& host,
+                         std::string url, const LLUUID& id, const LLHost& host,
 						 F32 priority, S32 discard, S32 size);
 
 private:
@@ -824,7 +825,7 @@ public:
 	 *							ownership of the copy and disposes of it
 	 *							when done.
 	 */
-    TFReqSendMetrics(const std::string & caps_url,
+    TFReqSendMetrics(std::string caps_url,
         const LLUUID & session_id,
         const LLUUID & agent_id,
         LLSD& stats_sd);
@@ -887,7 +888,7 @@ volatile bool LLTextureFetch::svMetricsDataBreak(true);	// Start with a data bre
 
 LLTextureFetchWorker::LLTextureFetchWorker(LLTextureFetch* fetcher,
 										   FTType f_type, // Fetched image type
-										   const std::string& url, // Optional URL
+                                           std::string url, // Optional URL
 										   const LLUUID& id,	// Image UUID
 										   const LLHost& host,	// Simulator host
 										   F32 priority,		// Priority
@@ -901,7 +902,7 @@ LLTextureFetchWorker::LLTextureFetchWorker(LLTextureFetch* fetcher,
 	  mFTType(f_type),
 	  mID(id),
 	  mHost(host),
-	  mUrl(url),
+	  mUrl(std::move(url)),
 	  mImagePriority(priority),
 	  mWorkPriority(0),
 	  mRequestedPriority(0.f),
@@ -4009,12 +4010,12 @@ TFReqSetRegion::doWork(LLTextureFetch *)
 	return true;
 }
 
-TFReqSendMetrics::TFReqSendMetrics(const std::string & caps_url,
+TFReqSendMetrics::TFReqSendMetrics(std::string caps_url,
                                    const LLUUID & session_id,
                                    const LLUUID & agent_id,
                                    LLSD& stats_sd):
     LLTextureFetch::TFRequest(),
-    mCapsURL(caps_url),
+    mCapsURL(std::move(caps_url)),
     mSessionID(session_id),
     mAgentID(agent_id),
     mStatsSD(stats_sd),

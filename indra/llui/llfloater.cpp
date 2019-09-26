@@ -31,6 +31,7 @@
 #include "linden_common.h"
 #include "llviewereventrecorder.h"
 #include "llfloater.h"
+#include <utility>
 
 #include "llfocusmgr.h"
 
@@ -236,10 +237,10 @@ void LLFloater::initClass()
 // defaults for floater param block pulled from widgets/floater.xml
 static LLWidgetNameRegistry::StaticRegistrar sRegisterFloaterParams(&typeid(LLFloater::Params), "floater");
 
-LLFloater::LLFloater(const LLSD& key, const LLFloater::Params& p)
+LLFloater::LLFloater(LLSD key, const LLFloater::Params& p)
 :	LLPanel(),	// intentionally do not pass params here, see initFromParams
  	mMinimizeSignal(NULL),
-	mKey(key),
+	mKey(std::move(key)),
 	mDragHandle(nullptr),
 	mTitle(p.title),
 	mShortTitle(p.short_title), // reuse single-instance floaters by default

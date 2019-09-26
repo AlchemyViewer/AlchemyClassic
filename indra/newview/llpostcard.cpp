@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpostcard.h"
+#include <utility>
 
 #include "llvfile.h"
 #include "llvfs.h"
@@ -44,10 +45,10 @@ LLPostcardUploadInfo::LLPostcardUploadInfo(std::string nameFrom, std::string ema
         std::string subject, std::string message, LLVector3d globalPosition,
         LLPointer<LLImageFormatted> image, invnUploadFinish_f finish) :
     LLBufferedAssetUploadInfo(LLUUID::null, image, finish),
-    mNameFrom(nameFrom),
-    mEmailTo(emailTo),
-    mSubject(subject),
-    mMessage(message),
+    mNameFrom(std::move(nameFrom)),
+    mEmailTo(std::move(emailTo)),
+    mSubject(std::move(subject)),
+    mMessage(std::move(message)),
     mGlobalPosition(globalPosition)
 {
 }

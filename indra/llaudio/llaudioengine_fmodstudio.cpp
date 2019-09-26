@@ -31,6 +31,7 @@
 #include "llstreamingaudio_fmodstudio.h"
 
 #include "llaudioengine_fmodstudio.h"
+#include <utility>
 #include "lllistener_fmodstudio.h"
 
 #include "llerror.h"
@@ -49,7 +50,7 @@ FMOD_RESULT F_CALLBACK windDSPCallback(FMOD_DSP_STATE *dsp_state, float *inbuffe
 
 FMOD::ChannelGroup *LLAudioEngine_FMODSTUDIO::mChannelGroups[LLAudioEngine::AUDIO_TYPE_COUNT] = {nullptr};
 
-LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(const std::string& app_name, bool enable_profiler, U32 resample_method)
+LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(std::string app_name, bool enable_profiler, U32 resample_method)
 	: mInited(false)
 	, mWindGen(nullptr)
 	, mWindDSPDesc(nullptr)
@@ -57,7 +58,7 @@ LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(const std::string& app_name, 
 	, mSystem(nullptr)
 	, mEnableProfiler(enable_profiler)
 	, mResampleMethod(resample_method)
-	, mAppName(app_name)
+	, mAppName(std::move(app_name))
 {
 }
 

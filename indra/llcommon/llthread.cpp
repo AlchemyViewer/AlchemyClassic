@@ -35,6 +35,7 @@
 #include "llexception.h"
 
 #include <chrono>
+
 using namespace std::chrono_literals;
 
 #ifdef LL_WINDOWS
@@ -143,10 +144,10 @@ void LLThread::threadRun()
     mStatus = STOPPED;
 }
 
-LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
+LLThread::LLThread(std::string name, apr_pool_t *poolp) :
     mPaused(false), 
     mNativeHandle(nullptr),
-    mName(name),
+    mName(std::move(name)),
     mRunCondition(std::make_unique<LLCondition>()),
     mDataLock(std::make_unique<LLMutex>()),
     mStatus(STOPPED)

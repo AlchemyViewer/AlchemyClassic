@@ -123,6 +123,7 @@
 #include "llviewertexturelist.h"
 
 #include <nlohmann/json.hpp>
+#include <utility>
 
 #include "llsearchableui.h"
 
@@ -2241,7 +2242,7 @@ public:
 
 	Updater(callback_t cb, F32 period)
 	:LLEventTimer(period),
-	 mCallback(cb)
+	 mCallback(std::move(cb))
 	{
 		mEventTimer.stop();
 	}

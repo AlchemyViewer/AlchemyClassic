@@ -64,7 +64,7 @@ public:
 	public:
 		Request(LLLFSThread* thread,
 				handle_t handle, U32 priority, 
-				operation_t op, const std::string& filename,
+				operation_t op, std::string filename,
 				U8* buffer, S32 offset, S32 numbytes,
 				Responder* responder);
 

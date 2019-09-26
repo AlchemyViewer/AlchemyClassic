@@ -26,6 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llsearchcombobox.h"
+#include <utility>
 
 #include "llkeyboard.h"
 #include "lltrans.h"  // for LLTrans::getString()
@@ -35,7 +36,7 @@ static LLDefaultChildRegistry::Register<LLSearchComboBox> r1("search_combo_box")
 class LLSearchHistoryBuilder
 {
 public:
-	LLSearchHistoryBuilder(LLSearchComboBox* combo_box, const std::string& filter);
+	LLSearchHistoryBuilder(LLSearchComboBox* combo_box, std::string filter);
 
 	virtual void buildSearchHistory();
 
@@ -202,9 +203,9 @@ BOOL LLSearchComboBox::handleKeyHere(KEY key,MASK mask )
 	return LLComboBox::handleKeyHere(key, mask);
 }
 
-LLSearchHistoryBuilder::LLSearchHistoryBuilder(LLSearchComboBox* combo_box, const std::string& filter)
+LLSearchHistoryBuilder::LLSearchHistoryBuilder(LLSearchComboBox* combo_box, std::string filter)
 : mComboBox(combo_box)
-, mFilter(filter)
+, mFilter(std::move(filter))
 {
 }
 

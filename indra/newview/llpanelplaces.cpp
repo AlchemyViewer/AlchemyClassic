@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpanelplaces.h"
+#include <utility>
 
 #include "llassettype.h"
 #include "lltimer.h"
@@ -720,7 +721,7 @@ class LLUpdateLandmarkParent final : public LLInventoryCallback
 {
 public:
     LLUpdateLandmarkParent(LLPointer<LLViewerInventoryItem> item, LLUUID new_parent) :
-        mItem(item),
+        mItem(std::move(item)),
         mNewParentId(new_parent)
     {};
     void fire(const LLUUID& inv_item_id) override

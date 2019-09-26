@@ -46,6 +46,7 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
+#include <utility>
 
 const S32 LOG_RECALL_SIZE = 2048;
 
@@ -997,11 +998,11 @@ void LLActionThread::setFinished()
 	mRunCondition.signal();
 }
 
-LLLoadHistoryThread::LLLoadHistoryThread(const std::string& file_name, std::list<LLSD>* messages, const LLSD& load_params)
+LLLoadHistoryThread::LLLoadHistoryThread(const std::string& file_name, std::list<LLSD>* messages, LLSD load_params)
 	: LLActionThread("load chat history"),
 	mFileName(file_name),
 	mMessages(messages),
-	mLoadParams(load_params),
+	mLoadParams(std::move(load_params)),
 	mNewLoad(true),
 	mLoadEndSignal(nullptr)
 {

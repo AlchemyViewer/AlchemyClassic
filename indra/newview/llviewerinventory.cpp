@@ -26,6 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llviewerinventory.h"
+#include <utility>
 
 #include "llnotificationsutil.h"
 #include "llsdserialize.h"
@@ -1640,7 +1641,7 @@ class LLRemoveCategoryOnDestroy: public LLInventoryCallback
 public:
 	LLRemoveCategoryOnDestroy(const LLUUID& cat_id, LLPointer<LLInventoryCallback> cb):
 		mID(cat_id),
-		mCB(cb)
+		mCB(std::move(cb))
 	{
 	}
 	/* virtual */ void fire(const LLUUID& item_id) override {}

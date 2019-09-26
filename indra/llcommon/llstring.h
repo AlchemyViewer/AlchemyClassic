@@ -35,6 +35,7 @@
 //#include <locale>
 #include <iomanip>
 #include <algorithm>
+#include <utility>
 #include <vector>
 #include <map>
 #include "llformat.h"
@@ -228,7 +229,7 @@ class LLFormatMapString
 public:
 	LLFormatMapString() {};
 	LLFormatMapString(const char* s) : mString(ll_safe_string(s)) {};
-	LLFormatMapString(const std::string& s) : mString(s) {};
+	LLFormatMapString(std::string s) : mString(std::move(s)) {};
 	operator std::string() const { return mString; }
 	bool operator<(const LLFormatMapString& rhs) const { return mString < rhs.mString; }
 	std::size_t length() const { return mString.length(); }

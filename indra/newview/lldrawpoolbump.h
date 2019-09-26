@@ -27,6 +27,7 @@
 #ifndef LL_LLDRAWPOOLBUMP_H
 #define LL_LLDRAWPOOLBUMP_H
 
+#include <utility>
 #include "lldrawpool.h"
 #include "llstring.h"
 #include "lltextureentry.h"
@@ -111,7 +112,7 @@ class LLStandardBumpmap
 {
 public: 
 	LLStandardBumpmap() : mLabel() {} 
-	LLStandardBumpmap( const std::string& label ) : mLabel(label) {}
+	LLStandardBumpmap(std::string label ) : mLabel(std::move(label)) {}
 	
 	std::string	mLabel;
 	LLPointer<LLViewerFetchedTexture> mImage;

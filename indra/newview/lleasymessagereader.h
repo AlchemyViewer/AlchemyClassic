@@ -31,7 +31,7 @@ public:
 	LLEasyMessageReader();
 	~LLEasyMessageReader();
 
-	LLMessageTemplate* decodeTemplateMessage(U8* data, S32 data_len, LLHost from_host);
+	LLMessageTemplate* decodeTemplateMessage(U8* data, S32 data_len, LLHost const& from_host);
 	LLMessageTemplate* decodeTemplateMessage(U8* data, S32 data_len, LLHost from_host, U32& sequence_id);
 
 	S32 getNumberOfBlocks(const char *blockname);

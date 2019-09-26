@@ -167,7 +167,7 @@ public:
     class iterator
     {
     public:
-        iterator(const LLPointer<iterator_impl>& impl) : mImpl(impl) {}
+        iterator(LLPointer<iterator_impl> impl) : mImpl(std::move(impl)) {}
         iterator() : mImpl(nullptr) {}
         iterator(const iterator& _iter) {mImpl = _iter.mImpl->clone(); }
         ~iterator() = default;

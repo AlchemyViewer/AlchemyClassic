@@ -26,6 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llexpandabletextbox.h"
+#include <utility>
 
 #include "llscrollcontainer.h"
 #include "lltrans.h"
@@ -37,10 +38,10 @@ static LLDefaultChildRegistry::Register<LLExpandableTextBox> t1("expandable_text
 class LLExpanderSegment final : public LLTextSegment
 {
 public:
-	LLExpanderSegment(const LLStyleSP& style, S32 start, S32 end, const std::string& more_text, LLTextBase& editor )
+	LLExpanderSegment(LLStyleSP style, S32 start, S32 end, const std::string& more_text, LLTextBase& editor )
 	:	LLTextSegment(start, end),
 		mEditor(editor),
-		mStyle(style),
+		mStyle(std::move(style)),
 		mExpanderLabel(utf8str_to_wstring(more_text))
 	{}
 

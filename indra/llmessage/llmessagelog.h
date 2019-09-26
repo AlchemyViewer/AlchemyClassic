@@ -46,10 +46,10 @@ struct LLMessageLogEntry
     } EEntryType;
 
     /// Ctor for TEMPLATE lludp message
-	LLMessageLogEntry(LLHost from_host, LLHost to_host, U8* data, size_t data_size);
+	LLMessageLogEntry(LLHost const& from_host, LLHost const& to_host, U8* data, size_t data_size);
     /// Ctor for HTTP message
-    LLMessageLogEntry(EEntryType etype, U8* data, size_t data_size, const std::string& url,
-        const std::string& content_type, const LLCore::HttpHeaders::ptr_t& headers, EHTTPMethod method, 
+    LLMessageLogEntry(EEntryType etype, U8* data, size_t data_size, std::string url,
+                      std::string content_type, LLCore::HttpHeaders::ptr_t headers, EHTTPMethod method, 
         U8 status_code, U64 request_id);
     /// Copy ctor
     LLMessageLogEntry(const LLMessageLogEntry& entry);

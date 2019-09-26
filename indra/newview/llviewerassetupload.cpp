@@ -40,10 +40,8 @@
 #include "lleconomy.h"
 #include "llfloaterreg.h"
 #include "llfloatersnapshot.h"
-#include "llgesturemgr.h"
 #include "llinventorypanel.h"
 #include "llnotificationsutil.h"
-#include "llpreviewnotecard.h"
 #include "llpreviewgesture.h"
 #include "llpreviewscript.h"
 #include "llstatusbar.h"
@@ -54,6 +52,7 @@
 #include "llviewerstats.h"
 #include "llviewertexturelist.h"
 #include "llvoavatarself.h"
+#include <utility>
 
 void dialog_refresh_all();
 
@@ -66,8 +65,8 @@ LLResourceUploadInfo::LLResourceUploadInfo(LLTransactionID transactId,
         U32 groupPerms, U32 everyonePerms, S32 expectedCost, bool showInventory) :
     mTransactionId(transactId),
     mAssetType(assetType),
-    mName(name),
-    mDescription(description),
+    mName(std::move(name)),
+    mDescription(std::move(description)),
     mCompressionInfo(compressionInfo),
     mDestinationFolderType(destinationType),
     mInventoryType(inventoryType),
@@ -88,8 +87,8 @@ LLResourceUploadInfo::LLResourceUploadInfo(std::string name,
         U32 nextOWnerPerms, U32 groupPerms, U32 everyonePerms, S32 expectedCost, bool showInventory) :
     mTransactionId(),
     mAssetType(LLAssetType::AT_NONE),
-    mName(name),
-    mDescription(description),
+    mName(std::move(name)),
+    mDescription(std::move(description)),
     mCompressionInfo(compressionInfo),
     mDestinationFolderType(destinationType),
     mInventoryType(inventoryType),
@@ -108,7 +107,7 @@ LLResourceUploadInfo::LLResourceUploadInfo(std::string name,
 LLResourceUploadInfo::LLResourceUploadInfo(LLAssetID assetId, LLAssetType::EType assetType, std::string name) :
     mTransactionId(),
     mAssetType(assetType),
-    mName(name),
+    mName(std::move(name)),
     mDescription(),
     mCompressionInfo(0),
     mDestinationFolderType(LLFolderType::FT_NONE),
@@ -342,7 +341,7 @@ LLNewFileResourceUploadInfo::LLNewFileResourceUploadInfo(
     LLResourceUploadInfo(name, description, compressionInfo,
     destinationType, inventoryType,
     nextOWnerPerms, groupPerms, everyonePerms, expectedCost, show_inventory),
-    mFileName(fileName)
+    mFileName(std::move(fileName))
 {
 }
 
@@ -559,8 +558,8 @@ LLBufferedAssetUploadInfo::LLBufferedAssetUploadInfo(LLUUID itemId, LLAssetType:
         0, 0, 0, 0),
     mTaskUpload(false),
     mTaskId(LLUUID::null),
-    mContents(buffer),
-    mInvnFinishFn(finish),
+    mContents(std::move(buffer)),
+    mInvnFinishFn(std::move(finish)),
     mTaskFinishFn(NULL),
     mStoredToVFS(false)
 {
@@ -574,7 +573,7 @@ LLBufferedAssetUploadInfo::LLBufferedAssetUploadInfo(LLUUID itemId, LLPointer<LL
     mTaskUpload(false),
     mTaskId(LLUUID::null),
     mContents(),
-    mInvnFinishFn(finish),
+    mInvnFinishFn(std::move(finish)),
     mTaskFinishFn(NULL),
     mStoredToVFS(false)
 {
@@ -607,9 +606,9 @@ LLBufferedAssetUploadInfo::LLBufferedAssetUploadInfo(LLUUID taskId, LLUUID itemI
         0, 0, 0, 0),
     mTaskUpload(true),
     mTaskId(taskId),
-    mContents(buffer),
+    mContents(std::move(buffer)),
     mInvnFinishFn(NULL),
-    mTaskFinishFn(finish),
+    mTaskFinishFn(std::move(finish)),
     mStoredToVFS(false)
 {
     setItemId(itemId);

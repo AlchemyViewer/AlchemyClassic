@@ -42,6 +42,7 @@
 #include "vorbis/vorbisfile.h"
 #include <iterator>
 #include <deque>
+#include <utility>
 
 extern LLAudioEngine *gAudiop;
 
@@ -68,7 +69,7 @@ public:
 		LLPointer<LLVorbisDecodeState> mDecoder;
 	};
 	
-	LLVorbisDecodeState(const LLUUID &uuid, const std::string &out_filename);
+	LLVorbisDecodeState(const LLUUID &uuid, std::string out_filename);
 
 	BOOL initDecode();
 	BOOL decodeSection(); // Return TRUE if done.
@@ -164,13 +165,13 @@ long vfs_tell (void *datasource)
 	return file->tell();
 }
 
-LLVorbisDecodeState::LLVorbisDecodeState(const LLUUID &uuid, const std::string &out_filename) : 
+LLVorbisDecodeState::LLVorbisDecodeState(const LLUUID &uuid, std::string out_filename) : 
 	mValid(FALSE),
 	mDone(FALSE),
 	mBytesRead(-1),
 	mUUID(uuid),
 #if !defined(USE_WAV_VFILE)
-	mOutFilename(out_filename),
+	mOutFilename(std::move(out_filename)),
 	mFileHandle(LLLFSThread::nullHandle()),
 #endif
 	mInFilep(nullptr),

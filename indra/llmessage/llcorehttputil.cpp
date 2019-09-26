@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <iterator>
 #include <nlohmann/json.hpp> // JSON
+#include <utility>
 #include "llcorehttputil.h"
 #include "lleventcoro.h"
 #include "llhttpconstants.h"
@@ -671,9 +672,9 @@ const std::string HttpCoroutineAdapter::HTTP_RESULTS_HEADERS("headers");
 const std::string HttpCoroutineAdapter::HTTP_RESULTS_CONTENT("content");
 const std::string HttpCoroutineAdapter::HTTP_RESULTS_RAW("raw");
 
-HttpCoroutineAdapter::HttpCoroutineAdapter(const std::string &name,
+HttpCoroutineAdapter::HttpCoroutineAdapter(std::string name,
     LLCore::HttpRequest::policy_t policyId, LLCore::HttpRequest::priority_t priority) :
-    mAdapterName(name),
+    mAdapterName(std::move(name)),
     mPriority(priority),
     mPolicyId(policyId),
     mYieldingHandle(LLCORE_HTTP_HANDLE_INVALID),

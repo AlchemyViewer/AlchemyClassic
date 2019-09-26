@@ -42,10 +42,12 @@
 #include "llsdutil.h"
 #include "stringize.h"
 
-LLWindowListener::LLWindowListener(LLViewerWindow *window, const KeyboardGetter& kbgetter)
+#include <utility>
+
+LLWindowListener::LLWindowListener(LLViewerWindow *window, KeyboardGetter kbgetter)
 	: LLEventAPI("LLWindow", "Inject input events into the LLWindow instance"),
 	  mWindow(window),
-	  mKbGetter(kbgetter)
+	  mKbGetter(std::move(kbgetter))
 {
 	std::string keySomething =
 		"Given [\"keysym\"], [\"keycode\"] or [\"char\"], inject the specified ";
@@ -115,7 +117,7 @@ private:
 	Map mMap;
 
 public:
-	StringLookup(const std::string& desc): mDesc(desc) {}
+	StringLookup(std::string desc): mDesc(std::move(desc)) {}
 
 	MAPPED lookup(const typename Map::key_type& key) const
 	{

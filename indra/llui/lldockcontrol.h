@@ -53,7 +53,8 @@ public:
 
 	LOG_CLASS(LLDockControl);
 	LLDockControl(LLView* dockWidget, LLFloater* dockableFloater,
-                  LLUIImagePtr dockTongue, DocAt dockAt, get_allowed_rect_callback_t get_rect_callback = NULL);
+                  LLUIImagePtr dockTongue, DocAt dockAt, 
+                  get_allowed_rect_callback_t const& get_rect_callback = NULL);
 	virtual ~LLDockControl();
 
 public:

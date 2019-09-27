@@ -1549,9 +1549,9 @@ void pushVertsColorCoded(LLSpatialGroup* group, U32 mask)
 
 	for (auto& i : group->mDrawMap)
     {
-		for (LLSpatialGroup::drawmap_elem_t::iterator j = i.second.begin(); j != i.second.end(); ++j) 
-		{
-			params = *j;
+		for (auto& j : i.second)
+        {
+			params = j;
 			LLRenderPass::applyModelMatrix(*params);
 			gGL.diffuseColor4f(colors[col].mV[0], colors[col].mV[1], colors[col].mV[2], 0.5f);
 			params->mVertexBuffer->setBuffer(mask);

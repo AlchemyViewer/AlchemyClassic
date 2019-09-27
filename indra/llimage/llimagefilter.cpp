@@ -221,16 +221,16 @@ void LLImageFilter::executeFilter(LLPointer<LLImageRaw> raw_image)
         {
             LLMatrix3 kernel;
             for (auto& i : kernel.mMatrix)
-                for (S32 j = 0; j < NUM_VALUES_IN_MAT3; j++)
-                    i[j] = 1.0;
+                for (float& j : i)
+                    j = 1.0;
             convolve(kernel,true,false);
         }
         else if (filter_name == "sharpen")
         {
             LLMatrix3 kernel;
             for (auto& k : kernel.mMatrix)
-                for (S32 j = 0; j < NUM_VALUES_IN_MAT3; j++)
-                    k[j] = -1.0;
+                for (float& j : k)
+                    j = -1.0;
             kernel.mMatrix[1][1] = 9.0;
             convolve(kernel,false,false);
         }
@@ -238,8 +238,8 @@ void LLImageFilter::executeFilter(LLPointer<LLImageRaw> raw_image)
         {
             LLMatrix3 kernel;
             for (auto& k : kernel.mMatrix)
-                for (S32 j = 0; j < NUM_VALUES_IN_MAT3; j++)
-                    k[j] = -1.0;
+                for (float& j : k)
+                    j = -1.0;
             kernel.mMatrix[1][1] = 8.0;
             convolve(kernel,false,true);
         }
@@ -250,8 +250,8 @@ void LLImageFilter::executeFilter(LLPointer<LLImageRaw> raw_image)
             bool normalize = (mFilterData[i][index++].asReal() > 0.0);
             bool abs_value = (mFilterData[i][index++].asReal() > 0.0);
             for (auto& k : kernel.mMatrix)
-                for (S32 j = 0; j < NUM_VALUES_IN_MAT3; j++)
-                    k[j] = mFilterData[i][index++].asReal();
+                for (float& j : k)
+                    j = mFilterData[i][index++].asReal();
             convolve(kernel,normalize,abs_value);
         }
         else if (filter_name == "colortransform")
@@ -259,8 +259,8 @@ void LLImageFilter::executeFilter(LLPointer<LLImageRaw> raw_image)
             LLMatrix3 transform;
             S32 index = 1;
             for (auto& k : transform.mMatrix)
-                for (S32 j = 0; j < NUM_VALUES_IN_MAT3; j++)
-                    k[j] = mFilterData[i][index++].asReal();
+                for (float& j : k)
+                    j = mFilterData[i][index++].asReal();
             transform.transpose();
             colorTransform(transform);
         }

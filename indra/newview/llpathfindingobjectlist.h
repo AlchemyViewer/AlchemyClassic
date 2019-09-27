@@ -44,8 +44,8 @@ public:
 
 	void clear();
 
-	void update(LLPathfindingObjectPtr pUpdateObjectPtr);
-	void update(LLPathfindingObjectListPtr pUpdateObjectListPtr);
+	void update(const LLPathfindingObjectPtr& pUpdateObjectPtr);
+	void update(const LLPathfindingObjectListPtr& pUpdateObjectListPtr);
 
 	LLPathfindingObjectPtr find(const std::string &pObjectId) const;
 

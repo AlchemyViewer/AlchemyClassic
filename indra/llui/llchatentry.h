@@ -48,7 +48,7 @@ public:
 		Params();
 	};
 
-	virtual ~LLChatEntry();
+	~LLChatEntry();
 
 protected:
 

@@ -491,7 +491,7 @@ void LLVOSky::restoreGL()
 		std::vector<LLPointer<LLImageRaw> > images;
 		for (auto& side : mShinyTex)
         {
-			images.push_back(side.getImageRaw());
+			images.emplace_back(side.getImageRaw());
 		}
 
 		if(cube_map)
@@ -1136,7 +1136,7 @@ BOOL LLVOSky::updateSky()
 				images.reserve(6);
 				for (auto& side : mShinyTex)
                 {
-					images.push_back(side.getImageRaw(TRUE));
+					images.emplace_back(side.getImageRaw(TRUE));
 				}
 				mCubeMap->init(images);
 				gGL.getTexUnit(0)->disable();

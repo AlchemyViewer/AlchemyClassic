@@ -406,7 +406,7 @@ struct HttpStatus
 	/// one of:  Core, Http, Easy, Multi, Unknown.  And
 	/// <value> will be an unsigned integer.  More easily
 	/// interpreted than the hex representation, it's still
-	/// compact and easily searched.
+	/// compact and easily searched. </value>
 	std::string toTerseString() const;
 
 	/// Returns true if the status value represents an

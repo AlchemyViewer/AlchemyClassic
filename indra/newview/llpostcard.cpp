@@ -44,7 +44,7 @@
 LLPostcardUploadInfo::LLPostcardUploadInfo(std::string nameFrom, std::string emailTo,
         std::string subject, std::string message, LLVector3d globalPosition,
         LLPointer<LLImageFormatted> image, invnUploadFinish_f finish) :
-    LLBufferedAssetUploadInfo(LLUUID::null, image, finish),
+    LLBufferedAssetUploadInfo(LLUUID::null, std::move(image), std::move(finish)),
     mNameFrom(std::move(nameFrom)),
     mEmailTo(std::move(emailTo)),
     mSubject(std::move(subject)),

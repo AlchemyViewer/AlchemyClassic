@@ -1602,7 +1602,7 @@ void LLRender::loadUIIdentity()
 	mUIOffset.back().splat(0.f);
 	mUIScale.back().splat(1.f);
 	if (!mUIRotation.empty())
-		mUIRotation.push_back(LLQuaternion());
+		mUIRotation.emplace_back(LLQuaternion());
 }
 
 void LLRender::setColorMask(bool writeColor, bool writeAlpha)

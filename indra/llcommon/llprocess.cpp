@@ -1123,7 +1123,7 @@ std::ostream& operator<<(std::ostream& out, const LLProcess::Params& params)
 		out << "cd " << LLStringUtil::quote(params.cwd) << ": ";
 	}
 	out << LLStringUtil::quote(params.executable);
-	for (const std::string& arg : params.args)
+	for (const auto& arg : params.args)
 	{
 		out << ' ' << LLStringUtil::quote(arg);
 	}

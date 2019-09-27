@@ -30,16 +30,8 @@
 
 LLService::creators_t LLService::sCreatorFunctors;
 
-LLService::LLService()
-{
-}
-
-LLService::~LLService()
-{
-}
-
 // static
-bool LLService::registerCreator(const std::string& name, creator_t fn)
+bool LLService::registerCreator(const std::string& name, const creator_t& fn)
 {
 	LL_INFOS() << "LLService::registerCreator(" << name << ")" << LL_ENDL;
 	if(name.empty())
@@ -67,7 +59,7 @@ LLIOPipe* LLService::activate(
 		LL_INFOS() << "LLService::activate - no service specified." << LL_ENDL;
 		return nullptr;
 	}
-	creators_t::iterator it = sCreatorFunctors.find(name);
+    auto it = sCreatorFunctors.find(name);
 	LLIOPipe* rv = nullptr;
 	if(it != sCreatorFunctors.end())
 	{
@@ -99,7 +91,7 @@ bool LLService::discard(const std::string& name)
 	{
 		return false;
 	}
-	creators_t::iterator it = sCreatorFunctors.find(name);
+    auto it = sCreatorFunctors.find(name);
 	if(it != sCreatorFunctors.end())
 	{
 		//(*it).second->discard();

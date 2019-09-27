@@ -67,7 +67,7 @@ void LLPlacesLandmarkBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 			disabled_items.emplace_back("Purge Item");
 		}
 
-		items.push_back("Restore Item");
+		items.emplace_back("Restore Item");
 	}
 	else
 	{

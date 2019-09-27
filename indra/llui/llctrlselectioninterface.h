@@ -28,7 +28,6 @@
 #define LLCTRLSELECTIONINTERFACE_H
 
 #include "stdtypes.h"
-#include "llstring.h"
 #include "llui.h"
 
 class LLSD;
@@ -38,7 +37,7 @@ class LLScrollListItem;
 class LLCtrlSelectionInterface
 {
 public:
-	virtual ~LLCtrlSelectionInterface();
+	virtual ~LLCtrlSelectionInterface() = default;
 	
 	enum EOperation
 	{
@@ -61,8 +60,8 @@ public:
 	virtual BOOL	setCurrentByID( const LLUUID& id ) = 0;
 	virtual LLUUID	getCurrentID() const = 0;
 
-			BOOL	selectByValue(const LLSD value);
-			BOOL	deselectByValue(const LLSD value);
+			BOOL	selectByValue(const LLSD& value);
+			BOOL	deselectByValue(const LLSD& value);
 	virtual BOOL	setSelectedByValue(const LLSD& value, BOOL selected) = 0;
 	virtual LLSD	getSelectedValue() = 0;
 
@@ -75,7 +74,7 @@ public:
 class LLCtrlListInterface : public LLCtrlSelectionInterface
 {
 public:
-	virtual ~LLCtrlListInterface();
+	virtual ~LLCtrlListInterface() = default;
 	
 	virtual void addColumn(const LLSD& column, EAddPosition pos = ADD_BOTTOM) = 0;
 	virtual void clearColumns() = 0;
@@ -94,7 +93,7 @@ public:
 class LLCtrlScrollInterface
 {
 public:
-	virtual ~LLCtrlScrollInterface();
+    virtual ~LLCtrlScrollInterface() = default;
 	
 	virtual S32 getScrollPos() const = 0;
 	virtual void setScrollPos( S32 pos ) = 0;

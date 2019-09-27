@@ -821,8 +821,8 @@ BOOL LLViewerShaderMgr::loadBasicShaders()
 	shaders.emplace_back( "lighting/sumLightsV.glsl",				sum_lights_class);
 	shaders.emplace_back( "lighting/lightV.glsl",					mVertexShaderLevel[SHADER_LIGHTING]);
 	shaders.emplace_back( "lighting/lightFuncSpecularV.glsl",		mVertexShaderLevel[SHADER_LIGHTING]);
-	shaders.push_back( std::make_pair( "lighting/sumLightsSpecularV.glsl",		sum_lights_class ) );
-	shaders.push_back( std::make_pair( "lighting/lightSpecularV.glsl",			mVertexShaderLevel[SHADER_LIGHTING] ) );
+	shaders.emplace_back( "lighting/sumLightsSpecularV.glsl",		sum_lights_class);
+	shaders.emplace_back( "lighting/lightSpecularV.glsl",			mVertexShaderLevel[SHADER_LIGHTING]);
 	shaders.emplace_back( "windlight/atmosphericsV.glsl",			mVertexShaderLevel[SHADER_WINDLIGHT]);
 	shaders.emplace_back( "avatar/avatarSkinV.glsl",				1);
 	shaders.emplace_back( "avatar/objectSkinV.glsl",				1);

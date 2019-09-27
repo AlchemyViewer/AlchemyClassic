@@ -839,7 +839,7 @@ public:
 	public:
 		VertexData();
 		VertexData(const VertexData& rhs);
-		const VertexData& operator=(const VertexData& rhs);
+		VertexData& operator=(const VertexData& rhs);
 
 		~VertexData();
 		LLVector4a& getPosition();

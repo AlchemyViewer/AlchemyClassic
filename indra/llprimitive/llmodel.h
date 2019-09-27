@@ -319,7 +319,7 @@ public:
     }
     
     LLImportMaterial(LLSD& data);
-    virtual ~LLImportMaterial() = default;
+    ~LLImportMaterial() = default;
     
     LLSD asLLSD() const;
     

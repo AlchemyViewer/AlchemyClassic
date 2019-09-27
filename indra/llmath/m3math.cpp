@@ -593,9 +593,9 @@ const LLMatrix3& operator*=(LLMatrix3 &a, F32 scalar )
 {
 	for (auto& i : a.mMatrix)
     {
-		for( U32 j = 0; j < NUM_VALUES_IN_MAT3; ++j )
-		{
-            i[j] *= scalar;
+		for (float& j : i)
+        {
+            j *= scalar;
 		}
 	}
 

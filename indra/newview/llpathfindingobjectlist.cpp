@@ -58,7 +58,7 @@ void LLPathfindingObjectList::clear()
 	mObjectMap.clear();
 }
 
-void LLPathfindingObjectList::update(LLPathfindingObjectPtr pUpdateObjectPtr)
+void LLPathfindingObjectList::update(const LLPathfindingObjectPtr& pUpdateObjectPtr)
 {
 	if (pUpdateObjectPtr != nullptr)
 	{
@@ -76,7 +76,7 @@ void LLPathfindingObjectList::update(LLPathfindingObjectPtr pUpdateObjectPtr)
 	}
 }
 
-void LLPathfindingObjectList::update(LLPathfindingObjectListPtr pUpdateObjectListPtr)
+void LLPathfindingObjectList::update(const LLPathfindingObjectListPtr& pUpdateObjectListPtr)
 {
 	if ((pUpdateObjectListPtr != nullptr) && !pUpdateObjectListPtr->isEmpty())
 	{

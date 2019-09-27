@@ -2230,7 +2230,7 @@ LLVolumeFace::VertexData::VertexData(const VertexData& rhs)
 	*this = rhs;
 }
 
-const LLVolumeFace::VertexData& LLVolumeFace::VertexData::operator=(const LLVolumeFace::VertexData& rhs)
+LLVolumeFace::VertexData& LLVolumeFace::VertexData::operator=(const LLVolumeFace::VertexData& rhs)
 {
 	if (this != &rhs)
 	{

@@ -66,7 +66,7 @@ void LLAllocatorHeapProfile::parse(std::string const & prof_text)
 	range_t prof_range(prof_begin, prof_text.end());
     boost::algorithm::split(prof_lines,
         prof_range,
-        std::bind(std::equal_to<llwchar>(), '\n', std::placeholders::_1));
+        std::bind(std::equal_to<>(), '\n', std::placeholders::_1));
 
     std::vector< range_t >::const_iterator i;
     for(i = prof_lines.begin(); i != prof_lines.end() && !i->empty(); ++i)

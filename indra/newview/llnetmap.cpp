@@ -490,7 +490,7 @@ void LLNetMap::draw()
 
 			color = ALAvatarColorMgr::instance().getColor(uuid);
 
-			unknown_relative_z = position.mdV[VZ] == COARSEUPDATE_MAX_Z &&
+			unknown_relative_z = position.mdV[VZ] >= COARSEUPDATE_MAX_Z &&
 					camera_position.mV[VZ] >= COARSEUPDATE_MAX_Z;
 
 			LLWorldMapView::drawAvatar(

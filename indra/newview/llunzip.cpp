@@ -106,9 +106,8 @@ S32 LLUnZip::extractCurrentFile(const std::string& path)
 		return error;
 	}
 	
-	void* buf;
 	size_t size_buf = WRITE_BUFFER_SIZE;
-	buf = (void*)malloc(size_buf);
+	auto buf = std::make_unique<char[]>(size_buf);
 	if (buf == nullptr)
 	{
 		LL_WARNS("UNZIP") << "Error allocating memory!" << LL_ENDL;
@@ -126,27 +125,29 @@ S32 LLUnZip::extractCurrentFile(const std::string& path)
 	{
 		LL_WARNS("UNZIP") << "Error opening " << write_filename << " for writing" << LL_ENDL;
 	}
-	
-	do
+	else
 	{
-		error = unzReadCurrentFile(mZipfile, buf, size_buf);
-		if (error < UNZ_OK)
+		do
 		{
-			LL_WARNS("UNZIP") << "Error unzipping " << mFilename << " - code: " << error << LL_ENDL;
-			break;
-		}
-		else if (error > UNZ_OK)
-		{
-			if (fwrite(buf, error, 1, outfile) != 1)
+			error = unzReadCurrentFile(mZipfile, buf.get(), size_buf);
+			if (error < UNZ_OK)
 			{
-				LL_WARNS("UNZIP") << "Error writing out " << mFilename << LL_ENDL;
-				error = UNZ_ERRNO;
+				LL_WARNS("UNZIP") << "Error unzipping " << mFilename << " - code: " << error << LL_ENDL;
 				break;
 			}
-		}
+			else if (error > UNZ_OK)
+			{
+				if (fwrite(buf.get(), error, 1, outfile) != 1)
+				{
+					LL_WARNS("UNZIP") << "Error writing out " << mFilename << LL_ENDL;
+					error = UNZ_ERRNO;
+					break;
+				}
+			}
+		} while (error > 0);
+		fclose(outfile);
 	}
-	while (error > 0);
-	fclose(outfile);
+
 	
 	if (error == UNZ_OK)
 	{
@@ -157,7 +158,6 @@ S32 LLUnZip::extractCurrentFile(const std::string& path)
 	else
 		unzCloseCurrentFile(mZipfile);
 	
-	free(buf);
 	return error;
 }
 

@@ -853,12 +853,12 @@ void LLFloaterPreference::onAddSkin()
 			{
 				buf_size++;
 				buf_size *= sizeof(char);
-				char * buf = (char*)malloc(buf_size);
-				zip->extractFile("manifest.json", buf, buf_size);
+				auto buf = std::make_unique<char[]>(buf_size);
+				zip->extractFile("manifest.json", buf.get(), buf_size);
 				buf[buf_size - 1] = '\0'; // force.
 				std::stringstream ss;
 				ss << buf;
-				free(buf);
+				buf.reset();
 				
 				nlohmann::json root;
 				try

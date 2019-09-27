@@ -326,11 +326,11 @@ static std::string get_tooltip(BlockTimerStatHandle& timer, S32 history_index, P
 	if (history_index == 0)
 	{
 		// by default, show average number of call
-		tooltip = llformat("%s (%d ms, %d calls)", timer.getName().c_str(), (S32)F64Milliseconds(frame_recording.getPeriodMean (timer, RUNNING_AVERAGE_WIDTH)).value(), (S32)frame_recording.getPeriodMean(timer.callCount(), RUNNING_AVERAGE_WIDTH));
+		tooltip = fmt::format(fmt("{:s} ({:d} ms, {:d} calls)"), timer.getName(), (S32)F64Milliseconds(frame_recording.getPeriodMean (timer, RUNNING_AVERAGE_WIDTH)).value(), (S32)frame_recording.getPeriodMean(timer.callCount(), RUNNING_AVERAGE_WIDTH));
 	}
 	else
 	{
-		tooltip = llformat("%s (%d ms, %d calls)", timer.getName().c_str(), (S32)F64Milliseconds(frame_recording.getPrevRecording(history_index).getSum(timer)).value(), (S32)frame_recording.getPrevRecording(history_index).getSum(timer.callCount()));
+		tooltip = fmt::format(fmt("{:s} ({:d} ms, {:d} calls)"), timer.getName().c_str(), (S32)F64Milliseconds(frame_recording.getPrevRecording(history_index).getSum(timer)).value(), (S32)frame_recording.getPrevRecording(history_index).getSum(timer.callCount()));
 	}
 	return tooltip;
 }
@@ -469,7 +469,7 @@ void saveChart(const std::string& label, const char* suffix, LLImageRaw* scratch
 		result->encode(scratch, 0.f);
 
 		std::string ext = result->getExtension();
-		std::string filename = llformat("%s_%s.%s", label.c_str(), suffix, ext.c_str());
+		std::string filename = fmt::format(fmt("{:s}_{:s}.{:s}"), label, suffix, ext);
 	
 		std::string out_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, filename);
 		result->save(out_file);
@@ -906,7 +906,7 @@ void LLFastTimerView::doAnalysisDefault(std::string baseline, std::string target
 
 		LLSD::Real perc = diff/a * 100;
 
-		os << llformat("%s, %.2f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %d, %d, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %d, %d\n",
+		os << fmt::format(fmt("{:s}, {:.2f}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:d}, {:d}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:.4f}, {:d}, {:d}\n"),
 			label.c_str(), 
 			(F32) perc, 
 			(F32) (current[label]["TotalTime"].asReal()/session_time * 100.0), 
@@ -1017,7 +1017,7 @@ void LLFastTimerView::printLineStats()
 			}
 			F32Milliseconds ms = ticks;
 
-			timer_stat += llformat("%.1f",ms.value());
+			timer_stat.append(fmt::format(fmt("{:.1f}"), ms.value()));
 
 			//if (idp->getTreeNode().mCollapsed)
 			//{
@@ -1189,13 +1189,13 @@ void LLFastTimerView::drawLineGraph()
 	switch(mDisplayType)
 	{
 	case DISPLAY_TIME:
-		axis_label = llformat("%4.2f ms", F32Milliseconds(max_time).value());
+		axis_label = fmt::format(fmt("{:4.2f} ms"), F32Milliseconds(max_time).value());
 		break;
 	case DISPLAY_CALLS:
-		axis_label = llformat("%d calls", (int)max_calls);
+		axis_label = fmt::format(fmt("{:d} calls"), max_calls);
 		break;
 	case DISPLAY_HZ:
-		axis_label = llformat("%4.2f Hz", max_time.value() ? 1.f / max_time.value() : 0.f);
+		axis_label = fmt::format(fmt("{:4.2f} Hz"), max_time.value() ? 1.f / max_time.value() : 0.f);
 		break;
 	}
 
@@ -1272,13 +1272,13 @@ void LLFastTimerView::drawLegend()
 			switch(mDisplayType)
 			{
 			case DISPLAY_TIME:
-				timer_label = llformat("%s [%.1f]",idp->getName().c_str(),ms.value());
+				timer_label = fmt::format(fmt("{:s} [{:.1f}]"),idp->getName(),ms.value());
 				break;
 			case DISPLAY_CALLS:
-				timer_label = llformat("%s (%d)",idp->getName().c_str(),calls);
+				timer_label = fmt::format(fmt("{:s} ({:d})"),idp->getName(),calls);
 				break;
 			case DISPLAY_HZ:
-				timer_label = llformat("%s <%.1f>", idp->getName().c_str(), ms.value() ? (1.f / ms.value()) : 0.f);
+				timer_label = fmt::format(fmt("{:s} <{:.1f}>"), idp->getName(), ms.value() ? (1.f / ms.value()) : 0.f);
 				break;
 			}
 			dx = (TEXT_HEIGHT+4) + get_depth(idp)*8;
@@ -1378,22 +1378,22 @@ void LLFastTimerView::drawTicks()
 		S32 x;
 		S32 barw = mBarRect.getWidth();
 
-		tick_label = llformat("%.1f ms |", (F32)ms.value()*.25f);
+		tick_label = fmt::format(fmt("{:.1f} ms |"), ((F32)ms.value())*.25f);
 		x = mBarRect.mLeft + barw/4 - mFontMonospace->getWidth(tick_label);
 		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 
-		tick_label = llformat("%.1f ms |", (F32)ms.value()*.50f);
+		tick_label = fmt::format(fmt("{:.1f} ms |"), ((F32)ms.value())*.50f);
 		x = mBarRect.mLeft + barw/2 - mFontMonospace->getWidth(tick_label);
 		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 
-		tick_label = llformat("%.1f ms |", (F32)ms.value()*.75f);
+		tick_label = fmt::format(fmt("{:.1f} ms |"), ((F32)ms.value())*.75f);
 		x = mBarRect.mLeft + (barw*3)/4 - mFontMonospace->getWidth(tick_label);
 		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 
-		tick_label = llformat( "%d ms |", (U32)ms.value());
+		tick_label = fmt::format(fmt("{:d} ms |"), (U32)ms.value());
 		x = mBarRect.mLeft + barw - mFontMonospace->getWidth(tick_label);
 		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);

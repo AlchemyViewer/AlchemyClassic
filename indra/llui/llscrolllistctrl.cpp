@@ -2983,7 +2983,7 @@ LLScrollListItem* LLScrollListCtrl::addRow(LLScrollListItem *new_item, const LLS
 		// empty columns strings index by ordinal
 		if (column.empty())
 		{
-			column = llformat("%d", col_index);
+			column = fmt::to_string(col_index);
 		}
 
 		LLScrollListColumn* columnp = getColumn(column);

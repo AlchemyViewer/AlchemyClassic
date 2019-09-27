@@ -213,11 +213,11 @@ void LLResMgr::getIntegerString( std::string& output, S32 input ) const
 		{
 			if (fraction == remaining_count)
 			{
-				fraction_string = llformat("%d", fraction);
+				fraction_string = fmt::to_string(fraction);
 			}
 			else
 			{
-				fraction_string = llformat("%3.3d", fraction);
+				fraction_string = fmt::format(fmt("{:3d}"), fraction);
 			}
 			output = fraction_string;
 		}

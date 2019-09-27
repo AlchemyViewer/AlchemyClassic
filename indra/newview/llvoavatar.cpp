@@ -8108,7 +8108,7 @@ void LLVOAvatar::updateMeshTextures()
 	std::vector<BOOL> use_lkg_baked_layer; // lkg = "last known good"
 	use_lkg_baked_layer.resize(mBakedTextureDatas.size(), false);
 
-	mBakedTextureDebugText += llformat("%06d\n",update_counter++);
+	mBakedTextureDebugText += fmt::format(fmt("{:06d}\n"),update_counter++);
 	mBakedTextureDebugText += "indx layerset linvld ltda ilb ulkg ltid\n";
 	for (U32 i=0; i < mBakedTextureDatas.size(); i++)
 	{
@@ -8149,7 +8149,7 @@ void LLVOAvatar::updateMeshTextures()
 		bool is_ltda = layerset
 			&& layerset->getViewerComposite()->isInitialized()
 			&& layerset->isLocalTextureDataAvailable();
-		mBakedTextureDebugText += llformat("%4d   %4s     %4d %4d %4d %4d %4s\n",
+		mBakedTextureDebugText += fmt::format(fmt("{:4d}   {:4s}     {:4d} {:4d} {:4d} {:4d} {:4s}\n"),
 										   i,
 										   (layerset?"*":"0"),
 										   layerset_invalid,

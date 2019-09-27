@@ -353,7 +353,7 @@ std::string LLFloaterReg::declareRectControl(const std::string& name)
 {
 	std::string controlname = getRectControlName(name);
 	LLFloater::getControlGroup()->declareRect(controlname, LLRect(),
-											  llformat("Window Size for %s", name.c_str()),
+											  fmt::format(fmt("Window Size for {:s}"), name),
 											  LLControlVariable::PERSIST_NONDFT);
 	return controlname;
 }
@@ -363,7 +363,7 @@ std::string LLFloaterReg::declarePosXControl(const std::string& name)
 	std::string controlname = std::string("floater_pos_") + getBaseControlName(name) + "_x";
 	LLFloater::getControlGroup()->declareF32(controlname, 
 											10.f,
-											llformat("Window X Position for %s", name.c_str()),
+											fmt::format(fmt("Window X Position for {:s}"), name),
 											LLControlVariable::PERSIST_NONDFT);
 	return controlname;
 }
@@ -373,7 +373,7 @@ std::string LLFloaterReg::declarePosYControl(const std::string& name)
 	std::string controlname = std::string("floater_pos_") + getBaseControlName(name) + "_y";
 	LLFloater::getControlGroup()->declareF32(controlname,
 											10.f,
-											llformat("Window Y Position for %s", name.c_str()),
+											fmt::format(fmt("Window Y Position for {:s}"), name),
 											LLControlVariable::PERSIST_NONDFT);
 
 	return controlname;
@@ -400,7 +400,7 @@ std::string LLFloaterReg::declareVisibilityControl(const std::string& name)
 {
 	std::string controlname = getVisibilityControlName(name);
 	LLFloater::getControlGroup()->declareBOOL(controlname, FALSE,
-												 llformat("Window Visibility for %s", name.c_str()),
+												 fmt::format(fmt("Window Visibility for {:s}"), name),
 												 LLControlVariable::PERSIST_NONDFT);
 	return controlname;
 }
@@ -410,7 +410,7 @@ std::string LLFloaterReg::declareDockStateControl(const std::string& name)
 {
 	std::string controlname = getDockStateControlName(name);
 	LLFloater::getControlGroup()->declareBOOL(controlname, TRUE,
-												 llformat("Window Docking state for %s", name.c_str()),
+												 fmt::format(fmt("Window Docking state for {:s}"), name),
 												 LLControlVariable::PERSIST_NONDFT);
 	return controlname;
 

@@ -290,6 +290,7 @@ S32 calc_num_rapid_changes(LLTrace::PeriodicRecording& periodic_recording, const
 
 void LLStatBar::draw()
 {
+	if(!getVisible()) return;
 	LLLocalClipRect _(getLocalRect());
 
 	LLTrace::PeriodicRecording& frame_recording = LLTrace::get_frame_recording();
@@ -627,7 +628,7 @@ void LLStatBar::drawLabelAndValue( F32 value, std::string &label, LLRect &bar_re
 		LLFontGL::LEFT, LLFontGL::TOP);
 
 	std::string value_str	= !llisnan(value)
-							? llformat("%10.*f %s", decimal_digits, value, label.c_str())
+							? fmt::format(fmt("{:10.{}f} {:s}"), value, decimal_digits, label)
 							: mNAString;
 
 	// Draw the current value.
@@ -699,7 +700,7 @@ void LLStatBar::drawTicks( F32 min, F32 max, F32 value_scale, LLRect &bar_rect )
 				decimal_digits = 0;
 			}
 
-			std::string tick_label = llformat("%.*f", decimal_digits, tick_value);
+			std::string tick_label = fmt::format(fmt("{:.{}f}"), tick_value, decimal_digits);
 			S32 tick_label_width = mFontMono->getWidth(tick_label);
 			if (mOrientation == HORIZONTAL)
 			{

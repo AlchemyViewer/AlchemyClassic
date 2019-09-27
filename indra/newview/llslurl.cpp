@@ -468,8 +468,8 @@ bool LLSLURL::operator !=(const LLSLURL& rhs)
 
 std::string LLSLURL::getLocationString() const
 {
-	return llformat("%s/%d/%d/%d",
-					mRegion.c_str(),
+	return fmt::format(fmt("{:s}/{:d}/{:d}/{:d}"),
+					mRegion,
 					(int)ll_round(mPosition[0]),
 					(int)ll_round(mPosition[1]),
 					(int)ll_round(mPosition[2]));						 

@@ -4,6 +4,7 @@
 project(llcommon LANGUAGES CXX)
 
 include(00-Common)
+include(CXXFeatureDetection)
 include(GeneratePrecompiledHeader)
 include(LLCommon)
 include(LLDarwin)
@@ -284,6 +285,9 @@ if(USE_PRECOMPILED_HEADERS)
 endif(USE_PRECOMPILED_HEADERS)
 
 set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+
+target_compile_features(llcommon PRIVATE cxx_nullptr cxx_range_for)
+target_compile_features(llcommon PUBLIC cxx_decltype cxx_nullptr cxx_static_assert cxx_thread_local cxx_rvalue_references)
 
 target_link_libraries(
     llcommon

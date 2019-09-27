@@ -3253,7 +3253,7 @@ void LLViewerWindow::updateUI()
 					}
 					// only report xui names for LLUICtrls, 
 					// and blacklist the various containers we don't care about
-					else if (dynamic_cast<LLUICtrl*>(viewp) 
+					else if (viewp->isCtrl()
 							&& viewp != gMenuHolder
 							&& viewp != gFloaterView
 							&& viewp != gConsole) 

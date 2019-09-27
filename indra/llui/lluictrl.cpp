@@ -446,7 +446,8 @@ BOOL LLUICtrl::postBuild()
 
 		for (LLView::child_list_const_iter_t child_it = beginChild(); child_it != endChild(); ++child_it)
 		{
-			LLUICtrl* uictrl = dynamic_cast<LLUICtrl*>(*child_it);
+			auto view = *child_it;
+			LLUICtrl* uictrl = view->isCtrl() ? static_cast<LLUICtrl*>(view) : nullptr;
 
 			if (uictrl && uictrl->mRequestsFront)
 			{

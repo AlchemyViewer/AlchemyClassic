@@ -2471,7 +2471,9 @@ void LLVOAvatar::idleUpdate(LLAgent &agent, const F64 &time)
 		mNeedsExtentUpdate = ((LLDrawable::getCurrentFrame()+mID.mData[0])%upd_freq==0);
 	}
     
+#if LL_DEBUG
     LLScopedContextString str("avatar_idle_update " + getFullname());
+#endif
     
 	checkTextureLoading() ;
 	
@@ -4291,9 +4293,11 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
         is_attachment = cav->mRootVolp && cav->mRootVolp->isAttachment(); // For attached animated objects
 	}
 
+#if LL_DEBUG
     LLScopedContextString str("updateCharacter " + getFullname() + " is_control_avatar "
                               + std::to_string(is_control_avatar) 
                               + " is_attachment " + std::to_string(is_attachment));
+#endif
 
 	// For fading out the names above heads, only let the timer
 	// run if we're visible.
@@ -6025,7 +6029,9 @@ bool LLVOAvatar::jointIsRiggedTo(const LLJoint *joint) const
 
 void LLVOAvatar::clearAttachmentOverrides()
 {
+#if LL_DEBUG
     LLScopedContextString str("clearAttachmentOverrides " + getFullname());
+#endif
 
     for (S32 i=0; i<LL_CHARACTER_MAX_ANIMATED_JOINTS; i++)
 	{
@@ -6057,10 +6063,12 @@ void LLVOAvatar::clearAttachmentOverrides()
 //-----------------------------------------------------------------------------
 void LLVOAvatar::rebuildAttachmentOverrides()
 {
+#if LL_DEBUG
     LLScopedContextString str("rebuildAttachmentOverrides " + getFullname());
 
     LL_DEBUGS("AnimatedObjects") << "rebuilding" << LL_ENDL;
     dumpStack("AnimatedObjectsStack");
+#endif
     
     clearAttachmentOverrides();
 
@@ -6103,10 +6111,12 @@ void LLVOAvatar::rebuildAttachmentOverrides()
 // -----------------------------------------------------------------------------
 void LLVOAvatar::updateAttachmentOverrides()
 {
+#if LL_DEBUG
     LLScopedContextString str("updateAttachmentOverrides " + getFullname());
 
     LL_DEBUGS("AnimatedObjects") << "updating" << LL_ENDL;
     dumpStack("AnimatedObjectsStack");
+#endif
 
     std::set<LLUUID> meshes_seen;
     
@@ -6220,11 +6230,12 @@ void LLVOAvatar::addAttachmentOverridesForObject(LLViewerObject *vo, std::set<LL
 		LL_WARNS("Avatar") << "called with invalid avatar" << LL_ENDL;
         return;
 	}
-
+#if LL_DEBUG
     LLScopedContextString str("addAttachmentOverridesForObject " + getFullname());
     
     LL_DEBUGS("AnimatedObjects") << "adding" << LL_ENDL;
     dumpStack("AnimatedObjectsStack");
+#endif
     
 	// Process all children
     if (recursive)

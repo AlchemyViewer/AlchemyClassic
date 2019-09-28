@@ -214,9 +214,11 @@ void LLPolySkeletalDistortion::apply( ESex avatar_sex )
         // joint->storeScaleForReset( newScale );				
 
         // BENTO for detailed stack tracing of params.
+#if LL_DEBUG
         std::stringstream ostr;
         ostr << "LLPolySkeletalDistortion::apply, id " << getID() << " " << getName() << " effective wt " << effective_weight << " last wt " << mLastWeight << " scaleDelta " << scaleDelta << " offset " << offset;
         LLScopedContextString str(ostr.str());
+#endif
 
         joint->setScale(newScale, true);
     }

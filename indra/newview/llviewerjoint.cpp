@@ -141,7 +141,7 @@ U32 LLViewerJoint::render( F32 pixelArea, BOOL first_pass, BOOL is_dummy )
 	//----------------------------------------------------------------
 	// render children
 	//----------------------------------------------------------------
-	for (auto& iter : mChildren)
+	for (auto* iter : mChildren)
     {
 		LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(iter);
 		F32 jointLOD = joint->getLOD();

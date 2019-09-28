@@ -33,6 +33,7 @@
 
 #include "llmath.h"
 #include "llcallstack.h"
+#include "llstl.h"
 #include <boost/algorithm/string.hpp>
 
 S32 LLJoint::sNumUpdates = 0;
@@ -285,7 +286,7 @@ void LLJoint::addChild(LLJoint* joint)
 //--------------------------------------------------------------------
 void LLJoint::removeChild(LLJoint* joint)
 {
-	child_list_t::iterator iter = std::find(mChildren.begin(), mChildren.end(), joint);
+	auto iter = std::find(mChildren.begin(), mChildren.end(), joint);
 	if (iter != mChildren.end())
 	{
 		mChildren.erase(iter);
@@ -302,12 +303,11 @@ void LLJoint::removeChild(LLJoint* joint)
 //--------------------------------------------------------------------
 void LLJoint::removeAllChildren()
 {
-	for (child_list_t::iterator iter = mChildren.begin();
+	for (auto iter = mChildren.begin();
 		 iter != mChildren.end();)
 	{
-		child_list_t::iterator curiter = iter++;
-		LLJoint* joint = *curiter;
-		mChildren.erase(curiter);
+		LLJoint* joint = *iter;
+		iter = vector_replace_with_last(mChildren, iter);
 		joint->mXform.setParent(nullptr);
 		joint->mParent = nullptr;
 		joint->touch();

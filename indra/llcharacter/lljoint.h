@@ -137,8 +137,8 @@ public:
 	S32				mJointNum;
 
 	// child joints
-	typedef std::list<LLJoint*> child_list_t;
-	child_list_t mChildren;
+	typedef std::vector<LLJoint*> child_vec_t;
+	child_vec_t mChildren;
 
 	// debug statics
 	static S32		sNumTouches;

@@ -613,11 +613,10 @@ LLViewerFetchedTexture* LLViewerTextureList::createImage(const LLUUID &image_id,
 void LLViewerTextureList::findTexturesByID(const LLUUID &image_id, std::vector<LLViewerFetchedTexture*> &output)
 {
     LLTextureKey search_key(image_id, TEX_LIST_STANDARD);
-    uuid_map_t::iterator iter = mUUIDMap.lower_bound(search_key);
-    while (iter != mUUIDMap.end() && iter->first.textureId == image_id)
+	auto iter = mUUIDHashMap.find(search_key);
+    if (iter != mUUIDHashMap.end())
     {
         output.push_back(iter->second);
-        iter++;
     }
 }
 

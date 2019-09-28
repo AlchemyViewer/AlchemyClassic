@@ -1815,10 +1815,8 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 	stop_glerror();
 
-	for (U32 i = 0; i < mRiggedFace[type].size(); ++i)
+	for (LLFace* face : mRiggedFace[type])
 	{
-		LLFace* face = mRiggedFace[type][i];
-
         S32 offset = face->getIndicesStart();
 		U32 count = face->getIndicesCount();
 

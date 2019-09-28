@@ -3452,7 +3452,8 @@ void LLWindowWin32::spawnWebBrowser(const std::string& escaped_url, bool async)
 	std::wstring url_utf16 = ll_convert_string_to_wide(escaped_url);
 
 	// let the OS decide what to use to open the URL
-    SHELLEXECUTEINFO sei = SHELLEXECUTEINFO();
+	SHELLEXECUTEINFO sei = {};
+	sei.cbSize = sizeof(sei);
 	// NOTE: this assumes that SL will stick around long enough to complete the DDE message exchange
 	// necessary for ShellExecuteEx to complete
 	if (async)

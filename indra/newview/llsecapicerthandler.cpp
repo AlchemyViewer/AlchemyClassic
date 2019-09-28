@@ -506,7 +506,7 @@ std::string cert_string_from_asn1_string(ASN1_STRING* value)
 LLDate cert_date_from_asn1_time(ASN1_TIME* asn1_time)
 {
     
-    struct tm timestruct = tm();
+	struct tm timestruct = {};
     int i = asn1_time->length;
     
     if (i < 10)

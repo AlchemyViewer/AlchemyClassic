@@ -776,21 +776,19 @@ bool LLAOEngine::createAnimationLink(const LLAOSet* set, LLAOSet::AOState* state
 		gInventory.createNewCategory(set->getInventoryUUID(), LLFolderType::FT_NONE, state->mName);
 
 		LL_DEBUGS("AOEngine") << "looking for folder to get UUID ..." << LL_ENDL;
-		LLUUID newStateFolderUUID;
 
-		LLInventoryModel::item_array_t* items;
+        LLInventoryModel::item_array_t* items;
 		LLInventoryModel::cat_array_t* cats;
 		gInventory.getDirectDescendentsOf(set->getInventoryUUID(), cats, items);
 
 		if (cats)
 		{
-			for (S32 index = 0; index < cats->size(); ++index)
-			{
-				if (cats->at(index)->getName().compare(state->mName) == 0)
+			for (auto& cat : *cats)
+            {
+				if (cat->getName() == state->mName)
 				{
 					LL_DEBUGS("AOEngine") << "UUID found!" << LL_ENDL;
-					newStateFolderUUID = cats->at(index)->getUUID();
-					state->mInventoryUUID = newStateFolderUUID;
+					state->mInventoryUUID = cat->getUUID();
 					break;
 				}
 			}
@@ -1255,11 +1253,11 @@ void LLAOEngine::reload(bool aFromTimer)
 LLAOSet* LLAOEngine::getSetByName(const std::string& name) const
 {
 	LLAOSet* found = NULL;
-	for (U32 index = 0; index < mSets.size(); ++index)
-	{
-		if (mSets[index]->getName().compare(name) == 0)
+	for (auto set : mSets)
+    {
+		if (set->getName() == name)
 		{
-			found = mSets[index];
+			found = set;
 			break;
 		}
 	}

@@ -2375,9 +2375,9 @@ void LLModelPreview::genLODs(S32 which_lod, U32 decimation, bool enforce_tri_lim
 	//get the triangle count for the whole scene
 	for (auto& iter : mBaseScene)
     {
-		for (LLModelLoader::model_instance_list::iterator instance = iter.second.begin(), end_instance = iter.second.end(); instance != end_instance; ++instance)
-		{
-			LLModel* mdl = instance->mModel;
+		for (auto& instance : iter.second)
+        {
+			LLModel* mdl = instance.mModel;
 			if (mdl)
 			{
 				instanced_triangle_count += mdl->getNumTriangles();
@@ -2686,11 +2686,11 @@ void LLModelPreview::genLODs(S32 which_lod, U32 decimation, bool enforce_tri_lim
 			{
 				for (auto& iter : mScene[lod])
                 {
-					for (U32 j = 0; j < iter.second.size(); ++j)
-					{
-						if (iter.second[j].mModel == mdl)
+					for (auto& j : iter.second)
+                    {
+						if (j.mModel == mdl)
 						{
-                            iter.second[j].mModel = target;
+                            j.mModel = target;
 						}
 					}
 				}
@@ -3010,9 +3010,9 @@ void LLModelPreview::updateStatusMessages()
 	//get the triangle count for the whole scene
 	for (auto& iter : mScene[LLModel::LOD_PHYSICS])
     {
-		for (LLModelLoader::model_instance_list::iterator instance = iter.second.begin(), end_instance = iter.second.end(); instance != end_instance; ++instance)
-		{
-			LLModel* model = instance->mModel;
+		for (auto& instance : iter.second)
+        {
+			LLModel* model = instance.mModel;
 			if (model)
 			{
 				S32 cur_submeshes = model->getNumVolumeFaces();
@@ -3667,10 +3667,9 @@ BOOL LLModelPreview::render()
 
 	for (auto& iter : mScene[mPreviewLOD])
     {
-		for (LLModelLoader::model_instance_list::iterator model_iter = iter.second.begin(); model_iter != iter.second.end(); ++model_iter)
-		{
-			LLModelInstance& instance = *model_iter;
-			LLModel* model = instance.mModel;
+		for (auto& instance : iter.second)
+        {
+            LLModel* model = instance.mModel;
 			model->mPelvisOffset = mPelvisZOffset;
 			if (!model->mSkinWeights.empty())
 			{
@@ -4096,11 +4095,9 @@ BOOL LLModelPreview::render()
 
 			for (auto& iter : mScene[mPreviewLOD])
             {
-				for (LLModelLoader::model_instance_list::iterator model_iter = iter.second.begin(); model_iter != iter
-                                                                                                                  .second.end(); ++model_iter)
-				{
-					LLModelInstance& instance = *model_iter;
-					LLModel* model = instance.mModel;
+				for (auto& instance : iter.second)
+                {
+                    LLModel* model = instance.mModel;
 
 					if (!model->mSkinWeights.empty())
 					{

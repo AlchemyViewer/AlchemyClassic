@@ -2267,14 +2267,9 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 		}
 
 		// For all instances that use this model
-		for (instance_list::iterator instance_iter = iter.second.begin();
-			 instance_iter != iter.second.end();
-			 ++instance_iter)
-		{
-
-			LLModelInstance& instance = *instance_iter;
-		
-			LLSD instance_entry;
+		for (auto& instance : iter.second)
+        {
+            LLSD instance_entry;
 		
 			for (S32 i = 0; i < 5; i++)
 			{
@@ -2299,14 +2294,14 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 			//
 			S32 end = llmin((S32)instance.mMaterial.size(), instance.mModel->getNumVolumeFaces()) ;
 
-			for (S32 face_num = 0; face_num < end; face_num++)
+			for (S32 face_num = 0; face_num < end; ++face_num)
 			{
 				LLImportMaterial& material = instance.mMaterial[data.mBaseModel->mMaterialList[face_num]];
 				LLSD face_entry = LLSD::emptyMap();
 
 				LLViewerFetchedTexture *texture = nullptr;
 
-				if (material.mDiffuseMapFilename.size())
+				if (!material.mDiffuseMapFilename.empty())
 				{
 					texture = FindViewerTexture(material);
 				}
@@ -2421,14 +2416,9 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 		}
 
 		// For all instances that use this model
-		for (instance_list::iterator instance_iter = iter.second.begin();
-			 instance_iter != iter.second.end();
-			 ++instance_iter)
-		{
-
-			LLModelInstance& instance = *instance_iter;
-		
-			LLSD instance_entry;
+		for (auto& instance : iter.second)
+        {
+            LLSD instance_entry;
 		
 			for (S32 i = 0; i < 5; i++)
 			{
@@ -2453,14 +2443,14 @@ void LLMeshUploadThread::wholeModelToLLSD(LLSD& dest, bool include_textures)
 			//
 			S32 end = llmin((S32)instance.mMaterial.size(), instance.mModel->getNumVolumeFaces()) ;
 
-			for (S32 face_num = 0; face_num < end; face_num++)
+			for (S32 face_num = 0; face_num < end; ++face_num)
 			{
 				LLImportMaterial& material = instance.mMaterial[data.mBaseModel->mMaterialList[face_num]];
 				LLSD face_entry = LLSD::emptyMap();
 
 				LLViewerFetchedTexture *texture = nullptr;
 
-				if (material.mDiffuseMapFilename.size())
+				if (!material.mDiffuseMapFilename.empty())
 				{
 					texture = FindViewerTexture(material);
 				}

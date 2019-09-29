@@ -130,9 +130,9 @@ BOOL LLDrawPoolAvatar::isDead()
         return FALSE;
     }
     
-	for (U32 i = 0; i < NUM_RIGGED_PASSES; ++i)
+	for (auto& face : mRiggedFace)
     {
-        if (mRiggedFace[i].size() > 0)
+        if (!face.empty())
         {
             return FALSE;
         }

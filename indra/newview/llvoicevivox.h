@@ -1042,7 +1042,7 @@ class LLVoiceVivoxStats : public LLSingleton<LLVoiceVivoxStats>
 {
     LLSINGLETON(LLVoiceVivoxStats);
     LOG_CLASS(LLVoiceVivoxStats);
-    virtual ~LLVoiceVivoxStats();
+    virtual ~LLVoiceVivoxStats() = default;
     
   private:
     F64SecondsImplicit mStartTime;

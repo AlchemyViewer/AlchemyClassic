@@ -734,7 +734,6 @@ bool isMarketplaceSendAction(const std::string& action);
 class LLFolderViewGroupedItemBridge: public LLFolderViewGroupedItemModel
 {
 public:
-    LLFolderViewGroupedItemBridge();
 	void groupFilterContextMenu(folder_view_item_deque& selected_items, LLMenuGL& menu) override;
     bool canWearSelected(uuid_vec_t item_ids);
 };

@@ -159,11 +159,6 @@ void* LLFloaterGodTools::createPanelRequest(void *userdata)
 	return new LLPanelRequestTools();
 }
 
-LLFloaterGodTools::~LLFloaterGodTools()
-{
-	// children automatically deleted
-}
-
 
 U64 LLFloaterGodTools::computeRegionFlags() const
 {

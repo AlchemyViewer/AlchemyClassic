@@ -171,7 +171,7 @@ class LLVoiceSetKeyDialog : public LLModalDialog
 {
 public:
 	LLVoiceSetKeyDialog(const LLSD& key);
-	~LLVoiceSetKeyDialog();
+	~LLVoiceSetKeyDialog() = default;
 	
 	/*virtual*/ BOOL postBuild() override;
 	
@@ -217,10 +217,6 @@ BOOL LLVoiceSetKeyDialog::postBuild()
 	gFocusMgr.setKeystrokesOnly(TRUE);
 	
 	return TRUE;
-}
-
-LLVoiceSetKeyDialog::~LLVoiceSetKeyDialog()
-{
 }
 
 BOOL LLVoiceSetKeyDialog::handleKeyHere(KEY key, MASK mask)

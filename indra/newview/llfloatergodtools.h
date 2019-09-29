@@ -94,7 +94,7 @@ public:
 private:
 	
 	LLFloaterGodTools(const LLSD& key);
-	~LLFloaterGodTools();
+	~LLFloaterGodTools() = default;
 	
 protected:
 	U64 computeRegionFlags() const;

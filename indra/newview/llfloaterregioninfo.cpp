@@ -113,8 +113,8 @@ const U32 MAX_LISTED_NAMES = 100;
 class LLDispatchEstateUpdateInfo : public LLDispatchHandler
 {
 public:
-	LLDispatchEstateUpdateInfo() {}
-	virtual ~LLDispatchEstateUpdateInfo() {}
+	LLDispatchEstateUpdateInfo() = default;
+	virtual ~LLDispatchEstateUpdateInfo() = default;
 	bool operator()(
 		const LLDispatcher* dispatcher,
 		const std::string& key,
@@ -125,8 +125,8 @@ public:
 class LLDispatchSetEstateAccess : public LLDispatchHandler
 {
 public:
-	LLDispatchSetEstateAccess() {}
-	virtual ~LLDispatchSetEstateAccess() {}
+	LLDispatchSetEstateAccess() = default;
+	virtual ~LLDispatchSetEstateAccess() = default;
 	bool operator()(
 		const LLDispatcher* dispatcher,
 		const std::string& key,
@@ -264,9 +264,6 @@ BOOL LLFloaterRegionInfo::postBuild()
 
 	return TRUE;
 }
-
-LLFloaterRegionInfo::~LLFloaterRegionInfo()
-{}
 
 void LLFloaterRegionInfo::onOpen(const LLSD& key)
 {

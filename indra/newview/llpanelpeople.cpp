@@ -211,8 +211,8 @@ protected:
 class LLAvatarItemRecentArrivalComparator : public  LLAvatarItemNameComparator
 {
 public:
-	LLAvatarItemRecentArrivalComparator() {};
-	virtual ~LLAvatarItemRecentArrivalComparator() {};
+	LLAvatarItemRecentArrivalComparator() = default;
+	virtual ~LLAvatarItemRecentArrivalComparator() = default;
 
 protected:
 	virtual bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const

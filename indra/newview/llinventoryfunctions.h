@@ -217,7 +217,7 @@ class LLIsTypeWithPermissions : public LLInventoryCollectFunctor
 public:
 	LLIsTypeWithPermissions(LLAssetType::EType type, const PermissionBit perms, const LLUUID &agent_id, const LLUUID &group_id) 
 		: mType(type), mPerm(perms), mAgentID(agent_id), mGroupID(group_id) {}
-	virtual ~LLIsTypeWithPermissions() {}
+	virtual ~LLIsTypeWithPermissions() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 protected:
@@ -236,8 +236,8 @@ protected:
 class LLBuddyCollector : public LLInventoryCollectFunctor
 {
 public:
-	LLBuddyCollector() {}
-	virtual ~LLBuddyCollector() {}
+	LLBuddyCollector() = default;
+	virtual ~LLBuddyCollector() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 };
@@ -251,8 +251,8 @@ public:
 class LLUniqueBuddyCollector : public LLInventoryCollectFunctor
 {
 public:
-	LLUniqueBuddyCollector() {}
-	virtual ~LLUniqueBuddyCollector() {}
+	LLUniqueBuddyCollector() = default;
+	virtual ~LLUniqueBuddyCollector() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 
@@ -286,7 +286,7 @@ class LLNameCategoryCollector : public LLInventoryCollectFunctor
 {
 public:
 	LLNameCategoryCollector(std::string name) : mName(std::move(name)) {}
-	virtual ~LLNameCategoryCollector() {}
+	virtual ~LLNameCategoryCollector() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 protected:
@@ -301,8 +301,8 @@ protected:
 class LLFindCOFValidItems : public LLInventoryCollectFunctor
 {
 public:
-	LLFindCOFValidItems() {}
-	virtual ~LLFindCOFValidItems() {}
+	LLFindCOFValidItems() = default;
+	virtual ~LLFindCOFValidItems() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 	
@@ -372,8 +372,8 @@ private:
 class LLFindWearables : public LLInventoryCollectFunctor
 {
 public:
-	LLFindWearables() {}
-	virtual ~LLFindWearables() {}
+	LLFindWearables() = default;
+	virtual ~LLFindWearables() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 };

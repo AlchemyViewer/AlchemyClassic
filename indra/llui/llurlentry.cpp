@@ -48,15 +48,6 @@
 // Utility functions
 std::string localize_slapp_label(const std::string& url, const std::string& full_name);
 
-
-LLUrlEntryBase::LLUrlEntryBase()
-{
-}
-
-LLUrlEntryBase::~LLUrlEntryBase()
-{
-}
-
 std::string LLUrlEntryBase::getUrl(const std::string &string) const
 {
 	return escapeUrl(string);
@@ -700,9 +691,6 @@ std::string LLUrlEntryAgent::getIcon(const std::string &url)
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
 // x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
 //
-LLUrlEntryAgentName::LLUrlEntryAgentName()
-{}
-
 void LLUrlEntryAgentName::onAvatarNameCache(const LLUUID& id,
 										const LLAvatarName& av_name)
 {

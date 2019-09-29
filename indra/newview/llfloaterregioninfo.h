@@ -111,7 +111,7 @@ public:
 private:
 	
 	LLFloaterRegionInfo(const LLSD& seed);
-	~LLFloaterRegionInfo();
+	~LLFloaterRegionInfo() = default;
 
 protected:
 	void onTabSelected(const LLSD& param);

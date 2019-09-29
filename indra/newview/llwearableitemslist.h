@@ -451,7 +451,7 @@ public:
 		E_SORT_BY_TYPE_NAME 	= 3,
 	} ESortOrder;
 
-	virtual ~LLWearableItemsList();
+	virtual ~LLWearableItemsList() = default;
 
 	/*virtual*/ LLPanel* createNewItem(LLViewerInventoryItem* item) override;
 

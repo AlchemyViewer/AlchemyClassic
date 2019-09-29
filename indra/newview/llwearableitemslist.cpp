@@ -654,10 +654,6 @@ LLWearableItemsList::LLWearableItemsList(const LLWearableItemsList::Params& p)
 }
 
 // virtual
-LLWearableItemsList::~LLWearableItemsList()
-{}
-
-// virtual
 LLPanel* LLWearableItemsList::createNewItem(LLViewerInventoryItem* item)
 {
     if (!item)

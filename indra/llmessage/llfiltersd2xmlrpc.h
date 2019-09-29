@@ -86,10 +86,10 @@ class LLFilterSD2XMLRPCResponse : public LLFilterSD2XMLRPC
 {
 public:
 	// constructor
-	LLFilterSD2XMLRPCResponse();
+	LLFilterSD2XMLRPCResponse() = default;
 
 	// destructor
-	virtual ~LLFilterSD2XMLRPCResponse();
+	virtual ~LLFilterSD2XMLRPCResponse() = default;
 
 	/* @name LLIOPipe virtual implementations
 	 */

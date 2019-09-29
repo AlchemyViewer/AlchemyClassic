@@ -383,7 +383,7 @@ class LLSaveFolderState : public LLFolderViewFunctor
 {
 public:
 	LLSaveFolderState() : mApply(FALSE) {}
-	virtual ~LLSaveFolderState() {}
+	virtual ~LLSaveFolderState() = default;
 	void doFolder(LLFolderViewFolder* folder) override;
 	void doItem(LLFolderViewItem* item) override {}
 	void setApply(BOOL apply);
@@ -396,8 +396,8 @@ protected:
 class LLOpenFoldersWithSelection : public LLFolderViewFunctor
 {
 public:
-	LLOpenFoldersWithSelection() {}
-	virtual ~LLOpenFoldersWithSelection() {}
+	LLOpenFoldersWithSelection() = default;
+	virtual ~LLOpenFoldersWithSelection() = default;
 	void doFolder(LLFolderViewFolder* folder) override;
 	void doItem(LLFolderViewItem* item) override;
 };
@@ -406,7 +406,7 @@ class LLAllDescendentsPassedFilter : public LLFolderViewFunctor
 {
 public:
 	LLAllDescendentsPassedFilter() : mAllDescendentsPassedFilter(true) {}
-	/*virtual*/ ~LLAllDescendentsPassedFilter() {}
+	/*virtual*/ ~LLAllDescendentsPassedFilter() = default;
 	/*virtual*/ void doFolder(LLFolderViewFolder* folder);
 	/*virtual*/ void doItem(LLFolderViewItem* item);
 	bool allDescendentsPassedFilter() const { return mAllDescendentsPassedFilter; }

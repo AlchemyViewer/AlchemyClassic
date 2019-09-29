@@ -352,7 +352,7 @@ class LLSpatialPartition: public LLViewerOctreePartition, public LLGeometryManag
 {
 public:
 	LLSpatialPartition(U32 data_mask,  BOOL render_by_group, U32 mBufferUsage, LLViewerRegion* regionp);
-	virtual ~LLSpatialPartition();
+	virtual ~LLSpatialPartition() = default;
 
 	LLSpatialGroup *put(LLDrawable *drawablep, BOOL was_visible = FALSE);
 	BOOL remove(LLDrawable *drawablep, LLSpatialGroup *curp);

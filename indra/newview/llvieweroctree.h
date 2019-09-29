@@ -179,7 +179,7 @@ class LLViewerOctreeGroup
 {
 	friend class LLViewerOctreeCull;
 protected:
-	virtual ~LLViewerOctreeGroup();
+	virtual ~LLViewerOctreeGroup() = default;
 
 public:	
 	enum

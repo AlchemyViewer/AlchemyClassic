@@ -2686,9 +2686,7 @@ public:
 	{
 	}
 
-	~LLDeferredCOFLinkObserver()
-	{
-	}
+	virtual ~LLDeferredCOFLinkObserver() = default;
 	
 	/* virtual */ void changed(U32 mask) override
     {

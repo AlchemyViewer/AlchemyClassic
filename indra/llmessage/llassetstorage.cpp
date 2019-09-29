@@ -249,11 +249,6 @@ LLInvItemRequest::LLInvItemRequest(const LLUUID &uuid, const LLAssetType::EType 
 {
 }
 
-// virtual
-LLInvItemRequest::~LLInvItemRequest()
-{
-}
-
 LLBaseDownloadRequest* LLInvItemRequest::getCopy()
 {
     return new LLInvItemRequest(*this);

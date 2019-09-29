@@ -6799,7 +6799,7 @@ public:
 	LLWornItemFetchedObserver(const LLUUID& worn_item_id) :
 		LLInventoryFetchItemsObserver(worn_item_id)
 	{}
-	virtual ~LLWornItemFetchedObserver() {}
+	virtual ~LLWornItemFetchedObserver() = default;
 
 protected:
     void done() override
@@ -8517,12 +8517,6 @@ class LLUploadCostCalculator : public view_listener_t
 	}
 
 	void calculateCost();
-
-public:
-	LLUploadCostCalculator()
-	{
-		//calculateCost();
-	}
 };
 
 void handle_voice_morphing_subscribe()

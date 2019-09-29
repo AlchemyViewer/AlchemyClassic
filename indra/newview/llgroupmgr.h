@@ -144,7 +144,7 @@ public:
 					LLRoleData role_data,
 					const S32 member_count);
 
-	~LLGroupRoleData();
+	~LLGroupRoleData() = default;
 
 	const LLUUID& getID() const { return mRoleID; }
 
@@ -205,9 +205,6 @@ struct lluuid_pair_less
 
 struct LLGroupBanData
 {
-	LLGroupBanData(): mBanDate()	{}
-	~LLGroupBanData()	{}
-	
 	LLDate mBanDate;
 	// TODO: std:string ban_reason;
 };

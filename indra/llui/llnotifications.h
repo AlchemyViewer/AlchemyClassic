@@ -108,8 +108,8 @@ struct NotificationPriorityValues : public LLInitParam::TypeValuesHelper<ENotifi
 class LLNotificationResponderInterface
 {
 public:
-	LLNotificationResponderInterface(){};
-	virtual ~LLNotificationResponderInterface(){};
+	LLNotificationResponderInterface() = default;
+	virtual ~LLNotificationResponderInterface() = default;
 
 	virtual void handleRespond(const LLSD& notification, const LLSD& response) = 0;
 
@@ -834,7 +834,7 @@ public:
 	LLNotificationChannel(const Params& p = Params());
 	LLNotificationChannel(const std::string& name, const std::string& parent, LLNotificationFilter filter);
 
-	virtual ~LLNotificationChannel() {}
+	virtual ~LLNotificationChannel() = default;
 	typedef LLNotificationSet::iterator Iterator;
 	
 	LLNotificationChannel(const LLNotificationChannel&) = delete;
@@ -868,7 +868,7 @@ private:
 class LLNotificationsInterface
 {
 public:
-    virtual ~LLNotificationsInterface() {}
+    virtual ~LLNotificationsInterface() = default;
 	virtual LLNotificationPtr add(const std::string& name, 
 						const LLSD& substitutions, 
 						const LLSD& payload, 

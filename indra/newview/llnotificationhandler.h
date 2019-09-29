@@ -217,7 +217,7 @@ class LLViewerAlertHandler  : public LLSystemNotificationHandler
 	LOG_CLASS(LLViewerAlertHandler);
 public:
 	LLViewerAlertHandler(const std::string& name, const std::string& notification_type);
-	virtual ~LLViewerAlertHandler() {};
+	virtual ~LLViewerAlertHandler() = default;
 
 	void onDelete(LLNotificationPtr p) override {};
 	bool processNotification(const LLNotificationPtr& p) override;
@@ -251,7 +251,7 @@ class LLHintHandler : public LLSystemNotificationHandler
 {
 public:
 	LLHintHandler();
-	virtual ~LLHintHandler() {}
+	virtual ~LLHintHandler() = default;
 
 	void onAdd(LLNotificationPtr p) override;
 	void onLoad(LLNotificationPtr p) override;

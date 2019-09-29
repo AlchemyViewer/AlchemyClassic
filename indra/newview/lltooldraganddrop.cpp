@@ -86,8 +86,8 @@ public:
 class LLNoPreferredTypeOrItem : public LLInventoryCollectFunctor
 {
 public:
-	LLNoPreferredTypeOrItem() {}
-	virtual ~LLNoPreferredTypeOrItem() {}
+	LLNoPreferredTypeOrItem() = default;
+	virtual ~LLNoPreferredTypeOrItem() = default;
 
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override
@@ -142,8 +142,8 @@ bool LLDroppableItem::operator()(LLInventoryCategory* cat,
 class LLDropCopyableItems : public LLInventoryCollectFunctor
 {
 public:
-	LLDropCopyableItems() {}
-	virtual ~LLDropCopyableItems() {}
+	LLDropCopyableItems() = default;
+	virtual ~LLDropCopyableItems() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 };
 
@@ -195,7 +195,7 @@ public:
 		mObjectID(obj_id),
 		mSource(src)
 	{}
-	~LLCategoryDropObserver() {}
+	~LLCategoryDropObserver() = default;
 	void done() override;
 
 protected:

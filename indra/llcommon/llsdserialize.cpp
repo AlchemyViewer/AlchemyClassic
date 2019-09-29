@@ -867,14 +867,6 @@ bool LLSDNotationParser::parseBinary(std::istream& istr, LLSD& data) const
 /**
  * LLSDBinaryParser
  */
-LLSDBinaryParser::LLSDBinaryParser()
-{
-}
-
-// virtual
-LLSDBinaryParser::~LLSDBinaryParser()
-{
-}
 
 // virtual
 S32 LLSDBinaryParser::doParse(std::istream& istr, LLSD& data, S32 max_depth) const

@@ -83,7 +83,7 @@ private:
 	{
 	public:
 		WriteResponder(LLTextureCache* cache, handle_t handle) : mCache(cache), mHandle(handle) {}
-		~WriteResponder() {}
+		~WriteResponder() = default;
 		void completed(S32 bytes) override
 		{
 			mCache->lockWorkers();

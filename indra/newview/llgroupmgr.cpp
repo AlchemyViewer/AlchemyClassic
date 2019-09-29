@@ -146,10 +146,6 @@ LLGroupRoleData::LLGroupRoleData(const LLUUID& role_id,
 
 }
 
-LLGroupRoleData::~LLGroupRoleData()
-{	
-}
-
 S32 LLGroupRoleData::getMembersInRole(uuid_vec_t members,
 									  BOOL needs_sort)
 {

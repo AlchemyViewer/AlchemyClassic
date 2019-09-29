@@ -467,7 +467,7 @@ class LLTransferSourceParamsEstate: public LLTransferSourceParams
 {
 public:
 	LLTransferSourceParamsEstate();
-	virtual ~LLTransferSourceParamsEstate() {}
+	virtual ~LLTransferSourceParamsEstate() = default;
 	/*virtual*/ void packParams(LLDataPacker &dp) const override;
 	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 

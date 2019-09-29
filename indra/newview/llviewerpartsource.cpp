@@ -687,10 +687,6 @@ LLViewerPartSourceBeam::LLViewerPartSourceBeam() :
 {
 }
 
-LLViewerPartSourceBeam::~LLViewerPartSourceBeam()
-{
-}
-
 void LLViewerPartSourceBeam::setDead()
 {
 	mIsDead = TRUE;

@@ -292,15 +292,6 @@ void LLFilterSD2XMLRPC::streamOut(std::ostream& ostr, const LLSD& sd)
  * LLFilterSD2XMLRPCResponse
  */
 
-LLFilterSD2XMLRPCResponse::LLFilterSD2XMLRPCResponse()
-{
-}
-
-LLFilterSD2XMLRPCResponse::~LLFilterSD2XMLRPCResponse()
-{
-}
-
-
 static LLTrace::BlockTimerStatHandle FTM_PROCESS_SD2XMLRPC_RESPONSE("SD2XMLRPC Response");
 // virtual
 LLIOPipe::EStatus LLFilterSD2XMLRPCResponse::process_impl(

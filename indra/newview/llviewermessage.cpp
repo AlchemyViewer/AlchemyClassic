@@ -986,9 +986,7 @@ public:
 		}
 	}
 
-	virtual ~LLViewerInventoryMoveObserver()
-	{
-	}
+	virtual ~LLViewerInventoryMoveObserver() = default;
 
 	void changed(U32 mask) override;
 

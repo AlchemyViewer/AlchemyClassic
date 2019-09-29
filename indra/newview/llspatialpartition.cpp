@@ -849,11 +849,6 @@ LLSpatialPartition::LLSpatialPartition(U32 data_mask, BOOL render_by_group, U32 
 	new LLSpatialGroup(mOctree, this);
 }
 
-
-LLSpatialPartition::~LLSpatialPartition()
-{
-}
-
 LLSpatialGroup *LLSpatialPartition::put(LLDrawable *drawablep, BOOL was_visible)
 {
 	drawablep->updateSpatialExtents();

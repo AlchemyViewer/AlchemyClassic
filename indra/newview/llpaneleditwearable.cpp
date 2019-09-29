@@ -120,7 +120,7 @@ class LLEditWearableDictionary final : public LLSingleton<LLEditWearableDictiona
         // Constructors and Destructors
         //--------------------------------------------------------------------
         LLSINGLETON(LLEditWearableDictionary);
-        virtual ~LLEditWearableDictionary();
+        virtual ~LLEditWearableDictionary() = default;
         
         //--------------------------------------------------------------------
         // Wearable Types
@@ -216,11 +216,6 @@ public:
 LLEditWearableDictionary::LLEditWearableDictionary()
 {
 
-}
-
-//virtual 
-LLEditWearableDictionary::~LLEditWearableDictionary()
-{
 }
 
 LLEditWearableDictionary::Wearables::Wearables()

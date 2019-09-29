@@ -39,8 +39,8 @@
 class LLControlGroupReader
 {
 public:
-	LLControlGroupReader() {}
-	virtual ~LLControlGroupReader() {}
+    LLControlGroupReader() = default;
+	virtual ~LLControlGroupReader() = default;
 
 	virtual std::string getString(const std::string& name) { return ""; }
 	virtual LLWString	getWString(const std::string& name) { return LLWString(); }

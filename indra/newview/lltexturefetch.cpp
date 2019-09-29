@@ -781,8 +781,7 @@ public:
 		{}
 	TFReqSetRegion & operator=(const TFReqSetRegion &) = delete;	// Not defined
 
-	virtual ~TFReqSetRegion()
-		{}
+	virtual ~TFReqSetRegion() = default;
 
     bool doWork(LLTextureFetch * fetcher) override;
 		

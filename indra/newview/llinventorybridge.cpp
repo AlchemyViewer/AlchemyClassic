@@ -7008,7 +7008,8 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLTextureBridgeAction(){}
+	virtual ~LLTextureBridgeAction() = default;
+
 protected:
 	LLTextureBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7026,7 +7027,8 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLSoundBridgeAction(){}
+	virtual ~LLSoundBridgeAction() = default;
+
 protected:
 	LLSoundBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7052,7 +7054,8 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLLandmarkBridgeAction(){}
+	virtual ~LLLandmarkBridgeAction() = default;
+
 protected:
 	LLLandmarkBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7127,7 +7130,8 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLAnimationBridgeAction(){}
+	virtual ~LLAnimationBridgeAction() = default;
+
 protected:
 	LLAnimationBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7143,7 +7147,8 @@ public:
 		*/
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLObjectBridgeAction(){}
+	virtual ~LLObjectBridgeAction() = default;
+
 protected:
 	LLObjectBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7161,7 +7166,8 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLLSLTextBridgeAction(){}
+	virtual ~LLLSLTextBridgeAction() = default;
+
 protected:
 	LLLSLTextBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7175,7 +7181,8 @@ public:
 		wearOnAvatar();
 	}
 
-	virtual ~LLWearableBridgeAction(){}
+	virtual ~LLWearableBridgeAction() = default;
+
 protected:
 	LLWearableBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 	BOOL isItemInTrash() const;
@@ -7299,10 +7306,6 @@ LLInvFVBridge* LLRecentInventoryBridgeBuilder::createBridge(
 				flags);
 		}
 	return new_listener;
-}
-
-LLFolderViewGroupedItemBridge::LLFolderViewGroupedItemBridge()
-{
 }
 
 void LLFolderViewGroupedItemBridge::groupFilterContextMenu(folder_view_item_deque& selected_items, LLMenuGL& menu)

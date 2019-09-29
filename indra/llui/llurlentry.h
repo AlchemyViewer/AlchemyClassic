@@ -63,8 +63,8 @@ typedef LLUrlLabelSignal::slot_type LLUrlLabelCallback;
 class LLUrlEntryBase
 {
 public:
-	LLUrlEntryBase();
-	virtual ~LLUrlEntryBase();
+	LLUrlEntryBase() = default;
+	virtual ~LLUrlEntryBase() = default;
 	
 	/// Return the regex pattern that matches this Url 
 	boost::regex getPattern() const { return mPattern; }
@@ -239,7 +239,7 @@ private:
 class LLUrlEntryAgentName : public LLUrlEntryBase, public boost::signals2::trackable
 {
 public:
-	LLUrlEntryAgentName();
+	LLUrlEntryAgentName() = default;
 	~LLUrlEntryAgentName()
 	{
 		for (const auto& conn_pair : mAvatarNameCacheConnections)

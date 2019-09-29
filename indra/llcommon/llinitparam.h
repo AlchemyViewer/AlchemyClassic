@@ -596,7 +596,7 @@ namespace LLInitParam
 	{
 		struct UserData
 		{
-			virtual ~UserData() {}
+			virtual ~UserData() = default;
 		};
 
 		typedef bool(*merge_func_t)(Param&, const Param&, bool);

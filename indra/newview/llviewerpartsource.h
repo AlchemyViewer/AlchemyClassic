@@ -178,7 +178,7 @@ public:
 	LLVector3d		mLKGTargetPosGlobal;
 	LLColor4 mColor;
 protected:
-	~LLViewerPartSourceBeam();
+	~LLViewerPartSourceBeam() = default;
 };
 
 

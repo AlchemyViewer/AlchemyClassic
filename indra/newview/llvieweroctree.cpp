@@ -452,11 +452,6 @@ void LLViewerOctreeEntryData::resetVisible() const
 //class LLViewerOctreeGroup definitions
 //-----------------------------------------------------------------------------------
 
-LLViewerOctreeGroup::~LLViewerOctreeGroup()
-{
-	//empty here
-}
-
 LLViewerOctreeGroup::LLViewerOctreeGroup(OctreeNode* node)
 :	LLTrace::MemTrackable<LLViewerOctreeGroup, 16>("LLViewerOctreeGroup"),
 	mState(CLEAN),
@@ -789,10 +784,6 @@ std::set<U32> LLOcclusionCullingGroup::sPendingQueries;
 class LLOcclusionQueryPool
 {
 public:
-	LLOcclusionQueryPool()
-	{
-	}
-
 	GLuint genQuery()
 	{
 		GLuint ret = 0;

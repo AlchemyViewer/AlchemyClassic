@@ -232,8 +232,8 @@ public:
 class LLCollectOnlineBuddies : public LLRelationshipFunctor
 {
 public:
-	LLCollectOnlineBuddies() {}
-	virtual ~LLCollectOnlineBuddies() {}
+	LLCollectOnlineBuddies() = default;
+	virtual ~LLCollectOnlineBuddies() = default;
 	bool operator()(const LLUUID& buddy_id, LLRelationship* buddy) override;
 	typedef std::map<LLUUID, std::string> buddy_map_t;
 	buddy_map_t mOnline;
@@ -245,8 +245,8 @@ public:
 class LLCollectAllBuddies : public LLRelationshipFunctor
 {
 public:
-	LLCollectAllBuddies() {}
-	virtual ~LLCollectAllBuddies() {}
+	LLCollectAllBuddies() = default;
+	virtual ~LLCollectAllBuddies() = default;
 	bool operator()(const LLUUID& buddy_id, LLRelationship* buddy) override;
 	typedef std::map<LLUUID, std::string> buddy_map_t;
 	buddy_map_t mOnline;

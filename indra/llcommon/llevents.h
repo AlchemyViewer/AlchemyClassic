@@ -758,7 +758,7 @@ public:
         mReqid(request["reqid"])
     {}
     /// If you don't yet have the request, use setFrom() later.
-    LLReqID() {}
+    LLReqID() = default;
 
     /// Extract and store the ["reqid"] value from an incoming request.
     void setFrom(const LLSD& request)
@@ -833,7 +833,7 @@ public:
         mConnection(that.mConnection)
     {
     }
-    virtual ~LLListenerWrapperBase() {}
+    virtual ~LLListenerWrapperBase() = default;
 
     /// Ask LLEventPump::listen() for the listener name
     virtual void accept_name(const std::string& name) const

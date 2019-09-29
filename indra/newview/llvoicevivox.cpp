@@ -168,10 +168,6 @@ LLVoiceVivoxStats::LLVoiceVivoxStats()
     reset();
 }
 
-LLVoiceVivoxStats::~LLVoiceVivoxStats()
-{
-}
-
 void LLVoiceVivoxStats::connectionAttemptStart()
 {
     if (!mConnectAttempts)

@@ -351,13 +351,13 @@ protected:
 	/** 
 	 * @brief Destructor
 	 */
-	virtual ~LLSDBinaryParser();
+	virtual ~LLSDBinaryParser() = default;
 
 public:
 	/** 
 	 * @brief Constructor
 	 */
-	LLSDBinaryParser();
+	LLSDBinaryParser() = default;;
 
 protected:
 	/** 

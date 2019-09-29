@@ -1802,14 +1802,6 @@ LLIMMgr::onConfirmForceCloseError(
 // Class LLCallDialogManager
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LLCallDialogManager::LLCallDialogManager()
-{
-}
-
-LLCallDialogManager::~LLCallDialogManager()
-{
-}
-
 void LLCallDialogManager::initClass()
 {
 	LLVoiceChannel::setCurrentVoiceChannelChangedCallback(onVoiceChannelChanged);

@@ -40,7 +40,6 @@
 #include "lldynamictexture.h"
 #include "lldrawpoolalpha.h"
 #include "llfeaturemanager.h"
-//#include "llfirstuse.h"
 #include "llfloaterprogressview.h"
 #include "llfloaterreg.h"
 #include "llhudmanager.h"
@@ -49,45 +48,33 @@
 #include "llselectmgr.h"
 #include "llsky.h"
 #include "llstartup.h"
-#include "lltoolfocus.h"
-#include "lltoolmgr.h"
 #include "lltooldraganddrop.h"
-#include "lltoolpie.h"
-#include "lltracker.h"
 #include "lltrans.h"
 #include "llui.h"
 #include "llviewercamera.h"
 #include "llviewerobjectlist.h"
-#include "llviewerparcelmgr.h"
 #include "llviewerwindow.h"
 #include "llvoavatarself.h"
-#include "llvograss.h"
 #include "llworld.h"
 #include "pipeline.h"
 #include "llspatialpartition.h"
 #include "llappviewer.h"
-#include "llstartup.h"
 #include "llviewershadermgr.h"
 #include "llfasttimer.h"
-#include "llfloatertools.h"
 #include "llviewertexturelist.h"
 #include "llfocusmgr.h"
-#include "llcubemap.h"
 #include "llviewerregion.h"
 #include "lldrawpoolwater.h"
 #include "lldrawpoolbump.h"
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 #include "llscenemonitor.h"
-#include "lldrawpoolavatar.h"
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-extern LLPointer<LLViewerTexture> gStartTexture;
 extern bool gShiftFrame;
 
 LLPointer<LLViewerTexture> gDisconnectedImagep = NULL;

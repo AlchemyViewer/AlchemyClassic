@@ -190,9 +190,6 @@ void render_ui(F32 zoom_factor = 1.f, int subfield = 0);
 void swap();
 
 extern BOOL gDebugClicks;
-extern BOOL gDisplaySwapBuffers;
-extern BOOL gDepthDirty;
-extern BOOL gResizeScreenTexture;
 
 LLViewerWindow	*gViewerWindow = nullptr;
 

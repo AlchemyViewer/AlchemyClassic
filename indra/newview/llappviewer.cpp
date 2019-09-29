@@ -264,8 +264,6 @@ static LLAppViewerListener sAppViewerListener(LLAppViewer::instance);
 extern void init_apple_menu(const char* product);
 #endif // LL_DARWIN
 
-extern BOOL gRandomizeFramerate;
-extern BOOL gPeriodicSlowFrame;
 extern BOOL gDebugGL;
 
 ////////////////////////////////////////////////////////////

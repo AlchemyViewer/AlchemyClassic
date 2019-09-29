@@ -40,12 +40,9 @@
 // For getting composition values
 #include "llviewerregion.h"
 #include "llvlcomposition.h"
-#include "lldrawpool.h"
 #include "noise.h"
 
 extern bool gShiftFrame;
-extern U64MicrosecondsImplicit gFrameTime;
-extern LLPipeline gPipeline;
 
 LLSurfacePatch::LLSurfacePatch() 
 :	mHasReceivedData(FALSE),

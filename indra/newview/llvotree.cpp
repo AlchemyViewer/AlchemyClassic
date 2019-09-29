@@ -30,13 +30,9 @@
 
 #include "lldrawpooltree.h"
 
-#include "llviewercontrol.h"
 #include "lldir.h"
 #include "llprimitive.h"
-#include "lltree_common.h"
 #include "llxmltree.h"
-#include "material_codes.h"
-#include "object_flags.h"
 
 #include "llagentcamera.h"
 #include "lldrawable.h"
@@ -51,13 +47,10 @@
 #include "llspatialpartition.h"
 #include "llnotificationsutil.h"
 #include "raytrace.h"
-#include "llglslshader.h"
 
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-extern LLPipeline gPipeline;
 
 const S32 MAX_SLICES = 32;
 const F32 LEAF_LEFT = 0.52f;

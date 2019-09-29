@@ -156,9 +156,5 @@ public:
 	virtual void cleanUp() = 0;
 };
 
-
-extern LLGLSLShader gSolidColorProgram;
-extern LLGLSLShader gUIProgram;
-
 #endif // LL_RENDER2DUTILS_H
 

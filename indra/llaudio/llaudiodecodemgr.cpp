@@ -44,8 +44,6 @@
 #include <deque>
 #include <utility>
 
-extern LLAudioEngine *gAudiop;
-
 LLAudioDecodeMgr *gAudioDecodeMgrp = nullptr;
 
 static const S32 WAV_HEADER_SIZE = 44;

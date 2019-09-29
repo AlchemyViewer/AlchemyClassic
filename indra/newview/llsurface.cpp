@@ -44,18 +44,11 @@
 #include "llviewercontrol.h"
 #include "llviewertexture.h"
 #include "llsurfacepatch.h"
-#include "llvosurfacepatch.h"
 #include "llvowater.h"
 #include "pipeline.h"
 #include "llviewerregion.h"
-#include "llvlcomposition.h"
-#include "noise.h"
-#include "llviewercamera.h"
-#include "llglheaders.h"
 #include "lldrawpoolterrain.h"
-#include "lldrawable.h"
 
-extern LLPipeline gPipeline;
 extern bool gShiftFrame;
 
 LLColor4U MAX_WATER_COLOR(0, 48, 96, 240);

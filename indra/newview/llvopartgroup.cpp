@@ -44,8 +44,6 @@
 #include "pipeline.h"
 #include "llspatialpartition.h"
 
-extern U64MicrosecondsImplicit gFrameTime;
-
 LLPointer<LLVertexBuffer> LLVOPartGroup::sVB = NULL;
 S32 LLVOPartGroup::sVBSlotFree[];
 S32* LLVOPartGroup::sVBSlotCursor = NULL;

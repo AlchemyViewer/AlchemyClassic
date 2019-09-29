@@ -224,8 +224,6 @@ const U32 NOISE_MAP_RES = 256;
 const U32 AUX_VB_MASK = LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_TEXCOORD0 | LLVertexBuffer::MAP_TEXCOORD1;
 
 extern S32 gBoxFrame;
-//extern BOOL gHideSelectedObjects;
-extern BOOL gDisplaySwapBuffers;
 extern BOOL gDebugGL;
 
 bool	gAvatarBacklight = false;

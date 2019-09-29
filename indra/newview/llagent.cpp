@@ -68,7 +68,6 @@
 #include "llsdutil.h"
 #include "llsky.h"
 #include "llslurl.h"
-#include "llsmoothstep.h"
 #include "llstartup.h"
 #include "llstatusbar.h"
 #include "llteleportflags.h"
@@ -77,7 +76,6 @@
 #include "lltoolpie.h"
 #include "lltoolmgr.h"
 #include "lltrans.h"
-#include "lluictrl.h"
 #include "llurlentry.h"
 #include "llviewercontrol.h"
 #include "llviewerdisplay.h"
@@ -90,15 +88,12 @@
 #include "llviewerstats.h"
 #include "llviewerwindow.h"
 #include "llvoavatarself.h"
-#include "llwindow.h"
 #include "llworld.h"
 #include "llworldmap.h"
 #include "llcorehttputil.h"
 #include "roles_constants.h"
 
 using namespace LLAvatarAppearanceDefines;
-
-extern LLMenuBarGL* gMenuBarView;
 
 const BOOL ANIMATE = TRUE;
 const U8 AGENT_STATE_TYPING =	0x04;

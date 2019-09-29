@@ -54,8 +54,6 @@
 
 using namespace LLAvatarAppearanceDefines;
 
-extern LLMenuBarGL* gMenuBarView;
-
 // Mousewheel camera zoom
 const F32 MIN_ZOOM_FRACTION = 0.25f;
 const F32 INITIAL_ZOOM_FRACTION = 1.f;

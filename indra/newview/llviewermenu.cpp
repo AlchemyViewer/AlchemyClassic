@@ -247,11 +247,6 @@ void handle_god_mode(void*);
 void handle_leave_god_mode(void*);
 
 
-void handle_reset_view();
-
-void handle_duplicate_in_place(void*);
-
-
 void handle_object_owner_self(void*);
 void handle_object_owner_permissive(void*);
 void handle_object_lock(void*);
@@ -276,7 +271,6 @@ void force_error_driver_crash(void *);
 void handle_force_delete(void*);
 void print_object_info(void*);
 void print_agent_nvpairs(void*);
-void toggle_debug_menus(void*);
 void upload_done_callback(const LLUUID& uuid, void* user_data, S32 result, LLExtStat ext_status);
 void dump_select_mgr(void*);
 

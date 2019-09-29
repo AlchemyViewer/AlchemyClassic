@@ -254,7 +254,6 @@ void register_viewer_callbacks(LLMessageSystem* msg);
 void asset_callback_nothing(LLVFS*, const LLUUID&, LLAssetType::EType, void*, S32);
 bool callback_choose_gender(const LLSD& notification, const LLSD& response);
 void init_start_screen(S32 location_id);
-void release_start_screen();
 void reset_login();
 LLSD transform_cert_args(LLPointer<LLCertificate> cert);
 void general_cert_done(const LLSD& notification, const LLSD& response);

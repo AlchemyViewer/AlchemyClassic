@@ -33,11 +33,7 @@
 #include "lllineeditor.h"
 #include "llpreviewsound.h"
 #include "llresmgr.h"
-#include "llviewercontrol.h"
 #include "llviewermessage.h"  // send_guid_sound_trigger
-
-extern LLAudioEngine* gAudiop;
-extern LLAgent gAgent;
 
 const F32 SOUND_GAIN = 1.0f;
 

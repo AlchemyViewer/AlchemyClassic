@@ -33,32 +33,19 @@
 
 // Viewer includes
 #include "llagent.h"
-#include "llagentui.h"
 #include "llappviewer.h"
 #include "llnotificationsutil.h"
-#include "llslurl.h"
 #include "llvoiceclient.h"
 #include "llviewertexteditor.h"
-#include "llviewercontrol.h"
 #include "llviewerstats.h"
 #include "llviewerregion.h"
-#include "llversioninfo.h"
-#include "llweb.h"
 
 // Linden library includes
-#include "llaudioengine.h"
-#include "llbutton.h"
-#include "llglheaders.h"
 #include "llfloater.h"
 #include "llfloaterreg.h"
-#include "llimagej2c.h"
-#include "llsys.h"
 #include "lltrans.h"
-#include "lluri.h"
-#include "v3dmath.h"
 #include "llwindow.h"
 #include "stringize.h"
-#include "llsdutil_math.h"
 #include "lleventapi.h"
 #include "llcorehttputil.h"
 #include "lldir.h"
@@ -66,9 +53,6 @@
 #if LL_WINDOWS
 #include "lldxhardware.h"
 #endif
-
-extern LLMemoryInfo gSysMemory;
-extern U32 gPacketsIn;
 
 ///----------------------------------------------------------------------------
 /// Class LLFloaterAbout

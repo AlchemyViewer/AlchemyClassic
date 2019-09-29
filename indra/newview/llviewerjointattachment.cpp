@@ -28,21 +28,16 @@
 
 #include "llviewerjointattachment.h"
 
-#include "llviewercontrol.h"
 #include "lldrawable.h"
 #include "llgl.h"
 #include "llhudtext.h"
 #include "llrender.h"
 #include "llvoavatarself.h"
-#include "llvolume.h"
 #include "pipeline.h"
 #include "llspatialpartition.h"
-#include "llinventorymodel.h"
 #include "llviewerobjectlist.h"
 #include "llface.h"
 #include "llvoavatar.h"
-
-#include "llglheaders.h"
 
 extern LLPipeline gPipeline;
 const F32 MAX_ATTACHMENT_DIST = 3.5f; // meters?

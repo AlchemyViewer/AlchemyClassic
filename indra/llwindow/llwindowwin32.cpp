@@ -66,8 +66,6 @@ const S32	BITS_PER_PIXEL = 32;
 const S32	MAX_NUM_RESOLUTIONS = 32;
 const F32	ICON_FLASH_TIME = 0.5f;
 
-extern BOOL gDebugWindowProc;
-
 //
 // LLWindowWin32
 //

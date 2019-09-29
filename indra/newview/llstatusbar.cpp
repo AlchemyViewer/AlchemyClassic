@@ -76,7 +76,6 @@
 //
 LLStatusBar *gStatusBar = nullptr;
 S32 STATUS_BAR_HEIGHT = 26;
-extern S32 MENU_BAR_HEIGHT;
 
 
 // TODO: these values ought to be in the XML too

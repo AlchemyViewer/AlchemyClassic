@@ -93,8 +93,6 @@ void dialog_refresh_all();
 // Global lists of objects - should go away soon.
 LLViewerObjectList gObjectList;
 
-extern LLPipeline	gPipeline;
-
 // Statics for object lookup tables.
 U32						LLViewerObjectList::sSimulatorMachineIndex = 1; // Not zero deliberately, to speed up index check.
 std::map<U64, U32>		LLViewerObjectList::sIPAndPortToIndex;

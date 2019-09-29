@@ -66,9 +66,6 @@ LLToolSelectRect::LLToolSelectRect( LLToolComposite* composite )
 
 { }
 
-
-void dialog_refresh_all(void);
-
 BOOL LLToolSelectRect::handleMouseDown(S32 x, S32 y, MASK mask)
 {
     BOOL pick_rigged = false; //gSavedSettings.getBOOL("AnimatedObjectsAllowLeftClick");

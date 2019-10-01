@@ -557,6 +557,7 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	// Optional annotations passed via --annotations to the handler
 	std::map<std::string, std::string> annotations;
 
+#if 0
 	unsigned char node_id[6];
 	if (LLUUID::getNodeID(node_id) > 0)
 	{
@@ -567,6 +568,7 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 		hashed_unique_id.hex_digest((char*)md5str);
 		annotations.emplace("sentry[contexts][app][device_app_hash]", std::string(md5str));
 	}
+#endif
 
 	annotations.emplace("sentry[contexts][app][app_name]", LLVersionInfo::getChannel());
 	annotations.emplace("sentry[contexts][app][app_version]", LLVersionInfo::getVersion());
@@ -595,8 +597,10 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 		/* restartable */ true,
 		/* asynchronous_start */ false
 	);
-
-	LL_INFOS() << "Crash reporter init: " << fmt::to_string(success) << LL_ENDL;
+	if (success)
+		LL_INFOS() << "Crashpad init success" << LL_ENDL;
+	else
+		LL_WARNS() << "FAILED TO INITIALIZE CRASHPAD" << LL_ENDL;
 #endif
 }
 

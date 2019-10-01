@@ -55,7 +55,6 @@ endif(DARWIN)
 
 add_custom_target(viewer)
 
-add_subdirectory(${LIBS_OPEN_PREFIX}llcrashlogger)
 add_subdirectory(${LIBS_OPEN_PREFIX}llplugin)
 add_subdirectory(${LIBS_OPEN_PREFIX}llui)
 add_subdirectory(${LIBS_OPEN_PREFIX}viewer_components)

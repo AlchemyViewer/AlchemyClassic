@@ -229,7 +229,7 @@ bool PeopleContextMenu::enableContextMenuItem(const LLSD& userdata)
 			return false;
 		}
 
-		bool result = (mUUIDs.size() > 0);
+		bool result = (!mUUIDs.empty());
 
 		uuid_vec_t::const_iterator
 			id = mUUIDs.begin(),
@@ -252,7 +252,7 @@ bool PeopleContextMenu::enableContextMenuItem(const LLSD& userdata)
 		// - there are selected people
 		// - and there are only friends among selection.
 
-		bool result = (mUUIDs.size() > 0);
+		bool result = (!mUUIDs.empty());
 
 		uuid_vec_t::const_iterator
 			id = mUUIDs.begin(),

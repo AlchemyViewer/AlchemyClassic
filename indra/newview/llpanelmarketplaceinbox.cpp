@@ -216,7 +216,7 @@ void LLPanelMarketplaceInbox::onFilterEdit(const std::string& search_string)
 	if (mInventoryPanel)
 	{
 
-		if (search_string == "")
+		if (search_string.empty())
 		{
 			onClearSearch();
 		}

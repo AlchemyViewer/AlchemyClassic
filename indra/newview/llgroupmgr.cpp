@@ -764,7 +764,7 @@ void LLGroupMgrGroupData::banMemberById(const LLUUID& participant_uuid)
 {
 	if (!mMemberDataComplete ||
 		!mRoleDataComplete ||
-		!(mRoleMemberDataComplete && mMembers.size()))
+		!(mRoleMemberDataComplete && !mMembers.empty()))
 	{
 		LL_WARNS() << "No Role-Member data yet, setting ban request to pending." << LL_ENDL;
 		mPendingBanRequest = true;
@@ -906,7 +906,7 @@ void LLGroupMgr::removeObserver(const LLUUID& group_id, LLParticularGroupObserve
 
     obs_it->second.erase(observer);
 
-    if (obs_it->second.size() == 0)
+    if (obs_it->second.empty())
     	mParticularObservers.erase(obs_it);
 }
 
@@ -1023,7 +1023,7 @@ void LLGroupMgr::processGroupMembersReply(LLMessageSystem* msg, void** data)
 		}
 
 		//if group members are loaded while titles are missing, load the titles.
-		if(group_datap->mTitles.size() < 1)
+		if(group_datap->mTitles.empty())
 		{
 			LLGroupMgr::getInstance()->sendGroupTitlesRequest(group_id);
 		}
@@ -2300,7 +2300,7 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 	// 
 	// TODO:
 	// Refactor to reduce multiple calls for data we already have.
-	if(group_datap->mTitles.size() < 1)
+	if(group_datap->mTitles.empty())
 		sendGroupTitlesRequest(group_id);
 
 

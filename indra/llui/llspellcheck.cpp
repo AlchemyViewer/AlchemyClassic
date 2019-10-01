@@ -70,7 +70,7 @@ bool LLSpellChecker::checkSpelling(const std::string& word) const
 	{
 		return true;
 	}
-	if (mIgnoreList.size() > 0)
+	if (!mIgnoreList.empty())
 	{
 		std::string word_lower(word);
 		LLStringUtil::toLower(word_lower);

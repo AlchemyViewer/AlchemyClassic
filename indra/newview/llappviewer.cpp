@@ -4405,7 +4405,7 @@ void LLAppViewer::forceDisconnect(const std::string& mesg)
 
 	// *TODO: Translate the message if possible
 	std::string big_reason = LLAgent::sTeleportErrorMessages[mesg];
-	if ( big_reason.size() == 0 )
+	if (big_reason.empty())
 	{
 		big_reason = mesg;
 	}

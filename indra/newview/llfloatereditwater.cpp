@@ -517,7 +517,7 @@ void LLFloaterEditWater::refreshWaterPresetsList()
 		mWaterPresetCombo->add(name, LLSD().with(0, name).with(1, LLEnvKey::SCOPE_LOCAL)); // [<name>, <scope>]
 	}
 
-	if (user_presets.size() > 0)
+	if (!user_presets.empty())
 	{
 		mWaterPresetCombo->addSeparator();
 	}

@@ -257,7 +257,7 @@ public:
 
 		if (gdatap->isRoleMemberDataComplete())
 		{
-			if (gdatap->mMembers.size())
+			if (!gdatap->mMembers.empty())
 			{
 				LLGroupMgrGroupData::member_list_t::iterator mi = gdatap->mMembers.find(participant_uuid);
 				if (mi != gdatap->mMembers.end())
@@ -1238,7 +1238,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 		name_params.readonly_color(txt_color);
 	}
 
-	bool prependNewLineState = mEditor->getText().size() != 0;
+	bool prependNewLineState = !mEditor->getText().empty();
 
 	// compact mode: show a timestamp and name
 	if (use_plain_text_chat_history)
@@ -1267,7 +1267,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 		}
 
 		// names showing
-		if (args["show_names_for_p2p_conv"].asBoolean() && utf8str_trim(chat.mFromName).size() != 0)
+		if (args["show_names_for_p2p_conv"].asBoolean() && !utf8str_trim(chat.mFromName).empty())
 		{
 			// Don't hotlink any messages from the system (e.g. "Second Life:"), so just add those in plain text.
 			if ( chat.mSourceType == CHAT_SOURCE_OBJECT && chat.mFromID.notNull())
@@ -1358,7 +1358,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 		view->setOrigin(target_rect.mLeft, view->getRect().mBottom);
 
 		std::string widget_associated_text = "\n[" + chat.mTimeStr + "] ";
-		if (utf8str_trim(chat.mFromName).size() != 0 && chat.mFromName != SYSTEM_FROM)
+		if (!utf8str_trim(chat.mFromName).empty() && chat.mFromName != SYSTEM_FROM)
 			widget_associated_text += chat.mFromName + delimiter;
 
 		mEditor->appendWidget(p, widget_associated_text, false);

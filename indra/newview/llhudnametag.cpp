@@ -305,7 +305,7 @@ void LLHUDNameTag::renderText(BOOL for_select)
 	LLRect screen_rect;
 	screen_rect.setCenterAndSize(0, static_cast<S32>(lltrunc(-mHeight / 2 + mOffsetY)), static_cast<S32>(lltrunc(mWidth)), static_cast<S32>(lltrunc(mHeight)));
 	mRoundedRectImage->draw3D(render_position, x_pixel_vec, y_pixel_vec, screen_rect, bg_color);
-	if (mLabelSegments.size())
+	if (!mLabelSegments.empty())
 	{
 		LLRect label_top_rect = screen_rect;
 		const S32 label_height = ll_round((mFontp->getLineHeight() * (F32)mLabelSegments.size() + (VERTICAL_PADDING / 3.f)));

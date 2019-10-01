@@ -195,7 +195,7 @@ public:
 	U32  getSLMStatus() const { return mMarketPlaceStatus; }
 	void setSLMStatus(U32 status);
     void getSLMListings();
-    bool isEmpty() { return (mMarketplaceItems.size() == 0); }
+    bool isEmpty() { return (mMarketplaceItems.empty()); }
     void setDataFetchedSignal(const status_updated_signal_t::slot_type& cb);
     void setSLMDataFetched(U32 status);
     U32 getSLMDataFetched() { return mMarketPlaceDataFetched; }

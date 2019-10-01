@@ -583,7 +583,7 @@ void LLFloaterIMSessionTab::refreshConversation()
 	{
 		// Build the session name and update it
 		std::string session_name;
-		if (participants_uuids.size() != 0)
+		if (!participants_uuids.empty())
 		{
 			LLAvatarActions::buildResidentsString(participants_uuids, session_name);
 		}

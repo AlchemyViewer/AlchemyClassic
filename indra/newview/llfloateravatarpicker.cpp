@@ -513,7 +513,7 @@ void LLFloaterAvatarPicker::find()
 		{
 			// capability urls don't end in '/', but we need one to parse
 			// query parameters correctly
-			if (url.size() > 0 && url[url.size()-1] != '/')
+			if (!url.empty() && url[url.size()-1] != '/')
 			{
 				url += "/";
 			}
@@ -778,7 +778,7 @@ void LLFloaterAvatarPicker::processResponse(const LLUUID& query_id, const LLSD& 
 //static
 void LLFloaterAvatarPicker::editKeystroke(LLLineEditor* caller, void* user_data)
 {
-	getChildView("Find")->setEnabled(caller->getText().size() > 0);
+	getChildView("Find")->setEnabled(!caller->getText().empty());
 }
 
 // virtual
@@ -838,7 +838,7 @@ bool LLFloaterAvatarPicker::isSelectBtnEnabled()
 			uuid_vec_t avatar_ids;
 			std::vector<LLAvatarName> avatar_names;
 			getSelectedAvatarData(list, avatar_ids, avatar_names);
-			if (avatar_ids.size() >= 1) 
+			if (!avatar_ids.empty()) 
 			{
 				ret_val = mOkButtonValidateSignal.num_slots()?mOkButtonValidateSignal(avatar_ids):true;
 			}

@@ -1277,7 +1277,7 @@ void LLFloaterIMContainer::doToSelectedConversation(const std::string& command, 
 		}
 		else if ("chat_history" == command)
 		{
-			if (selectedIDS.size() > 0)
+			if (!selectedIDS.empty())
 			{
 				if (conversationItem->getType() == LLConversationItem::CONV_SESSION_GROUP)
 				{
@@ -1397,7 +1397,7 @@ bool LLFloaterIMContainer::enableContextMenuItem(const LLSD& userdata)
 	}
 
 	//Enable Chat history item for ad-hoc and group conversations
-	if ("can_chat_history" == item && uuids.size() > 0)
+	if ("can_chat_history" == item && !uuids.empty())
 	{
 		//Disable menu item if selected participant is user agent
 		if (uuids.front() != gAgentID)
@@ -1424,7 +1424,7 @@ bool LLFloaterIMContainer::enableContextMenuItem(const LLSD& userdata)
 	}
 
 	// If nothing is selected(and selected item is not group chat), everything needs to be disabled
-	if (uuids.size() <= 0)
+	if (uuids.empty())
 	{
 		if (getCurSelectedViewModelItem())
 		{

@@ -381,7 +381,7 @@ void LLFloaterAO::onSelectState()
 	if (!mSelectedState) return;
 	
 	mSelectedState = static_cast<LLAOSet::AOState*>(mStateSelector->getCurrentUserdata());
-	if (mSelectedState->mAnimations.size())
+	if (!mSelectedState->mAnimations.empty())
 	{
 		for (auto& ao_animation : mSelectedState->mAnimations)
         {
@@ -534,7 +534,7 @@ void LLFloaterAO::onChangeAnimationSelection()
 		mAnimationList->deselectAllItems();
 		LL_DEBUGS("AOEngine") << "Selection count now: " << list.size() << LL_ENDL;
 	}
-	else if (list.size() > 0)
+	else if (!list.empty())
 	{
 		if (list.size() == 1)
 		{

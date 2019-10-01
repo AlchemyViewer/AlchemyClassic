@@ -102,7 +102,7 @@ bool LLLocationHistory::getMatchingItems(const std::string& substring, location_
 			result.push_back(mItem);
 	}
 	
-	return result.size();
+	return !result.empty();
 }
 
 void LLLocationHistory::dump() const

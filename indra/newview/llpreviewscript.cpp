@@ -649,7 +649,7 @@ bool LLScriptEdCore::writeToFile(const std::string& filename)
 	std::string utf8text = getScriptText();
 
 	// Special case for a completely empty script - stuff in one space so it can store properly.  See SL-46889
-	if (utf8text.size() == 0)
+	if (utf8text.empty())
 	{
 		utf8text = " ";
 	}

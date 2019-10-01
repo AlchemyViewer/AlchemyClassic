@@ -5051,7 +5051,7 @@ void LLViewerWindow::stopGL(BOOL save_state)
 		stop_glerror();
 
 		//unload shader's
-		while (LLGLSLShader::sInstances.size())
+		while (!LLGLSLShader::sInstances.empty())
 		{
 			LLGLSLShader* shader = *(LLGLSLShader::sInstances.begin());
 			shader->unload();

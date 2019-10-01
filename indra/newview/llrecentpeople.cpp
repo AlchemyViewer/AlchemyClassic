@@ -181,7 +181,7 @@ bool LLRecentPeople::save() const
 	if (!file.is_open())
 		return false;
 	
-	for (const std::pair<LLUUID, LLSD> &item : mPeople)
+	for (auto const& item : mPeople)
 	{
 		if (item.second.has("nearby") && item.second["nearby"].asBoolean()) continue;
 		

@@ -1392,7 +1392,7 @@ S32 LLSDNotationFormatter::format_impl(const LLSD& data, std::ostream& ostr, U32
 		// *FIX: memory inefficient.
 		const std::vector<U8>& buffer = data.asBinary();
 		ostr << "b(" << buffer.size() << ")\"";
-		if(buffer.size())
+		if(!buffer.empty())
 		{
 			if (options & LLSDFormatter::OPTIONS_PRETTY_BINARY)
 			{
@@ -1529,7 +1529,7 @@ S32 LLSDBinaryFormatter::format(const LLSD& data, std::ostream& ostr, U32 option
 		const std::vector<U8>& buffer = data.asBinary();
 		U32 size_nbo = htonl(buffer.size());
 		ostr.write((const char*)(&size_nbo), sizeof(U32));
-		if(buffer.size()) ostr.write((const char*)&buffer[0], buffer.size());
+		if(!buffer.empty()) ostr.write((const char*)&buffer[0], buffer.size());
 		break;
 	}
 

@@ -1391,7 +1391,7 @@ S32 LLStringUtilBase<T>::compareDictInsensitive(const string_type& astr, const s
 template<class T> 
 BOOL LLStringUtilBase<T>::precedesDict( const string_type& a, const string_type& b )
 {
-	if( a.size() && b.size() )
+	if(!a.empty() && !b.empty())
 	{
 		return (LLStringUtilBase<T>::compareDict(a, b) < 0);
 	}

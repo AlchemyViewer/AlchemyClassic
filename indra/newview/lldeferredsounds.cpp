@@ -37,7 +37,7 @@ void LLDeferredSounds::deferSound(SoundData& sound)
 }
 void LLDeferredSounds::playdeferredSounds()
 {
-	while(soundVector.size())
+	while(!soundVector.empty())
 	{
 		if (gAudiop)
 		{

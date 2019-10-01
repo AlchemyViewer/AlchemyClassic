@@ -522,7 +522,7 @@ void LLPanelMainInventory::onClearSearch()
 	}
 
 	// re-open folders that were initially open in case filter was active
-	if (mActivePanel && (mFilterSubString.size() || initially_active))
+	if (mActivePanel && (!mFilterSubString.empty() || initially_active))
 	{
 		mSavedFolderState->setApply(TRUE);
 		mActivePanel->getRootFolder()->applyFunctorRecursively(*mSavedFolderState);
@@ -1434,7 +1434,7 @@ BOOL LLPanelMainInventory::isActionEnabled(const LLSD& userdata)
 			LLInventoryModel::cat_array_t* cat_array;
 			LLInventoryModel::item_array_t* item_array;
 			gInventory.getDirectDescendentsOf(item_id, cat_array, item_array);
-			status = (0 == cat_array->size() && 0 == item_array->size());
+			status = (cat_array->empty() && item_array->empty());
 		}
 		return status;
 	}

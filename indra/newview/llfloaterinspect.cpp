@@ -106,7 +106,7 @@ void LLFloaterInspect::onOpen(const LLSD& key)
 
 void LLFloaterInspect::onClickCreatorProfile()
 {
-	if(mObjectList->getAllSelected().size() == 0)
+	if(mObjectList->getAllSelected().empty())
 	{
 		return;
 	}
@@ -134,7 +134,7 @@ void LLFloaterInspect::onClickCreatorProfile()
 
 void LLFloaterInspect::onClickOwnerProfile()
 {
-	if(mObjectList->getAllSelected().size() == 0) return;
+	if(mObjectList->getAllSelected().empty()) return;
 	LLScrollListItem* first_selected =mObjectList->getFirstSelected();
 
 	if (first_selected)
@@ -179,7 +179,7 @@ void LLFloaterInspect::onSelectObject()
 
 LLUUID LLFloaterInspect::getSelectedUUID()
 {
-	if(mObjectList->getAllSelected().size() > 0)
+	if(!mObjectList->getAllSelected().empty())
 	{
 		LLScrollListItem* first_selected =mObjectList->getFirstSelected();
 		if (first_selected)

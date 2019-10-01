@@ -51,7 +51,7 @@ void LLWLAnimator::update(LLWLParamSet& curParams)
 	curTime = getDayTime();
 
 	// don't do anything if empty
-	if(mTimeTrack.size() == 0)
+	if(mTimeTrack.empty())
 	{
 		return;
 	}

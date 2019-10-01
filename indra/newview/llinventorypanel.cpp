@@ -1144,7 +1144,7 @@ void LLInventoryPanel::onSelectionChange(const std::deque<LLFolderViewItem*>& it
 	if (fv->needsAutoRename()) // auto-selecting a new user-created asset and preparing to rename
 	{
 		fv->setNeedsAutoRename(FALSE);
-		if (items.size()) // new asset is visible and selected
+		if (!items.empty()) // new asset is visible and selected
 		{
 			fv->startRenamingSelectedItem();
 		}

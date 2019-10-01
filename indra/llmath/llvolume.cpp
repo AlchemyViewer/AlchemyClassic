@@ -592,9 +592,9 @@ void LLProfile::genNGon(const LLProfileParams& params, S32 sides, F32 offset, F3
 		// Iterate through all the integer steps of t.
 		pt1.set(cos(ang)*scale,sin(ang)*scale,t);
 
-		if (mProfile.size() > 0) {
+		if (!mProfile.empty()) {
 			LLVector4a p = mProfile[mProfile.size()-1];
-			for (S32 i = 0; i < split && mProfile.size() > 0; i++) {
+			for (S32 i = 0; i < split && !mProfile.empty(); i++) {
 				//mProfile.push_back(p+(pt1-p) * 1.0f/(float)(split+1) * (float)(i+1));
 				LLVector4a new_pt;
 				new_pt.setSub(pt1, p);
@@ -620,9 +620,9 @@ void LLProfile::genNGon(const LLProfileParams& params, S32 sides, F32 offset, F3
 		LLVector4a new_pt;
 		new_pt.setLerp(pt1, pt2, t_fraction);
 		
-		if (mProfile.size() > 0) {
+		if (!mProfile.empty()) {
 			LLVector4a p = mProfile[mProfile.size()-1];
-			for (S32 i = 0; i < split && mProfile.size() > 0; i++) {
+			for (S32 i = 0; i < split && !mProfile.empty(); i++) {
 				//mProfile.push_back(p+(new_pt-p) * 1.0f/(float)(split+1) * (float)(i+1));
 
 				LLVector4a pt1;

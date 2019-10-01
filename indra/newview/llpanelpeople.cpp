@@ -875,7 +875,7 @@ void LLPanelPeople::updateButtons()
 	uuid_vec_t selected_uuids;
 	getCurrentItemIDs(selected_uuids);
 	bool item_selected = (selected_uuids.size() == 1);
-	bool multiple_selected = (selected_uuids.size() >= 1);
+	bool multiple_selected = (!selected_uuids.empty());
 
 	if (group_tab_active)
 	{

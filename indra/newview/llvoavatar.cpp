@@ -3032,7 +3032,7 @@ void LLVOAvatar::idleUpdateNameTag(const LLVector3& root_pos_last)
 	BOOL visible_avatar = isVisible() || mNeedsAnimUpdate;
 	static LLCachedControl<U32> nearby_chat_out(gSavedSettings, "AlchemyNearbyChatOutput");
 	BOOL visible_chat = (nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE || nearby_chat_out == E_NEARBY_OUTPUT_BOTH) 
-		&& (mChats.size() || mTyping);
+		&& (!mChats.empty() || mTyping);
 	BOOL render_name =	visible_chat ||
 		(visible_avatar &&
 		 ((sRenderName == RENDER_NAME_ALWAYS) ||
@@ -3785,12 +3785,12 @@ void LLVOAvatar::updateDebugText()
         updateAnimationDebugText();
 	}
 
-	if (!mDebugText.size() && mText.notNull())
+	if (mDebugText.empty() && mText.notNull())
 	{
 		mText->markDead();
 		mText = nullptr;
 	}
-	else if (mDebugText.size())
+	else if (!mDebugText.empty())
 	{
 		setDebugText(mDebugText);
 	}
@@ -6003,7 +6003,7 @@ bool LLVOAvatar::getRiggedMeshID(LLViewerObject* pVO, LLUUID& mesh_id)
 			const LLMeshSkinInfo* pSkinData = pVObj->getSkinInfo();
 			if (pSkinData 
 				&& pSkinData->mJointNames.size() > JOINT_COUNT_REQUIRED_FOR_FULLRIG	// full rig
-				&& pSkinData->mAlternateBindMatrix.size() > 0 )
+				&& !pSkinData->mAlternateBindMatrix.empty())
 					{				
 						mesh_id = pSkinData->mMeshID;
 						return true;
@@ -6400,7 +6400,7 @@ void LLVOAvatar::showAttachmentOverrides(bool verbose) const
 {
     std::set<std::string> pos_names, scale_names;
     getAttachmentOverrideNames(pos_names, scale_names);
-    if (pos_names.size())
+    if (!pos_names.empty())
     {
         std::stringstream ss;
         std::copy(pos_names.begin(), pos_names.end(), std::ostream_iterator<std::string>(ss, ","));
@@ -6410,7 +6410,7 @@ void LLVOAvatar::showAttachmentOverrides(bool verbose) const
     {
         LL_DEBUGS("Avatar") << getFullname() << " no attachment positions defined for any joints" << "\n" << LL_ENDL;
     }
-    if (scale_names.size())
+    if (!scale_names.empty())
     {
         std::stringstream ss;
         std::copy(scale_names.begin(), scale_names.end(), std::ostream_iterator<std::string>(ss, ","));

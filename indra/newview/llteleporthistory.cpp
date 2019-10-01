@@ -144,10 +144,10 @@ void LLTeleportHistory::updateCurrentLocation(const LLVector3d& new_pos)
 		// while we already have a (loaded) non-empty history,
 		// there's no need to purge forward items or add a new item.
 
-		if (mGotInitialUpdate || mItems.size() == 0)
+		if (mGotInitialUpdate || mItems.empty())
 		{
 			// Purge forward items (if any).
-			if(mItems.size())
+			if(!mItems.empty())
 				mItems.erase (mItems.begin() + mCurrentItem + 1, mItems.end());
 			
 			// Append an empty item to the history and make it current.
@@ -190,7 +190,7 @@ void LLTeleportHistory::onHistoryChanged()
 
 void LLTeleportHistory::purgeItems()
 {
-	if (mItems.size() == 0) // no entries yet (we're called before login)
+	if (mItems.empty()) // no entries yet (we're called before login)
 	{
 		// If we don't return here the history will get into inconsistent state, hence:
 		// 1) updateCurrentLocation() will malfunction,
@@ -201,7 +201,7 @@ void LLTeleportHistory::purgeItems()
 		return;
 	}
 
-	if (mItems.size() > 0)
+	if (!mItems.empty())
 	{
 		mItems.erase(mItems.begin(), mItems.end()-1);
 	}

@@ -705,7 +705,7 @@ BOOL LLSurface::idleUpdate(F32 max_update_time)
 
 	// If the Z height data has changed, we need to rebuild our
 	// property line vertex arrays.
-	if (mDirtyPatchList.size() > 0)
+	if (!mDirtyPatchList.empty())
 	{
 		getRegion()->dirtyHeights();
 	}

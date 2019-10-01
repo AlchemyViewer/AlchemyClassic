@@ -115,7 +115,7 @@ bool LLInventoryFilter::check(const LLFolderViewModelItem* item)
 			break;
 	}
 
-	bool passed = (mFilterSubString.size() ? desc.find(mFilterSubString) != std::string::npos : true);
+	bool passed = (!mFilterSubString.empty() ? desc.find(mFilterSubString) != std::string::npos : true);
 	passed = passed && checkAgainstFilterType(listener);
 	passed = passed && checkAgainstPermissions(listener);
 	passed = passed && checkAgainstFilterLinks(listener);
@@ -126,7 +126,7 @@ bool LLInventoryFilter::check(const LLFolderViewModelItem* item)
 
 bool LLInventoryFilter::check(const LLInventoryItem* item)
 {
-	const bool passed_string = (mFilterSubString.size() ? item->getName().find(mFilterSubString) != std::string::npos : true);
+	const bool passed_string = (!mFilterSubString.empty() ? item->getName().find(mFilterSubString) != std::string::npos : true);
 	const bool passed_filtertype = checkAgainstFilterType(item);
 	const bool passed_permissions = checkAgainstPermissions(item);
 
@@ -516,7 +516,7 @@ std::string::size_type LLInventoryFilter::getStringMatchOffset(LLFolderViewModel
 {
 	if (mSearchType == SEARCHTYPE_NAME)
 	{
-		return mFilterSubString.size() ? item->getSearchableName().find(mFilterSubString) : std::string::npos;
+		return !mFilterSubString.empty() ? item->getSearchableName().find(mFilterSubString) : std::string::npos;
 	}
 	else
 	{
@@ -555,8 +555,8 @@ bool LLInventoryFilter::isActive() const
 		|| mFilterOps.mFilterWearableTypes != 0xffffffffffffffffULL
 		|| mFilterOps.mFilterTypes != FILTERTYPE_OBJECT
 		|| mFilterOps.mFilterLinks != FILTERLINK_INCLUDE_LINKS
-		|| mFilterSubString.size() 
-		|| mFilterOps.mPermissions != PERM_NONE 
+		|| !mFilterSubString.empty()
+        || mFilterOps.mPermissions != PERM_NONE 
 		|| mFilterOps.mMinDate != time_min()
 		|| mFilterOps.mMaxDate != time_max()
 		|| mFilterOps.mHoursAgo != 0;
@@ -1263,7 +1263,7 @@ U64 LLInventoryFilter::getFilterWearableTypes() const
 
 bool LLInventoryFilter::hasFilterString() const
 {
-	return mFilterSubString.size() > 0;
+	return !mFilterSubString.empty();
 }
 
 std::string::size_type LLInventoryFilter::getFilterStringSize() const

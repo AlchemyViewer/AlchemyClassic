@@ -781,7 +781,7 @@ void LLWearableHoldingPattern::onAllComplete()
 	}
 
 	// Activate all gestures in this folder
-	if (mGestItems.size() > 0)
+	if (!mGestItems.empty())
 	{
 		LL_DEBUGS("Avatar") << self_av_string() << "Activating " << mGestItems.size() << " gestures" << LL_ENDL;
 		
@@ -820,7 +820,7 @@ void LLWearableHoldingPattern::onAllComplete()
 		// pre-attachment states.
 		gAgentAvatarp->clearAttachmentOverrides();
 
-		if (objects_to_remove.size() || items_to_add.size())
+		if (!objects_to_remove.empty() || !items_to_add.empty())
 		{
 			LL_DEBUGS("Avatar") << "ATT will remove " << objects_to_remove.size()
 								<< " and add " << items_to_add.size() << " items" << LL_ENDL;
@@ -1002,7 +1002,7 @@ void LLWearableHoldingPattern::recoverMissingWearable(LLWearableType::EType type
 
 bool LLWearableHoldingPattern::isMissingCompleted()
 {
-	return mTypesToLink.size()==0 && mTypesToRecover.size()==0;
+	return mTypesToLink.empty() && mTypesToRecover.empty();
 }
 
 void LLWearableHoldingPattern::clearCOFLinksForMissingWearables()
@@ -1068,7 +1068,7 @@ void LLWearableHoldingPattern::handleLateArrivals()
 	// wearables and other processing - otherwise we could be in some
 	// intermediate state - but have not been superceded by a later
 	// outfit change request.
-	if (mLateArrivals.size() == 0)
+	if (mLateArrivals.empty())
 	{
 		// Nothing to process.
 		return;
@@ -1478,7 +1478,7 @@ void LLAppearanceMgr::wearItemsOnAvatar(const uuid_vec_t& item_ids_to_wear,
     }
 
     // Batch up COF link creation - more efficient if using AIS.
-    if (items_to_link.size())
+    if (!items_to_link.empty())
     {
         link_inventory_array(getCOF(), items_to_link, cb); 
     }
@@ -1834,7 +1834,7 @@ bool LLAppearanceMgr::getCanRemoveFromCOF(const LLUUID& outfit_cat_id)
 		items,
 		LLInventoryModel::EXCLUDE_TRASH,
 		is_worn);
-	return items.size() > 0;
+	return !items.empty();
 }
 
 // static
@@ -1854,7 +1854,7 @@ bool LLAppearanceMgr::getCanAddToCOF(const LLUUID& outfit_cat_id)
 		LLInventoryModel::EXCLUDE_TRASH,
 		not_worn);
 
-	return items.size() > 0;
+	return !items.empty();
 }
 
 bool LLAppearanceMgr::getCanReplaceCOF(const LLUUID& outfit_cat_id)
@@ -1881,7 +1881,7 @@ bool LLAppearanceMgr::getCanReplaceCOF(const LLUUID& outfit_cat_id)
 		LLInventoryModel::EXCLUDE_TRASH,
 		is_wearable);
 
-	return items.size() > 0;
+	return !items.empty();
 }
 
 // Moved from LLWearableList::ContextMenu for wider utility.
@@ -2166,7 +2166,7 @@ void LLAppearanceMgr::updateAgentWearables(LLWearableHoldingPattern* holder)
 		}
 	}
 
-	if(wearables.size() > 0)
+	if(!wearables.empty())
 	{
 		gAgentWearables.setWearableOutfit(items, wearables);
 	}
@@ -2262,7 +2262,7 @@ void LLAppearanceMgr::enforceCOFItemRestrictions(LLPointer<LLInventoryCallback> 
 {
 	LLInventoryObject::object_list_t items_to_kill;
 	findAllExcessOrDuplicateItems(getCOF(), items_to_kill);
-	if (items_to_kill.size()>0)
+	if (!items_to_kill.empty())
 	{
 		// Remove duplicate or excess wearables. Should normally be enforced at the UI level, but
 		// this should catch anything that gets through.
@@ -2350,7 +2350,7 @@ void LLAppearanceMgr::updateAppearanceFromCOF(bool enforce_item_restrictions,
 				<< " descendent_count " << cof->getDescendentCount()
 				<< " viewer desc count " << cof->getViewerDescendentCount() << LL_ENDL;
 	}
-	if(!wear_items.size())
+	if(wear_items.empty())
 	{
 		LLNotificationsUtil::add("CouldNotPutOnOutfit");
 		return;
@@ -2640,7 +2640,7 @@ void LLAppearanceMgr::wearOutfitByName(const std::string& name)
 									has_name);
 	bool copy_items = false;
 	LLInventoryCategory* cat = NULL;
-	if (cat_array.size() > 0)
+	if (!cat_array.empty())
 	{
 		// Just wear the first one that matches
 		cat = cat_array.at(0);
@@ -2652,7 +2652,7 @@ void LLAppearanceMgr::wearOutfitByName(const std::string& name)
 										item_array,
 										LLInventoryModel::EXCLUDE_TRASH,
 										has_name);
-		if(cat_array.size() > 0)
+		if(!cat_array.empty())
 		{
 			cat = cat_array.at(0);
 			copy_items = true;
@@ -2809,7 +2809,7 @@ LLInventoryModel::item_array_t LLAppearanceMgr::findCOFItemLinks(const LLUUID& i
 bool LLAppearanceMgr::isLinkedInCOF(const LLUUID& item_id)
 {
 	LLInventoryModel::item_array_t links = LLAppearanceMgr::instance().findCOFItemLinks(item_id);
-	return links.size() > 0;
+	return !links.empty();
 }
 
 void LLAppearanceMgr::removeAllClothesFromAvatar()
@@ -3338,7 +3338,7 @@ bool LLAppearanceMgr::validateClothingOrderingInfo(LLUUID cat_id)
 				<< " (from: " << item->getActualDescription() << ")" << LL_ENDL;
 	}
 	
-	return desc_map.size() == 0;
+	return desc_map.empty();
 }
 
 void LLAppearanceMgr::updateClothingOrderingInfo(LLUUID cat_id,

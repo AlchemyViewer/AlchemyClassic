@@ -66,7 +66,7 @@ namespace {
 		{
 			// Need UTF16 for Unicode OutputDebugString
 			//
-			if (s.size())
+			if (!s.empty())
 			{
 				OutputDebugString(ll_convert_string_to_wide(s).c_str());
 				OutputDebugString(TEXT("\n"));

@@ -1522,7 +1522,7 @@ bool validate_marketplacelistings(LLInventoryCategory* cat, validation_callback_
     // If we have no items in there (only folders or empty), analyze a bit further
     if ((count == 0) && !has_bad_items)
     {
-        if (cat_array->size() == 0)
+        if (cat_array->empty())
         {
             // So we have no item and no folder. That's at least a warning.
             if (depth == 2)
@@ -1561,7 +1561,8 @@ bool validate_marketplacelistings(LLInventoryCategory* cat, validation_callback_
         }
     }
     // If we have a single type of items of the right type in the right place, we're done
-    else if ((count == 1) && !has_bad_items && (((unique_key == default_key) && (depth > 1)) || ((folder_type == LLFolderType::FT_MARKETPLACE_STOCK) && (depth > 2) && (cat_array->size() == 0))))
+    else if ((count == 1) && !has_bad_items && (((unique_key == default_key) && (depth > 1)) || ((folder_type == LLFolderType::FT_MARKETPLACE_STOCK) && (depth > 2) && (
+        cat_array->empty()))))
     {
         // Done with that folder : Print out the folder name unless we already found an error here
         if (cb && result && (depth >= 1))
@@ -1575,7 +1576,7 @@ bool validate_marketplacelistings(LLInventoryCategory* cat, validation_callback_
         if (fix_hierarchy && !has_bad_items)
         {
             // Alert the user when an existing stock folder has to be split
-            if ((folder_type == LLFolderType::FT_MARKETPLACE_STOCK) && ((count >= 2) || (cat_array->size() > 0)))
+            if ((folder_type == LLFolderType::FT_MARKETPLACE_STOCK) && ((count >= 2) || (!cat_array->empty())))
             {
                 LLNotificationsUtil::add("AlertMerchantStockFolderSplit");
             }
@@ -1655,7 +1656,7 @@ bool validate_marketplacelistings(LLInventoryCategory* cat, validation_callback_
                     std::string message = indent + cat->getName() + LLTrans::getString("Marketplace Validation Error Mixed Stock");
                     cb(message,depth,LLError::LEVEL_ERROR);
                 }
-                else if ((folder_type == LLFolderType::FT_MARKETPLACE_STOCK) && (cat_array->size() != 0))
+                else if ((folder_type == LLFolderType::FT_MARKETPLACE_STOCK) && (!cat_array->empty()))
                 {
                     // Report if a stock folder contains subfolders
                     result = false;

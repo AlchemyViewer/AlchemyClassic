@@ -576,7 +576,7 @@ void LLPanelGroupInvite::updateLists()
 			waiting = true;
 		}
 		if (gdatap->isRoleDataComplete() && gdatap->isMemberDataComplete()
-			&& (gdatap->isRoleMemberDataComplete() || !gdatap->mMembers.size())) // MAINT-5270: large groups receives an empty members list without some powers, so RoleMemberData wouldn't be complete for them
+			&& (gdatap->isRoleMemberDataComplete() || gdatap->mMembers.empty())) // MAINT-5270: large groups receives an empty members list without some powers, so RoleMemberData wouldn't be complete for them
 		{
 			if ( mImplementation->mRoleNames )
 			{

@@ -256,7 +256,7 @@ void LLAgentPilot::startPlayback()
 		mCurrentAction = 0;
 		mTimer.reset();
 
-		if (mActions.size())
+		if (!mActions.empty())
 		{
 			LL_INFOS() << "Starting playback, moving to waypoint 0" << LL_ENDL;
 			gAgent.startAutoPilotGlobal(mActions[0].mTarget);

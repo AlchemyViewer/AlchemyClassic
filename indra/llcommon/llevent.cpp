@@ -162,7 +162,7 @@ protected:
 
 LLSimpleDispatcher::~LLSimpleDispatcher()
 {
-	while (mListeners.size() > 0)
+	while (!mListeners.empty())
 	{
         LLSimpleDispatcher::removeListener(mListeners.begin()->listener);
 	}

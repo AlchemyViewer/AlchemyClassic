@@ -1728,7 +1728,7 @@ void LLViewerObjectList::clearAllMapObjectsInRegion(LLViewerRegion* regionp)
 		}
 	}
 
-	if(dead_object_list.size() > 0)
+	if(!dead_object_list.empty())
 	{
 		LL_WARNS() << "There are " << dead_object_list.size() << " dead objects on the map!" << LL_ENDL ;
 
@@ -1737,7 +1737,7 @@ void LLViewerObjectList::clearAllMapObjectsInRegion(LLViewerRegion* regionp)
 			cleanupReferences(iter) ;
 		}
 	}
-	if(region_object_list.size() > 0)
+	if(!region_object_list.empty())
 	{
 		LL_WARNS() << "There are " << region_object_list.size() << " objects not removed from the deleted region!" << LL_ENDL ;
 

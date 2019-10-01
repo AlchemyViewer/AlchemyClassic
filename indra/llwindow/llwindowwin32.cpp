@@ -3923,11 +3923,11 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 		}
 		else
 		{
-			if (preedit_segment_lengths.size() == 0)
+			if (preedit_segment_lengths.empty())
 			{
 				preedit_segment_lengths.assign(1, preedit_string.length());
 			}
-			if (preedit_standouts.size() == 0)
+			if (preedit_standouts.empty())
 			{
 				preedit_standouts.assign(preedit_segment_lengths.size(), FALSE);
 			}

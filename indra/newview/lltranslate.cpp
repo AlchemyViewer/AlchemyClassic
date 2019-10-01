@@ -365,7 +365,7 @@ bool LLGoogleTranslationHandler::parseTranslation(
 	}
 
 	const nlohmann::json &translations = data["translations"];
-	if (!translations.is_array() || translations.size() == 0)
+	if (!translations.is_array() || translations.empty())
 	{
 		return false;
 	}

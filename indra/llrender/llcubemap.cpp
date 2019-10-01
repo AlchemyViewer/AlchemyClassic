@@ -79,7 +79,7 @@ void LLCubeMap::initGL()
 			
 			LLImageGL::generateTextures(1, &texname);
 
-			for (int i = 0; i < 6; i++)
+			for (auto i = 0; i < 6; ++i)
 			{
 				mImages[i] = new LLImageGL(64, 64, 4, (use_cube_mipmaps? TRUE : FALSE));
 				mImages[i]->setTarget(mTargets[i], LLTexUnit::TT_CUBE_MAP);

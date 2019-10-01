@@ -182,7 +182,7 @@ void LLSDMessageBuilder::addString(const char* varname, const char* v)
 
 void LLSDMessageBuilder::addString(const char* varname, const std::string& v)
 {
-	if (v.size())
+	if (!v.empty())
 		(*mCurrentBlock)[varname] = v; 
 	else
 		(*mCurrentBlock)[varname] = ""; 

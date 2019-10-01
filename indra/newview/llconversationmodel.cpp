@@ -264,7 +264,7 @@ void LLConversationItemSession::updateName(LLConversationItemParticipant* partic
 	}
 
 	// Avoid changing the default name if no participant present yet
-	if (mChildren.size() == 0)
+	if (mChildren.empty())
 	{
 		return;
 	}
@@ -299,7 +299,7 @@ void LLConversationItemSession::updateName(LLConversationItemParticipant* partic
 		}
 	}
 
-	if (temp_uuids.size() != 0)
+	if (!temp_uuids.empty())
 	{
 		std::string new_session_name;
 		LLAvatarActions::buildResidentsString(temp_uuids, new_session_name);

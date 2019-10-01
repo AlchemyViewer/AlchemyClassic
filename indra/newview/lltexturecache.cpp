@@ -1565,7 +1565,7 @@ void LLTextureCache::readHeaderCache()
 				}
 			}
 			
-			if (purge_list.size() > 0)
+			if (!purge_list.empty())
 			{
 				for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type iter :
                      purge_list)

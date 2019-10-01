@@ -195,7 +195,7 @@ void LLFloaterEditDayCycle::applyTrack()
 	LL_DEBUGS() << "Applying track (" << mSliderToKey.size() << ")" << LL_ENDL;
 
 	// if no keys, do nothing
-	if (mSliderToKey.size() == 0)
+	if (mSliderToKey.empty())
 	{
 		LL_DEBUGS() << "No keys, not syncing" << LL_ENDL;
 		return;
@@ -295,7 +295,7 @@ void LLFloaterEditDayCycle::refreshDayCyclesList()
 		mDayCyclesCombo->add(*it, LLWLParamKey(*it, LLEnvKey::SCOPE_LOCAL).toLLSD());
 	}
 
-	if (user_days.size() > 0)
+	if (!user_days.empty())
 	{
 		mDayCyclesCombo->addSeparator();
 	}
@@ -355,7 +355,7 @@ void LLFloaterEditDayCycle::onKeyTimeMoved()
 void LLFloaterEditDayCycle::onKeyTimeChanged()
 {
 	// if no keys, skipped
-	if (mSliderToKey.size() == 0)
+	if (mSliderToKey.empty())
 	{
 		return;
 	}
@@ -594,7 +594,7 @@ bool LLFloaterEditDayCycle::getApplyProgress() const
 
 void LLFloaterEditDayCycle::onDeleteKey()
 {
-	if (mSliderToKey.size() == 0)
+	if (mSliderToKey.empty())
 	{
 		return;
 	}
@@ -611,7 +611,7 @@ void LLFloaterEditDayCycle::onDeleteKey()
 
 	mKeysSlider->deleteCurSlider();
 
-	if (mSliderToKey.size() == 0)
+	if (mSliderToKey.empty())
 	{
 		return;
 	}

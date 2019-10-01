@@ -461,7 +461,7 @@ S32 LLScrollListCtrl::getFirstSelectedIndex() const
 
 LLScrollListItem* LLScrollListCtrl::getFirstData() const
 {
-	if (mItemList.size() == 0)
+	if (mItemList.empty())
 	{
 		return NULL;
 	}
@@ -470,7 +470,7 @@ LLScrollListItem* LLScrollListCtrl::getFirstData() const
 
 LLScrollListItem* LLScrollListCtrl::getLastData() const
 {
-	if (mItemList.size() == 0)
+	if (mItemList.empty())
 	{
 		return NULL;
 	}
@@ -2293,7 +2293,7 @@ BOOL LLScrollListCtrl::handleKeyHere(KEY key,MASK mask )
 				break;
 			case KEY_BACKSPACE:
 				mSearchTimer.reset();
-				if (mSearchString.size())
+				if (!mSearchString.empty())
 				{
 					mSearchString.erase(mSearchString.size() - 1, 1);
 				}

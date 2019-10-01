@@ -789,7 +789,7 @@ void LLToolBar::updateLayoutAsNeeded()
 	switch (mLayoutType)
 	{
 		case LLToolBarEnums::LAYOUT_FILL:
-			if (mButtons.size())
+			if (!mButtons.empty())
 			{
 				equalized_width = (max_length - mPadBetween * (mButtons.size() + 1)) / mButtons.size();
 			}

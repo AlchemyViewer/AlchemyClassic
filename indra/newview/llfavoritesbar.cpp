@@ -786,7 +786,7 @@ void LLFavoritesBarCtrl::updateButtons()
 		}
 		int last_right_edge = 0;
 		//calculate new buttons offset
-		if (getChildList()->size() > 0)
+		if (!getChildList()->empty())
 		{
 			//find last visible child to get the rightest button offset
 			child_list_const_reverse_iter_t last_visible_it = std::find_if(childs->rbegin(), childs->rend(), 

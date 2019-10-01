@@ -830,7 +830,7 @@ void LLFloaterIMSession::updateMessages()
     LLIMModel::instance().getMessages(
     		mSessionID, messages, mLastMessageIndex + 1, hasFocus());
 
-	if (messages.size())
+	if (!messages.empty())
 	{
 		std::list<LLSD>::const_reverse_iterator iter = messages.rbegin();
 		std::list<LLSD>::const_reverse_iterator iter_end = messages.rend();
@@ -1076,7 +1076,7 @@ void LLFloaterIMSession::processAgentListUpdates(const LLSD& body)
 						  joined_uuids.begin(), joined_uuids.end(),
 						  std::back_inserter(intersection));
 
-	if (intersection.size() > 0)
+	if (!intersection.empty())
 	{
 		sendParticipantsAddedNotification(intersection);
 	}

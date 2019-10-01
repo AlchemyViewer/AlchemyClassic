@@ -230,7 +230,7 @@ bool LLSearchHistoryBuilder::filterSearchHistory()
 			mFilteredSearchHistory.push_back(*it);
 	}
 
-	return mFilteredSearchHistory.size();
+	return !mFilteredSearchHistory.empty();
 }
 
 void LLSearchHistoryBuilder::buildSearchHistory()

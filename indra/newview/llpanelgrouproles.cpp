@@ -1661,7 +1661,7 @@ void LLPanelGroupMembersSubTab::update(LLGroupChange gc)
 		// Build a string with info on retrieval progress.
 		std::ostringstream retrieved;
 
-		if ( gdatap->isRoleDataComplete() && gdatap->isMemberDataComplete() && !gdatap->mMembers.size() )
+		if ( gdatap->isRoleDataComplete() && gdatap->isMemberDataComplete() && gdatap->mMembers.empty())
 		{
 			// MAINT-5237
 			retrieved << "Member list not available.";
@@ -1813,7 +1813,7 @@ void LLPanelGroupMembersSubTab::updateMembers()
 		{
 			mMembersList->setEnabled(TRUE);
 		}
-		else if (gdatap->mMembers.size()) 
+		else if (!gdatap->mMembers.empty()) 
 		{
 			mMembersList->setEnabled(FALSE);
 			mMembersList->setCommentText(std::string("No match."));

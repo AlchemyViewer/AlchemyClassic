@@ -294,7 +294,7 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 			LLAvatarGroups* pData = static_cast<LLAvatarGroups*>(data);
 			if(!pData || getAvatarId() != pData->avatar_id) return;
 			
-			showAccordion("avatar_groups_tab", pData->group_list.size());
+			showAccordion("avatar_groups_tab", !pData->group_list.empty());
 			break;
 		}
 		// These are handled by their respective panels
@@ -559,7 +559,7 @@ void LLPanelProfileLegacy::closePanel(LLPanel* panel)
 		
 		// Prevent losing focus by the floater
 		const child_list_t* child_list = getChildList();
-		if (child_list->size() > 0)
+		if (!child_list->empty())
 		{
 			child_list->front()->setFocus(TRUE);
 		}
@@ -1356,7 +1356,7 @@ LLPanelProfileLegacy::ChildStack::ChildStack()
 
 LLPanelProfileLegacy::ChildStack::~ChildStack()
 {
-	while (mStack.size() != 0)
+	while (!mStack.empty())
 	{
 		view_list_t& top = mStack.back();
 		for (auto viewp : top)
@@ -1394,7 +1394,7 @@ bool LLPanelProfileLegacy::ChildStack::push()
 /// Restore saved children (adding them back to the child list).
 bool LLPanelProfileLegacy::ChildStack::pop()
 {
-	if (mStack.size() == 0)
+	if (mStack.empty())
 	{
 		LL_WARNS() << "Empty stack" << LL_ENDL;
 		llassert(mStack.size() == 0);
@@ -1416,7 +1416,7 @@ bool LLPanelProfileLegacy::ChildStack::pop()
 void LLPanelProfileLegacy::ChildStack::preParentReshape()
 {
 	mSavedStack = mStack;
-	while(mStack.size() > 0)
+	while(!mStack.empty())
 	{
 		pop();
 	}

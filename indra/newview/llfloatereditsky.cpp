@@ -686,7 +686,7 @@ void LLFloaterEditSky::refreshSkyPresetsList()
 	{
 		mSkyPresetCombo->add(*it, LLWLParamKey(*it, LLEnvKey::SCOPE_LOCAL).toLLSD());
 	}
-	if (user_presets.size() > 0)
+	if (!user_presets.empty())
 	{
 		mSkyPresetCombo->addSeparator();
 	}

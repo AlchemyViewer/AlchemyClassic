@@ -468,7 +468,7 @@ BOOL LLToolset::isToolSelected( S32 index )
 
 void LLToolset::selectFirstTool()
 {
-	mSelectedTool = (0 < mToolList.size()) ? mToolList[0] : NULL;
+	mSelectedTool = (!mToolList.empty()) ? mToolList[0] : NULL;
 	LLToolMgr::getInstance()->setCurrentTool( mSelectedTool );
 }
 
@@ -517,7 +517,7 @@ void LLToolset::selectPrevTool()
 		mSelectedTool = prev;
 		LLToolMgr::getInstance()->setCurrentTool( mSelectedTool );
 	}
-	else if (mToolList.size() > 0)
+	else if (!mToolList.empty())
 	{
 		selectToolByIndex((S32)mToolList.size()-1);
 	}

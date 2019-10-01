@@ -2678,7 +2678,7 @@ void LLViewerRegion::addCacheMissFull(const U32 local_id)
 
 void LLViewerRegion::requestCacheMisses()
 {
-	if (!mCacheMissList.size()) 
+	if (mCacheMissList.empty()) 
 	{
 		return;
 	}

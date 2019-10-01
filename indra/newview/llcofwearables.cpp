@@ -642,7 +642,7 @@ bool LLCOFWearables::getSelectedUUIDs(uuid_vec_t& selected_ids)
 	if (!mLastSelectedList) return false;
 
 	mLastSelectedList->getSelectedUUIDs(selected_ids);
-	return selected_ids.size() != 0;
+	return !selected_ids.empty();
 }
 
 LLPanel* LLCOFWearables::getSelectedItem()

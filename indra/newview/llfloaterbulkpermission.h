@@ -78,7 +78,7 @@ private:
 	void onUncheckAll() { doCheckUncheckAll(FALSE); }
 	
 	// returns true if this is done
-	BOOL isDone() const { return (mCurrentObjectID.isNull() || (mObjectIDs.size() == 0)); }
+	BOOL isDone() const { return (mCurrentObjectID.isNull() || (mObjectIDs.empty())); }
 
 	//Read the settings and Apply the permissions
 	void doApply();

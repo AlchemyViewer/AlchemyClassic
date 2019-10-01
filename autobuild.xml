@@ -383,6 +383,54 @@
         <key>version</key>
         <string>2.3.5</string>
       </map>
+      <key>crashpad</key>
+      <map>
+        <key>canonical_repo</key>
+        <string>https://git.alchemyviewer.org/alchemy/thirdparty/3p-crashpad</string>
+        <key>copyright</key>
+        <string>Copyright 2014 The Crashpad Authors. All rights reserved.</string>
+        <key>description</key>
+        <string>Crashpad is a crash-reporting system.</string>
+        <key>license</key>
+        <string>Apache 2.0</string>
+        <key>license_file</key>
+        <string>LICENSES/crashpad.txt</string>
+        <key>name</key>
+        <string>crashpad</string>
+        <key>platforms</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>849f515d4d77162c15614ebff8599c13</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/crashpad/windows/crashpad-365c520b.6-windows-6.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>7ea820b6a2cfa172f47d673c07dfa62c</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/crashpad/windows64/crashpad-365c520b.6-windows64-6.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>365c520b.6</string>
+      </map>
       <key>curl</key>
       <map>
         <key>copyright</key>

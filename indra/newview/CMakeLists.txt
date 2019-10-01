@@ -11,6 +11,7 @@ include(Boost)
 include(BuildPackagesInfo)
 include(BuildVersion)
 include(CMakeCopyIfDifferent)
+include(CrashPad)
 include(DBusGlib)
 include(DragDrop)
 include(EXPAT)
@@ -72,6 +73,10 @@ endif( LLPHYSICSEXTENSIONS_SRC_DIR )
 if(USE_FMODSTUDIO)
   include_directories(${FMODSTUDIO_INCLUDE_DIR})
 endif(USE_FMODSTUDIO)
+
+if(USE_CRASHPAD)
+  include_directories(${CRASHPAD_INCLUDE_DIRS})
+endif(USE_CRASHPAD)
 
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
@@ -2026,6 +2031,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${PNG_PRELOAD_ARCHIVES}
     ${ZLIB_PRELOAD_ARCHIVES}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
+    ${CRASHPAD_LIBRARIES}
     ${LLAUDIO_LIBRARIES}
     ${LLCHARACTER_LIBRARIES}
     ${LLDARWIN_LIBRARIES}
@@ -2253,7 +2259,7 @@ if (INSTALL)
 endif (INSTALL)
 
 # Note that the conventional VIEWER_SYMBOL_FILE is set by ../../build.sh
-if (PACKAGE AND (RELEASE_CRASH_REPORTING OR NON_RELEASE_CRASH_REPORTING) AND VIEWER_SYMBOL_FILE)
+if (NOT WINDOWS AND PACKAGE AND USE_CRASHPAD AND VIEWER_SYMBOL_FILE)
     # Breakpad symbol-file generation
     set(SYMBOL_SEARCH_DIRS "")
     if (WINDOWS)

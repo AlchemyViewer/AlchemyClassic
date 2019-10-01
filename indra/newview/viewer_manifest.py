@@ -425,6 +425,7 @@ class WindowsManifest(ViewerManifest):
     def construct(self):
         super(WindowsManifest, self).construct()
 
+        config = 'debug' if self.args['configuration'].lower() == 'debug' else 'release'
         pkgdir = os.path.join(self.args['build'], os.pardir, 'packages')
         relpkgdir = os.path.join(pkgdir, "lib", "release")
         debpkgdir = os.path.join(pkgdir, "lib", "debug")
@@ -472,6 +473,8 @@ class WindowsManifest(ViewerManifest):
 
             # For textures
             self.path("openjpeg.dll")
+            if not self.is_packaging_viewer():
+                self.path("openjpeg.pdb")
 
             # Vivox runtimes
             self.path("SLVoice.exe")
@@ -501,6 +504,8 @@ class WindowsManifest(ViewerManifest):
 
             # Hunspell
             self.path("libhunspell.dll")
+            if not self.is_packaging_viewer():
+                self.path("libhunspell.pdb")
 
             # For google-perftools tcmalloc allocator.
             try:
@@ -533,6 +538,13 @@ class WindowsManifest(ViewerManifest):
             except:
                 print "Skipping msvc redist files"
 
+        # For crashpad
+        with self.prefix(src=os.path.join(pkgdir, 'bin', config)):
+            try:
+                self.path("crashpad_handler.exe")
+            except:
+                print "Skipping crashpad handler"
+
         self.path("featuretable.txt")
 
         with self.prefix(src=pkgdir):
@@ -555,7 +567,6 @@ class WindowsManifest(ViewerManifest):
 
             # CEF runtime files - debug
             # CEF runtime files - not debug (release, relwithdebinfo etc.)
-            config = 'debug' if self.args['configuration'].lower() == 'debug' else 'release'
             with self.prefix(src=os.path.join(pkgdir, 'bin', config)):
                 self.path("chrome_elf.dll")
                 self.path("d3dcompiler_47.dll")

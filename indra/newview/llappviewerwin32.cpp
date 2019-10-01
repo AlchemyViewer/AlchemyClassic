@@ -31,6 +31,7 @@
 #include "vld.h"
 #endif
 #include "llwin32headerslean.h"
+# include <psapi.h>
 
 #include "llwindow.h" // *FIX: for setting gIconResource.
 
@@ -61,6 +62,7 @@
 #include "llviewernetwork.h"
 #include "llmd5.h"
 #include "llfindlocale.h"
+#include "llversioninfo.h"
 
 #include "llcommandlineparser.h"
 #include "lltrans.h"
@@ -69,6 +71,14 @@
 #include "llerrorcontrol.h"
 #include <fstream>
 #include <exception>
+
+#if defined(USE_CRASHPAD)
+#pragma warning(disable:4265)
+
+#include "client/crash_report_database.h"
+#include <client/crashpad_client.h>
+#include <client/settings.h>
+#endif
 
 namespace
 {
@@ -227,10 +237,6 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 	gOldTerminateHandler = std::set_terminate(exceptionTerminateHandler);
 
 	viewer_app_ptr->setErrorHandler(LLAppViewer::handleViewerCrash);
-
-#if LL_SEND_CRASH_REPORTS 
-	// ::SetUnhandledExceptionFilter(catchallCrashHandler); 
-#endif
 
 	// Set a debug info flag to indicate if multiple instances are running.
 	bool found_other_instance = !create_app_mutex();
@@ -398,17 +404,17 @@ bool LLAppViewerWin32::init()
 {
 	// Platform specific initialization.
 	
+#if defined(USE_CRASHPAD)
+	LLAppViewer* pApp = LLAppViewer::instance();
+	pApp->initCrashReporting();
+#else
 	// Turn off Windows Error Reporting
 	// (Don't send our data to Microsoft--at least until we are Logo approved and have a way
 	// of getting the data back from them.)
 	//
 	// LL_INFOS() << "Turning off Windows error reporting." << LL_ENDL;
 	disableWinErrorReporting();
-
-#if LL_SEND_CRASH_REPORTS
-	LLAppViewer* pApp = LLAppViewer::instance();
-	pApp->initCrashReporting();
-#endif // LL_SEND_CRASH_REPORTS
+#endif
 
 	bool success = LLAppViewer::init();
 
@@ -534,9 +540,64 @@ bool LLAppViewerWin32::restoreErrorTrap()
 
 void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 {
+#if defined(USE_CRASHPAD)
 	if (isSecondInstance()) return; //BUG-5707 do not start another crash reporter for second instance.
 
-	// Insert new crash reporter here
+	  // Cache directory that will store crashpad information and minidumps
+	std::string crashpad_path = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "crashpad");
+	base::FilePath database(ll_convert_string_to_wide(crashpad_path));
+
+	// Path to the out-of-process handler executable
+	std::string exe_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "crashpad_handler.exe");
+	base::FilePath handler(ll_convert_string_to_wide(exe_path));
+
+	// URL used to submit minidumps to
+	std::string url(CRASHPAD_URL);
+
+	// Optional annotations passed via --annotations to the handler
+	std::map<std::string, std::string> annotations;
+
+	unsigned char node_id[6];
+	if (LLUUID::getNodeID(node_id) > 0)
+	{
+		char md5str[MD5HEX_STR_SIZE] = { 0 };
+		LLMD5 hashed_unique_id;
+		hashed_unique_id.update(node_id, 6);
+		hashed_unique_id.finalize();
+		hashed_unique_id.hex_digest((char*)md5str);
+		annotations.emplace("sentry[contexts][app][device_app_hash]", std::string(md5str));
+	}
+
+	annotations.emplace("sentry[contexts][app][app_name]", LLVersionInfo::getChannel());
+	annotations.emplace("sentry[contexts][app][app_version]", LLVersionInfo::getVersion());
+	annotations.emplace("sentry[contexts][app][app_build]", LLVersionInfo::getChannelAndVersion());
+
+
+	// Optional arguments to pass to the handler
+	std::vector<std::string> arguments;
+	arguments.push_back("--no-rate-limit");
+
+	std::unique_ptr<crashpad::CrashReportDatabase> db =
+		crashpad::CrashReportDatabase::Initialize(database);
+
+	if (db != nullptr && db->GetSettings() != nullptr) {
+		db->GetSettings()->SetUploadsEnabled(true);
+	}
+
+	crashpad::CrashpadClient client;
+	bool success = client.StartHandler(
+		handler,
+		database,
+		database,
+		url,
+		annotations,
+		arguments,
+		/* restartable */ true,
+		/* asynchronous_start */ false
+	);
+
+	LL_INFOS() << "Crash reporter init: " << fmt::to_string(success) << LL_ENDL;
+#endif
 }
 
 //virtual

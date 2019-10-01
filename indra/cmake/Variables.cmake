@@ -48,8 +48,9 @@ elseif((USE_ASAN OR USE_LEAKSAN) AND USE_THDSAN)
 endif(USE_ASAN AND USE_LEAKSAN)
 
 # Configure crash reporting
-option(RELEASE_CRASH_REPORTING "Enable use of crash reporting in release builds" OFF)
-option(NON_RELEASE_CRASH_REPORTING "Enable use of crash reporting in developer builds" OFF)
+option(USE_CRASHPAD "Build support for crashpad reporting engine" OFF)
+set(CRASHPAD_URL "" CACHE STRING "Crashpad endpoint url")
+set(VIEWER_SYMBOL_FILE "" CACHE STRING "Name of tarball into which to place symbol files")
 
 # Media Plugins
 option(ENABLE_MEDIA_PLUGINS "Turn off building media plugins if they are imported by third-party library mechanism" ON)
@@ -72,7 +73,8 @@ option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 option(NVAPI "Use nvapi driver interface library" OFF)
 
 # Crash reporter
-set(VIEWER_SYMBOL_FILE "" CACHE STRING "Name of tarball into which to place symbol files")
+
+
 
 if(LIBS_CLOSED_DIR)
   file(TO_CMAKE_PATH "${LIBS_CLOSED_DIR}" LIBS_CLOSED_DIR)

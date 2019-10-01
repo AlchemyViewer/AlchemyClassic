@@ -363,17 +363,7 @@ void LLApp::setupErrorHandling(bool second_instance)
 	// Error handling is done by starting up an error handling thread, which just sleeps and
 	// occasionally checks to see if the app is in an error state, and sees if it needs to be run.
 
-#if LL_WINDOWS
-
-#if LL_SEND_CRASH_REPORTS
-	EnableCrashingOnCrashes();
-
-	// This sets a callback to handle w32 signals to the console window.
-	// The viewer shouldn't be affected, since its a windowed app.
-	SetConsoleCtrlHandler( (PHANDLER_ROUTINE) ConsoleCtrlHandler, TRUE);
-#endif // LL_SEND_CRASH_REPORTS
-#else  // ! LL_WINDOWS
-
+#if !LL_WINDOWS
 	//
 	// Start up signal handling.
 	//
@@ -382,7 +372,9 @@ void LLApp::setupErrorHandling(bool second_instance)
 	//
 	setup_signals();
 #endif // ! LL_WINDOWS
+#if !defined(USE_CRASHPAD)
 	startErrorThread();
+#endif
 }
 
 void LLApp::startErrorThread()

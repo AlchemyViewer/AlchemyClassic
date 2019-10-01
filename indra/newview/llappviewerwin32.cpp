@@ -404,16 +404,16 @@ bool LLAppViewerWin32::init()
 {
 	// Platform specific initialization.
 	
-#if defined(USE_CRASHPAD)
-	LLAppViewer* pApp = LLAppViewer::instance();
-	pApp->initCrashReporting();
-#else
 	// Turn off Windows Error Reporting
 	// (Don't send our data to Microsoft--at least until we are Logo approved and have a way
 	// of getting the data back from them.)
 	//
 	// LL_INFOS() << "Turning off Windows error reporting." << LL_ENDL;
 	disableWinErrorReporting();
+
+#if defined(USE_CRASHPAD)
+	LLAppViewer* pApp = LLAppViewer::instance();
+	pApp->initCrashReporting();
 #endif
 
 	bool success = LLAppViewer::init();

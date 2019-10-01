@@ -317,6 +317,9 @@ else (USESYSTEMLIBS)
   #Uncomment this definition when we can build cleanly against OpenSSL 1.1
   add_definitions(-DOPENSSL_API_COMPAT=0x10100000L)
 
+  #Force glm ctor init
+  add_definitions(-DGLM_FORCE_CTOR_INIT=1)
+
   set(${ARCH}_linux_INCLUDES
       atk-1.0
       cairo

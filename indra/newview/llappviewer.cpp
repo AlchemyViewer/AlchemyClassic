@@ -722,10 +722,12 @@ LLAppViewer::LLAppViewer()
 	// init() call, which will overwrite the static_debug_info.log file for
 	// THIS run. So setDebugFileNames() early.
 
+#if !defined(USE_CRASHPAD)
 	// write dump files to a per-run dump directory to avoid multiple viewer issues.
 	std::string logdir = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "");
 
 	setDebugFileNames(logdir);
+#endif
 }
 
 LLAppViewer::~LLAppViewer()
@@ -3064,6 +3066,7 @@ bool LLAppViewer::initWindow()
 
 void LLAppViewer::writeDebugInfo(bool isStatic)
 {
+#if !defined(USE_CRASHPAD)
     //Try to do the minimum when writing data during a crash.
     std::string* debug_filename;
     debug_filename = ( isStatic
@@ -3075,6 +3078,7 @@ void LLAppViewer::writeDebugInfo(bool isStatic)
 
     isStatic ?  LLSDSerialize::toPrettyXML(gDebugInfo, out_file)
              :  LLSDSerialize::toPrettyXML(gDebugInfo["Dynamic"], out_file);
+#endif
 }
 
 LLSD LLAppViewer::getViewerInfo() const
@@ -3405,7 +3409,7 @@ void LLAppViewer::writeSystemInfo()
         gDebugInfo["Dynamic"] = LLSD::emptyMap();
 
 #if LL_WINDOWS
-	gDebugInfo["SLLog"] = gDirUtilp->getExpandedFilename(LL_PATH_DUMP,"Alchemy.log");
+	gDebugInfo["SLLog"] = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"Alchemy.log");
 #else
     //Not ideal but sufficient for good reporting.
     gDebugInfo["SLLog"] = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"Alchemy.old");  //LLError::logFileName();
@@ -3848,10 +3852,12 @@ void LLAppViewer::removeMarkerFiles()
 
 void LLAppViewer::removeDumpDir()
 {
+#if !defined(USE_CRASHPAD)
     //Call this routine only on clean exit.  Crash reporter will clean up
     //its locking table for us.
     std::string dump_dir = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "");
     gDirUtilp->deleteDirAndContents(dump_dir);
+#endif
 }
 
 void LLAppViewer::forceQuit()

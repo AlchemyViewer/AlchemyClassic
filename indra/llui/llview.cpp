@@ -1316,8 +1316,8 @@ void LLView::drawDebugRect()
 
 		// Draw the name if it's not a leaf node or not in editing or preview mode
 		if (sDebugRectsShowNames 
-			&& mChildList.size()
-			&& preview_iter == sPreviewHighlightedElements.end())
+			&& !mChildList.empty()
+            && preview_iter == sPreviewHighlightedElements.end())
 		{
 			S32 x, y;
 			gGL.color4fv( border_color.mV );
@@ -1989,7 +1989,7 @@ class SortByTabOrder : public LLQuerySorter, public LLSingleton<SortByTabOrder>
 const LLViewQuery & LLView::getTabOrderQuery()
 {
 	static LLViewQuery query;
-	if(query.getPreFilters().size() == 0) {
+	if(query.getPreFilters().empty()) {
 		query.addPreFilter(LLVisibleFilter::getInstance());
 		query.addPreFilter(LLEnabledFilter::getInstance());
 		query.addPreFilter(LLTabStopFilter::getInstance());
@@ -2013,7 +2013,7 @@ class LLFocusRootsFilter : public LLQueryFilter, public LLSingleton<LLFocusRoots
 const LLViewQuery & LLView::getFocusRootsQuery()
 {
 	static LLViewQuery query;
-	if(query.getPreFilters().size() == 0) {
+	if(query.getPreFilters().empty()) {
 		query.addPreFilter(LLVisibleFilter::getInstance());
 		query.addPreFilter(LLEnabledFilter::getInstance());
 		query.addPreFilter(LLFocusRootsFilter::getInstance());

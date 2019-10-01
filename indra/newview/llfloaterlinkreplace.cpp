@@ -152,7 +152,7 @@ void LLFloaterLinkReplace::onStartClicked()
 									is_linked_item_match);
 	LL_INFOS() << "Found " << mRemainingInventoryItems.size() << " inventory links that need to be replaced." << LL_ENDL;
 
-	if (mRemainingInventoryItems.size() > 0)
+	if (!mRemainingInventoryItems.empty())
 	{
 		LLViewerInventoryItem* target_item = gInventory.getItem(mTargetUUID);
 		if (target_item)
@@ -279,7 +279,7 @@ BOOL LLFloaterLinkReplace::tick()
 
 	for (U32 i = 0; i < mBatchSize; ++i)
 	{
-		if (!mRemainingInventoryItems.size())
+		if (mRemainingInventoryItems.empty())
 		{
 			mEventTimer.stop();
 			break;

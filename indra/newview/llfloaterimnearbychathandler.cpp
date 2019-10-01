@@ -295,7 +295,7 @@ void LLFloaterIMNearbyChatScreenChannel::addChat(LLSD& chat)
 	find last toast and check ID
 	*/
 
-	if (m_active_toasts.size())
+	if (!m_active_toasts.empty())
 	{
 		LLUUID fromID = chat["from_id"].asUUID();		// agent id or object id
 		std::string from = chat["from"].asString();

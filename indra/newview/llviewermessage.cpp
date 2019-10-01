@@ -933,7 +933,7 @@ private:
 		LL_DEBUGS("Inventory_Move") << "Selected firstly: " << mSelectedItems.size()
 			<< ", now: " << selected_items.size() << ", difference: " << different_items.size() << LL_ENDL;
 
-		return different_items.size() > 0;
+		return !different_items.empty();
 	}
 
 	LLHandle<LLPanel> mActivePanel;
@@ -5863,7 +5863,7 @@ void process_teleport_failed(LLMessageSystem* msg, void**)
 		// Get the message ID
 		msg->getStringFast(_PREHASH_AlertInfo, _PREHASH_Message, message_id);
 		big_reason = LLAgent::sTeleportErrorMessages[message_id];
-		if ( big_reason.size() <= 0 )
+		if (big_reason.empty())
 		{
 			// Nothing found in the map - use what the server returned in the original message block
 			msg->getStringFast(_PREHASH_Info, _PREHASH_Reason, big_reason);
@@ -5909,7 +5909,7 @@ void process_teleport_failed(LLMessageSystem* msg, void**)
 		msg->getStringFast(_PREHASH_Info, _PREHASH_Reason, message_id);
 
 		big_reason = LLAgent::sTeleportErrorMessages[message_id];
-		if (big_reason.size() > 0)
+		if (!big_reason.empty())
 		{ // Substitute verbose reason from the local map
 			args["REASON"] = big_reason;
 		}

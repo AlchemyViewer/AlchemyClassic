@@ -282,7 +282,7 @@ void LLLandmarksPanel::updateVerbs()
 
 void LLLandmarksPanel::onSelectionChange(LLPlacesInventoryPanel* inventory_list, const std::deque<LLFolderViewItem*> &items, BOOL user_action)
 {
-	if (user_action && (items.size() > 0))
+	if (user_action && (!items.empty()))
 	{
 		deselectOtherThan(inventory_list);
 		mCurrentSelectedList = inventory_list;

@@ -1578,7 +1578,7 @@ LLVFSBlock *LLVFS::findFreeBlock(S32 size, LLVFSFileBlock *immune)
 				have_lru_list = TRUE;
 			}
 
-			if (lru_list.size() == 0)
+			if (lru_list.empty())
 			{
 				// No more files to delete, and still not enough room!
 				LL_WARNS() << "VFS: Can't make " << size << " bytes of free space in VFS, giving up" << LL_ENDL;

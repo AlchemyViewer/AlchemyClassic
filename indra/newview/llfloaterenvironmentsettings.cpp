@@ -220,7 +220,7 @@ void LLFloaterEnvironmentSettings::populateWaterPresetsList()
 		mWaterPresetCombo->add(*it);
 	}
 
-	if (user_presets.size() > 0)
+	if (!user_presets.empty())
 	{
 		mWaterPresetCombo->addSeparator();
 	}
@@ -271,7 +271,7 @@ void LLFloaterEnvironmentSettings::populateDayCyclePresetsList()
 		mDayCyclePresetCombo->add(*it);
 	}
 
-	if (user_days.size() > 0)
+	if (!user_days.empty())
 	{
 		mDayCyclePresetCombo->addSeparator();
 	}

@@ -146,11 +146,11 @@ void LLInventoryItemsList::refresh()
             mAddedItems.clear();
             mRemovedItems.clear();
             computeDifference(getIDs(), mAddedItems, mRemovedItems);
-            if (mRemovedItems.size() > 0)
+            if (!mRemovedItems.empty())
             {
                 mRefreshState = REFRESH_LIST_ERASE;
             }
-            else if (mAddedItems.size() > 0)
+            else if (!mAddedItems.empty())
             {
                 mRefreshState = REFRESH_LIST_APPEND;
             }
@@ -184,7 +184,7 @@ void LLInventoryItemsList::refresh()
             // form a list to add
             uuid_vec_t::iterator it = mAddedItems.begin();
             pairs_list_t panel_list;
-            while(mAddedItems.size() > 0 && nadded < ADD_LIMIT)
+            while(!mAddedItems.empty() && nadded < ADD_LIMIT)
             {
                 LLViewerInventoryItem* item = gInventory.getItem(*it);
                 llassert(item);
@@ -227,7 +227,7 @@ void LLInventoryItemsList::refresh()
             rearrangeItems();
             notifyParentItemsRectChanged();
 
-            if (mAddedItems.size() > 0)
+            if (!mAddedItems.empty())
             {
                 mRefreshState = REFRESH_LIST_APPEND;
             }
@@ -244,7 +244,7 @@ void LLInventoryItemsList::refresh()
             // Filter, sort, rearrange and notify parent about shape changes
             filterItems();
 
-            if (mAddedItems.size() == 0)
+            if (mAddedItems.empty())
             {
                 // After list building completed, select items that had been requested to select before list was build
                 updateSelection();

@@ -454,7 +454,7 @@ std::string LLConversationLog::getFileName()
 
 bool LLConversationLog::saveToFile(const std::string& filename)
 {
-	if (!filename.size())
+	if (filename.empty())
 	{
 		LL_WARNS() << "Call log list filename is empty!" << LL_ENDL;
 		return false;
@@ -494,7 +494,7 @@ bool LLConversationLog::saveToFile(const std::string& filename)
 }
 bool LLConversationLog::loadFromFile(const std::string& filename)
 {
-	if(!filename.size())
+	if(filename.empty())
 	{
 		LL_WARNS() << "Call log list filename is empty!" << LL_ENDL;
 		return false;

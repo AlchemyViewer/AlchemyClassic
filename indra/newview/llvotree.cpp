@@ -306,7 +306,7 @@ U32 LLVOTree::processUpdateMessage(LLMessageSystem *mesgsys,
 	
 	if (!sSpeciesTable.count(mSpecies))
 	{
-		if (sSpeciesTable.size())
+		if (!sSpeciesTable.empty())
 		{
 			SpeciesMap::const_iterator it = sSpeciesTable.begin();
 			mSpecies = (*it).first;

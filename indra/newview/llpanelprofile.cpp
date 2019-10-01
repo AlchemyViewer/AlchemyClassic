@@ -193,7 +193,7 @@ LLPanelProfile::ChildStack::ChildStack()
 
 LLPanelProfile::ChildStack::~ChildStack()
 {
-	while (mStack.size() != 0)
+	while (!mStack.empty())
 	{
 		view_list_t& top = mStack.back();
 		for (view_list_t::const_iterator it = top.begin(); it != top.end(); ++it)
@@ -233,7 +233,7 @@ bool LLPanelProfile::ChildStack::push()
 /// Restore saved children (adding them back to the child list).
 bool LLPanelProfile::ChildStack::pop()
 {
-	if (mStack.size() == 0)
+	if (mStack.empty())
 	{
 		LL_WARNS() << "Empty stack" << LL_ENDL;
 		llassert(mStack.size() == 0);
@@ -256,7 +256,7 @@ bool LLPanelProfile::ChildStack::pop()
 void LLPanelProfile::ChildStack::preParentReshape()
 {
 	mSavedStack = mStack;
-	while(mStack.size() > 0)
+	while(!mStack.empty())
 	{
 		pop();
 	}
@@ -431,7 +431,7 @@ void LLPanelProfile::closePanel(LLPanel* panel)
 
 		// Prevent losing focus by the floater
 		const child_list_t* child_list = getChildList();
-		if (child_list->size() > 0)
+		if (!child_list->empty())
 		{
 			child_list->front()->setFocus(TRUE);
 		}

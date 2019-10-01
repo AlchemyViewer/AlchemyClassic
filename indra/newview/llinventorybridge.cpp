@@ -3914,7 +3914,7 @@ BOOL LLFolderBridge::checkFolderForContentsOfType(LLInventoryModel* model, LLInv
 								item_array,
 								LLInventoryModel::EXCLUDE_TRASH,
 								is_type);
-	return ((item_array.size() > 0) ? TRUE : FALSE );
+	return ((!item_array.empty()) ? TRUE : FALSE );
 }
 
 void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items, menuentry_vec_t& disabled_items)
@@ -3936,7 +3936,7 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
 		LLInventoryModel::item_array_t* item_array;
 		gInventory.getDirectDescendentsOf(mUUID, cat_array, item_array);
 		// Enable Empty menu item only when there is something to act upon.
-		if (0 == cat_array->size() && 0 == item_array->size())
+		if (cat_array->empty() && item_array->empty())
 		{
 			disabled_items.push_back(std::string("Empty Lost And Found"));
 		}
@@ -4001,7 +4001,7 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
 		LLViewerInventoryCategory *trash = getCategory();
 		// Enable Empty menu item only when there is something to act upon.
 		// Also don't enable menu if folder isn't fully fetched
-		if ((0 == cat_array->size() && 0 == item_array->size())
+		if ((cat_array->empty() && item_array->empty())
 			|| is_recent_panel
 			|| !trash
 			|| trash->getVersion() == LLViewerInventoryCategory::VERSION_UNKNOWN

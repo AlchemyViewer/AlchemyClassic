@@ -419,7 +419,7 @@ void LLViewerObject::markDead()
 		gObjectList.cleanupReferences(this);
 
 		LLViewerObject *childp;
-		while (mChildList.size() > 0)
+		while (!mChildList.empty())
 		{
 			childp = mChildList.back();
 			if (childp->getPCode() != LL_PCODE_LEGACY_AVATAR)
@@ -3224,7 +3224,7 @@ void LLViewerObject::processTaskInvFile(void** user_data, S32 error_code, LLExtS
 			LLInventoryObject::object_list_t::iterator end = object->mInventory->end();
 			std::list<LLUUID>& pending_lst = object->mPendingInventoryItemsIDs;
 
-			for (; it != end && pending_lst.size(); ++it)
+			for (; it != end && !pending_lst.empty(); ++it)
 			{
 				LLViewerInventoryItem* item = dynamic_cast<LLViewerInventoryItem*>(it->get());
 				if(item && item->getType() != LLAssetType::AT_CATEGORY)
@@ -3481,7 +3481,7 @@ void LLViewerObject::getInventoryContents(LLInventoryObject::object_list_t& obje
 
 LLInventoryObject* LLViewerObject::getInventoryRoot()
 {
-	if (!mInventory || !mInventory->size())
+	if (!mInventory || mInventory->empty())
 	{
 		return NULL;
 	}

@@ -105,7 +105,7 @@ public:
 	static void updateClass();
 	static void cleanupToasts();
 
-	static BOOL isAlertToastShown() { return sModalToastsList.size() > 0; }
+	static BOOL isAlertToastShown() { return !sModalToastsList.empty(); }
 
 	LLToast(const LLToast::Params& p);
 	virtual ~LLToast();

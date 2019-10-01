@@ -489,7 +489,7 @@ void LLInventoryAddItemByAssetObserver::changed(U32 mask)
 	}
 
 	// nothing is watched
-	if (mWatchedAssets.size() == 0)
+	if (mWatchedAssets.empty())
 	{
 		return;
 	}
@@ -602,7 +602,7 @@ void LLInventoryCategoryAddedObserver::changed(U32 mask)
 
 void LLInventoryCategoriesObserver::changed(U32 mask)
 {
-	if (!mCategoryMap.size())
+	if (mCategoryMap.empty())
 		return;
 
 	std::vector<LLUUID> deleted_categories_ids;

@@ -85,7 +85,7 @@ void LLTeleportHistoryStorage::onTeleportHistoryChange()
 		return;
 
 	// Hacky sanity check. (EXT-6798)
-	if (th->getItems().size() == 0)
+	if (th->getItems().empty())
 	{
 		llassert(!"Inconsistent teleport history state");
 		return;

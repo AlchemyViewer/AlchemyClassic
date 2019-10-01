@@ -395,7 +395,7 @@ bool LLCommandLineParser::parseCommandLineString(const std::string& str)
         i != tok.end();
         ++i)
     {
-        if(0 != i->size())
+        if(!i->empty())
         {
             tokens.push_back(*i);
         }

@@ -657,7 +657,7 @@ BOOL LLGestureMgr::triggerAndReviseString(const std::string &utf8str, std::strin
 			}
 
 			
-			if (matching.size() > 0)
+			if (!matching.empty())
 			{
 				// choose one at random
 				{
@@ -732,7 +732,7 @@ BOOL LLGestureMgr::triggerGesture(KEY key, MASK mask)
 	}
 
 	// choose one and play it
-	if (matching.size() > 0)
+	if (!matching.empty())
 	{
 		U32 random = ll_rand(matching.size());
 		

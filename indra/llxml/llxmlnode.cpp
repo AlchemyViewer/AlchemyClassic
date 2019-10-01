@@ -1196,7 +1196,7 @@ void LLXMLNode::getChildren(const LLStringTableEntry* name, LLXMLNodeList &child
 			}
 		}
 	}
-	if (children.size() == 0 && use_default_if_missing && !mDefault.isNull())
+	if (children.empty() && use_default_if_missing && !mDefault.isNull())
 	{
 		mDefault->getChildren(name, children, FALSE);
 	}

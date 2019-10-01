@@ -192,7 +192,7 @@ bool LLUrlWhiteList::addItem ( const std::string& itemIn, bool saveAfterAdd )
 //
 bool LLUrlWhiteList::getFirst ( std::string& valueOut )
 {
-	if ( mUrlList.size () == 0 )
+	if (mUrlList.empty())
 		return false;
 
 	mCurIndex = 0;

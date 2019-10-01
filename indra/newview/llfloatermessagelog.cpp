@@ -504,7 +504,7 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	}
 
 	std::string net_name;
-	if (item->mRegionHosts.size() > 0)
+	if (!item->mRegionHosts.empty())
 	{
 		//LLHost find_host = outgoing ? item->mToHost : item->mFromHost;
 		//net_name = find_host.getIPandPort();

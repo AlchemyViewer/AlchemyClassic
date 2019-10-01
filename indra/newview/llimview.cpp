@@ -927,7 +927,7 @@ LLUUID LLIMModel::LLIMSession::generateOutgoingAdHocHash() const
 {
 	LLUUID hash = LLUUID::null;
 
-	if (mInitialTargetIDs.size())
+	if (!mInitialTargetIDs.empty())
 	{
 		std::set<LLUUID> sorted_uuids(mInitialTargetIDs.begin(), mInitialTargetIDs.end());
 		hash = generateHash(sorted_uuids);
@@ -949,7 +949,7 @@ void LLIMModel::LLIMSession::buildHistoryFileName()
 		* date stamp code introduced in STORM-102 will work properly and not add
 		* a date stamp to the Ad-hoc conferences.
 		*/
-		if (mInitialTargetIDs.size())
+		if (!mInitialTargetIDs.empty())
 		{
 			std::set<LLUUID> sorted_uuids(mInitialTargetIDs.begin(), mInitialTargetIDs.end());
 			mHistoryFileName = mName + " hash" + generateHash(sorted_uuids).asString();
@@ -2927,7 +2927,7 @@ LLUUID LLIMMgr::addSession(
 	bool new_session = (LLIMModel::getInstance()->findIMSession(session_id) == nullptr);
 
 	//works only for outgoing ad-hoc sessions
-	if (new_session && IM_SESSION_CONFERENCE_START == dialog && ids.size())
+	if (new_session && IM_SESSION_CONFERENCE_START == dialog && !ids.empty())
 	{
 		LLIMModel::LLIMSession* ad_hoc_found = LLIMModel::getInstance()->findAdHocIMSession(ids);
 		if (ad_hoc_found)

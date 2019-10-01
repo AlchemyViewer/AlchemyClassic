@@ -588,7 +588,7 @@ const LLUUID& LLFloaterTexturePicker::findItemID(const LLUUID& asset_id, BOOL co
 							LLInventoryModel::INCLUDE_TRASH,
 							asset_id_matches);
 
-	if (items.size())
+	if (!items.empty())
 	{
 		// search for copyable version first
 		for (auto& item : items)
@@ -743,7 +743,7 @@ void LLFloaterTexturePicker::onApplyUUID(void* userdata)
 
 void LLFloaterTexturePicker::onSelectionChange(const std::deque<LLFolderViewItem*> &items, BOOL user_action)
 {
-	if (items.size())
+	if (!items.empty())
 	{
 		LLFolderViewItem* first_item = items.front();
 		LLInventoryItem* itemp = gInventory.getItem(static_cast<LLFolderViewModelItemInventory*>(first_item->getViewModelItem())->getUUID());

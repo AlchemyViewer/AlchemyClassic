@@ -244,7 +244,7 @@ BOOL LLFloaterBulkPermission::nextObject()
 			successful_start = popNext();
 			//LL_INFOS() << (successful_start ? "successful" : "unsuccessful") << LL_ENDL; 
 		}
-	} while((mObjectIDs.size() > 0) && !successful_start);
+	} while((!mObjectIDs.empty()) && !successful_start);
 
 	if(isDone() && !mDone)
 	{

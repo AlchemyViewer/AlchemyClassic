@@ -247,7 +247,7 @@ void LLFloaterScriptQueue::addStringMessage(const std::string &message)
 
 BOOL LLFloaterScriptQueue::isDone() const
 {
-	return (mCurrentObjectID.isNull() && (mObjectList.size() == 0));
+	return (mCurrentObjectID.isNull() && (mObjectList.empty()));
 }
 
 ///----------------------------------------------------------------------------

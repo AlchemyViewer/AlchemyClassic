@@ -1307,7 +1307,7 @@ LLFolderViewFolder* LLFolderViewFolder::getCommonAncestor(LLFolderViewItem* item
 		item_b_ancestors.pop_front();
 	}
 
-	while(item_a_ancestors.size())
+	while(!item_a_ancestors.empty())
 	{
 		common_ancestor = item_a_ancestors.front();
 

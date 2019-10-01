@@ -835,7 +835,7 @@ void LLTeleportHistoryPanel::replaceItem(S32 removed_index)
 	// Flat list for 'Today' (mItemContainers keeps accordion tabs in reverse order)
 	LLFlatListView* fv = nullptr;
 	
-	if (mItemContainers.size() > 0)
+	if (!mItemContainers.empty())
 	{
 		fv = getFlatListViewFromTab(mItemContainers[mItemContainers.size() - 1]);
 	}

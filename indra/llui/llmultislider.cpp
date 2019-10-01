@@ -332,7 +332,7 @@ void LLMultiSlider::deleteSlider(const std::string& name)
 
 void LLMultiSlider::clear()
 {
-	while(mThumbRects.size() > 0) {
+	while(!mThumbRects.empty()) {
 		deleteCurSlider();
 	}
 

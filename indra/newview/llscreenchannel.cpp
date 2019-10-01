@@ -413,7 +413,7 @@ void LLScreenChannel::loadStoredToastsToChannel()
 {
 	std::vector<ToastElem>::iterator it;
 
-	if(mStoredToastList.size() == 0)
+	if(mStoredToastList.empty())
 		return;
 
 	for(it = mStoredToastList.begin(); it != mStoredToastList.end(); ++it)
@@ -579,7 +579,7 @@ void LLScreenChannel::redrawToasts()
 		setFollows(FOLLOWS_ALL);
 	}
 
-	if(mToastList.size() == 0)
+	if(mToastList.empty())
 		return;
 
 	switch(mToastAlignment)
@@ -1033,7 +1033,7 @@ void LLScreenChannel::removeToastsFromChannel()
 //--------------------------------------------------------------------------
 void LLScreenChannel::removeAndStoreAllStorableToasts()
 {
-	if(mToastList.size() == 0)
+	if(mToastList.empty())
 		return;
 
 	hideToastsFromScreen();
@@ -1056,7 +1056,7 @@ void LLScreenChannel::removeAndStoreAllStorableToasts()
 //--------------------------------------------------------------------------
 void LLScreenChannel::removeToastsBySessionID(LLUUID id)
 {
-	if(mToastList.size() == 0)
+	if(mToastList.empty())
 		return;
 
 	hideToastsFromScreen();

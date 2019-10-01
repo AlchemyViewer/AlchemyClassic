@@ -564,7 +564,7 @@ std::vector<LLMute> LLMuteList::getMutes() const
 //-----------------------------------------------------------------------------
 BOOL LLMuteList::loadFromFile(const std::string& filename)
 {
-	if(!filename.size())
+	if(filename.empty())
 	{
 		LL_WARNS() << "Mute List Filename is Empty!" << LL_ENDL;
 		return FALSE;
@@ -614,7 +614,7 @@ BOOL LLMuteList::loadFromFile(const std::string& filename)
 //-----------------------------------------------------------------------------
 BOOL LLMuteList::saveToFile(const std::string& filename)
 {
-	if(!filename.size())
+	if(filename.empty())
 	{
 		LL_WARNS() << "Mute List Filename is Empty!" << LL_ENDL;
 		return FALSE;

@@ -1622,7 +1622,7 @@ void LLOverlapPanel::draw()
 		}
 
 		std::list<LLView*> overlappers = mOverlapMap[LLView::sPreviewClickedElement];
-		if(overlappers.size() == 0)
+		if(overlappers.empty())
 		{
 			LLUI::translate(5,getRect().getHeight()-20);	// translate to top-5,left-5
 			LLView::sDrawPreviewHighlights = FALSE;

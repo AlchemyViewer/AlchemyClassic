@@ -415,7 +415,7 @@ void LLFloaterExperienceProfile::refreshExperience( const LLSD& experience )
 
             child = getChild<LLTextBox>(TF_MRKT);
             child->setText(value);
-            if(value.size())
+            if(!value.empty())
             {
                 marketplacePanel->setVisible(TRUE);
             }

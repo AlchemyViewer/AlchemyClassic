@@ -1094,8 +1094,8 @@ namespace LLInitParam
 				if (!serialized) 
 				{
 					std::string calculated_key = typed_param.calcValueName(typed_param.getValue());
-					if (calculated_key.size() 
-						&& (!diff_typed_param 
+					if (!calculated_key.empty()
+                        && (!diff_typed_param 
 							|| !ParamCompare<std::string>::equals(static_cast<const self_t*>(diff_param)->getValueName(), calculated_key)))
 					{
 						serialized = parser.writeValue(calculated_key, name_stack);

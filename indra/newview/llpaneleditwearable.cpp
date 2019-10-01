@@ -1061,7 +1061,7 @@ void LLPanelEditWearable::saveChanges(bool force_save_as)
 		std::string description;
 		LLInventoryModel::item_array_t links =
 			LLAppearanceMgr::instance().findCOFItemLinks(mWearablePtr->getItemID());
-		if (links.size()>0)
+		if (!links.empty())
 		{
 			link_item = links.at(0).get();
 			if (link_item && link_item->getIsLinkType())

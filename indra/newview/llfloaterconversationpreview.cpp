@@ -102,7 +102,7 @@ void LLFloaterConversationPreview::setPages(std::list<LLSD>* messages, const std
 			delete mMessages; // Clean up temporary message list with "Loading..." text
 		}
 		mMessages = messages;
-		mCurrentPage = (mMessages->size() ? (mMessages->size() - 1) / mPageSize : 0);
+		mCurrentPage = (!mMessages->empty() ? (mMessages->size() - 1) / mPageSize : 0);
 
 		mPageSpinner->setEnabled(true);
 		mPageSpinner->setMaxValue(mCurrentPage+1);
@@ -196,7 +196,7 @@ void LLFloaterConversationPreview::showHistory()
 {
 	// additional protection to avoid changes of mMessages in setPages
 	LLMutexLock lock(&mMutex);
-	if(mMessages == nullptr || !mMessages->size() || mCurrentPage * mPageSize >= mMessages->size())
+	if(mMessages == nullptr || mMessages->empty() || mCurrentPage * mPageSize >= mMessages->size())
 	{
 		return;
 	}

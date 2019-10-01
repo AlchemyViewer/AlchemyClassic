@@ -381,7 +381,7 @@ void LLFolderView::addToSelectionList(LLFolderViewItem* item)
 	{
 		removeFromSelectionList(item);
 	}
-	if (mSelectedItems.size())
+	if (!mSelectedItems.empty())
 	{
 		mSelectedItems.back()->setIsCurSelection(FALSE);
 	}
@@ -391,7 +391,7 @@ void LLFolderView::addToSelectionList(LLFolderViewItem* item)
 
 void LLFolderView::removeFromSelectionList(LLFolderViewItem* item)
 {
-	if (mSelectedItems.size())
+	if (!mSelectedItems.empty())
 	{
 		mSelectedItems.back()->setIsCurSelection(FALSE);
 	}
@@ -408,7 +408,7 @@ void LLFolderView::removeFromSelectionList(LLFolderViewItem* item)
 			++item_iter;
 		}
 	}
-	if (mSelectedItems.size())
+	if (!mSelectedItems.empty())
 	{
 		mSelectedItems.back()->setIsCurSelection(TRUE);
 	}
@@ -416,7 +416,7 @@ void LLFolderView::removeFromSelectionList(LLFolderViewItem* item)
 
 LLFolderViewItem* LLFolderView::getCurSelectedItem( void )
 {
-	if(mSelectedItems.size())
+	if(!mSelectedItems.empty())
 	{
 		LLFolderViewItem* itemp = mSelectedItems.back();
 		llassert(itemp->getIsCurSelection());
@@ -669,7 +669,7 @@ void LLFolderView::draw()
 	}
 
 	static LLUICachedControl<F32> type_ahead_timeout("TypeAheadTimeout", 0);
-	if (mSearchTimer.getElapsedTimeF32() > type_ahead_timeout || !mSearchString.size())
+	if (mSearchTimer.getElapsedTimeF32() > type_ahead_timeout || mSearchString.empty())
 	{
 		mSearchString.clear();
 	}
@@ -891,7 +891,7 @@ BOOL LLFolderView::autoOpenTest(LLFolderViewFolder* folder)
 
 BOOL LLFolderView::canCopy() const
 {
-	if (!(getVisible() && getEnabled() && (mSelectedItems.size() > 0)))
+	if (!(getVisible() && getEnabled() && (!mSelectedItems.empty())))
 	{
 		return FALSE;
 	}
@@ -931,7 +931,7 @@ void LLFolderView::copy()
 
 BOOL LLFolderView::canCut() const
 {
-	if (!(getVisible() && getEnabled() && (mSelectedItems.size() > 0)))
+	if (!(getVisible() && getEnabled() && (!mSelectedItems.empty())))
 	{
 		return FALSE;
 	}
@@ -953,7 +953,7 @@ void LLFolderView::cut()
 {
 	// clear the inventory clipboard
 	LLClipboard::instance().reset();
-	if(getVisible() && getEnabled() && (mSelectedItems.size() > 0))
+	if(getVisible() && getEnabled() && (!mSelectedItems.empty()))
 	{
 		// Find out which item will be selected once the selection will be cut
 		LLFolderViewItem* item_to_select = getNextUnselectedItem();
@@ -1161,7 +1161,7 @@ BOOL LLFolderView::handleKeyHere( KEY key, MASK mask )
 		break;
 
 	case KEY_DOWN:
-		if((mSelectedItems.size() > 0) && mScrollContainer)
+		if((!mSelectedItems.empty()) && mScrollContainer)
 		{
 			LLFolderViewItem* last_selected = getCurSelectedItem();
 			BOOL shift_select = mask & MASK_SHIFT;
@@ -1224,7 +1224,7 @@ BOOL LLFolderView::handleKeyHere( KEY key, MASK mask )
 		break;
 
 	case KEY_UP:
-		if((mSelectedItems.size() > 0) && mScrollContainer)
+		if((!mSelectedItems.empty()) && mScrollContainer)
 		{
 			LLFolderViewItem* last_selected = mSelectedItems.back();
 			BOOL shift_select = mask & MASK_SHIFT;
@@ -1279,7 +1279,7 @@ BOOL LLFolderView::handleKeyHere( KEY key, MASK mask )
 		break;
 
 	case KEY_RIGHT:
-		if(mSelectedItems.size())
+		if(!mSelectedItems.empty())
 		{
 			LLFolderViewItem* last_selected = getCurSelectedItem();
 			last_selected->setOpen( TRUE );
@@ -1289,7 +1289,7 @@ BOOL LLFolderView::handleKeyHere( KEY key, MASK mask )
 		break;
 
 	case KEY_LEFT:
-		if(mSelectedItems.size())
+		if(!mSelectedItems.empty())
 		{
 			LLFolderViewItem* last_selected = getCurSelectedItem();
 			LLFolderViewItem* parent_folder = last_selected->getParentFolder();
@@ -1552,7 +1552,7 @@ void LLFolderView::deleteAllChildren()
 
 void LLFolderView::scrollToShowSelection()
 {
-	if ( mSelectedItems.size() )
+	if (!mSelectedItems.empty())
 	{
 		mNeedsScroll = TRUE;
 	}
@@ -1777,7 +1777,7 @@ void LLFolderView::update()
 		constraint_rect.setOriginAndSize(0, 0, content_rect.getWidth(), content_rect.getHeight());
 	}
 
-	if (mSelectedItems.size() && mNeedsScroll)
+	if (!mSelectedItems.empty() && mNeedsScroll)
 	{
 		scrollToShowItem(mSelectedItems.back(), constraint_rect);
 		// continue scrolling until animated layout change is done

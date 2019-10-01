@@ -210,7 +210,7 @@ LLSpeakersDelayActionsStorage::~LLSpeakersDelayActionsStorage()
 void LLSpeakersDelayActionsStorage::setActionTimer(const LLUUID& speaker_id)
 {
 	bool not_found = true;
-	if (mActionTimersMap.size() > 0)
+	if (!mActionTimersMap.empty())
 	{
 		not_found = mActionTimersMap.find(speaker_id) == mActionTimersMap.end();
 	}
@@ -228,7 +228,7 @@ void LLSpeakersDelayActionsStorage::setActionTimer(const LLUUID& speaker_id)
 
 void LLSpeakersDelayActionsStorage::unsetActionTimer(const LLUUID& speaker_id)
 {
-	if (mActionTimersMap.size() == 0) return;
+	if (mActionTimersMap.empty()) return;
 
 	LLSpeakerActionTimer::action_timer_iter_t it_speaker = mActionTimersMap.find(speaker_id);
 
@@ -263,7 +263,7 @@ bool LLSpeakersDelayActionsStorage::onTimerActionCallback(const LLUUID& speaker_
 
 bool LLSpeakersDelayActionsStorage::isTimerStarted(const LLUUID& speaker_id)
 {
-	return (mActionTimersMap.size() > 0) && (mActionTimersMap.find(speaker_id) != mActionTimersMap.end());
+	return (!mActionTimersMap.empty()) && (mActionTimersMap.find(speaker_id) != mActionTimersMap.end());
 }
 
 //
@@ -529,7 +529,7 @@ void LLSpeakerMgr::updateSpeakerList()
                     mSpeakerListUpdated = true;
 				}
 			}
-			else if (mSpeakers.size() == 0)
+			else if (mSpeakers.empty())
 			{
 				// For all other session type (ad-hoc, P2P, avaline), we use the initial participants targets list
 				for (auto& target_id : session->mInitialTargetIDs)
@@ -590,7 +590,7 @@ bool LLSpeakerMgr::removeSpeaker(const LLUUID& speaker_id)
 LLPointer<LLSpeaker> LLSpeakerMgr::findSpeaker(const LLUUID& speaker_id)
 {
 	//In some conditions map causes crash if it is empty(Windows only), adding check (EK)
-	if (mSpeakers.size() == 0)
+	if (mSpeakers.empty())
 		return nullptr;
 	speaker_map_t::iterator found_it = mSpeakers.find(speaker_id);
 	if (found_it == mSpeakers.end())

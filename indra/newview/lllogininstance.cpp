@@ -114,7 +114,7 @@ void LLLoginInstance::connect(LLPointer<LLCredential> credentials)
 {
 	std::vector<std::string> uris;
 	LLGridManager::getInstance()->getLoginURIs(uris);
-    if (uris.size() < 1)
+    if (uris.empty())
     {
         LL_WARNS() << "Failed to get login URIs during connect. No connect for you!" << LL_ENDL;
         return;

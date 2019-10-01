@@ -1037,7 +1037,7 @@ void LLPanelOutfitEdit::filterWearablesBySelectedItem(void)
 	bool nothing_selected = ids.empty();
 	bool one_selected = ids.size() == 1;
 	bool more_than_one_selected = ids.size() > 1;
-	bool is_dummy_item = (ids.size() && dynamic_cast<LLPanelDummyClothingListItem*>(mCOFWearables->getSelectedItem()));
+	bool is_dummy_item = (!ids.empty() && dynamic_cast<LLPanelDummyClothingListItem*>(mCOFWearables->getSelectedItem()));
 
 	// selected, expanded accordion tabs and selection in flat list view determine filtering when no item is selected in COF
 	// selection in flat list view participates in determining filtering because of EXT-7963
@@ -1407,7 +1407,7 @@ void LLPanelOutfitEdit::saveListSelection()
 	{
 		std::set<LLFolderViewItem*> selected_ids =    mInventoryItemsPanel->getRootFolder()->getSelectionList();
 
-		if(!selected_ids.size()) return;
+		if(selected_ids.empty()) return;
 
 		for (auto selected_id : selected_ids)
         {
@@ -1420,7 +1420,7 @@ void LLPanelOutfitEdit::saveListSelection()
 		std::vector<LLUUID> selected_ids;
 		mWearableItemsList->getSelectedUUIDs(selected_ids);
 
-		if(!selected_ids.size()) return;
+		if(selected_ids.empty()) return;
 
 		mInventoryItemsPanel->clearSelection();
 		LLFolderView* root = mInventoryItemsPanel->getRootFolder();

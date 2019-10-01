@@ -4396,7 +4396,7 @@ static void derez_objects(
 		error = "AcquireErrorTooManyObjects";
 	}
 
-	if(error.empty() && objectsp->size() > 0)
+	if(error.empty() && !objectsp->empty())
 	{
 		U8 d = (U8)dest;
 		LLUUID tid;

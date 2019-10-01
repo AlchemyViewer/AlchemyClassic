@@ -164,7 +164,7 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 			F32 script_size = 0.f;
 			msg->getString("DataExtended", "ParcelName", parcel_name, block);
 			msg->getF32("DataExtended", "Size", script_size, block);
-			if (parcel_name.size() > 0 || script_size > 0)
+			if (!parcel_name.empty() || script_size > 0)
 			{
 				parcel_buf = parcel_name;
 				script_memory = script_size;

@@ -220,7 +220,7 @@ LLMeshFilePicker::LLMeshFilePicker(LLModelPreview* mp, S32 lod)
 
 void LLMeshFilePicker::notify(const std::vector<std::string>& filenames)
 {
-	if (filenames.size() > 0)
+	if (!filenames.empty())
 	{
 		mMP->loadModel(filenames[0], mLOD);
 	}
@@ -1633,7 +1633,7 @@ void LLModelPreview::rebuildUploadData()
 				}
                 LLFloaterModelPreview* fmp = (LLFloaterModelPreview*) mFMP;
                 bool upload_skinweights = fmp && fmp->childGetValue("upload_skin").asBoolean();
-                if (upload_skinweights && high_lod_model->mSkinInfo.mJointNames.size() > 0)
+                if (upload_skinweights && !high_lod_model->mSkinInfo.mJointNames.empty())
                 {
                     LLQuaternion bind_rot = LLSkinningUtil::getUnscaledQuaternion(high_lod_model->mSkinInfo.mBindShapeMatrix);
                     LLQuaternion identity;
@@ -3544,7 +3544,7 @@ U32 LLModelPreview::loadTextures(LLImportMaterial& material,void* opaque)
 {
 	(void)opaque;
 
-	if (material.mDiffuseMapFilename.size())
+	if (!material.mDiffuseMapFilename.empty())
 	{
 		material.mOpaqueData = new LLPointer< LLViewerFetchedTexture >;
 		LLPointer< LLViewerFetchedTexture >& tex = (*reinterpret_cast< LLPointer< LLViewerFetchedTexture > * >(material.mOpaqueData));
@@ -4360,7 +4360,7 @@ bool LLModelPreview::lodQueryCallback()
     if (fmp && fmp->mModelPreview)
     {
         LLModelPreview* preview = fmp->mModelPreview;
-        if (preview->mLodsQuery.size() > 0)
+        if (!preview->mLodsQuery.empty())
         {
             S32 lod = preview->mLodsQuery.back();
             preview->mLodsQuery.pop_back();

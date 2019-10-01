@@ -283,7 +283,7 @@ void LLCoros::setStackSize(S32 stacksize)
 void LLCoros::printActiveCoroutines()
 {
     LL_INFOS("LLCoros") << "Number of active coroutines: " << (S32)mCoros.size() << LL_ENDL;
-    if (mCoros.size() > 0)
+    if (!mCoros.empty())
     {
         LL_INFOS("LLCoros") << "-------------- List of active coroutines ------------";
         F64 time = LLTimer::getTotalSeconds();

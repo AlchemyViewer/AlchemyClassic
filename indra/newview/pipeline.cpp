@@ -5164,7 +5164,7 @@ void LLPipeline::rebuildPools()
 
 	S32 max_count = mPools.size();
 	pool_set_t::iterator iter1 = mPools.upper_bound(mLastRebuildPool);
-	while(max_count > 0 && mPools.size() > 0) // && num_rebuilds < MAX_REBUILDS)
+	while(max_count > 0 && !mPools.empty()) // && num_rebuilds < MAX_REBUILDS)
 	{
 		if (iter1 == mPools.end())
 		{

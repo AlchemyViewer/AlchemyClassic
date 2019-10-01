@@ -302,7 +302,7 @@ void LLViewerJointAttachment::removeObject(LLViewerObject *object)
 			}
 		}
 	}
-	if (mAttachedObjects.size() == 0)
+	if (mAttachedObjects.empty())
 	{
 		mUpdateXform = FALSE;
 	}

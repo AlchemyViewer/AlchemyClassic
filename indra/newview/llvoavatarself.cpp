@@ -2563,7 +2563,7 @@ BOOL LLVOAvatarSelf::canGrabBakedTexture(EBakedTextureIndex baked_index) const
 
 					BOOL can_grab = FALSE;
 					LL_DEBUGS() << "item count for asset " << texture_id << ": " << items.size() << LL_ENDL;
-					if (items.size())
+					if (!items.empty())
 					{
 						// search for full permissions version
 						for (auto& item : items)

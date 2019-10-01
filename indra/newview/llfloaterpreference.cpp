@@ -2214,7 +2214,7 @@ void LLFloaterPreference::selectChatPanel()
 
 void LLFloaterPreference::changed()
 {
-	getChild<LLButton>("clear_log")->setEnabled(LLConversationLog::instance().getConversations().size() > 0);
+	getChild<LLButton>("clear_log")->setEnabled(!LLConversationLog::instance().getConversations().empty());
 
 	// set 'enable' property for 'Delete transcripts...' button
 	updateDeleteTranscriptsButton();

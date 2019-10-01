@@ -287,7 +287,7 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 			{
 				if (idx >= model[lod].size())
 				{
-					if (model[lod].size())
+					if (!model[lod].empty())
 					{
 						instance_list[i].mLOD[lod] = model[lod][0];
 					}
@@ -419,7 +419,7 @@ void LLModelLoader::critiqueRigForUploadApplicability( const std::vector<std::st
 bool LLModelLoader::isRigLegacy( const std::vector<std::string> &jointListFromAsset )
 {
 	//No joints in asset
-	if ( jointListFromAsset.size() == 0 )
+	if (jointListFromAsset.empty())
 	{
 		return false;
 	}

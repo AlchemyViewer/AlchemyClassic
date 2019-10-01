@@ -1286,7 +1286,7 @@ CapUrlMatches LLWorld::getCapURLMatches(const std::string &cap_url)
     {
         std::set<std::string> new_url_capnames = regionp->getCapURLNames(cap_url);
 
-		if(new_url_capnames.size() > 0)
+		if(!new_url_capnames.empty())
 		{
 			url_capregions.insert(regionp);
 			url_capnames.insert(new_url_capnames.begin(), new_url_capnames.end());

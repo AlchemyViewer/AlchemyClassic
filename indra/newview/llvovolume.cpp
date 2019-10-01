@@ -2377,7 +2377,7 @@ bool LLVOVolume::notifyAboutCreatingTexture(LLViewerTexture *texture)
 	//clear wait-list
 	mWaitingTextureInfo.erase(range.first, range.second);
 
-	return 0 != new_material.size();
+	return !new_material.empty();
 }
 
 bool LLVOVolume::notifyAboutMissingAsset(LLViewerTexture *texture)
@@ -2456,7 +2456,7 @@ bool LLVOVolume::notifyAboutMissingAsset(LLViewerTexture *texture)
 	//clear wait-list
 	mWaitingTextureInfo.erase(range.first, range.second);
 
-	return 0 != new_material.size();
+	return !new_material.empty();
 }
 
 S32 LLVOVolume::setTEMaterialParams(const U8 te, const LLMaterialPtr pMaterialParams)

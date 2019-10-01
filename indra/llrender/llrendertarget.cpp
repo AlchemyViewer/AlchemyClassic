@@ -393,7 +393,7 @@ void LLRenderTarget::release()
 		mFBO = 0;
 	}
 
-	if (mTex.size() > 0)
+	if (!mTex.empty())
 	{
 		sBytesAllocated -= mResX*mResY*4*mTex.size();
 		LLImageGL::deleteTextures(mTex.size(), &mTex[0]);

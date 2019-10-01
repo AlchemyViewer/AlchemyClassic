@@ -739,7 +739,7 @@ BOOL LLUICtrl::focusFirstItem(BOOL prefer_text_fields, BOOL focus_flash)
 	// try to select default tab group child
 	LLViewQuery query = getTabOrderQuery();
 	child_list_t result = query(this);
-	if(result.size() > 0)
+	if(!result.empty())
 	{
 		LLUICtrl * ctrl = static_cast<LLUICtrl*>(result.back());
 		if(!ctrl->hasFocus())
@@ -759,7 +759,7 @@ BOOL LLUICtrl::focusFirstItem(BOOL prefer_text_fields, BOOL focus_flash)
 		LLViewQuery query = getTabOrderQuery();
 		query.addPreFilter(LLUICtrl::LLTextInputFilter::getInstance());
 		child_list_t result = query(this);
-		if(result.size() > 0)
+		if(!result.empty())
 		{
 			LLUICtrl * ctrl = static_cast<LLUICtrl*>(result.back());
 			if(!ctrl->hasFocus())
@@ -776,7 +776,7 @@ BOOL LLUICtrl::focusFirstItem(BOOL prefer_text_fields, BOOL focus_flash)
 	}
 	// no text field found, or we don't care about text fields
 	result = getTabOrderQuery().run(this);
-	if(result.size() > 0)
+	if(!result.empty())
 	{
 		LLUICtrl * ctrl = static_cast<LLUICtrl*>(result.back());
 		if(!ctrl->hasFocus())

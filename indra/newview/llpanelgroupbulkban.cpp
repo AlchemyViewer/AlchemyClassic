@@ -180,7 +180,7 @@ void LLPanelGroupBulkBan::submit()
 				banned_avatar_names.push_back(av_name);
 
 				banned_agent_list.erase(conflict);
-				if (banned_agent_list.size() == 0)
+				if (banned_agent_list.empty())
 				{
 					break;
 				}
@@ -203,17 +203,17 @@ void LLPanelGroupBulkBan::submit()
 	}
 
 	// sending request and ejecting members
-	if (banned_agent_list.size() != 0)
+	if (!banned_agent_list.empty())
 	{
 		LLGroupMgr::getInstance()->sendGroupBanRequest(LLGroupMgr::REQUEST_POST, mImplementation->mGroupID, LLGroupMgr::BAN_CREATE | LLGroupMgr::BAN_UPDATE, banned_agent_list);
 		LLGroupMgr::getInstance()->sendGroupMemberEjects(mImplementation->mGroupID, banned_agent_list);
 	}
 
 	// building notification
-	if (banned_avatar_names.size() > 0 || banning_self || out_of_limit_names.size() > 0)
+	if (!banned_avatar_names.empty() || banning_self || !out_of_limit_names.empty())
 	{
 		std::string reasons;
-		if(banned_avatar_names.size() > 0)
+		if(!banned_avatar_names.empty())
 		{
 			reasons = "\n " + buildResidentsArgument(banned_avatar_names, "residents_already_banned");
 		}
@@ -223,7 +223,7 @@ void LLPanelGroupBulkBan::submit()
 			reasons += "\n " + mImplementation->mCannotBanYourself;
 		}
 
-		if(out_of_limit_names.size() > 0)
+		if(!out_of_limit_names.empty())
 		{
 			reasons += "\n " + buildResidentsArgument(out_of_limit_names, "ban_limit_reached");
 		}
@@ -231,7 +231,7 @@ void LLPanelGroupBulkBan::submit()
 		LLStringUtil::format_map_t msg_args;
 		msg_args["[REASONS]"] = reasons;
 		LLSD msg;
-		if (banned_agent_list.size() == 0)
+		if (banned_agent_list.empty())
 		{
 			msg["MESSAGE"] = getString("ban_failed", msg_args);
 		}

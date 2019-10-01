@@ -2620,7 +2620,7 @@ void LLPanelEnvironmentInfo::populateWaterPresetsList()
 		mWaterPresetCombo->add(*it, LLWLParamKey(*it, LLEnvKey::SCOPE_LOCAL).toLLSD());
 	}
 
-	if (user_presets.size() > 0)
+	if (!user_presets.empty())
 	{
 		mWaterPresetCombo->addSeparator();
 	}
@@ -2706,7 +2706,7 @@ void LLPanelEnvironmentInfo::populateDayCyclesList()
 		mDayCyclePresetCombo->add(*it, LLWLParamKey(*it, LLEnvKey::SCOPE_LOCAL).toStringVal());
 	}
 
-	if (user_days.size() > 0)
+	if (!user_days.empty())
 	{
 		mDayCyclePresetCombo->addSeparator();
 	}
@@ -3794,7 +3794,7 @@ void LLPanelEstateAccess::accessRemoveCore(U32 operation_flag, const std::string
 	if (!name_list) return;
 
 	std::vector<LLScrollListItem*> list_vector = name_list->getAllSelected();
-	if (list_vector.size() == 0)
+	if (list_vector.empty())
 		return;
 
 	LLSD payload;
@@ -4205,7 +4205,7 @@ void LLPanelEstateAccess::copyListToClipboard(std::string list_name)
 	if (!name_list) return;
 
 	std::vector<LLScrollListItem*> list_vector = name_list->getAllData();
-	if (list_vector.size() == 0) return;
+	if (list_vector.empty()) return;
 
 	LLSD::String list_to_copy;
 	for (std::vector<LLScrollListItem*>::const_iterator iter = list_vector.begin();

@@ -450,7 +450,7 @@ void LLAvatarTracker::removeObserver(LLFriendObserver* observer)
 
 void LLAvatarTracker::idleNotifyObservers()
 {
-	if (mModifyMask == LLFriendObserver::NONE && mChangedBuddyIDs.size() == 0)
+	if (mModifyMask == LLFriendObserver::NONE && mChangedBuddyIDs.empty())
 	{
 		return;
 	}
@@ -501,7 +501,7 @@ void LLAvatarTracker::removeParticularFriendObserver(const LLUUID& buddy_id, LLF
     obs_it->second.erase(observer);
 
     // purge empty sets from the map
-    if (obs_it->second.size() == 0)
+    if (obs_it->second.empty())
     	mParticularFriendObserverMap.erase(obs_it);
 }
 

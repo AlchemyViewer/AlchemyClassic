@@ -120,7 +120,7 @@ void LLAttachmentsMgr::onIdle()
 
 void LLAttachmentsMgr::requestPendingAttachments()
 {
-	if (mPendingAttachments.size())
+	if (!mPendingAttachments.empty())
 	{
 		requestAttachments(mPendingAttachments);
 	}
@@ -220,7 +220,7 @@ void LLAttachmentsMgr::requestAttachments(attachments_vec_t& attachment_requests
 
 void LLAttachmentsMgr::linkRecentlyArrivedAttachments()
 {
-    if (mRecentlyArrivedAttachments.size())
+    if (!mRecentlyArrivedAttachments.empty())
     {
         // One or more attachments have arrived but have not yet been
         // processed for COF links
@@ -257,7 +257,7 @@ void LLAttachmentsMgr::linkRecentlyArrivedAttachments()
                 ids_to_link.push_back(item_id);
             }
         }
-        if (ids_to_link.size())
+        if (!ids_to_link.empty())
         {
             LLPointer<LLInventoryCallback> cb = new LLRequestServerAppearanceUpdateOnDestroy();
             for (uuid_vec_t::const_iterator uuid_it = ids_to_link.begin();

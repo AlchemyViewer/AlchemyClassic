@@ -57,13 +57,13 @@ bool LLEasyMessageSender::sendMessage(const LLHost& region_host, const std::stri
 bool LLEasyMessageSender::sendLLUDPMessage(const LLHost& region_host, const std::string& str_message)
 {
 	std::vector<std::string> lines = split(str_message, "\n");
-	if(!lines.size())
+	if(lines.empty())
 	{
 		LLNotificationsUtil::add("GenericAlert", LLSD().with("MESSAGE", "Not enough information :O"));
 		return false;
 	}
 	std::vector<std::string> tokens = split(lines[0], " ");
-	if(!tokens.size())
+	if(tokens.empty())
 	{
 		LLNotificationsUtil::add("GenericAlert", LLSD().with("MESSAGE", "Not enough information :O"));
 		return false;

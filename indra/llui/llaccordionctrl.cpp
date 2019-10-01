@@ -509,7 +509,7 @@ void LLAccordionCtrl::arrange()
 {
 	updateNoTabsHelpTextVisibility();
 
-	if( mAccordionTabs.size() == 0)
+	if(mAccordionTabs.empty())
 	{
 		//We do not arrange if we do not have what should be arranged
 		return;
@@ -800,7 +800,7 @@ void	LLAccordionCtrl::reset		()
 
 void LLAccordionCtrl::expandDefaultTab()
 {
-	if (mAccordionTabs.size() > 0)
+	if (!mAccordionTabs.empty())
 	{
 		LLAccordionCtrlTab* tab = mAccordionTabs.front();
 

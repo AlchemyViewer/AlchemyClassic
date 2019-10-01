@@ -863,7 +863,7 @@ bool LLPreviewNotecard::writeToFile(const std::string& filename)
 
     std::string utf8text = mEditor->getText();
 
-    if (utf8text.size() == 0)
+    if (utf8text.empty())
     {
         utf8text = " ";
     }

@@ -641,7 +641,7 @@ void LLAOEngine::cycle(eCycleMode cycleMode)
 		return;
 	}
 
-	if (!state->mAnimations.size())
+	if (state->mAnimations.empty())
 	{
 		LL_DEBUGS("AOEngine") << "cycle without animations in state." << LL_ENDL;
 		return;
@@ -936,7 +936,7 @@ bool LLAOEngine::removeAnimation(const LLAOSet* set, LLAOSet::AOState* state, S3
 
 	state->mAnimations.erase(state->mAnimations.begin() + index);
 
-	if (!state->mAnimations.size())
+	if (state->mAnimations.empty())
 	{
 		LL_DEBUGS("AOEngine") << "purging folder " << state->mName << " from inventory because it's empty." << LL_ENDL;
 
@@ -1819,7 +1819,7 @@ void LLAOEngine::processImport(bool aFromTimer)
 	for (S32 index = 0; index < LLAOSet::AOSTATES_MAX; ++index)
 	{
 		LLAOSet::AOState* state = mImportSet->getState(index);
-		if (state->mAnimations.size())
+		if (!state->mAnimations.empty())
 		{
 			allComplete = false;
 			LL_DEBUGS("AOEngine") << "state " << state->mName << " still has animations to link." << LL_ENDL;

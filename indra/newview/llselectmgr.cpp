@@ -444,7 +444,7 @@ LLObjectSelectionHandle LLSelectMgr::selectObjectAndFamily(const std::vector<LLV
 	//clear primary object (no primary object)
 	mSelectedObjects->mPrimaryObject = NULL;
 
-	if (object_list.size() < 1)
+	if (object_list.empty())
 	{
 		return NULL;
 	}
@@ -2470,7 +2470,7 @@ void LLSelectMgr::packGodlikeHead(void* user_data)
 	// parameter list by not packing a string if there wasn't one
 	// specified. The object ids will be packed in the
 	// packObjectIDAsParam() method.
-	if(data->second.size() > 0)
+	if(!data->second.empty())
 	{
 		msg->nextBlock("ParamList");
 		msg->addString("Parameter", data->second);
@@ -5591,7 +5591,7 @@ void LLSelectMgr::updateSilhouettes()
 	std::vector<LLViewerObject*> changed_objects;
 
 	updateSelectionSilhouette(mSelectedObjects, num_sils_genned, changed_objects);
-	if (mRectSelectedObjects.size() > 0)
+	if (!mRectSelectedObjects.empty())
 	{
 		//gGLSPipelineSelection.set();
 
@@ -6433,7 +6433,7 @@ void LLSelectNode::renderOneSilhouette(const LLColor4 &color)
 
 	BOOL is_hud_object = objectp->isHUDAttachment();
 	
-	if (mSilhouetteVertices.size() == 0 || mSilhouetteNormals.size() != mSilhouetteVertices.size())
+	if (mSilhouetteVertices.empty() || mSilhouetteNormals.size() != mSilhouetteVertices.size())
 	{
 		return;
 	}
@@ -7177,7 +7177,7 @@ LLSelectNode* LLObjectSelection::findNode(LLViewerObject* objectp)
 //-----------------------------------------------------------------------------
 BOOL LLObjectSelection::isEmpty() const
 {
-	return (mList.size() == 0);
+	return (mList.empty());
 }
 
 

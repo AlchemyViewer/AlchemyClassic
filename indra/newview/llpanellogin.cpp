@@ -992,7 +992,7 @@ void LLPanelLogin::onSelectUser()
 	{
 		// If the password exists in the credential, set the password field with a filler to get some stars
 		const auto authenticator = userCred->getAuthenticator();
-		if ( authenticator.isMap() && authenticator.has("secret") && authenticator["secret"].asString().size() > 0 )
+		if ( authenticator.isMap() && authenticator.has("secret") && !authenticator["secret"].asString().empty())
 		{
 			// This is a MD5 hex digest of a password.
 			// We don't actually use the password input field, 

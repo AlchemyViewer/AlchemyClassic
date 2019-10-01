@@ -96,7 +96,8 @@ public:
 
 	U32					getEventID() const				{ return mEventID; }
 	const std::string	&getEventName() const			{ return mEventName; }
-	bool                isValid() const                 { return mEventID > 0 && mEventDateEpoch != 0 && mEventName.size() > 0; }
+	bool                isValid() const                 { return mEventID > 0 && mEventDateEpoch != 0 && !mEventName.
+        empty(); }
 	const F64		    &getEventDateEpoch() const		{ return mEventDateEpoch; }
 	const std::string   &getEventDateStr() const        { return mEventDateStr; }
 	

@@ -113,7 +113,7 @@ using namespace boost::gregorian;
 
 void append_to_last_message(std::list<LLSD>& messages, const std::string& line)
 {
-	if (!messages.size()) return;
+	if (messages.empty()) return;
 
 	std::string im_text = messages.back()[LL_IM_TEXT].asString();
 	im_text.append(line);
@@ -534,7 +534,7 @@ std::string LLLogChat::oldLogFileName(std::string filename)
 		allfiles.push_back(scanResult);
 	}
 
-	if (allfiles.size() == 0)  // if no result from date search, return generic filename
+	if (allfiles.empty())  // if no result from date search, return generic filename
 	{
 		scanResult = directory + filename + '.' + LL_TRANSCRIPT_FILE_EXTENSION;
 	}

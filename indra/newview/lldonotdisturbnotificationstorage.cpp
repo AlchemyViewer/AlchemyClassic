@@ -315,9 +315,9 @@ void LLDoNotDisturbNotificationStorage::removeNotification(const char * name, co
 
 
     //Remove the notifications
-    if(itemsToRemove.size())
+    if(!itemsToRemove.empty())
     {
-        while(itemsToRemove.size())
+        while(!itemsToRemove.empty())
         {
             it = itemsToRemove.back();
             notification = it->second;

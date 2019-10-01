@@ -601,7 +601,7 @@ const LLUUID LLInventoryModel::findDescendentCategoryIDByName(const LLUUID& pare
 									item_array,
 									LLInventoryModel::EXCLUDE_TRASH,
 									has_name);
-	if (0 == cat_array.size())
+	if (cat_array.empty())
 		return LLUUID::null;
 	LLViewerInventoryCategory *cat = cat_array.at(0);
 	if (cat)
@@ -1440,7 +1440,7 @@ void LLInventoryModel::onDescendentsPurgedFromServer(const LLUUID& object_id, bo
 				if (getCategory(uu_id))
 				{
 					cat_array_t* cat_list = getUnlockedCatArray(uu_id);
-					if (!cat_list || (cat_list->size() == 0))
+					if (!cat_list || (cat_list->empty()))
 					{
 						deleteObject(uu_id, fix_broken_links);
 						deleted_count++;
@@ -1528,7 +1528,7 @@ void LLInventoryModel::deleteObject(const LLUUID& id, bool fix_broken_links, boo
 	item_list = getUnlockedItemArray(id);
 	if(item_list)
 	{
-		if (item_list->size())
+		if (!item_list->empty())
 		{
 			LL_WARNS(LOG_INV) << "Deleting cat " << id << " while it still has child items" << LL_ENDL;
 		}
@@ -1538,7 +1538,7 @@ void LLInventoryModel::deleteObject(const LLUUID& id, bool fix_broken_links, boo
 	cat_list = getUnlockedCatArray(id);
 	if(cat_list)
 	{
-		if (cat_list->size())
+		if (!cat_list->empty())
 		{
 			LL_WARNS(LOG_INV) << "Deleting cat " << id << " while it still has child cats" << LL_ENDL;
 		}
@@ -1573,7 +1573,7 @@ void LLInventoryModel::updateLinkedObjectsFromPurge(const LLUUID &baseobj_id)
 
 	// REBUILD is expensive, so clear the current change list first else
 	// everything else on the changelist will also get rebuilt.
-	if (item_array.size() > 0)
+	if (!item_array.empty())
 	{
 		notifyObservers();
 		for (LLInventoryModel::item_array_t::const_iterator iter = item_array.begin();
@@ -1611,7 +1611,7 @@ void LLInventoryModel::idleNotifyObservers()
 	// *FIX:  Think I want this conditional or moved elsewhere...
 	handleResponses(true);
 	
-	if (mModifyMask == LLInventoryObserver::NONE && (mChangedItemIDs.size() == 0))
+	if (mModifyMask == LLInventoryObserver::NONE && (mChangedItemIDs.empty()))
 	{
 		return;
 	}
@@ -1992,12 +1992,12 @@ LLInventoryModel::EHasChildren LLInventoryModel::categoryHasChildren(const LLUUI
 
 	// Shouldn't have to run this, but who knows.
 	const auto cat_it = mParentChildCategoryTree.find(cat->getUUID());
-	if (cat_it != mParentChildCategoryTree.cend() && cat_it->second->size() > 0)
+	if (cat_it != mParentChildCategoryTree.cend() && !cat_it->second->empty())
 	{
 		return CHILDREN_YES;
 	}
 	const auto item_it = mParentChildItemTree.find(cat->getUUID());
-	if (item_it != mParentChildItemTree.cend() && item_it->second->size() > 0)
+	if (item_it != mParentChildItemTree.cend() && !item_it->second->empty())
 	{
 		return CHILDREN_YES;
 	}
@@ -2198,7 +2198,7 @@ bool LLInventoryModel::loadSkeleton(
 					}
 				}
 			}
-			if (possible_broken_links.size() > 0)
+			if (!possible_broken_links.empty())
 			{
 				for(item_array_t::const_iterator item_iter = possible_broken_links.begin();
 				    item_iter != possible_broken_links.end();

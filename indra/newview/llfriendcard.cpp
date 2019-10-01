@@ -69,7 +69,7 @@ inline const std::string get_friend_all_subfolder_name()
 
 void move_from_to_arrays(LLInventoryModel::cat_array_t& from, LLInventoryModel::cat_array_t& to)
 {
-	while (from.size() > 0)
+	while (!from.empty())
 	{
 		to.push_back(from.at(0));
 		from.erase(from.begin());
@@ -209,7 +209,7 @@ bool LLFriendCardsManager::isItemInAnyFriendsList(const LLViewerInventoryItem* i
 	LLInventoryModel::item_array_t items;
 	findMatchedFriendCards(item->getCreatorUUID(), items);
 
-	return items.size() > 0;
+	return !items.empty();
 }
 
 
@@ -382,7 +382,7 @@ void LLFriendCardsManager::findMatchedFriendCards(const LLUUID& avatarID, LLInve
 	LLInventoryModel::cat_array_t subFolders;
 	subFolders.push_back(friendFolder);
 
-	while (subFolders.size() > 0)
+	while (!subFolders.empty())
 	{
 		LLViewerInventoryCategory* cat = subFolders.at(0);
 		subFolders.erase(subFolders.begin());

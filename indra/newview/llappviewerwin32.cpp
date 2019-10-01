@@ -77,6 +77,7 @@
 
 #include "client/crash_report_database.h"
 #include <client/crashpad_client.h>
+#include <client/prune_crash_reports.h>
 #include <client/settings.h>
 #endif
 
@@ -543,13 +544,18 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 #if defined(USE_CRASHPAD)
 	if (isSecondInstance()) return; //BUG-5707 do not start another crash reporter for second instance.
 
-	  // Cache directory that will store crashpad information and minidumps
+	// Path to the out-of-process handler executable
+	std::string handler_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "crashpad_handler.exe");
+	if (!gDirUtilp->fileExists(handler_path))
+	{
+		LL_WARNS() << "Failed to initialize crashpad due to missing handler executable." << LL_ENDL;
+		return;
+	}
+	base::FilePath handler(ll_convert_string_to_wide(handler_path));
+
+	// Cache directory that will store crashpad information and minidumps
 	std::string crashpad_path = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "crashpad");
 	base::FilePath database(ll_convert_string_to_wide(crashpad_path));
-
-	// Path to the out-of-process handler executable
-	std::string exe_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "crashpad_handler.exe");
-	base::FilePath handler(ll_convert_string_to_wide(exe_path));
 
 	// URL used to submit minidumps to
 	std::string url(CRASHPAD_URL);
@@ -579,11 +585,23 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	std::vector<std::string> arguments;
 	arguments.push_back("--no-rate-limit");
 
-	std::unique_ptr<crashpad::CrashReportDatabase> db =
-		crashpad::CrashReportDatabase::Initialize(database);
+	auto db = crashpad::CrashReportDatabase::Initialize(database);
+	if (db == nullptr)
+	{
+		LL_WARNS() << "Failed to initialize crashpad database at path: " << crashpad_path << LL_ENDL;
+		return;
+	}
 
-	if (db != nullptr && db->GetSettings() != nullptr) {
+	if (db->GetSettings() != nullptr)
+	{
 		db->GetSettings()->SetUploadsEnabled(true);
+	}
+
+	auto prune_condition = crashpad::PruneCondition::GetDefault();
+	if (prune_condition != nullptr)
+	{
+		auto ret = crashpad::PruneCrashReportDatabase(db.get(), prune_condition.get());
+		LL_INFOS() << "Pruned " << ret << " reports from the crashpad database" << LL_ENDL;
 	}
 
 	crashpad::CrashpadClient client;
@@ -601,6 +619,7 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 		LL_INFOS() << "Crashpad init success" << LL_ENDL;
 	else
 		LL_WARNS() << "FAILED TO INITIALIZE CRASHPAD" << LL_ENDL;
+
 #endif
 }
 

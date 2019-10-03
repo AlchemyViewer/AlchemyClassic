@@ -463,7 +463,7 @@ LLFontGL *LLFontRegistry::createFont(const LLFontDescriptor& desc)
 		font_paths.push_back(local_path + file_name);
 		font_paths.push_back(sys_path + file_name);
 #if LL_DARWIN
-		font_paths.push_back(MACOSX_FONT_PATH_LIBRARY + *file_name_it);
+		font_paths.push_back(MACOSX_FONT_PATH_LIBRARY + file_name);
 #endif
 		
 		bool is_ft_collection = (std::find(ft_collection_list.begin(), ft_collection_list.end(), file_name) != ft_collection_list.end());

@@ -289,7 +289,7 @@ bool ALChatCommand::parseCommand(std::string data)
 					LLVOAvatar* avatarp = (LLVOAvatar*)object;
 					if (avatarp)
 					{
-						for (const std::pair<LLUUID, S32>& playpair : avatarp->mPlayingAnimations)
+						for (const std::pair<LLUUID, S32> playpair : avatarp->mPlayingAnimations)
 						{
 							avatarp->stopMotion(playpair.first, TRUE);
 							avatarp->startMotion(playpair.first);

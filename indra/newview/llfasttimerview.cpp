@@ -734,7 +734,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 
 		last_p.clear();
 
-		for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>::value_type& iter : base_execution)
+		for (const F64 iter : base_execution)
         {
 			gGL.begin(LLRender::TRIANGLE_STRIP);
 			gGL.vertex3fv(last_p.mV);
@@ -754,7 +754,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 			count = 0;
 			total_count = cur_execution.size();
 
-			for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>::value_type& iter : cur_execution)
+			for (const F64 iter : cur_execution)
             {
 				gGL.begin(LLRender::TRIANGLE_STRIP);
 				gGL.vertex3f(last_p.mV[0], 0.f, 0.f);

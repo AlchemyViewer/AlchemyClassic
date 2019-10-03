@@ -1190,7 +1190,7 @@ bool LLAppViewer::init()
 		LLSD item(LeapCommand);
 		LeapCommand.append(item);
 	}
-	for (const std::string& leap : llsd::inArray(LeapCommand))
+	for (const LLSD& leap : llsd::inArray(LeapCommand))
 	{
 		LL_INFOS("InitInfo") << "processing --leap \"" << leap << '"' << LL_ENDL;
 		// We don't have any better description of this plugin than the
@@ -1199,7 +1199,7 @@ bool LLAppViewer::init()
 		// Suppress LLLeap::Error exception: trust LLLeap's own logging. We
 		// don't consider any one --leap command mission-critical, so if one
 		// fails, log it, shrug and carry on.
-		LLLeap::create("", leap, false); // exception=false
+		LLLeap::create("", leap.asString(), false); // exception=false
 	}
 
 	if (gSavedSettings.getBOOL("QAMode") && gSavedSettings.getS32("QAModeEventHostPort") > 0)

@@ -730,7 +730,7 @@ void LLFeatureManager::applyBaseMasks()
 	// now mask by gpu string
 	// Replaces ' ' with '_' in mGPUString to deal with inability for parser to handle spaces
 	std::string gpustr = mGPUString;
-	for (std::_String_iterator<std::_String_val<std::_Simple_types<char>>>::value_type& iter : gpustr)
+	for (std::string::value_type& iter : gpustr)
     {
 		if (iter == ' ')
 		{

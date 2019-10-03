@@ -3461,15 +3461,13 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>xcodebuild</string>
-                <key>filters</key>
-                <array>
-                  <string>setenv</string>
-                </array>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>-configuration Debug</string>
-                  <string>-project Alchemy.xcodeproj</string>
+                  <string>--build</string>
+                  <string>./</string>
+                  <string>--config</string>
+                  <string>Debug</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3492,11 +3490,13 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>xcodebuild</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>-configuration Debug</string>
-                  <string>-project Alchemy.xcodeproj</string>
+                  <string>--build</string>
+                  <string>./</string>
+                  <string>--config</string>
+                  <string>Debug</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3515,11 +3515,13 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>xcodebuild</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>-configuration RelWithDebInfo</string>
-                  <string>-project Alchemy.xcodeproj</string>
+                  <string>--build</string>
+                  <string>./</string>
+                  <string>--config</string>
+                  <string>RelWithDebInfo</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3544,11 +3546,13 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>xcodebuild</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>-configuration RelWithDebInfo</string>
-                  <string>-project Alchemy.xcodeproj</string>
+                  <string>--build</string>
+                  <string>./</string>
+                  <string>--config</string>
+                  <string>RelWithDebInfo</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3567,11 +3571,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>xcodebuild</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>-configuration Release</string>
-                  <string>-project Alchemy.xcodeproj</string>
+                  <string>--build</string>
+                  <string>--config Release</string>               
                 </array>
               </map>
               <key>configure</key>
@@ -3594,11 +3598,13 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>xcodebuild</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>-configuration Release</string>
-                  <string>-project Alchemy.xcodeproj</string>
+                  <string>--build</string>
+                  <string>./</string>
+                  <string>--config</string>
+                  <string>Release</string>
                 </array>
               </map>
               <key>configure</key>

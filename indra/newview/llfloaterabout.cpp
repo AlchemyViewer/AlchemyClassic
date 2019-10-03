@@ -211,7 +211,8 @@ void LLFloaterAbout::startFetchServerReleaseNotes()
 /*static*/
 void LLFloaterAbout::fetchServerReleaseNotesCoro(const std::string url)
 {
-	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("fetchServerReleaseNotesCoro", LLCore::HttpRequest::DEFAULT_POLICY_ID);
+    LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
+	auto httpAdapter = std::make_shared<LLCoreHttpUtil::HttpCoroutineAdapter>("fetchServerReleaseNotesCoro", httpPolicy);
     auto httpRequest = std::make_shared<LLCore::HttpRequest>();
     auto httpOpts = std::make_shared<LLCore::HttpOptions>();
 

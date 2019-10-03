@@ -69,7 +69,9 @@ elseif (DARWIN)
   set_target_properties(AlchemyPlugin
     PROPERTIES
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/slplugin_info.plist
+    XCODE_ATTRIBUTE_DEPLOYMENT_POSTPROCESSING YES
     )
+    
 
   # Make sure the app bundle has a Resources directory (it will get populated by viewer-manifest.py later)
   add_custom_command(

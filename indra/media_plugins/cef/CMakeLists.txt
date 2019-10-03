@@ -107,6 +107,7 @@ if (DARWIN)
     INSTALL_RPATH "@executable_path/../../../.."
     BUILD_WITH_INSTALL_RPATH TRUE
     LINK_FLAGS "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/../base/media_plugin_base.exp"
-  )
+    XCODE_ATTRIBUTE_DEPLOYMENT_POSTPROCESSING YES
+    )
 
 endif (DARWIN)

@@ -1494,12 +1494,6 @@ if (DARWIN)
     alchemy.icns
     Info-Alchemy.plist
     Alchemy.xib
-    # CMake doesn't seem to support Xcode language variants well just yet
-    English.lproj/InfoPlist.strings
-    English.lproj/language.txt
-    German.lproj/language.txt
-    Japanese.lproj/language.txt
-    Korean.lproj/language.txt
     )
   set_source_files_properties(
     ${viewer_RESOURCE_FILES}
@@ -1906,7 +1900,7 @@ if (WINDOWS)
         --artwork=${ARTWORK_DIR}
         --build=${CMAKE_CURRENT_BINARY_DIR}
         --buildtype=${CMAKE_BUILD_TYPE}
-        --channel="${VIEWER_CHANNEL}"
+        --channel=${VIEWER_CHANNEL}
         --configuration=${CMAKE_CFG_INTDIR}
         --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
         --grid=${GRID}
@@ -1963,7 +1957,7 @@ if (WINDOWS)
           --artwork=${ARTWORK_DIR}
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
-          --channel="${VIEWER_CHANNEL}"
+          --channel=${VIEWER_CHANNEL}
           --configuration=${CMAKE_CFG_INTDIR}
           --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
           --grid=${GRID}
@@ -1989,7 +1983,8 @@ if (WINDOWS)
 elseif (DARWIN)
     set_target_properties(${VIEWER_BINARY_NAME}
         PROPERTIES
-        LINK_FLAGS_RELEASE "${LINK_FLAGS_RELEASE} -Xlinker -dead_strip -Xlinker -map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${VIEWER_BINARY_NAME}.MAP"
+        LINK_FLAGS_RELEASE "${LINK_FLAGS_RELEASE} -Xlinker -map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${VIEWER_BINARY_NAME}.MAP"
+        XCODE_ATTRIBUTE_DEPLOYMENT_POSTPROCESSING YES
         )
 else (WINDOWS)
         # Linux
@@ -2106,7 +2101,7 @@ if (LINUX)
         --artwork=${ARTWORK_DIR}
         --build=${CMAKE_CURRENT_BINARY_DIR}
         --buildtype=${CMAKE_BUILD_TYPE}
-        "--channel=${VIEWER_CHANNEL}"
+        --channel=${VIEWER_CHANNEL}
         --configuration=${CMAKE_CFG_INTDIR}
         --dest=${CMAKE_CURRENT_BINARY_DIR}/packaged
         --grid=${GRID}
@@ -2131,7 +2126,7 @@ if (LINUX)
       --artwork=${ARTWORK_DIR}
       --build=${CMAKE_CURRENT_BINARY_DIR}
       --buildtype=${CMAKE_BUILD_TYPE}
-      --channel="${VIEWER_CHANNEL}"
+      --channel=${VIEWER_CHANNEL}
       --configuration=${CMAKE_CFG_INTDIR}
       --dest=${CMAKE_CURRENT_BINARY_DIR}/packaged
       --grid=${GRID}
@@ -2170,9 +2165,6 @@ if (DARWIN)
   set(MACOSX_BUNDLE_COPYRIGHT "Copyright 2013-2019 Alchemy Viewer Project")
   set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "Alchemy")
   set(MACOSX_BUNDLE_NSPRINCIPAL_CLASS "LLNSApplication")
-
-  # https://blog.kitware.com/upcoming-in-cmake-2-8-12-osx-rpath-support/
-  set(CMAKE_MACOSX_RPATH 1)
   
   set_target_properties(
     ${VIEWER_BINARY_NAME}
@@ -2180,10 +2172,7 @@ if (DARWIN)
     RESOURCE "${viewer_RESOURCE_FILES}"
     OUTPUT_NAME "${product}"
     # From Contents/MacOS/SecondLife, look in Contents/Frameworks
-    INSTALL_RPATH "@loader_path/../Frameworks"
-    # SIGH, as of 2018-05-24 (cmake 3.11.1) the INSTALL_RPATH property simply
-    # does not work. Try this:
-    LINK_FLAGS "-rpath @loader_path/../Frameworks"
+    INSTALL_RPATH "@executable_path/../Frameworks"
     MACOSX_BUNDLE_INFO_PLIST
     "${CMAKE_CURRENT_SOURCE_DIR}/Info-Alchemy.plist"
     )
@@ -2209,7 +2198,7 @@ if (DARWIN)
       --build=${CMAKE_CURRENT_BINARY_DIR}
       --buildtype=${CMAKE_BUILD_TYPE}
       --bundleid=${MACOSX_BUNDLE_GUI_IDENTIFIER}
-      --channel="${VIEWER_CHANNEL}"
+      --channel=${VIEWER_CHANNEL}
       --configuration=${CMAKE_CFG_INTDIR}
       --dest=${VIEWER_APP_BUNDLE}
       --grid=${GRID}
@@ -2240,7 +2229,7 @@ if (DARWIN)
           --artwork=${ARTWORK_DIR}
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
-          --channel="${VIEWER_CHANNEL}"
+          --channel=${VIEWER_CHANNEL}
           --configuration=${CMAKE_CFG_INTDIR}
           --dest=${VIEWER_APP_BUNDLE}
           --grid=${GRID}

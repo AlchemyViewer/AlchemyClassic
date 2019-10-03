@@ -710,7 +710,7 @@ std::string LLWLParamManager::escapeString(const std::string& str)
 {
 	static const char hex[] = "0123456789ABCDEF";
 	std::stringstream escaped_str;
-	for (std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>::value_type iter : str)
+	for (auto iter : str)
     {
 		switch (iter) {
 		case '0': case '1': case '2': case '3': case '4':

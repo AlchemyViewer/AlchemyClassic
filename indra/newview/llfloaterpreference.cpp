@@ -823,7 +823,7 @@ void LLFloaterPreference::reloadSkinList()
 	skin_list->clearRows();
 
 	// User Downloaded Skins
-	for (const std::pair<std::string, skin_t>& skin : mUserSkins)
+	for (const auto& skin : mUserSkins)
 	{
 		LLSD row;
 		row["id"] = skin.first;

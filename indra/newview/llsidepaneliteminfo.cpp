@@ -452,12 +452,12 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	// or ui elements don't apply to these objects and return from function
 	if (!not_in_trash || cannot_restrict_permissions)
 	{
-		for(const std::string item : perm_and_sale_items)
+		for(const std::string& item : perm_and_sale_items)
 		{
 			getChildView(item)->setVisible(false);
 		}
 		
-		for(const std::string item : debug_items)
+		for(const std::string& item : debug_items)
 		{
 			getChildView(item)->setVisible(false);
 		}
@@ -465,7 +465,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	}
 	else // Make sure perms and sale ui elements are visible
 	{
-		for(const std::string item : perm_and_sale_items)
+		for(const std::string& item : perm_and_sale_items)
 		{
 			getChildView(item)->setVisible(true);
 		}

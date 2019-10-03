@@ -455,9 +455,9 @@ void LLEmbeddedItems::removeUnusedChars()
 		}
 	}
 	// Remove chars not actually used
-	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type iter : used)
+	for (auto val : used)
     {
-		removeEmbeddedItem(iter);
+		removeEmbeddedItem(val);
 	}
 }
 
@@ -468,8 +468,7 @@ void LLEmbeddedItems::copyUsedCharsToIndexed()
 
 	// Copy all used llwchars to mEmbeddedIndexedChars
 	mEmbeddedIndexedChars.clear();
-	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type mEmbeddedUsedChar
-         : mEmbeddedUsedChars)
+	for (auto mEmbeddedUsedChar : mEmbeddedUsedChars)
     {
 		mEmbeddedIndexedChars.push_back(mEmbeddedUsedChar);
 	}
@@ -478,8 +477,7 @@ void LLEmbeddedItems::copyUsedCharsToIndexed()
 S32 LLEmbeddedItems::getIndexFromEmbeddedChar(llwchar wch)
 {
 	S32 idx = 0;
-	for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<unsigned int>>>::value_type& mEmbeddedIndexedChar :
-         mEmbeddedIndexedChars)
+	for (auto mEmbeddedIndexedChar : mEmbeddedIndexedChars)
     {
 		if (wch == mEmbeddedIndexedChar)
 			break;
@@ -568,8 +566,7 @@ void LLEmbeddedItems::addItems(const std::vector<LLPointer<LLInventoryItem> >& i
 
 void LLEmbeddedItems::getEmbeddedItemList( std::vector<LLPointer<LLInventoryItem> >& items )
 {
-	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type wc :
-         mEmbeddedUsedChars)
+	for (auto wc : mEmbeddedUsedChars)
     {
         LLPointer<LLInventoryItem> item = getEmbeddedItemPtr(wc);
 		if (item)
@@ -581,8 +578,7 @@ void LLEmbeddedItems::getEmbeddedItemList( std::vector<LLPointer<LLInventoryItem
 
 void LLEmbeddedItems::markSaved()
 {
-	for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type wc :
-         mEmbeddedUsedChars)
+	for (auto wc : mEmbeddedUsedChars)
     {
         sEntries[wc].mSaved = TRUE;
 	}
@@ -953,7 +949,7 @@ void LLViewerTextEditor::setASCIIEmbeddedText(const std::string& instr)
 void LLViewerTextEditor::setEmbeddedText(const std::string& instr)
 {
 	LLWString wtext = utf8str_to_wstring(instr);
-	for (unsigned int& i : wtext)
+	for (auto& i : wtext)
     {
 		llwchar wch = i;
 		if( wch >= FIRST_EMBEDDED_CHAR && wch <= LAST_EMBEDDED_CHAR )

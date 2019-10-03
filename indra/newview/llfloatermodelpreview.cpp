@@ -3182,14 +3182,12 @@ void LLModelPreview::updateLodControls(S32 lod)
 		"lod_triangle_limit_",
 		"lod_error_threshold_"
 	};
-	const U32 num_lod_controls = sizeof(lod_controls)/sizeof(char*);
 
 	const char* file_controls[] =
 	{
 		"lod_browse_",
 		"lod_file_",
 	};
-	const U32 num_file_controls = sizeof(file_controls)/sizeof(char*);
 
 	LLFloaterModelPreview* fmp = LLFloaterModelPreview::sInstance;
 	if (!fmp) return;

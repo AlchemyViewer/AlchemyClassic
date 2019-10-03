@@ -599,7 +599,7 @@ void LLFriendCardsManager::onFriendListUpdate(U32 changed_mask)
                 // Try to add cards into inventory.
                 // If cards already exist they won't be created.
                 const std::set<LLUUID>& changed_items = at.getChangedIDs();
-				for (const auto card : changed_items)
+				for (const auto& card : changed_items)
                 {
                     cards_manager.addFriendCardToInventory(card);
                 }
@@ -620,7 +620,7 @@ void LLFriendCardsManager::onFriendListUpdate(U32 changed_mask)
 	case LLFriendObserver::REMOVE:
 		{
 			const std::set<LLUUID>& changed_items = at.getChangedIDs();
-			for (const auto card : changed_items)
+			for (const auto& card : changed_items)
 			{
 				LLFriendCardsManager::instance().removeFriendCardFromInventory(card);
 			}

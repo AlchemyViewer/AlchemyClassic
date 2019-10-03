@@ -872,7 +872,7 @@ S32 LLTextureCache::update(F32 max_time_ms)
 	
 	lockWorkers();
 	
-	for (std::_Vector_iterator<std::_Vector_val<std::_Simple_types<unsigned int>>>::value_type handle : priorty_list)
+	for (auto handle : priorty_list)
     {
         handle_map_t::iterator iter2 = mWriters.find(handle);
 		if(iter2 != mWriters.end())
@@ -1567,8 +1567,7 @@ void LLTextureCache::readHeaderCache()
 			
 			if (!purge_list.empty())
 			{
-				for (std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<unsigned int>>>::value_type iter :
-                     purge_list)
+				for (auto iter : purge_list)
                 {
 					std::string tex_filename = getTextureFileName(entries[iter].mID);
 					removeEntry((S32)iter, entries[iter], tex_filename);

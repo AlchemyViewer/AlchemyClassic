@@ -2279,19 +2279,22 @@ BOOL LLIncomingCallDialog::postBuild()
 	}
 
 	std::string call_type;
-	if (gAgent.isInGroup(session_id))
+	if (mPayload.has("notify_box_type"))
 	{
-		LLStringUtil::format_map_t args;
-		LLGroupData data;
-		if (gAgent.getGroupData(session_id, data))
+		if (gAgent.isInGroup(session_id))
 		{
-			args["[GROUP]"] = data.mName;
-			call_type = getString(mPayload["notify_box_type"], args);
+			LLStringUtil::format_map_t args;
+			LLGroupData data;
+			if (gAgent.getGroupData(session_id, data))
+			{
+				args["[GROUP]"] = data.mName;
+				call_type = getString(mPayload["notify_box_type"], args);
+			}
 		}
-	}
-	else
-	{
-		call_type = getString(mPayload["notify_box_type"]);
+		else
+		{
+			call_type = getString(mPayload["notify_box_type"]);
+		}
 	}
 
 

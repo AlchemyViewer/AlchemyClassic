@@ -4622,7 +4622,7 @@ void LLAgent::sendAgentSetAppearance()
 	// to compensate for the COLLISION_TOLERANCE ugliness we will have 
 	// to tweak this number again
     LLVector3 body_size = gAgentAvatarp->mBodySize;
-    if (region->simulatorFeaturesReceived() && region->avatarHoverHeightEnabled()) {
+    if (region && region->simulatorFeaturesReceived() && region->avatarHoverHeightEnabled()) {
         body_size += gAgentAvatarp->mAvatarOffset;
     }
 	msg->addVector3Fast(_PREHASH_Size, body_size);	

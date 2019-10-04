@@ -456,7 +456,7 @@ void LLPanel::initFromParams(const LLPanel::Params& p)
 	
 	for (const auto& string : p.strings)
     {
-		mUIStrings[string.name] = string.value;
+		mUIStrings.insert_or_assign(string.name.getValue(), string.value.getValue());
 	}
 
 	setLabel(p.label());
@@ -591,7 +591,7 @@ bool LLPanel::hasString(const std::string& name)
 	return mUIStrings.find(name) != mUIStrings.end();
 }
 
-std::string LLPanel::getString(const std::string& name, const LLStringUtil::format_map_t& args) const
+std::string LLPanel::getString(const std::string_view name, const LLStringUtil::format_map_t& args) const
 {
 	ui_string_map_t::const_iterator found_it = mUIStrings.find(name);
 	if (found_it != mUIStrings.end())
@@ -601,7 +601,7 @@ std::string LLPanel::getString(const std::string& name, const LLStringUtil::form
 		formatted_string.setArgList(args);
 		return formatted_string.getString();
 	}
-	std::string err_str("Failed to find string " + name + " in panel " + getName()); //*TODO: Translate
+	std::string err_str = fmt::format(fmt("Failed to find string {} in panel {}"), name, getName()); //*TODO: Translate
 	if(LLUI::sSettingGroups["config"]->getBOOL("QAMode"))
 	{
 		LL_ERRS() << err_str << LL_ENDL;
@@ -613,14 +613,14 @@ std::string LLPanel::getString(const std::string& name, const LLStringUtil::form
 	return LLStringUtil::null;
 }
 
-std::string LLPanel::getString(const std::string& name) const
+std::string LLPanel::getString(const std::string_view name) const
 {
 	ui_string_map_t::const_iterator found_it = mUIStrings.find(name);
 	if (found_it != mUIStrings.end())
 	{
 		return found_it->second;
 	}
-	std::string err_str("Failed to find string " + name + " in panel " + getName()); //*TODO: Translate
+	std::string err_str = fmt::format(fmt("Failed to find string {} in panel {}"), name, getName()); //*TODO: Translate
 	if(LLUI::sSettingGroups["config"]->getBOOL("QAMode"))
 	{
 		LL_ERRS() << err_str << LL_ENDL;

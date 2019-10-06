@@ -44,7 +44,6 @@ macro (use_prebuilt_binary _binary)
       execute_process(COMMAND "${AUTOBUILD_EXECUTABLE}"
         install
         --install-dir=${AUTOBUILD_INSTALL_DIR}
-        -p ${AUTOBUILD_PLATFORM_NAME}
         ${_binary}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         RESULT_VARIABLE ${_binary}_installed

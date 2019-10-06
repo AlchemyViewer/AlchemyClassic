@@ -28,6 +28,8 @@ set(CMAKE_MACOSX_RPATH ON)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH OFF)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 set(LIBS_CLOSED_PREFIX)
 set(LIBS_OPEN_PREFIX)
 set(SCRIPTS_PREFIX ../scripts)
@@ -77,9 +79,6 @@ option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
 # Proprietary Library Features
 option(NVAPI "Use nvapi driver interface library" OFF)
-
-# Crash reporter
-
 
 
 if(LIBS_CLOSED_DIR)
@@ -153,13 +152,11 @@ if (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(LL_ARCH ${ARCH}_win64)
     set(LL_ARCH_DIR ${ARCH}-win64)
     set(ADDRESS_SIZE 64)
-    set(AUTOBUILD_PLATFORM_NAME "windows64" CACHE STRING "Autobuild Platform Name")
   else (ADDRESS_SIZE EQUAL 64)
     set(ARCH i686 CACHE STRING "Viewer Architecture")
     set(LL_ARCH ${ARCH}_win32)
     set(LL_ARCH_DIR ${ARCH}-win32)
     set(ADDRESS_SIZE 32)
-    set(AUTOBUILD_PLATFORM_NAME "windows" CACHE STRING "Autobuild Platform Name")
   endif (ADDRESS_SIZE EQUAL 64)
 endif (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 
@@ -171,17 +168,14 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (ADDRESS_SIZE EQUAL 32)
     #message(STATUS "ADDRESS_SIZE is 32")
     set(ARCH i686)
-    set(AUTOBUILD_PLATFORM_NAME "linux" CACHE STRING "Autobuild Platform Name")
   elseif (ADDRESS_SIZE EQUAL 64)
     #message(STATUS "ADDRESS_SIZE is 64")
     set(ARCH x86_64)
-    set(AUTOBUILD_PLATFORM_NAME "linux64" CACHE STRING "Autobuild Platform Name")
   else (ADDRESS_SIZE EQUAL 32)
     #message(STATUS "ADDRESS_SIZE is UNDEFINED")
     if (CMAKE_SIZEOF_VOID_P EQUAL 8)
       message(STATUS "Size of void pointer is detected as 8; ARCH is 64-bit")
       set(ADDRESS_SIZE 64)
-      set(AUTOBUILD_PLATFORM_NAME "linux64" CACHE STRING "Autobuild Platform Name")
     elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
       message(STATUS "Size of void pointer is detected as 4; ARCH is 32-bit")
       set(ADDRESS_SIZE 32)
@@ -282,15 +276,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   set(LL_ARCH ${ARCH}_darwin)
   set(LL_ARCH_DIR universal-darwin)
-  set(AUTOBUILD_PLATFORM_NAME "darwin" CACHE STRING "Autobuild Platform Name")
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-if(MSVC)
-  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif(MSVC)
-
-
-# Platform speciflol
+# Platform specific
 if (WINDOWS)
   option(LLWINDOW_SDL2 "Use SDL2 for window and input handling. Windows only" OFF)
   option(FAVOR_AMD "Favor amd64 processors in generated code. Windows only" OFF)
@@ -319,7 +307,5 @@ option(ENABLE_SIGNING "Enable signing the viewer" OFF)
 set(SIGNING_IDENTITY "" CACHE STRING "Specifies the signing identity to use, if necessary.")
 
 source_group("CMake Rules" FILES CMakeLists.txt)
-
-mark_as_advanced(AUTOBUILD_PLATFORM_NAME)
 
 endif(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)

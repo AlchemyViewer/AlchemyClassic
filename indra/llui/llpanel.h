@@ -169,8 +169,8 @@ public:
 	BOOL initPanelXML(	LLXMLNodePtr node, LLView *parent, LLXMLNodePtr output_node, const LLPanel::Params& default_params);
 	
 	bool hasString(const std::string& name);
-	std::string getString(const std::string& name, const LLStringUtil::format_map_t& args) const;
-	std::string getString(const std::string& name) const;
+	std::string getString(const std::string_view name, const LLStringUtil::format_map_t& args) const;
+	std::string getString(const std::string_view name) const;
 
 	// ** Wrappers for setting child properties by name ** -TomY
 	// WARNING: These are deprecated, please use getChild<T>("name")->doStuff() idiom instead
@@ -249,7 +249,7 @@ private:
 	LLButton*		mDefaultBtn;
 	LLUIString		mLabel;
 
-	typedef std::map<std::string, std::string> ui_string_map_t;
+	typedef absl::flat_hash_map<std::string, std::string> ui_string_map_t;
 	ui_string_map_t	mUIStrings;
 
 

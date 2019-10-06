@@ -28,6 +28,8 @@ set(CMAKE_MACOSX_RPATH ON)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH OFF)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 set(LIBS_CLOSED_PREFIX)
 set(LIBS_OPEN_PREFIX)
 set(SCRIPTS_PREFIX ../scripts)
@@ -77,9 +79,6 @@ option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
 # Proprietary Library Features
 option(NVAPI "Use nvapi driver interface library" OFF)
-
-# Crash reporter
-
 
 
 if(LIBS_CLOSED_DIR)
@@ -279,12 +278,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(LL_ARCH_DIR universal-darwin)
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-if(MSVC)
-  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif(MSVC)
-
-
-# Platform speciflol
+# Platform specific
 if (WINDOWS)
   option(LLWINDOW_SDL2 "Use SDL2 for window and input handling. Windows only" OFF)
   option(FAVOR_AMD "Favor amd64 processors in generated code. Windows only" OFF)

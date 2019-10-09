@@ -227,7 +227,7 @@ void LLExperienceLog::eraseExpired()
 {
     std::vector<std::string> expired;
 	std::for_each(mEvents.beginMap(), mEvents.endMap(),
-				  [&](const std::pair<std::string, LLSD>& event_pair)
+				  [&](const auto& event_pair)
 	{
 		const std::string& date = event_pair.first;
 		if (isExpired(date))

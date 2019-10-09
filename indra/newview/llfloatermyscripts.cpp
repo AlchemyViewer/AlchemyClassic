@@ -55,7 +55,8 @@ BOOL LLFloaterMyScripts::postBuild()
 
 	std::string msg_waiting = LLTrans::getString("ScriptLimitsRequestWaiting");
 	getChild<LLUICtrl>("loading_text")->setValue(LLSD(msg_waiting));
-	return requestAttachmentDetails();
+	requestAttachmentDetails();
+	return LLFloater::postBuild();
 }
 
 BOOL LLFloaterMyScripts::requestAttachmentDetails()

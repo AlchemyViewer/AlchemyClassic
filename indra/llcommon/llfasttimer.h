@@ -105,7 +105,7 @@ public:
 
 #endif
 
-#endifLL_DARWIN
+#endif
 
 #if (LL_LINUX || LL_DARWIN) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__))
 	static U32 getCPUClockCount32()

@@ -105,10 +105,9 @@ public:
 
 #endif
 
-#endif
+#endifLL_DARWIN
 
 #if (LL_LINUX || LL_DARWIN) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__))
-#if LL_LINUX && LL_GNUC
 	static U32 getCPUClockCount32()
 	{
 		unsigned long long time_stamp = __rdtsc();
@@ -121,39 +120,6 @@ public:
 	{
 		return static_cast<U64>(__rdtsc());
 	}
-#else
-#if defined(__x86_64__)
-	static U32 getCPUClockCount32()
-	{
-		U32 x, y;
-		__asm__ volatile (".byte 0x0f, 0x31" : "=a"(x), "=d"(y));
-		return (x >> 8) | (y << 24);
-	}
-
-	static U64 getCPUClockCount64()
-	{
-		U32 x, y;
-		__asm__ volatile (".byte 0x0f, 0x31" : "=a"(x), "=d"(y));
-		return ((U64)x) | (((U64)y) << 32);
-	}
-#else
-	//
-	// Linux and Darwin FAST x86 implementation of RDTSC clock
-	static U32 getCPUClockCount32()
-	{
-		U64 x;
-		__asm__ volatile (".byte 0x0f, 0x31": "=A"(x));
-		return (U32)(x >> 8);
-	}
-
-	static U64 getCPUClockCount64()
-	{
-		U64 x;
-		__asm__ volatile (".byte 0x0f, 0x31": "=A"(x));
-		return x;
-	}
-#endif
-#endif
 #endif
 
 	static BlockTimerStatHandle& getRootTimeBlock();

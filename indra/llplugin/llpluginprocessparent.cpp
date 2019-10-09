@@ -99,7 +99,7 @@ LLPluginProcessParent::LLPluginProcessParent(LLPluginProcessParentOwner *owner):
 	mPollFD.client_data = nullptr;
 
 	mPluginLaunchTimeout = 60.0f;
-	mPluginLockupTimeout = 15.0f;
+	mPluginLockupTimeout = 30.0f;
 	
 	// Don't start the timer here -- start it when we actually launch the plugin process.
 	mHeartbeat.stop();

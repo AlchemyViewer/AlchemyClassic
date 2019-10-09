@@ -1051,10 +1051,55 @@ class DarwinManifest(ViewerManifest):
 
                     # copy DullahanHelper.app
                     self.path2basename(relpkgdir, 'DullahanHelper.app')
+                    self.path2basename(relpkgdir, 'DullahanHelper (GPU).app')
+                    self.path2basename(relpkgdir, 'DullahanHelper (Plugin).app')
+                    self.path2basename(relpkgdir, 'DullahanHelper (Renderer).app')
 
                     # and fix that up with a Frameworks/CEF symlink too
                     with self.prefix(dst=os.path.join(
                         'DullahanHelper.app', 'Contents', 'Frameworks')):
+                        # from Dullahan Helper.app/Contents/Frameworks/Chromium Embedded
+                        # Framework.framework back to
+                        # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                        # Since AlchemyPlugin_framework is itself a
+                        # symlink, don't let relsymlinkf() resolve --
+                        # explicitly call relpath(symlink=True) and
+                        # create that symlink here.
+                        DullahanHelper_framework = \
+                            self.symlinkf(self.relpath(SLPlugin_framework, symlink=True),
+                                          catch=False)
+
+                    # and fix that up with a Frameworks/CEF symlink too
+                    with self.prefix(dst=os.path.join(
+                        'DullahanHelper (GPU).app', 'Contents', 'Frameworks')):
+                        # from Dullahan Helper.app/Contents/Frameworks/Chromium Embedded
+                        # Framework.framework back to
+                        # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                        # Since AlchemyPlugin_framework is itself a
+                        # symlink, don't let relsymlinkf() resolve --
+                        # explicitly call relpath(symlink=True) and
+                        # create that symlink here.
+                        DullahanHelper_framework = \
+                            self.symlinkf(self.relpath(SLPlugin_framework, symlink=True),
+                                          catch=False)
+
+                                                              # and fix that up with a Frameworks/CEF symlink too
+                    with self.prefix(dst=os.path.join(
+                        'DullahanHelper (Plugin).app', 'Contents', 'Frameworks')):
+                        # from Dullahan Helper.app/Contents/Frameworks/Chromium Embedded
+                        # Framework.framework back to
+                        # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                        # Since AlchemyPlugin_framework is itself a
+                        # symlink, don't let relsymlinkf() resolve --
+                        # explicitly call relpath(symlink=True) and
+                        # create that symlink here.
+                        DullahanHelper_framework = \
+                            self.symlinkf(self.relpath(SLPlugin_framework, symlink=True),
+                                          catch=False)
+
+                                                              # and fix that up with a Frameworks/CEF symlink too
+                    with self.prefix(dst=os.path.join(
+                        'DullahanHelper (Renderer).app', 'Contents', 'Frameworks')):
                         # from Dullahan Helper.app/Contents/Frameworks/Chromium Embedded
                         # Framework.framework back to
                         # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
@@ -1089,6 +1134,48 @@ class DarwinManifest(ViewerManifest):
                         self.run_command(
                             change_command +
                             [newpath, self.dst_path_of('DullahanHelper')])
+
+                    with self.prefix(dst=os.path.join(
+                        'DullahanHelper (GPU).app', 'Contents', 'MacOS')):
+                        # Now self.get_dst_prefix() is, at runtime,
+                        # @executable_path. Locate the helper app
+                        # framework (which is a symlink) from here.
+                        newpath = os.path.join(
+                            '@executable_path',
+                            self.relpath(DullahanHelper_framework, symlink=True),
+                            frameworkname)
+                        # and restamp the DullahanHelper executable
+                        self.run_command(
+                            change_command +
+                            [newpath, self.dst_path_of('DullahanHelper (GPU)')])
+
+                    with self.prefix(dst=os.path.join(
+                        'DullahanHelper (Plugin).app', 'Contents', 'MacOS')):
+                        # Now self.get_dst_prefix() is, at runtime,
+                        # @executable_path. Locate the helper app
+                        # framework (which is a symlink) from here.
+                        newpath = os.path.join(
+                            '@executable_path',
+                            self.relpath(DullahanHelper_framework, symlink=True),
+                            frameworkname)
+                        # and restamp the DullahanHelper executable
+                        self.run_command(
+                            change_command +
+                            [newpath, self.dst_path_of('DullahanHelper (Plugin)')])
+
+                    with self.prefix(dst=os.path.join(
+                        'DullahanHelper (Renderer).app', 'Contents', 'MacOS')):
+                        # Now self.get_dst_prefix() is, at runtime,
+                        # @executable_path. Locate the helper app
+                        # framework (which is a symlink) from here.
+                        newpath = os.path.join(
+                            '@executable_path',
+                            self.relpath(DullahanHelper_framework, symlink=True),
+                            frameworkname)
+                        # and restamp the DullahanHelper executable
+                        self.run_command(
+                            change_command +
+                            [newpath, self.dst_path_of('DullahanHelper (Renderer)')])
 
                 # SLPlugin plugins
                 with self.prefix(dst="llplugin"):

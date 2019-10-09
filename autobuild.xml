@@ -621,6 +621,20 @@
             <key>name</key>
             <string>darwin</string>
           </map>
+          <key>darwin64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>39f773413194b2bd17b53d60de466084</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/dullahan/darwin64/dullahan-1.3.201910091614_77.1.7_gc7dbc2f_chromium-77.0.3865.90-darwin64-1.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin64</string>
+          </map>
           <key>linux64</key>
           <map>
             <key>archive</key>
@@ -640,11 +654,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c3e093d40e93ff242e9b9c953ae7316c</string>
+              <string>aa72e77e6ee0fc30ff221b96c56fe119</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc142/dullahan-1.1.930-3.3282.1733.g9091548-windows-201802202358.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/dullahan/windows/dullahan-1.3.201910090724_77.1.7_gc7dbc2f_chromium-77.0.3865.90-windows-1.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -654,18 +668,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>21f0b2c24625e2e33e1f1e87dd53f36d</string>
+              <string>c9e198fb51bebc5c3dcdefd9e58566cd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.dl.alchemyviewer.org/dullahan/dullahan-1.2.201907270950_75.1.14_gc81164e_chromium-75.0.3770.100-windows64-192081402.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/dullahan/windows64/dullahan-1.3.201910090921_77.1.7_gc7dbc2f_chromium-77.0.3865.90-windows64-1.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.2.201907270950_75.1.14_gc81164e_chromium-75.0.3770.100</string>
+        <string>1.3.201910090921_77.1.7_gc7dbc2f_chromium-77.0.3865.90</string>
       </map>
       <key>expat</key>
       <map>
@@ -3575,7 +3589,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>--build</string>
-                  <string>--config Release</string>               
+                  <string>--config Release</string>
                 </array>
               </map>
               <key>configure</key>

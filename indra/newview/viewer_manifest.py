@@ -456,20 +456,13 @@ class WindowsManifest(ViewerManifest):
                                           'sharedlibs', self.args['configuration'])):
 
             # Mesh 3rd party libs needed for auto LOD and collada reading
-            try:
-                self.path("glod.dll")
-            except RuntimeError as err:
-                print err.message
-                print "Skipping GLOD library (assumming linked statically)"
+            self.path("glod.dll")
 
             # Get fmodstudio dll, continue if missing
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodL.dll")
-                else:
-                    self.path("fmod.dll")
-            except:
-                print "Skipping fmodstudio audio library(assuming other audio engine)"
+            if self.args['configuration'].lower() == 'debug':
+                self.path("fmodL.dll")
+            else:
+                self.path("fmod.dll")
 
             # For textures
             self.path("openjpeg.dll")
@@ -508,42 +501,32 @@ class WindowsManifest(ViewerManifest):
                 self.path("libhunspell.pdb")
 
             # For google-perftools tcmalloc allocator.
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path('libtcmalloc_minimal-debug.dll')
-                else:
-                    self.path('libtcmalloc_minimal.dll')
-            except:
-                print "Skipping libtcmalloc_minimal.dll"
+            if self.args['configuration'].lower() == 'debug':
+                self.path('libtcmalloc_minimal-debug.dll')
+            else:
+                self.path('libtcmalloc_minimal.dll')
 
             # For intel tbbmalloc allocator.
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path('tbbmalloc_debug.dll')
-                    self.path('tbbmalloc_proxy_debug.dll')
-                else:
-                    self.path('tbbmalloc.dll')
-                    self.path('tbbmalloc_proxy.dll')
-            except:
-                print "Skipping tbbmalloc.dll"
+            if self.args['configuration'].lower() == 'debug':
+                self.path('tbbmalloc_debug.dll')
+                self.path('tbbmalloc_proxy_debug.dll')
+            else:
+                self.path('tbbmalloc.dll')
+                self.path('tbbmalloc_proxy.dll')
 
             # For msvc redist
-            try:
-                    self.path('api-ms*.dll')
-                    self.path('ucrt*.dll')
-                    self.path('concrt*.dll')
-                    self.path('msvc*.dll')
-                    self.path('vcruntime*.dll')
-                    self.path('vccor*.dll')
-            except:
-                print "Skipping msvc redist files"
+            self.path('api-ms*.dll')
+            self.path('ucrt*.dll')
+            self.path('concrt*.dll')
+            self.path('msvc*.dll')
+            self.path('vcruntime*.dll')
+            self.path('vccor*.dll')
 
         # For crashpad
         with self.prefix(src=os.path.join(pkgdir, 'bin', config)):
-            try:
-                self.path("crashpad_handler.exe")
-            except:
-                print "Skipping crashpad handler"
+            self.path("crashpad_handler.exe")
+            if not self.is_packaging_viewer():
+                self.path("crashpad_handler.pdb")
 
         self.path("featuretable.txt")
 

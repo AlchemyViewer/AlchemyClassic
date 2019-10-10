@@ -544,13 +544,11 @@ bool LLAppViewerWin32::restoreErrorTrap()
 void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 {
 #if defined(USE_CRASHPAD)
-	if (isSecondInstance()) return; //BUG-5707 do not start another crash reporter for second instance.
-
 	// Path to the out-of-process handler executable
 	std::string handler_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "crashpad_handler.exe");
 	if (!gDirUtilp->fileExists(handler_path))
 	{
-		LL_WARNS() << "Failed to initialize crashpad due to missing handler executable." << LL_ENDL;
+		LL_ERRS() << "Failed to initialize crashpad due to missing handler executable." << LL_ENDL;
 		return;
 	}
 	base::FilePath handler(ll_convert_string_to_wide(handler_path));
@@ -582,28 +580,41 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	annotations.emplace("sentry[contexts][app][app_version]", LLVersionInfo::getVersion());
 	annotations.emplace("sentry[contexts][app][app_build]", LLVersionInfo::getChannelAndVersion());
 
+	annotations.emplace("sentry[tags][second_instance]", fmt::to_string(isSecondInstance()));
 
 	// Optional arguments to pass to the handler
 	std::vector<std::string> arguments;
+	arguments.push_back("--no-upload-gzip");
 	arguments.push_back("--no-rate-limit");
+	arguments.push_back("--monitor-self");
 
-	auto db = crashpad::CrashReportDatabase::Initialize(database);
-	if (db == nullptr)
+	if (isSecondInstance())
 	{
-		LL_WARNS() << "Failed to initialize crashpad database at path: " << crashpad_path << LL_ENDL;
-		return;
+		arguments.push_back("--no-periodic-tasks");
 	}
-
-	if (db->GetSettings() != nullptr)
+	else
 	{
-		db->GetSettings()->SetUploadsEnabled(true);
-	}
+		auto db = crashpad::CrashReportDatabase::Initialize(database);
+		if (db == nullptr)
+		{
+			LL_WARNS() << "Failed to initialize crashpad database at path: " << crashpad_path << LL_ENDL;
+			return;
+		}
 
-	auto prune_condition = crashpad::PruneCondition::GetDefault();
-	if (prune_condition != nullptr)
-	{
-		auto ret = crashpad::PruneCrashReportDatabase(db.get(), prune_condition.get());
-		LL_INFOS() << "Pruned " << ret << " reports from the crashpad database" << LL_ENDL;
+		if (db->GetSettings() != nullptr)
+		{
+			if (!db->GetSettings()->SetUploadsEnabled(true))
+			{
+				LL_WARNS() << "Failed to enable upload of crash database." << LL_ENDL;
+			}
+		}
+
+		auto prune_condition = crashpad::PruneCondition::GetDefault();
+		if (prune_condition != nullptr)
+		{
+			auto ret = crashpad::PruneCrashReportDatabase(db.get(), prune_condition.get());
+			LL_INFOS() << "Pruned " << ret << " reports from the crashpad database." << LL_ENDL;
+		}
 	}
 
 	crashpad::CrashpadClient client;

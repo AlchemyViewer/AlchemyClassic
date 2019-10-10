@@ -1807,10 +1807,10 @@ bool idle_startup()
 		display_startup();
 		// Create the inventory views
 		LL_INFOS() << "Creating Inventory Views" << LL_ENDL;
-		LLFloaterReg::getInstance("inventory");
+		LLFloaterReg::getInstance("inventory")->closeFloater();
 		display_startup();
 		LL_INFOS() << "Creating People Views" << LL_ENDL;
-		LLFloaterReg::getInstance("people");
+		LLFloaterReg::getInstance("people")->closeFloater();
 		display_startup();
 
 		LLStartUp::setStartupState( STATE_MISC );
@@ -1883,7 +1883,7 @@ bool idle_startup()
 		display_startup();
 		
 		// Build the search floater early on so it pops open quick when we want it.
-		LLFloaterReg::getTypedInstance<LLFloaterDirectory>("search");
+		LLFloaterReg::getTypedInstance<LLFloaterDirectory>("search")->closeFloater();
 		display_startup();
 
 		// We're successfully logged in.

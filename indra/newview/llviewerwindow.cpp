@@ -1964,11 +1964,10 @@ void LLViewerWindow::initWorldUI()
 	LLWorldMapView::initClass();
 
 	// Force gFloaterWorldMap to initialize
-	LLFloaterReg::getInstance("world_map");
+	LLFloaterReg::getInstance("world_map")->closeFloater();
 
 	// Force gFloaterTools to initialize
-	LLFloaterReg::getInstance("build");
-
+	LLFloaterReg::getInstance("build")->closeFloater();
 
 	// Status bar
 	mStatusBarPanel = getRootView()->getChild<LLPanel>("status_bar_container")->getHandle();

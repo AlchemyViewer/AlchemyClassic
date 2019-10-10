@@ -51,26 +51,27 @@ public:
 	// 2) We can change the key of a floater without altering the list.
 	typedef std::list<LLFloater*> instance_list_t;
 	typedef const instance_list_t const_instance_list_t;
-	typedef std::map<std::string, instance_list_t> instance_map_t;
+	typedef absl::node_hash_map<std::string, instance_list_t> instance_map_t;
 
 	struct BuildData
 	{
 		LLFloaterBuildFunc mFunc;
 		std::string mFile;
 	};
-	typedef std::map<std::string, BuildData> build_map_t;
+	typedef absl::flat_hash_map<std::string, BuildData> build_map_t;
+	typedef absl::flat_hash_map<std::string, std::string> group_map_t;
 	
 private:
 	friend class LLFloaterRegListener;
 	static instance_list_t sNullInstanceList;
 	static instance_map_t sInstanceMap;
 	static build_map_t sBuildMap;
-	static std::map<std::string,std::string> sGroupMap;
+	static group_map_t sGroupMap;
 	static bool sBlockShowFloaters;
 	/**
 	 * Defines list of floater names that can be shown despite state of sBlockShowFloaters.
 	 */
-	static std::set<std::string> sAlwaysShowableList;
+	static absl::flat_hash_set<std::string> sAlwaysShowableList;
 	
 public:
 	// Registration

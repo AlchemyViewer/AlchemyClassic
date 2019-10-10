@@ -11,6 +11,7 @@
  help_topic="floater_help_browser"
  save_rect="true"
  single_instance="true"
+ reuse_instance="false"
  title="HELP BROWSER"
  width="650">
     <floater.string

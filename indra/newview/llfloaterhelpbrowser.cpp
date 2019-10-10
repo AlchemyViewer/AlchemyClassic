@@ -88,8 +88,6 @@ void LLFloaterHelpBrowser::onClose(bool app_quitting)
 	{
 		gSavedSettings.setBOOL("HelpFloaterOpen", FALSE);
 	}
-	// really really destroy the help browser when it's closed, it'll be recreated.
-	destroy(); // really destroy this dialog on closure, it's relatively heavyweight.
 }
 
 void LLFloaterHelpBrowser::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event)

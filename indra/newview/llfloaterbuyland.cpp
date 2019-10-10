@@ -66,8 +66,6 @@ class LLFloaterBuyLandUI final
 public:
 	LLFloaterBuyLandUI(const LLSD& key);
 	virtual ~LLFloaterBuyLandUI();
-	
-	/*virtual*/ void onClose(bool app_quitting) override;
 
 	// Left padding for maturity rating icon.
 	static const S32 ICON_PAD = 2;
@@ -308,16 +306,6 @@ LLFloaterBuyLandUI::~LLFloaterBuyLandUI()
 	LLViewerParcelMgr::getInstance()->deleteParcelBuy(&mParcelBuyInfo);
 	
 	delete mTransaction;
-}
-
-// virtual
-void LLFloaterBuyLandUI::onClose(bool app_quitting)
-{
-	// This object holds onto observer, transactions, and parcel state.
-	// Despite being single_instance, destroy it to call destructors and clean
-	// everything up.
-	setVisible(FALSE);
-	destroy();
 }
 
 void LLFloaterBuyLandUI::SelectionObserver::changed()

@@ -109,8 +109,6 @@ void LLFloaterBuyCurrencyHTML::onClose( bool app_quitting )
 {
 	// Update L$ balance one more time
 	LLStatusBar::sendMoneyBalanceRequest();
-
-	destroy();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -907,13 +907,19 @@ void LLMediaCtrl::calcOffsetsAndSize(S32 *x_offset, S32 *y_offset, S32 *width, S
 			{
 				// max width, adjusted height
 				*width = r.getWidth();
-				*height = llmin(llmax(ll_round(*width / media_aspect), 0), r.getHeight());
+				F32 height_f = static_cast<F32>(*width) / media_aspect;
+				if(!std::isfinite(height_f))
+					height_f = 0.f;
+				*height = llmin(llmax(ll_round(height_f), 0), r.getHeight());
 			}
 			else
 			{
 				// max height, adjusted width
 				*height = r.getHeight();
-				*width = llmin(llmax(ll_round(*height * media_aspect), 0), r.getWidth());
+				F32 width_f = static_cast<F32>(*height) * media_aspect;
+				if(!std::isfinite(width_f))
+					width_f = 0.f;
+				*width = llmin(llmax(ll_round(width_f), 0), r.getWidth());
 			}
 		}
 		else

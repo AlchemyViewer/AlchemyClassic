@@ -67,7 +67,7 @@ LLCocoaPlugin::LLCocoaPlugin() : mHackState(0)
 void LLCocoaPlugin::processEvents()
 {
      // Some plugins (webkit at least) will want an event loop.  This qualifies.
-    NSEvent * event = [NSApp nextEventMatchingMask:NSAnyEventMask
+    NSEvent * event = [NSApp nextEventMatchingMask:NSEventMaskAny
                              untilDate:[NSDate distantPast]
                              inMode:NSDefaultRunLoopMode dequeue:YES];
     [NSApp sendEvent: event];

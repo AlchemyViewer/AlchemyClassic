@@ -246,6 +246,7 @@ LLFloater::LLFloater(LLSD key, const LLFloater::Params& p)
 	mShortTitle(p.short_title), // reuse single-instance floaters by default
 	mSingleInstance(p.single_instance),
 	mReuseInstance(p.reuse_instance.isProvided() ? p.reuse_instance : p.single_instance),
+	mIsReuseInitialized(p.reuse_instance.isProvided()),
 	mCanTearOff(p.can_tear_off),
 	mCanMinimize(p.can_minimize),
 	mCanClose(p.can_close),

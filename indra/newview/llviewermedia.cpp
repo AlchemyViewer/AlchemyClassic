@@ -1360,7 +1360,7 @@ void LLViewerMedia::proxyWindowOpened(const std::string &target, const std::stri
 	if(uuid.empty())
 		return;
 
-	for (auto& iter : sViewerMediaImplList)
+	for (auto* iter : sViewerMediaImplList)
     {
 		if(iter->mMediaSource && iter->mMediaSource->pluginSupportsMediaBrowser())
 		{
@@ -1376,7 +1376,7 @@ void LLViewerMedia::proxyWindowClosed(const std::string &uuid)
 	if(uuid.empty())
 		return;
 
-	for (auto& iter : sViewerMediaImplList)
+	for (auto* iter : sViewerMediaImplList)
     {
 		if(iter->mMediaSource && iter->mMediaSource->pluginSupportsMediaBrowser())
 		{

@@ -309,7 +309,8 @@ void LLFloaterWebContent::onClose(bool app_quitting)
         }
     }
 	LLViewerMedia::proxyWindowClosed(mUUID);
-	destroy();
+
+	mWebBrowser->unloadMediaSource();
 }
 
 // virtual

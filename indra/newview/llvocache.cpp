@@ -424,7 +424,7 @@ void LLVOCacheEntry::updateDebugSettings()
 		sRearFarRadius = 1.f;
 	}
 
-#if LL_WINDOWS
+#if LL_WINDOWS || LL_DARWIN
 	LLMemory::updateMemoryInfo();
 	U32Megabytes avail_mem = LLMemory::getAvailableMemKB();
 	U32Megabytes total_mem = LLMemory::getMaxMemKB();

@@ -45,6 +45,7 @@ public:
 	LLPanelSearchWeb();
 	BOOL postBuild() override;
 	void loadUrl(const SearchQuery& query);
+	void releaseMediaInstance();
 	
 private:
 	~LLPanelSearchWeb();

@@ -140,6 +140,16 @@ void LLPanelSearchWeb::loadUrl(const SearchQuery &p)
 	mWebBrowser->navigateTo(url, "text/html");
 }
 
+void LLPanelSearchWeb::releaseMediaInstance()
+{
+	if (mWebBrowser)
+	{
+		LL_INFOS() << "Unloading web search tab media" << LL_ENDL;
+		mWebBrowser->navigateStop();
+		mWebBrowser->unloadMediaSource();
+	}
+}
+
 // virtual
 void LLPanelSearchWeb::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event)
 {

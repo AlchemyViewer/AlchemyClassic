@@ -158,11 +158,7 @@ LLMediaCtrl::~LLMediaCtrl()
 		mContextMenuHandle.markDead();
 	}
 
-	if (mMediaSource)
-	{
-		mMediaSource->remObserver( this );
-		mMediaSource = nullptr;
-	}
+	unloadMediaSource();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -754,6 +750,10 @@ void LLMediaCtrl::unloadMediaSource()
 {
 	if (mMediaSource)
 	{
+		if (mMediaSource->hasMedia())
+		{
+			mMediaSource->getMediaPlugin()->browse_stop();
+		}
 		mMediaSource->remObserver(this);
 		mMediaSource = nullptr;
 	}

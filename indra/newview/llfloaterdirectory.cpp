@@ -111,6 +111,11 @@ void LLFloaterDirectory::onOpen(const LLSD& key)
 	onTabChanged();
 }
 
+void LLFloaterDirectory::onClose(bool app_quitting)
+{
+	mPanelWeb->releaseMediaInstance();
+}
+
 void LLFloaterDirectory::setProgress(bool working)
 {
 	getChild<LLUICtrl>("loading")->setVisible(working);

@@ -121,6 +121,37 @@ void LLMemory::updateMemoryInfo()
 	}
 #endif
 
+#elif LL_DARWIN
+    mach_task_basic_info_data_t basicInfo;
+    mach_msg_type_number_t  basicInfoCount = MACH_TASK_BASIC_INFO_COUNT;
+    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&basicInfo, &basicInfoCount) == KERN_SUCCESS)
+    {
+        sAllocatedMemInKB = U64Bytes(basicInfo.resident_size);
+        sample(sAllocatedMem, sAllocatedMemInKB);
+        sAllocatedPageSizeInKB = U64Bytes(basicInfo.virtual_size);
+        sample(sVirtualMem, sAllocatedPageSizeInKB);
+    }
+    
+    vm_size_t page_size;
+    vm_statistics64_data_t vm_stats;
+    mach_port_t mach_port = mach_host_self();
+    mach_msg_type_number_t count = HOST_VM_INFO64_COUNT;
+
+    if (KERN_SUCCESS == host_page_size(mach_port, &page_size) &&
+        KERN_SUCCESS == host_statistics64(mach_port, HOST_VM_INFO64,
+                                        (host_info64_t)&vm_stats, &count)) {
+        U64 total_memory = (vm_stats.free_count + 
+                            vm_stats.active_count +
+                            vm_stats.inactive_count + 
+                            vm_stats.wire_count +
+                            vm_stats.compressor_page_count) *  page_size;
+        sMaxPhysicalMemInKB = U64Bytes(total_memory);
+        sAvailPhysicalMemInKB = U64Bytes((vm_stats.free_count + vm_stats.inactive_count) * page_size);
+    } else {
+        sMaxPhysicalMemInKB = U64Bytes(U32_MAX);
+        sAvailPhysicalMemInKB = U64Bytes(U32_MAX);
+    }
+    
 #else
 	//not valid for other systems for now.
 	sAllocatedMemInKB = U64Bytes(LLMemory::getCurrentRSS());

@@ -121,7 +121,7 @@ std::string doSaveDialog(const std::string& file,
     NSURL* url = [NSURL fileURLWithPath:fileName];
     [panel setNameFieldStringValue: fileName];
     [panel setDirectoryURL: url];
-    if([panel runModal] == NSFileHandlingPanelOKButton)
+    if([panel runModal] == NSModalResponseOK)
     {
         NSURL* url = [panel URL];
         NSString* p = [url path];

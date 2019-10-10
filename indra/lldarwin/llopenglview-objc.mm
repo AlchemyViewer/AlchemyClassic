@@ -229,7 +229,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	self = [super initWithFrame:frame];
 	if (!self) { return self; }	// Despite what this may look like, returning nil self is a-ok.
     @autoreleasepool {
-        [self registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
+        [self registerForDraggedTypes:[NSArray arrayWithObject:NSPasteboardTypeURL]];
         
         // Initialize with a default "safe" pixel format that will work with versions dating back to OS X 10.6.
         // Any specialized pixel formats, i.e. a core profile pixel format, should be initialized through rebuildContextWithFormat.
@@ -276,7 +276,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
         [glContext makeCurrentContext];
         
         GLint glVsync = vsync ? 1 : 0;
-        [glContext setValues:&glVsync forParameter:NSOpenGLCPSwapInterval];
+        [glContext setValues:&glVsync forParameter:NSOpenGLContextParameterSwapInterval];
     } // @autoreleasepool
 	return self;
 }
@@ -325,13 +325,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
 - (void) mouseDown:(NSEvent *)theEvent
 {
     // Apparently people still use this?
-    if ([theEvent modifierFlags] & NSCommandKeyMask &&
-        !([theEvent modifierFlags] & NSControlKeyMask) &&
-        !([theEvent modifierFlags] & NSShiftKeyMask) &&
-        !([theEvent modifierFlags] & NSAlternateKeyMask) &&
-        !([theEvent modifierFlags] & NSAlphaShiftKeyMask) &&
-        !([theEvent modifierFlags] & NSFunctionKeyMask) &&
-        !([theEvent modifierFlags] & NSHelpKeyMask))
+    if ([theEvent modifierFlags] & NSEventModifierFlagCommand &&
+        !([theEvent modifierFlags] & NSEventModifierFlagControl) &&
+        !([theEvent modifierFlags] & NSEventModifierFlagShift) &&
+        !([theEvent modifierFlags] & NSEventModifierFlagOption) &&
+        !([theEvent modifierFlags] & NSEventModifierFlagCapsLock) &&
+        !([theEvent modifierFlags] & NSEventModifierFlagFunction) &&
+        !([theEvent modifierFlags] & NSEventModifierFlagHelp))
     {
         callRightMouseDown(mMousePos, [theEvent modifierFlags]);
         mSimulatedRightClick = true;
@@ -466,7 +466,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
     unichar ch;
     if (acceptsText &&
         !mMarkedTextAllowed &&
-        !(mModifiers & (NSControlKeyMask | NSCommandKeyMask)) &&  // commands don't invoke InputWindow
+        !(mModifiers & (NSEventModifierFlagControl | NSEventModifierFlagCommand)) &&  // commands don't invoke InputWindow
         ![(LLAppDelegate*)[NSApp delegate] romanScript] &&
         (ch = [[theEvent charactersIgnoringModifiers] characterAtIndex:0]) > ' ' &&
         ch != NSDeleteCharacter &&
@@ -481,7 +481,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
     // OS X intentionally does not send us key-up information on cmd-key combinations.
     // This behaviour is not a bug, and only applies to cmd-combinations (no others).
     // Since SL assumes we receive those, we fake it here.
-    if (mModifiers & NSCommandKeyMask && !mHasMarkedText)
+    if (mModifiers & NSEventModifierFlagCommand && !mHasMarkedText)
     {
         eventData.mKeyEvent = NativeKeyEventData::KEYUP;
         callKeyUp(&eventData, [theEvent keyCode], mModifiers);
@@ -499,13 +499,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
     switch([theEvent keyCode])
     {        
         case kVK_Shift:
-            mask = NSShiftKeyMask;
+            mask = NSEventModifierFlagShift;
             break;
         case kVK_Option:
-            mask = NSAlternateKeyMask;
+            mask = NSEventModifierFlagOption;
             break;
         case kVK_Control:
-            mask = NSControlKeyMask;
+            mask = NSEventModifierFlagControl;
             break;
         default:
             return;            
@@ -537,7 +537,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	
 	pboard = [sender draggingPasteboard];
 	
-	if ([[pboard types] containsObject:NSURLPboardType])
+    if ([[pboard types] containsObject:NSPasteboardTypeURL])
 	{
 		if (sourceDragMask & NSDragOperationLink) {
 			NSURL *fileUrl = [[pboard readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]] options:[NSDictionary dictionary]] objectAtIndex:0];
@@ -677,9 +677,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void) insertNewline:(id)sender
 {
-	if (!(mModifiers & NSCommandKeyMask) &&
-		!(mModifiers & NSShiftKeyMask) &&
-		!(mModifiers & NSAlternateKeyMask))
+    if (!(mModifiers & NSEventModifierFlagCommand) &&
+        !(mModifiers & NSEventModifierFlagShift) &&
+        !(mModifiers & NSEventModifierFlagOption))
 	{
 		callUnicodeCallback(13, 0);
 	} else {

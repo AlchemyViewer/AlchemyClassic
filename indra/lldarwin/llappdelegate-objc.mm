@@ -35,7 +35,7 @@ extern void constructViewer(); // found in newview/llappviewermacosx.cpp
 
 - (void)sendEvent:(NSEvent *)event {
 	// Fuck you, conventions!
-    if ([event type] == NSKeyUp && ([event modifierFlags] & NSCommandKeyMask))
+    if ([event type] == NSEventTypeKeyUp && ([event modifierFlags] & NSEventModifierFlagCommand))
         [[self keyWindow] sendEvent:event];
     else
         [super sendEvent:event];

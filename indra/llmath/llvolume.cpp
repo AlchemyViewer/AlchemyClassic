@@ -4967,7 +4967,7 @@ public:
         {
 			if (i)
 			{
-				llassert(mVertex[i]->mActiveTriangles > 0);
+				llassert(i->mActiveTriangles > 0);
                 i->mActiveTriangles--;
 			}
 		}
@@ -5432,7 +5432,7 @@ void LLVolumeFace::createOctree(F32 scaler, const LLVector4a& center, const LLVe
 
 	for (S32 i = 0; i < mNumIndices; i+= 3)
 	{ //for each triangle
-		LLPointer<LLVolumeTriangle> tri = new LLVolumeTriangle();
+		LLPointer<LLVolumeTriangle> tri(new LLVolumeTriangle());
 				
 		const LLVector4a& v0 = mPositions[mIndices[i]];
 		const LLVector4a& v1 = mPositions[mIndices[i+1]];

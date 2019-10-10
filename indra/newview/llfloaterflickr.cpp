@@ -111,7 +111,7 @@ BOOL LLFlickrPhotoPanel::postBuild()
 	mRatingComboBox = getChild<LLUICtrl>("rating_combobox");
 	mPostButton = getChild<LLUICtrl>("post_photo_btn");
 	mCancelButton = getChild<LLUICtrl>("cancel_photo_btn");
-	mBigPreviewFloater = dynamic_cast<LLFloaterBigPreview*>(LLFloaterReg::getInstance("big_preview"));
+	mBigPreviewFloater = LLFloaterReg::getTypedInstance<LLFloaterBigPreview>("big_preview");
 
 	// Update filter list
     std::vector<std::string> filter_list = LLImageFiltersManager::getInstance()->getFiltersList();
@@ -680,7 +680,7 @@ LLFloaterFlickr::LLFloaterFlickr(const LLSD& key) : LLFloater(key),
 
 void LLFloaterFlickr::onClose(bool app_quitting)
 {
-    LLFloaterBigPreview* big_preview_floater = dynamic_cast<LLFloaterBigPreview*>(LLFloaterReg::getInstance("big_preview"));
+    LLFloaterBigPreview* big_preview_floater = LLFloaterReg::findTypedInstance<LLFloaterBigPreview>("big_preview");
     if (big_preview_floater)
     {
         big_preview_floater->closeOnFloaterOwnerClosing(this);
@@ -690,7 +690,7 @@ void LLFloaterFlickr::onClose(bool app_quitting)
 
 void LLFloaterFlickr::onCancel()
 {
-    LLFloaterBigPreview* big_preview_floater = dynamic_cast<LLFloaterBigPreview*>(LLFloaterReg::getInstance("big_preview"));
+    LLFloaterBigPreview* big_preview_floater = LLFloaterReg::findTypedInstance<LLFloaterBigPreview>("big_preview");
     if (big_preview_floater)
     {
         big_preview_floater->closeOnFloaterOwnerClosing(this);

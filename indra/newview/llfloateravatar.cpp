@@ -52,7 +52,6 @@ LLFloaterAvatar::~LLFloaterAvatar()
 	{
 		LL_INFOS() << "Unloading avatar picker media" << LL_ENDL;
 		avatar_picker->navigateStop();
-		avatar_picker->clearCache();          //images are reloading each time already
 		avatar_picker->unloadMediaSource();
 	}
 }

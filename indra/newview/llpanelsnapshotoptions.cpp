@@ -139,7 +139,7 @@ void LLPanelSnapshotOptions::onSendToTwitter()
 {
 	LLFloaterReg::hideInstance("snapshot");
 
-	LLFloaterTwitter* twitter_floater = dynamic_cast<LLFloaterTwitter*>(LLFloaterReg::getInstance("twitter"));
+	LLFloaterTwitter* twitter_floater = LLFloaterReg::getTypedInstance<LLFloaterTwitter>("twitter");
 	if (twitter_floater)
 	{
 		twitter_floater->showPhotoPanel();
@@ -151,7 +151,7 @@ void LLPanelSnapshotOptions::onSendToFlickr()
 {
 	LLFloaterReg::hideInstance("snapshot");
 
-	LLFloaterFlickr* flickr_floater = dynamic_cast<LLFloaterFlickr*>(LLFloaterReg::getInstance("flickr"));
+	LLFloaterFlickr* flickr_floater = LLFloaterReg::getTypedInstance<LLFloaterFlickr>("flickr");
 	if (flickr_floater)
 	{
 		flickr_floater->showPhotoPanel();

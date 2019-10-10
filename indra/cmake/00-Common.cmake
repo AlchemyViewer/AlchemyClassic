@@ -29,8 +29,13 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
     "-DLL_RELEASE=1 -DNDEBUG -DLL_RELEASE_WITH_DEBUG_INFO=1")
 
 # Don't bother with a MinSizeRel build.
-set(CMAKE_CONFIGURATION_TYPES "RelWithDebInfo;Release;Debug" CACHE STRING
-    "Supported build types." FORCE)
+if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+  set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING
+      "Supported build types." FORCE)
+else()
+  set(CMAKE_CONFIGURATION_TYPES "RelWithDebInfo;Release;Debug" CACHE STRING
+      "Supported build types." FORCE)
+endif()
 
 # Platform-specific compilation flags.
 if (WINDOWS)
@@ -248,7 +253,7 @@ endif (LINUX)
 
 
 if (DARWIN)
-  add_definitions(-DLL_DARWIN=1)
+  add_definitions(-DLL_DARWIN=1 -DGL_SILENCE_DEPRECATION)
   set(CMAKE_CXX_LINK_FLAGS "-Wl,-headerpad_max_install_names,-search_paths_first")
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_CXX_LINK_FLAGS}")
   set(DARWIN_extra_cstar_flags "-gdwarf-2 -fobjc-arc")

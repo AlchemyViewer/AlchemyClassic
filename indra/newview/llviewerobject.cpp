@@ -166,11 +166,7 @@ LLViewerObject *LLViewerObject::createObject(const LLUUID &id, const LLPCode pco
 			{
 				gAgentAvatarp = new LLVOAvatarSelf(id, pcode, regionp);
 				gAgentAvatarp->initInstance();
-				if (LLGridManager::getInstance()->isInSecondlife())
-				{
-					gAgentWearables.setAvatarObject(gAgentAvatarp);
-
-				}
+				gAgentWearables.setAvatarObject(gAgentAvatarp);
 			}
 			else 
 			{

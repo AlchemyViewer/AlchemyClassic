@@ -159,10 +159,6 @@ LLVOAvatarSelf::LLVOAvatarSelf(const LLUUID& id,
     mInitialMetric(true),
     mMetricSequence(0)
 {
-	if (!LLGridManager::getInstance()->isInSecondlife())
-	{
-		gAgentWearables.setAvatarObject(this);
-	}
 	mMotionController.mIsSelf = TRUE;
 
 	LL_DEBUGS() << "Marking avatar as self " << id << LL_ENDL;

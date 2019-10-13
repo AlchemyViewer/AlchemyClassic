@@ -1657,9 +1657,9 @@ endif (WINDOWS)
 # Add the xui files. This is handy for searching for xui elements
 # from within the IDE.
 set(viewer_XUI_FILES
-    skins/default/colors.xml
-    skins/default/default_languages.xml
-    skins/default/textures/textures.xml
+    ${CMAKE_CURRENT_SOURCE_DIR}/skins/default/colors.xml
+    ${CMAKE_CURRENT_SOURCE_DIR}/skins/default/default_languages.xml
+    ${CMAKE_CURRENT_SOURCE_DIR}/skins/default/textures/textures.xml
     )
 file(GLOB DEFAULT_XUI_FILE_GLOB_LIST
      ${CMAKE_CURRENT_SOURCE_DIR}/skins/*/xui/en/*.xml)
@@ -1669,14 +1669,9 @@ file(GLOB DEFAULT_WIDGET_FILE_GLOB_LIST
      ${CMAKE_CURRENT_SOURCE_DIR}/skins/*/xui/en/widgets/*.xml)
 list(APPEND viewer_XUI_FILES ${DEFAULT_WIDGET_FILE_GLOB_LIST})
 
-# Cannot append empty lists in CMake, wait until we have files here.
-#file(GLOB SILVER_WIDGET_FILE_GLOB_LIST
-#     ${CMAKE_CURRENT_SOURCE_DIR}/skins/silver/xui/en-us/widgets/*.xml)
-#list(APPEND viewer_XUI_FILES ${SILVER_WIDGET_FILE_GLOB_LIST})
-
 list(SORT viewer_XUI_FILES)
 
-source_group("XUI Files" FILES ${viewer_XUI_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "XUI Files" FILES ${viewer_XUI_FILES})
 
 set_source_files_properties(${viewer_XUI_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -1719,9 +1714,9 @@ set_source_files_properties(${viewer_APPSETTINGS_FILES}
 
 list(APPEND viewer_SOURCE_FILES ${viewer_APPSETTINGS_FILES})
 
-file(GLOB_RECURSE viewer_SHADER_FILES app_settings/shaders/*)
+file(GLOB_RECURSE viewer_SHADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/app_settings/shaders/*)
 
-source_group("Shaders" FILES ${viewer_SHADER_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Shaders" FILES ${viewer_SHADER_FILES})
 
 set_source_files_properties(${viewer_SHADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)

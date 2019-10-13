@@ -495,27 +495,29 @@ class WindowsManifest(ViewerManifest):
             # HTTP/2
             self.path("nghttp2.dll")
 
-            # Hunspell
-            self.path("libhunspell.dll")
-            if not self.is_packaging_viewer():
-                self.path("libhunspell.pdb")
-
             # For google-perftools tcmalloc allocator.
             if self.args['configuration'].lower() == 'debug':
                 self.path('libtcmalloc_minimal-debug.dll')
             else:
                 self.path('libtcmalloc_minimal.dll')
 
-            # For intel tbbmalloc allocator.
-            if self.args['configuration'].lower() == 'debug':
-                self.path('tbbmalloc_debug.dll')
-                self.path('tbbmalloc_proxy_debug.dll')
-            else:
-                self.path('tbbmalloc.dll')
-                self.path('tbbmalloc_proxy.dll')
-
             # For msvc redist
-            self.path('api-ms*.dll')
+            self.path('api-ms-win-core-c*.dll')
+            self.path('api-ms-win-core-d*.dll')
+            self.path('api-ms-win-core-e*.dll')
+            self.path('api-ms-win-core-f*.dll')
+            self.path('api-ms-win-core-h*.dll')
+            self.path('api-ms-win-core-i*.dll')
+            self.path('api-ms-win-core-l*.dll')
+            self.path('api-ms-win-core-m*.dll')
+            self.path('api-ms-win-core-n*.dll')
+            self.path('api-ms-win-core-p*.dll')
+            self.path('api-ms-win-core-r*.dll')
+            self.path('api-ms-win-core-s*.dll')
+            self.path('api-ms-win-core-t*.dll')
+            self.path('api-ms-win-core-u*.dll')
+            self.path('API-MS-Win-core-x*.dll')
+            self.path('api-ms-win-crt*.dll')
             self.path('ucrt*.dll')
             self.path('concrt*.dll')
             self.path('msvc*.dll')

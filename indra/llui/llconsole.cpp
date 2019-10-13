@@ -212,9 +212,9 @@ void LLConsole::draw()
 
 		if( alpha > 0.f )
 		{
-			for (auto& line : (*paragraph_it).mLines)
+			for (const auto& line : (*paragraph_it).mLines)
             {
-				for (auto& color_segment : line.mLineColorSegments)
+				for (const auto& color_segment : line.mLineColorSegments)
                 {
 					mFont->render(color_segment.mText, 0, color_segment.mXPosition - 8, y_pos -  y_off,
 						LLColor4(

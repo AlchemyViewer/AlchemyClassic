@@ -803,36 +803,36 @@ namespace LLInitParam
 		// "Multiple" constraint types, put here in root class to avoid ambiguity during use
 		struct AnyAmount
 		{
-			enum { minCount = 0 };
-			enum { maxCount = U32_MAX };
+			enum : U32 { minCount = 0 };
+			enum : U32 { maxCount = U32_MAX };
 		};
 
 		template<U32 MIN_AMOUNT>
 		struct AtLeast
 		{
-			enum { minCount = MIN_AMOUNT };
-			enum { maxCount = U32_MAX };
+			enum : U32 { minCount = MIN_AMOUNT };
+			enum : U32 { maxCount = U32_MAX };
 		};
 
 		template<U32 MAX_AMOUNT>
 		struct AtMost
 		{
-			enum { minCount = 0 };
-			enum { maxCount = MAX_AMOUNT };
+			enum : U32 { minCount = 0 };
+			enum : U32 { maxCount = MAX_AMOUNT };
 		};
 
 		template<U32 MIN_AMOUNT, U32 MAX_AMOUNT>
 		struct Between
 		{
-			enum { minCount = MIN_AMOUNT };
-			enum { maxCount = MAX_AMOUNT };
+			enum : U32 { minCount = MIN_AMOUNT };
+			enum : U32 { maxCount = MAX_AMOUNT };
 		};
 
 		template<U32 EXACT_COUNT>
 		struct Exactly
 		{
-			enum { minCount = EXACT_COUNT };
-			enum { maxCount = EXACT_COUNT };
+			enum : U32 { minCount = EXACT_COUNT };
+			enum : U32 { maxCount = EXACT_COUNT };
 		};
 
 		// this typedef identifies derived classes as being blocks
@@ -2132,7 +2132,7 @@ namespace LLInitParam
 			static bool validate(const Param* paramp) 
 			{
 				size_t num_valid = ((super_t*)paramp)->numValidElements();
-				return RANGE::minCount <= (S32)num_valid && (S32)num_valid <= RANGE::maxCount;
+				return RANGE::minCount <= num_valid && num_valid <= RANGE::maxCount;
 			}
 		};
 

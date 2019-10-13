@@ -2742,7 +2742,7 @@ void LLVolume::createVolumeFaces()
 	{
 		S32 num_faces = getNumFaces();
 		BOOL partial_build = TRUE;
-		if (num_faces != mVolumeFaces.size())
+		if (num_faces != (S32)mVolumeFaces.size())
 		{
 			partial_build = FALSE;
 			mVolumeFaces.resize(num_faces);

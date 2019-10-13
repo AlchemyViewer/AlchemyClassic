@@ -48,7 +48,7 @@ public:
         // Skip the first few lines because they're just bookkeeping for LLCallStack,
         // plus any additional lines requested to skip.
         auto first_line = skip_count + 3;
-        for (auto i=first_line; i<m_stack.size(); ++i)
+        for (size_t i=first_line; i<m_stack.size(); ++i)
         {
             stack.push_back(m_stack[i]);
         }

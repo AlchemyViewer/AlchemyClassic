@@ -1239,7 +1239,7 @@ void escape_libcurl_debug_data(char * buffer, size_t len, bool scrub, std::strin
 	std::string out;
 	len = (std::min)(len, size_t(200));
 	out.reserve(3 * len);
-	for (int i(0); i < len; ++i)
+	for (size_t i(0); i < len; ++i)
 	{
 		unsigned char uc(static_cast<unsigned char>(buffer[i]));
 

@@ -65,7 +65,7 @@ void HttpHeaders::appendNormal(const char * header, size_t size)
 	std::string name;
 	std::string value;
 
-	int col_pos(0);
+	size_t col_pos(0);
 	for (; col_pos < size; ++col_pos)
 	{
 		if (':' == header[col_pos])

@@ -213,7 +213,7 @@ void LLEventBatch::setSize(std::size_t size)
 {
     mBatchSize = size;
     // changing the size might mean that we have to flush NOW
-    if (mBatch.size() >= mBatchSize)
+    if (mBatch.size() >= (S32)mBatchSize)
     {
         flush();
     }
@@ -402,7 +402,7 @@ void LLEventBatchThrottle::setSize(std::size_t size)
     mBatchSize = size;
     // Changing the size might mean that we have to flush NOW. Don't forget
     // that 0 means unlimited.
-    if (mBatchSize && pending().size() >= mBatchSize)
+    if (mBatchSize && pending().size() >= (S32)mBatchSize)
     {
         flush();
     }

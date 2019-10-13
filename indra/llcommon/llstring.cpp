@@ -587,11 +587,11 @@ std::string utf8str_symbol_truncate(const std::string& utf8str, const S32 symbol
     }
     else
     {
-        int len = 0, byteIndex = 0;
+        S32 len = 0, byteIndex = 0;
         const char* aStr = utf8str.c_str();
         size_t origSize = utf8str.size();
 
-        for (byteIndex = 0; len < symbol_len && byteIndex < origSize; byteIndex++)
+        for (byteIndex = 0; len < symbol_len && byteIndex < (S32)origSize; byteIndex++)
         {
             if ((aStr[byteIndex] & 0xc0) != 0x80)
             {

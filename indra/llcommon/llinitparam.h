@@ -2132,7 +2132,7 @@ namespace LLInitParam
 			static bool validate(const Param* paramp) 
 			{
 				size_t num_valid = ((super_t*)paramp)->numValidElements();
-				return RANGE::minCount <= num_valid && num_valid <= RANGE::maxCount;
+				return RANGE::minCount <= (S32)num_valid && (S32)num_valid <= RANGE::maxCount;
 			}
 		};
 

@@ -217,7 +217,7 @@ HttpService::ELoopSpeed HttpPolicy::processReadyQueue()
 	HttpService::ELoopSpeed result(HttpService::REQUEST_SLEEP);
 	HttpLibcurl & transport(mService->getTransport());
 	
-	for (int policy_class(0); policy_class < mClasses.size(); ++policy_class)
+	for (size_t policy_class(0); policy_class < mClasses.size(); ++policy_class)
 	{
 		ClassState & state(*mClasses[policy_class]);
 		HttpRetryQueue & retryq(state.mRetryQueue);

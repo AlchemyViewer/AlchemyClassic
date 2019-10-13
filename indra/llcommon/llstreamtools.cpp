@@ -133,7 +133,7 @@ bool skip_to_end_of_next_keyword(const char* keyword, std::istream& input_stream
 		}
 		else
 		{
-			int key_index = 1;
+			size_t key_index = 1;
 			while ( key_index < key_length
 					&&	keyword[key_index - 1] == c 
 			   		&& input_stream.good())

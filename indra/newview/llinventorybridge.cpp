@@ -2316,9 +2316,8 @@ BOOL LLFolderBridge::isItemCopyable() const
 
 	// Check the items
 	LLInventoryModel::item_array_t item_array_copy = *item_array;
-	for (auto& iter : item_array_copy)
+	for (LLViewerInventoryItem* item : item_array_copy)
     {
-		LLInventoryItem* item = iter;
 		LLItemBridge item_br(mInventoryPanel.get(), mRoot, item->getUUID());
 		if (!item_br.isItemCopyable())
 			return FALSE;
@@ -2326,9 +2325,8 @@ BOOL LLFolderBridge::isItemCopyable() const
 
 	// Check the folders
 	LLInventoryModel::cat_array_t cat_array_copy = *cat_array;
-	for (auto& iter : cat_array_copy)
+	for (LLViewerInventoryCategory* category : cat_array_copy)
     {
-		LLViewerInventoryCategory* category = iter;
 		LLFolderBridge cat_br(mInventoryPanel.get(), mRoot, category->getUUID());
 		if (!cat_br.isItemCopyable())
 			return FALSE;
@@ -2545,9 +2543,8 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 		if (is_movable)
 		{
 			model->collectDescendents(cat_id, descendent_categories, descendent_items, FALSE);
-			for (auto& descendent_categorie : descendent_categories)
+			for (LLViewerInventoryCategory* category : descendent_categories)
             {
-				LLInventoryCategory* category = descendent_categorie;
 				if(LLFolderType::lookupIsProtectedType(category->getPreferredType()))
 				{
 					// Can't move "special folders" (e.g. Textures Folder).
@@ -2581,9 +2578,8 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 		}
 		if (is_movable && move_is_into_trash)
 		{
-			for (auto& descendent_item : descendent_items)
+			for (LLInventoryItem* item : descendent_items)
             {
-				LLInventoryItem* item = descendent_item;
 				if (get_is_item_worn(item->getUUID()))
 				{
 					is_movable = FALSE;
@@ -2593,10 +2589,8 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 		}
 		if (is_movable && move_is_into_landmarks)
 		{
-			for (auto& descendent_item : descendent_items)
+			for (LLViewerInventoryItem* item : descendent_items)
             {
-				LLViewerInventoryItem* item = descendent_item;
-
 				// Don't move anything except landmarks and categories into Landmarks folder.
 				// We use getType() instead of getActua;Type() to allow links to landmarks and folders.
 				if (LLAssetType::AT_LANDMARK != item->getType() && LLAssetType::AT_CATEGORY != item->getType())
@@ -2700,9 +2694,8 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
 			// Look for any gestures and deactivate them
 			if (move_is_into_trash)
 			{
-				for (auto& descendent_item : descendent_items)
+				for (LLInventoryItem* item : descendent_items)
                 {
-					LLInventoryItem* item = descendent_item;
 					if (item->getType() == LLAssetType::AT_GESTURE
 						&& LLGestureMgr::instance().isGestureActive(item->getUUID()))
 					{

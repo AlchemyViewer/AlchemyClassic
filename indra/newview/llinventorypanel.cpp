@@ -460,7 +460,7 @@ void LLInventoryPanel::modelChanged(U32 mask)
 	const LLInventoryModel::changed_items_t& changed_items = model->getChangedIDs();
 	if (changed_items.empty()) return;
 
-	for (auto item_id : changed_items)
+	for (const auto& item_id : changed_items)
     {
         const LLInventoryObject* model_item = model->getObject(item_id);
 		LLFolderViewItem* view_item = getItemByID(item_id);
@@ -1545,12 +1545,12 @@ void LLInventoryPanel::removeItemID(const LLUUID& id)
 
 	mItemMap.erase(id);
 
-	for (auto& categorie : categories)
+	for (LLViewerInventoryCategory* category : categories)
     {
-		mItemMap.erase(categorie->getUUID());
+		mItemMap.erase(category->getUUID());
 }
 
-	for (auto& item : items)
+	for (LLViewerInventoryItem* item : items)
     {
 		mItemMap.erase(item->getUUID());
 	}

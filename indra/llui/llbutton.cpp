@@ -64,7 +64,7 @@ S32 BTN_HEIGHT		= 0;
 
 LLButton::Params::Params()
 :	label_selected("label_selected"),				// requires is_toggle true
-	label_shadow("label_shadow", true),
+	label_shadow("label_shadow", false),
 	auto_resize("auto_resize", false),
 	use_ellipses("use_ellipses", false),
 	image_unselected("image_unselected"),

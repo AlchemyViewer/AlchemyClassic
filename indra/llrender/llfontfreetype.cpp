@@ -105,7 +105,7 @@ U8 const* LLFontManager::loadFont(const std::string& filename, long& out_size)
 
 	out_size = stat.st_size;
 	auto buf = std::make_unique<U8[]>(out_size);
-	if (out_size != LLAPRFile::readEx(filename, buf.get(), 0, out_size))
+	if ((apr_size_t)out_size != LLAPRFile::readEx(filename, buf.get(), 0, out_size))
 	{
 		out_size = 0;
 		return nullptr;

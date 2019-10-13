@@ -827,7 +827,7 @@ void LLViewerObjectList::updateApparentAngles(LLAgent &agent)
 	}
 
 	mCurLazyUpdateIndex = max_value;
-	if (mCurLazyUpdateIndex == mObjects.size())
+	if (mCurLazyUpdateIndex == (S32)mObjects.size())
 	{
 		// restart
 		mCurLazyUpdateIndex = 0;

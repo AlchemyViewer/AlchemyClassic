@@ -201,7 +201,7 @@ void LLFloaterEditDayCycle::applyTrack()
 		return;
 	}
 
-	llassert_always(mSliderToKey.size() == mKeysSlider->getValue().size());
+	llassert_always((S32)mSliderToKey.size() == mKeysSlider->getValue().size());
 
 	// create a new animation track
 	LLWLParamManager::getInstance()->mDay.clearKeyframes();
@@ -402,7 +402,7 @@ void LLFloaterEditDayCycle::onKeyPresetChanged()
 
 void LLFloaterEditDayCycle::onAddKey()
 {
-	llassert_always(mSliderToKey.size() == mKeysSlider->getValue().size());
+	llassert_always((S32)mSliderToKey.size() == mKeysSlider->getValue().size());
 
 	S32 max_sliders;
 	LLEnvKey::EScope scope = LLEnvKey::SCOPE_LOCAL; // *TODO: editing region day cycle
@@ -457,7 +457,7 @@ void LLFloaterEditDayCycle::addSliderKey(F32 time, LLWLParamKey keyframe)
 	// add to map
 	mSliderToKey.insert(std::pair<std::string, SliderKey>(sldr_name, newKey));
 
-	llassert_always(mSliderToKey.size() == mKeysSlider->getValue().size());
+	llassert_always((S32)mSliderToKey.size() == mKeysSlider->getValue().size());
 }
 
 LLWLParamKey LLFloaterEditDayCycle::getSelectedDayCycle()

@@ -250,7 +250,7 @@ void LLFloaterExperiences::checkAndOpen(LLPanelExperiences* panel, const LLSD& c
     // determine new item
     const LLSD& response_ids = content["experience_ids"];
 
-    if (mPrepurchaseIds.size() + 1 == response_ids.size())
+    if ((S32)mPrepurchaseIds.size() + 1 == response_ids.size())
     {
         // we have a new element
         for (LLSD::array_const_iterator it = response_ids.beginArray(); it != response_ids.endArray(); ++it)

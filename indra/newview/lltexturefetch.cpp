@@ -4934,7 +4934,7 @@ bool LLTextureFetchDebugger::update(F32 max_time)
 	case HTTP_FETCHING:
 		// Do some notifications...
 		mFetcher->getHttpRequest().update(10);
-		if (!fillCurlQueue() && mNbCurlCompleted == mFetchingHistory.size())
+		if (!fillCurlQueue() && mNbCurlCompleted == (S32)mFetchingHistory.size())
 		{
 			mHTTPTime =  mTimer.getElapsedTimeF32() ;
 			setDebuggerState(IDLE);

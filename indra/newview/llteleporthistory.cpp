@@ -229,7 +229,7 @@ void LLTeleportHistory::dump() const
 	for (size_t i=0; i<mItems.size(); i++)
 	{
 		std::stringstream line;
-		line << ((i == mCurrentItem) ? " * " : "   ");
+		line << (((S32)i == mCurrentItem) ? " * " : "   ");
 		line << i << ": " << mItems[i].mTitle;
 		line << " REGION_ID: " << mItems[i].mRegionID;
 		line << ", pos: " << mItems[i].mGlobalPos;

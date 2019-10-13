@@ -365,7 +365,7 @@ LLWearable::EImportResult LLWearable::importStream( std::istream& input_stream, 
 				<< num_parameters << LL_ENDL;
 		return LLWearable::FAILURE;
 	}
-	if( num_parameters != mVisualParamIndexMap.size() )
+	if( num_parameters != (S32)mVisualParamIndexMap.size() )
 	{
 		LL_WARNS() << "Wearable parameter mismatch. Reading in " 
 				<< num_parameters << " from file, but created " 

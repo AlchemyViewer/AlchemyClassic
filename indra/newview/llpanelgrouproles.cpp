@@ -1362,7 +1362,7 @@ void LLPanelGroupMembersSubTab::activate()
 	else
 	{
 		// Members can be removed outside of this tab, checking changes
-		if (!gdatap || (gdatap->isMemberDataComplete() && gdatap->mMembers.size() != mMembersList->getItemCount()))
+		if (!gdatap || (gdatap->isMemberDataComplete() && (S32)gdatap->mMembers.size() != mMembersList->getItemCount()))
 		{
 			update(GC_MEMBER_DATA);
 		}

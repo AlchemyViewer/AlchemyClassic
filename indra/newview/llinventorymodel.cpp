@@ -3884,7 +3884,7 @@ bool LLInventoryModel::validate() const
 		{
 			desc_unknown_count++;
 		}
-		else if (cats->size() + items->size() != cat->getDescendentCount())
+		else if ((S32)cats->size() + (S32)items->size() != cat->getDescendentCount())
 		{
 			LL_WARNS() << "invalid desc count for " << cat_id << " name [" << cat->getName()
 				<< "] parent " << cat->getParentUUID()

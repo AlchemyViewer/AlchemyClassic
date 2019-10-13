@@ -46,12 +46,12 @@ BOOL LLVOCachePartition::sNeedsOcclusionCheck = FALSE;
 
 BOOL check_read(LLAPRFile* apr_file, void* src, S32 n_bytes) 
 {
-	return apr_file->read(src, n_bytes) == n_bytes ;
+	return (S32)apr_file->read(src, n_bytes) == n_bytes ;
 }
 
 BOOL check_write(LLAPRFile* apr_file, void* src, S32 n_bytes) 
 {
-	return apr_file->write(src, n_bytes) == n_bytes ;
+	return (S32)apr_file->write(src, n_bytes) == n_bytes ;
 }
 
 

@@ -93,6 +93,8 @@
 
 #include "StackWalker.h"
 
+#pragma warning (push)
+#pragma warning (disable : 4740)
 
 // If VC7 and later, then use the shipped 'dbghelp.h'-file
 #pragma pack(push,8)
@@ -1388,5 +1390,7 @@ void StackWalker::OnOutput(LPCSTR buffer)
 {
   OutputDebugStringA(buffer);
 }
+
+#pragma warning(pop)
 
 #endif // LL_WINDOWS

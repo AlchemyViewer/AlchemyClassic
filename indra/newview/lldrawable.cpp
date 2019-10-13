@@ -448,7 +448,7 @@ void LLDrawable::setNumFaces(const S32 newFaces, LLFacePool *poolp, LLViewerText
 		}
 	}
 
-	llassert_always(mFaces.size() == newFaces);
+	llassert_always((S32)mFaces.size() == newFaces);
 }
 
 void LLDrawable::setNumFacesFast(const S32 newFaces, LLFacePool *poolp, LLViewerTexture *texturep)
@@ -471,7 +471,7 @@ void LLDrawable::setNumFacesFast(const S32 newFaces, LLFacePool *poolp, LLViewer
 		}
 	}
 
-	llassert_always(mFaces.size() == newFaces) ;
+	llassert_always((S32)mFaces.size() == newFaces) ;
 }
 
 void LLDrawable::mergeFaces(LLDrawable* src)

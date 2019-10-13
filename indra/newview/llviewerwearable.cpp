@@ -164,7 +164,7 @@ BOOL LLViewerWearable::isOldVersion() const
 			}
 		}
 	}
-	if( param_count != mVisualParamIndexMap.size() )
+	if( param_count != (S32)mVisualParamIndexMap.size() )
 	{
 		return TRUE;
 	}
@@ -182,7 +182,7 @@ BOOL LLViewerWearable::isOldVersion() const
 			}
 		}
 	}
-	if( te_count != mTEMap.size() )
+	if( te_count != (S32)mTEMap.size() )
 	{
 		return TRUE;
 	}

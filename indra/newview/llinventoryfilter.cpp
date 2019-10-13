@@ -837,6 +837,8 @@ void LLInventoryFilter::setHoursAgo(U32 hours)
 	{
 		bool are_date_limits_valid = mFilterOps.mMinDate == time_min() && mFilterOps.mMaxDate == time_max();
 
+		bool is_increasing_from_zero = hours > mFilterOps.mHoursAgo && !mFilterOps.mHoursAgo && !isSinceLogoff();
+
 		// *NOTE: need to cache last filter time, in case filter goes stale
 		bool less_restrictive = false;
 		bool more_restrictive = false;
@@ -844,31 +846,18 @@ void LLInventoryFilter::setHoursAgo(U32 hours)
 		switch (mFilterOps.mDateSearchDirection)
 		{
 			case FILTERDATEDIRECTION_NEWER:
-				less_restrictive = ((are_date_limits_valid && (hours > mFilterOps.mHoursAgo
-															   && mFilterOps.mHoursAgo))
-									|| !hours);
+				less_restrictive = ((are_date_limits_valid && (hours > mFilterOps.mHoursAgo && mFilterOps.mHoursAgo)) || !hours);
 				
-				more_restrictive = ((are_date_limits_valid && (hours < mFilterOps.mHoursAgo
-															   && hours))
-									|| (hours > mFilterOps.mHoursAgo
-										&& !mFilterOps.mHoursAgo
-										&& !isSinceLogoff()));
+				more_restrictive = ((are_date_limits_valid && (hours < mFilterOps.mHoursAgo && hours)) || is_increasing_from_zero);
 				break;
 			case FILTERDATEDIRECTION_OLDER:
-				less_restrictive = ((are_date_limits_valid && (hours < mFilterOps.mHoursAgo
-															   && mFilterOps.mHoursAgo))
-								 || !hours);
-				
-				more_restrictive = ((are_date_limits_valid && (hours > mFilterOps.mHoursAgo
-															   && hours))
-									|| (hours < mFilterOps.mHoursAgo
-										&& !mFilterOps.mHoursAgo
-										&& !isSinceLogoff()));
-				break;
 			default:
+				less_restrictive = ((are_date_limits_valid && (hours < mFilterOps.mHoursAgo && mFilterOps.mHoursAgo)) || !hours);
+				
+				more_restrictive = ((are_date_limits_valid && (hours > mFilterOps.mHoursAgo && hours)) || is_increasing_from_zero);
 				break;
 		}
-		
+
 		mFilterOps.mHoursAgo = hours;
 		mFilterOps.mMinDate = time_min();
 		mFilterOps.mMaxDate = time_max();

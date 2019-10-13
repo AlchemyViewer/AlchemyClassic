@@ -24,6 +24,10 @@ include(FmtLib)
 
 # Dependencies
 add_subdirectory(${ABSEIL_SRC_DIR} ${ABSEIL_BIN_DIR})
+target_compile_options(absl_strings PRIVATE /wd4018)
+target_compile_options(absl_str_format_internal PRIVATE /wd4018)
+target_compile_options(absl_flags_usage_internal PRIVATE /wd4018)
+
 add_subdirectory(${FMT_SRC_DIR} ${FMT_BIN_DIR})
 
 add_subdirectory(cmake)

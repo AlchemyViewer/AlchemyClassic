@@ -130,6 +130,7 @@
 #pragma warning (disable : 4506)   // no definition for inline function
 
 // level 4 warnings that we need to disable:
+#pragma warning (disable : 4018)	// signed/unsigned mismatch
 #pragma warning (disable : 4100)	// unreferenced formal parameter
 #pragma warning (disable : 4127)	// conditional expression is constant (e.g. while(1) )
 #pragma warning (disable : 4201)	// nonstandard extension used : nameless struct/union

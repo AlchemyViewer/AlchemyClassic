@@ -458,8 +458,15 @@ static void get_random_bytes(void *buf, int nbytes)
 // static
 S32	LLUUID::getNodeID(unsigned char	*node_id)
 {
-	S32 retval = 0;
+	static bool got_node_id = false;
+	static unsigned char local_node_id[6];
+	if (got_node_id)
+	{
+		memcpy(node_id, local_node_id, sizeof(local_node_id));
+		return 1;
+	}
 
+	S32 retval = 0;
 	PIP_ADAPTER_ADDRESSES pAddresses = nullptr;
 	ULONG outBufLen = 0U;
 	DWORD dwRetVal = 0U;
@@ -514,8 +521,10 @@ S32	LLUUID::getNodeID(unsigned char	*node_id)
 						for (size_t i = 0; i < 5; ++i)
 						{
 							node_id[i] = pCurrAddresses->PhysicalAddress[i];
+							local_node_id[i] = pCurrAddresses->PhysicalAddress[i];
 						}
 						retval = 1;
+						got_node_id = true;
 						break;
 					}
 				}

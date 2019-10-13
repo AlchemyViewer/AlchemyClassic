@@ -52,6 +52,26 @@ public:
 private:
 	LLFontManager();
 	~LLFontManager();
+public:
+	U8 const *loadFont( std::string const &aFilename, long &a_Size );
+
+private:
+	struct LoadedFont
+	{
+		LoadedFont(std::string aName, std::unique_ptr<U8[]> aAddress, long aSize)
+			: mAddress(std::move(aAddress))
+		{
+			mName = aName;
+			mSize = aSize;
+		}
+
+		std::string mName;
+		std::unique_ptr<U8[]> mAddress;
+		long mSize;
+	};
+
+	void unloadAllFonts();
+	absl::flat_hash_map< std::string, std::unique_ptr<LoadedFont> > m_LoadedFonts;
 };
 
 struct LLFontGlyphInfo
@@ -87,11 +107,6 @@ public:
 	BOOL loadFace(const std::string& filename, F32 point_size, F32 vert_dpi, F32 horz_dpi, S32 components, BOOL is_fallback, S32 face_n = 0);
 
 	S32 getNumFaces(const std::string& filename);
-
-#ifdef LL_WINDOWS
-	S32 ftOpenFace(const std::string& filename, S32 face_n);
-	void clearFontStreams();
-#endif
 
 	typedef std::vector<LLPointer<LLFontFreetype> > font_vector_t;
 
@@ -174,11 +189,6 @@ private:
 	F32 mLineHeight;
 
 	LLFT_Face mFTFace;
-
-#ifdef LL_WINDOWS
-	llifstream *pFileStream;
-	LLFT_Stream *pFtStream;
-#endif
 
 	BOOL mIsFallback;
 	font_vector_t mFallbackFonts; // A list of fallback fonts to look for glyphs in (for Unicode chars)

@@ -111,7 +111,8 @@ void LLImageGL::checkTexSize(bool forced) const
 			//check viewport
 			GLint vp[4] ;
 			glGetIntegerv(GL_VIEWPORT, vp) ;
-			llcallstacks << "viewport: " << vp[0] << " : " << vp[1] << " : " << vp[2] << " : " << vp[3] << llcallstacksendl ;
+			stop_glerror();
+			//llcallstacks << "viewport: " << vp[0] << " : " << vp[1] << " : " << vp[2] << " : " << vp[3] << llcallstacksendl ;
 		}
 
 		GLint texname;
@@ -136,7 +137,7 @@ void LLImageGL::checkTexSize(bool forced) const
 		glGetTexLevelParameteriv(mTarget, 0, GL_TEXTURE_WIDTH, (GLint*)&x);
 		glGetTexLevelParameteriv(mTarget, 0, GL_TEXTURE_HEIGHT, (GLint*)&y) ;
 		stop_glerror() ;
-		llcallstacks << "w: " << x << " h: " << y << llcallstacksendl ;
+		//llcallstacks << "w: " << x << " h: " << y << llcallstacksendl ;
 
 		if(!x || !y)
 		{

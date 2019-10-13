@@ -701,9 +701,9 @@ void LLKeywords::insertSegments(const LLWString& wtext, std::vector<LLTextSegmen
 {
 	std::string::size_type pos = wtext.find('\n',seg_start);
 
-	while (pos!=-1 && pos < (std::string::size_type)seg_end)
+	while (pos != std::string::npos && pos < (std::string::size_type)seg_end)
 	{
-		if (pos!=seg_start)
+		if ((S32)pos != seg_start)
 		{
 			LLTextSegmentPtr text_segment = new LLNormalTextSegment( cur_token->getColor(), seg_start, pos, editor );
 			text_segment->setToken( cur_token );

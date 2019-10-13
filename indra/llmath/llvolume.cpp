@@ -5230,6 +5230,10 @@ bool LLVolumeFace::cacheOptimize()
 		triangle_data[tri_idx].mVertex[i%3] = &(vertex_data[idx]);
 	}
 
+	std::vector<U16> v;
+	for (size_t j = 0; j < triangle_data.size(); ++j)
+		v.emplace_back((U16)j);
+	
 	/*F32 pre_acmr = 1.f;
 	//measure cache misses from before rebuild
 	{
@@ -5261,14 +5265,18 @@ bool LLVolumeFace::cacheOptimize()
 	}
 
 	//sort triangle data by score
-	std::sort(triangle_data.begin(), triangle_data.end());
-
+	std::sort( v.begin(), v.end(),
+			   [&triangle_data](U16 rhs, U16 lhs )
+			   { return triangle_data[rhs].mScore > triangle_data[lhs].mScore; }
+			   );
+		
 	std::vector<U16> new_indices;
 
 	LLVCacheTriangleData* tri;
 
 	//prime pump by adding first triangle to cache;
-	tri = &(triangle_data[0]);
+	tri = &(triangle_data[v[0]]);
+	
 	cache.addTriangle(tri);
 	new_indices.push_back(tri->mVertex[0]->mIdx);
 	new_indices.push_back(tri->mVertex[1]->mIdx);
@@ -5283,11 +5291,11 @@ bool LLVolumeFace::cacheOptimize()
 		if (!tri)
 		{
 			breaks++;
-			for (auto& j : triangle_data)
-            {
-				if (j.mActive)
+			for (size_t j = 0; j < triangle_data.size(); ++j)
+			{
+				if (triangle_data[v[j]].mActive)
 				{
-					tri = &j;
+					tri = &(triangle_data[v[j]]);
 					break;
 				}
 			}

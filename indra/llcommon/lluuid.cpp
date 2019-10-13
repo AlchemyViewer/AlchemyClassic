@@ -532,8 +532,9 @@ S32	LLUUID::getNodeID(unsigned char	*node_id)
 			pCurrAddresses = pCurrAddresses->Next;
 		} while (pCurrAddresses);                    // Terminate if last adapter
 	}
-
-	free(pAddresses);
+	
+	if(pAddresses)
+		free(pAddresses);
 	pAddresses = nullptr;
 
 	return retval;

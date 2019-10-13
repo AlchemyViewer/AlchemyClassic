@@ -31,16 +31,7 @@
 #include "lldir.h"
 #include "llsdserialize.h"
 
-#if LL_WINDOWS
-    #pragma push_macro("near")
-    #ifdef near
-    #undef near
-    #endif 
-    #include <hunspell/hunspell.hxx>
-    #pragma pop_macro("near")
-#else
-	#include <hunspell/hunspell.hxx>
-#endif
+#include <hunspell/hunspell.hxx>
 
 static const std::string DICT_DIR = "dictionaries";
 static const std::string DICT_FILE_CUSTOM = "user_custom.dic";

@@ -45,8 +45,6 @@ if(WINDOWS)
     set(debug_src_dir "${ARCH_PREBUILT_DIRS_DEBUG}")
     set(debug_files
         openjpeg.dll
-        glod.dll    
-        libhunspell.dll
         )
 
     set(release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
@@ -55,8 +53,6 @@ if(WINDOWS)
         openjpeg.pdb
         nghttp2.dll
         glod.dll
-        libhunspell.dll
-        libhunspell.pdb
         )
 
     if(ADDRESS_SIZE EQUAL 64)
@@ -75,11 +71,15 @@ if(WINDOWS)
     else(ADDRESS_SIZE EQUAL 64)
       list(APPEND debug_files
            libcrypto-1_1.dll
+           libcrypto-1_1.pdb
            libssl-1_1.dll
+           libssl-1_1.pdb
            )
       list(APPEND release_files
            libcrypto-1_1.dll
+           libcrypto-1_1.pdb
            libssl-1_1.dll
+           libssl-1_1.pdb
            )
     endif(ADDRESS_SIZE EQUAL 64)
 

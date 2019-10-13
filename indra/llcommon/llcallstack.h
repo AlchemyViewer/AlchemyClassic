@@ -83,6 +83,7 @@ struct LLContextStatus
 
 LL_COMMON_API std::ostream& operator<<(std::ostream& s, const LLContextStatus& context_status);
 
+#if LL_RELEASE_WITH_DEBUG_INFO || LL_DEBUG
 #define dumpStack(tag) \
 	static auto _isTagEnabled = debugLoggingEnabled(tag); \
     if (_isTagEnabled) \
@@ -90,4 +91,8 @@ LL_COMMON_API std::ostream& operator<<(std::ostream& s, const LLContextStatus& c
         LLCallStack cs; \
         LL_DEBUGS(tag) << "STACK:\n" << "====================\n" << cs << "====================" << LL_ENDL; \
     }
+#else
+	#define dumpStack(tag)
+#endif
+
 #endif // LL_CALLSTACK_H

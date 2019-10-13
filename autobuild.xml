@@ -1437,52 +1437,6 @@
         <key>version</key>
         <string>2012.1</string>
       </map>
-      <key>inteltbb</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright © 2005-2017 Intel Corporation. All Rights Reserved.</string>
-        <key>description</key>
-        <string>Intel Threaded Building Blocks Library</string>
-        <key>license</key>
-        <string>Apache 2.0</string>
-        <key>license_file</key>
-        <string>LICENSES/inteltbb.txt</string>
-        <key>name</key>
-        <string>inteltbb</string>
-        <key>platforms</key>
-        <map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>8a2c78fe9f76dd3555b637261bc8f821</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib/inteltbb-4.3u5-windows-201505010050.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>fc9db31f52ec5667e7a733e9e6dcec7c</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/inteltbb-2017.7-windows64-201708151233.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>2017.7</string>
-      </map>
       <key>jpeglib</key>
       <map>
         <key>copyright</key>

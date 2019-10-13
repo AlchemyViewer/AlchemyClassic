@@ -69,10 +69,6 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR ${CMAKE_SYSTEM_NAME} MATCHES "Dar
 
 # Mallocs
 option(USE_TCMALLOC "Build the viewer with google tcmalloc" OFF)
-option(USE_TBBMALLOC "Build the viewer with intel tbbmalloc" OFF)
-if (USE_TCMALLOC AND USE_TBBMALLOC)
-  message(FATAL_ERROR "Only one malloc may be enabled at a time.")
-endif (USE_TCMALLOC AND USE_TBBMALLOC)
 
 # Audio Engines
 option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)

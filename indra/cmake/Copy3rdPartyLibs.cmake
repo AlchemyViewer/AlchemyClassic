@@ -88,11 +88,6 @@ if(WINDOWS)
       list(APPEND release_files libtcmalloc_minimal.dll)
     endif(USE_TCMALLOC)
 
-    if(USE_TBBMALLOC)
-      list(APPEND debug_files tbbmalloc_debug.dll tbbmalloc_proxy_debug.dll)
-      list(APPEND release_files tbbmalloc.dll tbbmalloc_proxy.dll)
-    endif(USE_TBBMALLOC)
-
     if(OPENAL)
       list(APPEND debug_files alut.dll OpenAL32.dll)
       list(APPEND release_files alut.dll OpenAL32.dll)

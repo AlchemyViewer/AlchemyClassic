@@ -214,7 +214,7 @@ void LLAccordionCtrl::onCollapseCtrlCloseOpen(S16 panel_num)
 	{
 		for(size_t i=0;i<mAccordionTabs.size();++i)
 		{
-			if(i==panel_num)
+			if((S16)i==panel_num)
 				continue;
 			if(mAccordionTabs[i]->getDisplayChildren())
 				mAccordionTabs[i]->setDisplayChildren(false);

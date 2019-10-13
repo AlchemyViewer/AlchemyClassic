@@ -1977,7 +1977,7 @@ LLPointer<LLImageRaw> LLTextureCache::readFromFastCache(const LLUUID& id, S32& d
 			return NULL;
 		}
 		
-		S32 image_size = head[0] * head[1] * head[2];
+		size_t image_size = head[0] * head[1] * head[2];
 		if(!image_size) //invalid
 		{
 			closeFastCache();

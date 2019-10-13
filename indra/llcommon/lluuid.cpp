@@ -511,7 +511,7 @@ S32	LLUUID::getNodeID(unsigned char	*node_id)
 				{
 					if (pCurrAddresses->PhysicalAddressLength == 6) 
 					{
-						for (size_t i = 0; i < 6; ++i)
+						for (size_t i = 0; i < 5; ++i)
 						{
 							node_id[i] = pCurrAddresses->PhysicalAddress[i];
 						}

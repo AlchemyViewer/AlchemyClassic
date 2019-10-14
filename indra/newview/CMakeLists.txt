@@ -1533,11 +1533,12 @@ if (WINDOWS)
          llappviewerwin32.h
          )
 
-	if (NVAPI)
-		list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-DUSE_NVAPI=1")
-	else (NVAPI)
-		list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-UUSE_NVAPI")
-	endif (NVAPI)
+    if (NVAPI)
+        list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-DUSE_NVAPI=1")
+    else (NVAPI)
+        list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-UUSE_NVAPI")
+    endif (NVAPI)
+    set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_DEFINITIONSS}")
 
     # Replace the icons with the appropriate ones for the channel
     # ('test' is the default)
@@ -1795,7 +1796,6 @@ list(APPEND EVENT_HOST_SCRIPTS ${EVENT_HOST_SCRIPT_GLOB_LIST})
 option(PACKAGE "Add a package target that builds an installer package." ON)
 
 if (WINDOWS)
-	target_compile_definitions(${VIEWER_BINARY_NAME} PRIVATE ${APPVWRW32_COMPILE_DEFINITIONS})
 	target_link_options(${VIEWER_BINARY_NAME} 
 		PRIVATE
 		${TCMALLOC_LINK_FLAGS}

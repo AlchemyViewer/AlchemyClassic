@@ -1533,12 +1533,11 @@ if (WINDOWS)
          llappviewerwin32.h
          )
 
-  if (NVAPI)
-    list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-DUSE_NVAPI=1")
-  else (NVAPI)
-    list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-UUSE_NVAPI")
-  endif (NVAPI)
-  set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_DEFINITIONSS}")
+	if (NVAPI)
+		list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-DUSE_NVAPI=1")
+	else (NVAPI)
+		list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-UUSE_NVAPI")
+	endif (NVAPI)
 
     # Replace the icons with the appropriate ones for the channel
     # ('test' is the default)
@@ -1779,9 +1778,7 @@ add_executable(${VIEWER_BINARY_NAME}
     )
 
 if (SDL_FOUND)
-  set_property(TARGET ${VIEWER_BINARY_NAME}
-    PROPERTY COMPILE_DEFINITIONS LL_SDL=1
-    )
+  target_compile_definitions(${VIEWER_BINARY_NAME} PRIVATE -DLL_SDL=1)
 endif (SDL_FOUND)
 
 if(USE_PRECOMPILED_HEADERS)
@@ -1798,11 +1795,12 @@ list(APPEND EVENT_HOST_SCRIPTS ${EVENT_HOST_SCRIPT_GLOB_LIST})
 option(PACKAGE "Add a package target that builds an installer package." ON)
 
 if (WINDOWS)
-    set_target_properties(${VIEWER_BINARY_NAME}
-        PROPERTIES
-        LINK_FLAGS "/debug /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS}"
-        LINK_FLAGS_RELEASE "/MAP:\"${VIEWER_BINARY_NAME}.MAP\""
-        )
+	target_compile_definitions(${VIEWER_BINARY_NAME} PRIVATE ${APPVWRW32_COMPILE_DEFINITIONS})
+	target_link_options(${VIEWER_BINARY_NAME} 
+		PRIVATE
+		${TCMALLOC_LINK_FLAGS}
+		"$<$<CONFIG:Release>:/MAP:${VIEWER_BINARY_NAME}.map>"
+		)
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.

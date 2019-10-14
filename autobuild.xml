@@ -456,11 +456,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5f05a56e40c6bd658c5c9a762c40eb59</string>
+              <string>db4e519d70f3df36667da0c1b8e941e2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows/curl-7.65.3.3-windows-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows/curl-7.66.0.5-windows-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -470,18 +470,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>52deaa499ae3319ab45654dce045458b</string>
+              <string>be66d8208beea0ed996c7196b624df4e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows64/curl-7.65.3.3-windows64-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows64/curl-7.66.0.5-windows64-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.65.3.3</string>
+        <string>7.66.0.5</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -2580,7 +2580,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
       <key>openssl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1998-2018 The OpenSSL Project.  All rights reserved; Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)</string>
+        <string>Copyright (c) 1998-2019 The OpenSSL Project.  All rights reserved; Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)</string>
         <key>description</key>
         <string>Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) Library</string>
         <key>license</key>
@@ -2636,11 +2636,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>94f5f29a33bbe07bbd543cc911457d67</string>
+              <string>c78a43b9d983926eea78906a1df88748</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/windows/openssl-1.1.1c.3-windows-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/windows/openssl-1.1.1d.5-windows-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2650,18 +2650,18 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6d65c27ab8a4bd80e6b47c4bcca078a3</string>
+              <string>1e52f9a024ac995440744e425b891a9c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/windows64/openssl-1.1.1c.3-windows64-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/windows64/openssl-1.1.1d.5-windows64-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.1c.3</string>
+        <string>1.1.1d.5</string>
       </map>
       <key>slvoice</key>
       <map>

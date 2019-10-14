@@ -5230,9 +5230,9 @@ bool LLVolumeFace::cacheOptimize()
 		triangle_data[tri_idx].mVertex[i%3] = &(vertex_data[idx]);
 	}
 
-	std::vector<U16> v;
+	std::vector<size_t> v;
 	for (size_t j = 0; j < triangle_data.size(); ++j)
-		v.emplace_back((U16)j);
+		v.push_back(j);
 	
 	/*F32 pre_acmr = 1.f;
 	//measure cache misses from before rebuild

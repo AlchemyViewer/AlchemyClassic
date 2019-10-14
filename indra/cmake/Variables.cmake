@@ -37,6 +37,7 @@ set(VIEWER_PREFIX)
 set(INTEGRATION_TESTS_PREFIX)
 
 option(LL_TESTS "Build and run unit and integration tests (disable for build timing runs to reduce variation" OFF)
+option(BUILD_TESTING "Build test suite" OFF)
 option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
 
 # Compiler and toolchain options

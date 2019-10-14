@@ -6,7 +6,6 @@ set(cmake_SOURCE_FILES
     CMakeLists.txt
 
     00-Common.cmake
-    Abseil-CPP.cmake
     APR.cmake
     Audio.cmake
     Boost.cmake
@@ -33,7 +32,6 @@ set(cmake_SOURCE_FILES
     FindXmlRpcEpi.cmake
     FindZLIB.cmake
     FMODSTUDIO.cmake
-    FmtLib.cmake
     FreeType.cmake
     GeneratePrecompiledHeader.cmake
     GLM.cmake

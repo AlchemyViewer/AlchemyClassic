@@ -397,14 +397,6 @@ void LLDarwin::callWindowUnhide()
 	}
 }
 
-void LLDarwin::callWindowDidChangeScreen()
-{
-	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
-	{
-		gWindowImplementation->getCallbacks()->handleWindowDidChangeScreen(gWindowImplementation);
-	}
-}
-
 void LLDarwin::callDeltaUpdate(double *delta, MASK mask)
 {
 	gWindowImplementation->updateMouseDeltas(delta);
@@ -468,6 +460,14 @@ void LLDarwin::callQuitHandler()
 			gWindowImplementation->getCallbacks()->handleQuit(gWindowImplementation);
 		}
 	}
+}
+
+void LLDarwin::callDPIChanged(float scale_factor, int window_width, int window_height)
+{
+    if (gWindowImplementation)
+    {
+        gWindowImplementation->getCallbacks()->handleDPIChanged(gWindowImplementation, scale_factor, window_width, window_height);
+    }
 }
 
 void LLDarwin::getPreeditSelectionRange(int *position, int *length)

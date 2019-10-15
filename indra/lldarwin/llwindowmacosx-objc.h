@@ -140,7 +140,6 @@ void callWindowFocus();
 void callWindowUnfocus();
 void callWindowHide();
 void callWindowUnhide();
-void callWindowDidChangeScreen();
 void callDeltaUpdate(double *delta, unsigned int mask);
 void callMiddleMouseDown(float *pos, unsigned int mask);
 void callMiddleMouseUp(float *pos, unsigned int mask);
@@ -148,6 +147,7 @@ void callFocus();
 void callFocusLost();
 void callModifier(unsigned int mask);
 void callQuitHandler();
+void callDPIChanged(float scale_factor, int window_width, int window_height);
 void commitCurrentPreedit(GLViewRef glView);
 
 void callHandleDragEntered(std::string url);

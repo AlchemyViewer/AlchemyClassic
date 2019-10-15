@@ -183,12 +183,10 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void)windowDidChangeBackingProperties:(NSNotification *)notification;
 {
-    if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_7)
-    {
-        NSSize size = [self frame].size;
-        NSSize scaled_size = [self convertSizeToBacking:size];
-        callResize(scaled_size.width, scaled_size.height);
-    }
+    NSSize size = self.frame.size;
+    NSSize scaled_size = [self convertSizeToBacking:size];
+    float scale_factor = self.window.backingScaleFactor;
+    callDPIChanged(scale_factor, scaled_size.width, scaled_size.height);
 }
 
 - (void)dealloc

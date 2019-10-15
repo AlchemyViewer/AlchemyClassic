@@ -36,6 +36,8 @@ set_source_files_properties(${lldarwin_HEADER_FILES}
 
 list(APPEND lldarwin_SOURCE_FILES ${lldarwin_HEADER_FILES})
 
+set_source_files_properties(llopenglview-objc.mm PROPERTIES COMPILE_OPTIONS "-Wno-deprecated-declarations")
+
 add_library (lldarwin ${lldarwin_SOURCE_FILES})
 
 target_link_libraries(lldarwin

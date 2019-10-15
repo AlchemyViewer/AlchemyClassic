@@ -87,6 +87,12 @@
 	#endif
 #endif
 
+#if defined(__clang__) || defined(__GNUC__)
+#   define LL_UBSAN_SUPRESS_VPTR __attribute__((no_sanitize("vptr")))
+#else
+#   define LL_UBSAN_SUPRESS_VPTR
+#endif
+
 // Deal with minor differences on Unixy OSes.
 #if LL_DARWIN || LL_LINUX
 	// Different name, same functionality.

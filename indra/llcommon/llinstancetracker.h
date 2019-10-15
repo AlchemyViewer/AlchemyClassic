@@ -257,6 +257,7 @@ public:
 	LLInstanceTracker& operator=( const LLInstanceTracker& ) = delete;
 
 private:
+    LL_UBSAN_SUPRESS_VPTR
 	void add_(const KEY& key) 
 	{ 
 		mInstanceKey = key; 
@@ -380,12 +381,15 @@ public:
 	static instance_iter endInstances() { return instance_iter(getSet_().end()); }
 
 protected:
+    LL_UBSAN_SUPRESS_VPTR
 	LLInstanceTracker()
 	{
 		// make sure static data outlives all instances
 		getStatic();
 		getSet_().insert(static_cast<T*>(this));
 	}
+
+    LL_UBSAN_SUPRESS_VPTR
 	virtual ~LLInstanceTracker() LLINSTANCETRACKER_DTOR_NOEXCEPT
 	{
 		// it's unsafe to delete instances of this type while all instances are being iterated over.
@@ -395,7 +399,8 @@ protected:
 		getSet_().erase(static_cast<T*>(this));
 	}
 
-	LLInstanceTracker(const LLInstanceTracker& other)
+	LL_UBSAN_SUPRESS_VPTR 
+    LLInstanceTracker(const LLInstanceTracker& other)
 	{
 		getSet_().insert(static_cast<T*>(this));
 	}

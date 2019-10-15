@@ -213,7 +213,7 @@ void LLEventBatch::setSize(std::size_t size)
 {
     mBatchSize = size;
     // changing the size might mean that we have to flush NOW
-    if (mBatch.size() >= (S32)mBatchSize)
+    if ((size_t)mBatch.size() >= mBatchSize)
     {
         flush();
     }

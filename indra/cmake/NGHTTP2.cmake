@@ -8,9 +8,7 @@ if (USESYSTEMLIBS)
 else (USESYSTEMLIBS)
   use_prebuilt_binary(nghttp2)
   if (WINDOWS)
-    set(NGHTTP2_LIBRARIES 
-      ${ARCH_PREBUILT_DIRS_RELEASE}/nghttp2.lib
-      )
+    set(NGHTTP2_LIBRARIES nghttp2)
   elseif (DARWIN)
     set(NGHTTP2_LIBRARIES libnghttp2.dylib)
   else (WINDOWS)

@@ -110,20 +110,10 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 @implementation LLOpenGLView
 
-// Force a high quality update after live resizing
-- (void) viewDidEndLiveResize
-{
-	if (NSAppKitVersionNumber < NSAppKitVersionNumber10_7)
-	{
-		NSSize size = [self frame].size;
-		callResize(size.width, size.height);
-	}
-}
-
 - (unsigned long)getVramSize
 {
     CGLRendererInfoObj info = 0;
-	GLint vram_megabytes = 0;
+    GLint vram_megabytes = 0;
     int num_renderers = 0;
     CGLError the_err = CGLQueryRendererInfo (CGDisplayIDToOpenGLDisplayMask(kCGDirectMainDisplay), &info, &num_renderers);
     if(0 == the_err)
@@ -136,7 +126,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
         vram_megabytes = 256;
     }
     
-	return (unsigned long)vram_megabytes; // return value is in megabytes.
+    return (unsigned long)vram_megabytes; // return value is in megabytes.
 }
 
 - (void)viewDidMoveToWindow
@@ -171,12 +161,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void)windowResized:(NSNotification *)notification;
 {
-	if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_7)
-	{
-		NSSize size = [self frame].size;
-		NSSize scaled_size = [self convertSizeToBacking:size];
-		callResize(scaled_size.width, scaled_size.height);
-	}
+    NSSize size = self.frame.size;
+    NSSize scaled_size = [self convertSizeToBacking:size];
+    callResize(scaled_size.width, scaled_size.height);
 }
 
 - (void)windowWillMiniaturize:(NSNotification *)notification;

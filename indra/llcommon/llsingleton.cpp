@@ -31,7 +31,7 @@
 #include "llerrorcontrol.h"         // LLError::is_available()
 #include "lldependencies.h"
 #include "llcoro_get_id.h"
-#include <absl/container/node_hash_map.h>
+#include <boost/unordered_map.hpp>
 #include <algorithm>
 #include <iostream>                 // std::cerr in dire emergency
 #include <sstream>
@@ -82,7 +82,7 @@ public:
     // Instead, use a map of llcoro::id to select the appropriate
     // coro-specific 'initializing' stack. llcoro::get_id() is carefully
     // implemented to avoid requiring LLCoros.
-    typedef absl::node_hash_map<llcoro::id, LLSingletonBase::list_t> InitializingMap;
+    typedef boost::unordered_map<llcoro::id, LLSingletonBase::list_t> InitializingMap;
     InitializingMap mInitializing;
 
     // non-static method, cf. LLSingletonBase::get_initializing()

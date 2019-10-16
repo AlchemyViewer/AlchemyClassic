@@ -48,10 +48,10 @@ if (WINDOWS)
 
   if(MSVC_VERSION GREATER_EQUAL 1920)
     set(CMAKE_CXX_FLAGS_RELEASE
-        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Gw /Zi /MD /MP /Ob3 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
+        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /MP /Ob3 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
   else()
     set(CMAKE_CXX_FLAGS_RELEASE
-        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Gw /Zi /MD /MP /Ob2 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
+        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /MP /Ob2 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
   endif()
 
   if (ADDRESS_SIZE EQUAL 32)
@@ -106,7 +106,7 @@ if (WINDOWS)
   set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Static library link options" FORCE)
 
   set(GLOBAL_CXX_FLAGS 
-      "/GS /TP /W4 /c /Zc:__cplusplus /Zc:externConstexpr /Zc:forScope /Zc:referenceBinding /Zc:rvalueCast /Zc:strictStrings /Zc:ternary /Zc:throwingNew /Zc:wchar_t /nologo /diagnostics:caret"
+      "/GS /TP /W3 /c /Zc:__cplusplus /Zc:externConstexpr /Zc:forScope /Zc:referenceBinding /Zc:rvalueCast /Zc:strictStrings /Zc:ternary /Zc:throwingNew /Zc:wchar_t /nologo"
       )
 
   if(FAVOR_AMD AND FAVOR_INTEL)

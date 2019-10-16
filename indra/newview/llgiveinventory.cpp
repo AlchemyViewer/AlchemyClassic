@@ -54,11 +54,11 @@
 // bit from there to give some pad.
 const size_t MAX_ITEMS = 50;
 
-class LLGiveable : public LLInventoryCollectFunctor
+class LLGiveable final : public LLInventoryCollectFunctor
 {
 public:
 	LLGiveable() : mCountLosing(0) {}
-	virtual ~LLGiveable() {}
+	virtual ~LLGiveable() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 
 	S32 countNoCopy() const { return mCountLosing; }
@@ -91,11 +91,11 @@ bool LLGiveable::operator()(LLInventoryCategory* cat, LLInventoryItem* item)
 	return allowed;
 }
 
-class LLUncopyableItems : public LLInventoryCollectFunctor
+class LLUncopyableItems final : public LLInventoryCollectFunctor
 {
 public:
-	LLUncopyableItems() {}
-	virtual ~LLUncopyableItems() {}
+	LLUncopyableItems() = default;
+	virtual ~LLUncopyableItems() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 };
 
@@ -448,9 +448,8 @@ bool LLGiveInventory::handleCopyProtectedCategory(const LLSD& notification, cons
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
 	LLInventoryCategory* cat = nullptr;
 	bool give_successful = true;
-	switch(option)
+	if (option == 0)
 	{
-	case 0:  // "Yes"
 		cat = gInventory.getCategory(notification["payload"]["folder_id"].asUUID());
 		if (cat)
 		{
@@ -459,13 +458,13 @@ bool LLGiveInventory::handleCopyProtectedCategory(const LLSD& notification, cons
 			LLViewerInventoryCategory::cat_array_t cats;
 			LLViewerInventoryItem::item_array_t items;
 			LLUncopyableItems remove;
-			gInventory.collectDescendentsIf (cat->getUUID(),
+			gInventory.collectDescendentsIf(cat->getUUID(),
 				cats,
 				items,
 				LLInventoryModel::EXCLUDE_TRASH,
 				remove);
 			size_t count = items.size();
-			for(size_t i = 0; i < count; ++i)
+			for (size_t i = 0; i < count; ++i)
 			{
 				gInventory.deleteObject(items.at(i)->getUUID());
 			}
@@ -481,12 +480,11 @@ bool LLGiveInventory::handleCopyProtectedCategory(const LLSD& notification, cons
 			LLNotificationsUtil::add("CannotGiveCategory");
 			give_successful = false;
 		}
-		break;
-
-	default: // no, cancel, whatever, who cares, not yes.
+	}
+	else
+	{
 		LLNotificationsUtil::add("TransactionCancelled");
 		give_successful = false;
-		break;
 	}
 	return give_successful;
 }

@@ -285,7 +285,8 @@ void LLPanelTopInfoBar::updateParcelIcons()
 	if (!agent_region || !agent_parcel)
 		return;
 
-	if (gSavedSettings.getBOOL("NavBarShowParcelProperties"))
+	static LLUICachedControl<bool> show_icons("NavBarShowParcelProperties", false);
+	if (show_icons)
 	{
 		LLParcel* current_parcel;
 		LLViewerRegion* selection_region = vpm->getSelectionRegion();
@@ -359,8 +360,8 @@ void LLPanelTopInfoBar::layoutParcelIcons()
 	LLRect old_rect = getRect();
 
 	// TODO: remove hard-coded values and read them as xml parameters
-	static const int FIRST_ICON_HPAD = 32;
-	static const int LAST_ICON_HPAD = 11;
+	static constexpr int FIRST_ICON_HPAD = 32;
+	static constexpr int LAST_ICON_HPAD = 11;
 
 	S32 left = mParcelInfoText->getRect().mRight + FIRST_ICON_HPAD;
 
@@ -384,7 +385,7 @@ void LLPanelTopInfoBar::layoutParcelIcons()
 S32 LLPanelTopInfoBar::layoutWidget(LLUICtrl* ctrl, S32 left)
 {
 	// TODO: remove hard-coded values and read them as xml parameters
-	static const int ICON_HPAD = 2;
+	static constexpr int ICON_HPAD = 2;
 
 	if (ctrl->getVisible())
 	{

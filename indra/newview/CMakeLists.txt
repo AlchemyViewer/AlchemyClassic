@@ -1801,6 +1801,15 @@ if (WINDOWS)
 		${TCMALLOC_LINK_FLAGS}
 		"$<$<CONFIG:Release>:/MAP:${VIEWER_BINARY_NAME}.map>"
 		)
+    if(GENERATOR_IS_MULTI_CONFIG)
+      set(VIEWER_BUILD_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}")
+	  set_target_properties(${VIEWER_BINARY_NAME} PROPERTIES 
+							VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    else()
+      set(VIEWER_BUILD_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/package")
+	  set_target_properties(${VIEWER_BINARY_NAME} PROPERTIES
+							RUNTIME_OUTPUT_DIRECTORY "${VIEWER_BUILD_DEST_DIR}")
+    endif()
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.
@@ -1821,7 +1830,11 @@ if (WINDOWS)
 
     if (ADDRESS_SIZE EQUAL 64)
         list(APPEND COPY_INPUT_DEPENDENCIES
+            ${SHARED_LIB_STAGING_DIR}/Debug/libcrypto-1_1-x64.dll
+            ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libcrypto-1_1-x64.dll
             ${SHARED_LIB_STAGING_DIR}/Release/libcrypto-1_1-x64.dll
+            ${SHARED_LIB_STAGING_DIR}/Debug/libssl-1_1-x64.dll
+            ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libssl-1_1-x64.dll
             ${SHARED_LIB_STAGING_DIR}/Release/libssl-1_1-x64.dll
             ${SHARED_LIB_STAGING_DIR}/Release/vivoxsdk_x64.dll
             ${SHARED_LIB_STAGING_DIR}/Release/ortp_x64.dll
@@ -1829,6 +1842,10 @@ if (WINDOWS)
     else (ADDRESS_SIZE EQUAL 64)
         list(APPEND COPY_INPUT_DEPENDENCIES
             ${SHARED_LIB_STAGING_DIR}/Release/libcrypto-1_1.dll
+            ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libcrypto-1_1.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/libcrypto-1_1.dll
+            ${SHARED_LIB_STAGING_DIR}/Debug/libssl-1_1.dll
+            ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libssl-1_1.dll
             ${SHARED_LIB_STAGING_DIR}/Release/libssl-1_1.dll
             ${SHARED_LIB_STAGING_DIR}/Release/vivoxsdk.dll
             ${SHARED_LIB_STAGING_DIR}/Release/ortp.dll
@@ -1858,12 +1875,6 @@ if (WINDOWS)
            ${SHARED_LIB_STAGING_DIR}/Debug/fmodL.dll
           )
     endif (USE_FMODSTUDIO)
-
-    if(MSVC_IDE)
-      set(VIEWER_BUILD_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}")
-    else()
-      set(VIEWER_BUILD_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/packaged")
-    endif()
 
     add_custom_command(
       OUTPUT  ${VIEWER_BUILD_DEST_DIR}/copy_touched.bat
@@ -1900,12 +1911,6 @@ if (WINDOWS)
     add_dependencies(${VIEWER_BINARY_NAME}
       AlchemyPlugin
     )
-
-    set_property(
-      TARGET ${VIEWER_BINARY_NAME}
-      PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-      )
-
 
     if (PACKAGE)
       add_custom_command(
@@ -2246,13 +2251,13 @@ if (NOT WINDOWS AND PACKAGE AND USE_CRASHPAD AND VIEWER_SYMBOL_FILE)
       set(VIEWER_COPY_MANIFEST copy_l_viewer_manifest)
     endif (LINUX)
 
-    if(CMAKE_CFG_INTDIR STREQUAL ".")
+    if(GENERATOR_IS_MULTI_CONFIG)
         set(LLBUILD_CONFIG ${CMAKE_BUILD_TYPE})
-    else(CMAKE_CFG_INTDIR STREQUAL ".")
+    else()
         # set LLBUILD_CONFIG to be a shell variable evaluated at build time
         # reflecting the configuration we are currently building.
         set(LLBUILD_CONFIG ${CMAKE_CFG_INTDIR})
-    endif(CMAKE_CFG_INTDIR STREQUAL ".")
+    endif()
     add_custom_command(OUTPUT "${VIEWER_SYMBOL_FILE}"
       COMMAND "${Python2_EXECUTABLE}"
       ARGS

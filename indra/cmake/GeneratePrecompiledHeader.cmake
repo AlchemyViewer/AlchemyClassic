@@ -38,13 +38,29 @@ macro(target_precompiled_header TARGET_NAME PRECOMPILED_HEADER PRECOMPILED_SOURC
         target_include_directories(${TARGET_NAME} PRIVATE ${PRECOMPILED_HEADER_PATH}) # fixes occasional IntelliSense glitches
 
         get_filename_component(PRECOMPILED_HEADER_WE ${PRECOMPILED_HEADER} NAME_WE)
-        set(PRECOMPILED_BINARY "$(IntDir)/${PRECOMPILED_HEADER_WE}.pch")
+        if(GENERATOR_IS_MULTI_CONFIG)
+            set(PRECOMPILED_BINARY "$(IntDir)/${PRECOMPILED_HEADER_WE}.pch")
+        else()
+            set(PRECOMPILED_BINARY "${CMAKE_CURRENT_BINARY_DIR}/${PRECOMPILED_HEADER_WE}.pch")
+        endif()
         
-        target_sources(${TARGET_NAME} PRIVATE ${PRECOMPILED_SOURCE} ${PRECOMPILED_HEADER})
         set_source_files_properties(${PRECOMPILED_SOURCE} PROPERTIES 
-             COMPILE_OPTIONS "/Yc${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}")
-        set_target_properties(${TARGET_NAME} PROPERTIES 
-             COMPILE_OPTIONS "/Yu${PRECOMPILED_HEADER_NAME};/FI${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}")
+             COMPILE_OPTIONS "/Yc${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}"
+             OBJECT_OUTPUTS "${PRECOMPILED_BINARY}")
+
+        get_target_property(TARGET_SOURCES ${TARGET_NAME} SOURCES)
+        foreach(src ${TARGET_SOURCES})
+            if(${src} MATCHES \\.\(cpp|cxx|cc\)$)
+                set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/${src}" PROPERTIES
+                    COMPILE_OPTIONS "/Yu${PRECOMPILED_HEADER_NAME};/FI${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}"
+                    OBJECT_DEPENDS "${PRECOMPILED_BINARY}"
+                    )
+            endif()
+        endforeach()
+        #set_target_properties(${TARGET_NAME} PROPERTIES 
+        #     COMPILE_OPTIONS "/Yu${PRECOMPILED_HEADER_NAME};/FI${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}")
+
+        target_sources(${TARGET_NAME} PRIVATE ${PRECOMPILED_SOURCE} ${PRECOMPILED_HEADER})
     elseif(CMAKE_GENERATOR STREQUAL Xcode)
         set_target_properties(
             ${TARGET_NAME}

@@ -74,7 +74,7 @@ class ViewerManifest(LLManifest):
                 # include the entire shaders directory recursively
                 self.path("shaders")
                 # include the extracted list of contributors
-                contributions_path = "../../doc/contributions.txt"
+                contributions_path = os.path.join(self.args['source'], os.pardir, os.pardir, 'doc', 'contributions.txt')
                 contributor_names = self.extract_names(contributions_path)
                 self.put_in_file(contributor_names, "contributors.txt", src=contributions_path)
 
@@ -160,15 +160,6 @@ class ViewerManifest(LLManifest):
                             self.path("*.png")
                             self.path("*/*/*.html")
                             self.path("*/*/*.gif")
-
-
-            # local_assets dir (for pre-cached textures)
-            with self.prefix(src_dst="local_assets"):
-                self.path("*.j2c")
-                self.path("*.tga")
-
-            # File in the newview/ directory
-            self.path("gpu_table.txt")
 
             #build_data.json.  Standard with exception handling is fine.  If we can't open a new file for writing, we have worse problems
             #platform is computed above with other arg parsing
@@ -425,14 +416,16 @@ class WindowsManifest(ViewerManifest):
     def construct(self):
         super(WindowsManifest, self).construct()
 
-        config = 'debug' if self.args['configuration'].lower() == 'debug' else 'release'
+        if self.args['configuration'].lower() == '.':
+            config = 'debug' if self.args['buildtype'].lower() == 'debug' else 'release'
+        else:
+            config = 'debug' if self.args['configuration'].lower() == 'debug' else 'release'
         pkgdir = os.path.join(self.args['build'], os.pardir, 'packages')
-        relpkgdir = os.path.join(pkgdir, "lib", "release")
-        debpkgdir = os.path.join(pkgdir, "lib", "debug")
+        pkgbindir = os.path.join(pkgdir, "bin", config)
 
         if self.is_packaging_viewer():
             # Find alchemy-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
-            self.path(src='%s/alchemy-bin.exe' % self.args['configuration'], dst=self.final_exe())
+            self.path(src=os.path.join(self.args['dest'], 'alchemy-bin.exe'), dst=self.final_exe())
 
             with self.prefix(src=os.path.join(pkgdir, "VMP")):
                 # include the compiled launcher scripts so that it gets included in the file_list
@@ -453,13 +446,13 @@ class WindowsManifest(ViewerManifest):
         
         # Get shared libs from the shared libs staging directory
         with self.prefix(src=os.path.join(self.args['build'], os.pardir,
-                                          'sharedlibs', self.args['configuration'])):
+                                          'sharedlibs', config)):
 
             # Mesh 3rd party libs needed for auto LOD and collada reading
             self.path("glod.dll")
 
             # Get fmodstudio dll, continue if missing
-            if self.args['configuration'].lower() == 'debug':
+            if config == 'debug':
                 self.path("fmodL.dll")
             else:
                 self.path("fmod.dll")
@@ -496,7 +489,7 @@ class WindowsManifest(ViewerManifest):
             self.path("nghttp2.dll")
 
             # For google-perftools tcmalloc allocator.
-            if self.args['configuration'].lower() == 'debug':
+            if config == 'debug':
                 self.path('libtcmalloc_minimal-debug.dll')
             else:
                 self.path('libtcmalloc_minimal.dll')
@@ -525,7 +518,7 @@ class WindowsManifest(ViewerManifest):
             self.path('vccor*.dll')
 
         # For crashpad
-        with self.prefix(src=os.path.join(pkgdir, 'bin', config)):
+        with self.prefix(src=pkgbindir):
             self.path("crashpad_handler.exe")
             if not self.is_packaging_viewer():
                 self.path("crashpad_handler.pdb")
@@ -552,7 +545,7 @@ class WindowsManifest(ViewerManifest):
 
             # CEF runtime files - debug
             # CEF runtime files - not debug (release, relwithdebinfo etc.)
-            with self.prefix(src=os.path.join(pkgdir, 'bin', config)):
+            with self.prefix(src=pkgbindir):
                 self.path("chrome_elf.dll")
                 self.path("d3dcompiler_47.dll")
                 self.path("libcef.dll")
@@ -564,15 +557,9 @@ class WindowsManifest(ViewerManifest):
                 self.path("v8_context_snapshot.bin")
 
             # CEF runtime files for software rendering - debug
-            if self.args['configuration'].lower() == 'debug':
-                with self.prefix(src=os.path.join(pkgdir, 'bin', 'debug', 'swiftshader'), dst='swiftshader'):
-                    self.path("libEGL.dll")
-                    self.path("libGLESv2.dll")
-            else:
-                # CEF runtime files for software rendering - not debug (release, relwithdebinfo etc.)
-                with self.prefix(src=os.path.join(pkgdir, 'bin', 'release', 'swiftshader'), dst='swiftshader'):
-                    self.path("libEGL.dll")
-                    self.path("libGLESv2.dll")
+            with self.prefix(src=os.path.join(pkgbindir, 'swiftshader'), dst='swiftshader'):
+                self.path("libEGL.dll")
+                self.path("libGLESv2.dll")
 
             # CEF files common to all configurations
             with self.prefix(src=os.path.join(pkgdir, 'resources')):
@@ -638,7 +625,7 @@ class WindowsManifest(ViewerManifest):
                 self.path("zh-CN.pak")
                 self.path("zh-TW.pak")
 
-            with self.prefix(src=os.path.join(pkgdir, 'bin', 'release')):
+            with self.prefix(src=pkgbindir):
                 self.path("libvlc.dll")
                 self.path("libvlccore.dll")
                 self.path("plugins/")
@@ -704,11 +691,11 @@ class WindowsManifest(ViewerManifest):
     def package_finish(self):
         if 'signature' in self.args:
             try:
-                self.sign(self.args['configuration']+"\\"+self.final_exe())
-                self.sign(self.args['configuration']+"\\AlchemyPlugin.exe")
-                self.sign(self.args['configuration']+"\\voice\\SLVoice.exe")
+                self.sign(self.args['dest']+"\\"+self.final_exe())
+                self.sign(self.args['dest']+"\\AlchemyPlugin.exe")
+                self.sign(self.args['dest']+"\\voice\\SLVoice.exe")
             except:
-                print "Couldn't sign binaries. Tried to sign %s" % self.args['configuration'] + "\\" + self.final_exe()
+                print "Couldn't sign binaries. Tried to sign %s" % self.args['dest'] + "\\" + self.final_exe()
 		
         # a standard map of strings for replacing in the templates
         substitution_strings = {

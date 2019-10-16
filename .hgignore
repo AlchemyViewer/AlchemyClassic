@@ -9,6 +9,7 @@ syntax: glob
 #OSX image cache file
 *.DS_Store
 #*.orig
+**/.vs
 LICENSES
 indra/.distcc
 build-linux-*
@@ -21,6 +22,7 @@ clion-linux*
 indra/.idea
 indra-build/
 indra/build-vc[0-9]*
+indra/out/
 indra/CMakeFiles
 indra/CMakeLists.txt.user
 indra/lib/mono/1.0/*.dll

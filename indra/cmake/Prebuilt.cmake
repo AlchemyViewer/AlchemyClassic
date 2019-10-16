@@ -38,11 +38,12 @@ macro (use_prebuilt_binary _binary)
     if(${PREBUILD_TRACKING_DIR}/sentinel_installed IS_NEWER_THAN ${PREBUILD_TRACKING_DIR}/${_binary}_installed OR NOT ${${_binary}_installed} EQUAL 0)
       if(DEBUG_PREBUILT)
         message(STATUS "cd ${CMAKE_SOURCE_DIR} && ${AUTOBUILD_EXECUTABLE} install
-        --install-dir=${AUTOBUILD_INSTALL_DIR}
+        --install-dir=${AUTOBUILD_INSTALL_DIR} -A${ADDRESS_SIZE}
         ${_binary} ")
       endif(DEBUG_PREBUILT)
       execute_process(COMMAND "${AUTOBUILD_EXECUTABLE}"
         install
+        -A${ADDRESS_SIZE}
         --install-dir=${AUTOBUILD_INSTALL_DIR}
         ${_binary}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"

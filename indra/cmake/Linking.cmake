@@ -30,7 +30,7 @@ endif (WINDOWS)
 # windows) and CMAKE_BUILD_TYPE on Makefile based generators (like linux).  The reason for this is
 # that CMAKE_BUILD_TYPE is essentially meaningless at configuration time for IDE generators and
 # CMAKE_CFG_INTDIR is meaningless at build time for Makefile generators
-if(GENERATOR_IS_MULTI_CONFIG)
+if(GEN_IS_MULTI_CONFIG)
   # the cmake xcode and VS generators implicitly append ${CMAKE_CFG_INTDIR} to the library paths for us
   # fortunately both windows and darwin are case insensitive filesystems so this works.
   set(AUTOBUILD_LIBS_INSTALL_DIRS "${AUTOBUILD_INSTALL_DIR}/lib/")

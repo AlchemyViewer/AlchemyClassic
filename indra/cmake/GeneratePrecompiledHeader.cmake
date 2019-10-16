@@ -38,7 +38,7 @@ macro(target_precompiled_header TARGET_NAME PRECOMPILED_HEADER PRECOMPILED_SOURC
         target_include_directories(${TARGET_NAME} PRIVATE ${PRECOMPILED_HEADER_PATH}) # fixes occasional IntelliSense glitches
 
         get_filename_component(PRECOMPILED_HEADER_WE ${PRECOMPILED_HEADER} NAME_WE)
-        if(GENERATOR_IS_MULTI_CONFIG)
+        if(GEN_IS_MULTI_CONFIG)
             set(PRECOMPILED_BINARY "$(IntDir)/${PRECOMPILED_HEADER_WE}.pch")
         else()
             set(PRECOMPILED_BINARY "${CMAKE_CURRENT_BINARY_DIR}/${PRECOMPILED_HEADER_WE}.pch")

@@ -5266,7 +5266,7 @@ bool LLVolumeFace::cacheOptimize()
 
 	//sort triangle data by score
 	std::sort( v.begin(), v.end(),
-			   [&triangle_data](U16 rhs, U16 lhs )
+			   [&triangle_data](size_t rhs, size_t lhs )
 			   { return triangle_data[rhs].mScore > triangle_data[lhs].mScore; }
 			   );
 		

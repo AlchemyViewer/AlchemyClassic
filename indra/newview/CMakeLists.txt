@@ -1807,41 +1807,31 @@ if (WINDOWS)
       ${CMAKE_SOURCE_DIR}/../etc/message.xml
       ${CMAKE_SOURCE_DIR}/../scripts/messages/message_template.msg
       ${LLCOMMON_SOURCE}
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libapr-1.dll
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libaprutil-1.dll
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libapriconv-1.dll
       ${SHARED_LIB_STAGING_DIR}/Release/glod.dll
       ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/glod.dll
-      ${SHARED_LIB_STAGING_DIR}/Debug/glod.dll
       ${SHARED_LIB_STAGING_DIR}/Release/openjpeg.dll
       ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/openjpeg.dll
-      ${SHARED_LIB_STAGING_DIR}/Debug/openjpegd.dll
-      ${SHARED_LIB_STAGING_DIR}/Release/libhunspell.dll
-      ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libhunspell.dll
-      ${SHARED_LIB_STAGING_DIR}/Debug/libhunspell.dll
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/SLVoice.exe
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libsndfile-1.dll
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/vivoxoal.dll
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/ca-bundle.crt
-      ${CMAKE_CURRENT_SOURCE_DIR}/licenses-win32.txt
+      ${SHARED_LIB_STAGING_DIR}/Debug/openjpeg.dll
+      ${SHARED_LIB_STAGING_DIR}/Release/SLVoice.exe
       ${CMAKE_CURRENT_SOURCE_DIR}/featuretable.txt
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libcrypto-1_1-x64.dll
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libssl-1_1-x64.dll
       ${viewer_APPSETTINGS_FILES}
       AlchemyPlugin
       media_plugin_cef
-      media_plugin_libvlc
       )
 
     if (ADDRESS_SIZE EQUAL 64)
         list(APPEND COPY_INPUT_DEPENDENCIES
-            ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/vivoxsdk_x64.dll
-            ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/ortp_x64.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/libcrypto-1_1-x64.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/libssl-1_1-x64.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/vivoxsdk_x64.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/ortp_x64.dll
             )
     else (ADDRESS_SIZE EQUAL 64)
         list(APPEND COPY_INPUT_DEPENDENCIES
-            ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/vivoxsdk.dll
-            ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/ortp.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/libcrypto-1_1.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/libssl-1_1.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/vivoxsdk.dll
+            ${SHARED_LIB_STAGING_DIR}/Release/ortp.dll
             )
     endif (ADDRESS_SIZE EQUAL 64)
 
@@ -1869,8 +1859,14 @@ if (WINDOWS)
           )
     endif (USE_FMODSTUDIO)
 
+    if(MSVC_IDE)
+      set(VIEWER_BUILD_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}")
+    else()
+      set(VIEWER_BUILD_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/packaged")
+    endif()
+
     add_custom_command(
-      OUTPUT  ${CMAKE_CFG_INTDIR}/copy_touched.bat
+      OUTPUT  ${VIEWER_BUILD_DEST_DIR}/copy_touched.bat
       COMMAND ${Python2_EXECUTABLE}
       ARGS
         ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
@@ -1881,20 +1877,19 @@ if (WINDOWS)
         --buildtype=${CMAKE_BUILD_TYPE}
         --channel=${VIEWER_CHANNEL}
         --configuration=${CMAKE_CFG_INTDIR}
-        --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
+        --dest=${VIEWER_BUILD_DEST_DIR}
         --grid=${GRID}
         --source=${CMAKE_CURRENT_SOURCE_DIR}
-        --touch=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/copy_touched.bat
+        --touch=${VIEWER_BUILD_DEST_DIR}/copy_touched.bat
         --versionfile=${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
       DEPENDS
         ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
-        generate_viewer_version
         stage_third_party_libs
         ${COPY_INPUT_DEPENDENCIES}
       COMMENT "Performing viewer_manifest copy"
       )
 
-    add_custom_target(copy_w_viewer_manifest ALL DEPENDS ${CMAKE_CFG_INTDIR}/copy_touched.bat)
+    add_custom_target(copy_w_viewer_manifest ALL DEPENDS ${VIEWER_BUILD_DEST_DIR}/copy_touched.bat)
 
     add_dependencies(${VIEWER_BINARY_NAME} stage_third_party_libs llcommon copy_w_viewer_manifest)
 
@@ -1914,13 +1909,12 @@ if (WINDOWS)
 
     if (PACKAGE)
       add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/event_host.tar.bz2
+        OUTPUT ${VIEWER_BUILD_DEST_DIR}/event_host.tar.bz2
         COMMAND ${Python2_EXECUTABLE}
         ARGS
           ${CMAKE_CURRENT_SOURCE_DIR}/event_host_manifest.py
           ${CMAKE_CURRENT_SOURCE_DIR}/..
-          ${CMAKE_CURRENT_BINARY_DIR}
-          ${CMAKE_CFG_INTDIR}
+          ${VIEWER_BUILD_DEST_DIR}
         DEPENDS
           lleventhost
           ${EVENT_HOST_SCRIPTS}
@@ -1928,7 +1922,7 @@ if (WINDOWS)
         )
 
       add_custom_command(
-        OUTPUT ${CMAKE_CFG_INTDIR}/touched.bat
+        OUTPUT ${VIEWER_BUILD_DEST_DIR}/touched.bat
         COMMAND ${Python2_EXECUTABLE}
         ARGS
           ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
@@ -1938,10 +1932,10 @@ if (WINDOWS)
           --buildtype=${CMAKE_BUILD_TYPE}
           --channel=${VIEWER_CHANNEL}
           --configuration=${CMAKE_CFG_INTDIR}
-          --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
+          --dest=${VIEWER_BUILD_DEST_DIR}
           --grid=${GRID}
           --source=${CMAKE_CURRENT_SOURCE_DIR}
-          --touch=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/touched.bat
+          --touch=${VIEWER_BUILD_DEST_DIR}/touched.bat
           --versionfile=${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
         DEPENDS
             ${VIEWER_BINARY_NAME}
@@ -1951,8 +1945,7 @@ if (WINDOWS)
         )
 
       add_custom_target(llpackage ALL DEPENDS
-        ${CMAKE_CFG_INTDIR}/touched.bat
-        windows-setup-build-all
+        ${VIEWER_BUILD_DEST_DIR}/touched.bat
         )
         # temporarily disable packaging of event_host until hg subrepos get
         # sorted out on the parabuild cluster...

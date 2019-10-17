@@ -47,10 +47,8 @@
 #include "llimprocessing.h"
 #include "llwindow.h"
 #include "llviewerstats.h"
-#include "llviewerstatsrecorder.h"
 #include "llmarketplacefunctions.h"
 #include "llmarketplacenotifications.h"
-#include "llmd5.h"
 #include "llmeshrepository.h"
 #include "llpumpio.h"
 #include "llmimetypes.h"
@@ -63,7 +61,6 @@
 #include "llconversationlog.h"
 #include "lldxhardware.h"
 #include "llfontfreetype.h"
-#include "lltexturestats.h"
 #include "lltrace.h"
 #include "lltracethreadrecorder.h"
 #include "llviewerwindow.h"
@@ -136,6 +133,8 @@
 #include <boost/regex.hpp>
 #include <boost/throw_exception.hpp>
 
+#include <random>
+
 #undef XMLCALL //HACK: need to find the expat.h include
 #include <libxml/parser.h> // needed for init and cleanup
 
@@ -149,7 +148,6 @@
 
 #include "llviewerkeyboard.h"
 #include "lllfsthread.h"
-#include "llworkerthread.h"
 #include "lltexturecache.h"
 #include "lltexturefetch.h"
 #include "llimageworker.h"
@@ -157,15 +155,12 @@
 
 // The files below handle dependencies from cleanup.
 #include "llkeyframemotion.h"
-#include "llworldmap.h"
 #include "llhudmanager.h"
 #include "lltoolmgr.h"
 #include "llassetstorage.h"
 #include "llpolymesh.h"
 #include "llproxy.h"
 #include "llaudioengine.h"
-#include "llstreamingaudio.h"
-#include "llviewermenu.h"
 #include "llselectmgr.h"
 #include "lltrans.h"
 #include "lltransutil.h"
@@ -173,27 +168,22 @@
 #include "llviewerparcelmgr.h"
 #include "llworldmapview.h"
 #include "llwlparammanager.h"
-#include "llwaterparammanager.h"
 
 #include "lldebugview.h"
 #include "llconsole.h"
 #include "llcontainerview.h"
-#include "lltooltip.h"
 
 #include "llsdutil.h"
 #include "llsdserialize.h"
 
 #include "llworld.h"
 #include "llhudeffecttrail.h"
-#include "llslurl.h"
 #include "llwatchdog.h"
 
 // Included so that constants/settings might be initialized
 // in save_settings_to_globals()
 #include "llbutton.h"
-#include "llstatusbar.h"
 #include "llsurface.h"
-#include "llvosky.h"
 #include "llvotree.h"
 #include "llvoavatar.h"
 #include "llfolderview.h"
@@ -207,7 +197,6 @@
 #include "llfloaterreg.h"
 #include "llfloateroutfitsnapshot.h"
 #include "llfloatersnapshot.h"
-#include "llsidepanelinventory.h"
 
 // includes for idle() idleShutdown()
 #include "llviewercontrol.h"
@@ -938,7 +927,7 @@ bool LLAppViewer::init()
 #endif
 	LLMIMETypes::parseMIMETypes( mime_types_name );
 
-	// Copy settings to globals. *TODO: Remove or move to appropriage class initializers
+	// Copy settings to globals. *TODO: Remove or move to appropriate class initializers
 	settings_to_globals();
 	// Setup settings listeners
 	settings_setup_listeners();
@@ -4106,64 +4095,71 @@ U32 LLAppViewer::getObjectCacheVersion()
 
 bool LLAppViewer::initCache()
 {
-	mPurgeCache = false;
-	BOOL read_only = mSecondInstance ? TRUE : FALSE;
-	LLAppViewer::getTextureCache()->setReadOnly(read_only) ;
-	LLVOCache::getInstance()->setReadOnly(read_only);
+    mPurgeCache = false;
+    BOOL read_only = mSecondInstance ? TRUE : FALSE;
+    LLAppViewer::getTextureCache()->setReadOnly(read_only);
+    LLVOCache::getInstance()->setReadOnly(read_only);
 
-	bool texture_cache_mismatch = false;
-	if (gSavedSettings.getS32("LocalCacheVersion") != LLAppViewer::getTextureCacheVersion())
-	{
-		texture_cache_mismatch = true;
-		if(!read_only)
-		{
-			gSavedSettings.setS32("LocalCacheVersion", LLAppViewer::getTextureCacheVersion());
-		}
-	}
+    bool texture_cache_mismatch = false;
+    if (gSavedSettings.getS32("LocalCacheVersion") != LLAppViewer::getTextureCacheVersion())
+    {
+        texture_cache_mismatch = true;
+        if (!read_only)
+        {
+            gSavedSettings.setS32("LocalCacheVersion", LLAppViewer::getTextureCacheVersion());
+        }
+    }
 
-	if(!read_only)
-	{
-		// Purge cache if user requested it
-		if (gSavedSettings.getBOOL("PurgeCacheOnStartup") ||
-			gSavedSettings.getBOOL("PurgeCacheOnNextStartup"))
-		{
-			LL_INFOS("AppCache") << "Startup cache purge requested: " << (gSavedSettings.getBOOL("PurgeCacheOnStartup") ? "ALWAYS" : "ONCE") << LL_ENDL;
-			gSavedSettings.setBOOL("PurgeCacheOnNextStartup", false);
-			mPurgeCache = true;
-			// STORM-1141 force purgeAllTextures to get called to prevent a crash here. -brad
-			texture_cache_mismatch = true;
-		}
+    if (!read_only)
+    {
+        // Purge cache if user requested it
+        if (gSavedSettings.getBOOL("PurgeCacheOnStartup") ||
+            gSavedSettings.getBOOL("PurgeCacheOnNextStartup"))
+        {
+            LL_INFOS("AppCache") << "Startup cache purge requested: " << (gSavedSettings.getBOOL("PurgeCacheOnStartup") ? "ALWAYS" : "ONCE") << LL_ENDL;
+            gSavedSettings.setBOOL("PurgeCacheOnNextStartup", false);
+            mPurgeCache = true;
+            // STORM-1141 force purgeAllTextures to get called to prevent a crash here. -brad
+            texture_cache_mismatch = true;
+        }
 
-		// We have moved the location of the cache directory over time.
-		migrateCacheDirectory();
+        // We have moved the location of the cache directory over time.
+        migrateCacheDirectory();
 
-		// Setup and verify the cache location
-		std::string cache_location = gSavedSettings.getString("CacheLocation");
-		std::string new_cache_location = gSavedSettings.getString("NewCacheLocation");
-		if (new_cache_location != cache_location)
-		{
-			LL_INFOS("AppCache") << "Cache location changed, cache needs purging" << LL_ENDL;
-			gDirUtilp->setCacheDir(gSavedSettings.getString("CacheLocation"));
-			purgeCache(); // purge old cache
-			gSavedSettings.setString("CacheLocation", new_cache_location);
-			gSavedSettings.setString("CacheLocationTopFolder", gDirUtilp->getBaseFileName(new_cache_location));
-		}
-	}
+        // Setup and verify the cache location
+        std::string cache_location = gSavedSettings.getString("CacheLocation");
+        std::string new_cache_location = gSavedSettings.getString("NewCacheLocation");
+        if (new_cache_location != cache_location)
+        {
+            LL_INFOS("AppCache") << "Cache location changed, cache needs purging" << LL_ENDL;
+            gDirUtilp->setCacheDir(gSavedSettings.getString("CacheLocation"));
+            purgeCache(); // purge old cache
+            gSavedSettings.setString("CacheLocation", new_cache_location);
+            gSavedSettings.setString("CacheLocationTopFolder", gDirUtilp->getBaseFileName(new_cache_location));
+        }
+    }
 
-	if (!gDirUtilp->setCacheDir(gSavedSettings.getString("CacheLocation")))
-	{
-		LL_WARNS("AppCache") << "Unable to set cache location" << LL_ENDL;
-		gSavedSettings.setString("CacheLocation", "");
-		gSavedSettings.setString("CacheLocationTopFolder", "");
-	}
+    if (!gDirUtilp->setCacheDir(gSavedSettings.getString("CacheLocation")))
+    {
+        LL_WARNS("AppCache") << "Unable to set cache location" << LL_ENDL;
+        gSavedSettings.setString("CacheLocation", "");
+        gSavedSettings.setString("CacheLocationTopFolder", "");
+    }
 
-	if (mPurgeCache && !read_only)
-	{
-		LLSplashScreen::update(LLTrans::getString("StartupClearingCache"));
-		purgeCache();
-	}
+    if (mPurgeCache && !read_only)
+    {
+        LLSplashScreen::update(LLTrans::getString("StartupClearingCache"));
+        purgeCache();
+    }
 
-	LLSplashScreen::update(LLTrans::getString("StartupInitializingTextureCache"));
+    {
+        std::random_device rnddev;
+        std::mt19937 rng(rnddev());
+        std::uniform_int_distribution<> dist(0, 4);
+
+        LLSplashScreen::update(LLTrans::getString(
+            llformat("StartupInitializingTextureCache%d", dist(rng))));
+    }
 
 	// Init the texture cache
 	// Allocate 80% of the cache size for textures

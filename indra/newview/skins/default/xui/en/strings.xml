@@ -4375,7 +4375,6 @@ and report the problem.
 [https://community.secondlife.com/knowledgebase/english/error-messages-r520/#Section__3 Knowledge Base]
   </string>
   <!-- Alchemy string below this line-->
-  <!-- Build Floater-->
   <string name="AutoresponsePrefix">(Autoresponse) </string>
   <string name="BuildMultiSelect">(multiple)</string>
   <string name="Free">free</string>
@@ -4386,5 +4385,7 @@ and report the problem.
   <string name="SimulatorFeaturesTitle">SIMULATOR FEATURES</string>
   <string name="GridInfoTitle">GRID INFO</string>
   <string name="AvatarTyping">Typing</string>
+  <string name="Unknown">Unknown</string>
+
 
 </strings>

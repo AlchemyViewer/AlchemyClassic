@@ -8,22 +8,16 @@ FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
   GIT_TAG        v2.10.0
-  GIT_SHALLOW    TRUE
-  GIT_PROGRESS   TRUE
   )
 FetchContent_Declare(
   fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG        7512a55aa3ae309587ca89668ef9ec4074a51a1f
-  GIT_SHALLOW    TRUE
-  GIT_PROGRESS   TRUE
   )
 FetchContent_Declare(
   absl
   GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-  GIT_TAG        e9f9000c7c80993cb589d011616b7a8016e42f4a
-  GIT_SHALLOW    TRUE
-  GIT_PROGRESS   TRUE
+  GIT_TAG        ab3552a18964e7063c8324f45b3896a6a20b08a8
 )
 
 # This is a hack because absl has dumb cmake

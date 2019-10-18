@@ -42,23 +42,31 @@ if (WINDOWS)
   # Don't build DLLs.
   set(BUILD_SHARED_LIBS OFF)
 
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi /MDd /MP /EHsc -D_SCL_SECURE_NO_WARNINGS=1")
-  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
-      "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Od /Zi /MD /MP /Ob0 /EHsc -D_ITERATOR_DEBUG_LEVEL=0")
+  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  elseif (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m${ADDRESS_SIZE}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m${ADDRESS_SIZE}")
+  endif ()
 
-  if(MSVC_VERSION GREATER_EQUAL 1920)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi /MDd /EHsc -D_SCL_SECURE_NO_WARNINGS=1")
+  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
+      "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Od /Zi /MD /Ob0 /EHsc -D_ITERATOR_DEBUG_LEVEL=0")
+
+  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS_RELEASE
-        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /MP /Ob3 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
-  else()
+        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /Ob3 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
+  elseif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
     set(CMAKE_CXX_FLAGS_RELEASE
-        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /MP /Ob2 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
+        "${CMAKE_CXX_FLAGS_RELEASE} /clang:-Ofast /clang:-ffast-math /Oi /Ot /Gy /Zi /MD /Ob2 /Oy- /Zc:inline /EHsc /fp:fast -D_ITERATOR_DEBUG_LEVEL=0")
   endif()
 
   if (ADDRESS_SIZE EQUAL 32)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
   endif (ADDRESS_SIZE EQUAL 32)
 
-  if (FULL_DEBUG_SYMS OR USE_CRASHPAD)
+  if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang" OR FULL_DEBUG_SYMS OR USE_CRASHPAD)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DEBUG:FULL")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /DEBUG:FULL")
   else ()
@@ -71,28 +79,26 @@ if (WINDOWS)
   set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /NODEFAULTLIB:LIBCMT")
   set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /NODEFAULTLIB:LIBCMT /NODEFAULTLIB:LIBCMTD /NODEFAULTLIB:MSVCRT")
   
-  if (USE_AVX2)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /arch:AVX2")
-  elseif (ADDRESS_SIZE EQUAL 64)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /arch:AVX")
-  elseif (ADDRESS_SIZE EQUAL 32)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /arch:SSE2")
-  endif ()
-
   if (USE_LTO)
-    if(INCREMENTAL_LINK)
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG:incremental")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG:incremental")
-      set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
-    else(INCREMENTAL_LINK)
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG")
-      set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
-    endif(INCREMENTAL_LINK)
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /OPT:REF /OPT:ICF /INCREMENTAL:NO")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF /OPT:ICF /INCREMENTAL:NO")
-    set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /GL")
+    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+      if(INCREMENTAL_LINK)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG:incremental")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG:incremental")
+        set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
+      else(INCREMENTAL_LINK)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG")
+        set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
+      endif(INCREMENTAL_LINK)
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /OPT:REF /OPT:ICF /INCREMENTAL:NO")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF /OPT:ICF /INCREMENTAL:NO")
+      set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /GL")
+    elseif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /OPT:REF /OPT:ICF")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF /OPT:ICF")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -flto=thin /clang:-fwhole-program-vtables /clang:-fforce-emit-vtables")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto=thin /clang:-fwhole-program-vtables /clang:-fforce-emit-vtables")
+    endif()
   elseif (INCREMENTAL_LINK)
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /INCREMENTAL")
     set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /INCREMENTAL")
@@ -101,13 +107,33 @@ if (WINDOWS)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF /OPT:ICF /INCREMENTAL:NO")
   endif ()
 
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "Executable linker options" FORCE)
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Dynamic library link options" FORCE)
-  set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Static library link options" FORCE)
+  if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    # This is a massive hack and makes me sad. clang-cl fails to find its own builtins library :/ x64 only for now.
+    set(CLANG_RT_NAMES clang_rt.builtins-x86_64)
+    find_library(CLANG_RT NAMES ${CLANG_RT_NAMES} 
+                PATHS [HKEY_LOCAL_MACHINE\\SOFTWARE\\LLVM\\LLVM]/lib/clang/${CMAKE_CXX_COMPILER_VERSION}/lib/windows 
+                [HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\LLVM\\LLVM]/lib/clang/${CMAKE_CXX_COMPILER_VERSION}/lib/windows)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /defaultlib:\"${CLANG_RT}\"")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /defaultlib:\"${CLANG_RT}\"")
+  endif()
 
   set(GLOBAL_CXX_FLAGS 
-      "/GS /TP /W3 /c /Zc:__cplusplus /Zc:externConstexpr /Zc:forScope /Zc:referenceBinding /Zc:rvalueCast /Zc:strictStrings /Zc:ternary /Zc:throwingNew /Zc:wchar_t /nologo"
+      "/GS /W3 /c /Zc:__cplusplus  /Zc:forScope /Zc:rvalueCast /Zc:strictStrings /Zc:ternary /Zc:wchar_t /nologo"
       )
+
+  if (USE_AVX2)
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /arch:AVX2")
+  elseif (ADDRESS_SIZE EQUAL 64)
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /arch:AVX")
+  elseif (ADDRESS_SIZE EQUAL 32)
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /arch:SSE2")
+  endif ()
+
+  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /Zc:externConstexpr /Zc:referenceBinding /Zc:throwingNew")
+  elseif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /Qvec /Zc:dllexportInlines- /clang:-mprefer-vector-width=128 -fno-strict-aliasing -Wno-ignored-pragma-intrinsic -Wno-deprecated-declarations -Wno-microsoft-cast -Wno-unused-local-typedef -Wno-delete-non-abstract-non-virtual-dtor")
+  endif()
 
   if(FAVOR_AMD AND FAVOR_INTEL)
       message(FATAL_ERROR "Cannot enable FAVOR_AMD and FAVOR_INTEL at the same time")
@@ -125,9 +151,6 @@ if (WINDOWS)
   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} ${GLOBAL_CXX_FLAGS}" CACHE STRING "C++ compiler release-with-debug options" FORCE)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${GLOBAL_CXX_FLAGS}" CACHE STRING "C++ compiler release options" FORCE)
 
-  set(CMAKE_CXX_STANDARD_LIBRARIES "")
-  set(CMAKE_C_STANDARD_LIBRARIES "")
-
   add_definitions(
       /DLL_WINDOWS=1
       /DNOMINMAX
@@ -140,6 +163,10 @@ if (WINDOWS)
       /D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING
       /DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
       )
+
+  if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    add_definitions(-DBOOST_USE_WINDOWS_H)
+  endif()
 
   # configure win32 API for 7 and above compatibility
   set(WINVER "0x0601" CACHE STRING "Win32 API Target version (see http://msdn.microsoft.com/en-us/library/aa383745%28v=VS.85%29.aspx)")

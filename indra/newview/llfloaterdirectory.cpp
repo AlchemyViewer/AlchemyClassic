@@ -49,7 +49,6 @@
 // newview
 #include "llagent.h"
 #include "llpanelsearchbase.h"
-#include "llpanelsearchweb.h"
 #include "llproductinforequest.h"
 
 SearchQuery::SearchQuery()
@@ -68,7 +67,6 @@ LLFloaterDirectory::LLFloaterDirectory(const Params& key)
 	, mQueryID()
 	, mTabContainer(nullptr)
 	, mDetailPeople(nullptr)
-	, mPanelWeb(nullptr)
 	, mResultList(nullptr)
 	, mResultsStatus(nullptr)
 {
@@ -88,7 +86,6 @@ BOOL LLFloaterDirectory::postBuild()
 		if (panel)
 			panel->setSearchFloater(this);
 	}
-	mPanelWeb = findChild<LLPanelSearchWeb>("panel_search_web");
 	mTabContainer = findChild<LLTabContainer>("search_tabs");
 	mTabContainer->setCommitCallback(boost::bind(&LLFloaterDirectory::onTabChanged, this));
 	setProgress(false);
@@ -102,18 +99,11 @@ BOOL LLFloaterDirectory::postBuild()
 
 void LLFloaterDirectory::onOpen(const LLSD& key)
 {
-	Params p(key);
-	mPanelWeb->loadUrl(p.search);
-	if (key.has("query"))
-	{
-		mTabContainer->selectTabPanel(mPanelWeb);
-	}
 	onTabChanged();
 }
 
 void LLFloaterDirectory::onClose(bool app_quitting)
 {
-	mPanelWeb->releaseMediaInstance();
 }
 
 void LLFloaterDirectory::setProgress(bool working)
@@ -129,11 +119,10 @@ void LLFloaterDirectory::setResultsComment(const std::string& message)
 void LLFloaterDirectory::onTabChanged()
 {
 	LLPanel* active_panel = mTabContainer->getCurrentPanel();
-	bool show_detail = active_panel != mPanelWeb;
-	findChild<LLLayoutStack>("results_stack")->setVisible(show_detail);
-	findChild<LLButton>("PageUp")->setVisible(show_detail);
-	findChild<LLButton>("PageDn")->setVisible(show_detail);
-	mResultsStatus->setVisible(show_detail);
+	findChild<LLLayoutStack>("results_stack")->setVisible(true);
+	findChild<LLButton>("PageUp")->setVisible(true);
+	findChild<LLButton>("PageDn")->setVisible(true);
+	mResultsStatus->setVisible(true);
 }
 
 void LLFloaterDirectory::onCommitSelection()

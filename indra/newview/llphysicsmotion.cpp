@@ -37,9 +37,6 @@
 #include "llvoavatarself.h"
 #include <utility>
 
-typedef std::map<std::string, std::string> controller_map_t;
-typedef std::map<std::string, F32> default_controller_map_t;
-
 #define MIN_REQUIRED_PIXEL_AREA_AVATAR_PHYSICS_MOTION 0.f
 // we use TIME_ITERATION_STEP_MAX in division operation, make sure this is a simple
 // value and devision result won't end with repeated/recurring tail like 1.333(3)
@@ -52,9 +49,9 @@ inline F64 llsgn(const F64 a)
         return -1;
 }
 
-default_controller_map_t initDefaultController()
+LLPhysicsMotion::default_controller_map_t initDefaultController()
 {
-        default_controller_map_t controller;
+        LLPhysicsMotion::default_controller_map_t controller;
         controller["Mass"] = 0.2f;
         controller["Gravity"] = 0.0f;
         controller["Damping"] = .05f;
@@ -65,7 +62,7 @@ default_controller_map_t initDefaultController()
         return controller;
 }
 
-default_controller_map_t LLPhysicsMotion::sDefaultController = initDefaultController();
+LLPhysicsMotion::default_controller_map_t LLPhysicsMotion::sDefaultController = initDefaultController();
 
 LLPhysicsMotion::LLPhysicsMotion(std::string param_driver_name,
 	std::string joint_name,
@@ -131,7 +128,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
 
         // Breast Cleavage
         {
-                controller_map_t controller;
+                LLPhysicsMotion::controller_map_t controller;
                 controller["Mass"] = "Breast_Physics_Mass";
                 controller["Gravity"] = "Breast_Physics_Gravity";
                 controller["Drag"] = "Breast_Physics_Drag";
@@ -154,7 +151,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
 
         // Breast Bounce
         {
-                controller_map_t controller;
+                LLPhysicsMotion::controller_map_t controller;
                 controller["Mass"] = "Breast_Physics_Mass";
                 controller["Gravity"] = "Breast_Physics_Gravity";
                 controller["Drag"] = "Breast_Physics_Drag";
@@ -177,7 +174,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
 
         // Breast Sway
         {
-                controller_map_t controller;
+                LLPhysicsMotion::controller_map_t controller;
                 controller["Mass"] = "Breast_Physics_Mass";
                 controller["Gravity"] = "Breast_Physics_Gravity";
                 controller["Drag"] = "Breast_Physics_Drag";
@@ -199,7 +196,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
         }
         // Butt Bounce
         {
-                controller_map_t controller;
+                LLPhysicsMotion::controller_map_t controller;
                 controller["Mass"] = "Butt_Physics_Mass";
                 controller["Gravity"] = "Butt_Physics_Gravity";
                 controller["Drag"] = "Butt_Physics_Drag";
@@ -222,7 +219,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
 
         // Butt LeftRight
         {
-                controller_map_t controller;
+                LLPhysicsMotion::controller_map_t controller;
                 controller["Mass"] = "Butt_Physics_Mass";
                 controller["Gravity"] = "Butt_Physics_Gravity";
                 controller["Drag"] = "Butt_Physics_Drag";
@@ -245,7 +242,7 @@ LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter
 
         // Belly Bounce
         {
-                controller_map_t controller;
+                LLPhysicsMotion::controller_map_t controller;
                 controller["Mass"] = "Belly_Physics_Mass";
                 controller["Gravity"] = "Belly_Physics_Gravity";
                 controller["Drag"] = "Belly_Physics_Drag";

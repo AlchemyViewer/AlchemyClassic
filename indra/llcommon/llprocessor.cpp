@@ -32,11 +32,7 @@
 
 #if LL_WINDOWS
 #	include "llwin32headerslean.h"
-#	define _interlockedbittestandset _renamed_interlockedbittestandset
-#	define _interlockedbittestandreset _renamed_interlockedbittestandreset
 #	include <intrin.h>
-#	undef _interlockedbittestandset
-#	undef _interlockedbittestandreset
 #endif
 
 #include "llsd.h"
@@ -831,20 +827,20 @@ private:
 
 //////////////////////////////////////////////////////
 // Interface definition
-LLProcessorInfo::LLProcessorInfo() : mImpl(nullptr)
+
+std::unique_ptr<LLProcessorInfoImpl> LLProcessorInfo::mImpl = nullptr;
+
+LLProcessorInfo::LLProcessorInfo()
 {
 	// *NOTE:Mani - not thread safe.
 	if(!mImpl)
 	{
-#ifdef LL_MSVC
-		static LLProcessorInfoWindowsImpl the_impl; 
-		mImpl = &the_impl;
+#ifdef LL_WINDOWS
+		mImpl = std::make_unique<LLProcessorInfoWindowsImpl>();
 #elif LL_DARWIN
-		static LLProcessorInfoDarwinImpl the_impl; 
-		mImpl = &the_impl;
+		mImpl = std::make_unique<LLProcessorInfoDarwinImpl>();
 #else
-		static LLProcessorInfoLinuxImpl the_impl; 
-		mImpl = &the_impl;		
+		mImpl = std::make_unique<LLProcessorInfoLinuxImpl>();
 #endif // LL_MSVC
 	}
 }

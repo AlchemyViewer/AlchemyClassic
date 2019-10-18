@@ -3628,7 +3628,7 @@ void LLWindowWin32::setLanguageTextInput( const LLCoordGL & position )
 		convertCoords( position, &win_pos );
 
 		if ( win_pos.mX >= 0 && win_pos.mY >= 0 && 
-			(win_pos.mX != sWinIMEWindowPosition.mX) || (win_pos.mY != sWinIMEWindowPosition.mY) )
+			((win_pos.mX != sWinIMEWindowPosition.mX) || (win_pos.mY != sWinIMEWindowPosition.mY)) )
 		{
 			COMPOSITIONFORM ime_form;
 			memset( &ime_form, 0, sizeof(ime_form) );

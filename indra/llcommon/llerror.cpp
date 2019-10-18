@@ -1254,7 +1254,7 @@ namespace LLError
 		// DO NOT resurrect them.
 		if (Settings::wasDeleted() || Globals::wasDeleted())
 		{
-			return;
+			return new std::ostringstream;
 		}
 
 		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();

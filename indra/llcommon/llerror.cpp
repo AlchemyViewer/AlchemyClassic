@@ -1197,17 +1197,17 @@ namespace LLError
 
 	bool Log::shouldLog(CallSite& site)
 	{
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
-		LLMutexTrylock lock(gLogMutexp.get(), 5);
-		if (!lock.isLocked())
-		{
-			return false;
-		}
-
 		// If we hit a logging request very late during shutdown processing,
 		// when either of the relevant LLSingletons has already been deleted,
 		// DO NOT resurrect them.
 		if (Settings::wasDeleted() || Globals::wasDeleted())
+		{
+			return false;
+		}
+
+		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		LLMutexTrylock lock(gLogMutexp.get(), 5);
+		if (!lock.isLocked())
 		{
 			return false;
 		}
@@ -1249,12 +1249,20 @@ namespace LLError
 
 	std::ostringstream* Log::out()
 	{
+		// If we hit a logging request very late during shutdown processing,
+		// when either of the relevant LLSingletons has already been deleted,
+		// DO NOT resurrect them.
+		if (Settings::wasDeleted() || Globals::wasDeleted())
+		{
+			return;
+		}
+
 		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
 		LLMutexTrylock lock(gLogMutexp.get(), 5);
 		// If we hit a logging request very late during shutdown processing,
 		// when either of the relevant LLSingletons has already been deleted,
 		// DO NOT resurrect them.
-		if (lock.isLocked() && ! (Settings::wasDeleted() || Globals::wasDeleted()))
+		if (lock.isLocked())
 		{
 			Globals* g = Globals::getInstance();
 
@@ -1270,17 +1278,17 @@ namespace LLError
 
 	void Log::flush(std::ostringstream* out, char* message)
 	{
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
-		LLMutexTrylock lock(gLogMutexp.get(), 5);
-		if (!lock.isLocked())
-		{
-			return;
-		}
-
 		// If we hit a logging request very late during shutdown processing,
 		// when either of the relevant LLSingletons has already been deleted,
 		// DO NOT resurrect them.
 		if (Settings::wasDeleted() || Globals::wasDeleted())
+		{
+			return;
+		}
+
+		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		LLMutexTrylock lock(gLogMutexp.get(), 5);
+		if (!lock.isLocked())
 		{
 			return;
 		}
@@ -1311,17 +1319,17 @@ namespace LLError
 
 	void Log::flush(std::ostringstream* out, const CallSite& site)
 	{
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
-		LLMutexTrylock lock(gLogMutexp.get(), 5);
-		if (!lock.isLocked())
-		{
-			return;
-		}
-
 		// If we hit a logging request very late during shutdown processing,
 		// when either of the relevant LLSingletons has already been deleted,
 		// DO NOT resurrect them.
 		if (Settings::wasDeleted() || Globals::wasDeleted())
+		{
+			return;
+		}
+
+		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		LLMutexTrylock lock(gLogMutexp.get(), 5);
+		if (!lock.isLocked())
 		{
 			return;
 		}

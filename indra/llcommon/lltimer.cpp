@@ -37,11 +37,6 @@
 #	error "architecture not supported"
 #endif
 
-//
-// Locally used constants
-//
-const U64 SEC_TO_MICROSEC_U64 = 1000000;
-
 //---------------------------------------------------------------------------
 // Globals and statics
 //---------------------------------------------------------------------------

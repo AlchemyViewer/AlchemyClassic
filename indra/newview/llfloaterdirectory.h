@@ -36,6 +36,7 @@
 
 class LLUICtrl;
 class LLPanel;
+class LLPanelSearchWeb;
 class LLScrollListCtrl;
 class LLTabContainer;
 class LLTextBase;
@@ -125,6 +126,7 @@ private:
 	
 	LLTabContainer*	mTabContainer;
 	LLPanel* mDetailPeople;
+	LLPanelSearchWeb* mPanelWeb;
 	LLScrollListCtrl* mResultList;
 	LLTextBase* mResultsStatus;
 };

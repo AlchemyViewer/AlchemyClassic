@@ -2,7 +2,7 @@
 * @file llpanelavcomplexitypulldown.cpp
 * @brief Avatar weight flyout
 *
-* Copyright (c) 2017, Cinder Roxley <cinder@sdf.org>
+* Copyright (c) 2017-2019, Cinder Roxley <cinder@sdf.org>
 *
 * Permission is hereby granted, free of charge, to any person or organization
 * obtaining a copy of the software and accompanying documentation covered by
@@ -32,9 +32,9 @@
 #include "llpanelavcomplexitypulldown.h"
 
 #include "lltextbox.h"
+#include "lltrans.h"
 
 LLPanelAvatarComplexityPulldown::LLPanelAvatarComplexityPulldown()
-:	LLPanelMenuBarPulldown()
 {
 	buildFromFile("panel_avcomplexity_pulldown.xml");
 }
@@ -43,12 +43,23 @@ BOOL LLPanelAvatarComplexityPulldown::postBuild()
 {
 	mComplexity = getChild<LLTextBox>("complexity");
 	mVisibility = getChild<LLTextBox>("visibility");
+
+    setAvComplexity(0, 0, 0);
+
 	return LLPanel::postBuild();
 }
 
 void LLPanelAvatarComplexityPulldown::setAvComplexity(S32 complexity, F32 muted_pct, U32 agents)
 {
-	if (mComplexity) mComplexity->setTextArg("COMPLEXITY", fmt::to_string(complexity));
+    if (mComplexity)
+    {
+        if (complexity > 0) 
+            mComplexity->setTextArg("COMPLEXITY", fmt::to_string(complexity));
+        if (complexity == 0)
+            mComplexity->setTextArg("COMPLEXITY", LLTrans::getString("Unknown"));
+        else 
+            mComplexity->setTextArg("COMPLEXITY", LLTrans::getString("invalid"));
+    }
 	if (mVisibility)
 	{
 		mVisibility->setTextArg("VISIBILITY", agents ? llformat("%.2f", 100.f - muted_pct) : "100");

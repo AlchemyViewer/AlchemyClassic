@@ -20,8 +20,12 @@
 	<!-- starting up -->
 	<string name="StartupDetectingHardware">Detecting hardware...</string>
 	<string name="StartupLoading">Loading [APP_NAME]...</string>
-	<string name="StartupClearingCache">Clearing cache...</string>
-	<string name="StartupInitializingTextureCache">Initializing texture cache...</string>
+	<string name="StartupClearingCache">Nuking cache...</string>
+	<string name="StartupInitializingTextureCache0">Fluffing texture cache...</string>
+    <string name="StartupInitializingTextureCache1">Reticulating pixel dump...</string>
+    <string name="StartupInitializingTextureCache2">Preheating texture baker...</string>
+    <string name="StartupInitializingTextureCache3">Booping snoot, texturally...</string>
+    <string name="StartupInitializingTextureCache4">Waking lumbering giant...</string>
 	<string name="StartupInitializingVFS">Initializing VFS...</string>
 	<string name="StartupRequireDriverUpdate">Graphics initialization failed. Please update your graphics driver!</string>
 
@@ -4375,7 +4379,6 @@ and report the problem.
 [https://community.secondlife.com/knowledgebase/english/error-messages-r520/#Section__3 Knowledge Base]
   </string>
   <!-- Alchemy string below this line-->
-  <!-- Build Floater-->
   <string name="AutoresponsePrefix">(Autoresponse) </string>
   <string name="BuildMultiSelect">(multiple)</string>
   <string name="Free">free</string>
@@ -4386,5 +4389,7 @@ and report the problem.
   <string name="SimulatorFeaturesTitle">SIMULATOR FEATURES</string>
   <string name="GridInfoTitle">GRID INFO</string>
   <string name="AvatarTyping">Typing</string>
+  <string name="Unknown">Unknown</string>
+
 
 </strings>

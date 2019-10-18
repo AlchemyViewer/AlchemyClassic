@@ -29,6 +29,7 @@
 #include <iostream>
 #include <sstream>
 #include "llversioninfo.h"
+#include "llviewerbuildconfig.h"
 #include <boost/regex.hpp>
 
 #if ! defined(LL_VIEWER_CHANNEL)       \
@@ -99,13 +100,9 @@ const std::string &LLVersionInfo::getShortVersion()
 
 namespace
 {
-	// LL_VIEWER_CHANNEL is a macro defined on the compiler command line. The
-	// macro expands to the string name of the channel, but without quotes. We
-	// need to turn it into a quoted string. LL_TO_STRING() does that.
-	/// Storage of the channel name the viewer is using.
 	//  The channel name is set by hardcoded constant, 
 	//  or by calling LLVersionInfo::resetChannel()
-	std::string sWorkingChannelName(LL_TO_STRING(LL_VIEWER_CHANNEL));
+	std::string sWorkingChannelName(LL_VIEWER_CHANNEL);
 
 	// Storage for the "version and channel" string.
 	// This will get reset too.

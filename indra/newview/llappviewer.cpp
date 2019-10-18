@@ -29,6 +29,7 @@
 #include "llappviewer.h"
 
 // Viewer includes
+#include "llviewerbuildconfig.h"
 #include "llversioninfo.h"
 #include "llfeaturemanager.h"
 #include "lltexteditor.h"
@@ -124,7 +125,7 @@
 #include "llcoros.h"
 #include "llexception.h"
 #include "cef/dullahan.h"
-#if VLCPLUGIN
+#if LIBVLCPLUGIN
 #include "vlc/libvlc_version.h"
 #endif // LL_WINDOWS
 
@@ -3224,7 +3225,7 @@ LLSD LLAppViewer::getViewerInfo() const
 
 #endif
 
-#if VLCPLUGIN
+#if LIBVLCPLUGIN
 	std::ostringstream ver_codec;
 	ver_codec << LIBVLC_VERSION_MAJOR;
 	ver_codec << ".";

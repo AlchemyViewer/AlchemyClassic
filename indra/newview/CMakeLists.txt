@@ -107,6 +107,7 @@ include_directories(
     ${LIBS_PREBUILT_DIR}/include/collada/1.4
     ${LLAPPEARANCE_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
     )
 
 include_directories(SYSTEM
@@ -1450,11 +1451,8 @@ source_group("CMake Rules" FILES ViewerInstall.cmake)
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt"
            "${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}\n")
 
-set_source_files_properties(
-   llversioninfo.cpp tests/llversioninfo_test.cpp 
-   PROPERTIES
-   COMPILE_DEFINITIONS "${VIEWER_CHANNEL_VERSION_DEFINES}" # see BuildVersion.cmake
-   )
+configure_file(llviewerbuildconfig.h.in llviewerbuildconfig.h @ONLY)
+LIST(APPEND viewer_HEADER_FILES ${CMAKE_CURRENT_BINARY_DIR}/llviewerbuildconfig.h)
 
 if (DARWIN)
   LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsmac.cpp)
@@ -1750,23 +1748,6 @@ if (WINDOWS)
   list(APPEND viewer_SOURCE_FILES ${viewer_INSTALLER_FILES})
 endif (WINDOWS)
 
-if (OPENAL)
-  list(APPEND LLSTARTUP_COMPILE_DEFINITIONS "LL_OPENAL=1")
-endif (OPENAL)
-
-if (USE_FMODSTUDIO)
-  list(APPEND LLSTARTUP_COMPILE_DEFINITIONS "LL_FMODSTUDIO=1")
-  set(FMODWRAPPER_LIBRARY ${FMODSTUDIO_LIBRARY})
-endif (USE_FMODSTUDIO)
-
-set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_DEFINITIONS "${LLSTARTUP_COMPILE_DEFINITIONS}")
-
-if (LIBVLCPLUGIN)
-    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_DEFINITIONS "VLCPLUGIN=1")
-else (LIBVLCPLUGIN)
-    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_DEFINITIONS "VLCPLUGIN=0")
-endif (LIBVLCPLUGIN)
-
 list(APPEND viewer_SOURCE_FILES ${viewer_HEADER_FILES})
 
 set_source_files_properties(${viewer_HEADER_FILES}
@@ -2034,7 +2015,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${BOOST_REGEX_LIBRARY}
     ${DBUSGLIB_LIBRARIES}
     ${OPENGL_LIBRARIES}
-    ${FMODWRAPPER_LIBRARY} # must come after LLAudio
+    ${FMODSTUDIO_LIBRARY} # must come after LLAudio
     ${GLOD_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${SDL_LIBRARY}
@@ -2120,7 +2101,6 @@ if (LINUX)
     add_custom_target(llpackage ALL DEPENDS ${product}.tar.xz)
     # Make sure we don't run two instances of viewer_manifest.py at the same time.
     add_dependencies(llpackage copy_l_viewer_manifest)
-    check_message_template(llpackage)
   endif (PACKAGE)
 endif (LINUX)
 

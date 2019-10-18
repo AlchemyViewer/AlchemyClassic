@@ -64,7 +64,7 @@ if (USE_FMODSTUDIO)
          )
 endif (USE_FMODSTUDIO)
 	
-if (OPENAL)
+if (USE_OPENAL)
   list(APPEND llaudio_SOURCE_FILES
     llaudioengine_openal.cpp
     lllistener_openal.cpp
@@ -74,7 +74,7 @@ if (OPENAL)
     llaudioengine_openal.h
     lllistener_openal.h
     )
-endif (OPENAL)
+endif (USE_OPENAL)
 
 set_source_files_properties(${llaudio_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)

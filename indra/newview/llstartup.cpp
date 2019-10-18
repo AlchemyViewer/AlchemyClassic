@@ -29,6 +29,7 @@
 #include "llappviewer.h"
 #include "llstartup.h"
 #include "llcallstack.h"
+#include "llviewerbuildconfig.h"
 
 #if LL_WINDOWS
 #	include <process.h>		// _spawnl()
@@ -39,11 +40,11 @@
 #include "llviewermedia_streamingaudio.h"
 #include "llaudioengine.h"
 
-#ifdef LL_FMODSTUDIO
+#if USE_FMODSTUDIO
 # include "llaudioengine_fmodstudio.h"
 #endif
 
-#ifdef LL_OPENAL
+#if USE_OPENAL
 #include "llaudioengine_openal.h"
 #endif
 
@@ -610,7 +611,7 @@ bool idle_startup()
 			delete gAudiop;
 			gAudiop = nullptr;
 
-#ifdef LL_FMODSTUDIO
+#if USE_FMODSTUDIO
 			if (!gAudiop
 #if !LL_WINDOWS
 				&& NULL == getenv("LL_BAD_FMODSTUDIO_DRIVER")
@@ -621,7 +622,7 @@ bool idle_startup()
 			}
 #endif
 
-#ifdef LL_OPENAL
+#if USE_OPENAL
 			if (!gAudiop
 #if !LL_WINDOWS
 				&& NULL == getenv("LL_BAD_OPENAL_DRIVER")

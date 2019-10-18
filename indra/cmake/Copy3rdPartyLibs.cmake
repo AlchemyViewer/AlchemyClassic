@@ -88,10 +88,10 @@ if(WINDOWS)
       list(APPEND release_files libtcmalloc_minimal.dll)
     endif(USE_TCMALLOC)
 
-    if(OPENAL)
+    if(USE_OPENAL)
       list(APPEND debug_files alut.dll OpenAL32.dll)
       list(APPEND release_files alut.dll OpenAL32.dll)
-    endif(OPENAL)
+    endif(USE_OPENAL)
 
     if (USE_FMODSTUDIO)
       list(APPEND debug_files fmodL.dll)
@@ -139,9 +139,9 @@ elseif(DARWIN)
         libopenjpeg.dylib
        )
 
-    if (OPENAL)
+    if (USE_OPENAL)
       list(APPEND release_files libopenal.dylib libalut.dylib)
-    endif (OPENAL)
+    endif (USE_OPENAL)
 
     if (USE_FMODSTUDIO)
       list(APPEND debug_files libfmodL.dylib)

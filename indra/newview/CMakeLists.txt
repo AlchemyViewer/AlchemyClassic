@@ -534,7 +534,6 @@ set(viewer_SOURCE_FILES
     llpanelsearchlandsales.cpp
     llpanelsearchpeople.cpp
     llpanelsearchplaces.cpp
-    llpanelsearchweb.cpp
     llpanelsnapshot.cpp
     llpanelsnapshotinventory.cpp
     llpanelsnapshotlocal.cpp
@@ -1195,7 +1194,6 @@ set(viewer_HEADER_FILES
     llpanelsearchlandsales.h
     llpanelsearchpeople.h
     llpanelsearchplaces.h
-    llpanelsearchweb.h
     llpanelsnapshot.h
     llpanelstreaminfo.h
     llpanelteleporthistory.h

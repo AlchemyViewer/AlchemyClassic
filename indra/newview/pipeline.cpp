@@ -281,7 +281,7 @@ std::string gPoolNames[] =
 	"POOL_FULLBRIGHT",
 	"POOL_BUMP",
 	"POOL_MATERIALS",
-	"POOL_TERRAIN,"	
+	"POOL_TERRAIN",	
 	"POOL_TREE",
 	"POOL_SKY",
 	"POOL_WL_SKY",

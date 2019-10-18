@@ -220,17 +220,17 @@ struct symbol_info
 	LLCommandHandler::EUntrustedAccess value;
 };
 
-#define ent(SYMBOL)										\
-	{													\
-		#SYMBOL + 28, /* skip "LLCommandHandler::UNTRUSTED_" prefix */	\
-		SYMBOL											\
-	}
+#define ent(SYMBOL)                                      \
+    {                                                    \
+        #SYMBOL,                                         \
+        LLCommandHandler::UNTRUSTED_ ## SYMBOL           \
+    }
 
 symbol_info symbols[] =
 {
-	ent(LLCommandHandler::UNTRUSTED_ALLOW),		  // allow commands from untrusted browsers
-	ent(LLCommandHandler::UNTRUSTED_BLOCK),		  // ignore commands from untrusted browsers
-	ent(LLCommandHandler::UNTRUSTED_THROTTLE)	  // allow untrusted, but only a few per min.
+    ent(ALLOW),          // allow commands from untrusted browsers
+    ent(BLOCK),          // ignore commands from untrusted browsers
+    ent(THROTTLE)      // allow untrusted, but only a few per min.
 };
 
 #undef ent

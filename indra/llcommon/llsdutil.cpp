@@ -329,18 +329,18 @@ struct Data
     const char* name;
 } typedata[] =
 {
-#define def(type) { LLSD::type, #type + 4 }
-    def(TypeUndefined),
-    def(TypeBoolean),
-    def(TypeInteger),
-    def(TypeReal),
-    def(TypeString),
-    def(TypeUUID),
-    def(TypeDate),
-    def(TypeURI),
-    def(TypeBinary),
-    def(TypeMap),
-    def(TypeArray)
+#define def(type) { LLSD::Type ## type, #type }
+    def(Undefined),
+    def(Boolean),
+    def(Integer),
+    def(Real),
+    def(String),
+    def(UUID),
+    def(Date),
+    def(URI),
+    def(Binary),
+    def(Map),
+    def(Array)
 #undef  def
 };
 

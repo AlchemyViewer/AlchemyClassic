@@ -83,6 +83,7 @@ class LLMotionController
 {
 public:
 	using motion_set_t = absl::flat_hash_set<LLMotion*>;
+	using motion_list_t = std::list<LLMotion*>;
 	using motion_deque_t = std::deque<LLMotion*>;
 	BOOL mIsSelf;
 	
@@ -212,7 +213,7 @@ protected:
 
 	motion_set_t		mLoadingMotions;
 	motion_set_t		mLoadedMotions;
-	motion_set_t		mActiveMotions;
+	motion_list_t		mActiveMotions;
 	motion_set_t		mDeprecatedMotions;
 	
 	LLFrameTimer		mTimer;

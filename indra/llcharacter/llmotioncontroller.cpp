@@ -333,7 +333,7 @@ void LLMotionController::removeMotionInstance(LLMotion* motionp)
 			motionp->deactivate();
 		mLoadingMotions.erase(motionp);
 		mLoadedMotions.erase(motionp);
-		mActiveMotions.erase(motionp);
+		mActiveMotions.remove(motionp);
 		delete motionp;
 	}
 }
@@ -961,9 +961,9 @@ BOOL LLMotionController::activateMotionInstance(LLMotion *motion, F32 time)
 	
 	if (motion->isActive())
 	{
-		mActiveMotions.erase(motion);
+		mActiveMotions.remove(motion);
 	}
-	mActiveMotions.emplace(motion);
+	mActiveMotions.push_front(motion);
 
 	motion->activate(time);
 	motion->onUpdate(0.f, mJointSignature[1]);
@@ -998,7 +998,7 @@ BOOL LLMotionController::deactivateMotionInstance(LLMotion *motion)
 	else
 	{
 		// for motions that we are keeping, simply remove from active queue
-		mActiveMotions.erase(motion);
+		mActiveMotions.remove(motion);
 	}
 
 	return TRUE;
@@ -1062,7 +1062,7 @@ void LLMotionController::dumpMotions()
 			state_string += std::string("l");
 		if (mLoadedMotions.find(motion) != mLoadedMotions.cend())
 			state_string += std::string("L");
-		if (mActiveMotions.find(motion) != mActiveMotions.cend())
+		if (std::find(mActiveMotions.cbegin(), mActiveMotions.cend(), motion)!=mActiveMotions.cend())
 			state_string += std::string("A");
 		if (mDeprecatedMotions.find(motion) != mDeprecatedMotions.cend())
 			state_string += std::string("D");

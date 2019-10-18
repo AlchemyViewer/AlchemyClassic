@@ -63,7 +63,17 @@
 
 
 // Figure out differences between compilers
-#if defined(__clang__)
+#if defined(__MSVC_VER__) || defined(_MSC_VER)
+	#ifndef LL_MSVC
+		#define LL_MSVC 1
+	#endif
+
+	#if defined(__clang__)
+		#ifndef LL_CLANG
+			#define LL_CLANG 1
+		#endif
+	#endif
+#elif defined(__clang__)
 	#define CLANG_VERSION (__clang_major__ * 10000 \
 						  + __clang_minor__ * 100 \
 						  + __clang_patchlevel__)
@@ -80,10 +90,6 @@
 						+ __GNUC_PATCHLEVEL__)
 	#ifndef LL_GNUC
 		#define LL_GNUC 1
-	#endif
-#elif defined(__MSVC_VER__) || defined(_MSC_VER)
-	#ifndef LL_MSVC
-		#define LL_MSVC 1
 	#endif
 #endif
 

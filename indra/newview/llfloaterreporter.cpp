@@ -787,7 +787,7 @@ LLSD LLFloaterReporter::gatherReport()
 			"%s %s %s %s %s",
 			LLVersionInfo::getShortVersion().c_str(),
 			platform,
-			gSysCPU.getFamily().c_str(),
+			LLCPUInfo::instance().getFamily().c_str(),
 			gGLManager.mGLRenderer.c_str(),
 			gGLManager.mDriverVersionVendorString.c_str());
 

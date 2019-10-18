@@ -747,7 +747,7 @@ void LLFeatureManager::applyBaseMasks()
 		maskFeatures("RAM256MB");
 	}
 	
-	if (gSysCPU.getMHz() < 1100)
+	if (LLCPUInfo::instance().getMHz() < 1100)
 	{
 		maskFeatures("CPUSlow");
 	}

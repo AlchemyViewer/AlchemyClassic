@@ -73,8 +73,6 @@ const char MEMINFO_FILE[] = "/proc/meminfo";
 #   include <gnu/libc-version.h>
 #endif
 
-LLCPUInfo gSysCPU;
-
 // Don't log memory info any more often than this. It also serves as our
 // framerate sample size.
 static const F32 MEM_INFO_THROTTLE = 20;

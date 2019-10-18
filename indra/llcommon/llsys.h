@@ -69,10 +69,10 @@ private:
 };
 
 
-class LL_COMMON_API LLCPUInfo
+class LL_COMMON_API LLCPUInfo : public LLSingleton<LLCPUInfo>
 {
+	LLSINGLETON(LLCPUInfo);
 public:
-	LLCPUInfo();	
 	void stream(std::ostream& s) const;
 
 	std::string getCPUString() const;
@@ -146,7 +146,5 @@ LL_COMMON_API std::ostream& operator<<(std::ostream& s, const LLMemoryInfo& info
 BOOL LL_COMMON_API gunzip_file(const std::string& srcfile, const std::string& dstfile);
 // gzip srcfile into dstfile.  Returns FALSE on error.
 BOOL LL_COMMON_API gzip_file(const std::string& srcfile, const std::string& dstfile);
-
-extern LL_COMMON_API LLCPUInfo gSysCPU;
 
 #endif // LL_LLSYS_H

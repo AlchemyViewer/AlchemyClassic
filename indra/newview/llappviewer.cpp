@@ -1031,7 +1031,7 @@ bool LLAppViewer::init()
 	}
 
 	// Without SSE2 support we will crash almost immediately, warn here.
-	if (!gSysCPU.hasSSE2())
+	if (!LLCPUInfo::instance().hasSSE2())
 	{
 		// can't use an alert here since we're exiting and
 		// all hell breaks lose.
@@ -1065,7 +1065,7 @@ bool LLAppViewer::init()
 			minSpecs += "\n";
 			unsupported = true;
 		}
-		if(gSysCPU.getMHz() < minCPU)
+		if(LLCPUInfo::instance().getMHz() < minCPU)
 		{
 			minSpecs += LLNotifications::instance().getGlobalString("UnsupportedCPU");
 			minSpecs += "\n";
@@ -3113,7 +3113,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	url += LLURI::escape(LLVersionInfo::getChannel() + " " + LLVersionInfo::getVersion());
 	info["VIEWER_RELEASE_NOTES_URL"] = url;
 
-#if LL_MSVC
+#if LL_MSVC && !defined(LL_CLANG)
 	info["COMPILER"] = "MSVC";
 	info["COMPILER_VERSION"] = _MSC_FULL_VER;
 #elif LL_GNUC
@@ -3144,7 +3144,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	}
 
 	// CPU
-	info["CPU"] = gSysCPU.getCPUString();
+	info["CPU"] = LLCPUInfo::instance().getCPUString();
 	info["MEMORY_MB"] = LLSD::Integer(gSysMemory.getPhysicalMemoryKB().valueInUnits<LLUnits::Megabytes>());
 	// Moved hack adjustment to Windows memory size into llsys.cpp
 	info["OS_VERSION"] = LLOSInfo::instance().getOSString();
@@ -3424,11 +3424,11 @@ void LLAppViewer::writeSystemInfo()
 
 	gDebugInfo["CAFilename"] = gDirUtilp->getCAFile();
 
-	gDebugInfo["CPUInfo"]["CPUString"] = gSysCPU.getCPUString();
-	gDebugInfo["CPUInfo"]["CPUFamily"] = gSysCPU.getFamily();
-	gDebugInfo["CPUInfo"]["CPUMhz"] = (S32)gSysCPU.getMHz();
-	gDebugInfo["CPUInfo"]["CPUSSE"] = gSysCPU.hasSSE();
-	gDebugInfo["CPUInfo"]["CPUSSE2"] = gSysCPU.hasSSE2();
+	gDebugInfo["CPUInfo"]["CPUString"] = LLCPUInfo::instance().getCPUString();
+	gDebugInfo["CPUInfo"]["CPUFamily"] = LLCPUInfo::instance().getFamily();
+	gDebugInfo["CPUInfo"]["CPUMhz"] = (S32)LLCPUInfo::instance().getMHz();
+	gDebugInfo["CPUInfo"]["CPUSSE"] = LLCPUInfo::instance().hasSSE();
+	gDebugInfo["CPUInfo"]["CPUSSE2"] = LLCPUInfo::instance().hasSSE2();
 
 	gDebugInfo["RAMInfo"]["Physical"] = (LLSD::Integer)(gSysMemory.getPhysicalMemoryKB().value());
 	gDebugInfo["RAMInfo"]["Allocated"] = (LLSD::Integer)(gMemoryAllocated.valueInUnits<LLUnits::Kilobytes>());
@@ -3472,7 +3472,7 @@ void LLAppViewer::writeSystemInfo()
 	LL_INFOS("SystemInfo") << "Local time: " << tbuffer << LL_ENDL;
 
 	// query some system information
-	LL_INFOS("SystemInfo") << "CPU info:\n" << gSysCPU << LL_ENDL;
+	LL_INFOS("SystemInfo") << "CPU info:\n" << LLCPUInfo::instance() << LL_ENDL;
 	LL_INFOS("SystemInfo") << "Memory info:\n" << gSysMemory << LL_ENDL;
 	LL_INFOS("SystemInfo") << "OS: " << LLOSInfo::instance().getOSStringSimple() << LL_ENDL;
 	LL_INFOS("SystemInfo") << "OS info: " << LLOSInfo::instance() << LL_ENDL;

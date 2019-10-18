@@ -52,153 +52,6 @@ inline F64 llsgn(const F64 a)
         return -1;
 }
 
-/* 
-   At a high level, this works by setting temporary parameters that are not stored
-   in the avatar's list of params, and are not conveyed to other users.  We accomplish
-   this by creating some new temporary driven params inside avatar_lad that are then driven
-   by the actual params that the user sees and sets.  For example, in the old system,
-   the user sets a param called breast bouyancy, which controls the Z value of the breasts.
-   In our new system, the user still sets the breast bouyancy, but that param is redefined
-   as a driver param so that affects a new temporary driven param that the bounce is applied
-   to.
-*/
-
-class LLPhysicsMotion
-{
-public:
-	typedef enum
-	{
-		SMOOTHING = 0,
-		MASS,
-		GRAVITY,
-		SPRING,
-		GAIN,
-		DAMPING,
-		DRAG,
-		MAX_EFFECT,
-		NUM_PARAMS
-	} eParamName;
-
-        /*
-          param_driver_name: The param that controls the params that are being affected by the physics.
-          joint_name: The joint that the body part is attached to.  The joint is
-          used to determine the orientation (rotation) of the body part.
-
-          character: The avatar that this physics affects.
-
-          motion_direction_vec: The direction (in world coordinates) that determines the
-          motion.  For example, (0,0,1) is up-down, and means that up-down motion is what
-          determines how this joint moves.
-
-          controllers: The various settings (e.g. spring force, mass) that determine how
-          the body part behaves.
-        */
-        LLPhysicsMotion(std::string param_driver_name,
-                        std::string joint_name,
-                        LLCharacter *character,
-                        const LLVector3 &motion_direction_vec,
-                        controller_map_t controllers) :
-                mParamDriverName(std::move(param_driver_name)),
-                mMotionDirectionVec(motion_direction_vec),
-                mJointName(std::move(joint_name)),
-                mPosition_local(0),
-                mVelocityJoint_local(0),
-                mPositionLastUpdate_local(0),
-                mParamDriver(nullptr),
-                mParamControllers(std::move(controllers)),
-                mCharacter(character),
-                mLastTime(0)
-        {
-                mJointState = new LLJointState;
-
-				for (auto& i : mParamCache)
-                {
-                    i = nullptr;
-				}
-        }
-
-        BOOL initialize();
-
-		~LLPhysicsMotion() = default;
-
-        BOOL onUpdate(F32 time);
-
-        LLPointer<LLJointState> getJointState() 
-        {
-                return mJointState;
-        }
-protected:
-
-		F32 getParamValue(eParamName param)
-		{
-			static std::string controller_key[] = 
-			{
-				"Smoothing",
-				"Mass",
-				"Gravity",
-				"Spring",
-				"Gain",
-				"Damping",
-				"Drag",
-				"MaxEffect"
-			};
-
-			if (!mParamCache[param])
-			{
-				const controller_map_t::const_iterator& entry = mParamControllers.find(controller_key[param]);
-                if (entry == mParamControllers.end())
-                {
-                        return sDefaultController[controller_key[param]];
-                }
-                const std::string& param_name = (*entry).second.c_str();
-                mParamCache[param] = mCharacter->getVisualParam(param_name.c_str());
-			}
-				
-			if (mParamCache[param])
-			{
-				return mParamCache[param]->getWeight();
-			}
-			else
-			{
-				return sDefaultController[controller_key[param]];
-			}
-		}
-
-        
-        void setParamValue(const LLViewerVisualParam *param,
-                           const F32 new_value_local,
-                                                   F32 behavior_maxeffect);
-
-        F32 toLocal(const LLVector3 &world);
-        F32 calculateVelocity_local(const F32 time_delta);
-        F32 calculateAcceleration_local(F32 velocity_local, const F32 time_delta);
-private:
-        const std::string mParamDriverName;
-        const std::string mParamControllerName;
-        const LLVector3 mMotionDirectionVec;
-        const std::string mJointName;
-
-        F32 mPosition_local;
-        F32 mVelocityJoint_local; // How fast the joint is moving
-        F32 mAccelerationJoint_local; // Acceleration on the joint
-
-        F32 mVelocity_local; // How fast the param is moving
-        F32 mPositionLastUpdate_local;
-        LLVector3 mPosition_world;
-
-        LLViewerVisualParam *mParamDriver;
-        const controller_map_t mParamControllers;
-        
-        LLPointer<LLJointState> mJointState;
-        LLCharacter *mCharacter;
-
-        F32 mLastTime;
-        
-		LLVisualParam* mParamCache[NUM_PARAMS];
-
-        static default_controller_map_t sDefaultController;
-};
-
 default_controller_map_t initDefaultController()
 {
         default_controller_map_t controller;
@@ -213,6 +66,30 @@ default_controller_map_t initDefaultController()
 }
 
 default_controller_map_t LLPhysicsMotion::sDefaultController = initDefaultController();
+
+LLPhysicsMotion::LLPhysicsMotion(std::string param_driver_name,
+	std::string joint_name,
+	LLCharacter* character,
+	const LLVector3& motion_direction_vec,
+	controller_map_t controllers) :
+	mParamDriverName(std::move(param_driver_name)),
+	mMotionDirectionVec(motion_direction_vec),
+	mJointName(std::move(joint_name)),
+	mPosition_local(0),
+	mVelocityJoint_local(0),
+	mPositionLastUpdate_local(0),
+	mParamDriver(nullptr),
+	mParamControllers(std::move(controllers)),
+	mCharacter(character),
+	mLastTime(0)
+{
+	mJointState = new LLJointState;
+
+	for (auto& i : mParamCache)
+	{
+		i = nullptr;
+	}
+}
 
 BOOL LLPhysicsMotion::initialize()
 {
@@ -738,6 +615,41 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
         */
 
         return update_visuals;
+}
+
+F32 LLPhysicsMotion::getParamValue(eParamName param)
+{
+	static std::string controller_key[] =
+	{
+		"Smoothing",
+		"Mass",
+		"Gravity",
+		"Spring",
+		"Gain",
+		"Damping",
+		"Drag",
+		"MaxEffect"
+	};
+
+	if (!mParamCache[param])
+	{
+		const controller_map_t::const_iterator& entry = mParamControllers.find(controller_key[param]);
+		if (entry == mParamControllers.end())
+		{
+			return sDefaultController[controller_key[param]];
+		}
+		const std::string& param_name = (*entry).second.c_str();
+		mParamCache[param] = mCharacter->getVisualParam(param_name.c_str());
+	}
+
+	if (mParamCache[param])
+	{
+		return mParamCache[param]->getWeight();
+	}
+	else
+	{
+		return sDefaultController[controller_key[param]];
+	}
 }
 
 // Range of new_value_local is assumed to be [0 , 1] normalized.

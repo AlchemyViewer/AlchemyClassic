@@ -27,6 +27,9 @@
 #ifndef LL_LLVIEWERMENU_H
 #define LL_LLVIEWERMENU_H
 
+#include "llparcelselection.h"
+#include "llselectmgr.h"
+
 #include "llmenugl.h"
 #include "llsafehandle.h"
 
@@ -34,9 +37,6 @@ class LLMessageSystem;
 class LLSD;
 class LLUICtrl;
 class LLView;
-class LLParcelSelection;
-class LLObjectSelection;
-class LLSelectNode;
 class LLViewerObject;
 class LLVOAvatar;
 

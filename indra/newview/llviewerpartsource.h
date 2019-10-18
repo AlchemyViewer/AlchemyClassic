@@ -32,6 +32,7 @@
 #include "llpointer.h"
 #include "llquaternion.h"
 #include "v3math.h"
+#include "llvoavatar.h"
 
 ////////////////////
 //
@@ -42,7 +43,6 @@
 class LLViewerTexture;
 class LLViewerObject;
 class LLViewerPart;
-class LLVOAvatar;
 
 class LLViewerPartSource : public LLRefCount
 {

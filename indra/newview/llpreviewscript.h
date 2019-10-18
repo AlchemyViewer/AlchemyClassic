@@ -32,6 +32,7 @@
 #include "llframetimer.h"
 #include "lllivefile.h"
 #include "llextendedstatus.h"
+#include "llviewerinventory.h"
 
 class LLLiveLSLFile;
 class LLMessageSystem;
@@ -46,7 +47,6 @@ struct 	LLEntryAndEdCore;
 class LLMenuBarGL;
 class LLKeywordToken;
 class LLVFS;
-class LLViewerInventoryItem;
 class LLScriptEdContainer;
 class LLFloaterGotoLine;
 class LLFloaterExperienceProfile;

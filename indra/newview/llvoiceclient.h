@@ -26,8 +26,6 @@
 #ifndef LL_VOICE_CLIENT_H
 #define LL_VOICE_CLIENT_H
 
-class LLVOAvatar;
-
 #include <utility>
 #include "lliopipe.h"
 #include "llpumpio.h"

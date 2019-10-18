@@ -2076,7 +2076,7 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 			break;
 		case WM_PARENTNOTIFY:
 			window_imp->mCallbacks->handlePingWatchdog(window_imp, "Main:WM_PARENTNOTIFY");
-			u_msg = u_msg;
+			//u_msg = u_msg;
 			break;
 
 		case WM_SETCURSOR:

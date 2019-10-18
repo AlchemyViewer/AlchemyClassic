@@ -291,8 +291,6 @@ private:
 #endif
 };
 
-static void	handleMessage( const MSG& msg );
-
 S32 OSMessageBoxWin32(const std::string& text, const std::string& caption, U32 type);
 
 #endif //LL_LLWINDOWWIN32_H

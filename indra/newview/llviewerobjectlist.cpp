@@ -848,6 +848,7 @@ void LLViewerObjectList::update(LLAgent &agent)
 	static LLCachedControl<bool> cc_velocity_interpolate(gSavedSettings, "VelocityInterpolate");
 	static LLCachedControl<bool> cc_ping_interpolate(gSavedSettings, "PingInterpolate");
 	static LLCachedControl<F32> cc_interpolation_time(gSavedSettings, "InterpolationTime");
+	static LLCachedControl<F32> cc_ping_region_cross_interp(gSavedSettings, "RegionCrossingInterpolationTime");
 	static LLCachedControl<F32> cc_interpolation_phase_out(gSavedSettings, "InterpolationPhaseOut");
 	static LLCachedControl<bool> cc_animate_textures(gSavedSettings, "AnimateTextures");
 
@@ -857,7 +858,7 @@ void LLViewerObjectList::update(LLAgent &agent)
 	
 	F32 interp_time = cc_interpolation_time;
 	F32 phase_out_time = cc_interpolation_phase_out;
-	F32 region_interp_time = llclamp(gSavedSettings.getF32("RegionCrossingInterpolationTime"), 0.5f, 5.f);
+	F32 region_interp_time = llclamp(cc_ping_region_cross_interp(), 0.5f, 5.f);
 	if (interp_time < 0.0 || 
 		phase_out_time < 0.0 ||
 		phase_out_time > interp_time)

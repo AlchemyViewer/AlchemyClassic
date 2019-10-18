@@ -1107,8 +1107,11 @@ void LLAgentCamera::updateLookAt(const S32 mouse_x, const S32 mouse_y)
 			F32 y_from_center = 
 				((F32) mouse_y / (F32) gViewerWindow->getWorldViewHeightScaled() ) - 0.5f;
 
-			frameCamera.yaw( - x_from_center * gSavedSettings.getF32("YawFromMousePosition") * DEG_TO_RAD);
-			frameCamera.pitch( - y_from_center * gSavedSettings.getF32("PitchFromMousePosition") * DEG_TO_RAD);
+			static LLCachedControl<F32> yaw_from_mpos(gSavedSettings, "YawFromMousePosition");
+			static LLCachedControl<F32> pitch_from_mpos(gSavedSettings, "PitchFromMousePosition");
+
+			frameCamera.yaw( - x_from_center * yaw_from_mpos * DEG_TO_RAD);
+			frameCamera.pitch( - y_from_center * pitch_from_mpos * DEG_TO_RAD);
 			lookAtType = LOOKAT_TARGET_FREELOOK;
 		}
 
@@ -1734,7 +1737,8 @@ LLVector3d LLAgentCamera::calcCameraPositionTargetGlobal(BOOL *hit_limit)
 		}
 		else
 		{
-			local_camera_offset = mCameraZoomFraction * getCameraOffsetInitial() * gSavedSettings.getF32("CameraOffsetScale");
+			static LLCachedControl<F32> sCameraOffsetScale(gSavedSettings, "CameraOffsetScale");
+			local_camera_offset = mCameraZoomFraction * getCameraOffsetInitial() * sCameraOffsetScale;
 			
 			// are we sitting down?
 			if (isAgentAvatarValid() && gAgentAvatarp->getParent())
@@ -1837,7 +1841,8 @@ LLVector3d LLAgentCamera::calcCameraPositionTargetGlobal(BOOL *hit_limit)
 					}
 					else
 					{
-						target_lag = vel * gSavedSettings.getF32("DynamicCameraStrength") / 30.f;
+						static LLCachedControl<F32> dynamic_cam_strength(gSavedSettings, "DynamicCameraStrength");
+						target_lag = vel * dynamic_cam_strength / 30.f;
 					}
 
 					mCameraLag = lerp(mCameraLag, target_lag, lag_interp);
@@ -1975,10 +1980,11 @@ void LLAgentCamera::handleScrollWheel(S32 clicks)
 		{
 			F32 camera_offset_initial_mag = getCameraOffsetInitial().magVec();
 			
-			F32 current_zoom_fraction = mTargetCameraDistance / (camera_offset_initial_mag * gSavedSettings.getF32("CameraOffsetScale"));
+			static LLCachedControl<F32> sCameraOffsetScale(gSavedSettings, "CameraOffsetScale");
+			F32 current_zoom_fraction = mTargetCameraDistance / (camera_offset_initial_mag * sCameraOffsetScale);
 			current_zoom_fraction *= 1.f - pow(ROOT_ROOT_TWO, clicks);
 			
-			cameraOrbitIn(current_zoom_fraction * camera_offset_initial_mag * gSavedSettings.getF32("CameraOffsetScale"));
+			cameraOrbitIn(current_zoom_fraction * camera_offset_initial_mag * sCameraOffsetScale);
 		}
 		else
 		{

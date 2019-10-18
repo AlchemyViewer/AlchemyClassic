@@ -223,7 +223,7 @@ void display_stats()
 		LLMemory::logMemoryInfo(TRUE) ;
 		gRecentMemoryTime.reset();
 	}
-    F32 asset_storage_log_freq = gSavedSettings.getF32("AssetStorageLogFrequency");
+    static LLCachedControl<F32> asset_storage_log_freq(gSavedSettings, "AssetStorageLogFrequency");
     if (asset_storage_log_freq > 0.f && gAssetStorageLogTime.getElapsedTimeF32() >= asset_storage_log_freq)
     {
         gAssetStorageLogTime.reset();

@@ -342,7 +342,8 @@ void LLAvatarActions::showProfile(const LLUUID& id)
 {
 	if (id.notNull())
 	{
-		if (gSavedSettings.getBool("AlchemyUseWannabeFacebook"))
+		static LLCachedControl<bool> wannabe_facebook(gSavedSettings, "AlchemyUseWannabeFacebook");
+		if (wannabe_facebook)
 		{
 			LLAvatarNameCache::get(id, boost::bind(&on_avatar_name_show_profile, _1, _2));
 		}
@@ -370,7 +371,8 @@ bool LLAvatarActions::profileVisible(const LLUUID& id)
 //static
 LLFloater* LLAvatarActions::getProfileFloater(const LLUUID& id)
 {
-	if (gSavedSettings.getBool("AlchemyUseWannabeFacebook"))
+	static LLCachedControl<bool> wannabe_facebook(gSavedSettings, "AlchemyUseWannabeFacebook");
+	if (wannabe_facebook)
 	{
 		return LLFloaterReg::findTypedInstance<LLFloaterWebContent>(get_profile_floater_name(id), LLSD().with("id", id));
 	}

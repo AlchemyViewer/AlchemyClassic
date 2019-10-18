@@ -1129,7 +1129,7 @@ BOOL LLToolPie::handleTooltipObject( LLViewerObject* hover_object, std::string l
 		//
 		//  Default prefs will suppress display unless the object is interactive
 		//
-		bool show_all_object_tips = gSavedSettings.getBool("ShowAllObjectHoverTip");
+		static LLCachedControl<bool> show_all_object_tips(gSavedSettings, "ShowAllObjectHoverTip");
 		LLSelectNode *nodep = LLSelectMgr::getInstance()->getHoverNode();
 		
 		// only show tooltip if same inspector not already open

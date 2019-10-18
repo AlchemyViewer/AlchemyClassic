@@ -335,7 +335,7 @@ BOOL LLViewerTexLayerSetBuffer::isReadyToUpdate() const
 
 	// Update if we've hit a timeout.  Unlike for uploads, we can make this timeout fairly small
 	// since render unnecessarily doesn't cost much.
-	const U32 texture_timeout = gSavedSettings.getU32("AvatarBakedLocalTextureUpdateTimeout");
+	static LLCachedControl<U32> texture_timeout(gSavedSettings, "AvatarBakedLocalTextureUpdateTimeout");
 	if (texture_timeout != 0)
 	{
 		// If we hit our timeout and have textures available at even lower resolution, then update.

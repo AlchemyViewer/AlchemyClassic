@@ -1271,7 +1271,7 @@ void LLAppViewer::initMaxHeapSize()
 	//currently SL is built under 32-bit setting, we set its max heap size no more than 1.6 GB.
 
 	//F32 max_heap_size_gb = llmin(1.6f, (F32)gSavedSettings.getF32("MaxHeapSize")) ;
-	F32Gigabytes max_heap_size_gb = (F32Gigabytes)gSavedSettings.getF32("MaxHeapSize") ;
+	F32Gigabytes max_heap_size_gb = F32Gigabytes(gSavedSettings.getF32("MaxHeapSize"));
 	BOOL enable_mem_failure_prevention = gSavedSettings.getBOOL("MemoryFailurePreventionEnabled") ;
 
 	LLMemory::initMaxHeapSizeGB(max_heap_size_gb, enable_mem_failure_prevention) ;

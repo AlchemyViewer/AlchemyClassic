@@ -4041,7 +4041,7 @@ void LLTexturePipelineTester::updateTextureBindingStats(const LLViewerTexture* i
 	
 void LLTexturePipelineTester::updateTextureLoadingStats(const LLViewerFetchedTexture* imagep, const LLImageRaw* raw_imagep, BOOL from_cache) 
 {
-	U32Bytes data_size = (U32Bytes)raw_imagep->getDataSize();
+	U32Bytes data_size = U32Bytes(raw_imagep->getDataSize());
 	mTotalBytesLoaded += data_size;
 
 	if(from_cache)

@@ -495,11 +495,11 @@ void process_layer_data(LLMessageSystem* mesgsys, void** user_data)
 	LLVLData* vl_datap = new LLVLData(regionp, type, datap, size);
 	if (mesgsys->getReceiveCompressedSize())
 	{
-		gVLManager.addLayerData(vl_datap, (S32Bytes)mesgsys->getReceiveCompressedSize());
+		gVLManager.addLayerData(vl_datap, S32Bytes(mesgsys->getReceiveCompressedSize()));
 	}
 	else
 	{
-		gVLManager.addLayerData(vl_datap, (S32Bytes)mesgsys->getReceiveSize());
+		gVLManager.addLayerData(vl_datap, S32Bytes(mesgsys->getReceiveSize()));
 	}
 }
 
@@ -3521,11 +3521,11 @@ void process_object_update(LLMessageSystem* mesgsys, void** user_data)
 	// Update the data counters
 	if (mesgsys->getReceiveCompressedSize())
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveCompressedSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveCompressedSize());
 	}
 	else
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveSize());
 	}
 
 	// Update the object...
@@ -3542,11 +3542,11 @@ void process_compressed_object_update(LLMessageSystem* mesgsys, void** user_data
 	// Update the data counters
 	if (mesgsys->getReceiveCompressedSize())
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveCompressedSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveCompressedSize());
 	}
 	else
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveSize());
 	}
 
 	// Update the object...
@@ -3563,11 +3563,11 @@ void process_cached_object_update(LLMessageSystem* mesgsys, void** user_data)
 	// Update the data counters
 	if (mesgsys->getReceiveCompressedSize())
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveCompressedSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveCompressedSize());
 	}
 	else
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveSize());
 	}
 
 	// Update the object...
@@ -3579,11 +3579,11 @@ void process_terse_object_update_improved(LLMessageSystem* mesgsys, void** user_
 {
 	if (mesgsys->getReceiveCompressedSize())
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveCompressedSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveCompressedSize());
 	}
 	else
 	{
-		gObjectData += (U32Bytes)mesgsys->getReceiveSize();
+		gObjectData += U32Bytes(mesgsys->getReceiveSize());
 	}
 
 	S32 old_num_objects = gObjectList.mNumNewObjects;

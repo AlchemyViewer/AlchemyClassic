@@ -390,7 +390,7 @@ LLHUDRenderNotifier::EWarnLevel LLHUDRenderNotifier::getWarningType(LLHUDComplex
     static LLCachedControl<U32> max_texture_memory(gSavedSettings, "RenderHUDTexturesMemoryWarning", WARN_HUD_TEXTURE_MEMORY_LIMIT);
 
     if (cmp_complexity.texturesMemoryTotal < object_complexity.texturesMemoryTotal
-        && object_complexity.texturesMemoryTotal > (F64Bytes)max_texture_memory)
+        && object_complexity.texturesMemoryTotal > F64Bytes(max_texture_memory))
     {
         // Note: Memory might not be accurate since texture is still loading or discard level changes
 

@@ -1298,7 +1298,7 @@ S32 LLMessageSystem::sendMessage(const LLHost &host)
 	else
 	{
 		// mCircuitInfo already points to the correct circuit data
-		cdp->addBytesOut( (S32Bytes)buffer_length );
+		cdp->addBytesOut(S32Bytes(buffer_length));
 	}
 
 	if(mVerboseLog)
@@ -1432,7 +1432,7 @@ void LLMessageSystem::logValidMsg(LLCircuitData *cdp, const LLHost& host, BOOL r
 	{
 		// update circuit packet ID tracking (missing/out of order packets)
 		cdp->checkPacketInID( mCurrentRecvPacketID, recv_resent );
-		cdp->addBytesIn( (S32Bytes)mTrueReceiveSize );
+		cdp->addBytesIn( S32Bytes(mTrueReceiveSize));
 	}
 
 	if(mVerboseLog)

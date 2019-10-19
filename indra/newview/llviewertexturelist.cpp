@@ -102,8 +102,8 @@ void LLViewerTextureList::init()
 {			
 	mInitialized = TRUE ;
 	sNumImages = 0;
-	mMaxResidentTexMemInMegaBytes = (U32Bytes)0;
-	mMaxTotalTextureMemInMegaBytes = (U32Bytes)0;
+	mMaxResidentTexMemInMegaBytes = U32Bytes(0);
+	mMaxTotalTextureMemInMegaBytes = U32Bytes(0);
 	
 	// Update how much texture RAM we're allowed to use.
 	updateMaxResidentTexMem(S32Megabytes(0)); // 0 = use current
@@ -1493,11 +1493,11 @@ void LLViewerTextureList::receiveImageHeader(LLMessageSystem *msg, void **user_d
 	U32Bytes received_size ;
 	if (msg->getReceiveCompressedSize())
 	{
-		received_size = (U32Bytes)msg->getReceiveCompressedSize() ;		
+		received_size = U32Bytes(msg->getReceiveCompressedSize());		
 	}
 	else
 	{
-		received_size = (U32Bytes)msg->getReceiveSize() ;		
+		received_size = U32Bytes(msg->getReceiveSize());		
 	}
 	add(LLStatViewer::TEXTURE_NETWORK_DATA_RECEIVED, received_size);
 	add(LLStatViewer::TEXTURE_PACKETS, 1);
@@ -1566,11 +1566,11 @@ void LLViewerTextureList::receiveImagePacket(LLMessageSystem *msg, void **user_d
 	U32Bytes received_size ;
 	if (msg->getReceiveCompressedSize())
 	{
-		received_size = (U32Bytes)msg->getReceiveCompressedSize() ;
+		received_size = U32Bytes(msg->getReceiveCompressedSize());
 	}
 	else
 	{
-		received_size = (U32Bytes)msg->getReceiveSize() ;		
+		received_size = U32Bytes(msg->getReceiveSize());		
 	}
 
 	add(LLStatViewer::TEXTURE_NETWORK_DATA_RECEIVED, F64Bytes(received_size));

@@ -444,6 +444,7 @@ void LLFastTimerView::draw()
 
 void LLFastTimerView::onOpen(const LLSD& key)
 {
+	mTimerBarRows.resize(NUM_FRAMES_HISTORY);
 	setPauseState(false);
 	mRecording.reset();
 	mRecording.appendPeriodicRecording(LLTrace::get_frame_recording());
@@ -453,7 +454,6 @@ void LLFastTimerView::onClose(bool app_quitting)
 {
 	setVisible(FALSE);
 	mTimerBarRows.clear();
-	mTimerBarRows.resize(NUM_FRAMES_HISTORY);
 }
 
 void saveChart(const std::string& label, const char* suffix, LLImageRaw* scratch)

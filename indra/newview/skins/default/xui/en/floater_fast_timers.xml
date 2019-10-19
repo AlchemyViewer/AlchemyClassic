@@ -11,7 +11,8 @@
  name="fast_timers"
  save_rect="true"
  save_visibility="false"
- single_instance="true" 
+ single_instance="true"
+ reuse_instance="false"
  min_width="400"
  width="700">
   <string name="pause" >Pause</string>

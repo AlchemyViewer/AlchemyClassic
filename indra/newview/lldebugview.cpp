@@ -53,7 +53,6 @@ static LLDefaultChildRegistry::Register<LLDebugView> r("debug_view");
 
 LLDebugView::LLDebugView(const LLDebugView::Params& p)
 :	LLView(p),
-	mFastTimerView(nullptr),
 	mDebugConsolep(nullptr),
 	mFloaterSnapRegion(nullptr)
 {}
@@ -81,16 +80,13 @@ void LLDebugView::init()
 	cp.font(LLFontGL::getFontMonospace());
 	cp.follows.flags(FOLLOWS_BOTTOM | FOLLOWS_LEFT);
 	cp.visible(false);
-	mDebugConsolep = LLUICtrlFactory::create<LLConsole>(cp);
-	addChild(mDebugConsolep);
+	mDebugConsolep = LLUICtrlFactory::create<LLConsole>(cp, this);
 
 	r.set(150 - 25, rect.getHeight() - 50, rect.getWidth()/2 - 25, rect.getHeight() - 450);
 
 	r.setLeftTopAndSize(25, rect.getHeight() - 50, (S32) (gViewerWindow->getWindowRectScaled().getWidth() * 0.75f), 
   									 (S32) (gViewerWindow->getWindowRectScaled().getHeight() * 0.75f));
 	
-	mFastTimerView = dynamic_cast<LLFastTimerView*>(LLFloaterReg::getInstance("block_timers"));
-
 	gSceneView = new LLSceneView(r);
 	gSceneView->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	gSceneView->setVisible(FALSE);

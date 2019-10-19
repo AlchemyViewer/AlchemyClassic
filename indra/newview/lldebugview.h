@@ -36,7 +36,7 @@
 class LLFastTimerView;
 class LLConsole;
 
-class LLDebugView : public LLView
+class LLDebugView final : public LLView
 {
 public:
 	struct Params : public LLInitParam::Block<Params, LLView::Params>
@@ -53,9 +53,6 @@ public:
 	void init();
 	void draw() override;
 	
-	void setStatsVisible(BOOL visible);
-	
-	LLFastTimerView* mFastTimerView;
 	LLConsole*		 mDebugConsolep;
 	LLView*			 mFloaterSnapRegion;
 };

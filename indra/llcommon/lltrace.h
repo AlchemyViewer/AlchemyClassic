@@ -270,7 +270,11 @@ struct MeasureMem<T, IS_MEM_TRACKABLE, typename T::is_unit_t>
 {
 	static size_t measureFootprint(const T& value)
 	{
+#if ADDRESS_SIZE == 64
+		return U64Bytes(value).value();
+#else
 		return U32Bytes(value).value();
+#endif
 	}
 };
 
@@ -318,6 +322,24 @@ struct MeasureMem<U32, IS_MEM_TRACKABLE, IS_BYTES>
 	}
 };
 
+template<typename IS_MEM_TRACKABLE, typename IS_BYTES>
+struct MeasureMem<S64, IS_MEM_TRACKABLE, IS_BYTES>
+{
+	static size_t measureFootprint(S64 value)
+	{
+		return value;
+	}
+};
+
+template<typename IS_MEM_TRACKABLE, typename IS_BYTES>
+struct MeasureMem<U64, IS_MEM_TRACKABLE, IS_BYTES>
+{
+	static size_t measureFootprint(U64 value)
+	{
+		return value;
+	}
+};
+
 template<typename T, typename IS_MEM_TRACKABLE, typename IS_BYTES>
 struct MeasureMem<std::basic_string<T>, IS_MEM_TRACKABLE, IS_BYTES>
 {
@@ -327,12 +349,21 @@ struct MeasureMem<std::basic_string<T>, IS_MEM_TRACKABLE, IS_BYTES>
 	}
 };
 
+template<typename IS_MEM_TRACKABLE, typename IS_BYTES>
+struct MeasureMem<LLWString, IS_MEM_TRACKABLE, IS_BYTES>
+{
+	static size_t measureFootprint(const LLWString& value)
+	{
+		return value.capacity() * sizeof(LLWString);
+	}
+};
+
 
 template<typename T>
 inline void claim_alloc(MemStatHandle& measurement, const T& value)
 {
 #if LL_TRACE_ENABLED
-	S32 size = MeasureMem<T>::measureFootprint(value);
+	size_t size = MeasureMem<T>::measureFootprint(value);
 	if(size == 0) return;
 	MemAccumulator& accumulator = measurement.getCurrentAccumulator();
 	accumulator.mSize.sample(accumulator.mSize.hasValue() ? accumulator.mSize.getLastValue() + (F64)size : (F64)size);
@@ -344,7 +375,7 @@ template<typename T>
 inline void disclaim_alloc(MemStatHandle& measurement, const T& value)
 {
 #if LL_TRACE_ENABLED
-	S32 size = MeasureMem<T>::measureFootprint(value);
+	size_t size = MeasureMem<T>::measureFootprint(value);
 	if(size == 0) return;
 	MemAccumulator& accumulator = measurement.getCurrentAccumulator();
 	accumulator.mSize.sample(accumulator.mSize.hasValue() ? accumulator.mSize.getLastValue() - (F64)size : -(F64)size);
@@ -384,7 +415,7 @@ public:
 		return sMemStat;
 	}
 
-	S32 getMemFootprint() const	{ return mMemFootprint; }
+	S64 getMemFootprint() const	{ return mMemFootprint; }
 #endif
 
 	template<int CUSTOM_ALIGNMENT>
@@ -442,7 +473,7 @@ public:
 	void claimMem(const CLAIM_T& value) const
 	{
 #if LL_TRACE_ENABLED
-		S32 size = MeasureMem<CLAIM_T>::measureFootprint(value);
+		size_t size = MeasureMem<CLAIM_T>::measureFootprint(value);
 		claim_alloc(sMemStat, size);
 		mMemFootprint += size;
 #endif
@@ -453,18 +484,18 @@ public:
 	void disclaimMem(const CLAIM_T& value) const
 	{
 #if LL_TRACE_ENABLED
-		S32 size = MeasureMem<CLAIM_T>::measureFootprint(value);
+		size_t size = MeasureMem<CLAIM_T>::measureFootprint(value);
 		disclaim_alloc(sMemStat, size);
 		mMemFootprint -= size;
 #endif
 	}
 
-private:
+protected:
 #if LL_TRACE_ENABLED
 	// use signed values so that we can temporarily go negative
 	// and reconcile in destructor
 	// NB: this assumes that no single class is responsible for > 2GB of allocations
-	mutable S32 mMemFootprint;
+	mutable S64 mMemFootprint;
 	
 	static	MemStatHandle	sMemStat;
 #endif

@@ -179,7 +179,7 @@ F64 SampleAccumulator::mergeSumsOfSquares(const SampleAccumulator& a, const Samp
 				* ((((n_1 - epsilon) * v_1)
 				+ ((n_2 - epsilon) * v_2)
 				+ (((n_1 * n_2) / (n_1 + n_2))
-				* ((m_1 * m_1) + (m_2 * m_2) - (2.f * m_1 * m_2))))
+				* ((m_1 * m_1) + (m_2 * m_2) - (2.0 * m_1 * m_2))))
 				/ (n_1 + n_2 - epsilon));
 		}
 	}
@@ -251,11 +251,11 @@ F64 EventAccumulator::mergeSumsOfSquares(const EventAccumulator& a, const EventA
 		F64 v_1 = a.mSumOfSquares / a.mNumSamples,
 			v_2 = b.mSumOfSquares / b.mNumSamples;
 		return (F64)a.mNumSamples
-			* ((((n_1 - 1.f) * v_1)
-			+ ((n_2 - 1.f) * v_2)
+			* ((((n_1 - 1.0) * v_1)
+			+ ((n_2 - 1.0) * v_2)
 			+ (((n_1 * n_2) / (n_1 + n_2))
-			* ((m_1 * m_1) + (m_2 * m_2) - (2.f * m_1 * m_2))))
-			/ (n_1 + n_2 - 1.f));
+			* ((m_1 * m_1) + (m_2 * m_2) - (2.0 * m_1 * m_2))))
+			/ (n_1 + n_2 - 1.0));
 	}
 
 	return a.mSumOfSquares;
@@ -281,7 +281,7 @@ void EventAccumulator::addSamples( const EventAccumulator& other, EBufferAppendT
 
 			F64 weight = (F64)mNumSamples / (F64)(mNumSamples + other.mNumSamples);
 			mNumSamples += other.mNumSamples;
-			mMean = mMean * weight + other.mMean * (1.f - weight);
+			mMean = mMean * weight + other.mMean * (1.0 - weight);
 			if (append_type == SEQUENTIAL) mLastValue = other.mLastValue;
 		}
 	}

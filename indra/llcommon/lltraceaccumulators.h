@@ -246,8 +246,8 @@ namespace LLTrace
 			mLastValue(NaN),
 			mMean(NaN),
 			mSumOfSquares(0),
-			mMin(fNaN),
-			mMax(fNaN),
+			mMin(NaN),
+			mMax(NaN),
 			mNumSamples(0)
 		{}
 
@@ -280,8 +280,8 @@ namespace LLTrace
 		void sync(F64SecondsImplicit) {}
 
 		F64	getSum() const               { return mSum; }
-		F32	getMin() const               { return mMin; }
-		F32	getMax() const               { return mMax; }
+		F64	getMin() const               { return mMin; }
+		F64	getMax() const               { return mMax; }
 		F64	getLastValue() const         { return mLastValue; }
 		F64	getMean() const              { return mMean; }
 		F64 getStandardDeviation() const { return sqrtf(mSumOfSquares / mNumSamples); }
@@ -299,7 +299,7 @@ namespace LLTrace
 		F64	mMean,
 			mSumOfSquares;
 
-		F32 mMin,
+		F64 mMin,
 			mMax;
 
 		S32	mNumSamples;
@@ -319,8 +319,8 @@ namespace LLTrace
 			mSumOfSquares(0),
 			mLastSampleTimeStamp(0),
 			mTotalSamplingTime(0),
-			mMin(fNaN),
-			mMax(fNaN),
+			mMin(NaN),
+			mMax(NaN),
 			mNumSamples(0),
 			mHasValue(false)
 		{}
@@ -369,8 +369,8 @@ namespace LLTrace
 		}
 
 		F64	getSum() const               { return mSum; }
-		F32	getMin() const               { return mMin; }
-		F32	getMax() const               { return mMax; }
+		F64	getMin() const               { return mMin; }
+		F64	getMax() const               { return mMax; }
 		F64	getLastValue() const         { return mLastValue; }
 		F64	getMean() const              { return mMean; }
 		F64 getStandardDeviation() const { return sqrtf(mSumOfSquares / mTotalSamplingTime); }
@@ -393,7 +393,7 @@ namespace LLTrace
 				mLastSampleTimeStamp,
 				mTotalSamplingTime;
 
-		F32		mMin,
+		F64		mMin,
 				mMax;
 
 		S32		mNumSamples;

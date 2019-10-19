@@ -651,6 +651,9 @@ namespace LLError
 
 namespace
 {
+	std::unique_ptr<LLMutex> gLogMutexp;
+	std::unique_ptr<LLMutex> gCallStacksLogMutexp;
+
 	bool shouldLogToStderr()
 	{
 #if LL_DARWIN
@@ -679,6 +682,9 @@ namespace
 	
 	void commonInit(const std::string& user_dir, const std::string& app_dir, bool log_to_stderr = true)
 	{
+		gLogMutexp = std::make_unique<LLMutex>();
+		gCallStacksLogMutexp = std::make_unique<LLMutex>();
+
 		LLError::Settings::getInstance()->reset();
 		
 		LLError::setDefaultLevel(LLError::LEVEL_INFO);
@@ -1149,8 +1155,6 @@ namespace
 }
 
 namespace {
-	std::unique_ptr<LLMutex> gLogMutexp;
-	std::unique_ptr<LLMutex> gCallStacksLogMutexp;
 
 	bool checkLevelMap(const LevelMap& map, const std::string& key,
 						LLError::ELevel& level)
@@ -1205,7 +1209,7 @@ namespace LLError
 			return false;
 		}
 
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		if (!gLogMutexp) return false;
 		LLMutexTrylock lock(gLogMutexp.get(), 5);
 		if (!lock.isLocked())
 		{
@@ -1257,7 +1261,7 @@ namespace LLError
 			return new std::ostringstream;
 		}
 
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		if (!gLogMutexp) return new std::ostringstream;
 		LLMutexTrylock lock(gLogMutexp.get(), 5);
 		// If we hit a logging request very late during shutdown processing,
 		// when either of the relevant LLSingletons has already been deleted,
@@ -1286,7 +1290,7 @@ namespace LLError
 			return;
 		}
 
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		if (!gLogMutexp) return;
 		LLMutexTrylock lock(gLogMutexp.get(), 5);
 		if (!lock.isLocked())
 		{
@@ -1327,7 +1331,7 @@ namespace LLError
 			return;
 		}
 
-		if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+		if (!gLogMutexp) return;
 		LLMutexTrylock lock(gLogMutexp.get(), 5);
 		if (!lock.isLocked())
 		{
@@ -1524,7 +1528,7 @@ namespace LLError
    //static
    void LLCallStacks::push(const char* function, const int line)
    {
-	   if (!gCallStacksLogMutexp) gCallStacksLogMutexp = std::make_unique<LLMutex>();
+	   if (!gCallStacksLogMutexp) return;
 	   LLMutexTrylock lock(gCallStacksLogMutexp.get(), 5);
 
        if (!lock.isLocked())
@@ -1561,7 +1565,7 @@ namespace LLError
    //static
    void LLCallStacks::end(std::ostringstream* _out)
    {
-	   if (!gCallStacksLogMutexp) gCallStacksLogMutexp = std::make_unique<LLMutex>();
+	   if (!gCallStacksLogMutexp) return;
 	   LLMutexTrylock lock(gCallStacksLogMutexp.get(), 5);
        if (!lock.isLocked())
        {
@@ -1584,7 +1588,7 @@ namespace LLError
    //static
    void LLCallStacks::print()
    {
-	   if (!gCallStacksLogMutexp) gCallStacksLogMutexp = std::make_unique<LLMutex>();
+	   if (!gCallStacksLogMutexp) return;
 	   LLMutexTrylock lock(gCallStacksLogMutexp.get(), 5);
        if (!lock.isLocked())
        {
@@ -1623,7 +1627,7 @@ namespace LLError
 
 bool debugLoggingEnabled(const std::string& tag)
 {
-	if (!gLogMutexp) gLogMutexp = std::make_unique<LLMutex>();
+	if (!gLogMutexp) return false;
     LLMutexTrylock lock(gLogMutexp.get(), 5);
     if (!lock.isLocked())
     {

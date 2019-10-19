@@ -90,7 +90,7 @@ protected:
 /**
  * LLTextViewModel stores a value displayed as text. 
  */
-class LLTextViewModel: public LLViewModel
+class LLTextViewModel final : public LLViewModel
 {
 public:
     LLTextViewModel();
@@ -126,10 +126,10 @@ private:
  * LLListViewModel stores a list of data items. The semantics are borrowed
  * from LLScrollListCtrl.
  */
-class LLListViewModel: public LLViewModel
+class LLListViewModel final : public LLViewModel
 {
 public:
-    LLListViewModel() {}
+    LLListViewModel() = default;
     LLListViewModel(const LLSD& values);
 
     virtual void addColumn(const LLSD& column, EAddPosition pos = ADD_BOTTOM);

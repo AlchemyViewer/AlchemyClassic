@@ -234,6 +234,7 @@ public:
 	bool showItemLinkOverlays() { return mShowItemLinkOverlays; }
 
 	void setCallbackRegistrar(LLUICtrl::CommitCallbackRegistry::ScopedRegistrar* registrar) { mCallbackRegistrar = registrar; }
+	void setEnableRegistrar(LLUICtrl::EnableCallbackRegistry::ScopedRegistrar* registrar) { mEnableRegistrar = registrar; }
 
 	LLPanel* getParentPanel() { return mParentPanel.get(); }
 	// DEBUG only
@@ -268,8 +269,9 @@ protected:
 
 
 protected:
-	LLHandle<LLView>					mPopupMenuHandle;
-	
+	LLHandle<LLView>				mPopupMenuHandle;
+	std::string						mMenuFileName;
+
 	selected_items_t				mSelectedItems;
 	bool							mKeyboardSelection,
 									mAllowMultiSelect,
@@ -322,6 +324,7 @@ protected:
 	LLFolderViewItem*				mDraggingOverItem; // See EXT-719
 
 	LLUICtrl::CommitCallbackRegistry::ScopedRegistrar* mCallbackRegistrar;
+	LLUICtrl::EnableCallbackRegistry::ScopedRegistrar* mEnableRegistrar;
 	
 public:
 	static F32 sAutoOpenTime;

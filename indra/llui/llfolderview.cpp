@@ -161,6 +161,7 @@ LLFolderView::LLFolderView(const Params& p)
 :	LLFolderViewFolder(p),
 	mScrollContainer(nullptr ),
 	mPopupMenuHandle(),
+	mMenuFileName(p.options_menu),
 	mAllowMultiSelect(p.allow_multiselect),
 	mShowEmptyMessage(p.show_empty_message),
 	mShowFolderHierarchy(FALSE),
@@ -216,8 +217,7 @@ LLFolderView::LLFolderView(const Params& p)
 	params.prevalidate_callback(&LLTextValidate::validateASCIIPrintableNoPipe);
 	params.commit_on_focus_lost(true);
 	params.visible(false);
-	mRenamer = LLUICtrlFactory::create<LLLineEditor> (params);
-	addChild(mRenamer);
+	mRenamer = LLUICtrlFactory::create<LLLineEditor> (params, this);
 
 	// Textbox
 	LLTextBox::Params text_p;
@@ -236,21 +236,8 @@ LLFolderView::LLFolderView(const Params& p)
 	// set text padding the same as in People panel. EXT-7047, EXT-4837
 	text_p.h_pad(STATUS_TEXT_HPAD);
 	text_p.v_pad(STATUS_TEXT_VPAD);
-	mStatusTextBox = LLUICtrlFactory::create<LLTextBox> (text_p);
+	mStatusTextBox = LLUICtrlFactory::create<LLTextBox> (text_p, this);
 	mStatusTextBox->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
-	addChild(mStatusTextBox);
-
-
-	// make the popup menu available
-	llassert(LLMenuGL::sMenuContainer != NULL);
-	LLMenuGL* menu = LLUICtrlFactory::getInstance()->createFromFile<LLMenuGL>(p.options_menu, LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
-	if (!menu)
-	{
-		menu = LLUICtrlFactory::getDefaultWidget<LLMenuGL>("inventory_menu");
-	}
-	static auto menu_bg_color = LLUIColorTable::instance().getColor("MenuPopupBgColor");
-	menu->setBackgroundColor(menu_bg_color);
-	mPopupMenuHandle = menu->getHandle();
 
 	mViewModelItem->openItem();
 }
@@ -1453,24 +1440,63 @@ BOOL LLFolderView::handleRightMouseDown( S32 x, S32 y, MASK mask )
 
 	BOOL handled = childrenHandleRightMouseDown(x, y, mask) != nullptr;
 	S32 count = mSelectedItems.size();
-	LLMenuGL* menu = (LLMenuGL*)mPopupMenuHandle.get();
+
+	// make the popup menu available
+	LLMenuGL* menu = static_cast<LLMenuGL*>(mPopupMenuHandle.get());
+	if (!menu)
+	{
+		if (mCallbackRegistrar)
+		{
+			mCallbackRegistrar->pushScope();
+		}
+		if (mEnableRegistrar)
+		{
+			mEnableRegistrar->pushScope();
+		}
+		llassert(LLMenuGL::sMenuContainer != NULL);
+		LLMenuGL* menu = LLUICtrlFactory::getInstance()->createFromFile<LLMenuGL>(mMenuFileName, LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
+		if (!menu)
+		{
+			menu = LLUICtrlFactory::getDefaultWidget<LLMenuGL>("inventory_menu");
+		}
+		static auto menu_bg_color = LLUIColorTable::instance().getColor("MenuPopupBgColor");
+		menu->setBackgroundColor(menu_bg_color);
+		mPopupMenuHandle = menu->getHandle();
+		if (mEnableRegistrar)
+		{
+			mEnableRegistrar->popScope();
+		}
+		if (mCallbackRegistrar)
+		{
+			mCallbackRegistrar->popScope();
+		}
+	}
+
 	if (   handled
 		&& ( count > 0 && (hasVisibleChildren()) ) // show menu only if selected items are visible
 		&& menu )
 	{
 		if (mCallbackRegistrar)
-        {
+		{
 			mCallbackRegistrar->pushScope();
-        }
+		}
+		if (mEnableRegistrar)
+		{
+			mEnableRegistrar->pushScope();
+		}
 
 		updateMenuOptions(menu);
 	   
 		menu->updateParent(LLMenuGL::sMenuContainer);
 		LLMenuGL::showPopup(this, menu, x, y);
+		if (mEnableRegistrar)
+		{
+			mEnableRegistrar->popScope();
+		}
 		if (mCallbackRegistrar)
-        {
+		{
 			mCallbackRegistrar->popScope();
-	}
+		}
 	}
 	else
 	{

@@ -250,14 +250,14 @@ void LLInventoryPanel::initFromParams(const LLInventoryPanel::Params& params)
 	}
 	mCommitCallbackRegistrar.popScope();
 	mFolderRoot.get()->setCallbackRegistrar(&mCommitCallbackRegistrar);
+	mFolderRoot.get()->setEnableRegistrar(&mEnableCallbackRegistrar);
 	
 	// Scroller
 		LLRect scroller_view_rect = getRect();
 		scroller_view_rect.translate(-scroller_view_rect.mLeft, -scroller_view_rect.mBottom);
 	LLScrollContainer::Params scroller_params(mParams.scroll());
 		scroller_params.rect(scroller_view_rect);
-		mScroller = LLUICtrlFactory::create<LLFolderViewScrollContainer>(scroller_params);
-		addChild(mScroller);
+		mScroller = LLUICtrlFactory::create<LLFolderViewScrollContainer>(scroller_params, this);
 		mScroller->addChild(mFolderRoot.get());
 		mFolderRoot.get()->setScrollContainer(mScroller);
 		mFolderRoot.get()->setFollows(FOLLOWS_ALL);

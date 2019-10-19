@@ -3072,6 +3072,59 @@ void LLViewerWindow::updateUI()
 		}
 	}
 
+	static LLCachedControl<bool> dump_floater_view_child (gSavedSettings, "AlchemyDumpFloaterViewSize", false);
+	if (dump_floater_view_child)
+	{
+		static bool fv_init = false;
+		static LLFrameTimer fv_child_count_timer;
+		static std::vector <std::string> fv_child_vec;
+		if (!fv_init)
+		{
+			fv_child_count_timer.resetWithExpiry(5.f);
+			fv_init = true;
+		}
+		if (fv_child_count_timer.hasExpired())
+		{
+			LL_INFOS() << "gFloaterView child count: " << gFloaterView->getChildCount() << LL_ENDL;
+			std::vector<std::string> local_child_vec;
+			LLView::child_list_t child_list = *gFloaterView->getChildList();
+			for (auto child : child_list)
+			{
+				local_child_vec.emplace_back(child->getName());
+			}
+			if (!local_child_vec.empty() && local_child_vec != fv_child_vec)
+			{
+				std::vector<std::string> out_vec;
+				std::sort(local_child_vec.begin(), local_child_vec.end());
+				std::sort(fv_child_vec.begin(), fv_child_vec.end());
+				std::set_difference(fv_child_vec.begin(), fv_child_vec.end(), local_child_vec.begin(), local_child_vec.end(), std::inserter(out_vec, out_vec.begin()));
+				if (!out_vec.empty())
+				{
+					LL_INFOS() << "gFloaterView removal diff size: '" << out_vec.size() << "' begin_child_diff";
+					for (auto str : out_vec)
+					{
+						LL_CONT << " : " << str;
+					}
+					LL_CONT << " : end_child_diff" << LL_ENDL;
+				}
+
+				out_vec.clear();
+				std::set_difference(local_child_vec.begin(), local_child_vec.end(), fv_child_vec.begin(), fv_child_vec.end(), std::inserter(out_vec, out_vec.begin()));
+				if (!out_vec.empty())
+				{
+					LL_INFOS() << "gFloaterView addition diff size: '" << out_vec.size() << "' begin_child_diff";
+					for (auto str : out_vec)
+					{
+						LL_CONT << " : " << str;
+					}
+					LL_CONT << " : end_child_diff" << LL_ENDL;
+				}
+				fv_child_vec.swap(local_child_vec);
+			}
+			fv_child_count_timer.resetWithExpiry(5.f);
+		}
+	}
+
 	// only update mouse hover set when UI is visible (since we shouldn't send hover events to invisible UI
 	if (gPipeline.hasRenderDebugFeatureMask(LLPipeline::RENDER_DEBUG_FEATURE_UI))
 	{

@@ -287,8 +287,7 @@ LLTextEditor::LLTextEditor(const LLTextEditor::Params& p) :
 	params.bevel_style = LLViewBorder::BEVEL_IN;
 	params.border_thickness = 1;
 	params.visible = p.border_visible;
-	mBorder = LLUICtrlFactory::create<LLViewBorder> (params);
-	addChild( mBorder );
+	mBorder = LLUICtrlFactory::create<LLViewBorder> (params, this);
 	setText(p.default_text());
 	
 	mParseOnTheFly = TRUE;

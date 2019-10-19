@@ -3840,7 +3840,7 @@ LLDrawInfo::LLDrawInfo(U16 start, U16 end, U32 count, U32 offset,
 					   LLViewerTexture* texture, LLVertexBuffer* buffer,
 					   bool selected,
 					   BOOL fullbright, U8 bump, BOOL particle, F32 part_size)
-:	LLTrace::MemTrackableNonVirtual<LLDrawInfo, 16>("LLDrawInfo"),
+:	LLTrace::MemTrackable<LLDrawInfo, 16>("LLDrawInfo"),
 	mVertexBuffer(buffer),
 	mTexture(texture),
 	mTextureMatrix(NULL),

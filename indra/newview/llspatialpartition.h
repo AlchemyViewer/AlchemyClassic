@@ -55,7 +55,7 @@ class LLViewerRegion;
 
 void pushVerts(LLFace* face, U32 mask);
 
-class LLDrawInfo final : public LLRefCount, public LLTrace::MemTrackableNonVirtual<LLDrawInfo, 16>
+class LLDrawInfo final : public LLRefCount, public LLTrace::MemTrackable<LLDrawInfo, 16>
 {
 protected:
 	~LLDrawInfo();	

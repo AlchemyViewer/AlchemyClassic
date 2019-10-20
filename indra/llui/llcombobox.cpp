@@ -130,8 +130,7 @@ LLComboBox::LLComboBox(const LLComboBox::Params& p)
 	params.visible(false);
 	params.commit_on_keyboard_movement(false);
 
-	mList = LLUICtrlFactory::create<LLScrollListCtrl>(params);
-	addChild(mList);
+	mList = LLUICtrlFactory::create<LLScrollListCtrl>(params, this);
 
 	// Mouse-down on button will transfer mouse focus to the list
 	// Grab the mouse-up event and make sure the button state is correct

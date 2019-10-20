@@ -45,7 +45,7 @@ class LLSearchComboBox;
  * *TODO: move to llui?  
  */
 
-class LLPullButton: public LLButton
+class LLPullButton final : public LLButton
 {
 	LOG_CLASS(LLPullButton);
 

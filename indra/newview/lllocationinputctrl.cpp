@@ -104,7 +104,7 @@
  * Once the loading is complete we'll be notified
  * with the callback we set for LLLandmarkList.
  */
-class LLAddLandmarkObserver : public LLInventoryAddedObserver
+class LLAddLandmarkObserver final : public LLInventoryAddedObserver
 {
 public:
 	LLAddLandmarkObserver(LLLocationInputCtrl* input) : mInput(input) {}
@@ -113,7 +113,7 @@ private:
 	/*virtual*/ void done() override
     {
 		const uuid_set_t& added = gInventory.getAddedIDs();
-		for (auto it : added)
+		for (const auto& it : added)
         {
 			LLInventoryItem* item = gInventory.getItem(it);
 			if (!item || item->getType() != LLAssetType::AT_LANDMARK)
@@ -137,7 +137,7 @@ private:
 /**
  * Updates the "Add landmark" button once a landmark gets removed.
  */
-class LLRemoveLandmarkObserver : public LLInventoryObserver
+class LLRemoveLandmarkObserver final : public LLInventoryObserver
 {
 public:
 	LLRemoveLandmarkObserver(LLLocationInputCtrl* input) : mInput(input) {}
@@ -158,7 +158,7 @@ private:
 	LLLocationInputCtrl* mInput;
 };
 
-class LLParcelChangeObserver : public LLParcelObserver
+class LLParcelChangeObserver final : public LLParcelObserver
 {
 public:
 	LLParcelChangeObserver(LLLocationInputCtrl* input) : mInput(input) {}

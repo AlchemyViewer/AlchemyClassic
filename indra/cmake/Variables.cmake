@@ -79,7 +79,7 @@ option(USE_TCMALLOC "Build the viewer with google tcmalloc" OFF)
 option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
 # Proprietary Library Features
-option(NVAPI "Use nvapi driver interface library" OFF)
+option(USE_NVAPI "Use nvapi driver interface library" OFF)
 
 
 if(LIBS_CLOSED_DIR)

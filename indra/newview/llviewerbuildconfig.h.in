@@ -37,6 +37,9 @@
 #define LL_VIEWER_VERSION_PATCH @VIEWER_VERSION_PATCH@
 #define LL_VIEWER_VERSION_BUILD @VIEWER_VERSION_REVISION@
 
+// Graphics Utils
+#cmakedefine01 USE_NVAPI
+
 // Audio Engines
 #cmakedefine01 USE_FMODSTUDIO
 #cmakedefine01 USE_OPENAL

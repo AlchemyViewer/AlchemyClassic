@@ -26,6 +26,8 @@
 
 #include "llviewerprecompiledheaders.h"
 
+#include "llviewerbuildconfig.h"
+
 #ifdef INCLUDE_VLD
 #define VLD_FORCE_ENABLE 1
 #include "vld.h"
@@ -50,7 +52,7 @@
 #include "llviewercontrol.h"
 #include "lldxhardware.h"
 
-#ifdef USE_NVAPI
+#if USE_NVAPI
 #include "nvapi/nvapi.h"
 #include "nvapi/NvApiDriverSettings.h"
 #endif
@@ -129,7 +131,7 @@ bool create_app_mutex()
 	return result;
 }
 
-#ifdef USE_NVAPI
+#if USE_NVAPI
 #define NVAPI_APPNAME L"Second Life"
 
 /*
@@ -319,7 +321,7 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 	delete viewer_app_ptr;
 	viewer_app_ptr = nullptr;
 
-#ifdef USE_NVAPI
+#if USE_NVAPI
 	// (NVAPI) (6) We clean up. This is analogous to doing a free()
 	if (hSession)
 	{

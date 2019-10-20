@@ -1521,22 +1521,10 @@ if (WINDOWS)
     list(APPEND viewer_SOURCE_FILES
          llappviewerwin32.cpp
          )
-    set_source_files_properties(
-      llappviewerwin32.cpp
-      PROPERTIES
-      COMPILE_DEFINITIONS "${VIEWER_CHANNEL_VERSION_DEFINES}"
-      )
 
     list(APPEND viewer_HEADER_FILES
          llappviewerwin32.h
          )
-
-    if (NVAPI)
-        list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-DUSE_NVAPI=1")
-    else (NVAPI)
-        list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-UUSE_NVAPI")
-    endif (NVAPI)
-    set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_DEFINITIONSS}")
 
     # Replace the icons with the appropriate ones for the channel
     # ('test' is the default)

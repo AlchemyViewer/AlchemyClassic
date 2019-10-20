@@ -743,7 +743,7 @@ void LLStatusBar::updateMenuSearchVisibility(const LLSD& data)
 void LLStatusBar::updateMenuSearchPosition()
 {
 	const S32 HPAD = 12;
-	LLRect balanceRect = getChildView("balance_bg")->getRect();
+	LLRect balanceRect = mBoxBalance->getRect();
 	LLRect searchRect = mSearchPanel->getRect();
 	S32 w = searchRect.getWidth();
 	searchRect.mLeft = balanceRect.mLeft - w - HPAD;

@@ -28,13 +28,13 @@
 #define LL_LLKDUMEM_H
 
 // [CR] Clang doesn't like Kakadu!
-#if defined(LL_MSVC)
+#if defined(LL_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+#elif defined(LL_MSVC)
 #pragma warning (push)
 #pragma warning (disable : 4263)
 #pragma warning (disable : 4264)
-#elif defined(LL_CLANG)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Woverloaded-virtual"
 #endif
 
 // Support classes for reading and writing from memory buffers in KDU
@@ -48,10 +48,10 @@
 #include "image_local.h"
 #include "stdtypes.h"
 
-#if defined(LL_MSVC)
-#pragma warning (pop)
-#elif defined(LL_CLANG)
+#if defined(LL_CLANG)
 #pragma clang diagnostic pop
+#elif defined(LL_MSVC)
+#pragma warning (pop)
 #endif
 
 using namespace kd_supp_image_local;

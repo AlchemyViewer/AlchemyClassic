@@ -1454,7 +1454,7 @@ BOOL LLFolderView::handleRightMouseDown( S32 x, S32 y, MASK mask )
 			mEnableRegistrar->pushScope();
 		}
 		llassert(LLMenuGL::sMenuContainer != NULL);
-		LLMenuGL* menu = LLUICtrlFactory::getInstance()->createFromFile<LLMenuGL>(mMenuFileName, LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
+		menu = LLUICtrlFactory::getInstance()->createFromFile<LLMenuGL>(mMenuFileName, LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
 		if (!menu)
 		{
 			menu = LLUICtrlFactory::getDefaultWidget<LLMenuGL>("inventory_menu");

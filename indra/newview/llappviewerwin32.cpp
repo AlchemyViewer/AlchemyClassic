@@ -254,7 +254,7 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 		return -1;
 	}
 
-#ifdef USE_NVAPI
+#if USE_NVAPI
 	NvAPI_Status status;
     
 	// Initialize NVAPI

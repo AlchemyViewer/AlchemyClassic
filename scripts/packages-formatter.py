@@ -34,6 +34,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Format dependency version and copyright information for the viewer About box content')
 parser.add_argument('channel', help='viewer channel name')
 parser.add_argument('version', help='viewer version number')
+parser.add_argument('directory', help='viewer build dir')
 args = parser.parse_args()
 
 _autobuild=os.getenv('AUTOBUILD', 'autobuild')
@@ -71,8 +72,8 @@ def add_info(key, pkg, lines):
     else:
         dups[key].add(pkg)
 
-versions=autobuild('install', '--versions')
-copyrights=autobuild('install', '--copyrights')
+versions=autobuild('install', '--versions', "--install-dir=%s" % args.directory)
+copyrights=autobuild('install', '--copyrights',  "--install-dir=%s" % args.directory)
 viewer_copyright = copyrights.readline() # first line is the copyright for the viewer itself
 
 # Two different autobuild outputs, but we treat them essentially the same way:

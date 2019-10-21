@@ -1244,7 +1244,9 @@ bool LLVertexBuffer::createGLIndices(U32 size)
 		mMappedIndexData = (U8*)ll_aligned_malloc_16(size);
 		static int gl_buffer_idx = 0;
 		mGLIndices = ++gl_buffer_idx;
+		disclaimMem(mIndicesSize);
 		mIndicesSize = size;
+		claimMem(mIndicesSize);
 	}
 
 	if (!mMappedIndexData)
@@ -1266,6 +1268,7 @@ void LLVertexBuffer::destroyGLBuffer()
 		{
 			ll_aligned_free_16((void*)mMappedData);
 			mMappedData = nullptr;
+			disclaimMem(mSize);
 			mEmpty = true;
 		}
 	}
@@ -1286,6 +1289,7 @@ void LLVertexBuffer::destroyGLIndices()
 		{
 			ll_aligned_free_16((void*)mMappedIndexData);
 			mMappedIndexData = nullptr;
+			disclaimMem(mIndicesSize);
 			mEmpty = true;
 		}
 	}

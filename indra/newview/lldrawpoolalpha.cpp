@@ -117,6 +117,7 @@ void LLDrawPoolAlpha::beginPostDeferredPass(S32 pass)
 
 		//prime simple shader (loads shadow relevant uniforms)
 		gPipeline.bindDeferredShader(*simple_shader);
+		gPipeline.unbindDeferredShader(*simple_shader);
 	}
 	else if (!LLPipeline::sImpostorRender)
 	{

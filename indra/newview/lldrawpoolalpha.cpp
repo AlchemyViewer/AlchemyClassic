@@ -130,22 +130,8 @@ void LLDrawPoolAlpha::beginPostDeferredPass(S32 pass)
 		gObjectFullbrightAlphaMaskProgram.setMinimumAlpha(0.33f);
 	}
 
-
-    if (LLPipeline::sRenderDeferred)
-    {
-		emissive_shader = &gDeferredEmissiveProgram;
-    }
-    else
-    {
-		if (LLPipeline::sUnderWaterRender)
-		{
-			emissive_shader = &gObjectEmissiveWaterProgram;
-		}
-		else
-		{
-			emissive_shader = &gObjectEmissiveProgram;
-		}
-    }
+	llassert_always(LLPipeline::sRenderDeferred);
+	emissive_shader = &gDeferredEmissiveProgram;
 
 	deferred_render = TRUE;
 
@@ -261,12 +247,14 @@ void LLDrawPoolAlpha::render(S32 pass)
 
 		if (mVertexShaderLevel > 0)
 		{
-			float min_alpha = LLPipeline::sImpostorRender ? 0.5f : 0.f;
-
+			float min_alpha = LLPipeline::sImpostorRender ? 0.5f : 0.004f;
+			
 			fullbright_shader->bind();
 			fullbright_shader->setMinimumAlpha(min_alpha);
 			simple_shader->bind();
 			simple_shader->setMinimumAlpha(min_alpha);
+			emissive_shader->bind();
+			emissive_shader->setMinimumAlpha(min_alpha);
 		}
 		else
 		{
@@ -292,8 +280,7 @@ void LLDrawPoolAlpha::render(S32 pass)
 
 	if (sShowDebugAlpha)
 	{
-		BOOL shaders = gPipeline.canUseVertexShaders();
-		if(shaders) 
+		if (LLGLSLShader::sNoFixedFunction)
 		{
 			gHighlightProgram.bind();
 		}
@@ -302,7 +289,7 @@ void LLDrawPoolAlpha::render(S32 pass)
 			gPipeline.enableLightsFullbright(LLColor4(1,1,1,1));
 		}
 
-		gGL.diffuseColor4f(1,0,0,1);
+		gGL.diffuseColor4f(0.9f,0.f,0.f,0.4f);
 				
 		LLViewerFetchedTexture::sSmokeImagep->addTextureStats(1024.f*1024.f);
 		gGL.getTexUnit(0)->bind(LLViewerFetchedTexture::sSmokeImagep, TRUE) ;
@@ -316,7 +303,7 @@ void LLDrawPoolAlpha::render(S32 pass)
 		gGL.diffuseColor4f(0, 0, 1, 1);
 		pushBatches(LLRenderPass::PASS_MATERIAL_ALPHA_MASK, LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_TEXCOORD0, FALSE);
 
-		if(shaders) 
+		if (LLGLSLShader::sNoFixedFunction)
 		{
 			gHighlightProgram.unbind();
 		}
@@ -332,7 +319,7 @@ void LLDrawPoolAlpha::renderAlphaHighlight(U32 mask)
 		if (group->getSpatialPartition()->mRenderByGroup &&
 			!group->isDead())
 		{
-			LLSpatialGroup::drawmap_elem_t& draw_info = group->mDrawMap[LLRenderPass::PASS_ALPHA];	
+			auto& draw_info = group->mDrawMap[LLRenderPass::PASS_ALPHA];	
 
 			for (auto& k : draw_info)
             {
@@ -364,8 +351,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 	BOOL initialized_lighting = FALSE;
 	BOOL light_enabled = TRUE;
 	
-	BOOL use_shaders = gPipeline.canUseVertexShaders();
-
+	bool use_shaders = LLGLSLShader::sNoFixedFunction;
 	BOOL depth_only = (pass == 1 && !LLPipeline::sImpostorRender);
 		
 	for (LLCullResult::sg_iterator i = gPipeline.beginAlphaGroups(), i_end = gPipeline.endAlphaGroups(); i != i_end; ++i)
@@ -427,7 +413,6 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 				}
 				
 				LLMaterial* mat = deferred_render ? params.mMaterial.get() : NULL;
-
 				if (!use_shaders)
 				{
 					llassert_always(!target_shader);
@@ -582,10 +567,10 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 					params.mVertexBuffer->drawRange(params.mDrawMode, params.mStart, params.mEnd, params.mCount, params.mOffset);
 					gPipeline.addTrianglesDrawn(params.mCount, params.mDrawMode);
 
+					current_shader->bind();
+
 					// restore our alpha blend mode
 					gGL.blendFunc(mColorSFactor, mColorDFactor, mAlphaSFactor, mAlphaDFactor);
-
-					current_shader->bind();
 				}
 			
 				if (tex_setup)
@@ -597,13 +582,12 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 			}
 		}
 	}
-
-	gGL.setSceneBlendType(LLRender::BT_ALPHA);
-
-	LLVertexBuffer::unbind();	
-		
 	if (!light_enabled)
 	{
 		gPipeline.enableLightsDynamic();
 	}
+
+	gGL.setSceneBlendType(LLRender::BT_ALPHA);
+
+	LLVertexBuffer::unbind();	
 }

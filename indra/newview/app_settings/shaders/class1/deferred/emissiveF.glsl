@@ -41,14 +41,10 @@ VARYING vec2 vary_texcoord0;
 
 void main() 
 {
-	float shadow = 1.0;
+	float alpha = diffuseLookup(vary_texcoord0.xy).a*vertex_color.a;
+	if(alpha < .01)
+		discard;
 
-	vec4 color = diffuseLookup(vary_texcoord0.xy)*vertex_color;
-	color.rgb = pow(color.rgb, vec3(2.2));
-	color.rgb = fullbrightAtmosTransport(color.rgb);
-
-	color.rgb = fullbrightScaleSoftClip(color.rgb);
-
-	frag_color = color;
+	frag_color = vec4(0,0,0,alpha);
 }
 

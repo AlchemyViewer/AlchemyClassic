@@ -156,7 +156,6 @@ class LLInvItemRequest : public LLBaseDownloadRequest
 {
 public:
     LLInvItemRequest(const LLUUID &uuid, const LLAssetType::EType at);
-    virtual ~LLInvItemRequest() = default;
 
 	LLBaseDownloadRequest* getCopy() override;
 };
@@ -165,7 +164,6 @@ class LLEstateAssetRequest : public LLBaseDownloadRequest
 {
 public:
     LLEstateAssetRequest(const LLUUID &uuid, const LLAssetType::EType at, EstateAssetType et);
-    virtual ~LLEstateAssetRequest();
 
     LLAssetType::EType getAType() const		{ return mType; }
 

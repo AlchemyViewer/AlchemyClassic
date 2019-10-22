@@ -28,8 +28,15 @@
 #ifndef LL_LLFORMAT_H
 #define LL_LLFORMAT_H
 
+#if defined(LL_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#endif
 #include <fmt/format.h>
 #include <fmt/printf.h>
+#if defined(LL_CLANG)
+#pragma clang diagnostic pop
+#endif
 
 // Use as follows:
 // LL_INFOS() << llformat("Test:%d (%.2f %.2f)", idx, x, y) << LL_ENDL;

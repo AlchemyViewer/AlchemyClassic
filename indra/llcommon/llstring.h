@@ -28,8 +28,14 @@
 #define LL_LLSTRING_H
 
 #include "llwin32headerslean.h"
-
+#if defined(LL_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#endif
 #include <boost/optional.hpp>
+#if defined(LL_CLANG)
+#pragma clang diagnostic pop
+#endif
 #include <string>
 #include <cstdio>
 //#include <locale>

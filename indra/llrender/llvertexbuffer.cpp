@@ -1029,9 +1029,11 @@ void LLVertexBuffer::cleanupClass()
 	sDynamicVBOPool.cleanup();
 	clean_validate_buffers();
 
-	if (!sAvailableVAOName.empty())
+	while (!sAvailableVAOName.empty())
 	{
+#if GL_ARB_vertex_array_object
 		glDeleteVertexArrays(1, &sAvailableVAOName.front());
+#endif
 		sAvailableVAOName.pop_front();
 	}
 	sLastMask = 0;

@@ -37,6 +37,13 @@
 #	error "architecture not supported"
 #endif
 
+//
+// Locally used constants
+//
+#if LL_LINUX || LL_DARWIN
+const U64 SEC_TO_MICROSEC_U64 = 1000000;
+#endif
+
 //---------------------------------------------------------------------------
 // Globals and statics
 //---------------------------------------------------------------------------

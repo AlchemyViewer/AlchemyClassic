@@ -74,10 +74,10 @@ U32 vbo_block_size(U32 size)
 
 U32 vbo_block_index(U32 size)
 {
-	return vbo_block_size(size)/LL_VBO_BLOCK_SIZE;
+	return ((vbo_block_size(size)-1)/LL_VBO_BLOCK_SIZE);
 }
 
-const U32 LL_VBO_POOL_SEED_COUNT = vbo_block_index(LL_VBO_POOL_MAX_SEED_SIZE);
+const U32 LL_VBO_POOL_SEED_COUNT = vbo_block_index(LL_VBO_POOL_MAX_SEED_SIZE)+1;
 
 
 //============================================================================
@@ -1090,7 +1090,9 @@ LLVertexBuffer::LLVertexBuffer(U32 typemask, S32 usage)
 	mAlignedOffset(0),
 	mAlignedIndexOffset(0),
 	mSize(0),
+	mResidentSize(0),
 	mIndicesSize(0),
+	mResidentIndicesSize(0),
 	mTypeMask(typemask),
 	mUsage(LLVertexBuffer::determineUsage(usage)),
 	mGLBuffer(0),
@@ -1138,7 +1140,7 @@ S32 LLVertexBuffer::calcOffsets(const U32& typemask, S32* offsets, S32 num_verti
 
 	offsets[TYPE_TEXTURE_INDEX] = offsets[TYPE_VERTEX] + 12;
 	
-	return offset+16;
+	return offset;
 }
 
 //static 
@@ -1307,6 +1309,7 @@ bool LLVertexBuffer::createGLBuffer(U32 size)
 	bool sucsess = true;
 
 	mEmpty = true;
+	mResidentSize = size;
 
 	mMappedDataUsingVBOs = useVBOs();
 	
@@ -1346,6 +1349,7 @@ bool LLVertexBuffer::createGLIndices(U32 size)
 	bool sucsess = true;
 
 	mEmpty = true;
+	mResidentIndicesSize = size;
 
 	//pad by 16 bytes for aligned copies
 	size += 16;
@@ -1429,9 +1433,9 @@ bool LLVertexBuffer::updateNumVerts(S32 nverts)
 		nverts = 65536;
 	}
 
-	S32 needed_size = calcOffsets(mTypeMask, mOffsets, nverts);
+	U32 needed_size = (U32)calcOffsets(mTypeMask, mOffsets, nverts);
 
-	if (needed_size > mSize || needed_size <= mSize/2)
+	if (needed_size > (U32)mSize || needed_size <= (U32)mSize/2)
 	{
 		sucsess &= createGLBuffer(needed_size);
 	}
@@ -1449,9 +1453,9 @@ bool LLVertexBuffer::updateNumIndices(S32 nindices)
 
 	bool sucsess = true;
 
-	S32 needed_size = sizeof(U16) * nindices;
+	U32 needed_size = sizeof(U16) * (U32)nindices;
 
-	if (needed_size > mIndicesSize || needed_size <= mIndicesSize/2)
+	if (needed_size > (U32)mIndicesSize || needed_size <= (U32)mIndicesSize/2)
 	{
 		sucsess &= createGLIndices(needed_size);
 	}
@@ -1470,7 +1474,8 @@ bool LLVertexBuffer::allocateBuffer(S32 nverts, S32 nindices, bool create)
 	if (nverts < 0 || nindices < 0 ||
 		nverts > 65536)
 	{
-		LL_ERRS() << "Bad vertex buffer allocation: " << nverts << " : " << nindices << LL_ENDL;
+		LL_WARNS() << "Bad vertex buffer allocation: " << nverts << " : " << nindices << LL_ENDL;
+		return false;
 	}
 
 	bool sucsess = true;
@@ -1578,8 +1583,8 @@ void LLVertexBuffer::setupVertexArray()
 		GL_FALSE, //TYPE_TEXTURE_INDEX
 	};
 
-	bindGLBuffer(true);
-	bindGLIndices(true);
+	bindGLBuffer();
+	bindGLIndices();
 
 	for (U32 i = 0; i < TYPE_MAX; ++i)
 	{
@@ -1652,21 +1657,21 @@ bool LLVertexBuffer::useVBOs() const
 
 //----------------------------------------------------------------------------
 
-bool expand_region(LLVertexBuffer::MappedRegion& region, S32 index, S32 count)
+bool expand_region(LLVertexBuffer::MappedRegion& region, U32 offset, U32 length)
 {
-	S32 end = index+count;
-	S32 region_end = region.mIndex+region.mCount;
+	U32 end = offset + length;
+	U32 region_end = region.mOffset + region.mLength;
 	
-	if (end < region.mIndex ||
-		index > region_end)
+	if (end < region.mOffset ||
+		offset > region_end)
 	{ //gap exists, do not merge
 		return false;
 	}
 
-	S32 new_end = llmax(end, region_end);
-	S32 new_index = llmin(index, region.mIndex);
-	region.mIndex = new_index;
-	region.mCount = new_end-new_index;
+	U32 new_end = llmax(end, region_end);
+	U32 new_offset = llmin(offset, region.mOffset);
+	region.mOffset = new_offset;
+	region.mLength = new_end-new_offset;
 	return true;
 }
 
@@ -1676,7 +1681,7 @@ static LLTrace::BlockTimerStatHandle FTM_VBO_MAP_BUFFER("VBO Map");
 // Map for data access
 volatile U8* LLVertexBuffer::mapVertexBuffer(S32 type, S32 index, S32 count, bool map_range)
 {
-	bindGLBuffer(true);
+	bindGLBuffer();
 	if (mFinal)
 	{
 		LL_ERRS() << "LLVertexBuffer::mapVeretxBuffer() called on a finalized buffer." << LL_ENDL;
@@ -1695,25 +1700,41 @@ volatile U8* LLVertexBuffer::mapVertexBuffer(S32 type, S32 index, S32 count, boo
 				count = mNumVerts-index;
 			}
 
-			bool mapped = false;
-			//see if range is already mapped
-			for (auto& region : mMappedVertexRegions)
-            {
-                if (region.mType == type)
+			if (getSize() > LL_VBO_BLOCK_SIZE)
+			{
+				U32 offset = mOffsets[type] + sTypeSize[type] * index;
+				U32 length = sTypeSize[type] * count;
+
+				bool mapped = false;
+				//see if range is already mapped
+				for (U32 i = 0; i < mMappedVertexRegions.size(); ++i)
 				{
-					if (expand_region(region, index, count))
+					MappedRegion& region = mMappedVertexRegions[i];
+					if (expand_region(region, offset, length))
 					{
+						++i;
+						while (MappedRegion* pNext = i < mMappedVertexRegions.size() ? &mMappedVertexRegions[i] : nullptr)
+						{
+							if (expand_region(region, pNext->mOffset, pNext->mLength))
+							{
+								mMappedVertexRegions.erase(mMappedVertexRegions.begin() + i);
+							}
+							else
+							{
+								++i;
+							}
+						}
 						mapped = true;
 						break;
 					}
 				}
-			}
 
-			if (!mapped)
-			{
-				//not already mapped, map new region
-				MappedRegion region(type, mMappable && map_range ? -1 : index, count);
-				mMappedVertexRegions.push_back(region);
+				if (!mapped)
+				{
+					//not already mapped, map new region
+					MappedRegion region(type, mMappable && map_range ? -1 : offset, length);
+					mMappedVertexRegions.push_back(region);
+				}
 			}
 		}
 
@@ -1856,7 +1877,7 @@ static LLTrace::BlockTimerStatHandle FTM_VBO_MAP_INDEX("IBO Map");
 
 volatile U8* LLVertexBuffer::mapIndexBuffer(S32 index, S32 count, bool map_range)
 {
-	bindGLIndices(true);
+	bindGLIndices();
 	if (mFinal)
 	{
 		LL_ERRS() << "LLVertexBuffer::mapIndexBuffer() called on a finalized buffer." << LL_ENDL;
@@ -1875,22 +1896,41 @@ volatile U8* LLVertexBuffer::mapIndexBuffer(S32 index, S32 count, bool map_range
 				count = mNumIndices-index;
 			}
 
-			bool mapped = false;
-			//see if range is already mapped
-			for (auto& region : mMappedIndexRegions)
-            {
-                if (expand_region(region, index, count))
-				{
-					mapped = true;
-					break;
-				}
-			}
-
-			if (!mapped)
+			if (getIndicesSize() > LL_VBO_BLOCK_SIZE)
 			{
-				//not already mapped, map new region
-				MappedRegion region(TYPE_INDEX, mMappable && map_range ? -1 : index, count);
-				mMappedIndexRegions.push_back(region);
+				U32 offset = sizeof(U16) * index;
+				U32 length = sizeof(U16) * count;
+
+				bool mapped = false;
+				//see if range is already mapped
+				for (U32 i = 0; i < mMappedIndexRegions.size(); ++i)
+				{
+					MappedRegion& region = mMappedIndexRegions[i];
+					if (expand_region(region, offset, length))
+					{
+						++i;
+						while (MappedRegion* pNext = i < mMappedIndexRegions.size() ? &mMappedIndexRegions[i] : nullptr)
+						{
+							if (expand_region(region, pNext->mOffset, pNext->mLength))
+							{
+								mMappedIndexRegions.erase(mMappedIndexRegions.begin() + i);
+							}
+							else
+							{
+								++i;
+							}
+						}
+						mapped = true;
+						break;
+					}
+				}
+
+				if (!mapped)
+				{
+					//not already mapped, map new region
+					MappedRegion region(TYPE_INDEX, mMappable && map_range ? -1 : offset, length);
+					mMappedIndexRegions.push_back(region);
+				}
 			}
 		}
 
@@ -2035,7 +2075,7 @@ void LLVertexBuffer::unmapBuffer()
 	if (mMappedData && mVertexLocked)
 	{
 		//LL_RECORD_BLOCK_TIME(FTM_VBO_UNMAP);
-		bindGLBuffer(true);
+		bindGLBuffer();
 		updated_all = mIndexLocked; //both vertex and index buffers done updating
 
 		if(!mMappable)
@@ -2043,24 +2083,20 @@ void LLVertexBuffer::unmapBuffer()
 			if (!mMappedVertexRegions.empty())
 			{
 				stop_glerror();
-				for (auto region : mMappedVertexRegions)
-                {
-                    S32 offset = region.mIndex >= 0 ? mOffsets[region.mType]+sTypeSize[region.mType]*region.mIndex : 0;
-					S32 length = sTypeSize[region.mType]*region.mCount;
-					if (mSize >= length + offset)
+				for (U32 i = 0; i < mMappedVertexRegions.size(); ++i)
+				{
+					const MappedRegion& region = mMappedVertexRegions[i];
+					U32 offset = region.mOffset;
+					U32 length = region.mLength;
+					if ((mResidentSize - length) <= LL_VBO_BLOCK_SIZE * 2 || (offset == 0 && length >= mResidentSize))
 					{
-						glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, offset, length, (U8*)mMappedData + offset);
+						glBufferDataARB(GL_ARRAY_BUFFER_ARB, getSize(), nullptr, mUsage);
+						glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, 0, getSize(), (U8*)mMappedData);
+						break;
 					}
 					else
 					{
-						GLint size = 0;
-						glGetBufferParameterivARB(GL_ARRAY_BUFFER_ARB, GL_BUFFER_SIZE_ARB, &size);
-						LL_WARNS() << "Attempted to map regions to a buffer that is too small, " 
-							<< "mapped size: " << mSize
-							<< ", gl buffer size: " << size
-							<< ", length: " << length
-							<< ", offset: " << offset
-							<< LL_ENDL;
+						glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, offset, length, (U8*)mMappedData + offset);
 					}
 					stop_glerror();
 				}
@@ -2082,10 +2118,11 @@ void LLVertexBuffer::unmapBuffer()
 				if (!mMappedVertexRegions.empty())
 				{
 					stop_glerror();
-					for (auto region : mMappedVertexRegions)
-                    {
-                        S32 offset = region.mIndex >= 0 ? mOffsets[region.mType]+sTypeSize[region.mType]*region.mIndex : 0;
-						S32 length = sTypeSize[region.mType]*region.mCount;
+					for (U32 i = 0; i < mMappedVertexRegions.size(); ++i)
+					{
+						const MappedRegion& region = mMappedVertexRegions[i];
+						U32 offset = region.mOffset;
+						U32 length = region.mLength;
 						if (gGLManager.mHasMapBufferRange)
 						{
 							//LL_RECORD_BLOCK_TIME(FTM_VBO_FLUSH_RANGE);
@@ -2124,24 +2161,20 @@ void LLVertexBuffer::unmapBuffer()
 		{
 			if (!mMappedIndexRegions.empty())
 			{
-				for (auto region : mMappedIndexRegions)
-                {
-                    S32 offset = region.mIndex >= 0 ? sizeof(U16)*region.mIndex : 0;
-					S32 length = sizeof(U16)*region.mCount;
-					if (mIndicesSize >= length + offset)
+				for (U32 i = 0; i < mMappedIndexRegions.size(); ++i)
+				{
+					const MappedRegion& region = mMappedIndexRegions[i];
+					U32 offset = region.mOffset;
+					U32 length = region.mLength;
+					if ((mResidentIndicesSize - length) <= LL_VBO_BLOCK_SIZE * 2 || (offset == 0 && length >= mResidentIndicesSize))
 					{
-						glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, offset, length, (U8*) mMappedIndexData+offset);
+						glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, getIndicesSize(), nullptr, mUsage);
+						glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0, getIndicesSize(), (U8*)mMappedIndexData);
+						break;
 					}
 					else
 					{
-						GLint size = 0;
-						glGetBufferParameterivARB(GL_ELEMENT_ARRAY_BUFFER_ARB, GL_BUFFER_SIZE_ARB, &size);
-						LL_WARNS() << "Attempted to map regions to a buffer that is too small, " 
-							<< "mapped size: " << mIndicesSize
-							<< ", gl buffer size: " << size
-							<< ", length: " << length
-							<< ", offset: " << offset
-							<< LL_ENDL;
+						glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, offset, length, (U8*)mMappedIndexData + offset);
 					}
 					stop_glerror();
 				}
@@ -2162,10 +2195,11 @@ void LLVertexBuffer::unmapBuffer()
 			{
 				if (!mMappedIndexRegions.empty())
 				{
-					for (auto region : mMappedIndexRegions)
-                    {
-                        S32 offset = region.mIndex >= 0 ? sizeof(U16)*region.mIndex : 0;
-						S32 length = sizeof(U16)*region.mCount;
+					for (U32 i = 0; i < mMappedIndexRegions.size(); ++i)
+					{
+						const MappedRegion& region = mMappedIndexRegions[i];
+						U32 offset = region.mOffset;
+						U32 length = region.mLength;
 						if (gGLManager.mHasMapBufferRange)
 						{
 							//LL_RECORD_BLOCK_TIME(FTM_IBO_FLUSH_RANGE);
@@ -2745,8 +2779,9 @@ void LLVertexBuffer::setupVertexBuffer(U32 data_mask)
 	llglassertok();
 }
 
-LLVertexBuffer::MappedRegion::MappedRegion(S32 type, S32 index, S32 count)
-: mType(type), mIndex(index), mCount(count)
+LLVertexBuffer::MappedRegion::MappedRegion(S32 type, U32 offset, U32 length)
+: mType(type), mOffset(offset), mLength(length)
 { 
-	mEnd = mIndex+mCount;	
+	llassert(mType == LLVertexBuffer::TYPE_INDEX || 
+			mType < LLVertexBuffer::TYPE_TEXTURE_INDEX);
 }	

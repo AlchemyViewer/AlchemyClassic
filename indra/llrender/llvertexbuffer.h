@@ -104,11 +104,10 @@ public:
 	{
 	public:
 		S32 mType;
-		S32 mIndex;
-		S32 mCount;
-		S32 mEnd;
+		U32 mOffset;
+		U32 mLength;
 		
-		MappedRegion(S32 type, S32 index, S32 count);
+		MappedRegion(S32 type, U32 offset, U32 length);
 	};
 
 	LLVertexBuffer(const LLVertexBuffer& rhs) = delete;
@@ -286,7 +285,9 @@ protected:
 	ptrdiff_t mAlignedOffset;
 	ptrdiff_t mAlignedIndexOffset;
 	S32		mSize;
+	U32		mResidentSize;
 	S32		mIndicesSize;
+	U32		mResidentIndicesSize;
 	U32		mTypeMask;
 
 	const S32		mUsage;			// GL usage

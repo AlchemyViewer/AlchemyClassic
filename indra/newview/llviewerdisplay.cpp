@@ -251,6 +251,8 @@ static LLTrace::BlockTimerStatHandle FTM_TELEPORT_DISPLAY("Teleport Display");
 void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 {
 	LL_RECORD_BLOCK_TIME(FTM_RENDER);
+	gViewerWindow->checkSettings();
+	LLVBOPool::deleteReleasedBuffers();
 
 	for(auto avatar : LLCharacter::sInstances)
 	{
@@ -324,8 +326,6 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 		stop_glerror();
 		return; 
 	}
-
-	gViewerWindow->checkSettings();
 	
 	{
 		LL_RECORD_BLOCK_TIME(FTM_PICK);
@@ -866,6 +866,8 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			glClear(GL_COLOR_BUFFER_BIT);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
+
+		LLVBOPool::deleteReleasedBuffers();
 
 		LLAppViewer::instance()->pingMainloopTimeout("Display:RenderStart");
 		

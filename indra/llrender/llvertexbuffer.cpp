@@ -88,13 +88,14 @@ LLVBOPool LLVertexBuffer::sDynamicVBOPool(GL_DYNAMIC_DRAW_ARB, GL_ARRAY_BUFFER_A
 LLVBOPool LLVertexBuffer::sStreamIBOPool(GL_STREAM_DRAW_ARB, GL_ELEMENT_ARRAY_BUFFER_ARB);
 LLVBOPool LLVertexBuffer::sDynamicIBOPool(GL_DYNAMIC_DRAW_ARB, GL_ELEMENT_ARRAY_BUFFER_ARB);
 
-U32 LLVBOPool::sBytesPooled = 0;
-U32 LLVBOPool::sIndexBytesPooled = 0;
+U64 LLVBOPool::sBytesPooled = 0;
+U64 LLVBOPool::sIndexBytesPooled = 0;
+std::vector<U32> LLVBOPool::sPendingDeletions;
 
 std::list<U32> LLVertexBuffer::sAvailableVAOName;
 U32 LLVertexBuffer::sCurVAOName = 1;
 
-U32 LLVertexBuffer::sAllocatedIndexBytes = 0;
+U64 LLVertexBuffer::sAllocatedIndexBytes = 0;
 U32 LLVertexBuffer::sIndexCount = 0;
 
 U32 LLVertexBuffer::sBindCount = 0;
@@ -110,7 +111,7 @@ U32 LLVertexBuffer::sGLRenderIndices = 0;
 U32 LLVertexBuffer::sLastMask = 0;
 bool LLVertexBuffer::sVBOActive = false;
 bool LLVertexBuffer::sIBOActive = false;
-U32 LLVertexBuffer::sAllocatedBytes = 0;
+U64 LLVertexBuffer::sAllocatedBytes = 0;
 U32 LLVertexBuffer::sVertexCount = 0;
 bool LLVertexBuffer::sMapped = false;
 bool LLVertexBuffer::sUseStreamDraw = true;
@@ -118,12 +119,82 @@ bool LLVertexBuffer::sUseVAO = false;
 bool LLVertexBuffer::sPreferStreamDraw = false;
 LLVertexBuffer* LLVertexBuffer::sUtilityBuffer = nullptr;
 
+#if LL_DEBUG || LL_RELEASE_WITH_DEBUG_INFO
+static std::vector<U32> sActiveBufferNames;
+static std::vector<U32> sDeletedBufferNames;
+
+void validate_add_buffer(U32 name)
+{
+	auto found = std::find(sActiveBufferNames.begin(), sActiveBufferNames.end(), name);
+	if (found != sActiveBufferNames.end())
+	{
+		LL_ERRS() << "Allocating allocated buffer name " << name << LL_ENDL;
+	}
+	else
+	{
+		//LL_INFOS() << "Allocated buffer name " << name << LL_ENDL;
+		sActiveBufferNames.push_back(name);
+	}
+}
+
+void validate_del_buffer(U32 name)
+{
+	auto found = std::find(sActiveBufferNames.begin(), sActiveBufferNames.end(), name);
+	if (found == sActiveBufferNames.end())
+	{
+		if (std::find(sDeletedBufferNames.begin(), sDeletedBufferNames.end(), name) == sDeletedBufferNames.end())
+		{
+			LL_ERRS() << "Deleting unknown buffer name " << name << LL_ENDL;
+		}
+		else
+		{
+			LL_ERRS() << "Deleting deleted buffer name " << name << LL_ENDL;
+		}
+	}
+	else
+	{
+		//LL_INFOS() << "Deleted buffer name " << name << LL_ENDL;
+		sActiveBufferNames.erase(found);
+		sDeletedBufferNames.push_back(name);
+	}
+}
+
+void validate_bind_buffer(U32 name)
+{
+	auto found = std::find(sActiveBufferNames.begin(), sActiveBufferNames.end(), name);
+	if (found == sActiveBufferNames.end())
+	{
+		if (std::find(sDeletedBufferNames.begin(), sDeletedBufferNames.end(), name) == sDeletedBufferNames.end())
+		{
+			LL_ERRS() << "Binding unknown buffer name " << name << LL_ENDL;
+		}
+		else
+		{
+			LL_ERRS() << "Binding deleted buffer name " << name << LL_ENDL;
+		}
+	}
+}
+
+void clean_validate_buffers()
+{
+	LL_INFOS() << "Clearing active buffer names. Count " << sActiveBufferNames.size() << LL_ENDL;
+	sActiveBufferNames.clear();
+	LL_INFOS() << "Clearing deleted buffer names. Count " << sDeletedBufferNames.size() << LL_ENDL;
+	sDeletedBufferNames.clear();
+}
+#else
+#define validate_add_buffer(val)
+#define validate_del_buffer(val)
+#define validate_bind_buffer(val)
+#define clean_validate_buffers()
+#endif
 
 U32 LLVBOPool::genBuffer()
 {
 	U32 ret = 0;
 
 	glGenBuffersARB(1, &ret);
+	validate_add_buffer(ret);
 	
 	return ret;
 }
@@ -132,13 +203,20 @@ void LLVBOPool::deleteBuffer(U32 name)
 {
 	if (gGLManager.mInited)
 	{
-		LLVertexBuffer::unbind();
+		//LLVertexBuffer::unbind();
 
-		glBindBufferARB(mType, name);
-		glBufferDataARB(mType, 0, nullptr, mUsage);
-		glBindBufferARB(mType, 0);
+		validate_bind_buffer(name);
+		//glBindBufferARB(mType, name);
+		//glBufferDataARB(mType, 0, nullptr, mUsage);
+		//glBindBufferARB(mType, 0);
 
-		glDeleteBuffersARB(1, &name);
+		validate_del_buffer(name);
+		if (LLVertexBuffer::sGLRenderBuffer == name) {
+			//LLVertexBuffer::sGLRenderBuffer = 0;
+			LLVertexBuffer::unbind();
+		}
+		sPendingDeletions.emplace_back(name);
+		//glDeleteBuffersARB(1, &name);
 	}
 }
 
@@ -146,11 +224,11 @@ void LLVBOPool::deleteBuffer(U32 name)
 LLVBOPool::LLVBOPool(U32 vboUsage, U32 vboType)
 : mUsage(vboUsage), mType(vboType)
 {
-	mFreeList.resize(LL_VBO_POOL_SEED_COUNT);
 	mMissCount.resize(LL_VBO_POOL_SEED_COUNT);
+	std::fill(mMissCount.begin(), mMissCount.end(), 0);
 }
 
-volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
+volatile U8* LLVBOPool::allocate(U32& name, U32 size, U32 seed)
 {
 	llassert(vbo_block_size(size) == size);
 	
@@ -160,20 +238,20 @@ volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
 
 	if (mFreeList.size() <= i)
 	{
-		mFreeList.resize(i + 1);
-		mMissCount.resize(i + 1);
+		mFreeList.resize(i+1);
 	}
 
-	if (mFreeList[i].empty() || for_seed)
+	if (mFreeList[i].empty() || seed)
 	{
 		//make a new buffer
-		name = genBuffer();
-		
+		name = seed > 0 ? seed : genBuffer();
+
+		validate_bind_buffer(name);
 		glBindBufferARB(mType, name);
 
-		if (!for_seed && i < LL_VBO_POOL_SEED_COUNT)
+		if (!seed && i < LL_VBO_POOL_SEED_COUNT)
 		{ //record this miss
-			mMissCount[i]++;	
+			mMissCount[i]++;
 		}
 
 		if (mType == GL_ARRAY_BUFFER_ARB)
@@ -205,9 +283,12 @@ volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
 			glBufferDataARB(mType, size, nullptr, GL_STATIC_DRAW_ARB);
 		}
 
-		glBindBufferARB(mType, 0);
+		if (!seed)
+		{
+			glBindBufferARB(mType, 0);
+		}
 
-		if (for_seed)
+		if (seed)
 		{ //put into pool for future use
 			llassert(mFreeList.size() > i);
 
@@ -267,30 +348,61 @@ void LLVBOPool::seedPool()
 {
 	U32 dummy_name = 0;
 
+	if (mFreeList.size() < LL_VBO_POOL_SEED_COUNT)
+	{
+		mFreeList.resize(LL_VBO_POOL_SEED_COUNT);
+	}
+
+	static std::vector< U32 > sizes;
 	for (U32 i = 0; i < LL_VBO_POOL_SEED_COUNT; i++)
 	{
 		if (mMissCount[i] > mFreeList[i].size())
-		{ 
-			U32 size = i*LL_VBO_BLOCK_SIZE;
-		
-			U32 count = mMissCount[i] - mFreeList[i].size();
-			for (U32 j = 0; j < count; ++j)
+		{
+			U32 size = i * LL_VBO_BLOCK_SIZE + LL_VBO_BLOCK_SIZE;
+
+			S32 count = mMissCount[i] - mFreeList[i].size();
+			for (S32 j = 0; j < count; ++j)
 			{
-				allocate(dummy_name, size, true);
+				sizes.push_back(size);
 			}
 		}
 	}
+
+
+	if (!sizes.empty())
+	{
+		const U32 len = sizes.size();
+		U32* names = new U32[len];
+		glGenBuffersARB(len, names);
+		for (U32 i = 0; i < len; ++i)
+		{
+			validate_add_buffer(names[i]);
+			allocate(dummy_name, sizes[i], names[i]);
+		}
+		delete[] names;
+		glBindBufferARB(mType, 0);
+	}
+	sizes.clear();
 }
 
-
+void LLVBOPool::deleteReleasedBuffers()
+{
+	if (!sPendingDeletions.empty())
+	{
+		glDeleteBuffersARB(sPendingDeletions.size(), sPendingDeletions.data());
+		sPendingDeletions.clear();
+	}
+}
 
 void LLVBOPool::cleanup()
 {
 	U32 size = LL_VBO_BLOCK_SIZE;
 
-	for (auto& l : mFreeList)
-    {
-        while (!l.empty())
+	for (U32 i = 0; i < mFreeList.size(); ++i)
+	{
+		record_list_t& l = mFreeList[i];
+
+		while (!l.empty())
 		{
 			Record& r = l.front();
 
@@ -320,6 +432,7 @@ void LLVBOPool::cleanup()
 
 	//reset miss counts
 	std::fill(mMissCount.begin(), mMissCount.end(), 0);
+	deleteReleasedBuffers();
 }
 
 
@@ -914,6 +1027,14 @@ void LLVertexBuffer::cleanupClass()
 	sDynamicIBOPool.cleanup();
 	sStreamVBOPool.cleanup();
 	sDynamicVBOPool.cleanup();
+	clean_validate_buffers();
+
+	if (!sAvailableVAOName.empty())
+	{
+		glDeleteVertexArrays(1, &sAvailableVAOName.front());
+		sAvailableVAOName.pop_front();
+	}
+	sLastMask = 0;
 
 	delete sUtilityBuffer;
 	sUtilityBuffer = nullptr;
@@ -989,9 +1110,9 @@ LLVertexBuffer::LLVertexBuffer(U32 typemask, S32 usage)
 	mMappable = (mUsage == GL_DYNAMIC_DRAW_ARB && !sDisableVBOMapping);
 
 	//zero out offsets
-	for (int& mOffset : mOffsets)
-    {
-        mOffset = 0;
+	for (U32 i = 0; i < TYPE_MAX; i++)
+	{
+		mOffsets[i] = 0;
 	}
 
 	sCount++;
@@ -1059,12 +1180,10 @@ LLVertexBuffer::~LLVertexBuffer()
 
 	if (mFence)
 	{
-		// Sanity check. We have weird crashes in this destructor (on delete). Yet mFence is disabled.
-		// TODO: mFence was added in scope of SH-2038, but was never enabled, consider removing mFence.
-		LL_ERRS() << "LLVertexBuffer destruction failed" << LL_ENDL;
 		delete mFence;
-		mFence = NULL;
 	}
+	
+	mFence = nullptr;
 
 	sVertexCount -= mNumVerts;
 	sIndexCount -= mNumIndices;
@@ -2233,20 +2352,32 @@ static LLTrace::BlockTimerStatHandle FTM_BIND_GL_BUFFER("Bind Buffer");
 
 bool LLVertexBuffer::bindGLBuffer(bool force_bind)
 {
+	stop_glerror();
 	bindGLArray();
+	stop_glerror();
 
 	bool ret = false;
 
 	if (useVBOs() && (force_bind || (mGLBuffer && (mGLBuffer != sGLRenderBuffer || !sVBOActive))))
 	{
 		//LL_RECORD_BLOCK_TIME(FTM_BIND_GL_BUFFER);
-		
+		/*if (sMapped)
+		{
+			LL_ERRS() << "VBO bound while another VBO mapped!" << LL_ENDL;
+		}*/
+		//stop_glerror();
+
+		validate_bind_buffer(mGLBuffer);
 		glBindBufferARB(GL_ARRAY_BUFFER_ARB, mGLBuffer);
 		sGLRenderBuffer = mGLBuffer;
+		stop_glerror();
 		sBindCount++;
 		sVBOActive = true;
 
-		llassert(!mGLArray || sGLRenderArray == mGLArray);
+		if (mGLArray)
+		{
+			llassert(sGLRenderArray == mGLArray);
+		}
 
 		ret = true;
 	}
@@ -2268,6 +2399,7 @@ bool LLVertexBuffer::bindGLIndices(bool force_bind)
 		{
 			LL_ERRS() << "VBO bound while another VBO mapped!" << LL_ENDL;
 		}*/
+		validate_bind_buffer(mGLIndices);
 		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, mGLIndices);
 		sGLRenderIndices = mGLIndices;
 		stop_glerror();

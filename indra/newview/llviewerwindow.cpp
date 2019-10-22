@@ -5131,6 +5131,7 @@ void LLViewerWindow::stopGL(BOOL save_state)
 		stop_glerror();
 
 		LLVOPartGroup::destroyGL();
+		stop_glerror();
 
 		LLViewerDynamicTexture::destroyGL();
 		stop_glerror();
@@ -5139,12 +5140,14 @@ void LLViewerWindow::stopGL(BOOL save_state)
 		{
 			gPipeline.destroyGL();
 		}
+		stop_glerror();
 		
 		gBox.cleanupGL();
+		stop_glerror();
 		
 		gTextureList.destroyGL(save_state);
 		stop_glerror();
-		
+
 		gGLManager.mIsDisabled = TRUE;
 		stop_glerror();
 
@@ -5157,6 +5160,10 @@ void LLViewerWindow::stopGL(BOOL save_state)
 		
 		gGL.resetVertexBuffers();
 
+		LLVertexBuffer::cleanupClass();
+
+		stop_glerror();
+		
 		LL_INFOS() << "Remaining allocated texture memory: " << LLImageGL::sGlobalTextureMemory.value() << " bytes" << LL_ENDL;
 	}
 }

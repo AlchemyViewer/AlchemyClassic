@@ -54,16 +54,20 @@
 class LLVBOPool
 {
 public:
-	static U32 sBytesPooled;
-	static U32 sIndexBytesPooled;
-	
+	static U64 sBytesPooled;
+	static U64 sIndexBytesPooled;
+	static std::vector<U32> sPendingDeletions;
+
+	// Periodically call from render loop. Batches VBO deletions together in a single call.
+	static void deleteReleasedBuffers();
+
 	LLVBOPool(U32 vboUsage, U32 vboType);
 		
 	const U32 mUsage;
 	const U32 mType;
 
 	//size MUST be a power of 2
-	volatile U8* allocate(U32& name, U32 size, bool for_seed = false);
+	volatile U8* allocate(U32& name, U32 size, U32 seed = 0);
 	
 	//size MUST be the size provided to allocate that returned the given name
 	void release(U32 name, volatile U8* buffer, U32 size);
@@ -85,8 +89,8 @@ public:
 	};
 
 	typedef std::list<Record> record_list_t;
-	std::deque<record_list_t> mFreeList;
-	std::deque<U32> mMissCount;
+	std::vector<record_list_t> mFreeList;
+	std::vector<U32> mMissCount;
 
 };
 
@@ -332,8 +336,8 @@ public:
 	static bool sVBOActive;
 	static bool sIBOActive;
 	static U32 sLastMask;
-	static U32 sAllocatedBytes;
-	static U32 sAllocatedIndexBytes;
+	static U64 sAllocatedBytes;
+	static U64 sAllocatedIndexBytes;
 	static U32 sVertexCount;
 	static U32 sIndexCount;
 	static U32 sBindCount;

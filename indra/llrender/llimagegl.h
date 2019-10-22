@@ -242,7 +242,6 @@ public:
 #endif
 	static U32 sBindCount;					// Tracks number of texture binds for current frame
 	static U32 sUniqueCount;				// Tracks number of unique texture binds for current frame
-	static BOOL sGlobalUseAnisotropic;
 	static LLImageGL* sDefaultGLTexture ;	
 	static BOOL sAutomatedTest;
 	static bool sCompressTextures;			//use GL texture compression

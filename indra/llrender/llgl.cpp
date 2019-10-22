@@ -222,7 +222,8 @@ LLGLManager::LLGLManager() :
 	mGLMaxVertexRange(0),
 	mGLMaxIndexRange(0),
 	mGLMaxTextureSize(0),
-	mGLMaxVertexUniformComponents(0)
+	mGLMaxVertexUniformComponents(0),
+	mGLMaxAnisotropy(1.f)
 {
 }
 
@@ -324,6 +325,14 @@ bool LLGLManager::initGL()
 	else
 	{ //GL version is < 3.0, always disable texture compression
 		LLImageGL::sCompressTextures = false;
+	}
+
+	if (GLEW_EXT_texture_filter_anisotropic)
+	{
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mGLMaxAnisotropy);
+
+		LL_INFOS() << "gGL.mMaxAnisotropy: " << mGLMaxAnisotropy << LL_ENDL;
+		mGLMaxAnisotropy = llmax(1.f, mGLMaxAnisotropy);
 	}
 	
 	// Trailing space necessary to keep "nVidia Corpor_ati_on" cards

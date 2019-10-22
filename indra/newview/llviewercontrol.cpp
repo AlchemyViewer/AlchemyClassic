@@ -252,11 +252,23 @@ static bool handleLUTBufferChanged(const LLSD& newvalue)
 	return true;
 }
 
-static bool handleAnisotropicChanged(const LLSD& newvalue)
+static bool handleAnisotropicFilteringChanged(LLControlVariable* ctrl, const LLSD& newval)
 {
-	LLImageGL::sGlobalUseAnisotropic = newvalue.asBoolean();
+	F32 val = newval.asReal();
+	if (val > gGLManager.mGLMaxAnisotropy)
+	{
+		val = llclamp(val, 0.f, gGLManager.mGLMaxAnisotropy);
+		ctrl->setValue(val);
+	}
+	LLRender::sAnisotropicFilteringLevel = val;
 	LLImageGL::dirtyTexOptions();
 	return true;
+}
+
+static bool validateAnisotropicFiltering(const LLSD& val)
+{
+	F32 filter_level = val.asInteger();
+	return filter_level == 0 || filter_level == 2 || filter_level == 4 || filter_level == 8 || filter_level == 16;
 }
 
 static bool handleVolumeLODChanged(const LLSD& newvalue)
@@ -703,7 +715,6 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("RenderSpecularResX")->getSignal()->connect(boost::bind(&handleLUTBufferChanged, _2));
 	gSavedSettings.getControl("RenderSpecularResY")->getSignal()->connect(boost::bind(&handleLUTBufferChanged, _2));
 	gSavedSettings.getControl("RenderSpecularExponent")->getSignal()->connect(boost::bind(&handleLUTBufferChanged, _2));
-	gSavedSettings.getControl("RenderAnisotropic")->getSignal()->connect(boost::bind(&handleAnisotropicChanged, _2));
 	gSavedSettings.getControl("RenderShadowResolutionScale")->getSignal()->connect(boost::bind(&handleReleaseGLBufferChanged, _2));
 	gSavedSettings.getControl("RenderGlow")->getSignal()->connect(boost::bind(&handleReleaseGLBufferChanged, _2));
 	gSavedSettings.getControl("RenderGlow")->getSignal()->connect(boost::bind(&handleSetShaderChanged, _2));
@@ -847,6 +858,8 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("RenderVerticalSync")->getValidateSignal()->connect(boost::bind(validateVSync, _2));
 	gSavedSettings.getControl("AlchemyNearbyChatChannel")->getValidateSignal()->connect(boost::bind(&handleChatChannelChanged, _2));
 	gSavedSettings.getControl("AlchemyWLCloudTexture")->getSignal()->connect(boost::bind(&handleWindlightCloudChanged, _2));
+	gSavedSettings.getControl("RenderAnisotropicLevel")->getSignal()->connect(boost::bind(&handleAnisotropicFilteringChanged, _1, _2));
+	gSavedSettings.getControl("RenderAnisotropicLevel")->getValidateSignal()->connect(boost::bind(&validateAnisotropicFiltering, _2));
 #if ALCHEMY_TEST
 	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy/>
 #endif

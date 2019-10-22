@@ -153,6 +153,7 @@ public:
 	S32 mGLMaxIndexRange;
 	S32 mGLMaxTextureSize;
 	S32 mGLMaxVertexUniformComponents;
+	F32 mGLMaxAnisotropy;
 
 	std::string getGLInfoString();
 	void printGLInfoString();

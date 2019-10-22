@@ -1066,10 +1066,10 @@
     <combo_box
       control_name="RenderAnisotropicLevel"
       height="20"
-      label="AF Strength"
+      label="Anisotropic Filtering"
       layout="topleft"
       left_pad="20"
-      name="af strength"
+      name="anisotropic_filter"
       top_delta="0"
       width="90">
       <combo_box.item

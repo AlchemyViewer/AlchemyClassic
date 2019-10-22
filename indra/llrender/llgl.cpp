@@ -326,14 +326,6 @@ bool LLGLManager::initGL()
 	{ //GL version is < 3.0, always disable texture compression
 		LLImageGL::sCompressTextures = false;
 	}
-
-	if (mHasAnisotropic)
-	{
-		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mGLMaxAnisotropy);
-
-		LL_INFOS() << "gGL.mMaxAnisotropy: " << mGLMaxAnisotropy << LL_ENDL;
-		mGLMaxAnisotropy = llmax(1.f, mGLMaxAnisotropy);
-	}
 	
 	// Trailing space necessary to keep "nVidia Corpor_ati_on" cards
 	// from being recognized as ATI.
@@ -487,6 +479,16 @@ bool LLGLManager::initGL()
 	//}
 
 	stop_glerror();
+    
+    if (mHasAnisotropic)
+    {
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mGLMaxAnisotropy);
+
+        LL_INFOS() << "GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT = " << mGLMaxAnisotropy << LL_ENDL;
+        mGLMaxAnisotropy = llmax(1.f, mGLMaxAnisotropy);
+    }
+    
+    stop_glerror();
 
 #if LL_WINDOWS
 	if (mHasDebugOutput && gDebugGL)

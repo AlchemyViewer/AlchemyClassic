@@ -61,7 +61,7 @@ macro(target_precompiled_header TARGET_NAME PRECOMPILED_HEADER PRECOMPILED_SOURC
         #     COMPILE_OPTIONS "/Yu${PRECOMPILED_HEADER_NAME};/FI${PRECOMPILED_HEADER_NAME};/Fp${PRECOMPILED_BINARY}")
 
         target_sources(${TARGET_NAME} PRIVATE ${PRECOMPILED_SOURCE} ${PRECOMPILED_HEADER})
-    elseif(CMAKE_GENERATOR STREQUAL Xcode)
+    elseif(CMAKE_GENERATOR STREQUAL "Xcode")
         set_target_properties(
             ${TARGET_NAME}
             PROPERTIES

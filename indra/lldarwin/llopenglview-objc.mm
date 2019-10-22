@@ -250,8 +250,6 @@ attributedStringInfo getSegments(NSAttributedString *str)
             return nil;
         }
 
-        [self setWantsBestResolutionOpenGLSurface:YES];
-
         [self setPixelFormat:pixelFormat];
 
         [self setOpenGLContext:glContext];

@@ -558,17 +558,31 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 					gGL.blendFunc(LLRender::BF_ZERO, LLRender::BF_ONE, // don't touch color
 					LLRender::BF_ONE, LLRender::BF_ONE); // add to alpha (glow)
 
-					emissive_shader->bind();
-					
-					// glow doesn't use vertex colors from the mesh data
-					// Pull attribs from shader, since we always have one here.
-					params.mVertexBuffer->setBuffer(emissive_shader->mAttributeMask);
-					
-					// do the actual drawing, again
-					params.mVertexBuffer->drawRange(params.mDrawMode, params.mStart, params.mEnd, params.mCount, params.mOffset);
-					gPipeline.addTrianglesDrawn(params.mCount, params.mDrawMode);
+					// Alchemy Note: If not using VAO avoid shader rebind cost and just smash emissive into the buffer attribs
+					if (!LLVertexBuffer::sUseVAO)
+					{
+						// glow doesn't use vertex colors from the mesh data
+						// Pull attribs from shader, since we always have one here.
+						params.mVertexBuffer->setBuffer(current_shader->mAttributeMask | LLVertexBuffer::MAP_EMISSIVE);
 
-					current_shader->bind();
+						// do the actual drawing, again
+						params.mVertexBuffer->drawRange(params.mDrawMode, params.mStart, params.mEnd, params.mCount, params.mOffset);
+						gPipeline.addTrianglesDrawn(params.mCount, params.mDrawMode);
+					}
+					else
+					{
+						emissive_shader->bind();
+
+						// glow doesn't use vertex colors from the mesh data
+						// Pull attribs from shader, since we always have one here.
+						params.mVertexBuffer->setBuffer(emissive_shader->mAttributeMask);
+
+						// do the actual drawing, again
+						params.mVertexBuffer->drawRange(params.mDrawMode, params.mStart, params.mEnd, params.mCount, params.mOffset);
+						gPipeline.addTrianglesDrawn(params.mCount, params.mDrawMode);
+
+						current_shader->bind();
+					}
 
 					// restore our alpha blend mode
 					gGL.blendFunc(mColorSFactor, mColorDFactor, mAlphaSFactor, mAlphaDFactor);

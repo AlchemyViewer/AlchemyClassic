@@ -56,8 +56,6 @@ public:
 	  
   // construct from escaped string, as would be transmitted on the net
 
-	~LLURI() = default;
-
 	static LLURI buildHTTP(
 		const std::string& prefix,
 		const LLSD& path);

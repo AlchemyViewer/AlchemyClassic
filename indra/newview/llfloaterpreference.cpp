@@ -2549,6 +2549,17 @@ static LLPanelInjector<LLPanelPreferencePrivacy> t_pref_privacy("panel_preferenc
 
 BOOL LLPanelPreferenceGraphics::postBuild()
 {
+	auto af_combo = getChild<LLComboBox>("anisotropic_filter");
+	if (2.f > gGLManager.mGLMaxAnisotropy)
+		af_combo->remove("2x");
+	if (4.f > gGLManager.mGLMaxAnisotropy)
+		af_combo->remove("4x");
+	if (8.f > gGLManager.mGLMaxAnisotropy)
+		af_combo->remove("8x");
+	if (16.f > gGLManager.mGLMaxAnisotropy)
+		af_combo->remove("16x");
+	af_combo->setEnabled(LLFeatureManager::instance().isFeatureAvailable("RenderAnisotropicLevel"));
+
 	resetDirtyChilds();
 
 	return LLPanelPreference::postBuild();

@@ -137,7 +137,7 @@ if (WINDOWS)
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /Zc:externConstexpr /Zc:referenceBinding /Zc:throwingNew")
   elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /Qvec /Zc:dllexportInlines- /clang:-mprefer-vector-width=128 -fno-strict-aliasing -Wdeprecated -Wno-ignored-pragma-intrinsic -Wno-deprecated-declarations -Wno-microsoft-cast -Wno-unused-local-typedef -Wno-delete-non-abstract-non-virtual-dtor")
+    set(GLOBAL_CXX_FLAGS "${GLOBAL_CXX_FLAGS} /Qvec /Zc:dllexportInlines- /clang:-mprefer-vector-width=128 -fno-strict-aliasing -Wno-ignored-pragma-intrinsic -Wno-deprecated-declarations -Wno-microsoft-cast -Wno-unused-local-typedef -Wno-delete-non-abstract-non-virtual-dtor")
   endif()
 
   if(FAVOR_AMD AND FAVOR_INTEL)

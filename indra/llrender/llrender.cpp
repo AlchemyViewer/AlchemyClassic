@@ -55,6 +55,7 @@ S32	gGLViewport[4];
 U32 LLRender::sUICalls = 0;
 U32 LLRender::sUIVerts = 0;
 U32 LLTexUnit::sWhiteTexture = 0;
+F32 LLRender::sAnisotropicFilteringLevel = 0.f;
 bool LLRender::sGLCoreProfile = false;
 bool LLRender::sNsightDebugSupport = false;
 
@@ -514,16 +515,9 @@ void LLTexUnit::setTextureFilteringOption(LLTexUnit::eTextureFilterOptions optio
 
 	if (gGLManager.mHasAnisotropic)
 	{
-		if (LLImageGL::sGlobalUseAnisotropic && option == TFO_ANISOTROPIC)
+		if (option == TFO_ANISOTROPIC && LLRender::sAnisotropicFilteringLevel > F_APPROXIMATELY_ZERO)
 		{
-			if (gGL.mMaxAnisotropy < 1.f)
-			{
-				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &gGL.mMaxAnisotropy);
-
-				LL_INFOS() << "gGL.mMaxAnisotropy: " << gGL.mMaxAnisotropy << LL_ENDL ;
-				gGL.mMaxAnisotropy = llmax(1.f, gGL.mMaxAnisotropy) ;
-			}
-			glTexParameterf(sGLTextureType[mCurrTexType], GL_TEXTURE_MAX_ANISOTROPY_EXT, gGL.mMaxAnisotropy);
+			glTexParameterf(sGLTextureType[mCurrTexType], GL_TEXTURE_MAX_ANISOTROPY_EXT, LLRender::sAnisotropicFilteringLevel);
 		}
 		else
 		{
@@ -1036,7 +1030,6 @@ LLRender::LLRender()
     mMode(LLRender::TRIANGLES),
     mCurrTextureUnitIndex(0),
     mLineWidth(1.f),
-	mMaxAnisotropy(0.f),
 	mPrimitiveReset(false)
 {	
 	mTexUnits.reserve(LL_NUM_TEXTURE_LAYERS);

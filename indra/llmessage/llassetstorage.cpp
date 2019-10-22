@@ -265,11 +265,6 @@ LLEstateAssetRequest::LLEstateAssetRequest(const LLUUID &uuid, const LLAssetType
 {
 }
 
-// Virtual
-LLEstateAssetRequest::~LLEstateAssetRequest()
-{
-}
-
 LLBaseDownloadRequest* LLEstateAssetRequest::getCopy()
 {
     return new LLEstateAssetRequest(*this);

@@ -1372,7 +1372,7 @@ bool LLAppViewer::doFrame()
 	LLEventPump& mainloop(LLEventPumps::instance().obtain("mainloop"));
 	LLSD newFrame;
 
-	LL_RECORD_BLOCK_TIME(FTM_FRAME);
+	LL_ALWAYS_RECORD_BLOCK_TIME(FTM_FRAME);
 	LLTrace::BlockTimer::processTimes();
 	LLTrace::get_frame_recording().nextPeriod();
 	LLTrace::BlockTimer::logStats();

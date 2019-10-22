@@ -327,7 +327,7 @@ bool LLGLManager::initGL()
 		LLImageGL::sCompressTextures = false;
 	}
 
-	if (GLEW_EXT_texture_filter_anisotropic)
+	if (mHasAnisotropic)
 	{
 		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mGLMaxAnisotropy);
 

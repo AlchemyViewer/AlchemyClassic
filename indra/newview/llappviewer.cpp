@@ -1164,8 +1164,12 @@ bool LLAppViewer::init()
 		// ForceAddressSize
 		updater.args.add(fmt::to_string(gSavedSettings.getU32("ForceAddressSize")));
 
-		// Run the updater. An exception from launching the updater should bother us.
-		LLLeap::create(updater, true);
+		// Run the updater. An exception from launching the updater is fine and should not crash the viewer.
+		LLLeap *leap_p = LLLeap::create(updater, false);
+		if (!leap_p)
+		{
+			LL_WARNS("InitInfo") << "Failed to launch updater with params: " << updater << LL_ENDL;
+		}
 	}
 
 	// Iterate over --leap command-line options. But this is a bit tricky: if

@@ -468,6 +468,7 @@ void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_pct, U32 agents)
 		mAvComplexity->setImage(mImgAvComplexHeavy);
 	else
 		mAvComplexity->setImage(mImgAvComplex);
+
 	mPanelAvatarComplexityPulldown->setAvComplexity(complexity, muted_pct, agents);
 }
 

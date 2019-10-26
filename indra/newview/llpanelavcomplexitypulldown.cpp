@@ -55,7 +55,7 @@ void LLPanelAvatarComplexityPulldown::setAvComplexity(S32 complexity, F32 muted_
     {
         if (complexity > 0) 
             mComplexity->setTextArg("COMPLEXITY", fmt::to_string(complexity));
-        if (complexity == 0)
+        else if (complexity == 0)
             mComplexity->setTextArg("COMPLEXITY", LLTrans::getString("Unknown"));
         else 
             mComplexity->setTextArg("COMPLEXITY", LLTrans::getString("invalid"));

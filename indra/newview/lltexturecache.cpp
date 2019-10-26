@@ -2000,46 +2000,6 @@ LLPointer<LLImageRaw> LLTextureCache::readFromFastCache(const LLUUID& id, S32& d
 	return raw;
 }
 
-#if LL_WINDOWS
-
-static const U32 STATUS_MSC_EXCEPTION = 0xE06D7363; // compiler specific
-
-U32 exception_dupe_filter(U32 code, struct _EXCEPTION_POINTERS *exception_infop)
-{
-    if (code == STATUS_MSC_EXCEPTION)
-    {
-        // C++ exception, go on
-        return EXCEPTION_CONTINUE_SEARCH;
-    }
-    else
-    {
-        // handle it
-        return EXCEPTION_EXECUTE_HANDLER;
-    }
-}
-
-//due to unwinding
-void dupe(LLPointer<LLImageRaw> &raw)
-{
-    raw = raw->duplicate();
-}
-
-void logExceptionDupplicate(LLPointer<LLImageRaw> &raw)
-{
-    __try
-    {
-        dupe(raw);
-    }
-    __except (exception_dupe_filter(GetExceptionCode(), GetExceptionInformation()))
-    {
-        // convert to C++ styled exception
-        char integer_string[32];
-        snprintf(integer_string, sizeof(integer_string), "SEH, code: %lu\n", GetExceptionCode());
-        throw std::exception(integer_string);
-    }
-}
-#endif
-
 //return the fast cache location
 bool LLTextureCache::writeToFastCache(LLUUID image_id, S32 id, LLPointer<LLImageRaw> raw, S32 discardlevel)
 {
@@ -2068,23 +2028,17 @@ bool LLTextureCache::writeToFastCache(LLUUID image_id, S32 id, LLPointer<LLImage
 		h >>= i;
 		if(w * h *c > 0) //valid
 		{
-			//make a duplicate to keep the original raw image untouched.
-
+			//make a duplicate to keep the original raw image untouched
             try
             {
-#if LL_WINDOWS
-                // Temporary diagnostics for scale/duplicate crash
-                logExceptionDupplicate(raw);
-#else
-                raw = raw->duplicate();
-#endif
+				raw = new LLImageRaw(raw->getData(), raw->getWidth(), raw->getHeight(), raw->getComponents());
             }
-            catch (...)
+            catch (const std::bad_alloc& e)
             {
                 removeFromCache(image_id);
-                LL_ERRS() << "Failed to cache image: " << image_id
-                    << " local id: " << id
-                    << " Exception: " << boost::current_exception_diagnostic_information()
+				LL_WARNS() << "Failed to cache image: " << image_id
+					<< " local id: " << id
+					<< " Exception: " << e.what()
                     << " Image new width: " << w
                     << " Image new height: " << h
                     << " Image new components: " << c

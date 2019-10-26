@@ -1228,18 +1228,6 @@ void LLImageRaw::fill( const LLColor4U& color )
 	}
 }
 
-LLPointer<LLImageRaw> LLImageRaw::duplicate()
-{
-	if(getNumRefs() < 2)
-	{
-		return this; //nobody else refences to this image, no need to duplicate.
-	}
-
-	//make a duplicate
-	LLPointer<LLImageRaw> dup = new LLImageRaw(getData(), getWidth(), getHeight(), getComponents());
-	return dup; 
-}
-
 // Src and dst can be any size.  Src and dst can each have 3 or 4 components.
 void LLImageRaw::copy(LLImageRaw* src)
 {
@@ -1461,7 +1449,7 @@ bool LLImageRaw::scale( S32 new_width, S32 new_height, bool scale_image_data )
 		// copy	out	existing image data
 		S32	temp_data_size = old_width * old_height	* components;
 		std::vector<U8> temp_buffer(temp_data_size);
-		memcpy(&temp_buffer[0],	getData(), temp_data_size);
+		memcpy(temp_buffer.data(),	getData(), temp_data_size);
 
 		// allocate	new	image data,	will delete	old	data
 		U8*	new_buffer = allocateDataSize(new_width, new_height, components);
@@ -1476,7 +1464,7 @@ bool LLImageRaw::scale( S32 new_width, S32 new_height, bool scale_image_data )
         {
             if (row	< old_height)
             {
-                memcpy(new_buffer +	(new_width * row * components), &temp_buffer[0] + (old_width *	row	* components),	components * llmin(old_width, new_width));
+                memcpy(new_buffer +	(new_width * row * components), temp_buffer.data() + (old_width *	row	* components),	components * llmin(old_width, new_width));
                 if (old_width <	new_width)
                 {
                     // pad out rest	of row with	black

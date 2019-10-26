@@ -314,17 +314,25 @@ namespace LLError
 #elif LL_WINDOWS
 		// DevStudio: type_info::name() includes the text "class " at the start
 
-		static const std::string class_prefix = "class ";
-		std::string name = mangled;
-		if (0 != name.compare(0, class_prefix.length(), class_prefix))
+		std::string_view name(mangled);
+		static constexpr std::string_view class_prefix("class ");
+		static constexpr size_t class_len = class_prefix.length();
+		static constexpr std::string_view struct_prefix("struct ");
+		static constexpr size_t struct_len = struct_prefix.length();
+		if (0 == name.compare(0, class_len, class_prefix))
 		{
-			LL_DEBUGS() << "Did not see '" << class_prefix << "' prefix on '"
-					   << name << "'" << LL_ENDL;
-			return name;
+			return std::string(name.substr(class_len));
 		}
-
-		return name.substr(class_prefix.length());
-
+		else if (0 == name.compare(0, struct_len, struct_prefix))
+		{
+			return std::string(name.substr(struct_len));
+		}
+		else
+		{
+			//LL_WARNS() << "Did not see known prefix on '"
+			//	<< name << "'" << LL_ENDL;
+			return std::string(name);
+		}
 #else
 		return mangled;
 #endif

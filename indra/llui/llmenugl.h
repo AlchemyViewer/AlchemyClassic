@@ -359,7 +359,7 @@ private:
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // child widget registry
-struct MenuRegistry : public LLChildRegistry<MenuRegistry>
+class MenuRegistry : public LLChildRegistry<MenuRegistry>
 {
 	LLSINGLETON_EMPTY_CTOR(MenuRegistry);
 };

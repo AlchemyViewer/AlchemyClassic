@@ -39,7 +39,7 @@ class LLLayoutStack : public LLView, public LLInstanceTracker<LLLayoutStack>
 {
 public:
 
-	struct LayoutStackRegistry : public LLChildRegistry<LayoutStackRegistry>
+	class LayoutStackRegistry final : public LLChildRegistry<LayoutStackRegistry>
 	{
 		LLSINGLETON_EMPTY_CTOR(LayoutStackRegistry);
 	};

@@ -47,7 +47,7 @@ class LLUICtrlFactory;
  *
  *****************************************************************************/
 
-struct ScrollContainerRegistry : public LLChildRegistry<ScrollContainerRegistry>
+class ScrollContainerRegistry : public LLChildRegistry<ScrollContainerRegistry>
 {
 	LLSINGLETON_EMPTY_CTOR(ScrollContainerRegistry);
 };

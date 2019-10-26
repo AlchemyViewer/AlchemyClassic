@@ -34,7 +34,7 @@
 class LLStatBar;
 
 // widget registrars
-struct StatViewRegistry : public LLChildRegistry<StatViewRegistry>
+class StatViewRegistry : public LLChildRegistry<StatViewRegistry>
 {
 	LLSINGLETON_EMPTY_CTOR(StatViewRegistry);
 };

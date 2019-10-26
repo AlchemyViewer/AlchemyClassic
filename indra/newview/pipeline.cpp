@@ -3238,6 +3238,7 @@ void LLPipeline::markRebuild(LLDrawable *drawablep, LLDrawable::EDrawableFlags f
 {
 	if (drawablep && !drawablep->isDead() && assertInitialized())
 	{
+#if LL_DEBUG
 		static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
         if (debug_log)
         {
@@ -3250,7 +3251,7 @@ void LLPipeline::markRebuild(LLDrawable *drawablep, LLDrawable::EDrawableFlags f
                                                     << " priority " << (S32) priority << " flag " << std::hex << flag << LL_ENDL; 
             }
         }
-    
+#endif
 		if (!drawablep->isState(LLDrawable::BUILT))
 		{
 			priority = true;

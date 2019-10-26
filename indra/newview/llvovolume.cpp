@@ -1519,6 +1519,7 @@ BOOL LLVOVolume::updateLOD()
 
 	if (lod_changed)
 	{
+#if LL_DEBUG
 		static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
         if (debug_log)
         {
@@ -1529,7 +1530,7 @@ BOOL LLVOVolume::updateLOD()
                 LL_DEBUGS("AnimatedObjectsLinkset") << vobj_name << " updateLOD to " << getLOD() << ", tris " << est_tris << LL_ENDL; 
             }
         }
-
+#endif
 		gPipeline.markRebuild(mDrawable, LLDrawable::REBUILD_VOLUME, FALSE);
 		mLODChanged = TRUE;
 	}
@@ -4430,6 +4431,7 @@ const LLMatrix4& LLVOVolume::getWorldMatrix(LLXformMatrix* xform) const
 
 void LLVOVolume::markForUpdate(BOOL priority)
 { 
+#if LL_DEBUG
 	static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
 	if (debug_log)
     {
@@ -4440,7 +4442,7 @@ void LLVOVolume::markForUpdate(BOOL priority)
             LL_DEBUGS("AnimatedObjectsLinkset") << vobj_name << " markForUpdate, tris " << est_tris << LL_ENDL; 
         }
     }
-
+#endif
     LLViewerObject::markForUpdate(priority); 
     mVolumeChanged = TRUE; 
 }
@@ -5513,6 +5515,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 			vobj->updateControlAvatar();
 
+#if LL_DEBUG
 			static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
 			if (debug_log)
 			{
@@ -5536,6 +5539,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
                                                 << " frame " << LLFrameTimer::getFrameCount()
                                                 << LL_ENDL;
 			}
+#endif
 
 
 			vobj->updateTextureVirtualSize(true);
@@ -6289,6 +6293,7 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
 			if (drawablep && !drawablep->isDead() && drawablep->isState(LLDrawable::REBUILD_ALL) && !drawablep->isState(LLDrawable::RIGGED) )
 			{
 				LLVOVolume* vobj = drawablep->getVOVolume();
+#if LL_DEBUG
 				static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
 				if (debug_log)
                 {
@@ -6299,6 +6304,7 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
                         LL_DEBUGS("AnimatedObjectsLinkset") << vobj_name << " rebuildMesh, tris " << est_tris << LL_ENDL; 
                     }
                 }
+#endif
 				if (vobj->isNoLOD()) continue;
 
 				vobj->preRebuild();

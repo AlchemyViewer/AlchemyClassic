@@ -510,6 +510,6 @@ private:                                                                \
  */
 #define LLSINGLETON_EMPTY_CTOR(DERIVED_CLASS)                           \
     /* LLSINGLETON() is carefully implemented to permit exactly this */ \
-    LLSINGLETON(DERIVED_CLASS) {}
+    LLSINGLETON(DERIVED_CLASS) = default
 
 #endif

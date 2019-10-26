@@ -32,7 +32,7 @@
 
 class LLRootViewRegistry final : public LLChildRegistry<LLRootViewRegistry>
 {
-	LLSINGLETON(LLRootViewRegistry);
+	LLSINGLETON_EMPTY_CTOR(LLRootViewRegistry);
 };
 
 class LLRootView final : public LLView

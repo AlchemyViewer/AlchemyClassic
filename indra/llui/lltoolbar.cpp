@@ -963,7 +963,7 @@ void LLToolBar::draw()
 	caret->setVisible(FALSE);
 	if (mDragAndDropTarget && !mButtonCommands.empty())
 	{
-		LLRect caret_rect = caret->getRect();
+		const LLRect& caret_rect = caret->getRect();
 		if (getOrientation(mSideType) == LLLayoutStack::HORIZONTAL)
 		{
 			caret->setRect(LLRect(mDragx-caret_rect.getWidth()/2+1,

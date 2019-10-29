@@ -484,6 +484,12 @@ void LLViewerObject::markDead()
 			LLFollowCamMgr::removeFollowCamParams(mID);
 		}
 
+		// And finally mark the region as null to prevent invalid calls while object is dead but not cleaned up 
+		if (mRegionp)
+		{
+			mRegionp = nullptr;
+		}
+
 		sNumZombieObjects++;
 	}
 }
@@ -4082,7 +4088,7 @@ LLNameValue *LLViewerObject::getNVPair(const std::string& name) const
 void LLViewerObject::updatePositionCaches() const
 {
 	// If region is removed from the list it is also deleted.
-	if(mRegionp && LLWorld::instance().isRegionListed(mRegionp))
+	if(mRegionp)
 	{
 		if (!isRoot())
 		{
@@ -4100,7 +4106,7 @@ void LLViewerObject::updatePositionCaches() const
 const LLVector3d LLViewerObject::getPositionGlobal() const
 {	
 	// If region is removed from the list it is also deleted.
-	if(mRegionp && LLWorld::instance().isRegionListed(mRegionp))
+	if(mRegionp)
 	{
 		LLVector3d position_global = mRegionp->getPosGlobalFromRegion(getPositionRegion());
 
@@ -4120,7 +4126,7 @@ const LLVector3d LLViewerObject::getPositionGlobal() const
 const LLVector3 &LLViewerObject::getPositionAgent() const
 {
 	// If region is removed from the list it is also deleted.
-	if(mRegionp && LLWorld::instance().isRegionListed(mRegionp))
+	if(mRegionp)
 	{
 		if (mDrawable.notNull() && (!mDrawable->isRoot() && getParent()))
 		{

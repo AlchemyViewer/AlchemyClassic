@@ -1399,13 +1399,9 @@ BOOL LLViewerObjectList::killObject(LLViewerObject *objectp)
 
 void LLViewerObjectList::killObjects(LLViewerRegion *regionp)
 {
-	LLViewerObject *objectp;
-
 	
-	for (auto& object : mObjects)
+	for (LLViewerObject* objectp : mObjects)
     {
-		objectp = object;
-		
 		if (objectp->mRegionp == regionp)
 		{
 			killObject(objectp);
@@ -1419,11 +1415,8 @@ void LLViewerObjectList::killObjects(LLViewerRegion *regionp)
 void LLViewerObjectList::killAllObjects()
 {
 	// Used only on global destruction.
-	LLViewerObject *objectp;
-
-	for (auto& object : mObjects)
+	for (LLViewerObject* objectp : mObjects)
     {
-		objectp = object;
 		killObject(objectp);
 		// Object must be dead, or it's the LLVOAvatarSelf which never dies.
 		llassert((objectp == gAgentAvatarp) || objectp->isDead());

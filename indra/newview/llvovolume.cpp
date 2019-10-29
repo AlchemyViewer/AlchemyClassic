@@ -5238,16 +5238,16 @@ void LLVolumeGeometryManager::registerFace(LLSpatialGroup* group, LLFace* facep,
 			if (!mat->getSpecularID().isNull())
 			{
 				LLVector4 specColor;
-				specColor.mV[0] = mat->getSpecularLightColor().mV[0] * (1.f / 255.f);
-				specColor.mV[1] = mat->getSpecularLightColor().mV[1] * (1.f / 255.f);
-				specColor.mV[2] = mat->getSpecularLightColor().mV[2] * (1.f / 255.f);
-				specColor.mV[3] = mat->getSpecularLightExponent() * (1.f / 255.f);
+				specColor.mV[0] = mat->getSpecularLightColor().mV[0];
+				specColor.mV[1] = mat->getSpecularLightColor().mV[1];
+				specColor.mV[2] = mat->getSpecularLightColor().mV[2];
+				specColor.mV[3] = mat->getSpecularLightExponent();
 				draw_info->mSpecColor = specColor;
-				draw_info->mEnvIntensity = mat->getEnvironmentIntensity() * (1.f / 255.f);
+				draw_info->mEnvIntensity = mat->getEnvironmentIntensity();
 				draw_info->mSpecularMap = facep->getViewerObject()->getTESpecularMap(facep->getTEOffset());
 			}
 
-			draw_info->mAlphaMaskCutoff = mat->getAlphaMaskCutoff() * (1.f / 255.f);
+			draw_info->mAlphaMaskCutoff = mat->getAlphaMaskCutoff();
 			draw_info->mDiffuseAlphaMode = mat->getDiffuseAlphaMode();
 			draw_info->mNormalMap = facep->getViewerObject()->getTENormalMap(facep->getTEOffset());
 		}
@@ -6934,7 +6934,7 @@ U32 LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace
 						}
 						else
 						{
-							if (mat->getEnvironmentIntensity() > 0 ||
+							if (mat->getEnvironmentIntensity() > F_ALMOST_ZERO ||
 								te->getShiny() > 0)
 							{
 								material_pass = true;

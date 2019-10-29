@@ -1692,7 +1692,7 @@ U32 LLPipeline::getPoolTypeFromTE(const LLTextureEntry* te, LLViewerTexture* ima
 			{
 				return te->getFullbright() ? LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK : LLDrawPool::POOL_ALPHA_MASK;
 			}
-			else if (te->getFullbright() && !mat->getEnvironmentIntensity() && !te->getShiny())
+			else if (te->getFullbright() && mat->getEnvironmentIntensity() == 0.f && !te->getShiny())
 			{
 				return LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK;
 			}
@@ -1704,7 +1704,7 @@ U32 LLPipeline::getPoolTypeFromTE(const LLTextureEntry* te, LLViewerTexture* ima
 		}
 		else if (LLPipeline::sRenderDeferred && mat)
 		{
-			if (te->getFullbright() && !mat->getEnvironmentIntensity() && !te->getShiny())
+			if (te->getFullbright() && mat->getEnvironmentIntensity() == 0.f && !te->getShiny())
 			{
 				return RenderDeferredFullbright ? LLDrawPool::POOL_FULLBRIGHT : LLDrawPool::POOL_SIMPLE;
 			}

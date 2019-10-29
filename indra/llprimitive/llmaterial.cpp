@@ -51,7 +51,9 @@
 #define MATERIALS_CAP_ALPHA_MASK_CUTOFF_FIELD     "AlphaMaskCutoff"
 #define MATERIALS_CAP_DIFFUSE_ALPHA_MODE_FIELD    "DiffuseAlphaMode"
 
-const LLColor4U LLMaterial::DEFAULT_SPECULAR_LIGHT_COLOR(255,255,255,255);
+constexpr F32	DEFAULT_SPECULAR_LIGHT_EXPONENT = 0.2f;
+constexpr F32   DEFAULT_ENV_INTENSITY = 0.f;
+const LLColor4	DEFAULT_SPECULAR_LIGHT_COLOR(1.f, 1.f, 1.f, 1.f);
 
 /**
  * Materials constants
@@ -101,11 +103,11 @@ LLMaterial::LLMaterial()
     , mSpecularRepeatX(1.0f)
     , mSpecularRepeatY(1.0f)
     , mSpecularRotation(0.0f)
-    , mSpecularLightColor(LLMaterial::DEFAULT_SPECULAR_LIGHT_COLOR)
-    , mSpecularLightExponent(LLMaterial::DEFAULT_SPECULAR_LIGHT_EXPONENT)
-    , mEnvironmentIntensity(LLMaterial::DEFAULT_ENV_INTENSITY)
+    , mSpecularLightColor(DEFAULT_SPECULAR_LIGHT_COLOR)
+    , mSpecularLightExponent(DEFAULT_SPECULAR_LIGHT_EXPONENT)
+    , mEnvironmentIntensity(DEFAULT_ENV_INTENSITY)
     , mDiffuseAlphaMode(LLMaterial::DIFFUSE_ALPHA_MODE_BLEND)
-    , mAlphaMaskCutoff(0)
+    , mAlphaMaskCutoff(0.0f)
 {
 }
 
@@ -281,32 +283,32 @@ void LLMaterial::setSpecularRotation(F32 rot)
     mSpecularRotation = rot;
 }
 
-const LLColor4U LLMaterial::getSpecularLightColor() const
+const LLColor4& LLMaterial::getSpecularLightColor() const
 {
     return mSpecularLightColor;
 }
 
-void LLMaterial::setSpecularLightColor(const LLColor4U& color)
+void LLMaterial::setSpecularLightColor(const LLColor4& color)
 {
     mSpecularLightColor = color;
 }
 
-U8 LLMaterial::getSpecularLightExponent() const
+F32 LLMaterial::getSpecularLightExponent() const
 {
     return mSpecularLightExponent;
 }
 
-void LLMaterial::setSpecularLightExponent(U8 exponent)
+void LLMaterial::setSpecularLightExponent(F32 exponent)
 {
     mSpecularLightExponent = exponent;
 }
 
-U8 LLMaterial::getEnvironmentIntensity() const
+F32 LLMaterial::getEnvironmentIntensity() const
 {
     return mEnvironmentIntensity;
 }
 
-void LLMaterial::setEnvironmentIntensity(U8 intensity)
+void LLMaterial::setEnvironmentIntensity(F32 intensity)
 {
     mEnvironmentIntensity = intensity;
 }
@@ -321,12 +323,12 @@ void LLMaterial::setDiffuseAlphaMode(U8 alpha_mode)
     mDiffuseAlphaMode = alpha_mode;
 }
 
-U8 LLMaterial::getAlphaMaskCutoff() const
+F32 LLMaterial::getAlphaMaskCutoff() const
 {
     return mAlphaMaskCutoff;
 }
 
-void LLMaterial::setAlphaMaskCutoff(U8 cutoff)
+void LLMaterial::setAlphaMaskCutoff(F32 cutoff)
 {
     mAlphaMaskCutoff = cutoff;
 }
@@ -358,11 +360,11 @@ LLSD LLMaterial::asLLSD() const
     material_data[MATERIALS_CAP_SPECULAR_MAP_REPEAT_Y_FIELD] = ll_round(mSpecularRepeatY * MATERIALS_MULTIPLIER);
     material_data[MATERIALS_CAP_SPECULAR_MAP_ROTATION_FIELD] = specularRotInt;
 
-    material_data[MATERIALS_CAP_SPECULAR_COLOR_FIELD]     = mSpecularLightColor.getValue();
-    material_data[MATERIALS_CAP_SPECULAR_EXP_FIELD]       = mSpecularLightExponent;
-    material_data[MATERIALS_CAP_ENV_INTENSITY_FIELD]      = mEnvironmentIntensity;
+    material_data[MATERIALS_CAP_SPECULAR_COLOR_FIELD]     = LLColor4U(mSpecularLightColor).getValue();
+    material_data[MATERIALS_CAP_SPECULAR_EXP_FIELD]       = llclampb(ll_round(mSpecularLightExponent * 255.f));
+    material_data[MATERIALS_CAP_ENV_INTENSITY_FIELD]      = llclampb(ll_round(mEnvironmentIntensity * 255.f));
     material_data[MATERIALS_CAP_DIFFUSE_ALPHA_MODE_FIELD] = mDiffuseAlphaMode;
-    material_data[MATERIALS_CAP_ALPHA_MASK_CUTOFF_FIELD]  = mAlphaMaskCutoff;
+    material_data[MATERIALS_CAP_ALPHA_MASK_CUTOFF_FIELD]  = llclampb(ll_round(mAlphaMaskCutoff * 255.f));
 
     return material_data;
 }
@@ -397,11 +399,16 @@ void LLMaterial::fromLLSD(const LLSD& material_data)
     mSpecularRepeatX  = F32(specularRepeatXInt) / MATERIALS_MULTIPLIER;
     mSpecularRepeatY  = F32(specularRepeatYInt) / MATERIALS_MULTIPLIER;
 
-    mSpecularLightColor.setValue(getMaterialField<LLSD>(material_data, MATERIALS_CAP_SPECULAR_COLOR_FIELD, LLSD::TypeArray));
-    mSpecularLightExponent = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_SPECULAR_EXP_FIELD,       LLSD::TypeInteger);
-    mEnvironmentIntensity  = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_ENV_INTENSITY_FIELD,      LLSD::TypeInteger);
+	LLColor4U specularLightColorInt(getMaterialField<LLSD>(material_data, MATERIALS_CAP_SPECULAR_COLOR_FIELD, LLSD::TypeArray));
+	U8 specularLightExponentInt = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_SPECULAR_EXP_FIELD, LLSD::TypeInteger);
+	U8 environmentIntensityInt = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_ENV_INTENSITY_FIELD, LLSD::TypeInteger);
+	U8 alphaMaskCutoffInt = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_ALPHA_MASK_CUTOFF_FIELD, LLSD::TypeInteger);
+
+	mSpecularLightColor = specularLightColorInt;
+    mSpecularLightExponent = specularLightExponentInt * (1.f / 255.f);
+    mEnvironmentIntensity  = environmentIntensityInt * (1.f / 255.f);
     mDiffuseAlphaMode      = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_DIFFUSE_ALPHA_MODE_FIELD, LLSD::TypeInteger);
-    mAlphaMaskCutoff       = (U8)getMaterialField<LLSD::Integer>(material_data, MATERIALS_CAP_ALPHA_MASK_CUTOFF_FIELD,  LLSD::TypeInteger);
+    mAlphaMaskCutoff       = alphaMaskCutoffInt * (1.f / 255.f);
 }
 
 bool LLMaterial::isNull() const

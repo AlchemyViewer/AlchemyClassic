@@ -52,12 +52,6 @@ public:
         ALPHA_SHADER_COUNT = 4
     } eShaderCount;
 
-    
-    
-    static const U8         DEFAULT_SPECULAR_LIGHT_EXPONENT = ((U8)(0.2f * 255));
-    static const LLColor4U  DEFAULT_SPECULAR_LIGHT_COLOR;
-    static const U8         DEFAULT_ENV_INTENSITY = 0;
-
     LLMaterial();
     LLMaterial(const LLSD& material_data);
 
@@ -107,16 +101,16 @@ public:
     F32         getSpecularRotation() const;
     void        setSpecularRotation(F32 rot);
 
-    const LLColor4U getSpecularLightColor() const;
-    void        setSpecularLightColor(const LLColor4U& color);
-    U8          getSpecularLightExponent() const;
-    void        setSpecularLightExponent(U8 exponent);
-    U8          getEnvironmentIntensity() const;
-    void        setEnvironmentIntensity(U8 intensity);
+    const LLColor4& getSpecularLightColor() const;
+    void        setSpecularLightColor(const LLColor4& color);
+    F32         getSpecularLightExponent() const;
+    void        setSpecularLightExponent(F32 exponent);
+    F32         getEnvironmentIntensity() const;
+    void        setEnvironmentIntensity(F32 intensity);
     U8          getDiffuseAlphaMode() const;
     void        setDiffuseAlphaMode(U8 alpha_mode);
-    U8          getAlphaMaskCutoff() const;
-    void        setAlphaMaskCutoff(U8 cutoff);
+    F32          getAlphaMaskCutoff() const;
+    void        setAlphaMaskCutoff(F32 cutoff);
 
     bool        isNull() const;
     static const LLMaterial null;
@@ -141,11 +135,11 @@ protected:
     F32         mSpecularRepeatY;
     F32         mSpecularRotation;
 
-    LLColor4U   mSpecularLightColor;
-    U8          mSpecularLightExponent;
-    U8          mEnvironmentIntensity;
+    LLColor4   mSpecularLightColor;
+    F32          mSpecularLightExponent;
+    F32          mEnvironmentIntensity;
     U8          mDiffuseAlphaMode;
-    U8          mAlphaMaskCutoff;
+    F32          mAlphaMaskCutoff;
 };
 
 typedef LLPointer<LLMaterial> LLMaterialPtr;

@@ -474,7 +474,7 @@ public:
 		DEF_GET_MAT_STATE(F32,F32,getNormalRotation,0.0f, true, 0.001f)
 
 		DEF_EDIT_MAT_STATE(U8,U8,setDiffuseAlphaMode);
-		DEF_EDIT_MAT_STATE(U8,U8,setAlphaMaskCutoff);
+		DEF_EDIT_MAT_STATE(F32,F32,setAlphaMaskCutoff);
 
 		DEF_EDIT_MAT_STATE(F32,F32,setNormalOffsetX);
 		DEF_EDIT_MAT_STATE(F32,F32,setNormalOffsetY);
@@ -488,12 +488,12 @@ public:
 		DEF_EDIT_MAT_STATE(F32,F32,setSpecularRepeatY);
 		DEF_EDIT_MAT_STATE(F32,F32,setSpecularRotation);
 
-		DEF_EDIT_MAT_STATE(U8,U8,setEnvironmentIntensity);
-		DEF_EDIT_MAT_STATE(U8,U8,setSpecularLightExponent);
+		DEF_EDIT_MAT_STATE(F32,F32,setEnvironmentIntensity);
+		DEF_EDIT_MAT_STATE(F32,F32,setSpecularLightExponent);
 
 		DEF_EDIT_MAT_STATE(LLUUID,const LLUUID&,setNormalID);
 		DEF_EDIT_MAT_STATE(LLUUID,const LLUUID&,setSpecularID);
-		DEF_EDIT_MAT_STATE(LLColor4U,	const LLColor4U&,setSpecularLightColor);
+		DEF_EDIT_MAT_STATE(LLColor4,	const LLColor4&,setSpecularLightColor);
 	};
 
 	class LLSelectedTE

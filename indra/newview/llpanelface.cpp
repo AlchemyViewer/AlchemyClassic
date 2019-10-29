@@ -1290,7 +1290,7 @@ void LLPanelFace::refresh()
 
 			mComboAlphaMode->selectNthItem(alpha_mode);
 
-			getChild<LLUICtrl>("maskcutoff")->setValue(material->getAlphaMaskCutoff());
+			getChild<LLUICtrl>("maskcutoff")->setValue(llclampb(ll_round(material->getAlphaMaskCutoff() * 255.f)));
 			updateAlphaControls();
 			
 			identical_planar_texgen = isIdenticalPlanarTexgen();
@@ -1316,8 +1316,8 @@ void LLPanelFace::refresh()
 				getChild<LLUICtrl>("shinyRot")->setValue(rot*RAD_TO_DEG);
 				getChild<LLUICtrl>("shinyOffsetU")->setValue(offset_x);
 				getChild<LLUICtrl>("shinyOffsetV")->setValue(offset_y);
-				getChild<LLUICtrl>("glossiness")->setValue(material->getSpecularLightExponent());
-				getChild<LLUICtrl>("environment")->setValue(material->getEnvironmentIntensity());
+				getChild<LLUICtrl>("glossiness")->setValue(llclampb(ll_round(material->getSpecularLightExponent() * 255.f)));
+				getChild<LLUICtrl>("environment")->setValue(llclampb(ll_round(material->getEnvironmentIntensity() * 255.f)));
 				
 				updateShinyControls(!material->getSpecularID().isNull(), true);
 			}
@@ -1327,8 +1327,8 @@ void LLPanelFace::refresh()
 			//
 			if (!material->getSpecularID().isNull())
 			{
-					LLColor4 new_color = material->getSpecularLightColor();
-					LLColor4 old_color = mShinyColorSwatch->get();
+					const LLColor4& new_color = material->getSpecularLightColor();
+					const LLColor4& old_color = mShinyColorSwatch->get();
 
 					mShinyColorSwatch->setOriginal(new_color);
 					mShinyColorSwatch->set(new_color, old_color != new_color || !editable);
@@ -1867,7 +1867,7 @@ void LLPanelFace::onCommitMaterialGloss(LLUICtrl* ctrl, void* userdata)
 {
 	LLPanelFace* self = (LLPanelFace*) userdata;
 	llassert_always(self);
-	LLSelectedTEMaterial::setSpecularLightExponent(self,self->getCurrentGlossiness());
+	LLSelectedTEMaterial::setSpecularLightExponent(self,self->getCurrentGlossiness() * (1.f / 255.f));
 }
 
 //static
@@ -1875,14 +1875,14 @@ void LLPanelFace::onCommitMaterialEnv(LLUICtrl* ctrl, void* userdata)
 {
 	LLPanelFace* self = (LLPanelFace*) userdata;
 	llassert_always(self);
-	LLSelectedTEMaterial::setEnvironmentIntensity(self,self->getCurrentEnvIntensity());
+	LLSelectedTEMaterial::setEnvironmentIntensity(self,self->getCurrentEnvIntensity() * (1.f / 255.f));
 }
 
 //static
 void LLPanelFace::onCommitMaterialMaskCutoff(LLUICtrl* ctrl, void* userdata)
 {
 	LLPanelFace* self = (LLPanelFace*) userdata;
-	LLSelectedTEMaterial::setAlphaMaskCutoff(self,self->getCurrentAlphaMaskCutoff());
+	LLSelectedTEMaterial::setAlphaMaskCutoff(self,self->getCurrentAlphaMaskCutoff() * (1.f / 255.f));
 }
 
 // Commit the number of repeats per meter

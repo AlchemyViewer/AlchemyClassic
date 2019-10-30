@@ -282,9 +282,9 @@
            label_ref="Command_Scripts_Label"
            tooltip_ref="Command_Scripts_Tooltip"
            execute_function="Floater.ToggleOrBringToFront"
-           execute_parameters="script_limits"
+           execute_parameters="my_scripts"
            is_running_function="Floater.IsOpen"
-           is_running_parameters="script_limits"
+           is_running_parameters="my_scripts"
            />
   <command name="stats"
            available_in_toybox="true"

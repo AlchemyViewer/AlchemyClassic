@@ -4216,7 +4216,7 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Quick_Settings_Label">Quick Settings</string>
   <string name="Command_RegionTracker_Label">Region Tracker</string>
   <string name="Command_Report_Abuse_Label">Report Abuse</string>
-  <string name="Command_Scripts_Label">Scripts</string>
+  <string name="Command_Scripts_Label">My Scripts</string>
   <string name="Command_Stats_Label">Statistics</string>
   <string name="Command_Search_Label">Search</string>
   <string name="Command_Snapshot_Label">Snapshot</string>

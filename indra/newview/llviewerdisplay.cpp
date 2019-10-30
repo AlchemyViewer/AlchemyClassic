@@ -1288,7 +1288,7 @@ void render_ui(F32 zoom_factor, int subfield)
 	}
 
 	{
-		BOOL to_texture = gPipeline.canUseVertexShaders() &&
+		BOOL to_texture = LLGLSLShader::sNoFixedFunction &&
 							LLPipeline::sRenderGlow;
 
 		if (to_texture)

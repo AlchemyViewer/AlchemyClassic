@@ -1000,51 +1000,46 @@ void LLMeshRepoThread::run()
             }
         }
 
-        // For the final three request lists, similar goal to above but
-        // slightly different queue structures.  Stay off the mutex when
-        // performing long-duration actions.
-        {
-            // Something to do probably, lock and double-check.  We don't want
-            // to hold the lock long here.  That will stall main thread activities
-            // so we bounce it.
-            if (!mSkinReqQ.empty() && mHttpRequestSet.size() < sRequestHighWater)
-            {
-				std::list<UUIDBasedRequest> incomplete;
-                while (!mSkinReqQ.empty() && mHttpRequestSet.size() < sRequestHighWater)
-                {
-                    mMutex->lock();
-                    auto req = mSkinReqQ.front();
-                    mSkinReqQ.pop();
-                    mMutex->unlock();
-                    if (req.isDelayed())
-                    {
-                        incomplete.emplace_back(req);
-                    }
-                    else if (!fetchMeshSkinInfo(req.mId, req.canRetry()))
-                    {
-                        if (req.canRetry())
-                        {
-                            req.updateTime();
-                            incomplete.emplace_back(req);
-                        }
-                        else
-                        {
-		                    LLMutexLock locker(mMutex);
-							mSkinUnavailableQ.push(req);
-                            LL_DEBUGS() << "mSkinReqQ failed: " << req.mId << LL_ENDL;
-                        }
-                    }
-                }
-
-                if (!incomplete.empty())
-                {
-                    LLMutexLock locker(mMutex);
-					for (const auto& req : incomplete)
+		// Something to do probably, lock and double-check.  We don't want
+		// to hold the lock long here.  That will stall main thread activities
+		// so we bounce it.
+		if (!mSkinReqQ.empty() && mHttpRequestSet.size() < sRequestHighWater)
+		{
+			std::list<UUIDBasedRequest> incomplete;
+			while (!mSkinReqQ.empty() && mHttpRequestSet.size() < sRequestHighWater)
+			{
+				mMutex->lock();
+				auto req = mSkinReqQ.front();
+				mSkinReqQ.pop();
+				mMutex->unlock();
+				if (req.isDelayed())
+				{
+					incomplete.emplace_back(req);
+				}
+				else if (!fetchMeshSkinInfo(req.mId, req.canRetry()))
+				{
+					if (req.canRetry())
 					{
-						mSkinReqQ.emplace(req);
+						req.updateTime();
+						incomplete.emplace_back(req);
 					}
-                }
-            }
+					else
+					{
+						LLMutexLock locker(mMutex);
+						mSkinUnavailableQ.push(req);
+						LL_DEBUGS() << "mSkinReqQ failed: " << req.mId << LL_ENDL;
+					}
+				}
+			}
+
+			if (!incomplete.empty())
+			{
+				LLMutexLock locker(mMutex);
+				for (const auto& req : incomplete)
+				{
+					mSkinReqQ.emplace(req);
+				}
+			}
 
             // holding lock, try next list
             // *TODO:  For UI/debug-oriented lists, we might drop the fine-
@@ -3719,7 +3714,7 @@ void LLMeshRepository::notifyLoadedMeshes()
                   ? (2 * LLAppCoreHttp::PIPELINING_DEPTH)
                   : 5);
 
-        static LLCachedControl<U32> mesh2_max_con_req(gSavedSettings, "MeshMaxConcurrentRequests");
+        static LLCachedControl<U32> mesh2_max_con_req(gSavedSettings, "Mesh2MaxConcurrentRequests");
         LLMeshRepoThread::sMaxConcurrentRequests = mesh2_max_con_req();
         LLMeshRepoThread::sRequestHighWater = llclamp(scale * S32(LLMeshRepoThread::sMaxConcurrentRequests),
                                                       REQUEST2_HIGH_WATER_MIN,

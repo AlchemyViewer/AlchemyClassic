@@ -41,6 +41,7 @@ LLQueuedThread::LLQueuedThread(const std::string& name, bool threaded, bool shou
 	mThreaded(threaded),
     mStarted(false),
 	mIdleThread(true),
+	mRequestQueueSize(0),
     mNextHandle(0)
 {
 	if (mThreaded)
@@ -166,17 +167,6 @@ void LLQueuedThread::incQueue()
 	}
 }
 
-//virtual
-// May be called from any thread
-S32 LLQueuedThread::getPending()
-{
-	S32 res;
-	lockData();
-	res = mRequestQueue.size();
-	unlockData();
-	return res;
-}
-
 // MAIN thread
 void LLQueuedThread::waitOnPending()
 {
@@ -240,6 +230,7 @@ bool LLQueuedThread::addRequest(QueuedRequest* req)
 #if _DEBUG
 // 	LL_INFOS() << llformat("LLQueuedThread::Added req [%08d]",handle) << LL_ENDL;
 #endif
+	mRequestQueueSize = mRequestQueue.size();
 	unlockData();
 
 	incQueue();
@@ -433,6 +424,10 @@ S32 LLQueuedThread::processNextRequest()
 		llassert_always(req->getStatus() == STATUS_QUEUED);
 		break;
 	}
+
+	// Update queue size after processing
+	mRequestQueueSize = mRequestQueue.size();
+
 	U32 start_priority = 0 ;
 	if (req)
 	{
@@ -467,6 +462,7 @@ S32 LLQueuedThread::processNextRequest()
 			lockData();
 			req->setStatus(STATUS_QUEUED);
 			mRequestQueue.insert(req);
+			mRequestQueueSize = mRequestQueue.size();
 			unlockData();
 			if (mThreaded && start_priority < PRIORITY_NORMAL)
 			{
@@ -485,10 +481,7 @@ S32 LLQueuedThread::processNextRequest()
 bool LLQueuedThread::runCondition()
 {
 	// mRunCondition must be locked here
-	if (mRequestQueue.empty() && mIdleThread)
-		return false;
-	else
-		return true;
+	return !((mRequestQueueSize <= 0) && mIdleThread);
 }
 
 // virtual

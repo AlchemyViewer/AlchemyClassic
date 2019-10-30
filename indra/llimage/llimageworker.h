@@ -98,6 +98,7 @@ private:
 	};
 	typedef std::list<creation_info> creation_list_t;
 	creation_list_t mCreationList;
+	std::atomic<S32> mCreationListSize;
 	LLMutex* mCreationMutex;
 };
 

@@ -835,6 +835,8 @@ LLTextureCache::LLTextureCache(bool threaded)
 	  mFastCacheMutex(),
 	  mHeaderAPRFile(NULL),
 	  mFastCachePoolp(NULL), //do not allow to change the texture cache until setReadOnly() is called.
+	  mPrioritizeWriteListEmpty(true),
+	  mCompletedListEmpty(true),
 	  mReadOnly(TRUE),
 	  mFastCachep(NULL),
 	  mFastCachePadBuffer(NULL),
@@ -863,26 +865,35 @@ S32 LLTextureCache::update(F32 max_time_ms)
 	S32 res;
 	res = LLWorkerThread::update(max_time_ms);
 
-	mListMutex.lock();
-	handle_list_t priorty_list = mPrioritizeWriteList; // copy list
-	mPrioritizeWriteList.clear();
-	responder_list_t completed_list = mCompletedList; // copy list
-	mCompletedList.clear();
-	mListMutex.unlock();
-	
-	lockWorkers();
-	
-	for (auto handle : priorty_list)
-    {
-        handle_map_t::iterator iter2 = mWriters.find(handle);
-		if(iter2 != mWriters.end())
-		{
-			LLTextureCacheWorker* worker = iter2->second;
-			worker->setPriority(LLWorkerThread::PRIORITY_HIGH | worker->mPriority);
-		}
+	handle_list_t priorty_list;
+	responder_list_t completed_list;
+	if ((!mPrioritizeWriteListEmpty) || (!mCompletedListEmpty))
+	{
+		LLMutexLock lock(&mListMutex);
+		priorty_list = mPrioritizeWriteList; // copy list
+		mPrioritizeWriteList.clear();
+		mPrioritizeWriteListEmpty = mPrioritizeWriteList.empty();
+		completed_list = mCompletedList; // copy list
+		mCompletedList.clear();
+		mCompletedListEmpty = mCompletedList.empty();
 	}
+	
+	if (!priorty_list.empty())
+	{
+		lockWorkers();
 
-	unlockWorkers(); 
+		for (auto handle : priorty_list)
+		{
+			handle_map_t::iterator iter2 = mWriters.find(handle);
+			if (iter2 != mWriters.end())
+			{
+				LLTextureCacheWorker* worker = iter2->second;
+				worker->setPriority(LLWorkerThread::PRIORITY_HIGH | worker->mPriority);
+			}
+		}
+
+		unlockWorkers();
+	}
 	
 	// call 'completed' with workers list unlocked (may call readComplete() or writeComplete()
 	for (auto& iter1 : completed_list)
@@ -1930,7 +1941,7 @@ LLTextureCache::handle_t LLTextureCache::writeToCache(const LLUUID& id, U32 prio
 		mDoPurge = false;
 	}
 	
-	if (rawimage.isNull() || !rawimage->getData())
+	if (rawimage.isNull() || rawimage->isBufferInvalid() || !rawimage->getData())
 	{
 		delete responder;
 		return LLWorkerThread::nullHandle();
@@ -2167,12 +2178,14 @@ void LLTextureCache::prioritizeWrite(handle_t handle)
 	//   which could create a deadlock
 	LLMutexLock lock(&mListMutex);	
 	mPrioritizeWriteList.push_back(handle);
+	mPrioritizeWriteListEmpty = mPrioritizeWriteList.empty();
 }
 
 void LLTextureCache::addCompleted(Responder* responder, bool success)
 {
 	LLMutexLock lock(&mListMutex);
 	mCompletedList.push_back(std::make_pair(responder,success));
+	mCompletedListEmpty = mCompletedList.empty();
 }
 
 //////////////////////////////////////////////////////////////////////////////

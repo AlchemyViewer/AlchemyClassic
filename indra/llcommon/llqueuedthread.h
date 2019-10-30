@@ -175,8 +175,8 @@ public:
 	void waitOnPending();
 	void printQueueStats();
 
-	virtual S32 getPending();
-	bool getThreaded() const { return mThreaded ? true : false; }
+	virtual S32 getPending() const { return mRequestQueueSize; } // May be called from any thread
+	bool getThreaded() const { return mThreaded; }
 
 	// Request accessors
 	status_t getRequestStatus(handle_t handle);
@@ -198,6 +198,7 @@ protected:
 	
 	typedef std::set<QueuedRequest*, queued_request_less> request_queue_t;
 	request_queue_t mRequestQueue;
+	std::atomic<S32> mRequestQueueSize;
 
 	enum { REQUEST_HASH_SIZE = 512 }; // must be power of 2
 	typedef LLSimpleHash<handle_t, REQUEST_HASH_SIZE> request_hash_t;

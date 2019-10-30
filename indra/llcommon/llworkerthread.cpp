@@ -35,7 +35,8 @@
 // Run on MAIN thread
 
 LLWorkerThread::LLWorkerThread(const std::string& name, bool threaded, bool should_pause) :
-	LLQueuedThread(name, threaded, should_pause)
+	LLQueuedThread(name, threaded, should_pause),
+	mDeleteListSize(0)
 {
 	mDeleteMutex = new LLMutex();
 
@@ -76,6 +77,7 @@ void LLWorkerThread::clearDeleteList()
 			delete iter;
 		}
 		mDeleteList.clear() ;
+		mDeleteListSize = mDeleteList.size();
 		mDeleteMutex->unlock() ;
 	}
 }
@@ -87,33 +89,36 @@ S32 LLWorkerThread::update(F32 max_time_ms)
 	// Delete scheduled workers
 	std::vector<LLWorkerClass*> delete_list;
 	std::vector<LLWorkerClass*> abort_list;
-	mDeleteMutex->lock();
-	for (auto iter = mDeleteList.begin(); iter != mDeleteList.end(); )
+	if (mDeleteListSize)
 	{
-        auto curiter = iter++;
-		LLWorkerClass* worker = *curiter;
-		if (worker->deleteOK())
+		mDeleteMutex->lock();
+		for (auto iter = mDeleteList.begin(); iter != mDeleteList.end(); )
 		{
-			if (worker->getFlags(LLWorkerClass::WCF_WORK_FINISHED))
+			auto curiter = iter++;
+			LLWorkerClass* worker = *curiter;
+			if (worker->deleteOK())
 			{
-				delete_list.push_back(worker);
-				mDeleteList.erase(curiter);
-			}
-			else if (!worker->getFlags(LLWorkerClass::WCF_ABORT_REQUESTED))
-			{
-				abort_list.push_back(worker);
+				if (worker->getFlags(LLWorkerClass::WCF_WORK_FINISHED))
+				{
+					delete_list.push_back(worker);
+					mDeleteList.erase(curiter);
+				}
+				else if (!worker->getFlags(LLWorkerClass::WCF_ABORT_REQUESTED))
+				{
+					abort_list.push_back(worker);
+				}
 			}
 		}
+		mDeleteListSize = mDeleteList.size();
+		mDeleteMutex->unlock();
 	}
-	mDeleteMutex->unlock();	
 	// abort and delete after releasing mutex
-	for (auto& iter : abort_list)
+	for (LLWorkerClass* worker : abort_list)
     {
-        iter->abortWork(false);
+        worker->abortWork(false);
 	}
-	for (auto& iter : delete_list)
+	for (LLWorkerClass* worker : delete_list)
     {
-		LLWorkerClass* worker = iter;
 		if (worker->mRequestHandle)
 		{
 			// Finished but not completed
@@ -121,7 +126,7 @@ S32 LLWorkerThread::update(F32 max_time_ms)
 			worker->mRequestHandle = LLWorkerThread::nullHandle();
 			worker->clearFlags(LLWorkerClass::WCF_HAVE_WORK);
 		}
-		delete iter;
+		delete worker;
 	}
 	// delete and aborted entries mean there's still work to do
 	res += delete_list.size() + abort_list.size();
@@ -151,6 +156,7 @@ void LLWorkerThread::deleteWorker(LLWorkerClass* workerclass)
 {
 	mDeleteMutex->lock();
 	mDeleteList.push_back(workerclass);
+	mDeleteListSize = mDeleteList.size();
 	mDeleteMutex->unlock();
 }
 

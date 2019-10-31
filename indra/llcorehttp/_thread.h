@@ -30,7 +30,15 @@
 #include "linden_common.h"
 
 #include <boost/chrono.hpp>
+#ifdef LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdelete-non-abstract-non-virtual-dtor"
+#endif
 #include <boost/thread.hpp>
+#ifdef LL_CLANG
+#pragma clang diagnostic pop
+#endif
 #include <utility>
 
 #include "llwin32headerslean.h"

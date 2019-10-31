@@ -33,10 +33,14 @@
 #include <sstream>
 
 #include "llwin32headerslean.h"
+#if LL_MSVC
 #pragma warning (push)
 #pragma warning (disable : 4091) // compiler thinks might use uninitialized var, but no
+#endif
 #include "Dbghelp.h"
+#if LL_MSVC
 #pragma warning (pop)
+#endif
 
 typedef USHORT NTAPI RtlCaptureStackBackTrace_Function(
     IN ULONG frames_to_skip,

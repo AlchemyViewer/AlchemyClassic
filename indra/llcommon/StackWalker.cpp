@@ -93,8 +93,10 @@
 
 #include "StackWalker.h"
 
+#if LL_MSVC
 #pragma warning (push)
 #pragma warning (disable : 4740)
+#endif
 
 // If VC7 and later, then use the shipped 'dbghelp.h'-file
 #pragma pack(push,8)
@@ -1366,9 +1368,12 @@ void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUser
     }
   }
 #else
-#if LL_WINDOWS
+#if LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif LL_MSVC
 #pragma warning (push)
-#pragma warning (disable : 4996) // supress deprecated
+#pragma warning (disable : 4996) // Supress deprecated
 #endif
   OSVERSIONINFOEXA ver;
   ZeroMemory(&ver, sizeof(OSVERSIONINFOEXA));
@@ -1383,7 +1388,9 @@ void StackWalker::OnSymInit(LPCSTR szSearchPath, DWORD symOptions, LPCSTR szUser
         OnOutput(buffer);
     }
   }
-#if LL_WINDOWS
+#if LL_CLANG
+#pragma clang diagnostic pop
+#elif LL_MSVC
 #pragma warning (pop)
 #endif
 #endif
@@ -1394,6 +1401,8 @@ void StackWalker::OnOutput(LPCSTR buffer)
   OutputDebugStringA(buffer);
 }
 
+#if LL_MSVC && !defined(LL_CLANG)
 #pragma warning(pop)
+#endif
 
 #endif // LL_WINDOWS

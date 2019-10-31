@@ -29,8 +29,14 @@
 #include "lltexturecache.h"
 #include <utility>
 
+#ifdef LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdelete-non-abstract-non-virtual-dtor"
+#endif
 #include <boost/exception/diagnostic_information.hpp>
-
+#ifdef LL_CLANG
+#pragma clang diagnostic pop
+#endif
 #include "llapr.h"
 #include "lldir.h"
 #include "llimage.h"

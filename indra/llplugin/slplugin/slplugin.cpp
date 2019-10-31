@@ -82,7 +82,7 @@ static BOOL PreventSetUnhandledExceptionFilter()
 // WARNING: This won't work on 64-bit Windows systems so we turn it off it.
 	HMODULE hKernel32 = LoadLibrary(TEXT("kernel32.dll"));
 	if (hKernel32 == nullptr) return FALSE;
-	void *pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
+	LPVOID pOrgEntry = reinterpret_cast<LPVOID>(GetProcAddress(hKernel32, "SetUnhandledExceptionFilter"));
 	if (pOrgEntry == nullptr) return FALSE;
 
 #ifdef _M_IX86
@@ -139,14 +139,13 @@ void initExceptionHandler()
 bool checkExceptionHandler()
 {
 	bool ok = true;
-	LPTOP_LEVEL_EXCEPTION_FILTER prev_filter;
-	prev_filter = SetUnhandledExceptionFilter(myWin32ExceptionHandler);
+	LPTOP_LEVEL_EXCEPTION_FILTER prev_filter = SetUnhandledExceptionFilter(myWin32ExceptionHandler);
 
 	PreventSetUnhandledExceptionFilter();
 
 	if (prev_filter != myWin32ExceptionHandler)
 	{
-		LL_WARNS("AppInit") << "Our exception handler (" << (void *)myWin32ExceptionHandler << ") replaced with " << prev_filter << "!" << LL_ENDL;
+		LL_WARNS("AppInit") << "Our exception handler (" << (void *)myWin32ExceptionHandler << ") replaced with " << fmt::to_string((void*)prev_filter) << "!" << LL_ENDL;
 		ok = false;
 	}
 

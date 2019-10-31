@@ -17,7 +17,14 @@
 // std headers
 #include <typeinfo>
 // external library headers
+#ifdef LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdelete-non-abstract-non-virtual-dtor"
+#endif
 #include <boost/exception/diagnostic_information.hpp>
+#ifdef LL_CLANG
+#pragma clang diagnostic pop
+#endif
 // other Linden headers
 #include "llerror.h"
 #include "llerrorcontrol.h"

@@ -198,9 +198,12 @@ LLOSInfo::LLOSInfo() :
 		mOSStringSimple += "32-bit ";
 	}
 
-#if LL_WINDOWS
+#if LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif LL_MSVC
 #pragma warning (push)
-#pragma warning (disable : 4996) // compiler thinks might use uninitialized var, but no
+#pragma warning (disable : 4996) // Supress deprecated
 #endif
 	OSVERSIONINFOEX osvi;
 	BOOL bOsVersionInfoEx;
@@ -213,8 +216,10 @@ LLOSInfo::LLOSInfo() :
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
 	}
-#if LL_WINDOWS
-#pragma warning (pop)
+#if LL_CLANG
+#pragma clang diagnostic pop
+#elif LL_MSVC
+#pragma warning (push)
 #endif
 	
 	std::string tmpstr;

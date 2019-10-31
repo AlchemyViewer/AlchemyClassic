@@ -35,7 +35,14 @@
 #include "kdu_block_coding.h"
 
 #include "llexception.h"
+#ifdef LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdelete-non-abstract-non-virtual-dtor"
+#endif
 #include <boost/exception/diagnostic_information.hpp>
+#ifdef LL_CLANG
+#pragma clang diagnostic pop
+#endif
 #include <sstream>
 #include <iomanip>
 #include <utility>

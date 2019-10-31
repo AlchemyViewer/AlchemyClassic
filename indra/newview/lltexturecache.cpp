@@ -2048,7 +2048,8 @@ bool LLTextureCache::writeToFastCache(LLUUID image_id, S32 id, LLPointer<LLImage
 			//make a duplicate to keep the original raw image untouched
             try
             {
-				raw = new LLImageRaw(raw->getData(), raw->getWidth(), raw->getHeight(), raw->getComponents());
+				LLPointer<LLImageRaw> temp_raw(new LLImageRaw(raw->getData(), raw->getWidth(), raw->getHeight(), raw->getComponents()));
+				raw = std::move(temp_raw);
             }
             catch (const std::bad_alloc& e)
             {
@@ -2065,7 +2066,7 @@ bool LLTextureCache::writeToFastCache(LLUUID image_id, S32 id, LLPointer<LLImage
                 return false;
             }
 
-			if (raw->isBufferInvalid())
+			if (raw.isNull() || raw->isBufferInvalid() || !raw->getData())
 			{
 				LL_WARNS() << "Invalid image duplicate buffer" << LL_ENDL;
 				return false;

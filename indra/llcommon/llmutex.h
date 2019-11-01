@@ -51,8 +51,6 @@ public:
 	{
 	}
 
-	~LLMutex() = default;
-
 	void lock();		// blocks
 	bool trylock();		// non-blocking, returns true if lock held.
 	void unlock();		// undefined behavior when called on mutex not being held
@@ -78,9 +76,6 @@ protected:
 class LL_COMMON_API LLCondition : public LLMutex
 {
 public:
-	LLCondition() = default;
-	~LLCondition() = default;
-
 	void wait()
 	{
 		std::unique_lock<decltype(mMutex)> lock(mMutex);

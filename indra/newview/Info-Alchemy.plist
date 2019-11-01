@@ -76,7 +76,7 @@
 	<key>NSPrincipalClass</key>
 	<string>${MACOSX_BUNDLE_NSPRINCIPAL_CLASS}</string>
 	<key>NSHighResolutionCapable</key>
-	<false/>
+	<true/>
 	<key>NSMainNibFile</key>
 	<string>${MACOSX_BUNDLE_NSMAIN_NIB_FILE}</string>
 </dict>

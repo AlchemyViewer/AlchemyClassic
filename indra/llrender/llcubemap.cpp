@@ -463,9 +463,9 @@ void LLCubeMap::paintIn(LLVector3 dir[4], const LLColor4U& col)
 		U8 *td = mRawImages[side]->getData();
 		
 		U16 v_minu = (U16) v_min;
-		U16 v_maxu = (U16) (ceil(v_max) + 0.5);
+		U16 v_maxu = (U16) (ceil(v_max) + 0.5f);
 		U16 h_minu = (U16) h_min;
-		U16 h_maxu = (U16) (ceil(h_max) + 0.5);
+		U16 h_maxu = (U16) (ceil(h_max) + 0.5f);
 
 		for (U16 v = v_minu; v < v_maxu; ++v)
 			for (U16 h = h_minu; h < h_maxu; ++h)
@@ -473,7 +473,7 @@ void LLCubeMap::paintIn(LLVector3 dir[4], const LLColor4U& col)
 		//	for (U16 h = 0; h < RESOLUTION; ++h)
 			{
 				const LLVector3 ray = map(side, v, h);
-				if (ray * center > 0.999)
+				if (ray * center > 0.999f)
 				{
 					const U32 offset = (RESOLUTION * v + h) * 4;
 					for (U8 cc = 0; cc < 3; ++cc)

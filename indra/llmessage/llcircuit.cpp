@@ -1186,7 +1186,7 @@ void LLCircuitData::getInfo(LLSD& info) const
 {
 	info["Host"] = mHost.getIPandPort();
 	info["Alive"] = mbAlive;
-	info["Age"] = mExistenceTimer.getElapsedTimeF32();
+	info["Age"] = mExistenceTimer.getElapsedTimeF64().value();
 }
 
 void LLCircuitData::dumpResendCountAndReset()

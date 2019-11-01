@@ -819,7 +819,7 @@ public:
 			return false;
 		}
 		
-		if (data->getBinRadius() > 4096.0)
+		if (data->getBinRadius() > 4096.f)
 		{
 			OCT_ERRS << "!!! ELEMENT EXCEEDS MAXIMUM SIZE IN OCTREE ROOT !!!" << LL_ENDL;
 			return false;

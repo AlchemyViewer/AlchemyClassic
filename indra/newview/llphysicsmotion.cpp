@@ -44,9 +44,16 @@
 
 inline F64 llsgn(const F64 a)
 {
-        if (a >= 0)
+        if (a >= D_APPROXIMATELY_ZERO)
                 return 1;
         return -1;
+}
+
+inline F32 llsgn(const F32 a)
+{
+	if (a >= F_APPROXIMATELY_ZERO)
+		return 1.f;
+	return -1.f;
 }
 
 LLPhysicsMotion::default_controller_map_t initDefaultController()
@@ -306,8 +313,8 @@ F32 LLPhysicsMotion::calculateAcceleration_local(const F32 velocity_local, const
         const F32 acceleration_local = (velocity_local - mVelocityJoint_local) / time_delta;
         
         const F32 smoothed_acceleration_local = 
-                acceleration_local * 1.0/smoothing + 
-                mAccelerationJoint_local * (smoothing-1.0)/smoothing;
+                acceleration_local * 1.0f/smoothing + 
+                mAccelerationJoint_local * (smoothing-1.0f)/smoothing;
         
         return smoothed_acceleration_local;
 }
@@ -354,7 +361,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
         const F32 time_delta = time - mLastTime;
 	
 	// If less than 1FPS, we don't want to be spending time updating physics at all.
-        if (time_delta > 1.0)
+        if (time_delta > 1.0f)
         {
                 mLastTime = time;
                 return FALSE;
@@ -363,7 +370,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
         // Higher LOD is better.  This controls the granularity
         // and frequency of updates for the motions.
         const F32 lod_factor = LLVOAvatar::sPhysicsLODFactor;
-        if (lod_factor == 0)
+        if (lod_factor == 0.f)
         {
                 return TRUE;
         }
@@ -398,7 +405,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 	// Calculate velocity and acceleration in parameter space.
 	//
         
-    const F32 joint_local_factor = 30.0;
+    const F32 joint_local_factor = 30.0f;
     const F32 velocity_joint_local = calculateVelocity_local(time_delta * joint_local_factor);
     const F32 acceleration_joint_local = calculateAcceleration_local(velocity_joint_local, time_delta * joint_local_factor);
 	
@@ -432,7 +439,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 							   1.0f);
 		// If the effect is turned off then don't process unless we need one more update
 		// to set the position to the default (i.e. user) position.
-		if ((behavior_maxeffect == 0) && (position_current_local == position_user_local))
+		if ((behavior_maxeffect == 0.f) && (position_current_local == position_user_local))
 		{
 			return update_visuals;
 		}
@@ -452,7 +459,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 
 		// Gravity always points downward in world space.
 		// F = mg
-		const LLVector3 gravity_world(0,0,1);
+		const LLVector3 gravity_world(0.f, 0.f, 1.f);
 		const F32 force_gravity = (toLocal(gravity_world) * behavior_gravity * behavior_mass);
                 
 		// Damping is a restoring force that opposes the current velocity.
@@ -461,7 +468,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
                 
 		// Drag is a force imparted by velocity (intuitively it is similar to wind resistance)
 		// F = .5kv^2
-		const F32 force_drag = .5*behavior_drag*velocity_joint_local*velocity_joint_local*llsgn(velocity_joint_local);
+		const F32 force_drag = 0.5f*behavior_drag*velocity_joint_local*velocity_joint_local*llsgn(velocity_joint_local);
 
 		const F32 force_net = (force_accel + 
 				       force_gravity +
@@ -489,18 +496,18 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 		// Temporary debugging setting to cause all avatars to move, for profiling purposes.
 		if (physics_test)
 		{
-			velocity_new_local = sin(time*4.0);
+			velocity_new_local = sin(time*4.0f);
 		}
 		// Calculate the new parameters, or remain unchanged if max speed is 0.
 		F32 position_new_local = position_current_local + velocity_new_local*time_iteration_step;
-		if (behavior_maxeffect == 0)
+		if (behavior_maxeffect == 0.f)
 			position_new_local = position_user_local;
 
 		// Zero out the velocity if the param is being pushed beyond its limits.
-		if ((position_new_local < 0 && velocity_new_local < 0) || 
-		    (position_new_local > 1 && velocity_new_local > 0))
+		if ((position_new_local < 0.f && velocity_new_local < 0.f) ||
+		    (position_new_local > 1.f && velocity_new_local > 0.f))
 		{
-			velocity_new_local = 0;
+			velocity_new_local = 0.f;
 		}
 	
 		// Check for NaN values.  A NaN value is detected if the variables doesn't equal itself.  
@@ -509,12 +516,12 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 		    (mVelocity_local != mVelocity_local) ||
 		    (position_new_local != position_new_local))
 		{
-			position_new_local = 0;
-			mVelocity_local = 0;
-			mVelocityJoint_local = 0;
-			mAccelerationJoint_local = 0;
-			mPosition_local = 0;
-			mPosition_world = LLVector3(0,0,0);
+			position_new_local = 0.f;
+			mVelocity_local = 0.f;
+			mVelocityJoint_local = 0.f;
+			mAccelerationJoint_local = 0.f;
+			mPosition_local = 0.f;
+			mPosition_world.setZero();
 		}
 
 		const F32 position_new_local_clamped = llclamp(position_new_local,
@@ -530,7 +537,7 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 			if ((driver_param->getGroup() != VISUAL_PARAM_GROUP_TWEAKABLE) &&
 			    (driver_param->getGroup() != VISUAL_PARAM_GROUP_TWEAKABLE_NO_TRANSMIT))
 			{
-				mCharacter->setVisualParamWeight(driver_param, 0, FALSE);
+				mCharacter->setVisualParamWeight(driver_param, 0.f, FALSE);
 			}
 			S32 num_driven = driver_param->getDrivenParamsCount();
 			for (S32 i = 0; i < num_driven; ++i)
@@ -553,9 +560,9 @@ BOOL LLPhysicsMotion::onUpdate(F32 time)
 		// the graphics LOD settings.
         
 		// For non-self, if the avatar is small enough visually, then don't update.
-		const F32 area_for_max_settings = 0.0;
-		const F32 area_for_min_settings = 1400.0;
-		const F32 area_for_this_setting = area_for_max_settings + (area_for_min_settings-area_for_max_settings)*(1.0-lod_factor);
+		const F32 area_for_max_settings = 0.0f;
+		const F32 area_for_min_settings = 1400.0f;
+		const F32 area_for_this_setting = area_for_max_settings + (area_for_min_settings-area_for_max_settings)*(1.0f-lod_factor);
 	        const F32 pixel_area = sqrtf(mCharacter->getPixelArea());
         
 		const BOOL is_self = (dynamic_cast<LLVOAvatarSelf *>(mCharacter) != nullptr);
@@ -656,8 +663,8 @@ void LLPhysicsMotion::setParamValue(const LLViewerVisualParam *param,
 {
         const F32 value_min_local = param->getMinWeight();
         const F32 value_max_local = param->getMaxWeight();
-        const F32 min_val = 0.5f-behavior_maxeffect/2.0;
-        const F32 max_val = 0.5f+behavior_maxeffect/2.0;
+        const F32 min_val = 0.5f-behavior_maxeffect/2.0f;
+        const F32 max_val = 0.5f+behavior_maxeffect/2.0f;
 
 	// Scale from [0,1] to [min_val,max_val]
 	const F32 new_value_rescaled = min_val + (max_val-min_val) * new_value_normalized;

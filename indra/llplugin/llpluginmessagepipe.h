@@ -72,9 +72,9 @@ public:
 	bool addMessage(const std::string &message);
 	void clearOwner(void);
 	
-	bool pump(F64 timeout = 0.0f);
+	bool pump(F64 timeout = 0.0);
 	bool pumpOutput();
-	bool pumpInput(F64 timeout = 0.0f);
+	bool pumpInput(F64 timeout = 0.0);
 		
 protected:	
 	void processInput(void);

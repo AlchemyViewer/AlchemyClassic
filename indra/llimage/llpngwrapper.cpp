@@ -60,7 +60,7 @@ LLPngWrapper::LLPngWrapper()
 	  mCompressionType( 0 ),
 	  mFilterMethod( 0 ),
 	  mFinalSize( 0 ),
-	  mGamma(0.f)
+	  mGamma(0.0)
 {
 }
 

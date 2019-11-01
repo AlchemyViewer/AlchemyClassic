@@ -113,7 +113,7 @@ BOOL LLVOGround::updateGeometry(LLDrawable *drawable)
 	//
 	LLVector3 at_dir = LLViewerCamera::getInstance()->getAtAxis();
 	at_dir.mV[VZ] = 0.f;
-	if (at_dir.normVec() < 0.01)
+	if (at_dir.normVec() < 0.01f)
 	{
 		// We really don't care, as we're not looking anywhere near the horizon.
 	}

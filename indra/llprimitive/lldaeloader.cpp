@@ -1948,7 +1948,7 @@ void LLDAELoader::processElement( daeElement* element, bool& badElement, DAE* da
 		domFloat4 dom_value = rotate->getValue();
 
 		LLMatrix4 rotation;
-		rotation.initRotTrans(dom_value[3] * DEG_TO_RAD, LLVector3(dom_value[0], dom_value[1], dom_value[2]), LLVector3(0, 0, 0));
+		rotation.initRotTrans(dom_value[3] * DBL_DEG_TO_RAD, LLVector3(dom_value[0], dom_value[1], dom_value[2]), LLVector3(0, 0, 0));
 
 		rotation *= mTransform;
 		mTransform = rotation;
@@ -2245,7 +2245,7 @@ LLImportMaterial LLDAELoader::profileToMaterial(domProfile_COMMON* material, DAE
 	if (emission)
 	{
 		LLColor4 emission_color = getDaeColor(emission);
-		if (((emission_color[0] + emission_color[1] + emission_color[2]) / 3.0) > 0.25)
+		if (((emission_color[0] + emission_color[1] + emission_color[2]) / 3.f) > 0.25f)
 		{
 			mat.mFullbright = TRUE;
 		}

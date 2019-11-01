@@ -221,7 +221,7 @@ void LLControlAvatar::matchVolumeTransform()
 
 void LLControlAvatar::setGlobalScale(F32 scale)
 {
-    if (scale <= 0.0)
+    if (scale <= 0.0f)
     {
         LL_WARNS() << "invalid global scale " << scale << LL_ENDL;
         return;

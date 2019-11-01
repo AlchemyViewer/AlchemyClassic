@@ -45,7 +45,7 @@ class LLSD;
 
 // anything that takes longer than this to download will abort.
 // HTTP Uploads also timeout if they take longer than this.
-const F32Minutes LL_ASSET_STORAGE_TIMEOUT(5);
+const F64Minutes LL_ASSET_STORAGE_TIMEOUT(5);
 
 
 // Specific error codes

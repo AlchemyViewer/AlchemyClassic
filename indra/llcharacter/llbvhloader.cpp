@@ -1099,7 +1099,7 @@ void LLBVHLoader::optimize()
 
 			F32 rot_threshold = ROTATION_KEYFRAME_THRESHOLD / llmax((F32)joint->mChildTreeMaxDepth * 0.33f, 1.f);
 
-			double diff_max = 0;
+			F32 diff_max = 0.f;
 			KeyVector::iterator ki_max = ki;
 			for (; ki != joint->mKeys.end(); ++ki)
 			{
@@ -1189,14 +1189,14 @@ void LLBVHLoader::optimize()
 						// had the largest deviation from the earlier tests).  Note that a more robust approach would be test all intermediate
 						// keyframes against the line between the last good keyframe and current, but we're settling for this other method
 						// because it's significantly faster.
-						if (diff_max > 0)
+						if (diff_max > 0.f)
 						{
 							if (ki_max->mIgnoreRot == TRUE)
 							{
 								ki_max->mIgnoreRot = FALSE;
 								joint->mNumRotKeys++;
 							}
-							diff_max = 0;
+							diff_max = 0.f;
 						}
 					}
 					else

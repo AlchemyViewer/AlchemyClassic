@@ -175,7 +175,7 @@ void LLGLSLShader::dumpStats()
         tris_sec /= seconds;
 
         F32 pct_samples = (F32) ((F64)mSamplesDrawn/(F64)sTotalSamplesDrawn)*100.f;
-        F32 samples_sec = (F32) mSamplesDrawn/1000000000.0;
+        F32 samples_sec = (F32) mSamplesDrawn/1000000000.f;
         samples_sec /= seconds;
 
         F32 pct_calls = (F32) mDrawCalls/(F32)sTotalDrawCalls*100.f;

@@ -105,7 +105,7 @@ inline void from_region_handle(const U64 &region_handle, U32 *x_pos, U32 *y_pos)
 // return the word-frame XY location of sim's SouthWest corner in LLVector3d
 inline LLVector3d from_region_handle(const U64 &region_handle)
 {
-	return LLVector3d(((U32)(region_handle >> 32)), (U32)(region_handle & 0xFFFFFFFF), 0.f);
+	return LLVector3d(((U32)(region_handle >> 32)), (U32)(region_handle & 0xFFFFFFFF), 0.0);
 }
 
 // grid-based region handle encoding. pass in a grid position

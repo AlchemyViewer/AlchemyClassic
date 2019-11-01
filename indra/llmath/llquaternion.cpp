@@ -580,14 +580,18 @@ LLVector3		operator*(const LLVector3 &a, const LLQuaternion &rot)
 
 LLVector3d		operator*(const LLVector3d &a, const LLQuaternion &rot)
 {
-    F64 rw = - rot.mQ[VX] * a.mdV[VX] - rot.mQ[VY] * a.mdV[VY] - rot.mQ[VZ] * a.mdV[VZ];
-    F64 rx =   rot.mQ[VW] * a.mdV[VX] + rot.mQ[VY] * a.mdV[VZ] - rot.mQ[VZ] * a.mdV[VY];
-    F64 ry =   rot.mQ[VW] * a.mdV[VY] + rot.mQ[VZ] * a.mdV[VX] - rot.mQ[VX] * a.mdV[VZ];
-    F64 rz =   rot.mQ[VW] * a.mdV[VZ] + rot.mQ[VX] * a.mdV[VY] - rot.mQ[VY] * a.mdV[VX];
+	F64 rotx = static_cast<F64>(rot.mQ[VX]);
+	F64 roty = static_cast<F64>(rot.mQ[VY]);
+	F64 rotz = static_cast<F64>(rot.mQ[VZ]);
+	F64 rotw = static_cast<F64>(rot.mQ[VW]);
+    F64 rw = - rotx * a.mdV[VX] - roty * a.mdV[VY] - rotz * a.mdV[VZ];
+    F64 rx =   rotw * a.mdV[VX] + roty * a.mdV[VZ] - rotz * a.mdV[VY];
+    F64 ry =   rotw * a.mdV[VY] + rotz * a.mdV[VX] - rotx * a.mdV[VZ];
+    F64 rz =   rotw * a.mdV[VZ] + rotx * a.mdV[VY] - roty * a.mdV[VX];
 
-    F64 nx = - rw * rot.mQ[VX] +  rx * rot.mQ[VW] - ry * rot.mQ[VZ] + rz * rot.mQ[VY];
-    F64 ny = - rw * rot.mQ[VY] +  ry * rot.mQ[VW] - rz * rot.mQ[VX] + rx * rot.mQ[VZ];
-    F64 nz = - rw * rot.mQ[VZ] +  rz * rot.mQ[VW] - rx * rot.mQ[VY] + ry * rot.mQ[VX];
+    F64 nx = - rw * rotx +  rx * rotw - ry * rotz + rz * roty;
+    F64 ny = - rw * roty +  ry * rotw - rz * rotx + rx * rotz;
+    F64 nz = - rw * rotz +  rz * rotw - rx * roty + ry * rotx;
 
     return LLVector3d(nx, ny, nz);
 }

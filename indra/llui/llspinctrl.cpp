@@ -150,11 +150,11 @@ F32 clamp_precision(F32 value, S32 decimal_precision)
 {
 	// pow() isn't perfect
 	
-	F64 clamped_value = value;
+	F64 clamped_value = (F64)value;
 	for (S32 i = 0; i < decimal_precision; i++)
 		clamped_value *= 10.0;
 
-	clamped_value = floor(clamped_value + 0.5f); // cheap round
+	clamped_value = round(clamped_value); // cheap round
 
 	for (S32 i = 0; i < decimal_precision; i++)
 		clamped_value /= 10.0;

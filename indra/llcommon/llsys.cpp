@@ -1070,7 +1070,7 @@ public:
         // Both MEM_INFO_WINDOW and MEM_INFO_THROTTLE are in seconds. We need
         // the number of integer MEM_INFO_THROTTLE sample slots that will fit
         // in MEM_INFO_WINDOW. Round up.
-        mSamples(int((MEM_INFO_WINDOW / MEM_INFO_THROTTLE) + 0.7)),
+        mSamples(int((MEM_INFO_WINDOW / MEM_INFO_THROTTLE) + 0.7f)),
         // Initializing to F32_MAX means that the first real frame will become
         // the slowest ever, which sounds like a good idea.
         mSlowest(F32_MAX)

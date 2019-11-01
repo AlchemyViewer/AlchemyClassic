@@ -63,12 +63,12 @@ protected:
 	{
 		while(!isQuitting() && LLPluginProcessParent::getUseReadThread())
 		{
-			LLPluginProcessParent::poll(0.1f);
+			LLPluginProcessParent::poll(0.1);
 			checkPause();
 		}
 		
 		// Final poll to clean up the pollset, etc.
-		LLPluginProcessParent::poll(0.0f);
+		LLPluginProcessParent::poll(0.0);
 	} 
 
 	// Inherited from LLThread
@@ -252,7 +252,7 @@ void LLPluginProcessParent::init(const std::string &launcher_filename, const std
 	mProcessParams.cwd = plugin_dir;
 	mPluginFile = plugin_filename;
 	mPluginDir = plugin_dir;
-	mCPUUsage = 0.0f;
+	mCPUUsage = 0.0;
 	mDebug = debug;	
 	setState(STATE_INITIALIZED);
 }
@@ -905,7 +905,7 @@ void LLPluginProcessParent::servicePoll()
 	// poll signalled on this object's socket.  Try to process incoming messages.
 	if(mMessagePipe)
 	{
-		result = mMessagePipe->pumpInput(0.0f);
+		result = mMessagePipe->pumpInput(0.0);
 	}
 
 	if(!result)
@@ -1012,7 +1012,7 @@ void LLPluginProcessParent::receiveMessage(const LLPluginMessage &message)
 				}
 				
 				// Send initial sleep time
-				llassert_always(mSleepTime != 0.f);
+				llassert_always(mSleepTime != 0.0);
 				setSleepTime(mSleepTime, true);			
 
 				setState(STATE_RUNNING);

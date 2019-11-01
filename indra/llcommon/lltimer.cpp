@@ -381,7 +381,7 @@ F32SecondsImplicit LLTimer::getElapsedTimeAndResetF32()
 void  LLTimer::setTimerExpirySec(F32SecondsImplicit expiration)
 {
 	mExpirationTicks = get_clock_count()
-		+ (U64)((F32)(expiration * get_timer_info().mClockFrequency.value()));
+		+ (U64)((F32)(expiration * static_cast<F32>(get_timer_info().mClockFrequency.value())));
 }
 
 F32SecondsImplicit LLTimer::getRemainingTimeF32() const
@@ -391,7 +391,7 @@ F32SecondsImplicit LLTimer::getRemainingTimeF32() const
 	{
 		return 0.0f;
 	}
-	return F32((mExpirationTicks - cur_ticks) * get_timer_info().mClockFrequencyInv);
+	return F32((mExpirationTicks - cur_ticks) * static_cast<F32>(get_timer_info().mClockFrequencyInv));
 }
 
 
@@ -404,7 +404,7 @@ BOOL  LLTimer::checkExpirationAndReset(F32 expiration)
 	}
 
 	mExpirationTicks = cur_ticks
-		+ (U64)((F32)(expiration * get_timer_info().mClockFrequency));
+		+ (U64)((F32)(expiration * static_cast<F32>(get_timer_info().mClockFrequency)));
 	return TRUE;
 }
 

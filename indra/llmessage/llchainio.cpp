@@ -45,7 +45,7 @@ bool LLDeferredChain::addToPump(
 {
 	if(!pump) return false;
 	LLPumpIO::chain_t sleep_chain;
-	sleep_chain.push_back(LLIOPipe::ptr_t(new LLIOSleep(in_seconds)));
+	sleep_chain.push_back(LLIOPipe::ptr_t(new LLIOSleep(static_cast<F64>(in_seconds))));
 	sleep_chain.push_back(
 		LLIOPipe::ptr_t(new LLIOAddChain(deferred_chain, chain_timeout)));
 

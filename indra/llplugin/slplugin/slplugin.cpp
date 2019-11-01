@@ -257,7 +257,7 @@ int main(int argc, char **argv)
 		F64 elapsed = timer.getElapsedTimeF64();
 		F64 remaining = plugin->getSleepTime() - elapsed;
 
-		if(remaining <= 0.0f)
+		if(remaining <= 0.0)
 		{
 			// We've already used our full allotment.
 //			LL_INFOS("slplugin") << "elapsed = " << elapsed * 1000.0f << " ms, remaining = " << remaining * 1000.0f << " ms, not sleeping" << LL_ENDL;

@@ -324,9 +324,9 @@ LLVector3::LLVector3(const LLSD& sd)
 LLSD LLVector3::getValue() const
 {
 	LLSD ret;
-	ret[0] = mV[0];
-	ret[1] = mV[1];
-	ret[2] = mV[2];
+	ret[0] = static_cast<LLSD::Real>(mV[0]);
+	ret[1] = static_cast<LLSD::Real>(mV[1]);
+	ret[2] = static_cast<LLSD::Real>(mV[2]);
 	return ret;
 }
 

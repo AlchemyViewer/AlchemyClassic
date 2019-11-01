@@ -278,7 +278,7 @@ void LLPanelWearing::onOpen(const LLSD& /*info*/)
 
 void LLPanelWearing::draw()
 {
-	if (mUpdateTimer.getStarted() && (mUpdateTimer.getElapsedTimeF32() > 0.1))
+	if (mUpdateTimer.getStarted() && (mUpdateTimer.getElapsedTimeF32() > 0.1f))
 	{
 		mUpdateTimer.stop();
 		updateAttachmentsList();

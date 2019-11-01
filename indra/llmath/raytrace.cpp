@@ -237,7 +237,7 @@ BOOL ray_cylinder(const LLVector3 &ray_point, const LLVector3 &ray_direction,
 			shortest_distance = ray_to_cyl * cyl_axis;
 			F32 dot = ray_direction * cyl_axis;
 
-			if (shortest_distance > 0.0)
+			if (shortest_distance > 0.0f)
 			{
 			   	if (dot > 0.0f)
 				{
@@ -364,7 +364,7 @@ BOOL ray_cylinder(const LLVector3 &ray_point, const LLVector3 &ray_direction,
 			// calculate intersection of ray and bottom plane
 			line_plane(ray_point, ray_direction, cyl_bottom, cyl_axis, temp_vector); // NOTE side-effect: changing temp_vector
 			shortest_distance = (temp_vector - ray_point).magVec();
-			if ( (ray_direction * cyl_axis) < 0.0)
+			if ( (ray_direction * cyl_axis) < 0.0f)
 			{
 				// ray potentially enters the cylinder at bottom
 				if (shortest_distance > out)

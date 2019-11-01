@@ -291,8 +291,8 @@ void EventAccumulator::reset( const EventAccumulator* other )
 {
 	mNumSamples = 0;
 	mSum = 0;
-	mMin = std::numeric_limits<float>::quiet_NaN();
-	mMax = std::numeric_limits<float>::quiet_NaN();
+	mMin = std::numeric_limits<double>::quiet_NaN();
+	mMax = std::numeric_limits<double>::quiet_NaN();
 	mMean = std::numeric_limits<double>::quiet_NaN();
 	mSumOfSquares = 0;
 	mLastValue = other ? other->mLastValue : NaN;

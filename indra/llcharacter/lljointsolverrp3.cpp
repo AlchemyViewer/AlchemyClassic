@@ -268,7 +268,7 @@ void LLJointSolverRP3::solve()
 							<< "theta        : " << theta << LL_NEWLINE
 							<< "bRot         : " << bRot << LL_NEWLINE
 							<< "theta abbcAng theta-abbcAng: " 
-								<< theta*180.0/F_PI << " " 
+								<< theta*180.f/F_PI << " " 
 								<< abbcAng*180.0f/F_PI << " " 
 								<< (theta - abbcAng)*180.0f/F_PI 
 	<< LL_ENDL;
@@ -353,7 +353,7 @@ void LLJointSolverRP3::solve()
 	LL_DEBUGS("JointSolver") << "abcNorm = " << abcNorm << LL_NEWLINE
 							<< "apgNorm = " << apgNorm << LL_NEWLINE
 							<< "pRot = " << pRot << LL_NEWLINE
-							<< "twist    : " << mTwist*180.0/F_PI << LL_NEWLINE
+							<< "twist    : " << mTwist*180.f/F_PI << LL_NEWLINE
 							<< "twistRot : " << twistRot << LL_ENDL;
 
 	//-------------------------------------------------------------------------

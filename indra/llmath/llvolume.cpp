@@ -2964,8 +2964,8 @@ void LLVolume::sculptGenerateSpherePlaceholder()
 
 			F32* p = pt.getF32ptr();
 
-			p[0] = (F32)(sin(F_PI * v) * cos(2.0 * F_PI * u) * RADIUS);
-			p[1] = (F32)(sin(F_PI * v) * sin(2.0 * F_PI * u) * RADIUS);
+			p[0] = (F32)(sin(F_PI * v) * cos(2.f * F_PI * u) * RADIUS);
+			p[1] = (F32)(sin(F_PI * v) * sin(2.f * F_PI * u) * RADIUS);
 			p[2] = (F32)(cos(F_PI * v) * RADIUS);
 
 			llassert(pt.isFinite3());
@@ -3075,15 +3075,15 @@ S32 sculpt_sides(F32 detail)
 
 	// detail is usually one of: 1, 1.5, 2.5, 4.0.
 	
-	if (detail <= 1.0)
+	if (detail <= 1.0f)
 	{
 		return SCULPT_REZ_1;
 	}
-	if (detail <= 2.0)
+	if (detail <= 2.0f)
 	{
 		return SCULPT_REZ_2;
 	}
-	if (detail <= 3.0)
+	if (detail <= 3.0f)
 	{
 		return SCULPT_REZ_3;
 	}
@@ -3518,7 +3518,7 @@ bool LLVolumeParams::setSkew(const F32 skew_value)
 	F32 scale_x		= getRatioX();
 	F32 min_skew_mag = 1.0f - 1.0f / (revolutions * scale_x + 1.0f);
 	// Discontinuity; A revolution of 1 allows skews below 0.5.
-	if ( fabs(revolutions - 1.0f) < 0.001)
+	if ( fabs(revolutions - 1.0f) < 0.001f)
 		min_skew_mag = 0.0f;
 
 	// Clip skew.

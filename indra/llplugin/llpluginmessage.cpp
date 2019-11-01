@@ -316,7 +316,7 @@ bool LLPluginMessage::getValueBoolean(const std::string &key) const
  */
 F64 LLPluginMessage::getValueReal(const std::string &key) const
 {
-	F64 result = 0.0f;
+	F64 result = 0.0;
 
 	if(mMessage["params"].has(key))
 	{

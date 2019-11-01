@@ -71,7 +71,7 @@ public:
 	}
 
 	inline LLWLParamKey() // NOT really valid, just so std::maps can return a default of some sort
-		: name(""), scope(SCOPE_LOCAL)
+		: name(), scope(SCOPE_LOCAL)
 	{
 	}
 
@@ -137,7 +137,7 @@ public:
 		mWLDayCycle(LLSD::emptyMap()),
 		mWaterParams(LLSD::emptyMap()),
 		mSkyMap(LLSD::emptyMap()),
-		mDayTime(0.f)
+		mDayTime(0.0)
 	{}
 	LLEnvironmentSettings(LLSD dayCycle, LLSD skyMap, LLSD waterParams, F64 dayTime) :
 		mWLDayCycle(std::move(dayCycle)),

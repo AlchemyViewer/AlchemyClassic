@@ -259,8 +259,8 @@ void LLWorldMipmap::globalToMipmap(F64 global_x, F64 global_y, S32 level, U32* g
 	llassert(level >= 1);
 
 	// Convert world coordinates into grid coordinates
-	*grid_x = lltrunc(global_x/REGION_WIDTH_METERS);
-	*grid_y = lltrunc(global_y/REGION_WIDTH_METERS);
+	*grid_x = lltrunc(global_x/static_cast<F64>(REGION_WIDTH_METERS));
+	*grid_y = lltrunc(global_y/ static_cast<F64>(REGION_WIDTH_METERS));
 	// Compute the valid grid coordinates at that level of the mipmap
 	S32 regions_in_tile = 1 << (level - 1);
 	*grid_x = *grid_x - (*grid_x % regions_in_tile);

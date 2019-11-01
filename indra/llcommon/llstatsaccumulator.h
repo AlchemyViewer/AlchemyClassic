@@ -100,11 +100,11 @@ public:
     inline LLSD asLLSD() const
     {
         LLSD data;
-        data["mean"] = getMean();
-        data["std_dev"] = getStdDev();
+        data["mean"] = static_cast<LLSD::Real>(getMean());
+        data["std_dev"] = static_cast<LLSD::Real>(getStdDev());
         data["count"] = (S32)mCount;
-        data["min"] = getMinValue();
-        data["max"] = getMaxValue();
+        data["min"] = static_cast<LLSD::Real>(getMinValue());
+        data["max"] = static_cast<LLSD::Real>(getMaxValue());
         return data;
     }
 

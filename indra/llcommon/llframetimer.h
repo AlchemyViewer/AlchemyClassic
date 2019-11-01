@@ -86,6 +86,7 @@ public:
 	void setExpiryAt(F64 seconds_since_epoch);
 	BOOL checkExpirationAndReset(F32 expiration);
 	F32 getElapsedTimeAndResetF32() 				{ F32 t = F32(sFrameTime - mStartTime); reset(); return t; }
+	F64 getElapsedTimeAndResetF64() 				{ F64 t = F64(sFrameTime - mStartTime); reset(); return t; }
 
 	void setAge(const F64 age)						{ mStartTime = sFrameTime - age; }
 

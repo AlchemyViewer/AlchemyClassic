@@ -255,10 +255,10 @@ bool LLPluginMessagePipe::pumpInput(F64 timeout)
 #if LL_WINDOWS
 		if(result)
 		{
-			if(timeout != 0.0f)
+			if(timeout != 0.0)
 			{
-				ms_sleep((int)(timeout * 1000.0f));
-				timeout = 0.0f;
+				ms_sleep((int)(timeout * 1000.0));
+				timeout = 0.0;
 			}
 		}
 #endif
@@ -269,7 +269,7 @@ bool LLPluginMessagePipe::pumpInput(F64 timeout)
 			char input_buf[1024];
 			apr_size_t request_size;
 			
-			if(timeout == 0.0f)
+			if(timeout == 0.0)
 			{
 				// If we have no timeout, start out with a full read.
 				request_size = sizeof(input_buf);
@@ -352,7 +352,7 @@ bool LLPluginMessagePipe::pumpInput(F64 timeout)
 					break;
 				}
 
-				if(timeout != 0.0f)
+				if(timeout != 0.0)
 				{
 					// Second and subsequent reads should not use the timeout
 					setSocketTimeout(0);

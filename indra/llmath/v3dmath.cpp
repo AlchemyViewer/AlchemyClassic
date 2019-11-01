@@ -89,9 +89,9 @@ std::ostream& operator<<(std::ostream& s, const LLVector3d &a)
 
 const LLVector3d& LLVector3d::operator=(const LLVector4 &a) 
 {
-	mdV[0] = a.mV[0];
-	mdV[1] = a.mV[1];
-	mdV[2] = a.mV[2];
+	mdV[0] = static_cast<F64>(a.mV[0]);
+	mdV[1] = static_cast<F64>(a.mV[1]);
+	mdV[2] = static_cast<F64>(a.mV[2]);
 	return *this;
 }
 

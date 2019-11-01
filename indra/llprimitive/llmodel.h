@@ -233,11 +233,19 @@ public:
 
 	
 	//Are the doubles the same w/in epsilon specified tolerance
-	bool areEqual( double a, double b ) 
+	bool areEqual( F32 a, F32 b )
 	{
-		const float epsilon = 1e-5f;
+		const F32 epsilon = 1e-5f;
 		return (fabs((a - b)) < epsilon) ? true : false ;
 	}
+
+	//Are the doubles the same w/in epsilon specified tolerance
+	bool areEqual(F64 a, F64 b)
+	{
+		const F64 epsilon = 1e-5;
+		return (fabs((a - b)) < epsilon) ? true : false;
+	}
+
 	//Make sure that we return false for any values that are within the tolerance for equivalence
 	bool jointPositionalLookup( const LLVector3& a, const LLVector3& b ) 
 	{

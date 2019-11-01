@@ -35,7 +35,7 @@
 
 static const F32 GOODBYE_SECONDS = 20.0f;
 static const F32 HEARTBEAT_SECONDS = 1.0f;
-static const F32 PLUGIN_IDLE_SECONDS = 1.0f / 100.0f;  // Each call to idle will give the plugin this much time.
+static const F64 PLUGIN_IDLE_SECONDS = 1.0 / 100.0;  // Each call to idle will give the plugin this much time.
 
 LLPluginProcessChild::LLPluginProcessChild()
 {
@@ -43,7 +43,7 @@ LLPluginProcessChild::LLPluginProcessChild()
 	mInstance = nullptr;
 	mSocket = LLSocket::create(gAPRPoolp, LLSocket::STREAM_TCP);
 	mSleepTime = PLUGIN_IDLE_SECONDS;	// default: send idle messages at 100Hz
-	mCPUElapsed = 0.0f;
+	mCPUElapsed = 0.0;
 	mBlockingRequest = false;
 	mBlockingResponseReceived = false;
 }
@@ -149,7 +149,7 @@ void LLPluginProcessChild::idle(void)
 				{
 					mHeartbeat.start();
 					mHeartbeat.setTimerExpirySec(HEARTBEAT_SECONDS);
-					mCPUElapsed = 0.0f;
+					mCPUElapsed = 0.0;
 					setState(STATE_PLUGIN_LOADED);
 				}
 				else
@@ -176,7 +176,7 @@ void LLPluginProcessChild::idle(void)
 			{
 				// Provide some time to the plugin
 				LLPluginMessage message("base", "idle");
-				message.setValueReal("time", PLUGIN_IDLE_SECONDS);
+				message.setValueReal("time", (LLSD::Real)PLUGIN_IDLE_SECONDS);
 				sendMessageToPlugin(message);
 
 				mInstance->idle();
@@ -196,7 +196,7 @@ void LLPluginProcessChild::idle(void)
 
 					mHeartbeat.reset();
 					mHeartbeat.setTimerExpirySec(HEARTBEAT_SECONDS);
-					mCPUElapsed = 0.0f;
+					mCPUElapsed = 0.0;
 				}
 			}
 			// receivePluginMessage will transition to STATE_UNLOADING
@@ -253,7 +253,7 @@ void LLPluginProcessChild::sleep(F64 seconds)
 	}
 	else
 	{
-		ms_sleep((int)(seconds * 1000.0f));
+		ms_sleep((int)(seconds * 1000.0));
 	}
 }
 
@@ -262,7 +262,7 @@ void LLPluginProcessChild::pump(void)
 	deliverQueuedMessages();
 	if (mMessagePipe)
 	{
-		mMessagePipe->pump(0.0f);
+		mMessagePipe->pump(0.0);
 	}
 	else
 	{

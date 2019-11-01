@@ -284,7 +284,7 @@ namespace LLTrace
 		F64	getMax() const               { return mMax; }
 		F64	getLastValue() const         { return mLastValue; }
 		F64	getMean() const              { return mMean; }
-		F64 getStandardDeviation() const { return sqrtf(mSumOfSquares / mNumSamples); }
+		F64 getStandardDeviation() const { return sqrt(mSumOfSquares / mNumSamples); }
 		F64 getSumOfSquares() const		 { return mSumOfSquares; }
 		S32 getSampleCount() const       { return mNumSamples; }
 		bool hasValue() const			 { return mNumSamples > 0; }
@@ -373,7 +373,7 @@ namespace LLTrace
 		F64	getMax() const               { return mMax; }
 		F64	getLastValue() const         { return mLastValue; }
 		F64	getMean() const              { return mMean; }
-		F64 getStandardDeviation() const { return sqrtf(mSumOfSquares / mTotalSamplingTime); }
+		F64 getStandardDeviation() const { return sqrt(mSumOfSquares / mTotalSamplingTime); }
 		F64 getSumOfSquares() const		 { return mSumOfSquares; }
 		F64SecondsImplicit getSamplingTime() const { return mTotalSamplingTime; }
 		S32 getSampleCount() const       { return mNumSamples; }

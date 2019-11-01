@@ -94,31 +94,31 @@ void LLMatrix3::getEulerAngles(F32 *roll, F32 *pitch, F32 *yaw) const
 	F64 cx, cy, cz;					// cosine of angle_x, angle_y, angle_z
 	F64 sx,     sz;					// sine of angle_x, angle_y, angle_z
 
-	angle_y = asin(llclamp(mMatrix[2][0], -1.f, 1.f));
+	angle_y = static_cast<F64>(asin(llclamp(mMatrix[2][0], -1.f, 1.f)));
 	cy = cos(angle_y);
 
 	if (fabs(cy) > 0.005)		// non-zero
 	{
 		// no gimbal lock
-		cx = mMatrix[2][2] / cy;
-		sx = - mMatrix[2][1] / cy;
+		cx = static_cast<F64>(mMatrix[2][2]) / cy;
+		sx = -static_cast<F64>(mMatrix[2][1]) / cy;
 
-		angle_x = (F32) atan2(sx, cx);
+		angle_x = atan2(sx, cx);
 
-		cz = mMatrix[0][0] / cy;
-		sz = - mMatrix[1][0] / cy;
+		cz = static_cast<F64>(mMatrix[0][0]) / cy;
+		sz = static_cast<F64>(-mMatrix[1][0]) / cy;
 
-		angle_z = (F32) atan2(sz, cz);
+		angle_z = atan2(sz, cz);
 	}
 	else
 	{
 		// yup, gimbal lock
-		angle_x = 0;
+		angle_x = 0.0;
 
 		// some tricky math thereby avoided, see article
 
-		cz = mMatrix[1][1];
-		sz = mMatrix[0][1];
+		cz = static_cast<F64>(mMatrix[1][1]);
+		sz = static_cast<F64>(mMatrix[0][1]);
 
 		angle_z = atan2(sz, cz);
 	}
@@ -531,17 +531,17 @@ LLVector3d operator*(const LLVector3d &a, const LLMatrix3 &b)
 {
 	// matrix operates "from the right" on row vector
 	return LLVector3d(
-				a.mdV[VX] * b.mMatrix[VX][VX] + 
-				a.mdV[VY] * b.mMatrix[VY][VX] + 
-				a.mdV[VZ] * b.mMatrix[VZ][VX],
+				a.mdV[VX] * static_cast<F64>(b.mMatrix[VX][VX]) +
+				a.mdV[VY] * static_cast<F64>(b.mMatrix[VY][VX]) +
+				a.mdV[VZ] * static_cast<F64>(b.mMatrix[VZ][VX]),
 	
-				a.mdV[VX] * b.mMatrix[VX][VY] + 
-				a.mdV[VY] * b.mMatrix[VY][VY] + 
-				a.mdV[VZ] * b.mMatrix[VZ][VY],
+				a.mdV[VX] * static_cast<F64>(b.mMatrix[VX][VY]) +
+				a.mdV[VY] * static_cast<F64>(b.mMatrix[VY][VY]) +
+				a.mdV[VZ] * static_cast<F64>(b.mMatrix[VZ][VY]),
 	
-				a.mdV[VX] * b.mMatrix[VX][VZ] + 
-				a.mdV[VY] * b.mMatrix[VY][VZ] + 
-				a.mdV[VZ] * b.mMatrix[VZ][VZ] );
+				a.mdV[VX] * static_cast<F64>(b.mMatrix[VX][VZ]) +
+				a.mdV[VY] * static_cast<F64>(b.mMatrix[VY][VZ]) +
+				a.mdV[VZ] * static_cast<F64>(b.mMatrix[VZ][VZ]) );
 }
 
 bool operator==(const LLMatrix3 &a, const LLMatrix3 &b)

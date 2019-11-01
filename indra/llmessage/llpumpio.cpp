@@ -1141,7 +1141,7 @@ void LLPumpIO::LLChainInfo::adjustTimeoutSeconds(F32 delta)
 	if(mTimer.getStarted())
 	{
 		F64 expiry = mTimer.expiresAt();
-		expiry += delta;
+		expiry += static_cast<F64>(delta);
 		mTimer.setExpiryAt(expiry);
 	}
 }

@@ -136,26 +136,26 @@ typedef LLVector3d LLGlobalVec;
 
 inline const LLVector3d &LLVector3d::set(const LLVector3 &vec)
 {
-	mdV[0] = vec.mV[0];
-	mdV[1] = vec.mV[1];
-	mdV[2] = vec.mV[2];
+	mdV[0] = static_cast<F64>(vec.mV[0]);
+	mdV[1] = static_cast<F64>(vec.mV[1]);
+	mdV[2] = static_cast<F64>(vec.mV[2]);
 	return *this;
 }
 
 inline const LLVector3d &LLVector3d::setVec(const LLVector3 &vec)
 {
-	mdV[0] = vec.mV[0];
-	mdV[1] = vec.mV[1];
-	mdV[2] = vec.mV[2];
+	mdV[0] = static_cast<F64>(vec.mV[0]);
+	mdV[1] = static_cast<F64>(vec.mV[1]);
+	mdV[2] = static_cast<F64>(vec.mV[2]);
 	return *this;
 }
 
 
 inline LLVector3d::LLVector3d(void)
 {
-	mdV[0] = 0.f;
-	mdV[1] = 0.f;
-	mdV[2] = 0.f;
+	mdV[0] = 0.0;
+	mdV[1] = 0.0;
+	mdV[2] = 0.0;
 }
 
 inline LLVector3d::LLVector3d(const F64 x, const F64 y, const F64 z)
@@ -174,9 +174,9 @@ inline LLVector3d::LLVector3d(const F64 *vec)
 
 inline LLVector3d::LLVector3d(const LLVector3 &vec)
 {
-	mdV[VX] = vec.mV[VX];
-	mdV[VY] = vec.mV[VY];
-	mdV[VZ] = vec.mV[VZ];
+	mdV[VX] = static_cast<F64>(vec.mV[VX]);
+	mdV[VY] = static_cast<F64>(vec.mV[VY]);
+	mdV[VZ] = static_cast<F64>(vec.mV[VZ]);
 }
 
 /*
@@ -201,33 +201,33 @@ inline BOOL LLVector3d::isFinite() const
 
 inline const LLVector3d&	LLVector3d::clear(void)
 {
-	mdV[0] = 0.f;
-	mdV[1] = 0.f;
-	mdV[2]= 0.f;
+	mdV[0] = 0.0;
+	mdV[1] = 0.0;
+	mdV[2] = 0.0;
 	return (*this);
 }
 
 inline const LLVector3d&	LLVector3d::clearVec(void)
 {
-	mdV[0] = 0.f;
-	mdV[1] = 0.f;
-	mdV[2]= 0.f;
+	mdV[0] = 0.0;
+	mdV[1] = 0.0;
+	mdV[2] = 0.0;
 	return (*this);
 }
 
 inline const LLVector3d&	LLVector3d::setZero(void)
 {
-	mdV[0] = 0.f;
-	mdV[1] = 0.f;
-	mdV[2] = 0.f;
+	mdV[0] = 0.0;
+	mdV[1] = 0.0;
+	mdV[2] = 0.0;
 	return (*this);
 }
 
 inline const LLVector3d&	LLVector3d::zeroVec(void)
 {
-	mdV[0] = 0.f;
-	mdV[1] = 0.f;
-	mdV[2] = 0.f;
+	mdV[0] = 0.0;
+	mdV[1] = 0.0;
+	mdV[2] = 0.0;
 	return (*this);
 }
 
@@ -281,21 +281,21 @@ inline const LLVector3d&	LLVector3d::setVec(const F64 *vec)
 
 inline F64 LLVector3d::normVec(void)
 {
-	F64 mag = (F32) sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
+	F64 mag = sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
 	F64 oomag;
 
-	if (mag > FP_MAG_THRESHOLD)
+	if (mag > DP_MAG_THRESHOLD)
 	{
-		oomag = 1.f/mag;
+		oomag = 1.0/mag;
 		mdV[0] *= oomag;
 		mdV[1] *= oomag;
 		mdV[2] *= oomag;
 	}
 	else
 	{
-		mdV[0] = 0.f;
-		mdV[1] = 0.f;
-		mdV[2] = 0.f;
+		mdV[0] = 0.0;
+		mdV[1] = 0.0;
+		mdV[2] = 0.0;
 		mag = 0;
 	}
 	return (mag);
@@ -303,21 +303,21 @@ inline F64 LLVector3d::normVec(void)
 
 inline F64 LLVector3d::normalize(void)
 {
-	F64 mag = (F32) sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
+	F64 mag = sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
 	F64 oomag;
 
-	if (mag > FP_MAG_THRESHOLD)
+	if (mag > DP_MAG_THRESHOLD)
 	{
-		oomag = 1.f/mag;
+		oomag = 1.0/mag;
 		mdV[0] *= oomag;
 		mdV[1] *= oomag;
 		mdV[2] *= oomag;
 	}
 	else
 	{
-		mdV[0] = 0.f;
-		mdV[1] = 0.f;
-		mdV[2] = 0.f;
+		mdV[0] = 0.0;
+		mdV[1] = 0.0;
+		mdV[2] = 0.0;
 		mag = 0;
 	}
 	return (mag);
@@ -327,7 +327,7 @@ inline F64 LLVector3d::normalize(void)
 
 inline F64	LLVector3d::magVec(void) const
 {
-	return (F32) sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
+	return sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
 }
 
 inline F64	LLVector3d::magVecSquared(void) const
@@ -337,7 +337,7 @@ inline F64	LLVector3d::magVecSquared(void) const
 
 inline F64	LLVector3d::length(void) const
 {
-	return (F32) sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
+	return sqrt(mdV[0]*mdV[0] + mdV[1]*mdV[1] + mdV[2]*mdV[2]);
 }
 
 inline F64	LLVector3d::lengthSquared(void) const
@@ -369,7 +369,7 @@ inline LLVector3d operator%(const LLVector3d& a, const LLVector3d& b)
 
 inline LLVector3d operator/(const LLVector3d& a, const F64 k)
 {
-	F64 t = 1.f / k;
+	F64 t = 1.0 / k;
 	return LLVector3d( a.mdV[0] * t, a.mdV[1] * t, a.mdV[2] * t );
 }
 
@@ -430,7 +430,7 @@ inline const LLVector3d& operator*=(LLVector3d& a, const F64 k)
 
 inline const LLVector3d& operator/=(LLVector3d& a, const F64 k)
 {
-	F64 t = 1.f / k;
+	F64 t = 1.0 / k;
 	a.mdV[0] *= t;
 	a.mdV[1] *= t;
 	a.mdV[2] *= t;
@@ -447,7 +447,7 @@ inline F64	dist_vec(const LLVector3d& a, const LLVector3d& b)
 	F64 x = a.mdV[0] - b.mdV[0];
 	F64 y = a.mdV[1] - b.mdV[1];
 	F64 z = a.mdV[2] - b.mdV[2];
-	return (F32) sqrt( x*x + y*y + z*z );
+	return sqrt( x*x + y*y + z*z );
 }
 
 inline F64	dist_vec_squared(const LLVector3d& a, const LLVector3d& b)
@@ -476,7 +476,7 @@ inline LLVector3d lerp(const LLVector3d& a, const LLVector3d& b, const F64 u)
 
 inline BOOL	LLVector3d::isNull() const
 {
-	if ( F_APPROXIMATELY_ZERO > mdV[VX]*mdV[VX] + mdV[VY]*mdV[VY] + mdV[VZ]*mdV[VZ] )
+	if ( D_APPROXIMATELY_ZERO > mdV[VX]*mdV[VX] + mdV[VY]*mdV[VY] + mdV[VZ]*mdV[VZ] )
 	{
 		return TRUE;
 	}
@@ -491,8 +491,8 @@ inline F64 angle_between(const LLVector3d& a, const LLVector3d& b)
 	an.normalize();
 	bn.normalize();
 	F64 cosine = an * bn;
-	F64 angle = (cosine >= 1.0f) ? 0.0f :
-				(cosine <= -1.0f) ? F_PI :
+	F64 angle = (cosine >= 1.0) ? 0.0 :
+				(cosine <= -1.0) ? D_PI :
 				acos(cosine);
 	return angle;
 }
@@ -504,7 +504,7 @@ inline BOOL are_parallel(const LLVector3d& a, const LLVector3d& b, const F64 eps
 	an.normalize();
 	bn.normalize();
 	F64 dot = an * bn;
-	if ( (1.0f - fabs(dot)) < epsilon)
+	if ( (1.0 - fabs(dot)) < epsilon)
 	{
 		return TRUE;
 	}

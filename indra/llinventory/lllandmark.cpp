@@ -71,9 +71,9 @@ bool LLLandmark::getGlobalPos(LLVector3d& pos)
 		}
 		if((g_x > 0.f) && (g_y > 0.f))
 		{
-			pos.mdV[0] = g_x + mRegionPos.mV[0];
-			pos.mdV[1] = g_y + mRegionPos.mV[1];
-			pos.mdV[2] = mRegionPos.mV[2];
+			pos.mdV[0] = static_cast<F64>(g_x + mRegionPos.mV[0]);
+			pos.mdV[1] = static_cast<F64>(g_y + mRegionPos.mV[1]);
+			pos.mdV[2] = static_cast<F64>(mRegionPos.mV[2]);
 			setGlobalPos(pos);
 		}
 	}

@@ -56,7 +56,7 @@ public:
 	static bool useUsernames();
 
 	// A name object is valid if not temporary and not yet expired (default is expiration not checked)
-	bool isValidName(F64 max_unrefreshed = 0.0f) const { return !mIsTemporaryName && (mExpires >= max_unrefreshed); }
+	bool isValidName(F64 max_unrefreshed = 0.0) const { return !mIsTemporaryName && (mExpires >= max_unrefreshed); }
 	
 	// Return true if the name is made up from legacy or temporary data
 	bool isDisplayNameDefault() const { return mIsDisplayNameDefault; }

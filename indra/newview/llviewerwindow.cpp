@@ -5631,7 +5631,7 @@ void LLPickInfo::fetchResults()
 			}
 
 			// Fudge the land focus a little bit above ground.
-			mPosGlobal = land_pos + LLVector3d::z_axis * 0.1f;
+			mPosGlobal = land_pos + LLVector3d::z_axis * 0.1;
 		}
 		else
 		{

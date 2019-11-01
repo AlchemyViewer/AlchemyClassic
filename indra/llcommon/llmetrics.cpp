@@ -90,7 +90,7 @@ void LLMetricsImpl::recordEvent(const std::string& location, const std::string& 
 //		  {'location':'location_2', 'mesg':'mesg_3', 'success':i10, 'fail':i0} ] }
 void LLMetricsImpl::printTotals(LLSD metadata)
 {
-	F32 elapsed_time = mLastPrintTimer.getElapsedTimeAndResetF32();
+	F64 elapsed_time = mLastPrintTimer.getElapsedTimeAndResetF64();
 	metadata["elapsed_time"] = elapsed_time;
 
 	LLSD out_sd = LLSD::emptyMap();

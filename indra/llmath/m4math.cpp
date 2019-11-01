@@ -842,25 +842,25 @@ LLSD LLMatrix4::getValue() const
 {
 	LLSD ret;
 	
-	ret[0] = mMatrix[0][0];
-	ret[1] = mMatrix[0][1];
-	ret[2] = mMatrix[0][2];
-	ret[3] = mMatrix[0][3];
+	ret[0] = static_cast<LLSD::Real>(mMatrix[0][0]);
+	ret[1] = static_cast<LLSD::Real>(mMatrix[0][1]);
+	ret[2] = static_cast<LLSD::Real>(mMatrix[0][2]);
+	ret[3] = static_cast<LLSD::Real>(mMatrix[0][3]);
 
-	ret[4] = mMatrix[1][0];
-	ret[5] = mMatrix[1][1];
-	ret[6] = mMatrix[1][2];
-	ret[7] = mMatrix[1][3];
+	ret[4] = static_cast<LLSD::Real>(mMatrix[1][0]);
+	ret[5] = static_cast<LLSD::Real>(mMatrix[1][1]);
+	ret[6] = static_cast<LLSD::Real>(mMatrix[1][2]);
+	ret[7] = static_cast<LLSD::Real>(mMatrix[1][3]);
 
-	ret[8] = mMatrix[2][0];
-	ret[9] = mMatrix[2][1];
-	ret[10] = mMatrix[2][2];
-	ret[11] = mMatrix[2][3];
+	ret[8] = static_cast<LLSD::Real>(mMatrix[2][0]);
+	ret[9] = static_cast<LLSD::Real>(mMatrix[2][1]);
+	ret[10] = static_cast<LLSD::Real>(mMatrix[2][2]);
+	ret[11] = static_cast<LLSD::Real>(mMatrix[2][3]);
 
-	ret[12] = mMatrix[3][0];
-	ret[13] = mMatrix[3][1];
-	ret[14] = mMatrix[3][2];
-	ret[15] = mMatrix[3][3];
+	ret[12] = static_cast<LLSD::Real>(mMatrix[3][0]);
+	ret[13] = static_cast<LLSD::Real>(mMatrix[3][1]);
+	ret[14] = static_cast<LLSD::Real>(mMatrix[3][2]);
+	ret[15] = static_cast<LLSD::Real>(mMatrix[3][3]);
 
 	return ret;
 }

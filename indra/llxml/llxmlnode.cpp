@@ -1556,14 +1556,14 @@ const char *LLXMLNode::parseFloat(const char *str, F64 *dest, U32 precision, Enc
 			return str + 7;
 		}
 
-		F64 negative = 1.0f;
+		F64 negative = 1.0;
 		if (str[0] == '+')
 		{
 			++str;
 		}
 		if (str[0] == '-')
 		{
-			negative = -1.0f;
+			negative = -1.0;
 			++str;
 		}
 
@@ -1640,7 +1640,7 @@ const char *LLXMLNode::parseFloat(const char *str, F64 *dest, U32 precision, Enc
 		
 		F64 ret = F64(int_part) + (F64(f_part)/F64(1LL<<61));
 
-		F64 exponent = 1.f;
+		F64 exponent = 1.0;
 		if (str[0] == 'e')
 		{
 			// Scientific notation!
@@ -1680,7 +1680,7 @@ const char *LLXMLNode::parseFloat(const char *str, F64 *dest, U32 precision, Enc
 				U32 short_dest = (U32)bytes_dest;
 				F32 ret_val;
 				memcpy(&ret_val, &short_dest, sizeof(ret_val));
-				*dest = ret_val;
+				*dest = static_cast<F64>(ret_val);
 			}
 			break;
 		case 64:

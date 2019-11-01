@@ -857,9 +857,9 @@ protected:
 	mutable LLVector3		mPositionRegion;
 	mutable LLVector3		mPositionAgent;
 
-	static void setPhaseOutUpdateInterpolationTime(F32 value)	{ sPhaseOutUpdateInterpolationTime = (F64Seconds) value;	}
-	static void setMaxUpdateInterpolationTime(F32 value)		{ sMaxUpdateInterpolationTime = (F64Seconds) value;	}
-	static void setMaxRegionCrossingInterpolationTime(F32 value)		{ sMaxRegionCrossingInterpolationTime = (F64Seconds) value; }
+	static void setPhaseOutUpdateInterpolationTime(F32 value)	{ sPhaseOutUpdateInterpolationTime = F64Seconds((F64)value);	}
+	static void setMaxUpdateInterpolationTime(F32 value)		{ sMaxUpdateInterpolationTime = F64Seconds((F64)value);	}
+	static void setMaxRegionCrossingInterpolationTime(F32 value)		{ sMaxRegionCrossingInterpolationTime = F64Seconds((F64)value); }
 
 	static void	setVelocityInterpolate(BOOL value)		{ sVelocityInterpolate = value;	}
 	static void	setPingInterpolate(BOOL value)			{ sPingInterpolate = value;	}

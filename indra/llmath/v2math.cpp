@@ -113,8 +113,8 @@ LLVector2 lerp(const LLVector2 &a, const LLVector2 &b, F32 u)
 LLSD LLVector2::getValue() const
 {
 	LLSD ret;
-	ret[0] = mV[0];
-	ret[1] = mV[1];
+	ret[0] = static_cast<F64>(mV[0]);
+	ret[1] = static_cast<F64>(mV[1]);
 	return ret;
 }
 

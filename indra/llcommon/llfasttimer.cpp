@@ -405,7 +405,7 @@ void BlockTimer::dumpCurTimes()
 		U32 num_calls = last_frame_recording.getSum(timerp->callCount());
 
 		// Don't bother with really brief times, keep output concise
-		if (total_time < F32Milliseconds(0.1f)) continue;
+		if (total_time < F64Milliseconds(0.1)) continue;
 
 		std::ostringstream out_str;
 		BlockTimerStatHandle* parent_timerp = timerp;

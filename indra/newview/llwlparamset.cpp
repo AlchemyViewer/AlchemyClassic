@@ -382,7 +382,7 @@ void LLWLParamSet::updateCloudScrolling(void)
 {
 	static LLTimer s_cloud_timer;
 
-	F64 delta_t = s_cloud_timer.getElapsedTimeAndResetF64();
+	F64 delta_t = s_cloud_timer.getElapsedTimeAndResetF32();
 
 	if(getEnableCloudScrollX())
 	{

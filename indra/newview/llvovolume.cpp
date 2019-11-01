@@ -178,12 +178,12 @@ public:
 			if (interest < (F64)0.0)
 			{
 				// media interest not valid yet, try pixel area
-				interest = mObject->getPixelArea();
+				interest = static_cast<F64>(mObject->getPixelArea());
 				// HACK: force recalculation of pixel area if interest is the "magic default" of 1024.
-				if (interest == 1024.f)
+				if (interest == 1024.0)
 				{
 					const_cast<LLVOVolume*>(static_cast<LLVOVolume*>(mObject))->setPixelAreaAndAngle(gAgent);
-					interest = mObject->getPixelArea();
+					interest = static_cast<F64>(mObject->getPixelArea());
 				}
 			}
 			return interest; 
@@ -3928,7 +3928,7 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
                 // Scaling here is to make animated object vs
                 // non-animated object ARC proportional to the
                 // corresponding calculations for streaming cost.
-                num_triangles = (ANIMATED_OBJECT_COST_PER_KTRI * 0.001 * costs.getEstTrisForStreamingCost())/0.06;
+                num_triangles = (ANIMATED_OBJECT_COST_PER_KTRI * 0.001f * costs.getEstTrisForStreamingCost()) / 0.06f;
             }
             else
             {
@@ -4121,7 +4121,7 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
     // triangles, but not weighted by any graphics properties.
     if (isAnimatedObject() && isRootEdit())
     {
-        shame += (ANIMATED_OBJECT_BASE_COST/0.06) * 5.0f;
+        shame += (ANIMATED_OBJECT_BASE_COST/0.06f) * 5.0f;
     }
 
 	if (shame > mRenderComplexity_current)

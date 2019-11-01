@@ -1794,7 +1794,7 @@ std::string parse_gl_ext_to_str(F32 glversion)
 {
 	std::string ret;
 #if GL_VERSION_3_0
-	if (glversion >= 3.0)
+	if (glversion >= 3.0f)
 	{
 		GLint n = 0;
 		glGetIntegerv(GL_NUM_EXTENSIONS, &n);

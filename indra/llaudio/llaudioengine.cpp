@@ -756,15 +756,13 @@ void LLAudioEngine::setMaxWindGain(F32 gain)
 
 F64 LLAudioEngine::mapWindVecToGain(const LLVector3& wind_vec)
 {
-	F64 gain = 0.0;
-	
-	gain = wind_vec.magVec();
+	F64 gain = static_cast<F64>(wind_vec.magVec());
 
 	if (gain)
 	{
-		if (gain > 20)
+		if (gain > 20.0)
 		{
-			gain = 20;
+			gain = 20.0;
 		}
 		gain = gain/20.0;
 	}
@@ -784,14 +782,14 @@ F64 LLAudioEngine::mapWindVecToPitch(const LLVector3& wind_vec)
 	listen_right.setVec(1.0,0.0,0.0);
 
 	// measure angle between wind vec and listener right axis (on 0,PI)
-	theta = acos(norm_wind * listen_right);
+	theta = (F64)acos(norm_wind * listen_right);
 
 	// put it on 0, 1
-	theta /= F_PI;					
+	theta /= D_PI;					
 
 	// put it on [0, 0.5, 0]
 	if (theta > 0.5) theta = 1.0-theta;
-	if (theta < 0) theta = 0;
+	if (theta < 0.0) theta = 0.0;
 
 	return (theta);
 }
@@ -809,10 +807,10 @@ F64 LLAudioEngine::mapWindVecToPan(const LLVector3& wind_vec)
 	norm_wind.normVec();
 
 	// measure angle between wind vec and listener right axis (on 0,PI)
-	theta = acos(norm_wind * listen_right);
+	theta = (F64)acos(norm_wind * listen_right);
 
 	// put it on 0, 1
-	theta /= F_PI;					
+	theta /= D_PI;					
 
 	return (theta);
 }

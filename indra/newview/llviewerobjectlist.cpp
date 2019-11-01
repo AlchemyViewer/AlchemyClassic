@@ -859,8 +859,8 @@ void LLViewerObjectList::update(LLAgent &agent)
 	F32 interp_time = cc_interpolation_time;
 	F32 phase_out_time = cc_interpolation_phase_out;
 	F32 region_interp_time = llclamp(cc_ping_region_cross_interp(), 0.5f, 5.f);
-	if (interp_time < 0.0 || 
-		phase_out_time < 0.0 ||
+	if (interp_time < 0.0f || 
+		phase_out_time < 0.0f ||
 		phase_out_time > interp_time)
 	{
 		LL_WARNS() << "Invalid values for InterpolationTime or InterpolationPhaseOut, resetting to defaults" << LL_ENDL;

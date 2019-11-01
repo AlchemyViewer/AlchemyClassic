@@ -1350,10 +1350,10 @@ void LLVOAvatar::calculateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
     // case. For most models, starting with the pelvis is safe though.
     LLVector3 zero_pos;
 	LLVector4a pos;
-    if (dist_vec(zero_pos, mPelvisp->getWorldPosition())<0.001)
+    if (dist_vec(zero_pos, mPelvisp->getWorldPosition()) < 0.001f)
     {
         // Don't use pelvis until av initialized
-	pos.load3(getRenderPosition().mV);
+		pos.load3(getRenderPosition().mV);
     }
     else
     {
@@ -3613,10 +3613,10 @@ void LLVOAvatar::updateAppearanceMessageDebugText()
 		bool hover_enabled = getRegion() && getRegion()->avatarHoverHeightEnabled();
 		debug_line += hover_enabled ? " H" : " h";
 		const LLVector3& hover_offset = getHoverOffset();
-		if (hover_offset[2] != 0.0)
+		if (hover_offset[VZ] != 0.f)
 		{
-			debug_line += llformat(" hov_z: %.3f", hover_offset[2]);
-        debug_line += llformat(" %s", (isSitting() ? "S" : "T"));
+			debug_line += llformat(" hov_z: %.3f", hover_offset[VZ]);
+			debug_line += llformat(" %s", (isSitting() ? "S" : "T"));
 			debug_line += llformat("%s", (isMotionActive(ANIM_AGENT_SIT_GROUND_CONSTRAINED) ? "G" : "-"));
 		}
 
@@ -4381,8 +4381,8 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 	if (!getParent() && (isSitting() || was_sit_ground_constrained))
 	{
 		
-		F32 off_z = LLVector3d(getHoverOffset()).mdV[VZ];
-		if (off_z != 0.0)
+		F32 off_z = getHoverOffset().mV[VZ];
+		if (off_z != 0.f)
 		{
 			LLVector3 pos = mRoot->getWorldPosition();
 			pos.mV[VZ] += off_z;
@@ -5528,9 +5528,9 @@ void LLVOAvatar::resolveRayCollisionAgent(const LLVector3d start_pt, const LLVec
 
 void LLVOAvatar::resolveHeightGlobal(const LLVector3d &inPos, LLVector3d &outPos, LLVector3 &outNorm)
 {
-	LLVector3d zVec(0.0f, 0.0f, 0.5f);
-	LLVector3d p0 = inPos + zVec;
-	LLVector3d p1 = inPos - zVec;
+	static const LLVector3d zVec(0.0, 0.0, 0.5);
+	const LLVector3d p0 = inPos + zVec;
+	const LLVector3d p1 = inPos - zVec;
 	LLViewerObject *obj;
 	LLWorld::getInstance()->resolveStepHeightGlobal(this, p0, p1, outPos, outNorm, &obj);
 	if (!obj)
@@ -6565,9 +6565,7 @@ LLVector3 LLVOAvatar::getCharacterAngularVelocity()
 //-----------------------------------------------------------------------------
 void LLVOAvatar::getGround(const LLVector3 &in_pos_agent, LLVector3 &out_pos_agent, LLVector3 &outNorm)
 {
-	LLVector3d z_vec(0.0f, 0.0f, 1.0f);
-	LLVector3d p0_global, p1_global;
-
+	static const LLVector3d z_vec(0.0, 0.0, 1.0);
 	if (isUIAvatar())
 	{
 		outNorm.setVec(z_vec);
@@ -6575,8 +6573,8 @@ void LLVOAvatar::getGround(const LLVector3 &in_pos_agent, LLVector3 &out_pos_age
 		return;
 	}
 	
-	p0_global = gAgent.getPosGlobalFromAgent(in_pos_agent) + z_vec;
-	p1_global = gAgent.getPosGlobalFromAgent(in_pos_agent) - z_vec;
+	const LLVector3d p0_global = gAgent.getPosGlobalFromAgent(in_pos_agent) + z_vec;
+	const LLVector3d p1_global = gAgent.getPosGlobalFromAgent(in_pos_agent) - z_vec;
 	LLViewerObject *obj;
 	LLVector3d out_pos_global;
 	LLWorld::getInstance()->resolveStepHeightGlobal(this, p0_global, p1_global, out_pos_global, outNorm, &obj);
@@ -10532,7 +10530,7 @@ void LLVOAvatar::calcMutedAVColor()
     {
         // select a color based on the first byte of the agents uuid so any muted agent is always the same color
         F32 color_value = (F32) (av_id.mData[0]);
-        F32 spectrum = (color_value / 256.0);		// spectrum is between 0 and 1.f
+        F32 spectrum = (color_value / 256.f);		// spectrum is between 0 and 1.f
 
         // Array of colors.  These are arranged so only one RGB color changes between each step, 
         // and it loops back to red so there is an even distribution.  It is not a heat map

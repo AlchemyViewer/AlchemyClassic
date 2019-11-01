@@ -353,7 +353,7 @@ void LLColor4::calcHSL(F32* hue, F32* saturation, F32* luminance) const
 	}
 	else
 	{
-		if ( L < 0.5 )
+		if ( L < 0.5f )
 			S = del_Max / ( var_Max + var_Min );
 		else
 			S = del_Max / ( 2.0f - var_Max - var_Min );

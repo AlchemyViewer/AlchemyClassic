@@ -596,12 +596,12 @@ void LLNetMap::draw()
         {
             const F32 chat_radius = curregionp->getChatRange() * mPixelsPerMeter;
             const F32 shout_radius = curregionp->getShoutRange() * mPixelsPerMeter;
-            gGL.matrixMode(LLRender::MM_MODELVIEW);
-            gGL.pushMatrix();
-                gGL.translatef(pos_map.mV[VX], pos_map.mV[VY], 0.f);
+
+            gGL.pushUIMatrix();
+                gGL.translateUI(pos_map.mV[VX], pos_map.mV[VY], 0.f);
                 gl_ring(chat_radius, 1.2f, map_chat_ring_color, map_shout_ring_color, 128, FALSE);
                 gl_ring(shout_radius, 1.2f, map_chat_ring_color, map_shout_ring_color, 128, FALSE);
-            gGL.popMatrix();
+            gGL.popUIMatrix();
         }
 
         const LLColor4& line_col = map_line_color.get();

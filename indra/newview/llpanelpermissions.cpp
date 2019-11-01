@@ -68,6 +68,11 @@
 #include "llinventorymodel.h"
 #include "llmanip.h"
 
+// [RLVa:KB] - Checked: 2010-08-25 (RLVa-1.2.2a)
+#include "llslurl.h"
+#include "rlvactions.h"
+#include "rlvcommon.h"
+// [/RLVa:KB]
 U8 string_value_to_click_action(const std::string& p_value);
 std::string click_action_to_string_value(U8 action);
 
@@ -426,30 +431,68 @@ void LLPanelPermissions::refresh()
 
 	// Update creator text field
 	mLabelCreator->setEnabled(TRUE);
-	std::string creator_name;
-	LLSelectMgr::getInstance()->selectGetCreator(mCreatorID, creator_name);
+	std::string creator_app_link;
+// [RLVa:KB] - Checked: 2010-11-02 (RLVa-1.2.2a) | Modified: RLVa-1.2.2a
+	const bool creators_identical = LLSelectMgr::getInstance()->selectGetCreator(mCreatorID, creator_app_link);
+	std::string owner_app_link;
+	const bool owners_identical = LLSelectMgr::getInstance()->selectGetOwner(mOwnerID, owner_app_link);
+// [/RLVa:KB]
+//	LLSelectMgr::getInstance()->selectGetCreator(mCreatorID, creator_name);
 
-	mLabelCreatorName->setValue(creator_name);
+// [RLVa:KB] - Checked: RLVa-2.0.1
+	// Only anonymize the creator if all of the selection was created by the same avie who's also the owner or they're a nearby avie
+	if ( (RlvActions::isRlvEnabled()) && (creators_identical) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, mCreatorID)) && ( (mCreatorID == mOwnerID) || (RlvUtil::isNearbyAgent(mCreatorID))) )
+	{
+		creator_app_link = LLSLURL("agent", mCreatorID, "rlvanonym").getSLURLString();
+	}
+	mLabelCreatorName->setText(creator_app_link);
+// [/RLVa:KB]
+//	mLabelCreatorName->setValue(creator_name);
 	mLabelCreatorName->setEnabled(TRUE);
 
 	// Update owner text field
 	mLabelOwner->setEnabled(TRUE);
-	std::string owner_name;
-	const BOOL owners_identical = LLSelectMgr::getInstance()->selectGetOwner(mOwnerID, owner_name);
+//	std::string owner_name;
+//	const BOOL owners_identical = LLSelectMgr::getInstance()->selectGetOwner(mOwnerID, owner_name);
 
-	mLabelOwnerName->setValue(owner_name);
-	mLabelOwnerName->setEnabled(TRUE);
+	if (LLSelectMgr::getInstance()->selectIsGroupOwned())
+	{
+		// Group owned already displayed by selectGetOwner
+// [RLVa:KB] - Checked: RLVa-2.0.1
+		mLabelOwnerName->setValue(owner_app_link);
+		mLabelOwnerName->setEnabled(TRUE);
+// [/RLVa:KB]
+	}
+	else
+	{
+// [RLVa:KB] - Checked: RLVa-2.0.1
+		if ( (RlvActions::isRlvEnabled()) && (owners_identical) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, mOwnerID)) )
+		{
+			owner_app_link = LLSLURL("agent", mOwnerID, "rlvanonym").getSLURLString();
+		}
+		mLabelOwnerName->setEnabled(TRUE);
+		mLabelOwnerName->setValue(owner_app_link);
+// [/RLVa:KB]
+//		mLabelOwnerName->setValue(owner_name);
+	}
 
 	// Display last owner if public
 	mLabelLastOwner->setEnabled(TRUE);
-	std::string last_owner_name;
-	LLSelectMgr::getInstance()->selectGetLastOwner(mLastOwnerID, last_owner_name);
 
-	mLabelLastOwnerName->setValue(last_owner_name);
+	std::string last_owner_app_link;
+	bool last_owners_identical LLSelectMgr::getInstance()->selectGetLastOwner(mLastOwnerID, last_owner_app_link);
+
+	if ( (RlvActions::isRlvEnabled()) && (last_owners_identical) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, mOwnerID)) )
+	{
+		last_owner_app_link = LLSLURL("agent", mOwnerID, "rlvanonym").getSLURLString();
+	}
+		
+	mLabelLastOwnerName->setValue(last_owner_app_link);
 	mLabelLastOwnerName->setEnabled(TRUE);
 
 	// update group text field
 	mLabelGroup->setEnabled(TRUE);
+
 	LLUUID group_id;
 	BOOL groups_identical = LLSelectMgr::getInstance()->selectGetGroup(group_id);
 	if (groups_identical)

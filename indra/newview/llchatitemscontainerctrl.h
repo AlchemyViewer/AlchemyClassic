@@ -46,7 +46,10 @@ protected:
         LLFloaterIMNearbyChatToastPanel()
 		:	mSourceType(CHAT_SOURCE_OBJECT),
 			mMsgText(nullptr),
-			mIsDirty(false)
+			mIsDirty(false),
+// [RLVa:KB] - Checked: 2010-04-200 (RLVa-1.2.0f) | Added: RLVa-1.2.0f
+			mShowIconTooltip(true)
+// [/RLVa:KB]
 	{};
 public:
 	~LLFloaterIMNearbyChatToastPanel(){}
@@ -90,6 +93,9 @@ private:
 
 
 	bool mIsDirty;
+// [RLVa:KB] - Checked: 2010-04-200 (RLVa-1.2.0f) | Added: RLVa-1.2.0f
+	bool mShowIconTooltip;
+// [/RLVa:KB]
 };
 
 

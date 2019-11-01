@@ -36,6 +36,9 @@
 #include "lluictrl.h"
 #include "llurlaction.h"
 #include "llviewernetwork.h"
+// [RLVa:KB] - Checked: 2010-04-22 (RLVa-1.2.2a)
+#include "rlvhandler.h"
+// [/RLVa:KB]
 
 //////////////////////////////////////////////////////////////////////////////
 // LLInspectRemoteObject
@@ -67,6 +70,9 @@ private:
 	LLUUID		 mOwnerID;
 	std::string  mSLurl;
 	std::string  mName;
+// [RLVa:KB] - Checked: 2010-11-02 (RLVa-1.2.2a) | Added: RLVa-1.2.2a
+	bool         mRlvHideNames;
+// [/RLVa:KB]
 	bool         mGroupOwned;
 };
 
@@ -76,6 +82,9 @@ LLInspectRemoteObject::LLInspectRemoteObject(const LLSD& sd) :
 	mOwnerID(NULL),
 	mSLurl(""),
 	mName(""),
+// [RLVa:KB] - Checked: 2010-11-02 (RLVa-1.2.2a) | Added: RLVa-1.2.2a
+	mRlvHideNames(false),
+// [/RLVa:KB]
 	mGroupOwned(false)
 {
 }
@@ -108,6 +117,10 @@ void LLInspectRemoteObject::onOpen(const LLSD& data)
 	mOwnerID    = data["owner_id"].asUUID();
 	mGroupOwned = data["group_owned"].asBoolean();
 	mSLurl      = data["slurl"].asString();
+// [RLVa:KB] - Checked: 2010-11-02 (RLVa-1.2.2a) | Modified: RLVa-1.2.2a
+	if (data.has("rlv_shownames"))
+		mRlvHideNames = data["rlv_shownames"].asBoolean();
+// [/RLVa:KB]
 
 	// update the inspector with the current object state
 	update();
@@ -161,7 +174,10 @@ void LLInspectRemoteObject::update()
 		}
 		else
 		{
-			owner = LLSLURL("agent", mOwnerID, "about").getSLURLString();
+//			owner = LLSLURL("agent", mOwnerID, "about").getSLURLString();
+// [RLVa:KB] - Checked: 2010-04-22 (RLVa-1.2.2a) | Modified: RLVa-1.2.2a
+			owner = LLSLURL("agent", mOwnerID, (!mRlvHideNames) ? "about" : "rlvanonym").getSLURLString();
+// [/RLVa:KB]
 		}
 	}
 	else
@@ -183,6 +199,14 @@ void LLInspectRemoteObject::update()
 
 	// disable the Block button if we don't have the object ID (will this ever happen?)
 	getChild<LLUICtrl>("block_btn")->setEnabled(!mObjectID.isNull() && !LLMuteList::getInstance()->isMuted(mObjectID));
+
+// [RLVa:KB] - Checked: 2010-04-22 (RLVa-1.2.0f) | Added: RLVa-1.2.0f
+	if ( (rlv_handler_t::isEnabled()) && (RlvStrings::getString(RLV_STRING_HIDDEN_REGION) == mSLurl) )
+	{
+		getChild<LLUICtrl>("object_slurl")->setValue(mSLurl);
+		getChild<LLUICtrl>("map_btn")->setEnabled(false);
+	}
+// [/RLVa:KB]
 }
 
 //////////////////////////////////////////////////////////////////////////////

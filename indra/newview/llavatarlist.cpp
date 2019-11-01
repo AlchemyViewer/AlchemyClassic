@@ -144,7 +144,9 @@ LLAvatarList::LLAvatarList(const Params& p)
 , mShowPermissions(p.show_permissions_granted)
 , mShowCompleteName(false)
 , mLITUpdateTimer(nullptr)
-, mContextMenu(nullptr)
+// [RLVa:KB] - Checked: RLVa-1.2.0
+, mRlvCheckShowNames(false)
+// [/RLVa:KB]
 {
 	setCommitOnSelectionChange(true);
 
@@ -219,6 +221,10 @@ void LLAvatarList::draw()
 void LLAvatarList::clear()
 {
 	getIDs().clear();
+// [RLVa:KB] - Checked: RLVa-2.0.3
+	// We need to be able to call this *somehow* and it actually makes moderate sense to call this in here
+	updateNoItemsMessage(mNameFilter);
+// [/RLVa:KB]
 	setDirty(true);
 	LLFlatListViewEx::clear();
 }
@@ -453,6 +459,9 @@ void LLAvatarList::addNewItem(const LLUUID& id, const std::string& name, BOOL is
 {
 	LLAvatarListItem* item = new LLAvatarListItem();
 	item->setShowCompleteName(mShowCompleteName);
+// [RLVa:KB] - Checked: RLVa-1.2.0
+	item->setRlvCheckShowNames(mRlvCheckShowNames);
+// [/RLVa:KB]
 	// This sets the name as a side effect
 	item->setAvatarId(id, mSessionID, mIgnoreOnlineStatus);
 	item->setOnline(mIgnoreOnlineStatus ? true : is_online);

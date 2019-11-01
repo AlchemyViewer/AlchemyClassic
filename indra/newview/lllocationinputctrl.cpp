@@ -65,6 +65,9 @@
 #include "llviewermenu.h"
 #include "llurllineeditorctrl.h"
 #include "llagentui.h"
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.2.0d)
+#include "rlvhandler.h"
+// [/RLVa:KB]
 
 #include "llmenuoptionpathfindingrebakenavmesh.h"
 #include "llpathfindingmanager.h"
@@ -652,6 +655,10 @@ void LLLocationInputCtrl::reshape(S32 width, S32 height, BOOL called_from_parent
 
 void LLLocationInputCtrl::onInfoButtonClicked()
 {
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		return;
+// [/RLVa:KB]
 	// <alchemy>
 	LLViewerParcelMgr::getInstance()->selectParcelAt(gAgent.getPositionGlobal());
 	LLFloaterReg::showInstance("about_land");
@@ -660,11 +667,21 @@ void LLLocationInputCtrl::onInfoButtonClicked()
 
 void LLLocationInputCtrl::onForSaleButtonClicked()
 {
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		return;
+// [/RLVa:KB]
+
 	handle_buy_land();
 }
 
 void LLLocationInputCtrl::onAddLandmarkButtonClicked()
 {
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		return;
+// [/RLVa:KB]
+
 	LLViewerInventoryItem* landmark = LLLandmarkActions::findLandmarkForAgentPos();
 	// Landmark exists, open it for preview and edit
 	if(landmark && landmark->getUUID().notNull())
@@ -792,6 +809,10 @@ void LLLocationInputCtrl::onTextEditorRightClicked(S32 x, S32 y, MASK mask)
 
 void LLLocationInputCtrl::refresh()
 {
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+	mInfoBtn->setEnabled(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+// [/RLVa:KB]
+
 	refreshLocation();			// update location string
 	refreshMaturityButton();
 	refreshParcelIcons();
@@ -1071,6 +1092,9 @@ void LLLocationInputCtrl::enableAddLandmarkButton(bool val)
 // depending on whether current parcel has been landmarked.
 void LLLocationInputCtrl::updateAddLandmarkButton()
 {
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+	mAddLandmarkBtn->setVisible(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+// [/RLVa:KB]
 	enableAddLandmarkButton(LLLandmarkActions::hasParcelLandmark());
 }
 void LLLocationInputCtrl::updateAddLandmarkTooltip()
@@ -1100,6 +1124,9 @@ void LLLocationInputCtrl::updateContextMenu(){
 		{
 			landmarkItem->setLabel(LLTrans::getString("EditLandmarkNavBarMenu"));
 		}
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+		landmarkItem->setEnabled(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+// [/RLVa:KB]
 	}
 }
 void LLLocationInputCtrl::updateWidgetlayout()
@@ -1155,17 +1182,23 @@ void LLLocationInputCtrl::onLocationContextMenuItemClicked(const LLSD& userdata)
 	}
 	else if (item == "landmark")
 	{
-		LLViewerInventoryItem* landmark = LLLandmarkActions::findLandmarkForAgentPos();
-		
-		if(!landmark)
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.4.5) | Added: RLVa-1.2.0
+		if (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
-			LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "create_landmark"));
+// [/RLVa:KB]
+			LLViewerInventoryItem* landmark = LLLandmarkActions::findLandmarkForAgentPos();
+			
+			if(!landmark)
+			{
+				LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "create_landmark"));
+			}
+			else
+			{
+				LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "landmark").with("id",landmark->getUUID()));
+			}
+// [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.2.0d) | Added: RLVa-1.2.0d
 		}
-		else
-		{
-			LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "landmark").with("id",landmark->getUUID()));
-
-		}
+// [/RLVa:KB]
 	}
 	else if (item == "cut")
 	{

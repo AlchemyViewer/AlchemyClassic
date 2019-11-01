@@ -70,7 +70,6 @@
 #include "llsearchableui.h"
 #include "llsearcheditor.h"
 
-
 //
 // Globals
 //

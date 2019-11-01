@@ -428,6 +428,9 @@ public:
 	U32 		renderImpostor(LLColor4U color = LLColor4U(255,255,255,255), S32 diffuse_channel = 0);
 	bool		isVisuallyMuted();
 	bool 		isInMuteList();
+// [RLVa:KB] - Checked: RLVa-2.2 (@setcam_avdist)
+	bool        isRlvSilhouette();
+// [/RLVa:KB]
 	void		forceUpdateMutedState();
 
 	enum VisualMuteSettings
@@ -437,7 +440,10 @@ public:
 		AV_ALWAYS_RENDER   = 2
 	};
 	void		setVisualMuteSettings(VisualMuteSettings set);
-	VisualMuteSettings  getVisualMuteSettings()						{ return mVisuallyMuteSetting;	};
+// [RLVa:KB] - Checked: RLVa-2.2 (@setcam_avdist)
+	VisualMuteSettings  getVisualMuteSettings()						{ return (!isRlvSilhouette()) ? mVisuallyMuteSetting : AV_DO_NOT_RENDER; };
+// [/RLVa:KB]
+//	VisualMuteSettings  getVisualMuteSettings()						{ return mVisuallyMuteSetting;	};
 
 	U32 		renderRigid();
 	U32 		renderSkinned();
@@ -471,6 +477,10 @@ public:
 
 	bool		mCachedInMuteList;
 	F64			mCachedMuteListUpdateTime;
+// [RLVa:KB] - Checked: RLVa-2.2 (@setcam_avdist)
+	mutable bool mCachedIsRlvSilhouette = false;
+	mutable F64  mCachedRlvSilhouetteUpdateTime = 0.f;
+// [/RLVa:KB]
 
 	VisualMuteSettings		mVisuallyMuteSetting;			// Always or never visually mute this AV
 
@@ -788,6 +798,8 @@ public:
 	/*virtual*/ BOOL	isWearingWearableType(LLWearableType::EType type ) const final override;
 	LLViewerObject *	findAttachmentByID( const LLUUID & target_id ) const;
 	LLViewerJointAttachment* getTargetAttachmentPoint(LLViewerObject* viewer_object);
+	void				rebuildAttachments();
+// [/SL:KB]
 
 protected:
 	void 				lazyAttach();

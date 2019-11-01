@@ -40,6 +40,10 @@
 #include "llmultigesture.h"
 #include "llviewerchat.h"
 #include "llviewercontrol.h"
+// [RLVa:KB] - Checked: 2010-02-27 (RLVa-1.2.0b)
+#include "rlvactions.h"
+#include "rlvcommon.h"
+// [/RLVa:KB]
 
 using namespace LLChatUtilities;
 
@@ -325,11 +329,13 @@ void LLChatBar::onInputEditorKeystroke( LLLineEditor* caller, void* userdata )
 
 	S32 length = raw_text.length();
 
-	if( (length > 0)
-	    && (raw_text[0] != '/')		// forward slash is used for escape (eg. emote) sequences
-		    && (raw_text[0] != ':')	// colon is used in for MUD poses
-	  )
-	
+//	if( (length > 0)
+//	    && (raw_text[0] != '/')		// forward slash is used for escape (eg. emote) sequences
+//		    && (raw_text[0] != ':')	// colon is used in for MUD poses
+//	  )
+// [RLVa:KB] - Checked: 2010-03-26 (RLVa-1.2.0b) | Modified: RLVa-1.0.0d
+	if ( (length > 0) && (raw_text[0] != '/') && (raw_text[0] != ':') && (!RlvActions::hasBehaviour(RLV_BHVR_REDIRCHAT)) )
+// [/RLVa:KB]
 	{
 		gAgent.startTyping();
 	}

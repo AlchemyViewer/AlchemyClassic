@@ -58,10 +58,10 @@ enum ECameraPreset
 	/** "Above and to the left, over the shoulder, pulled back a little on the zoom" */
 	CAMERA_PRESET_GROUP_VIEW,
 
-/** "To the right of the Avatar, jaw height, facing forward and relatively close to the shoulder.
-	More "Cinematic" view and doesn't get in the way of the scenery as much as Rear view does.*/
-	CAMERA_PRESET_SHOULDER_VIEW,
-	
+// [RLVa:KB] - Checked: RLVa-2.0.0
+	/* Used by RLVa */
+	CAMERA_RLV_SETCAM_VIEW
+// [/RLVa:KB]
 	/** End variable for sanity checking CameraPreset's */ // <alchemy/>
 	CAMERA_PRESET_END
 };
@@ -306,6 +306,18 @@ public:
 	F32				mHUDTargetZoom;	// Target zoom level for HUD objects (used when editing)
 	F32				mHUDCurZoom; 	// Current animated zoom level for HUD objects
 
+// [RLVa:KB] - Checked: RLVa-2.0.0
+	//--------------------------------------------------------------------
+	// RLVa
+	//--------------------------------------------------------------------
+protected:
+	bool allowFocusOffsetChange(const LLVector3d& offsetFocus);
+	bool clampCameraPosition(LLVector3d& posCamGlobal, const LLVector3d posCamRefGlobal, float nDistMin, float nDistMax);
+
+	bool m_fRlvMaxDist;				// True if the camera is at max distance
+	bool m_fRlvMinDist;				// True if the camera is at min distance
+	LLVector3d m_posRlvRefGlobal;		// Current reference point for distance calculations
+// [/RLVa:KB]
 
 /********************************************************************************
  **                                                                            **

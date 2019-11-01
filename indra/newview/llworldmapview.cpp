@@ -55,6 +55,10 @@
 #include "llviewerregion.h"
 #include "llviewerwindow.h"
 #include "lltrans.h"
+// [RLVa:KB] - Checked: 2010-04-19 (RLVa-1.2.0f)
+#include "rlvactions.h"
+#include "rlvcommon.h"
+// [/RLVa:KB]
 
 #include "llglheaders.h"
 
@@ -488,15 +492,21 @@ void LLWorldMapView::draw()
 				mesg = llformat( "%s (%s)", info->getName().c_str(), info->getShortAccessString().c_str());
 			}
 
-			font->renderUTF8(
-				mesg, 0,
-				llfloor(left + 3), llfloor(bottom + 2),
-				LLColor4::white,
-				LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::DROP_SHADOW,
-				S32_MAX, //max_chars
-				sMapScale, //max_pixels
-				NULL,
-				TRUE); //use ellipses
+//			if (!mesg.empty())
+// [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
+			if ( (!mesg.empty()) && (RlvActions::canShowLocation()) )
+// [/RLVa:KB]
+			{
+				font->renderUTF8(
+					mesg, 0,
+					llfloor(left + 3), llfloor(bottom + 2),
+					LLColor4::white,
+					LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::DROP_SHADOW,
+					S32_MAX, //max_chars
+					sMapScale, //max_pixels
+					NULL,
+					TRUE); //use ellipses
+			}
 		}
 	}
 
@@ -1021,7 +1031,10 @@ void LLWorldMapView::drawTracking(const LLVector3d& pos_global, const LLColor4& 
 		drawImage(pos_global, sTrackCircleImage, color);
 	}
 
-	if (!label.empty())
+//	if (!label.empty())
+// [RLVa:KB] - Checked: 2009-07-04 (RLVa-1.4.5) | Added: RLVa-1.0.0
+	if ( (!label.empty()) && (RlvActions::canShowLocation()) )
+// [/RLVa:KB]
 	{
 		// clamp text position to on-screen
 		const S32 TEXT_PADDING = DEFAULT_TRACKING_ARROW_SIZE + 2;
@@ -1087,7 +1100,12 @@ BOOL LLWorldMapView::handleToolTip( S32 x, S32 y, MASK mask )
 	{
 		LLViewerRegion *region = gAgent.getRegion();
 
-		std::string message = llformat("%s (%s)", info->getName().c_str(), info->getAccessString().c_str());
+// [RLVa:KB] - Checked: 2010-04-19 (RLVa-1.4.5) | Modified: RLVa-1.4.5
+		std::string message = llformat("%s (%s)", 
+			(RlvActions::canShowLocation()) ? info->getName().c_str() : RlvStrings::getString(RLV_STRING_HIDDEN_REGION).c_str(), 
+			info->getAccessString().c_str());
+// [/RLVa:KB]
+//		std::string message = llformat("%s (%s)", info->getName().c_str(), info->getAccessString().c_str());
 
 		if (!info->isDown())
 		{

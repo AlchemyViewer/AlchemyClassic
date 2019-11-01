@@ -92,17 +92,20 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 		static LLUIColor av_muted_color = LLUIColorTable::instance().getColor("AvatarMutedColor", LLColor4::grey4);
 		static LLUIColor av_friend_color = LLUIColorTable::instance().getColor("AvatarFriendColor", LLColor4::yellow);
 		static LLUIColor av_default_color = LLUIColorTable::instance().getColor("AvatarDefaultColor", LLColor4::green);
+
 		LLAvatarName av_name;
 		LLAvatarNameCache::get(id, &av_name);
-		if (LLMuteList::instance().isLinden(av_name.getUserName())) // linden
+
+		const bool rlv_show_name = RlvActions::canShowName(RlvActions::SNC_DEFAULT, id);
+		if (LLMuteList::instance().isLinden(av_name.getUserName()) && rlv_show_name) // linden
 		{
 			return av_linden_color.get();
 		}
-		else if (LLMuteList::instance().isMuted(id, av_name.getUserName())) // muted
+		else if (LLMuteList::instance().isMuted(id, av_name.getUserName()) && rlv_show_name) // muted
 		{
 			return av_muted_color.get();
 		}
-		else if (LLAvatarTracker::instance().isBuddy(id)) // friend
+		else if (LLAvatarTracker::instance().isBuddy(id)  && rlv_show_name) // friend
 		{
 			return av_friend_color.get();
 		}

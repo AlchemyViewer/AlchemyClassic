@@ -48,6 +48,10 @@
 #include "lltrans.h"
 #include "llviewernetwork.h"
 #include "llviewerregion.h"
+// [RLVa:KB] - Checked: RLVa-2.0.1
+#include "rlvactions.h"
+#include "rlvcommon.h"
+// [/RLVa:KB]
 
 static const std::array<std::string, 21> perm_and_sale_items{{
 	"perms_inv",
@@ -377,9 +381,20 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	if (item->getCreatorUUID().notNull())
 	{
 		LLUUID creator_id = item->getCreatorUUID();
-		std::string name =
-			LLSLURL("agent", creator_id, "completename").getSLURLString();
-		getChildView("BtnCreator")->setEnabled(TRUE);
+//		std::string name =
+//			LLSLURL("agent", creator_id, "completename").getSLURLString();
+//		getChildView("BtnCreator")->setEnabled(TRUE);
+// [RLVa:KB] - Checked: RLVa-2.0.1
+		// If the object creator matches the object owner we need to anonymize the creator field as well
+		bool fRlvCanShowCreator = true;
+		if ( (RlvActions::isRlvEnabled()) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, creator_id)) &&
+		     ( ((perm.isOwned()) && (!perm.isGroupOwned()) && (perm.getOwner() == creator_id) ) || (RlvUtil::isNearbyAgent(item->getCreatorUUID())) ) )
+		{
+			fRlvCanShowCreator = false;
+		}
+		std::string name = LLSLURL("agent", creator_id, (fRlvCanShowCreator) ? "completename" : "rlvanonym").getSLURLString();
+		getChildView("BtnCreator")->setEnabled(fRlvCanShowCreator);
+// [/RLVa:KB]
 		getChildView("LabelCreatorTitle")->setEnabled(TRUE);
 		getChildView("LabelCreatorName")->setEnabled(FALSE);
 		getChild<LLUICtrl>("LabelCreatorName")->setValue(name);
@@ -397,6 +412,9 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	////////////////
 	if(perm.isOwned())
 	{
+// [RLVa:KB] - Checked: RVLa-2.0.1
+		bool fRlvCanShowOwner = true;
+// [/RLVa:KB]
 		std::string name;
 		if (perm.isGroupOwned())
 		{
@@ -405,9 +423,16 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 		else
 		{
 			LLUUID owner_id = perm.getOwner();
-			name = LLSLURL("agent", owner_id, "completename").getSLURLString();
+//			name = LLSLURL("agent", owner_id, "completename").getSLURLString();
+// [RLVa:KB] - Checked: RLVa-2.0.1
+			fRlvCanShowOwner = RlvActions::canShowName(RlvActions::SNC_DEFAULT, owner_id);
+			name = LLSLURL("agent", owner_id, (fRlvCanShowOwner) ? "completename" : "rlvanonym").getSLURLString();
+// [/RLVa:KB]
 		}
-		getChildView("BtnOwner")->setEnabled(TRUE);
+//		getChildView("BtnOwner")->setEnabled(TRUE);
+// [RLVa:KB] - Checked: RLVa-2.0.1
+		getChildView("BtnOwner")->setEnabled(fRlvCanShowOwner);
+// [/RLVa:KB]
 		getChildView("LabelOwnerTitle")->setEnabled(TRUE);
 		getChildView("LabelOwnerName")->setEnabled(FALSE);
 		getChild<LLUICtrl>("LabelOwnerName")->setValue(name);
@@ -719,6 +744,17 @@ void LLSidepanelItemInfo::onClickCreator()
 	if(!item) return;
 	if(!item->getCreatorUUID().isNull())
 	{
+// [RLVa:KB] - Checked: RLVa-1.2.1
+		const LLUUID& idCreator = item->getCreatorUUID();
+		if ( (RlvActions::isRlvEnabled()) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, idCreator)) )
+		{
+			const LLPermissions& perm = item->getPermissions();
+			if ( ((perm.isOwned()) && (!perm.isGroupOwned()) && (perm.getOwner() == idCreator) ) || (RlvUtil::isNearbyAgent(idCreator)) )
+			{
+				return;
+			}
+		}
+// [/RLVa:KB]
 		LLAvatarActions::showProfile(item->getCreatorUUID());
 	}
 }
@@ -734,6 +770,10 @@ void LLSidepanelItemInfo::onClickOwner()
 	}
 	else
 	{
+// [RLVa:KB] - Checked: RLVa-1.0.0
+		if ( (RlvActions::isRlvEnabled()) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, item->getPermissions().getOwner())) )
+			return;
+// [/RLVa:KB]
 		LLAvatarActions::showProfile(item->getPermissions().getOwner());
 	}
 }

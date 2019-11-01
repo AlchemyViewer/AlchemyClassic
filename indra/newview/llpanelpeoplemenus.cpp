@@ -41,6 +41,9 @@
 #include "llviewermenu.h"			// for gMenuHolder
 #include "llconversationmodel.h"
 #include "llviewerobjectlist.h"
+// [RLVa:KB] - Checked: RLVa-2.0.1
+#include "rlvactions.h"
+// [/RLVa:KB]
 
 namespace LLPanelPeopleMenus
 {
@@ -67,15 +70,15 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		registrar.add("Avatar.RemoveFriend",	boost::bind(&LLAvatarActions::removeFriendDialog, 		id));
 		registrar.add("Avatar.IM",				boost::bind(&LLAvatarActions::startIM,					id));
 		registrar.add("Avatar.Call",			boost::bind(&LLAvatarActions::startCall,				id));
-		registrar.add("Avatar.OfferTeleport",	boost::bind(static_cast<void(*)(const LLUUID&)>
-			(&LLAvatarActions::offerTeleport),			id));
+		registrar.add("Avatar.OfferTeleport",	boost::bind(&PeopleContextMenu::offerTeleport,			this));
+
 		registrar.add("Avatar.ZoomIn",			boost::bind(&handle_zoom_to_object,						id));
 		registrar.add("Avatar.ShowOnMap",		boost::bind(&LLAvatarActions::showOnMap,				id));
 		registrar.add("Avatar.Share",			boost::bind(&LLAvatarActions::share,					id));
 		registrar.add("Avatar.Pay",				boost::bind(&LLAvatarActions::pay,						id));
 		registrar.add("Avatar.BlockUnblock",	boost::bind(&LLAvatarActions::toggleBlock,				id));
 		registrar.add("Avatar.InviteToGroup",	boost::bind(&LLAvatarActions::inviteToGroup,			id));
-		registrar.add("Avatar.TeleportRequest",	boost::bind(&LLAvatarActions::teleportRequest,		id));
+		registrar.add("Avatar.TeleportRequest",	boost::bind(&PeopleContextMenu::requestTeleport,		this));
 		registrar.add("Avatar.Calllog",			boost::bind(&LLAvatarActions::viewChatHistory,			id));
 		registrar.add("Avatar.Freeze",			boost::bind(static_cast<void(*)(const LLUUID&)>
 			(&LLAvatarActions::parcelFreeze),					id));
@@ -117,8 +120,8 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		// registrar.add("Avatar.AddFriend",	boost::bind(&LLAvatarActions::requestFriendshipDialog,	mUUIDs)); // *TODO: unimplemented
 		registrar.add("Avatar.IM",				boost::bind(&PeopleContextMenu::startConference,		this));
 		registrar.add("Avatar.Call",			boost::bind(&LLAvatarActions::startAdhocCall,			mUUIDs, LLUUID::null));
-		registrar.add("Avatar.OfferTeleport",	boost::bind(static_cast<void(*)(const uuid_vec_t&)>
-			(&LLAvatarActions::offerTeleport), mUUIDs));
+		registrar.add("Avatar.OfferTeleport",	boost::bind(&PeopleContextMenu::offerTeleport,			this));
+
 		registrar.add("Avatar.RemoveFriend",	boost::bind(&LLAvatarActions::removeFriendsDialog,		mUUIDs));
 		// registrar.add("Avatar.Share",		boost::bind(&LLAvatarActions::startIM,					mUUIDs)); // *TODO: unimplemented
 		// registrar.add("Avatar.Pay",			boost::bind(&LLAvatarActions::pay,						mUUIDs)); // *TODO: unimplemented
@@ -237,7 +240,10 @@ bool PeopleContextMenu::enableContextMenuItem(const LLSD& userdata)
 
 		for (;id != uuids_end; ++id)
 		{
-			if ( LLAvatarActions::isFriend(*id) )
+//			if ( LLAvatarActions::isFriend(*id) )
+// [RLVa:KB] - Checked: 2014-03-31 (RLVa-2.0.1)
+			if ( (LLAvatarActions::isFriend(*id)) || (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, *id)) )
+// [/RLVa:KB]
 			{
 				result = false;
 				break;
@@ -260,7 +266,10 @@ bool PeopleContextMenu::enableContextMenuItem(const LLSD& userdata)
 
 		for (;id != uuids_end; ++id)
 		{
-			if ( !LLAvatarActions::isFriend(*id) )
+//			if ( !LLAvatarActions::isFriend(*id) )
+// [RLVa:KB] - Checked: 2014-03-31 (RLVa-2.0.1)
+			if ( (!LLAvatarActions::isFriend(*id)) || (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, *id)) )
+// [/RLVa:KB]
 			{
 				result = false;
 				break;
@@ -317,6 +326,36 @@ bool PeopleContextMenu::checkContextMenuItem(const LLSD& userdata)
 	}
 
 	return false;
+}
+
+
+void PeopleContextMenu::requestTeleport()
+{
+	// boost::bind cannot recognize overloaded method LLAvatarActions::teleportRequest(),
+	// so we have to use a wrapper.
+// [RLVa:KB] - Checked: RLVa-2.0.1
+	bool fRlvCanShowName = (!m_fRlvCheck) || (RlvActions::canShowName(RlvActions::SNC_DEFAULT, mUUIDs.front()));
+	RlvActions::setShowName(RlvActions::SNC_TELEPORTREQUEST, fRlvCanShowName);
+	LLAvatarActions::teleportRequest(mUUIDs.front());
+	RlvActions::setShowName(RlvActions::SNC_TELEPORTREQUEST, true);
+// [/RLVa:KB]
+//	LLAvatarActions::teleportRequest(mUUIDs.front());
+}
+
+void PeopleContextMenu::offerTeleport()
+{
+	// boost::bind cannot recognize overloaded method LLAvatarActions::offerTeleport(),
+	// so we have to use a wrapper.
+// [RLVa:KB] - Checked: RLVa-2.0.1
+	bool fRlvCanShowName = true;
+	if ( (m_fRlvCheck) && (RlvActions::isRlvEnabled()) )
+		std::for_each(mUUIDs.begin(), mUUIDs.end(), [&fRlvCanShowName](const LLUUID& idAgent) { fRlvCanShowName &= RlvActions::canShowName(RlvActions::SNC_DEFAULT, idAgent); });
+
+	RlvActions::setShowName(RlvActions::SNC_TELEPORTOFFER, fRlvCanShowName);
+	LLAvatarActions::offerTeleport(mUUIDs);
+	RlvActions::setShowName(RlvActions::SNC_TELEPORTOFFER, true);
+// [/RLVa:KB]
+//	LLAvatarActions::offerTeleport(mUUIDs);
 }
 
 void PeopleContextMenu::startConference()
@@ -377,7 +416,29 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
     menuentry_vec_t disabled_items;
 	bool parcel_manage = LLAvatarActions::canFreezeEject(mUUIDs);
 	bool estate_manage = LLAvatarActions::canManageAvatarsEstate(mUUIDs);
-	if (flags & ITEM_IN_MULTI_SELECTION)
+// [RLVa:KB] - Checked: RLVa-1.5.0
+	bool fRlvCanShowName = true;
+	if ( (m_fRlvCheck) && (RlvActions::isRlvEnabled()) )
+		std::for_each(mUUIDs.begin(), mUUIDs.end(), [&fRlvCanShowName](const LLUUID& idAgent) { fRlvCanShowName &= RlvActions::canShowName(RlvActions::SNC_DEFAULT, idAgent); });
+
+	if (!fRlvCanShowName)
+	{
+		if (flags & ITEM_IN_MULTI_SELECTION)
+		{
+			items.push_back(std::string("offer_teleport"));
+		}
+		else
+		{
+			items.push_back(std::string("offer_teleport"));
+			items.push_back(std::string("request_teleport"));
+			items.push_back(std::string("separator_invite_to_group"));
+			items.push_back(std::string("zoom_in"));
+			items.push_back(std::string("block_unblock"));
+		}
+	}
+	else if (flags & ITEM_IN_MULTI_SELECTION)
+// [/RLVa:KB]
+//	if (flags & ITEM_IN_MULTI_SELECTION)
 	{
 		items.push_back(std::string("add_friends"));
 		items.push_back(std::string("remove_friends"));

@@ -68,6 +68,11 @@
 #include "llviewerregion.h"
 #include "llviewerobjectlist.h"
 #include "llviewermessage.h"
+// [RLVa:KB] - Checked: 2011-05-22 (RLVa-1.3.1a)
+#include "rlvactions.h"
+#include "rlvhandler.h"
+#include "rlvlocks.h"
+// [/RLVa:KB]
 
 const LLColor4U DEFAULT_WHITE(255, 255, 255);
 
@@ -288,8 +293,16 @@ void LLTaskInvFVBridge::openItem()
 
 BOOL LLTaskInvFVBridge::isItemRenameable() const
 {
-	if(gAgent.isGodlike()) return TRUE;
+// [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.0.5a
 	LLViewerObject* object = gObjectList.findObject(mPanel->getTaskUUID());
+	if ( (rlv_handler_t::isEnabled()) && (object) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+	{
+		return FALSE;
+	}
+// [/RLVa:KB]
+
+	if(gAgent.isGodlike()) return TRUE;
+//	LLViewerObject* object = gObjectList.findObject(mPanel->getTaskUUID());
 	if(object)
 	{
 		LLInventoryItem* item = (LLInventoryItem*)(object->getInventoryObject(mUUID));
@@ -304,7 +317,15 @@ BOOL LLTaskInvFVBridge::isItemRenameable() const
 
 BOOL LLTaskInvFVBridge::renameItem(const std::string& new_name)
 {
+// [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.0.5a
 	LLViewerObject* object = gObjectList.findObject(mPanel->getTaskUUID());
+	if ( (rlv_handler_t::isEnabled()) && (object) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+	{
+		return FALSE;
+	}
+// [/RLVa:KB]
+
+//	LLViewerObject* object = gObjectList.findObject(mPanel->getTaskUUID());
 	if(object)
 	{
 		LLViewerInventoryItem* item = nullptr;
@@ -331,12 +352,45 @@ BOOL LLTaskInvFVBridge::isItemMovable() const
 	//	return TRUE;
 	//}
 	//return FALSE;
+// [RLVa:KB] - Checked: 2010-04-01 (RLVa-1.2.0c) | Modified: RLVa-1.0.5a
+	if (rlv_handler_t::isEnabled())
+	{
+		const LLViewerObject* pObj = gObjectList.findObject(mPanel->getTaskUUID());
+		if (pObj)
+		{
+			if (gRlvAttachmentLocks.isLockedAttachment(pObj->getRootEdit()))
+			{
+				return FALSE;
+			}
+			else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP)) )
+			{
+				if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == pObj->getRootEdit()) )
+					return FALSE;
+			}
+		}
+	}
+// [/RLVa:KB]
 	return TRUE;
 }
 
 BOOL LLTaskInvFVBridge::isItemRemovable() const
 {
 	const LLViewerObject* object = gObjectList.findObject(mPanel->getTaskUUID());
+// [RLVa:KB] - Checked: 2010-04-01 (RLVa-1.2.0c) | Modified: RLVa-1.0.5a
+	if ( (object) && (rlv_handler_t::isEnabled()) )
+	{
+		if (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit()))
+		{
+			return FALSE;
+		}
+		else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP)) )
+		{
+			if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == object->getRootEdit()) )
+				return FALSE;
+		}
+	}
+// [/RLVa:KB]
+
 	if(object
 	   && (object->permModify() || object->permYouOwner()))
 	{
@@ -485,6 +539,13 @@ BOOL LLTaskInvFVBridge::startDrag(EDragAndDropType* type, LLUUID* id) const
 				const LLPermissions& perm = inv->getPermissions();
 				bool can_copy = gAgent.allowOperation(PERM_COPY, perm,
 														GP_OBJECT_MANIPULATE);
+// [RLVa:KB] - Checked: 2009-10-10 (RLVa-1.2.1f) | Modified: RLVa-1.0.5a
+				// Kind of redundant due to the note below, but in case that ever gets fixed
+				if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+				{
+					return FALSE;
+				}
+// [/RLVa:KB]
 				if (object->isAttachment() && !can_copy)
 				{
                     //RN: no copy contents of attachments cannot be dragged out
@@ -546,6 +607,19 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 	if (canOpenItem())
 	{
 		items.emplace_back("Task Open");
+// [RLVa:KB] - Checked: 2010-03-01 (RLVa-1.2.0b) | Modified: RLVa-1.1.0a
+		if (rlv_handler_t::isEnabled())
+		{
+			LLViewerObject* pAttachObj = gObjectList.findObject(mPanel->getTaskUUID());
+			bool fLocked = (pAttachObj) ? gRlvAttachmentLocks.isLockedAttachment(pAttachObj->getRootEdit()) : false;
+			if ( ((LLAssetType::AT_NOTECARD == item->getType()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_VIEWNOTE)) || (fLocked))) || 
+				 ((LLAssetType::AT_LSL_TEXT == item->getType()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_VIEWSCRIPT)) || (fLocked))) ||
+				 ((LLAssetType::AT_TEXTURE == item->getType()) && (!RlvActions::canPreviewTextures())))
+			{
+				disabled_items.emplace_back(std::string("Task Open"));
+			}
+		}
+// [/RLVa:KB]
 	}
 	items.emplace_back("Task Properties");
 	if ((flags & FIRST_SELECTED_ITEM) == 0)
@@ -555,7 +629,10 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 	if(isItemRenameable())
 	{
 		items.emplace_back("Task Rename");
-		if ((flags & FIRST_SELECTED_ITEM) == 0)
+//		if ((flags & FIRST_SELECTED_ITEM) == 0)
+// [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Added: RLVa-1.2.1f
+		if ( (!isItemRenameable()) || ((flags & FIRST_SELECTED_ITEM) == 0) )
+// [/RLVa:KB]
 		{
 			disabled_items.emplace_back("Task Rename");
 		}
@@ -563,6 +640,12 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 	if(isItemRemovable())
 	{
 		items.emplace_back("Task Remove");
+// [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Added: RLVa-1.2.1f
+		if (!isItemRemovable())
+		{
+			disabled_items.push_back(std::string("Task Remove"));
+		}
+// [/RLVa:KB]
 	}
 
 	hide_context_entries(menu, items, disabled_items);
@@ -944,6 +1027,13 @@ void LLTaskLSLBridge::openItem()
 	{
 		return;
 	}
+// [RLVa:KB] - Checked: 2010-03-27 (RLVa-1.2.0b) | Modified: RLVa-1.1.0a
+	if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+	{
+		RlvUtil::notifyBlockedViewXXX(LLAssetType::AT_SCRIPT);
+		return;
+	}
+// [/RLVa:KB]
 	if (object->permModify() || gAgent.isGodlike())
 	{
 		LLSD floater_key;
@@ -1005,6 +1095,14 @@ void LLTaskNotecardBridge::openItem()
 	{
 		return;
 	}
+
+// [RLVa:KB] - Checked: 2010-03-27 (RLVa-1.2.0b) | Modified: RLVa-1.2.0b
+	if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+	{
+		RlvUtil::notifyBlockedViewXXX(LLAssetType::AT_NOTECARD);
+		return;
+	}
+// [/RLVa:KB]
 
 	// Note: even if we are not allowed to modify copyable notecard, we should be able to view it
 	LLInventoryItem *item = dynamic_cast<LLInventoryItem*>(object->getInventoryObject(mUUID));

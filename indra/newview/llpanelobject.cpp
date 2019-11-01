@@ -68,6 +68,10 @@
 #include "pipeline.h"
 #include "llviewercontrol.h"
 //#include "llfirstuse.h"
+// [RLVa:KB] - Checked: 2011-05-22 (RLVa-1.3.1a)
+#include "rlvhandler.h"
+#include "llvoavatarself.h"
+// [/RLVa:KB]
 
 #include "lldrawpool.h"
 #include "llviewerjointattachment.h"
@@ -367,6 +371,14 @@ void LLPanelObject::getState( )
 
 	BOOL enable_scale = enable_modify;
 	BOOL enable_rotate = enable_move; // already accounts for a case of children, which needs permModify() as well
+
+// [RLVa:KB] - Checked: 2010-03-31 (RLVa-1.2.0c) | Modified: RLVa-1.0.0g
+	if ( (rlv_handler_t::isEnabled()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP))) )
+	{
+		if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == objectp->getRootEdit()) )
+			enable_move = enable_scale = enable_rotate = FALSE;
+	}
+// [/RLVa:KB]
 
 	LLVector3 vec;
 	if (enable_move)

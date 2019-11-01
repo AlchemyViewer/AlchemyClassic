@@ -28,6 +28,9 @@
 #include "llfloatersettingsdebug.h"
 #include "llfloater.h"
 #include "llcombobox.h"
+// [RLVa:KB] - Patch: RLVa-2.1.0
+#include "llsdserialize.h"
+// [/RLVa:KB]
 #include "llspinctrl.h"
 #include "llcolorswatch.h"
 #include "llviewercontrol.h"
@@ -241,6 +244,20 @@ void LLFloaterSettingsDebug::updateControl(LLControlVariable* controlp)
 
 	if (controlp)
 	{
+// [RLVa:KB] - Checked: 2011-05-28 (RLVa-1.4.0a) | Modified: RLVa-1.4.0a
+		// If "HideFromEditor" was toggled while the floater is open then we need to manually disable access to the control
+		// NOTE: this runs per-frame so there's no need to explictly handle onCommitSettings() or onClickDefault()
+		bool fEnable = !controlp->isHiddenFromSettingsEditor();
+		spinner1->setEnabled(fEnable);
+		spinner2->setEnabled(fEnable);
+		spinner3->setEnabled(fEnable);
+		spinner4->setEnabled(fEnable);
+		color_swatch->setEnabled(fEnable);
+		childSetEnabled("val_text", fEnable);
+		childSetEnabled("boolean_combo", fEnable);
+		childSetEnabled("default_btn", fEnable);
+// [/RLVa:KB]
+
 		eControlType type = controlp->type();
 
 		//hide combo box only for non booleans, otherwise this will result in the combo box closing every frame
@@ -458,6 +475,15 @@ void LLFloaterSettingsDebug::updateControl(LLControlVariable* controlp)
 			mValColor->setValue(sd);
 			break;
 		  }
+// [RLVa:KB] - Patch: RLVa-2.1.0
+		  case TYPE_LLSD:
+			  {
+				  std::ostringstream strLLSD;
+				  LLSDSerialize::toPrettyNotation(sd, strLLSD);
+				  mComment->setText(strLLSD.str());
+			  }
+			  break;
+// [/RLVa:KB]
 		  default:
 			mComment->setText(LLStringExplicit("unknown"));
 			break;

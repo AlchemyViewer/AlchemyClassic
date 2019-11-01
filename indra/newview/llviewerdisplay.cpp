@@ -69,6 +69,10 @@
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 #include "llscenemonitor.h"
+// [RLVa:KB] - Checked: 2011-05-22 (RLVa-1.3.1a)
+#include "rlvhandler.h"
+#include "rlvlocks.h"
+// [/RLVa:KB]
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -510,6 +514,9 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			// No teleport in progress
 			pProgFloater->setVisible(FALSE);
 			gTeleportDisplay = FALSE;
+// [SL:KB] - Patch: Appearance-TeleportAttachKill | Checked: Catznip-4.0
+			LLViewerParcelMgr::getInstance()->onTeleportDone();
+// [/SL:KB]
 			break;
 		}
 	}
@@ -1091,7 +1098,11 @@ void render_hud_attachments()
 	glm::mat4 current_mod = glm_get_current_modelview();
 
 	// clamp target zoom level to reasonable values
-	gAgentCamera.mHUDTargetZoom = llclamp(gAgentCamera.mHUDTargetZoom, 0.1f, 1.f);
+//	gAgentCamera.mHUDTargetZoom = llclamp(gAgentCamera.mHUDTargetZoom, 0.1f, 1.f);
+// [RLVa:KB] - Checked: 2010-08-22 (RLVa-1.2.1a) | Modified: RLVa-1.0.0c
+	gAgentCamera.mHUDTargetZoom = llclamp(gAgentCamera.mHUDTargetZoom, (!gRlvAttachmentLocks.hasLockedHUD()) ? 0.1f : 0.85f, 1.f);
+// [/RLVa:KB]
+
 	// smoothly interpolate current zoom level
 	gAgentCamera.mHUDCurZoom = lerp(gAgentCamera.mHUDCurZoom, gAgentCamera.mHUDTargetZoom, LLSmoothInterpolation::getInterpolant(0.03f));
 
@@ -1298,6 +1309,12 @@ void render_ui(F32 zoom_factor, int subfield)
 
 		LL_RECORD_BLOCK_TIME(FTM_RENDER_HUD);
 		render_hud_elements();
+// [RLVa:KB] - Checked: RLVa-2.2 (@setoverlay)
+		if (gRlvHandler.isEnabled())
+		{
+			gRlvHandler.renderOverlay();
+		}
+// [/RLVa:KB]
 		render_hud_attachments();
 	}
 

@@ -72,7 +72,6 @@ Render quality: [RENDER_QUALITY]
 Advanced Lighting Model: [GPU_SHADERS]
 Texture memory: [TEXTURE_MEMORY]MB
 VFS (cache) creation time: [VFS_TIME]
-HTTP Pipelining: [HTTP_PIPELINE]
 	</string>
 	<string name="AboutLibs">
 RestrainedLove API: [RLV_VERSION]

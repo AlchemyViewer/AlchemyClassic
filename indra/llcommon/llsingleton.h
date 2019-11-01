@@ -337,7 +337,7 @@ public:
     {
         // remove this instance from the master list
         LLSingleton_manage_master<DERIVED_TYPE>().remove(this);
-        sData.mInstance = NULL;
+        sData.mInstance = nullptr;
         sData.mInitState = DELETED;
     }
 
@@ -365,7 +365,7 @@ public:
     static void deleteSingleton()
     {
         delete sData.mInstance;
-        sData.mInstance = NULL;
+        sData.mInstance = nullptr;
         sData.mInitState = DELETED;
     }
 

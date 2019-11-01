@@ -42,6 +42,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
 
 
 // ============================================================================
@@ -180,7 +181,7 @@ void RlvSettings::initCompatibilityMode(std::string strCompatList)
 
 	strCompatList.append(";").append(rlvGetSetting<std::string>("RLVaCompatibilityModeList", ""));
 
-	boost_tokenizer tokCompatList(strCompatList, boost::char_separator<char>(";", "", boost::drop_empty_tokens));
+	boost::tokenizer tokCompatList(strCompatList, boost::char_separator<char>(";", "", boost::drop_empty_tokens));
 	for (const std::string& strCompatEntry : tokCompatList)
 	{
 		if (boost::starts_with(strCompatEntry, "creator:"))

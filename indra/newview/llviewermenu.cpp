@@ -1237,20 +1237,18 @@ class LLAdvancedToggleWireframe : public view_listener_t
 // Called from rlvhandler.cpp
 void set_use_wireframe(bool useWireframe)
 {
-		if (gUseWireframe == useWireframe)
-			return;
+	if (gUseWireframe == useWireframe)
+		return;
 
-		gUseWireframe = useWireframe;
-// [/RLVa:KB]
-//		gUseWireframe = !(gUseWireframe);
-		gWindowResized = TRUE;
+	gUseWireframe = useWireframe;
+	// [/RLVa:KB]
+	//		gUseWireframe = !(gUseWireframe);
+	gWindowResized = TRUE;
 
-		LLPipeline::updateRenderDeferred();
-		gPipeline.releaseGLBuffers();
-		gPipeline.createGLBuffers();
-		gPipeline.resetVertexBuffers();
-		return true;
-	}
+	LLPipeline::updateRenderDeferred();
+	gPipeline.releaseGLBuffers();
+	gPipeline.createGLBuffers();
+	gPipeline.resetVertexBuffers();
 };
 
 class LLAdvancedCheckWireframe : public view_listener_t

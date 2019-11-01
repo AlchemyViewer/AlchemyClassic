@@ -99,7 +99,15 @@ void LLDrawPoolTree::render(S32 pass)
 	LLOverrideFaceColor color(this, 1.f, 1.f, 1.f, 1.f);
 
 // [SL:KB] - Patch: Render-TextureToggle (Catznip-4.0)
-	LLViewerTexture* pTexture = (LLPipeline::sRenderTextures) ? mTexturep : LLViewerFetchedTexture::sDefaultDiffuseImagep;
+	LLViewerTexture* pTexture = nullptr;
+	if (LLPipeline::sRenderTextures)
+	{
+		pTexture = mTexturep;
+	} 
+	else
+	{
+		pTexture = LLViewerFetchedTexture::sDefaultDiffuseImagep;
+	}
 	gGL.getTexUnit(sDiffTex)->bind(pTexture);
 // [/SL:KB]
 //	gGL.getTexUnit(sDiffTex)->bind(mTexturep);

@@ -35,6 +35,8 @@
 #include "rlvhandler.h"
 #include "rlvlocks.h"
 
+#include <boost/tokenizer.hpp>
+
 // ============================================================================
 // Helper functions
 //
@@ -791,7 +793,7 @@ void RlvFloaterConsole::onInput(LLUICtrl* pCtrl, const LLSD& sdParam)
 
 		std::string strExecuted, strFailed, strRetained, *pstr;
 
-		boost_tokenizer tokens(strInput, boost::char_separator<char>(",", "", boost::drop_empty_tokens));
+		boost::tokenizer tokens(strInput, boost::char_separator<char>(",", "", boost::drop_empty_tokens));
 		for (std::string strCmd : tokens)
 		{
 			ERlvCmdRet eRet = gRlvHandler.processCommand(gAgent.getID(), strCmd, true);

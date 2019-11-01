@@ -50,7 +50,7 @@ private:
 	bool enableContextMenuItem(const LLSD& userdata);
 	bool checkContextMenuItem(const LLSD& userdata);
 	void offerTeleport();
-	void eject();
+	void requestTeleport();
 	void startConference();
 	void colorize(const LLSD& userdata);
 

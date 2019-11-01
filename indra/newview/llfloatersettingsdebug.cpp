@@ -248,13 +248,13 @@ void LLFloaterSettingsDebug::updateControl(LLControlVariable* controlp)
 		// If "HideFromEditor" was toggled while the floater is open then we need to manually disable access to the control
 		// NOTE: this runs per-frame so there's no need to explictly handle onCommitSettings() or onClickDefault()
 		bool fEnable = !controlp->isHiddenFromSettingsEditor();
-		spinner1->setEnabled(fEnable);
-		spinner2->setEnabled(fEnable);
-		spinner3->setEnabled(fEnable);
-		spinner4->setEnabled(fEnable);
-		color_swatch->setEnabled(fEnable);
-		childSetEnabled("val_text", fEnable);
-		childSetEnabled("boolean_combo", fEnable);
+		mValSpinner1->setEnabled(fEnable);
+		mValSpinner2->setEnabled(fEnable);
+		mValSpinner3->setEnabled(fEnable);
+		mValSpinner4->setEnabled(fEnable);
+		mValColor->setEnabled(fEnable);
+		mValText->setEnabled(fEnable);
+		mValBool->setEnabled(fEnable);
 		childSetEnabled("default_btn", fEnable);
 // [/RLVa:KB]
 

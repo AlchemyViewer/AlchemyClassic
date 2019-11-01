@@ -526,7 +526,7 @@ void LLFloaterWorldMap::draw()
 	mShowDestinationButton->setEnabled((BOOL)tracking_status || LLWorldMap::getInstance()->isTracking());
 	mCopySlurlButton->setEnabled((mSLURL.isValid()) );
 	mTrackRegionButton->setEnabled((BOOL) tracking_status || LLWorldMap::getInstance()->isTracking());
-	mTeleportHomeButtonchildSetEnabled->setEnabled(
+	mTeleportHomeButton->setEnabled(
 		(!rlv_handler_t::isEnabled()) || !(gRlvHandler.hasBehaviour(RLV_BHVR_TPLM) && gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC)));
 // [/RLVa:KB]
 	

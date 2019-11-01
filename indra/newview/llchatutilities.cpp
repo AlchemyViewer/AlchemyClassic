@@ -33,7 +33,9 @@
 #include "llmediactrl.h"
 #include "llviewercontrol.h"
 #include "llviewerstats.h"
-
+#include "rlvcommon.h"
+#include "rlvactions.h"
+#include "rlvhandler.h"
 
 // legacy callback glue
 extern void send_chat_from_viewer(std::string utf8_out_text, EChatType type, S32 channel);

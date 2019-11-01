@@ -3232,9 +3232,8 @@ void LLAppearanceMgr::removeCOFItemLinks(const LLUUID& item_id, LLPointer<LLInve
 								  cat_array,
 								  item_array,
 								  LLInventoryModel::EXCLUDE_TRASH);
-	for (auto& i : item_array)
+	for (LLViewerInventoryItem* item : item_array)
     {
-		const LLViewerInventoryItem* item = item_array.at(i).get();
 		if (item->getIsLinkType() && item->getLinkedUUID() == item_id)
 		{
 // [RLVa:KB] - Checked: 2013-02-12 (RLVa-1.4.8)

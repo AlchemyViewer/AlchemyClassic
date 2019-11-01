@@ -68,6 +68,7 @@
 
 // Boost includes
 #include <boost/algorithm/string.hpp>
+#include <boost/tokenizer.hpp>
 
 // ============================================================================
 // Static variable initialization
@@ -84,8 +85,8 @@ rlv_handler_t gRlvHandler;
 // Checked: 2009-08-04 (RLVa-1.0.1d) | Added: RLVa-1.0.1d
 static bool rlvParseNotifyOption(const std::string& strOption, S32& nChannel, std::string& strFilter)
 {
-	boost_tokenizer tokens(strOption, boost::char_separator<char>(";", "", boost::keep_empty_tokens));
-	boost_tokenizer::const_iterator itTok = tokens.begin();
+	boost::tokenizer tokens(strOption, boost::char_separator<char>(";", "", boost::keep_empty_tokens));
+	auto itTok = tokens.begin();
 
 	// Extract and sanity check the first token (required) which is the channel
 	if ( (itTok == tokens.end()) || (!LLStringUtil::convertToS32(*itTok, nChannel)) || (!RlvUtil::isValidReplyChannel(nChannel)) )
@@ -109,8 +110,8 @@ static bool rlvParseGetStatusOption(const std::string& strOption, std::string& s
 	//   * Parameters: first and second parameters are both optional
 	//   * Examples  : @getstatus=123 ; @getstatus:tp=123 ; @getstatus:tp;|=123 ; @getstatus:;|=123
 
-	boost_tokenizer tokens(strOption, boost::char_separator<char>(";", "", boost::keep_empty_tokens));
-	boost_tokenizer::const_iterator itTok = tokens.begin();
+	boost::tokenizer tokens(strOption, boost::char_separator<char>(";", "", boost::keep_empty_tokens));
+	auto itTok = tokens.begin();
 
 	strSeparator = "/";
 	strFilter.clear();

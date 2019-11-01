@@ -58,9 +58,12 @@ enum ECameraPreset
 	/** "Above and to the left, over the shoulder, pulled back a little on the zoom" */
 	CAMERA_PRESET_GROUP_VIEW,
 
+	/** "Above and to the left, over the shoulder, pulled back a little on the zoom" */
+	CAMERA_PRESET_SHOULDER_VIEW,
+
 // [RLVa:KB] - Checked: RLVa-2.0.0
 	/* Used by RLVa */
-	CAMERA_RLV_SETCAM_VIEW
+	CAMERA_RLV_SETCAM_VIEW,
 // [/RLVa:KB]
 	/** End variable for sanity checking CameraPreset's */ // <alchemy/>
 	CAMERA_PRESET_END

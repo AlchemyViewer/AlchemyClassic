@@ -23,7 +23,8 @@
 
 #include "rlvinventory.h"
 
-#include "boost/algorithm/string.hpp"
+#include <boost/algorithm/string.hpp>
+#include <boost/tokenizer.hpp>
 
 // ============================================================================
 // Static variable initialization
@@ -296,8 +297,8 @@ LLViewerInventoryCategory* RlvInventory::getSharedFolder(const std::string& strP
 		return NULL;
 
 	// Walk the path (starting at the root)
-	boost_tokenizer tokens(strPath, boost::char_separator<char>("/", "", boost::drop_empty_tokens));
-	for (boost_tokenizer::const_iterator itToken = tokens.begin(); itToken != tokens.end(); ++itToken)
+	boost::tokenizer tokens(strPath, boost::char_separator<char>("/", "", boost::drop_empty_tokens));
+	for (auto itToken = tokens.begin(); itToken != tokens.end(); ++itToken)
 	{
 		pFolder = getSharedFolder(pFolder->getUUID(), *itToken, fMatchPartial);
 		if (!pFolder)

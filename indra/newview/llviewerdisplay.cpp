@@ -69,6 +69,7 @@
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 #include "llscenemonitor.h"
+#include "llviewerparcelmgr.h"
 // [RLVa:KB] - Checked: 2011-05-22 (RLVa-1.3.1a)
 #include "rlvhandler.h"
 #include "rlvlocks.h"

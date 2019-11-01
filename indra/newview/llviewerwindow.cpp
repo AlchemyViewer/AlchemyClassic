@@ -137,6 +137,7 @@
 #include "lltoolbarview.h"
 #include "lltoolcomp.h"
 #include "lltooldraganddrop.h"
+#include "lltoolfocus.h"
 #include "lltoolmgr.h"
 #include "lltoolmorph.h"
 #include "lltoolpie.h"

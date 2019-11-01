@@ -474,14 +474,14 @@ void LLSidepanelTaskInfo::refresh()
 
 //	if(owner_id.isNull() || (owner_id != mOwnerID))
 //	{
-//		mDAOwnerName->setValue(owner_name);
+//		mOwnerNameEditor->setValue(owner_name);
 //		mOwnerID = owner_id;
 //	}
-//	if(mDAOwnerName->getValue().asString() == LLStringUtil::null)
+//	if(mOwnerNameEditor->getValue().asString() == LLStringUtil::null)
 //	{
-//	    mDAOwnerName->setValue(owner_name);
+//	    mOwnerNameEditor->setValue(owner_name);
 //	}
-//	getChildView("Owner Name")->setEnabled(TRUE);
+//	mOwnerNameEditor->setEnabled(TRUE);
 
 // [RLVa:KB] - Checked: 2010-11-01 (RLVa-1.2.2a) | Modified: RLVa-1.2.2a
 	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWNAMES))
@@ -495,7 +495,7 @@ void LLSidepanelTaskInfo::refresh()
 			owner_name = LLSLURL("agent", mOwnerID, "rlvanonym").getSLURLString();
 	}
 
-	if(mDACreatorName->getValue().asString() == LLStringUtil::null)
+	if(mCreatorNameEditor->getValue().asString() == LLStringUtil::null)
 	{
 		mCreatorNameEditor->setValue(creator_name);
 	}

@@ -2629,8 +2629,8 @@ void process_chat_from_simulator(LLMessageSystem* msg, void** user_data)
 
 					std::string strExecuted, strFailed, strRetained, *pstr;
 
-					boost_tokenizer tokens(mesg, boost::char_separator<char>(",", "", boost::drop_empty_tokens));
-					for (boost_tokenizer::iterator itToken = tokens.begin(); itToken != tokens.end(); ++itToken)
+					boost::tokenizer tokens(mesg, boost::char_separator<char>(",", "", boost::drop_empty_tokens));
+					for (auto itToken = tokens.begin(); itToken != tokens.end(); ++itToken)
 					{
 						std::string strCmd = *itToken;
 

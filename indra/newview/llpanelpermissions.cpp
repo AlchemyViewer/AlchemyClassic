@@ -480,7 +480,7 @@ void LLPanelPermissions::refresh()
 	mLabelLastOwner->setEnabled(TRUE);
 
 	std::string last_owner_app_link;
-	bool last_owners_identical LLSelectMgr::getInstance()->selectGetLastOwner(mLastOwnerID, last_owner_app_link);
+	bool last_owners_identical = LLSelectMgr::getInstance()->selectGetLastOwner(mLastOwnerID, last_owner_app_link);
 
 	if ( (RlvActions::isRlvEnabled()) && (last_owners_identical) && (!RlvActions::canShowName(RlvActions::SNC_DEFAULT, mOwnerID)) )
 	{

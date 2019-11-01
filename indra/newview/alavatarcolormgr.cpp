@@ -34,6 +34,7 @@
 // viewer includes
 #include "llcallingcard.h"
 #include "llmutelist.h"
+#include "rlvactions.h"
 
 void ALAvatarColorMgr::addOrUpdateCustomColor(const LLUUID& id, EAvatarColors color_val)
 {

@@ -931,7 +931,7 @@ class RlvLockedDescendentsCollector : public LLInventoryCollectFunctor
 {
 public:
 	RlvLockedDescendentsCollector(int eSourceTypeMask, RlvFolderLocks::ELockPermission ePermMask, ERlvLockMask eLockTypeMask) 
-		: m_eSourceTypeMask(eSourceTypeMask), m_ePermMask(ePermMask), m_eLockTypeMask(eLockTypeMask) {}
+		: m_ePermMask(ePermMask), m_eSourceTypeMask(eSourceTypeMask), m_eLockTypeMask(eLockTypeMask) {}
 	/*virtual*/ ~RlvLockedDescendentsCollector() {}
 	/*virtual*/ bool operator()(LLInventoryCategory* pFolder, LLInventoryItem* pItem)
 	{
@@ -945,7 +945,7 @@ protected:
 
 // Checked: 2011-03-28 (RLVa-1.3.0g) | Modified: RLVa-1.3.0g
 RlvFolderLocks::RlvFolderLocks()
-	: m_fLookupDirty(false), m_RootLockType(RLV_LOCK_NONE), m_cntLockAdd(0), m_cntLockRem(0)
+	: m_cntLockAdd(0), m_cntLockRem(0), m_fLookupDirty(false), m_RootLockType(RLV_LOCK_NONE)
 {
 	LLOutfitObserver::instance().addCOFChangedCallback(boost::bind(&RlvFolderLocks::onNeedsLookupRefresh, this));
 	RlvInventory::instance().addSharedRootIDChangedCallback(boost::bind(&RlvFolderLocks::onNeedsLookupRefresh, this));

@@ -136,7 +136,7 @@ static bool rlvParseGetStatusOption(const std::string& strOption, std::string& s
 //
 
 // Checked: 2010-04-07 (RLVa-1.2.0d) | Modified: RLVa-1.0.1d
-RlvHandler::RlvHandler() : m_fCanCancelTp(true), m_posSitSource(), m_pGCTimer(NULL)
+RlvHandler::RlvHandler() : m_pGCTimer(NULL), m_fCanCancelTp(true), m_posSitSource()
 {
 	gAgent.addListener(this, "new group");
 

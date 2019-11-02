@@ -62,7 +62,7 @@ public:
 	};
 
 	RlvBehaviourInfo(std::string strBhvr, ERlvBehaviour eBhvr, U32 maskParamType, U32 nBhvrFlags = 0)
-		: m_strBhvr(strBhvr), m_eBhvr(eBhvr), m_maskParamType(maskParamType), m_nBhvrFlags(nBhvrFlags) {}
+		: m_strBhvr(strBhvr), m_eBhvr(eBhvr), m_nBhvrFlags(nBhvrFlags), m_maskParamType(maskParamType) {}
 	virtual ~RlvBehaviourInfo() {}
 
 	const std::string&	getBehaviour() const      { return m_strBhvr; }
@@ -150,7 +150,7 @@ template<> struct RlvCommandHandlerBaseImpl<RLV_TYPE_REPLY>  { static ERlvCmdRet
 //
 // RlvCommandHandler - The actual command handler (Note that a handler is more general than a processor; a handler can - for instance - be used by multiple processors)
 //
-#if LL_WINDOWS
+#if LL_MSVC && !defined(LL_CLANG)
 	#define RLV_TEMPL_FIX(x) template<x>
 #else
 	#define RLV_TEMPL_FIX(x) template<typename Placeholder = int>

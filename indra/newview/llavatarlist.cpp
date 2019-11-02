@@ -143,10 +143,10 @@ LLAvatarList::LLAvatarList(const Params& p)
 , mShowSpeakingIndicator(p.show_speaking_indicator)
 , mShowPermissions(p.show_permissions_granted)
 , mShowCompleteName(false)
-, mLITUpdateTimer(nullptr)
 // [RLVa:KB] - Checked: RLVa-1.2.0
 , mRlvCheckShowNames(false)
 // [/RLVa:KB]
+, mLITUpdateTimer(nullptr)
 {
 	setCommitOnSelectionChange(true);
 

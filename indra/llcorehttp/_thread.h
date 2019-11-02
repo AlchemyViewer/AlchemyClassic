@@ -34,6 +34,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic ignored "-Wdelete-non-abstract-non-virtual-dtor"
+#pragma clang diagnostic ignored "-Wpotentially-evaluated-expression"
 #endif
 #include <boost/thread.hpp>
 #ifdef LL_CLANG

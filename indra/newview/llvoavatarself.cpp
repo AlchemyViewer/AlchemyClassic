@@ -159,12 +159,12 @@ LLVOAvatarSelf::LLVOAvatarSelf(const LLUUID& id,
 							   const LLPCode pcode,
 							   LLViewerRegion* regionp) :
 	LLVOAvatar(id, pcode, regionp),
-// [RLVa:KB] - Checked: 2012-07-28 (RLVa-1.4.7)
-	mAttachmentSignal(NULL),
-// [/RLVa:KB]
 	mLastRegionHandle(0),
 	mRegionCrossingCount(0),
-	mScreenp(NULL),
+// [RLVa:KB] - Checked: 2012-07-28 (RLVa-1.4.7)
+	mAttachmentSignal(nullptr),
+// [/RLVa:KB]
+	mScreenp(nullptr),
 	// Value outside legal range, so will always be a mismatch the
 	// first time through.
 	mLastHoverOffsetSent(LLVector3(0.0f, 0.0f, -999.0f)),

@@ -34,14 +34,14 @@ class LLOfferInfo;
 // RlvInventory class declaration
 //
 
-class RlvInventory : public LLSingleton<RlvInventory>, public LLInventoryObserver
+class RlvInventory final : public LLSingleton<RlvInventory>, public LLInventoryObserver
 {
 	LLSINGLETON(RlvInventory);
 public:
 	~RlvInventory();
 
 	// LLInventoryObserver override
-	/*virtual*/ void changed(U32 mask);
+	void changed(U32 mask) override;
 
 	/*
 	 * #RLV Shared inventory
@@ -162,7 +162,7 @@ protected:
 class RlvGiveToRLVAgentOffer : public LLInventoryFetchDescendentsObserver, RlvGiveToRLVOffer
 {
 public:
-	RlvGiveToRLVAgentOffer(const LLUUID& idFolder) : RlvGiveToRLVOffer(), LLInventoryFetchDescendentsObserver(idFolder) {}
+	RlvGiveToRLVAgentOffer(const LLUUID& idFolder) : LLInventoryFetchDescendentsObserver(idFolder), RlvGiveToRLVOffer()  {}
 	/*virtual*/ ~RlvGiveToRLVAgentOffer() {}
 public:
 	/*virtual*/ void done();

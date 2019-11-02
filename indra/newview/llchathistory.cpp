@@ -117,10 +117,6 @@ class LLChatHistoryHeader final : public LLPanel
 public:
 	LLChatHistoryHeader()
 	:	LLPanel(),
-// [RLVa:KB] - Checked: 2010-04-22 (RLVa-1.2.2a) | Added: RLVa-1.2.0f
-		mShowContextMenu(true), 
-		mShowInfoCtrl(true),
-// [/RLVa:KB]
 		mPopupMenuHandleAvatar(),
 		mPopupMenuHandleObject(),
 		mInfoCtrl(nullptr),
@@ -128,6 +124,10 @@ public:
 		mSourceType(CHAT_SOURCE_UNKNOWN),
 		mFrom(),
 		mSessionID(),
+// [RLVa:KB] - Checked: 2010-04-22 (RLVa-1.2.2a) | Added: RLVa-1.2.0f
+		mShowContextMenu(true), 
+		mShowInfoCtrl(true),
+// [/RLVa:KB]
 		mMinUserNameWidth(0),
 		mUserNameFont(nullptr),
 		mUserNameTextBox(nullptr),

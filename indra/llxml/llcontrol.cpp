@@ -50,6 +50,7 @@
 #ifdef LL_CLANG
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdelete-non-abstract-non-virtual-dtor"
+#pragma clang diagnostic ignored "-Wpotentially-evaluated-expression"
 #endif
 #include <boost/exception/diagnostic_information.hpp> 
 #ifdef LL_CLANG
@@ -356,7 +357,7 @@ void LLControlVariable::firePropertyChanged(const LLSD &pPreviousValue)
 	{
 		mCommitSignal(this, mValues.back(), pPreviousValue);
 	}
-	catch (boost::exception &ex)
+	catch (const boost::exception &ex)
 	{
 		LL_WARNS("LLControlVariable") << getName() << " commit signal threw exception. " << boost::diagnostic_information(ex) << LL_ENDL;
 	}

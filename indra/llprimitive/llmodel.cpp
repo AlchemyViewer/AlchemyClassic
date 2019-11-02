@@ -1679,7 +1679,7 @@ LLSD LLModel::Decomposition::asLLSD() const
         {
 			std::set<U64> valid;
 
-			llassert(!mHull[i].empty());
+			llassert(!i.empty());
 
 			for (auto j : i)
             {

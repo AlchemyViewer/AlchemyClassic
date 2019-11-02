@@ -2203,7 +2203,7 @@ void RlvBehaviourToggleHandler<RLV_BHVR_SETCAM>::onCommandToggle(ERlvBehaviour e
 		std::list<const RlvObject*> lObjects;
 		// Restore the @setcam_unlock reference count
 		gRlvHandler.findBehaviour(RLV_BHVR_SETCAM_UNLOCK, lObjects);
-		gRlvHandler.m_Behaviours[RLV_BHVR_SETCAM_UNLOCK] = lObjects.size();
+		gRlvHandler.m_Behaviours[RLV_BHVR_SETCAM_UNLOCK] = static_cast<S16>(lObjects.size());
 	}
 
 	// Manually invoke the @setcam_unlock toggle handler if we toggled it on/off

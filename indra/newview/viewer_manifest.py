@@ -46,7 +46,7 @@ viewer_dir = os.path.dirname(__file__)
 # Put it FIRST because some of our build hosts have an ancient install of
 # indra.util.llmanifest under their system Python!
 sys.path.insert(0, os.path.join(viewer_dir, os.pardir, "lib", "python"))
-from indra.util.llmanifest import LLManifest, main, path_ancestors, CHANNEL_VENDOR_BASE, RELEASE_CHANNEL, ManifestError
+from indra.util.llmanifest import LLManifest, main, path_ancestors, CHANNEL_VENDOR_BASE, RELEASE_CHANNEL, ManifestError, MissingError
 from llbase import llsd
 
 class ViewerManifest(LLManifest):
@@ -144,13 +144,10 @@ class ViewerManifest(LLManifest):
             with self.prefix(src_dst="skins"):
                     # include the entire textures directory recursively
                     with self.prefix(src_dst="*/textures"):
-                            self.path("*/*.tga")
-                            self.path("*/*.j2c")
                             self.path("*/*.jpg")
                             self.path("*/*.png")
                             self.path("*.tga")
                             self.path("*.j2c")
-                            self.path("*.jpg")
                             self.path("*.png")
                             self.path("textures.xml")
                     self.path("*/xui/*/*.xml")
@@ -462,14 +459,18 @@ class WindowsManifest(ViewerManifest):
             if not self.is_packaging_viewer():
                 self.path("openjpeg.pdb")
 
-            # Vivox runtimes
-            self.path("SLVoice.exe")
+            # SLVoice executable
+            with self.prefix(src=os.path.join(pkgdir, 'bin', 'release')):
+                self.path("SLVoice.exe")
+
+            # Vivox libraries
             if (self.address_size == 64):
                 self.path("vivoxsdk_x64.dll")
                 self.path("ortp_x64.dll")
             else:
                 self.path("vivoxsdk.dll")
                 self.path("ortp.dll")
+
             
             # Security
             if(self.address_size == 64):
@@ -869,7 +870,7 @@ class DarwinManifest(ViewerManifest):
 
                 with self.prefix(src=relpkgdir, dst=""):
                     self.path("libndofdev.dylib")
-                    self.path("libhunspell-1.3.0.dylib")   
+                    self.path("libhunspell-1.3.a")   
 
                 with self.prefix(src_dst="cursors_mac"):
                     self.path("*.tif")
@@ -916,11 +917,15 @@ class DarwinManifest(ViewerManifest):
                     # (source, dest) pair to self.file_list for every expanded
                     # file processed. Remember its size before the call.
                     oldlen = len(self.file_list)
-                    self.path(src, dst)
-                    # The dest appended to self.file_list has been prepended
-                    # with self.get_dst_prefix(). Strip it off again.
-                    added = [os.path.relpath(d, self.get_dst_prefix())
-                             for s, d in self.file_list[oldlen:]]
+                    try:
+                        self.path(src, dst)
+                        # The dest appended to self.file_list has been prepended
+                        # with self.get_dst_prefix(). Strip it off again.
+                        added = [os.path.relpath(d, self.get_dst_prefix())
+                                 for s, d in self.file_list[oldlen:]]
+                    except MissingError as err:
+                        print >> sys.stderr, "Warning: "+err.msg
+                        added = []
                     if not added:
                         print "Skipping %s" % dst
                     return added
@@ -930,18 +935,10 @@ class DarwinManifest(ViewerManifest):
                 # symlink from sub-app/Contents/Resources to the real .dylib.
                 # Need to get the llcommon dll from any of the build directories as well.
                 libfile_parent = self.get_dst_prefix()
-                libfile = "libllcommon.dylib"
-                dylibs = path_optional(self.find_existing_file(os.path.join(os.pardir,
-                                                               "llcommon",
-                                                               self.args['configuration'],
-                                                               libfile),
-                                                               os.path.join(relpkgdir, libfile)),
-                                       dst=libfile)
-
+                dylibs=[]
                 for libfile in (
                                 "libapr-1.0.dylib",
                                 "libaprutil-1.0.dylib",
-                                "libcollada14dom.dylib",
                                 "libexpat.1.dylib",
                                 "libexception_handler.dylib",
                                 "libGLOD.dylib",
@@ -954,14 +951,14 @@ class DarwinManifest(ViewerManifest):
                                 ):
                     dylibs += path_optional(os.path.join(relpkgdir, libfile), libfile)
 
-                # SLVoice and vivox lols, no symlinks needed
+                # SLVoice executable
+                with self.prefix(src=os.path.join(pkgdir, 'bin', 'release')):
+                    self.path("SLVoice")
+
+                # Vivox libraries
                 for libfile in (
                                 'libortp.dylib',
-                                'libsndfile.dylib',
-                                'libvivoxoal.dylib',
                                 'libvivoxsdk.dylib',
-                                'libvivoxplatform.dylib',
-                                'SLVoice',
                                 ):
                     self.path2basename(relpkgdir, libfile)
 
@@ -1605,7 +1602,6 @@ class Linux_i686_Manifest(LinuxManifest):
             self.path("libsndfile.so.1")
             #self.path("libvivoxoal.so.1") # no - we'll re-use the viewer's own OpenAL lib
             self.path("libvivoxsdk.so")
-            self.path("libvivoxplatform.so")
 
         self.strip_binaries()
 
@@ -1689,5 +1685,9 @@ class Linux_x86_64_Manifest(LinuxManifest):
 ################################################################
 
 if __name__ == "__main__":
-    main()
-
+    try:
+        main()
+    except (ManifestError, MissingError) as err:
+        sys.exit("\nviewer_manifest.py failed: "+err.msg)
+    except:
+        raise

@@ -10653,6 +10653,11 @@ void LLVOAvatar::calcMutedAVColor()
 		 }
 // [/RLVa:KB]
     }
+    else if (!isTooComplex())
+    {
+        new_color = LLColor4::white;
+        change_msg = " simple imposter ";
+    }
 //    else if ( mMutedAVColor == LLColor4::white || mMutedAVColor == LLColor4::grey3 || mMutedAVColor == LLColor4::grey4 )
 // [RLVa:KB] - Checked: RLVa-2.2 (@setcam_avdist)
 	else if ( mMutedAVColor == LLColor4::white || mMutedAVColor == LLColor4::grey3 || mMutedAVColor == LLColor4::grey4 || mMutedAVColor == LLColor4::silhouette)

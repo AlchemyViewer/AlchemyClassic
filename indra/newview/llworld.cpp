@@ -968,7 +968,7 @@ void LLWorld::updateWaterObjects()
 		}
 	}
 
-	for (auto waterp : mHoleWaterObjects)
+	for (LLVOWater* waterp : mHoleWaterObjects)
     {
         gObjectList.killObject(waterp);
 	}

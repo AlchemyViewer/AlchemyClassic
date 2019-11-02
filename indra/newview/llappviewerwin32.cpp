@@ -223,20 +223,20 @@ void ll_nvapi_init(NvDRSSessionHandle hSession)
 #if DEBUGGING_SEH_FILTER
 #	define WINMAIN DebuggingWinMain
 #else
-#	define WINMAIN WinMain
+#	define WINMAIN wWinMain
 #endif
 
 int APIENTRY WINMAIN(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
-                     LPSTR     lpCmdLine,
+                     PWSTR     pCmdLine,
                      int       nCmdShow)
 {
 #if WINDOWS_CRT_MEM_CHECKS && !INCLUDE_VLD
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); // dump memory leaks on exit
 #endif
 	
-	LLAppViewerWin32* viewer_app_ptr = new LLAppViewerWin32(lpCmdLine);
-	
+	LLAppViewerWin32* viewer_app_ptr = new LLAppViewerWin32(ll_convert_wide_to_string(pCmdLine).c_str());
+
 	gOldTerminateHandler = std::set_terminate(exceptionTerminateHandler);
 
 #if !defined(USE_CRASHPAD)
@@ -338,9 +338,9 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 // in a method that uses object destructors. Go figure.
 // This winmain just calls the real winmain inside __try.
 // The __except calls our exception filter function. For debugging purposes.
-int APIENTRY WinMain(HINSTANCE hInstance,
+int APIENTRY wWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
-                     LPSTR     lpCmdLine,
+                     PWSTR     lpCmdLine,
                      int       nCmdShow)
 {
     __try

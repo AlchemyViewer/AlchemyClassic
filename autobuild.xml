@@ -2892,9 +2892,9 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>aaf04f5ed1d28477781d976dc04871ee</string>
+              <string>42066e2447c7a3359784438d16510992</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/31904/266163/viewer_manager-2.0.524157-darwin64-524157.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/40539/348124/viewer_manager-2.0.529188-darwin64-529188.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin64</string>

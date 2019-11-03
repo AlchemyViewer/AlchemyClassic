@@ -490,10 +490,10 @@ class WindowsManifest(ViewerManifest):
             self.path("nghttp2.dll")
 
             # For google-perftools tcmalloc allocator.
-            if config == 'debug':
-                self.path('libtcmalloc_minimal-debug.dll')
-            else:
-                self.path('libtcmalloc_minimal.dll')
+            #if config == 'debug':
+            #    self.path('libtcmalloc_minimal-debug.dll')
+            #else:
+            #    self.path('libtcmalloc_minimal.dll')
 
             # For msvc redist
             self.path('api-ms-win-core-c*.dll')
@@ -510,7 +510,8 @@ class WindowsManifest(ViewerManifest):
             self.path('api-ms-win-core-s*.dll')
             self.path('api-ms-win-core-t*.dll')
             self.path('api-ms-win-core-u*.dll')
-            self.path('API-MS-Win-core-x*.dll')
+            if (self.address_size == 32):
+                self.path('API-MS-Win-core-x*.dll')
             self.path('api-ms-win-crt*.dll')
             self.path('ucrt*.dll')
             self.path('concrt*.dll')
@@ -520,9 +521,10 @@ class WindowsManifest(ViewerManifest):
 
         # For crashpad
         with self.prefix(src=pkgbindir):
-            self.path("crashpad_handler.exe")
-            if not self.is_packaging_viewer():
-                self.path("crashpad_handler.pdb")
+            if os.path.exists(os.path.join(pkgbindir, "crashpad_handler.exe")):
+                self.path("crashpad_handler.exe")
+                if not self.is_packaging_viewer():
+                    self.path("crashpad_handler.pdb")
 
         self.path("featuretable.txt")
 

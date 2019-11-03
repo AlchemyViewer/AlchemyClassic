@@ -2629,7 +2629,7 @@ bool callback_choose_gender(const LLSD& notification, const LLSD& response)
 
 std::string get_screen_filename(const std::string& pattern)
 {
-    if (LLGridManager::getInstance()->isInProductionGrid())
+    if (LLGridManager::getInstance()->isInSLMain())
     {
         return llformat(pattern.c_str(), "");
     }
@@ -2760,7 +2760,7 @@ void init_start_screen(S32 location_id)
 	{
 		std::string path = temp_str + LLStartUp::getScreenHomeFilename();
 		
-		if (!gDirUtilp->fileExists(path) && LLGridManager::getInstance()->isInProductionGrid())
+		if (!gDirUtilp->fileExists(path) && LLGridManager::getInstance()->isInSLMain())
 		{
 			// Fallback to old file, can be removed later
 			// Home image only sets when user changes home, so it will take time for users to switch to pngs

@@ -299,7 +299,8 @@ void LLSkyTex::createGLImage(S32 which)
 
 void LLSkyTex::bindTexture(BOOL curr)
 {
-	gGL.getTexUnit(0)->bind(mTexture[getWhich(curr)], true);
+    int tex = getWhich(curr);
+	gGL.getTexUnit(0)->bind(mTexture[tex], true);
 }
 
 /***************************************
@@ -440,15 +441,17 @@ void LLVOSky::initCubeMap()
     {
 		images.emplace_back(side.getImageRaw());
 	}
+	
+	if (!mCubeMap && gSavedSettings.getBOOL("RenderWater") && gGLManager.mHasCubeMap && LLCubeMap::sUseCubeMaps)
+	{
+		mCubeMap = new LLCubeMap(false);
+	}
+
 	if (mCubeMap)
 	{
 		mCubeMap->init(images);
 	}
-	else if (gSavedSettings.getBOOL("RenderWater") && gGLManager.mHasCubeMap && LLCubeMap::sUseCubeMaps)
-	{
-		mCubeMap = new LLCubeMap();
-		mCubeMap->init(images);
-	}
+
 	gGL.getTexUnit(0)->disable();
 }
 
@@ -1853,9 +1856,8 @@ void LLVOSky::updateReflectionGeometry(LLDrawable *drawable, F32 H,
 
 		F32 dt_tex = dtReflection(P, cos_dir_from_top[0], sin_dir_from_top, diff_angl_dir);
 
-		dt = dt_tex;
-		TEX0tt = LLVector2(0, dt);
-		TEX1tt = LLVector2(1, dt);
+		TEX0tt = LLVector2(0, dt_tex);
+		TEX1tt = LLVector2(1, dt_tex);
 		quads++;
 	}
 	else

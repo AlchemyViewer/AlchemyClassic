@@ -37,7 +37,7 @@ class LLVector3;
 class LLCubeMap : public LLRefCount
 {
 public:
-	LLCubeMap();
+	LLCubeMap(bool init_as_srgb);
 	void init(const std::vector<LLPointer<LLImageRaw> >& rawimages);
 	void initGL();
 	void initRawData(const std::vector<LLPointer<LLImageRaw> >& rawimages);
@@ -79,6 +79,7 @@ protected:
 	S32 mTextureStage;
 	S32 mTextureCoordStage;
 	S32 mMatrixStage;
+	bool mIssRGB;
 };
 
 #endif

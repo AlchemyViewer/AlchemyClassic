@@ -3303,6 +3303,19 @@ LLColor3 LLVOVolume::getLightColor() const
 	}
 }
 
+LLColor3 LLVOVolume::getLightSRGBColor() const
+{
+    const LLLightParams *param_block = (const LLLightParams *)getParameterEntry(LLNetworkData::PARAMS_LIGHT);
+    if (param_block)
+    {
+        return LLColor3(param_block->getSRGBColor()) * param_block->getSRGBColor().mV[3];
+    }
+    else
+    {
+        return LLColor3(1, 1, 1);
+    }
+}
+
 LLUUID LLVOVolume::getLightTextureID() const
 {
 	if (getParameterEntryInUse(LLNetworkData::PARAMS_LIGHT_IMAGE))

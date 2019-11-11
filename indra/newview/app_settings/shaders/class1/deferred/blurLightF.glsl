@@ -33,6 +33,7 @@ out vec4 frag_color;
 #define frag_color gl_FragColor
 #endif
 
+#define KERNCOUNT 8
 uniform sampler2D depthMap;
 uniform sampler2D normalMap;
 uniform sampler2D lightMap;
@@ -46,14 +47,18 @@ VARYING vec2 vary_fragcoord;
 
 uniform mat4 inv_proj;
 
-vec2 getKern(int i)
+vec3 getKern(int i)
 {
-	vec2 kern[4];
-	
-	kern[0] = vec2(0.3989422804,0.1994711402);
-	kern[1] = vec2(0.2419707245,0.1760326634);
-	kern[2] = vec2(0.0539909665,0.1209853623);
-	kern[3] = vec2(0.0044318484,0.0647587978);
+	vec3 kern[KERNCOUNT];
+
+	kern[0] = vec3(1.000*0.50, 1.00*0.50, 0.000);
+	kern[1] = vec3(0.333*0.50, 1.00*0.50, 0.500);
+	kern[2] = vec3(0.111*0.75, 0.98*0.75, 1.125);
+	kern[3] = vec3(0.080*1.00, 0.95*1.00, 2.000);
+	kern[4] = vec3(0.060*1.00, 0.90*1.00, 3.000);
+	kern[5] = vec3(0.040*1.00, 0.85*1.00, 4.000);
+	kern[6] = vec3(0.020*1.00, 0.77*1.00, 5.000);
+	kern[7] = vec3(0.001*1.00, 0.70*1.00, 6.000);
 	return kern[i];
 }
 
@@ -95,44 +100,48 @@ void main()
 	vec3 pos = getPosition(tc).xyz;
 	vec4 ccol = texture2D(lightMap, tc).rgba;
 
-	vec2 dlt = delta / (vec2(1.0)+norm.xy*norm.xy);
-	dlt /= max(-pos.z*dist_factor, 1.0);
+	vec2 dlt = kern_scale * (vec2(1.5,1.5)-norm.xy*norm.xy);
+	dlt = delta * ceil(max(dlt.xy, vec2(1.0)));
 	
 	vec2 defined_weight = getKern(0).xy; // special case the first (centre) sample's weight in the blur; we have to sample it anyway so we get it for 'free'
-	vec4 col = defined_weight.xyxx * ccol;
+	vec4 col = defined_weight.xyyy * ccol;
 
 	// relax tolerance according to distance to avoid speckling artifacts, as angles and distances are a lot more abrupt within a small screen area at larger distances
-	float pointplanedist_tolerance_pow2 = pos.z*-0.001;
+	float pointplanedist_tolerance_pow2 = pos.z * pos.z;
+	pointplanedist_tolerance_pow2 *= 0.0001;
+	const float mindp = 0.70;
 
-	// perturb sampling origin slightly in screen-space to hide edge-ghosting artifacts where smoothing radius is quite large
-	vec2 tc_v = fract(0.5 * tc.xy / kern_scale); // we now have floor(mod(tc,2.0))*0.5
-	float tc_mod = 2.0 * abs(tc_v.x - tc_v.y); // diff of x,y makes checkerboard
-	tc += ( (tc_mod - 0.5) * dlt * 0.5 ) * kern_scale;
-	for (int i = 3; i > 0; i--)
+	for (int i = KERNCOUNT-1; i > 0; i--)
 	{
-		vec2 samptc = (tc + i * dlt);
+		vec2 w = getKern(i).xy;
+		vec2 samptc = (tc + getKern(i).z * dlt);
 		vec3 samppos = getPosition(samptc).xyz; 
+		vec3 sampnorm = texture2D(normalMap, samptc).xyz;
+		sampnorm = decode_normal(sampnorm.xy); // unpack norm
 		float d = dot(norm.xyz, samppos.xyz-pos.xyz);// dist from plane
 
-		if (d*d <= pointplanedist_tolerance_pow2)
+		if (d*d <= pointplanedist_tolerance_pow2
+			&& dot(sampnorm.xyz, norm.xyz) >= mindp)
 		{
-			vec4 weight = getKern(i).xyxx;
-			col += texture2D(lightMap, samptc)*weight;
-			defined_weight += weight.xy;
+			col += texture2D(lightMap, samptc)*w.xyyy;
+			defined_weight += w.xy;
 		}
 	}
 
-	for (int i = 1; i < 4; i++)
+	for (int i = 1; i < KERNCOUNT; i++)
 	{
-		vec2 samptc = (tc - i * dlt);
-	    vec3 samppos = getPosition(samptc).xyz; 
+		vec2 w = getKern(i).xy;
+		vec2 samptc = (tc - getKern(i).z * dlt);
+		vec3 samppos = getPosition(samptc).xyz; 
+		vec3 sampnorm = texture2D(normalMap, samptc).xyz;
+		sampnorm = decode_normal(sampnorm.xy); // unpack norm
 		float d = dot(norm.xyz, samppos.xyz-pos.xyz);// dist from plane
 
-		if (d*d <= pointplanedist_tolerance_pow2)
+		if (d*d <= pointplanedist_tolerance_pow2
+			&& dot(sampnorm.xyz, norm.xyz) >= mindp)
 		{
-			vec4 weight = getKern(i).xyxx;
-			col += texture2D(lightMap, samptc)*weight;
-			defined_weight += weight.xy;
+			col += texture2D(lightMap, samptc)*w.xyyy;
+			defined_weight += w.xy;
 		}
 	}
 

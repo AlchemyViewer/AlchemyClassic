@@ -43,6 +43,13 @@ uniform float ssao_factor;
 uniform vec2 kern_scale;
 uniform vec2 noise_scale;
 
+uniform float seconds60;
+
+float rand(vec2 co)
+{
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 vec3 decode_normal (vec2 enc)
 {
     vec2 fenc = enc*4-2;
@@ -102,8 +109,13 @@ float calcAmbientOcclusion(vec4 pos, vec3 norm)
     vec2 samppos_screen = pos_screen + scale * reflect(getKern(i), noise_reflect);
 
     // if sample is out-of-screen then give it no weight by continuing
-    //if (any(lessThan(samppos_screen.xy, vec2(0.0, 0.0))) ||
-    //  any(greaterThan(samppos_screen.xy, vec2(screen_res.xy)))) continue;
+    if (any(lessThan(samppos_screen.xy, vec2(0.0, 0.0))) ||
+      any(greaterThan(samppos_screen.xy, vec2(pos_screen.xy))))
+	{
+		// Try to bring the sample back on screen
+		float rnd1 = rand(pos_screen.xy + vec2(33.0 * (seconds60 + i)));
+		samppos_screen.xy = vec2(rnd1, rand(pos_screen.yx + vec2(55.0 * (seconds60 + i)))) /  kern_scale;
+	}
 
     vec3 samppos_world = getPosition(samppos_screen).xyz; 
 			

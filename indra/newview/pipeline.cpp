@@ -7354,7 +7354,6 @@ void LLPipeline::renderBloom(bool for_snapshot, F32 zoom_factor, int subfield)
 				shader->uniform1f(LLShaderMgr::DOF_RES_SCALE, CameraDoFResScale);
 				shader->uniform1f(LLShaderMgr::DOF_WIDTH, CameraDoFResScale - CameraDoFResScale / dof_width);
 				shader->uniform1f(LLShaderMgr::DOF_HEIGHT, CameraDoFResScale - CameraDoFResScale / dof_height);
-				shader->uniform1f(LLShaderMgr::SECONDS60, fmodf(LLTimer::getElapsedSeconds(), 60.f));
 
 				drawFullScreenRect();
 

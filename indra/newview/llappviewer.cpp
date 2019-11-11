@@ -1484,20 +1484,24 @@ bool LLAppViewer::doFrame()
 				pingMainloopTimeout("Main:Display");
 				gGLActive = TRUE;
 
-				static U64 last_call = 0;
-				if (!gTeleportDisplay)
+				static LLCachedControl<bool> main_sleep(gSavedSettings, "MainLoopSleep", true);
+				if (main_sleep)
 				{
-					// Frame/draw throttling
-					U64 elapsed_time = LLTimer::getTotalTime() - last_call;
-					if (elapsed_time < mMinMicroSecPerFrame)
+					static U64 last_call = 0;
+					if (!gTeleportDisplay)
 					{
-						LL_RECORD_BLOCK_TIME(FTM_SLEEP);
-						// llclamp for when time function gets funky
-						U64 sleep_time = llclamp(mMinMicroSecPerFrame - elapsed_time, (U64)1, (U64)1e6);
-						micro_sleep(sleep_time, 0);
+						// Frame/draw throttling
+						U64 elapsed_time = LLTimer::getTotalTime() - last_call;
+						if (elapsed_time < mMinMicroSecPerFrame)
+						{
+							LL_RECORD_BLOCK_TIME(FTM_SLEEP);
+							// llclamp for when time function gets funky
+							U64 sleep_time = llclamp(mMinMicroSecPerFrame - elapsed_time, (U64)1, (U64)1e6);
+							micro_sleep(sleep_time, 0);
+						}
 					}
+					last_call = LLTimer::getTotalTime();
 				}
-				last_call = LLTimer::getTotalTime();
 
 				display();
 

@@ -381,9 +381,9 @@ void main()
 		
 	float da = dot(norm.xyz, sun_dir.xyz);
 
-	da = max(0.0,da);
-          da = min(da, 1.0f);
-	      da = pow(da, 1.0/1.3);
+	float final_da = max(0.0,da);
+          final_da = min(final_da, 1.0f);
+	      final_da = pow(final_da, 1.0/1.3);
 
 	vec4 diffuse = texture2D(diffuseRect, tc);
 
@@ -404,7 +404,7 @@ void main()
 
 		col.rgb *= ambient;
 
-		col += atmosAffectDirectionalLight(da);	
+		col += atmosAffectDirectionalLight(final_da);	
 	
 		col *= diffuse.rgb;
 	
@@ -428,7 +428,7 @@ void main()
 			if (nh > 0.0)
 			{
 				float scol = fres*texture2D(lightFunc, vec2(nh, spec.a)).r*gt/(nh*da);
-				vec3 speccol = (da*getSunlitColor())*scol*spec.rgb;
+				vec3 speccol = (final_da*getSunlitColor())*scol*spec.rgb;
 				speccol = max(speccol, vec3(0));
 				bloom = dot (speccol, speccol) / 6;
 				col += speccol;

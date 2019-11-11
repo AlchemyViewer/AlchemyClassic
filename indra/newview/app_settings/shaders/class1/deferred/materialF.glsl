@@ -752,7 +752,7 @@ void main()
 			
 	vec3 light = vec3(0,0,0);
 
- #define LIGHT_LOOP(i) light.rgb += calcPointLightOrSpotLight(light_diffuse[i].rgb, npos, diffuse.rgb, final_specular, pos.xyz, norm.xyz, light_position[i], light_direction[i].xyz, light_attenuation[i].x, light_attenuation[i].y, light_attenuation[i].z, glare);
+ #define LIGHT_LOOP(i) light.rgb += calcPointLightOrSpotLight(srgb_to_linear(light_diffuse[i].rgb), npos, diffuse.rgb, final_specular, pos.xyz, norm.xyz, light_position[i], light_direction[i].xyz, light_attenuation[i].x, light_attenuation[i].y, light_attenuation[i].z, glare);
 
 		LIGHT_LOOP(1)
 		LIGHT_LOOP(2)

@@ -576,7 +576,7 @@ void main()
 
 	color.rgb = srgb_to_linear(color.rgb);
 	
-   #define LIGHT_LOOP(i) light.rgb += calcPointLightOrSpotLight(light_diffuse[i].rgb, diff.rgb, pos.xyz, norm, light_position[i], light_direction[i].xyz, light_attenuation[i].x, light_attenuation[i].y, light_attenuation[i].z);
+   #define LIGHT_LOOP(i) light.rgb += calcPointLightOrSpotLight(srgb_to_linear(light_diffuse[i].rgb), diff.rgb, pos.xyz, norm, light_position[i], light_direction[i].xyz, light_attenuation[i].x, light_attenuation[i].y, light_attenuation[i].z);
 
 	LIGHT_LOOP(1)
 	LIGHT_LOOP(2)

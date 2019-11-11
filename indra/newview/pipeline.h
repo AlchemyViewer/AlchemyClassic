@@ -276,7 +276,6 @@ public:
 
 	void unbindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffuse_source = nullptr, LLRenderTarget* light_source = nullptr);
 	void renderDeferredLighting();
-	void renderDeferredLightingToRT(LLRenderTarget* target);
 	
 	void generateWaterReflection(LLCamera& camera);
 	void generateSunShadow(LLCamera& camera);

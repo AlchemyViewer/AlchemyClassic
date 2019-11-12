@@ -69,7 +69,7 @@ LLConsole::LLConsole(const LLConsole::Params& p)
 		setFontSize(p.font_size_index);
 	}
 	mFadeTime = mLinePersistTime - FADE_DURATION;
-	setMaxLines(LLUI::sSettingGroups["config"]->getS32("ConsoleMaxLines"));
+	setMaxLines(LLUI::getInstance()->mSettingGroups["config"]->getS32("ConsoleMaxLines"));
 }
 
 void LLConsole::setLinePersistTime(F32 seconds)

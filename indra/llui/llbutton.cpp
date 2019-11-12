@@ -88,8 +88,8 @@ LLButton::Params::Params()
 	image_overlay_selected_color("image_overlay_selected_color", LLColor4::white),
 	image_overlay_disabled_color("image_overlay_disabled_color", LLColor4::white % 0.3f),
 	flash_color("flash_color"),
-	pad_right("pad_right", LLUI::sSettingGroups["config"]->getS32("ButtonHPad")),
-	pad_left("pad_left", LLUI::sSettingGroups["config"]->getS32("ButtonHPad")),
+	pad_right("pad_right", LLUI::getInstance()->mSettingGroups["config"]->getS32("ButtonHPad")),
+	pad_left("pad_left", LLUI::getInstance()->mSettingGroups["config"]->getS32("ButtonHPad")),
 	pad_bottom("pad_bottom"),
 	image_top_pad("image_top_pad"),
 	image_bottom_pad("image_bottom_pad"),
@@ -637,7 +637,7 @@ void LLButton::draw()
 	{
 		S32 local_mouse_x ;
 		S32 local_mouse_y;
-		LLUI::getMousePositionLocal(this, &local_mouse_x, &local_mouse_y);
+		LLUI::getInstance()->getMousePositionLocal(this, &local_mouse_x, &local_mouse_y);
 		mouse_pressed_and_over = pointInView(local_mouse_x, local_mouse_y);
 	}
 
@@ -1270,10 +1270,10 @@ void LLButton::showHelp(LLUICtrl* ctrl, const LLSD& sdname)
 	// search back through the button's parents for a panel
 	// with a help_topic string defined
 	std::string help_topic;
-	if (LLUI::sHelpImpl &&
+	if (LLUI::getInstance()->mHelpImpl &&
 	    ctrl->findHelpTopic(help_topic))
 	{
-		LLUI::sHelpImpl->showTopic(help_topic);
+		LLUI::getInstance()->mHelpImpl->showTopic(help_topic);
 		return; // success
 	}
 

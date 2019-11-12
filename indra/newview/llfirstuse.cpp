@@ -41,35 +41,6 @@
 
 
 // static
-std::set<std::string> LLFirstUse::sConfigVariables;
-
-// static
-void LLFirstUse::addConfigVariable(const std::string& var)
-{
-	sConfigVariables.insert(var);
-}
-
-// static
-void LLFirstUse::disableFirstUse()
-{
-	// Set all first-use warnings to disabled
-	for (const auto& sConfigVariable : sConfigVariables)
-    {
-		gWarningSettings.setBOOL(sConfigVariable, FALSE);
-	}
-}
-
-// static
-void LLFirstUse::resetFirstUse()
-{
-	// Set all first-use warnings to disabled
-	for (const auto& sConfigVariable : sConfigVariables)
-    {
-		gWarningSettings.setBOOL(sConfigVariable, TRUE);
-	}
-}
-
-// static
 void LLFirstUse::otherAvatarChatFirst(bool enable)
 {
 	firstUseNotification("FirstOtherChatBeforeUser", enable, "HintChat", LLSD(), LLSD().with("target", "nearby_chat").with("direction", "top_right").with("distance", 24));

@@ -44,13 +44,13 @@ LLPopupView::LLPopupView(const LLPopupView::Params& p)
 : LLPanel(p)
 {
 	// register ourself as handler of UI popups
-	LLUI::setPopupFuncs(std::bind(&LLPopupView::addPopup, this, std::placeholders::_1), std::bind(&LLPopupView::removePopup, this, std::placeholders::_1), std::bind(&LLPopupView::clearPopups, this));
+	LLUI::getInstance()->setPopupFuncs(std::bind(&LLPopupView::addPopup, this, std::placeholders::_1), std::bind(&LLPopupView::removePopup, this, std::placeholders::_1), std::bind(&LLPopupView::clearPopups, this));
 }
 
 LLPopupView::~LLPopupView()
 {
 	// set empty callback function so we can't handle popups anymore
-	LLUI::setPopupFuncs(LLUI::add_popup_t(), LLUI::remove_popup_t(), LLUI::clear_popups_t());
+	LLUI::getInstance()->setPopupFuncs(LLUI::add_popup_t(), LLUI::remove_popup_t(), LLUI::clear_popups_t());
 }
 
 void LLPopupView::draw()

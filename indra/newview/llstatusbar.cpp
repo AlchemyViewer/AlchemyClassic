@@ -342,18 +342,20 @@ void LLStatusBar::refresh()
 	// update the master volume button state
 	bool mute_audio = LLAppViewer::instance()->getMasterSystemAudioMute();
 	mBtnVolume->setToggleState(mute_audio);
-	
+
+	LLViewerMedia* media_inst = LLViewerMedia::getInstance();
+
 	// Disable media toggle if there's no media, parcel media, and no parcel audio
 	// (or if media is disabled)
 	static LLCachedControl<bool> audio_streaming_enabled(gSavedSettings, "AudioStreamingMusic");
 	static LLCachedControl<bool> media_streaming_enabled(gSavedSettings, "AudioStreamingMedia");
 	bool button_enabled = (audio_streaming_enabled || media_streaming_enabled) &&
-						  (LLViewerMedia::hasInWorldMedia() || LLViewerMedia::hasParcelMedia() || LLViewerMedia::hasParcelAudio());
+						  (media_inst->hasInWorldMedia() || media_inst->hasParcelMedia() || media_inst->hasParcelAudio());
 	mMediaToggle->setEnabled(button_enabled);
 	// Note the "sense" of the toggle is opposite whether media is playing or not
-	bool any_media_playing = (LLViewerMedia::isAnyMediaPlaying() || 
-							  LLViewerMedia::isParcelMediaPlaying() ||
-							  LLViewerMedia::isParcelAudioPlaying());
+	bool any_media_playing = (media_inst->isAnyMediaPlaying() || 
+							  media_inst->isParcelMediaPlaying() ||
+							  media_inst->isParcelAudioPlaying());
 	mMediaToggle->setValue(!any_media_playing);
 }
 
@@ -533,8 +535,8 @@ void LLStatusBar::onMouseEnterQuickSettings()
 
 	// show the master volume pull-down
 	mPanelQuickSettingsPulldown->setShape(qs_rect);
-	LLUI::clearPopups();
-	LLUI::addPopup(mPanelQuickSettingsPulldown);
+	LLUI::getInstance()->clearPopups();
+	LLUI::getInstance()->addPopup(mPanelQuickSettingsPulldown);
 
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
@@ -556,8 +558,8 @@ void LLStatusBar::onMouseEnterAO()
 	qs_rect.translate(mPanelPopupHolder->getRect().getWidth() - qs_rect.mRight, 0);
 	
 	mPanelAOPulldown->setShape(qs_rect);
-	LLUI::clearPopups();
-	LLUI::addPopup(mPanelAOPulldown);
+	LLUI::getInstance()->clearPopups();
+	LLUI::getInstance()->addPopup(mPanelAOPulldown);
 	
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
@@ -581,8 +583,8 @@ void LLStatusBar::onMouseEnterVolume()
 
 
 	// show the master volume pull-down
-	LLUI::clearPopups();
-	LLUI::addPopup(mPanelVolumePulldown);
+	LLUI::getInstance()->clearPopups();
+	LLUI::getInstance()->addPopup(mPanelVolumePulldown);
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelAOPulldown->setVisible(FALSE);
@@ -604,8 +606,8 @@ void LLStatusBar::onMouseEnterNearbyMedia()
 	
 	// show the master volume pull-down
 	mPanelNearByMedia->setShape(nearby_media_rect);
-	LLUI::clearPopups();
-	LLUI::addPopup(mPanelNearByMedia);
+	LLUI::getInstance()->clearPopups();
+	LLUI::getInstance()->addPopup(mPanelNearByMedia);
 
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
@@ -627,8 +629,8 @@ void LLStatusBar::onMouseEnterAvatarComplexity()
 	complexity_rect.translate(mPanelPopupHolder->getRect().getWidth() - complexity_rect.mRight, 0);
 
 	mPanelAvatarComplexityPulldown->setShape(complexity_rect);
-	LLUI::clearPopups();
-	LLUI::addPopup(mPanelAvatarComplexityPulldown);
+	LLUI::getInstance()->clearPopups();
+	LLUI::getInstance()->addPopup(mPanelAvatarComplexityPulldown);
 
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
@@ -665,7 +667,7 @@ void LLStatusBar::onClickMediaToggle(void* data)
 	LLStatusBar *status_bar = static_cast<LLStatusBar*>(data);
 	// "Selected" means it was showing the "play" icon (so media was playing), and now it shows "pause", so turn off media
 	bool pause = status_bar->mMediaToggle->getValue();
-	LLViewerMedia::setAllMediaPaused(pause);
+	LLViewerMedia::getInstance()->setAllMediaPaused(pause);
 }
 
 void LLStatusBar::onAOStateChanged()

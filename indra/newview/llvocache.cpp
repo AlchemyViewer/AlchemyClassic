@@ -1074,9 +1074,9 @@ const char* object_cache_dirname = "objectcache";
 const char* header_filename = "object.cache";
 
 
-LLVOCache::LLVOCache():
+LLVOCache::LLVOCache(bool read_only) :
 	mInitialized(false),
-	mReadOnly(true),
+	mReadOnly(read_only),
 	mCacheSize(1),
 	mNumEntries(0)
 {

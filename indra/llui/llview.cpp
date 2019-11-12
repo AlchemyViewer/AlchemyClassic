@@ -873,7 +873,7 @@ LLView* LLView::childrenHandleHover(S32 x, S32 y, MASK mask)
 		}
 
 		// This call differentiates this method from childrenHandleMouseEvent().
-		LLUI::sWindow->setCursor(viewp->getHoverCursor());
+		LLUI::getInstance()->mWindow->setCursor(viewp->getHoverCursor());
 
 		if (viewp->handleHover(local_x, local_y, mask)
 			|| viewp->blockMouseEvent(local_x, local_y))
@@ -1201,7 +1201,7 @@ void LLView::drawChildren()
 {
 	if (!mChildList.empty())
 	{
-		LLView* rootp = LLUI::getRootView();		
+		LLView* rootp = LLUI::getInstance()->getRootView();		
 		++sDepth;
 
 		for (auto child_iter = mChildList.rbegin(), child_iter_end = mChildList.rend(); child_iter != child_iter_end;)  // ++child_iter)
@@ -1217,7 +1217,7 @@ void LLView::drawChildren()
 			if (viewp->getVisible() && view_rect.isValid())
 			{
 				LLRect screen_rect = viewp->calcScreenRect();
-				if ( rootp->getLocalRect().overlaps(screen_rect)  && LLUI::sDirtyRect.overlaps(screen_rect))
+				if ( rootp->getLocalRect().overlaps(screen_rect)  && LLUI::getInstance()->mDirtyRect.overlaps(screen_rect))
 				{
 					LLUI::pushMatrix();
 					{
@@ -1259,7 +1259,7 @@ void LLView::dirtyRect()
 		parent = parent->getParent();
 	}
 
-	LLUI::dirtyRect(cur->calcScreenRect());
+	LLUI::getInstance()->dirtyRect(cur->calcScreenRect());
 }
 
 //Draw a box for debugging.
@@ -2286,9 +2286,9 @@ LLControlVariable *LLView::findControl(const std::string& name)
 		std::string control_group_key = name.substr(0, key_pos);
 		LLControlVariable* control;
 		// check if it's in the control group that name indicated
-		if(LLUI::sSettingGroups[control_group_key])
+		if(LLUI::getInstance()->mSettingGroups[control_group_key])
 		{
-			control = LLUI::sSettingGroups[control_group_key]->getControl(name);
+			control = LLUI::getInstance()->mSettingGroups[control_group_key]->getControl(name);
 			if (control)
 			{
 				return control;
@@ -2296,7 +2296,7 @@ LLControlVariable *LLView::findControl(const std::string& name)
 		}
 	}
 	
-	LLControlGroup& control_group = LLUI::getControlControlGroup(name);
+	LLControlGroup& control_group = LLUI::getInstance()->getControlControlGroup(name);
 	return control_group.getControl(name);	
 }
 

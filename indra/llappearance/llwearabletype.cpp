@@ -31,18 +31,6 @@
 #include "llinventorydefines.h"
 #include <utility>
 
-static LLTranslationBridge* sTrans = nullptr;
-
-// static
-void LLWearableType::initClass(LLTranslationBridge* trans)
-{
-	sTrans = trans;
-}
-
-void LLWearableType::cleanupClass()
-{
-	delete sTrans;
-}
 
 struct WearableEntry : public LLDictionaryEntry
 {
@@ -54,7 +42,7 @@ struct WearableEntry : public LLDictionaryEntry
 				  BOOL allow_multiwear = TRUE) :
 		LLDictionaryEntry(name),
 		mAssetType(assetType),
-		mLabel(sTrans->getString(name)),
+		mLabel(LLWearableType::getInstance()->mTrans->getString(name)),
 		mDefaultNewName(std::move(default_new_name)),
 		mIconName(iconName),
 		mDisableCameraSwitch(disable_camera_switch),
@@ -70,7 +58,7 @@ struct WearableEntry : public LLDictionaryEntry
 	BOOL mAllowMultiwear;
 };
 
-class LLWearableDictionary : public LLSingleton<LLWearableDictionary>,
+class LLWearableDictionary : public LLParamSingleton<LLWearableDictionary>,
 							 public LLDictionary<LLWearableType::EType, WearableEntry>
 {
 	LLSINGLETON(LLWearableDictionary);
@@ -108,6 +96,27 @@ LLWearableDictionary::LLWearableDictionary()
 
 	addEntry(LLWearableType::WT_INVALID,      new WearableEntry("invalid",     "Invalid Wearable", 	LLAssetType::AT_NONE, 		LLInventoryType::ICONNAME_UNKNOWN, FALSE, FALSE));
 	addEntry(LLWearableType::WT_NONE,      	  new WearableEntry("none",        "Invalid Wearable", 	LLAssetType::AT_NONE, 		LLInventoryType::ICONNAME_NONE, FALSE, FALSE));
+}
+
+
+// class LLWearableType
+
+LLWearableType::LLWearableType(LLTranslationBridge* trans)
+{
+    mTrans = trans;
+}
+
+LLWearableType::~LLWearableType()
+{
+    delete mTrans;
+}
+
+void LLWearableType::initSingleton()
+{
+    // To make sure all wrapping functions will crash without initing LLWearableType;
+    LLWearableDictionary::initParamSingleton();
+
+    // Todo: consider merging LLWearableType and LLWearableDictionary
 }
 
 // static

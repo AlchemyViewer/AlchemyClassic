@@ -160,7 +160,7 @@ LLAvatarList::LLAvatarList(const Params& p)
 		mLITUpdateTimer->start();
 	}
 	
-	LLAvatarNameCache::addUseDisplayNamesCallback(boost::bind(&LLAvatarList::handleDisplayNamesOptionChanged, this));
+	LLAvatarNameCache::getInstance()->addUseDisplayNamesCallback(boost::bind(&LLAvatarList::handleDisplayNamesOptionChanged, this));
 
 	gSavedSettings.getControl("AlchemyAvatarListNameFormat")->getSignal()->connect(
 		boost::bind(&LLAvatarList::handleDisplayNamesOptionChanged, this));

@@ -43,6 +43,7 @@ LLPersistentNotificationStorage::LLPersistentNotificationStorage():
 	  LLNotificationStorage("")
 	, mLoaded(false)
 {
+    initialize();
 }
 
 LLPersistentNotificationStorage::~LLPersistentNotificationStorage()

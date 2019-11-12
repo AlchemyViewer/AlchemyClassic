@@ -1527,9 +1527,10 @@ void render_ui_2d()
 	static LLCachedControl<bool> renderUIBuffer(gSavedSettings, "RenderUIBuffer");
 	if (renderUIBuffer)
 	{
-		if (LLUI::sDirty)
+		LLUI* ui_inst = LLUI::getInstance();
+		if (ui_inst->mDirty)
 		{
-			LLUI::sDirty = FALSE;
+			ui_inst->mDirty = FALSE;
 			LLRect t_rect;
 
 			gPipeline.mUIScreen.bindTarget();
@@ -1537,25 +1538,25 @@ void render_ui_2d()
 			{
 				static const S32 pad = 8;
 
-				LLUI::sDirtyRect.mLeft -= pad;
-				LLUI::sDirtyRect.mRight += pad;
-				LLUI::sDirtyRect.mBottom -= pad;
-				LLUI::sDirtyRect.mTop += pad;
+				ui_inst->mDirtyRect.mLeft -= pad;
+				ui_inst->mDirtyRect.mRight += pad;
+				ui_inst->mDirtyRect.mBottom -= pad;
+				ui_inst->mDirtyRect.mTop += pad;
 
 				LLGLEnable scissor(GL_SCISSOR_TEST);
-				static LLRect last_rect = LLUI::sDirtyRect;
+				static LLRect last_rect = ui_inst->mDirtyRect;
 
 				//union with last rect to avoid mouse poop
-				last_rect.unionWith(LLUI::sDirtyRect);
+				last_rect.unionWith(ui_inst->mDirtyRect);
 								
-				t_rect = LLUI::sDirtyRect;
-				LLUI::sDirtyRect = last_rect;
+				t_rect = ui_inst->mDirtyRect;
+				ui_inst->mDirtyRect = last_rect;
 				last_rect = t_rect;
 			
-				last_rect.mLeft = LLRect::tCoordType(last_rect.mLeft / LLUI::getScaleFactor().mV[0]);
-				last_rect.mRight = LLRect::tCoordType(last_rect.mRight / LLUI::getScaleFactor().mV[0]);
-				last_rect.mTop = LLRect::tCoordType(last_rect.mTop / LLUI::getScaleFactor().mV[1]);
-				last_rect.mBottom = LLRect::tCoordType(last_rect.mBottom / LLUI::getScaleFactor().mV[1]);
+				last_rect.mLeft = LLRect::tCoordType(last_rect.mLeft / ui_inst->getScaleFactor().mV[0]);
+				last_rect.mRight = LLRect::tCoordType(last_rect.mRight / ui_inst->getScaleFactor().mV[0]);
+				last_rect.mTop = LLRect::tCoordType(last_rect.mTop / ui_inst->getScaleFactor().mV[1]);
+				last_rect.mBottom = LLRect::tCoordType(last_rect.mBottom / ui_inst->getScaleFactor().mV[1]);
 				
 				glClear(GL_COLOR_BUFFER_BIT);
 
@@ -1565,7 +1566,7 @@ void render_ui_2d()
 			gPipeline.mUIScreen.flush();
 			gGL.setColorMask(true, false);
 
-			LLUI::sDirtyRect = t_rect;
+			ui_inst->mDirtyRect = t_rect;
 		}
 
 		LLGLDisable cull(GL_CULL_FACE);

@@ -111,7 +111,7 @@ void LLInspectToast::onOpen(const LLSD& notification_id)
 	panel_rect = panel->getRect();
 	reshape(panel_rect.getWidth(), panel_rect.getHeight());
 
-	LLUI::positionViewNearMouse(this);
+	LLUI::getInstance()->positionViewNearMouse(this);
 }
 
 // virtual

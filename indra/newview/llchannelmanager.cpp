@@ -58,15 +58,22 @@ LLChannelManager::LLChannelManager()
 //--------------------------------------------------------------------------
 LLChannelManager::~LLChannelManager()
 {
+}
+
+//--------------------------------------------------------------------------
+void LLChannelManager::cleanupSingleton()
+{
+    // Note: LLScreenChannelBase is a LLUICtrl and depends onto other singletions
+    // not captured by singleton-dependency, so cleanup it here instead of destructor
 	for (auto& it : mChannelList)
     {
 		LLScreenChannelBase* channel = it.channel.get();
-		if (!channel) continue;
+        if (!channel) continue;
 
-		delete channel;
-	}
+        delete channel;
+    }
 
-	mChannelList.clear();
+    mChannelList.clear();
 }
 
 //--------------------------------------------------------------------------

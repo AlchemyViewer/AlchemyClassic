@@ -472,25 +472,26 @@ void audio_update_volume(bool force_update)
 	static LLCachedControl<F32> media_volume_setting(gSavedSettings, "AudioLevelMedia");
 	static LLCachedControl<bool> media_muted(gSavedSettings, "MuteMedia");
 	const F32 media_volume = mute_volume * master_volume * media_volume_setting;
-	LLViewerMedia::setVolume( media_muted ? 0.0f : media_volume );
+	LLViewerMedia::getInstance()->setVolume( media_muted ? 0.0f : media_volume );
 
-	// Voice
-	if (LLVoiceClient::getInstance())
+	// Voice, this is parametric singleton, it gets initialized when ready
+	if (LLVoiceClient::instanceExists())
 	{
 		static LLCachedControl<F32> voice_volume_setting(gSavedSettings, "AudioLevelVoice");
 		static LLCachedControl<bool> voice_mute(gSavedSettings, "MuteVoice");
 		static LLCachedControl<F32> mic_volume(gSavedSettings, "AudioLevelMic");
 		const F32 voice_volume = mute_volume * master_volume * voice_volume_setting;
-		LLVoiceClient::getInstance()->setVoiceVolume(voice_mute ? 0.f : voice_volume);
-		LLVoiceClient::getInstance()->setMicGain(voice_mute ? 0.f : mic_volume);
+		LLVoiceClient *voice_inst = LLVoiceClient::getInstance();
+		voice_inst->setVoiceVolume(voice_mute ? 0.f : voice_volume);
+		voice_inst->setMicGain(voice_mute ? 0.f : mic_volume);
 
 		if (!gViewerWindow->getActive() && mute_when_minimized)
 		{
-			LLVoiceClient::getInstance()->setMuteMic(true);
+			voice_inst->setMuteMic(true);
 		}
 		else
 		{
-			LLVoiceClient::getInstance()->setMuteMic(false);
+			voice_inst->setMuteMic(false);
 		}
 	}
 }

@@ -192,6 +192,54 @@ namespace tut
     template<> template<>
     void object::test<5>()
     {
+        set_test_name("delete Keyed with outstanding instance_iter");
+        std::string what;
+        Keyed* keyed = new Keyed("delete Keyed with outstanding instance_iter");
+        {
+            WrapLLErrs wrapper;
+            Keyed::instance_iter i(Keyed::beginInstances());
+            what = wrapper.catch_llerrs([&keyed](){
+                    delete keyed;
+                });
+        }
+        ensure(! what.empty());
+    }
+
+    template<> template<>
+    void object::test<6>()
+    {
+        set_test_name("delete Keyed with outstanding key_iter");
+        std::string what;
+        Keyed* keyed = new Keyed("delete Keyed with outstanding key_it");
+        {
+            WrapLLErrs wrapper;
+            Keyed::key_iter i(Keyed::beginKeys());
+            what = wrapper.catch_llerrs([&keyed](){
+                    delete keyed;
+                });
+        }
+        ensure(! what.empty());
+    }
+
+    template<> template<>
+    void object::test<7>()
+    {
+        set_test_name("delete Unkeyed with outstanding instance_iter");
+        std::string what;
+        Unkeyed* unkeyed = new Unkeyed;
+        {
+            WrapLLErrs wrapper;
+            Unkeyed::instance_iter i(Unkeyed::beginInstances());
+            what = wrapper.catch_llerrs([&unkeyed](){
+                    delete unkeyed;
+                });
+        }
+        ensure(! what.empty());
+    }
+
+    template<> template<>
+    void object::test<8>()
+    {
         set_test_name("exception in subclass ctor");
         typedef std::set<Unkeyed*> InstanceSet;
         InstanceSet existing;

@@ -67,13 +67,11 @@
 #include "llwindow.h"
 #include "llvieweraudio.h"
 #include "llcorehttputil.h"
-#include "bufferstream.h"
 
-/*static*/ const char* LLViewerMedia::AUTO_PLAY_MEDIA_SETTING = "ParcelMediaAutoPlayEnable";
-/*static*/ const char* LLViewerMedia::SHOW_MEDIA_ON_OTHERS_SETTING = "MediaShowOnOthers";
-/*static*/ const char* LLViewerMedia::SHOW_MEDIA_WITHIN_PARCEL_SETTING = "MediaShowWithinParcel";
-/*static*/ const char* LLViewerMedia::SHOW_MEDIA_OUTSIDE_PARCEL_SETTING = "MediaShowOutsideParcel";
+#include "llfloaterwebcontent.h"	// for handling window close requests and geometry change requests in media browser windows.
 
+#include <boost/bind.hpp>	// for SkinFolder listener
+#include <boost/signals2.hpp>
 
 class LLMediaFilePicker : public LLFilePickerThread // deletes itself when done
 {
@@ -183,9 +181,6 @@ LLViewerMediaObserver::~LLViewerMediaObserver()
 }
 
 
-LLURL LLViewerMedia::sOpenIDURL;
-std::string LLViewerMedia::sOpenIDCookie;
-LLPluginClassMedia* LLViewerMedia::sSpareBrowserMediaSource = nullptr;
 static LLViewerMedia::impl_list sViewerMediaImplList;
 static LLViewerMedia::impl_id_map sViewerMediaTextureIDMap;
 static LLTimer sMediaCreateTimer;
@@ -195,8 +190,6 @@ static bool sForceUpdate = false;
 static LLUUID sOnlyAudibleTextureID = LLUUID::null;
 static F64 sLowestLoadableImplInterest = 0.0f;
 static bool sAnyMediaShowing = false;
-static bool sAnyMediaPlaying = false;
-static boost::signals2::connection sTeleportFinishConnection;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 static void add_media_impl(LLViewerMediaImpl* media)
@@ -222,7 +215,7 @@ static void remove_media_impl(LLViewerMediaImpl* media)
 
 class LLViewerMediaMuteListObserver : public LLMuteListObserver
 {
-	/* virtual */ void onChange() override { LLViewerMedia::muteListChanged();}
+	/* virtual */ void onChange() override { LLViewerMedia::getInstance()->muteListChanged();}
 };
 
 static LLViewerMediaMuteListObserver sViewerMediaMuteListObserver;
@@ -231,9 +224,40 @@ static bool sViewerMediaMuteListObserverInitialized = false;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // LLViewerMedia
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/*static*/ const char* LLViewerMedia::AUTO_PLAY_MEDIA_SETTING = "ParcelMediaAutoPlayEnable";
+/*static*/ const char* LLViewerMedia::SHOW_MEDIA_ON_OTHERS_SETTING = "MediaShowOnOthers";
+/*static*/ const char* LLViewerMedia::SHOW_MEDIA_WITHIN_PARCEL_SETTING = "MediaShowWithinParcel";
+/*static*/ const char* LLViewerMedia::SHOW_MEDIA_OUTSIDE_PARCEL_SETTING = "MediaShowOutsideParcel";
+
+LLViewerMedia::LLViewerMedia():
+mAnyMediaShowing(false),
+mAnyMediaPlaying(false),
+mSpareBrowserMediaSource(NULL)
+{
+}
+
+LLViewerMedia::~LLViewerMedia()
+{
+    gIdleCallbacks.deleteFunction(LLViewerMedia::onIdle, NULL);
+    mTeleportFinishConnection.disconnect();
+    if (mSpareBrowserMediaSource != NULL)
+    {
+        delete mSpareBrowserMediaSource;
+        mSpareBrowserMediaSource = NULL;
+    }
+}
+
+// static
+void LLViewerMedia::initSingleton()
+{
+    gIdleCallbacks.addFunction(LLViewerMedia::onIdle, NULL);
+    mTeleportFinishConnection = LLViewerParcelMgr::getInstance()->
+        setTeleportFinishedCallback(boost::bind(&LLViewerMedia::onTeleportFinished, this));
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 viewer_media_t LLViewerMedia::newMediaImpl(
 											 const LLUUID& texture_id,
 											 S32 media_width,
@@ -360,7 +384,6 @@ viewer_media_t LLViewerMedia::updateMediaImpl(LLMediaEntry* media_entry, const s
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 LLViewerMediaImpl* LLViewerMedia::getMediaImplFromTextureID(const LLUUID& texture_id)
 {
 	LLViewerMediaImpl* result = nullptr;
@@ -376,7 +399,6 @@ LLViewerMediaImpl* LLViewerMedia::getMediaImplFromTextureID(const LLUUID& textur
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 std::string LLViewerMedia::getCurrentUserAgent()
 {
 	// Don't use user-visible string to avoid
@@ -403,7 +425,6 @@ std::string LLViewerMedia::getCurrentUserAgent()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::updateBrowserUserAgent()
 {
 	std::string user_agent = getCurrentUserAgent();
@@ -423,7 +444,6 @@ void LLViewerMedia::updateBrowserUserAgent()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::handleSkinCurrentChanged(const LLSD& /*newvalue*/)
 {
 	// gSavedSettings is already updated when this function is called.
@@ -432,7 +452,6 @@ bool LLViewerMedia::handleSkinCurrentChanged(const LLSD& /*newvalue*/)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::textureHasMedia(const LLUUID& texture_id)
 {
 	impl_list::iterator iter = sViewerMediaImplList.begin();
@@ -450,7 +469,6 @@ bool LLViewerMedia::textureHasMedia(const LLUUID& texture_id)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setVolume(F32 volume)
 {
 	if(volume != sGlobalVolume || sForceUpdate)
@@ -470,14 +488,12 @@ void LLViewerMedia::setVolume(F32 volume)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 F32 LLViewerMedia::getVolume()
 {
 	return sGlobalVolume;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::muteListChanged()
 {
 	// When the mute list changes, we need to check mute status on all impls.
@@ -492,7 +508,6 @@ void LLViewerMedia::muteListChanged()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::isInterestingEnough(const LLVOVolume *object, const F64 &object_interest)
 {
 	bool result = false;
@@ -527,6 +542,7 @@ LLViewerMedia::impl_list &LLViewerMedia::getPriorityList()
 	return sViewerMediaImplList;
 }
 
+// static
 // This is the predicate function used to sort sViewerMediaImplList by priority.
 bool LLViewerMedia::priorityComparitor(const LLViewerMediaImpl* i1, const LLViewerMediaImpl* i2)
 {
@@ -621,7 +637,12 @@ static LLTrace::BlockTimerStatHandle FTM_MEDIA_MISC("Misc");
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
+void LLViewerMedia::onIdle(void *dummy_arg)
+{
+    LLViewerMedia::getInstance()->updateMedia(dummy_arg);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 void LLViewerMedia::updateMedia(void *dummy_arg)
 {
 	LL_RECORD_BLOCK_TIME(FTM_MEDIA_UPDATE);
@@ -635,8 +656,8 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 	// removing it for now.
 	//createSpareBrowserMediaSource();
 
-	sAnyMediaShowing = false;
-	sAnyMediaPlaying = false;
+	mAnyMediaShowing = false;
+	mAnyMediaPlaying = false;
 
 	impl_list::iterator iter = sViewerMediaImplList.begin();
 	impl_list::iterator end = sViewerMediaImplList.end();
@@ -652,10 +673,10 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 	}
 
 	// Let the spare media source actually launch
-	if(sSpareBrowserMediaSource)
+	if(mSpareBrowserMediaSource)
 	{
 		LL_RECORD_BLOCK_TIME(FTM_MEDIA_SPARE_IDLE);
-		sSpareBrowserMediaSource->idle();
+		mSpareBrowserMediaSource->idle();
 	}
 
 	{
@@ -847,7 +868,7 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 			if (!pimpl->getUsedInUI() && pimpl->hasMedia() && (pimpl->isMediaPlaying() || !pimpl->isMediaTimeBased()))
 			{
 				// consider visible non-timebased media as playing
-				sAnyMediaPlaying = true;
+				mAnyMediaPlaying = true;
 			}
 
 		}
@@ -893,21 +914,18 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::isAnyMediaShowing()
 {
-	return sAnyMediaShowing;
+	return mAnyMediaShowing;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::isAnyMediaPlaying()
 {
-    return sAnyMediaPlaying;
+    return mAnyMediaPlaying;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setAllMediaEnabled(bool val)
 {
 	// Set "tentative" autoplay first.  We need to do this here or else
@@ -932,7 +950,7 @@ void LLViewerMedia::setAllMediaEnabled(bool val)
 	{
 		if (!LLViewerMedia::isParcelMediaPlaying() && LLViewerMedia::hasParcelMedia())
 		{
-			LLViewerParcelMedia::play(LLViewerParcelMgr::getInstance()->getAgentParcel());
+			LLViewerParcelMedia::getInstance()->play(LLViewerParcelMgr::getInstance()->getAgentParcel());
 		}
 
 		static LLCachedControl<bool> audio_streaming_music(gSavedSettings, "AudioStreamingMusic", true);
@@ -954,7 +972,7 @@ void LLViewerMedia::setAllMediaEnabled(bool val)
 	}
 	else {
 		// This actually unloads the impl, as opposed to "stop"ping the media
-		LLViewerParcelMedia::stop();
+		LLViewerParcelMedia::getInstance()->stop();
 		if (gAudiop)
 		{
 			LLViewerAudio::getInstance()->stopInternetStreamWithAutoFade();
@@ -963,7 +981,6 @@ void LLViewerMedia::setAllMediaEnabled(bool val)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setAllMediaPaused(bool val)
 {
     // Set "tentative" autoplay first.  We need to do this here or else
@@ -1004,7 +1021,7 @@ void LLViewerMedia::setAllMediaPaused(bool val)
     {
         if (!LLViewerMedia::isParcelMediaPlaying() && LLViewerMedia::hasParcelMedia())
         {
-            LLViewerParcelMedia::play(LLViewerParcelMgr::getInstance()->getAgentParcel());
+            LLViewerParcelMedia::getInstance()->play(LLViewerParcelMgr::getInstance()->getAgentParcel());
         }
 
         static LLCachedControl<bool> audio_streaming_music(gSavedSettings, "AudioStreamingMusic", true);
@@ -1026,7 +1043,7 @@ void LLViewerMedia::setAllMediaPaused(bool val)
     }
     else {
         // This actually unloads the impl, as opposed to "stop"ping the media
-        LLViewerParcelMedia::stop();
+        LLViewerParcelMedia::getInstance()->stop();
         if (gAudiop)
         {
             LLViewerAudio::getInstance()->stopInternetStreamWithAutoFade();
@@ -1035,17 +1052,23 @@ void LLViewerMedia::setAllMediaPaused(bool val)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::isParcelMediaPlaying()
 {
-	return (LLViewerMedia::hasParcelMedia() && LLViewerParcelMedia::getParcelMedia() && LLViewerParcelMedia::getParcelMedia()->hasMedia());
+    viewer_media_t media = LLViewerParcelMedia::getInstance()->getParcelMedia();
+    return (LLViewerMedia::hasParcelMedia() && media && media->hasMedia());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+bool LLViewerMedia::isParcelAudioPlaying()
+{
+	return (LLViewerMedia::hasParcelAudio() && gAudiop && LLAudioEngine::AUDIO_PLAYING == gAudiop->isInternetStreamPlaying());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // static
-bool LLViewerMedia::isParcelAudioPlaying()
+void LLViewerMedia::authSubmitCallback(const LLSD& notification, const LLSD& response)
 {
-	return (LLViewerMedia::hasParcelAudio() && gAudiop && LLAudioEngine::AUDIO_PLAYING == gAudiop->isInternetStreamPlaying());
+    LLViewerMedia::getInstance()->onAuthSubmit(notification, response);
 }
 
 void LLViewerMedia::onAuthSubmit(const LLSD& notification, const LLSD& response)
@@ -1069,7 +1092,6 @@ void LLViewerMedia::onAuthSubmit(const LLSD& notification, const LLSD& response)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::clearAllCookies()
 {
 	// Clear all cookies for all plugins
@@ -1086,7 +1108,6 @@ void LLViewerMedia::clearAllCookies()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::clearAllCaches()
 {
 	// Clear all plugins' caches
@@ -1100,7 +1121,6 @@ void LLViewerMedia::clearAllCaches()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setCookiesEnabled(bool enabled)
 {
 	// Set the "cookies enabled" flag for all loaded plugins
@@ -1117,7 +1137,6 @@ void LLViewerMedia::setCookiesEnabled(bool enabled)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setProxyConfig(bool enable, const std::string &host, int port)
 {
 	// Set the proxy config for all loaded plugins
@@ -1134,10 +1153,6 @@ void LLViewerMedia::setProxyConfig(bool enable, const std::string &host, int por
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
-/////////////////////////////////////////////////////////////////////////////////////////
-//// static
-
 LLSD LLViewerMedia::getHeaders()
 {
 	LLSD headers = LLSD::emptyMap();
@@ -1145,14 +1160,13 @@ LLSD LLViewerMedia::getHeaders()
 	// *TODO: Should this be 'application/llsd+xml' ?
 	// *TODO: Should this even be set at all?   This header is only not overridden in 'GET' methods.
 	headers[HTTP_OUT_HEADER_CONTENT_TYPE] = HTTP_CONTENT_XML;
-	headers[HTTP_OUT_HEADER_COOKIE] = sOpenIDCookie;
+	headers[HTTP_OUT_HEADER_COOKIE] = mOpenIDCookie;
 	headers[HTTP_OUT_HEADER_USER_AGENT] = getCurrentUserAgent();
 
 	return headers;
 }
 
  /////////////////////////////////////////////////////////////////////////////////////////
- // static
 bool LLViewerMedia::parseRawCookie(const std::string raw_cookie, std::string& name, std::string& value, std::string& path, bool& httponly, bool& secure)
 {
 	std::size_t name_pos = raw_cookie.find_first_of('=');
@@ -1175,13 +1189,14 @@ bool LLViewerMedia::parseRawCookie(const std::string raw_cookie, std::string& na
 	return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 LLCore::HttpHeaders::ptr_t LLViewerMedia::getHttpHeaders()
 {
     auto headers = std::make_shared<LLCore::HttpHeaders>();
 
     headers->append(HTTP_OUT_HEADER_ACCEPT, "*/*");
     headers->append(HTTP_OUT_HEADER_CONTENT_TYPE, HTTP_CONTENT_XML);
-    headers->append(HTTP_OUT_HEADER_COOKIE, sOpenIDCookie);
+    headers->append(HTTP_OUT_HEADER_COOKIE, mOpenIDCookie);
     headers->append(HTTP_OUT_HEADER_USER_AGENT, getCurrentUserAgent());
 
     return headers;
@@ -1189,10 +1204,9 @@ LLCore::HttpHeaders::ptr_t LLViewerMedia::getHttpHeaders()
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setOpenIDCookie(const std::string& url)
 {
-	if(!sOpenIDCookie.empty())
+	if(!mOpenIDCookie.empty())
 	{
         std::string profileUrl = getProfileURL("");
 
@@ -1201,7 +1215,7 @@ void LLViewerMedia::setOpenIDCookie(const std::string& url)
 	}
 }
 
-/*static*/
+//static
 void LLViewerMedia::getOpenIDCookieCoro(std::string url)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
@@ -1222,7 +1236,7 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
     // The LLURL can give me the 'authority', which is of the form: [username[:password]@]hostname[:port]
     // We want just the hostname for the cookie code, but LLURL doesn't seem to have a way to extract that.
     // We therefore do it here.
-    std::string authority = sOpenIDURL.mAuthority;
+    std::string authority = getInstance()->mOpenIDURL.mAuthority;
     std::string::size_type hostStart = authority.find('@');
     if (hostStart == std::string::npos)
     {   // no username/password
@@ -1246,11 +1260,11 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
 
 	// Do a web profile get so we can store the cookie 
     httpHeaders->append(HTTP_OUT_HEADER_ACCEPT, "*/*");
-    httpHeaders->append(HTTP_OUT_HEADER_COOKIE, sOpenIDCookie);
-    httpHeaders->append(HTTP_OUT_HEADER_USER_AGENT, getCurrentUserAgent());
+    httpHeaders->append(HTTP_OUT_HEADER_COOKIE, inst->mOpenIDCookie);
+    httpHeaders->append(HTTP_OUT_HEADER_USER_AGENT, inst->getCurrentUserAgent());
 
     LL_DEBUGS("MediaAuth") << "Requesting " << url << LL_ENDL;
-    LL_DEBUGS("MediaAuth") << "sOpenIDCookie = [" << sOpenIDCookie << "]" << LL_ENDL;
+    LL_DEBUGS("MediaAuth") << "sOpenIDCookie = [" << inst->mOpenIDCookie << "]" << LL_ENDL;
     
     LLSD result = httpAdapter->getRawAndSuspend(httpRequest, url, httpOpts, httpHeaders);
 
@@ -1279,7 +1293,6 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::openIDSetup(const std::string &openidUrl, const std::string &openidToken)
 {
 	LL_DEBUGS("MediaAuth") << "url = \"" << openidUrl << "\", token = \"" << openidToken << "\"" << LL_ENDL;
@@ -1288,7 +1301,6 @@ void LLViewerMedia::openIDSetup(const std::string &openidUrl, const std::string 
         boost::bind(&LLViewerMedia::openIDSetupCoro, openidUrl, openidToken));
 }
 
-/*static*/
 void LLViewerMedia::openIDSetupCoro(std::string openidUrl, std::string openidToken)
 {
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
@@ -1302,10 +1314,10 @@ void LLViewerMedia::openIDSetupCoro(std::string openidUrl, std::string openidTok
 	// post the token to the url 
     // the responder will need to extract the cookie(s).
     // Save the OpenID URL for later -- we may need the host when adding the cookie.
-    sOpenIDURL.init(openidUrl.c_str());
+    getInstance()->mOpenIDURL.init(openidUrl.c_str());
 	
     // We shouldn't ever do this twice, but just in case this code gets repurposed later, clear existing cookies.
-    sOpenIDCookie.clear();
+    getInstance()->mOpenIDCookie.clear();
 
     httpHeaders->append(HTTP_OUT_HEADER_ACCEPT, "*/*");
     httpHeaders->append(HTTP_OUT_HEADER_CONTENT_TYPE, "application/x-www-form-urlencoded");
@@ -1337,24 +1349,22 @@ void LLViewerMedia::openIDSetupCoro(std::string openidUrl, std::string openidTok
     const std::string& cookie = resultHeaders[HTTP_IN_HEADER_SET_COOKIE].asString();
 
 	// *TODO: What about bad status codes?  Does this destroy previous cookies?
-    LLViewerMedia::openIDCookieResponse(openidUrl, cookie);
+    LLViewerMedia::getInstance()->openIDCookieResponse(openidUrl, cookie);
     LL_DEBUGS("MediaAuth") << "OpenID cookie set." << LL_ENDL;
 			
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::openIDCookieResponse(const std::string& url, const std::string &cookie)
 {
 	LL_DEBUGS("MediaAuth") << "Cookie received: \"" << cookie << "\"" << LL_ENDL;
 
-	sOpenIDCookie += cookie;
+	mOpenIDCookie += cookie;
 
 	setOpenIDCookie(url);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::proxyWindowOpened(const std::string &target, const std::string &uuid)
 {
 	if(uuid.empty())
@@ -1370,7 +1380,6 @@ void LLViewerMedia::proxyWindowOpened(const std::string &target, const std::stri
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::proxyWindowClosed(const std::string &uuid)
 {
 	if(uuid.empty())
@@ -1386,28 +1395,26 @@ void LLViewerMedia::proxyWindowClosed(const std::string &uuid)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::createSpareBrowserMediaSource()
 {
 	// If we don't have a spare browser media source, create one.
 	// However, if PluginAttachDebuggerToPlugins is set then don't spawn a spare
 	// SLPlugin process in order to not be confused by an unrelated gdb terminal
 	// popping up at the moment we start a media plugin.
-	if (!sSpareBrowserMediaSource && !gSavedSettings.getBOOL("PluginAttachDebuggerToPlugins"))
+	if (!mSpareBrowserMediaSource && !gSavedSettings.getBOOL("PluginAttachDebuggerToPlugins"))
 	{
 		// The null owner will keep the browser plugin from fully initializing
 		// (specifically, it keeps LLPluginClassMedia from negotiating a size change,
 		// which keeps MediaPluginWebkit::initBrowserWindow from doing anything until we have some necessary data, like the background color)
-		sSpareBrowserMediaSource = LLViewerMediaImpl::newSourceFromMediaType(HTTP_CONTENT_TEXT_HTML, nullptr, 0, 0, 1.0);
+		mSpareBrowserMediaSource = LLViewerMediaImpl::newSourceFromMediaType(HTTP_CONTENT_TEXT_HTML, nullptr, 0, 0, 1.0);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// static
 LLPluginClassMedia* LLViewerMedia::getSpareBrowserMediaSource()
 {
-	LLPluginClassMedia* result = sSpareBrowserMediaSource;
-	sSpareBrowserMediaSource = nullptr;
+	LLPluginClassMedia* result = mSpareBrowserMediaSource;
+	mSpareBrowserMediaSource = nullptr;
 	return result;
 };
 
@@ -1429,50 +1436,24 @@ bool LLViewerMedia::hasInWorldMedia()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::hasParcelMedia()
 {
-	return !LLViewerParcelMedia::getURL().empty();
+	return !LLViewerParcelMedia::getInstance()->getURL().empty();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 bool LLViewerMedia::hasParcelAudio()
 {
 	return !LLViewerMedia::getParcelAudioURL().empty();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 std::string LLViewerMedia::getParcelAudioURL()
 {
 	return LLViewerParcelMgr::getInstance()->getAgentParcel()->getMusicURL();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
-void LLViewerMedia::initClass()
-{
-	gIdleCallbacks.addFunction(LLViewerMedia::updateMedia, nullptr);
-	sTeleportFinishConnection = LLViewerParcelMgr::getInstance()->
-		setTeleportFinishedCallback(boost::bind(&LLViewerMedia::onTeleportFinished));
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-// static
-void LLViewerMedia::cleanupClass()
-{
-	gIdleCallbacks.deleteFunction(LLViewerMedia::updateMedia, nullptr);
-	sTeleportFinishConnection.disconnect();
-	if (sSpareBrowserMediaSource != nullptr)
-	{
-		delete sSpareBrowserMediaSource;
-		sSpareBrowserMediaSource = nullptr;
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::onTeleportFinished()
 {
 	// On teleport, clear this setting (i.e. set it to true)
@@ -1481,9 +1462,7 @@ void LLViewerMedia::onTeleportFinished()
 	LLViewerMediaImpl::sMimeTypesFailed.clear();
 }
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
-// static
 void LLViewerMedia::setOnlyAudibleMediaTextureID(const LLUUID& texture_id)
 {
 	sOnlyAudibleTextureID = texture_id;
@@ -1675,7 +1654,7 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 	if ((plugin_basename == "media_plugin_cef") &&
         !gSavedSettings.getBOOL("PluginAttachDebuggerToPlugins") && !clean_browser)
 	{
-		media_source = LLViewerMedia::getSpareBrowserMediaSource();
+		media_source = LLViewerMedia::getInstance()->getSpareBrowserMediaSource();
 		if(media_source)
 		{
 			media_source->setOwner(owner);
@@ -1753,7 +1732,7 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 			media_source->enableMediaPluginDebugging( media_plugin_debugging_enabled  || clean_browser);
 
 			// need to set agent string here before instance created
-			media_source->setBrowserUserAgent(LLViewerMedia::getCurrentUserAgent());
+			media_source->setBrowserUserAgent(LLViewerMedia::getInstance()->getCurrentUserAgent());
 
 			media_source->setTarget(target);
 
@@ -1824,7 +1803,7 @@ bool LLViewerMediaImpl::initializePlugin(const std::string& media_type)
 		media_source->setDisableTimeout(gSavedSettings.getBOOL("DebugPluginDisableTimeout"));
 		media_source->setLoop(mMediaLoop);
 		media_source->setAutoScale(mMediaAutoScale);
-		media_source->setBrowserUserAgent(LLViewerMedia::getCurrentUserAgent());
+		media_source->setBrowserUserAgent(LLViewerMedia::getInstance()->getCurrentUserAgent());
 		media_source->focus(mHasFocus);
 		media_source->setBackgroundColor(mBackgroundColor);
 
@@ -2058,7 +2037,7 @@ void LLViewerMediaImpl::updateVolume()
 	if(mMediaSource)
 	{
 		// always scale the volume by the global media volume
-		F32 volume = mRequestedVolume * LLViewerMedia::getVolume();
+		F32 volume = mRequestedVolume * LLViewerMedia::getInstance()->getVolume();
 
 		if (mProximityCamera > 0)
 		{
@@ -3335,7 +3314,7 @@ void LLViewerMediaImpl::handleMediaEvent(LLPluginClassMedia* plugin, LLPluginCla
 			auth_request_params.substitutions = args;
 
 			auth_request_params.payload = LLSD().with("media_id", mTextureId);
-			auth_request_params.functor.function = boost::bind(&LLViewerMedia::onAuthSubmit, _1, _2);
+			auth_request_params.functor.function = boost::bind(&LLViewerMedia::authSubmitCallback, _1, _2);
 			LLNotifications::instance().add(auth_request_params);
 		};
 		break;

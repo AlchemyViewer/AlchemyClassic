@@ -1846,7 +1846,7 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
 	else
 	{
 		// Check for video
-		LLViewerParcelMedia::update(parcel);
+		LLViewerParcelMedia::getInstance()->update(parcel);
 
 		// Then check for music
 		if (gAudiop)

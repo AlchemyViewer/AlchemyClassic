@@ -602,7 +602,7 @@ std::string LLPanel::getString(const std::string_view name, const LLStringUtil::
 		return formatted_string.getString();
 	}
 	std::string err_str = fmt::format(fmt("Failed to find string {} in panel {}"), name, getName()); //*TODO: Translate
-	if(LLUI::sSettingGroups["config"]->getBOOL("QAMode"))
+	if(LLUI::getInstance()->mSettingGroups["config"]->getBOOL("QAMode"))
 	{
 		LL_ERRS() << err_str << LL_ENDL;
 	}
@@ -621,7 +621,7 @@ std::string LLPanel::getString(const std::string_view name) const
 		return found_it->second;
 	}
 	std::string err_str = fmt::format(fmt("Failed to find string {} in panel {}"), name, getName()); //*TODO: Translate
-	if(LLUI::sSettingGroups["config"]->getBOOL("QAMode"))
+	if(LLUI::getInstance()->mSettingGroups["config"]->getBOOL("QAMode"))
 	{
 		LL_ERRS() << err_str << LL_ENDL;
 	}

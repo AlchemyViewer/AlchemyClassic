@@ -28,15 +28,11 @@
 #ifndef LL_LLURLWHITELIST_H
 #define LL_LLURLWHITELIST_H
 
-class LLUrlWhiteList
+class LLUrlWhiteList : public LLSingleton<LLUrlWhiteList>
 {
+	LLSINGLETON(LLUrlWhiteList);
+	~LLUrlWhiteList();
 	public:
-		virtual ~LLUrlWhiteList ();
-
-		static void initClass();
-		static void cleanupClass();
-		static LLUrlWhiteList* getInstance ();
-
 		bool load ();
 		bool save ();
 
@@ -49,9 +45,6 @@ class LLUrlWhiteList
 		bool getNext ( std::string& valueOut );
 
 	private:
-		LLUrlWhiteList ();
-		static LLUrlWhiteList* sInstance;
-
 		typedef std::vector < std::string > string_list_t ;
 
 		bool mLoaded;

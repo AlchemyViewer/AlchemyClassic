@@ -72,7 +72,7 @@ public:
 
 	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
-		if (!LLUI::sSettingGroups["config"]->getBOOL("EnablePicks"))
+		if (!LLUI::getInstance()->mSettingGroups["config"]->getBOOL("EnablePicks"))
 		{
 			LLNotificationsUtil::add("NoPicks", LLSD(), LLSD(), std::string("SwitchToStandardSkinAndQuit"));
 			return true;
@@ -186,7 +186,7 @@ public:
 	
 	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
-		if (!LLUI::sSettingGroups["config"]->getBOOL("EnableClassifieds"))
+		if (!LLUI::getInstance()->mSettingGroups["config"]->getBOOL("EnableClassifieds"))
 		{
 			LLNotificationsUtil::add("NoClassifieds", LLSD(), LLSD(), std::string("SwitchToStandardSkinAndQuit"));
 			return true;

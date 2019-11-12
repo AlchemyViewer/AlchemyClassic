@@ -69,9 +69,6 @@
 /*=======================================*/
 /*  Formal declarations, constants, etc. */
 /*=======================================*/ 
-std::list<LLLocalBitmap*>   LLLocalBitmapMgr::sBitmapList;
-LLLocalBitmapTimer          LLLocalBitmapMgr::sTimer;
-bool                        LLLocalBitmapMgr::sNeedsRebake;
 
 static const F32 LL_LOCAL_TIMER_HEARTBEAT   = 3.0;
 static const BOOL LL_LOCAL_USE_MIPMAPS      = true;
@@ -132,7 +129,7 @@ LLLocalBitmap::~LLLocalBitmap()
 	if(LL_LOCAL_REPLACE_ON_DEL && mValid && isAgentAvatarValid()) // fix for STORM-1837
 	{
 		replaceIDs(mWorldID, IMG_DEFAULT);
-		LLLocalBitmapMgr::doRebake();
+		LLLocalBitmapMgr::getInstance()->doRebake();
 	}
 
 	// delete self from gimagelist
@@ -566,7 +563,7 @@ void LLLocalBitmap::updateUserLayers(LLUUID old_id, LLUUID new_id, LLWearableTyp
 							gAgentAvatarp->setLocalTexture(reg_texind, gTextureList.getImage(new_id), FALSE, index);
 							gAgentAvatarp->wearableUpdated(type, FALSE);
 							/* telling the manager to rebake once update cycle is fully done */
-							LLLocalBitmapMgr::setNeedsRebake();
+							LLLocalBitmapMgr::getInstance()->setNeedsRebake();
 						}
 					}
 
@@ -900,7 +897,7 @@ bool LLLocalBitmapTimer::isRunning()
 
 BOOL LLLocalBitmapTimer::tick()
 {
-	LLLocalBitmapMgr::doUpdates();
+	LLLocalBitmapMgr::getInstance()->doUpdates();
 	return FALSE;
 }
 
@@ -909,17 +906,12 @@ BOOL LLLocalBitmapTimer::tick()
 /*=======================================*/ 
 LLLocalBitmapMgr::LLLocalBitmapMgr()
 {
-	// The class is all made of static members, should i even bother instantiating?
 }
 
 LLLocalBitmapMgr::~LLLocalBitmapMgr()
 {
-}
-
-void LLLocalBitmapMgr::cleanupClass()
-{
-	std::for_each(sBitmapList.begin(), sBitmapList.end(), DeletePointer());
-	sBitmapList.clear();
+    std::for_each(mBitmapList.begin(), mBitmapList.end(), DeletePointer());
+    mBitmapList.clear();
 }
 
 bool LLLocalBitmapMgr::addUnit()
@@ -929,7 +921,7 @@ bool LLLocalBitmapMgr::addUnit()
 	LLFilePicker& picker = LLFilePicker::instance();
 	if (picker.getMultipleOpenFiles(LLFilePicker::FFLOAD_IMAGE))
 	{
-		sTimer.stopTimer();
+		mTimer.stopTimer();
 
 		std::string filename = picker.getFirstFile();
 		while(!filename.empty())
@@ -944,7 +936,7 @@ bool LLLocalBitmapMgr::addUnit()
 
 			if (unit->getValid())
 			{
-				sBitmapList.push_back(unit);
+				mBitmapList.push_back(unit);
 				add_successful = true;
 			}
 			else
@@ -963,7 +955,7 @@ bool LLLocalBitmapMgr::addUnit()
 			filename = picker.getNextFile();
 		}
 		
-		sTimer.startTimer();
+		mTimer.startTimer();
 	}
 
 	return add_successful;
@@ -1002,10 +994,10 @@ bool LLLocalBitmapMgr::checkTextureDimensions(std::string filename)
 
 void LLLocalBitmapMgr::delUnit(LLUUID tracking_id)
 {
-	if (!sBitmapList.empty())
+	if (!mBitmapList.empty())
 	{	
 		std::vector<LLLocalBitmap*> to_delete;
-		for (auto unit : sBitmapList)
+		for (LLLocalBitmap* unit : mBitmapList)
         {   /* finding which ones we want deleted and making a separate list */
             if (unit->getTrackingID() == tracking_id)
 			{
@@ -1013,9 +1005,9 @@ void LLLocalBitmapMgr::delUnit(LLUUID tracking_id)
 			}
 		}
 
-		for (auto unit : to_delete)
+		for (LLLocalBitmap* unit : to_delete)
         {   /* iterating over a temporary list, hence preserving the iterator validity while deleting. */
-            sBitmapList.remove(unit);
+			mBitmapList.remove(unit);
 			delete unit;
 			unit = nullptr;
 		}
@@ -1026,7 +1018,7 @@ LLUUID LLLocalBitmapMgr::getWorldID(LLUUID tracking_id)
 {
 	LLUUID world_id = LLUUID::null;
 
-	for (auto unit : sBitmapList)
+	for (auto unit : mBitmapList)
     {
         if (unit->getTrackingID() == tracking_id)
 		{
@@ -1041,7 +1033,7 @@ std::string LLLocalBitmapMgr::getFilename(LLUUID tracking_id)
 {
 	std::string filename = "";
 
-	for (auto unit : sBitmapList)
+	for (auto unit : mBitmapList)
     {
         if (unit->getTrackingID() == tracking_id)
 		{
@@ -1058,9 +1050,9 @@ void LLLocalBitmapMgr::feedScrollList(LLScrollListCtrl* ctrl)
 	{
 		ctrl->clearRows();
 
-		if (!sBitmapList.empty())
+		if (!mBitmapList.empty())
 		{
-			for (auto& iter : sBitmapList)
+			for (auto& iter : mBitmapList)
             {
 				LLSD element;
 				element["columns"][0]["column"] = "unit_name";
@@ -1081,29 +1073,29 @@ void LLLocalBitmapMgr::feedScrollList(LLScrollListCtrl* ctrl)
 void LLLocalBitmapMgr::doUpdates()
 {
 	// preventing theoretical overlap in cases with huge number of loaded images.
-	sTimer.stopTimer();
-	sNeedsRebake = false;
+	mTimer.stopTimer();
+	mNeedsRebake = false;
 
-	for (auto& iter : sBitmapList)
+	for (auto& iter : mBitmapList)
     {
         iter->updateSelf();
 	}
 
 	doRebake();
-	sTimer.startTimer();
+	mTimer.startTimer();
 }
 
 void LLLocalBitmapMgr::setNeedsRebake()
 {
-	sNeedsRebake = true;
+	mNeedsRebake = true;
 }
 
 void LLLocalBitmapMgr::doRebake()
 { /* separated that from doUpdates to insure a rebake can be called separately during deletion */
-	if (sNeedsRebake)
+	if (mNeedsRebake)
 	{
 		gAgentAvatarp->forceBakeAllTextures(LL_LOCAL_SLAM_FOR_DEBUG);
-		sNeedsRebake = false;
+		mNeedsRebake = false;
 	}
 }
 

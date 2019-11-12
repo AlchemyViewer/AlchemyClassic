@@ -205,7 +205,7 @@ void LLLayoutPanel::handleReshape(const LLRect& new_rect, bool by_user)
 
 LLLayoutStack::Params::Params()
 :	orientation("orientation"),
-	border_size("border_size", LLCachedControl<S32>(*LLUI::sSettingGroups["config"], "UIResizeBarHeight", 0)),
+	border_size("border_size", LLCachedControl<S32>(*LLUI::getInstance()->mSettingGroups["config"], "UIResizeBarHeight", 0)),
 	animate("animate", true),
 	clip("clip", true),
 	open_time_constant("open_time_constant", 0.02f),

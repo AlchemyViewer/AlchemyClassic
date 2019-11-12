@@ -40,7 +40,6 @@ static const std::string DICT_FILE_IGNORE = "user_ignore.dic";
 static const std::string DICT_FILE_MAIN = "dictionaries.xml";
 static const std::string DICT_FILE_USER = "user_dictionaries.xml";
 
-LLSD LLSpellChecker::sDictMap;
 LLSpellChecker::settings_change_signal_t LLSpellChecker::sSettingsChangeSignal;
 
 LLSpellChecker::LLSpellChecker()
@@ -82,10 +81,9 @@ S32 LLSpellChecker::getSuggestions(const std::string& word, std::vector<std::str
 	return suggestions.size();
 }
 
-// static
 const LLSD LLSpellChecker::getDictionaryData(const std::string& dict_language)
 {
-	for (LLSD::array_const_iterator it = sDictMap.beginArray(); it != sDictMap.endArray(); ++it)
+	for (LLSD::array_const_iterator it = mDictMap.beginArray(); it != mDictMap.endArray(); ++it)
 	{
 		const LLSD& dict_entry = *it;
 		if (dict_language == dict_entry["language"].asString())
@@ -96,14 +94,12 @@ const LLSD LLSpellChecker::getDictionaryData(const std::string& dict_language)
 	return LLSD();
 }
 
-// static
 bool LLSpellChecker::hasDictionary(const std::string& dict_language, bool check_installed)
 {
 	const LLSD dict_info = getDictionaryData(dict_language);
 	return dict_info.has("language") && ( (!check_installed) || (dict_info["installed"].asBoolean()) );
 }
 
-// static
 void LLSpellChecker::setDictionaryData(const LLSD& dict_info)
 {
 	const std::string dict_language = dict_info["language"].asString();
@@ -112,7 +108,7 @@ void LLSpellChecker::setDictionaryData(const LLSD& dict_info)
 		return;
 	}
 
-	for (LLSD::array_iterator it = sDictMap.beginArray(); it != sDictMap.endArray(); ++it)
+	for (LLSD::array_iterator it = mDictMap.beginArray(); it != mDictMap.endArray(); ++it)
 	{
 		LLSD& dict_entry = *it;
 		if (dict_language == dict_entry["language"].asString())
@@ -121,7 +117,7 @@ void LLSpellChecker::setDictionaryData(const LLSD& dict_info)
 			return;
 		}
 	}
-	sDictMap.append(dict_info);
+	mDictMap.append(dict_info);
 	return;
 }
 
@@ -135,14 +131,14 @@ void LLSpellChecker::refreshDictionaryMap()
     std::string user_filename(user_path + DICT_FILE_MAIN);
 	llifstream user_file(user_filename.c_str(), std::ios::binary);
 	if ( (!user_file.is_open()) 
-		|| (LLSDParser::PARSE_FAILURE == LLSDSerialize::fromXMLDocument(sDictMap, user_file)) 
-		|| (0 == sDictMap.size()) )
+		|| (LLSDParser::PARSE_FAILURE == LLSDSerialize::fromXMLDocument(mDictMap, user_file)) 
+		|| (0 == mDictMap.size()) )
 	{
         std::string app_filename(app_path + DICT_FILE_MAIN);
 		llifstream app_file(app_filename.c_str(), std::ios::binary);
 		if ( (!app_file.is_open()) 
-			|| (LLSDParser::PARSE_FAILURE == LLSDSerialize::fromXMLDocument(sDictMap, app_file)) 
-			|| (0 == sDictMap.size()) )
+			|| (LLSDParser::PARSE_FAILURE == LLSDSerialize::fromXMLDocument(mDictMap, app_file)) 
+			|| (0 == mDictMap.size()) )
 		{
 			return;
 		}
@@ -166,7 +162,7 @@ void LLSpellChecker::refreshDictionaryMap()
 
 	// Look for installed dictionaries
 	std::string tmp_app_path, tmp_user_path;
-	for (LLSD::array_iterator it = sDictMap.beginArray(); it != sDictMap.endArray(); ++it)
+	for (LLSD::array_iterator it = mDictMap.beginArray(); it != mDictMap.endArray(); ++it)
 	{
 		LLSD& sdDict = *it;
 		tmp_app_path = (sdDict.has("name")) ? app_path + sdDict["name"].asString() : LLStringUtil::null;
@@ -404,7 +400,6 @@ bool LLSpellChecker::getUseSpellCheck()
 	return (LLSpellChecker::instanceExists()) && (LLSpellChecker::instance().mHunspell);
 }
 
-// static
 bool LLSpellChecker::canRemoveDictionary(const std::string& dict_language)
 {
 	// Only user-installed inactive dictionaries can be removed
@@ -414,7 +409,6 @@ bool LLSpellChecker::canRemoveDictionary(const std::string& dict_language)
 		( (!getUseSpellCheck()) || (!LLSpellChecker::instance().isActiveDictionary(dict_language)) );
 }
 
-// static
 void LLSpellChecker::removeDictionary(const std::string& dict_language)
 {
 	if (!canRemoveDictionary(dict_language))
@@ -485,14 +479,5 @@ void LLSpellChecker::setUseSpellCheck(const std::string& dict_language)
 		 (LLSpellChecker::instance().mDictLanguage != dict_language) )
 	{
 		LLSpellChecker::instance().initHunspell(dict_language);
-	}
-}
-
-// static
-void LLSpellChecker::initClass()
-{
-	if (sDictMap.isUndefined())
-	{
-		refreshDictionaryMap();
 	}
 }

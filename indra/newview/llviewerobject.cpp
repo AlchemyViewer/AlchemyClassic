@@ -487,7 +487,7 @@ void LLViewerObject::markDead()
 
 		if (flagCameraSource())
 		{
-			LLFollowCamMgr::removeFollowCamParams(mID);
+			LLFollowCamMgr::getInstance()->removeFollowCamParams(mID);
 		}
 
 		// And finally mark the region as null to prevent invalid calls while object is dead but not cleaned up 

@@ -116,7 +116,7 @@ std::string LLVoiceClientStatusObserver::status2string(LLVoiceClientStatusObserv
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-LLVoiceClient::LLVoiceClient()
+LLVoiceClient::LLVoiceClient(LLPumpIO *pump)
 	:
 	mVoiceModule(nullptr),
 	m_servicePump(nullptr),
@@ -133,6 +133,7 @@ LLVoiceClient::LLVoiceClient()
 	mDisableMic(false)
 {
 	updateSettings();
+	init(pump);
 }
 
 //---------------------------------------------------

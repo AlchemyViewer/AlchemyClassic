@@ -70,8 +70,6 @@ public:
 		PARTICLE		= 0x0080,
 	};
 
-	static void initClass();
-
 	static void cacheFaceInVRAM(const LLVolumeFace& vf);
 
 public:

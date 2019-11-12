@@ -511,7 +511,7 @@ void LLFeatureManager::cleanupFeatureTables()
 	mMaskList.clear();
 }
 
-void LLFeatureManager::init()
+void LLFeatureManager::initSingleton()
 {
 	// load the tables
 	loadFeatureTables();

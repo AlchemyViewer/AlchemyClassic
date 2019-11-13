@@ -105,7 +105,7 @@ void LLDockControl::getAllowedRect(LLRect& rect)
 {
 	if (sToolbarPanel == nullptr)
 	{
-		sToolbarPanel = LLUI::getRootView()->getChild<LLLayoutPanel>("non_toolbar_panel");
+		sToolbarPanel = LLUI::getInstance()->getRootView()->getChild<LLLayoutPanel>("non_toolbar_panel");
 	}
 	rect = sToolbarPanel->getRect();
 }

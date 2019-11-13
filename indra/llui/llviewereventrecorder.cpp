@@ -119,7 +119,7 @@ void LLViewerEventRecorder::updateMouseEventInfo(S32 local_x, S32 local_y, S32 g
 {
 	if (!mLogEvents) return; // <alchemy/>
 
-	LLView * target_view = LLUI::getInstance()->resolvePath(LLUI::getInstance()->getRootView(), xui);
+	LLView * target_view = LLUI::getInstance()->resolvePath(LLUI::getInstance()->getRootView(), mXui);
 	if (!target_view)
 	{
 		LL_DEBUGS() << "LLViewerEventRecorder::updateMouseEventInfo - xui path on file at moment is NOT valid - so DO NOT record these local coords" << LL_ENDL;

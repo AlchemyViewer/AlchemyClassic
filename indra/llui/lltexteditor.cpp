@@ -1148,7 +1148,7 @@ void LLTextEditor::removeWord(bool prev)
 	}
 	else
 	{
-		LLUI::reportBadKeystroke();
+		LLUI::getInstance()->reportBadKeystroke();
 	}
 }
 

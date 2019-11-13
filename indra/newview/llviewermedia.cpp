@@ -67,6 +67,7 @@
 #include "llwindow.h"
 #include "llvieweraudio.h"
 #include "llcorehttputil.h"
+#include "bufferstream.h"
 
 #include "llfloaterwebcontent.h"	// for handling window close requests and geometry change requests in media browser windows.
 
@@ -1236,7 +1237,8 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
     // The LLURL can give me the 'authority', which is of the form: [username[:password]@]hostname[:port]
     // We want just the hostname for the cookie code, but LLURL doesn't seem to have a way to extract that.
     // We therefore do it here.
-    std::string authority = getInstance()->mOpenIDURL.mAuthority;
+	auto& media_inst = instance();
+    std::string authority = media_inst.mOpenIDURL.mAuthority;
     std::string::size_type hostStart = authority.find('@');
     if (hostStart == std::string::npos)
     {   // no username/password
@@ -1260,11 +1262,11 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
 
 	// Do a web profile get so we can store the cookie 
     httpHeaders->append(HTTP_OUT_HEADER_ACCEPT, "*/*");
-    httpHeaders->append(HTTP_OUT_HEADER_COOKIE, inst->mOpenIDCookie);
-    httpHeaders->append(HTTP_OUT_HEADER_USER_AGENT, inst->getCurrentUserAgent());
+    httpHeaders->append(HTTP_OUT_HEADER_COOKIE, media_inst.mOpenIDCookie);
+    httpHeaders->append(HTTP_OUT_HEADER_USER_AGENT, media_inst.getCurrentUserAgent());
 
     LL_DEBUGS("MediaAuth") << "Requesting " << url << LL_ENDL;
-    LL_DEBUGS("MediaAuth") << "sOpenIDCookie = [" << inst->mOpenIDCookie << "]" << LL_ENDL;
+    LL_DEBUGS("MediaAuth") << "sOpenIDCookie = [" << media_inst.mOpenIDCookie << "]" << LL_ENDL;
     
     LLSD result = httpAdapter->getRawAndSuspend(httpRequest, url, httpOpts, httpHeaders);
 

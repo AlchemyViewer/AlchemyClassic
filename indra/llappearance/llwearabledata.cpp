@@ -404,7 +404,7 @@ LLUUID LLWearableData::computeBakedTextureHash(LLAvatarAppearanceDefines::EBaked
 	LLMD5 hash;
 	const LLAvatarAppearanceDictionary::BakedEntry *baked_dict = LLAvatarAppearanceDictionary::getInstance()->getBakedTexture(baked_index);
 
-	for (auto baked_type : baked_dict->mWearables)
+	for (const LLWearableType::EType baked_type : baked_dict->mWearables)
     {
         const U32 num_wearables = getWearableCount(baked_type);
 		for (U32 index = 0; index < num_wearables; ++index)

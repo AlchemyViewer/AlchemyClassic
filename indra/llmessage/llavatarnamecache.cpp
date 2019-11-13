@@ -687,12 +687,12 @@ LLAvatarNameCache::callback_connection_t LLAvatarNameCache::getNameCallback(cons
 // [RLVa:KB] - Checked: 2010-12-08 (RLVa-1.4.0a) | Added: RLVa-1.2.2c
 bool LLAvatarNameCache::getForceDisplayNames()
 {
-	return sForceDisplayNames;
+	return mForceDisplayNames;
 }
 
 void LLAvatarNameCache::setForceDisplayNames(bool force)
 {
-	sForceDisplayNames = force;
+	mForceDisplayNames = force;
 	if ( (!LLAvatarName::useDisplayNames()) && (force) )
 	{
 		LLAvatarName::setUseDisplayNames(true);

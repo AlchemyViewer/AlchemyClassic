@@ -162,6 +162,14 @@ private:
     // Includes the trailing slash, like "http://pdp60.lindenlab.com:8000/agents/"
     std::string mNameLookupURL;
 
+	// [RLVa:KB] - Checked: 2010-12-08 (RLVa-1.4.0a) | Added: RLVa-1.2.2c
+	// RLVa override for display names
+	bool mForceDisplayNames = false;
+	// [/RLVa:KB]
+
+	// Time when unrefreshed cached names were checked last.
+	F64 mLastExpireCheck;
+
     // Accumulated agent IDs for next query against service
     typedef std::set<LLUUID> ask_queue_t;
     ask_queue_t mAskQueue;
@@ -181,9 +189,6 @@ private:
     // The cache at last, i.e. avatar names we know about.
     typedef std::map<LLUUID, LLAvatarName> cache_t;
     cache_t mCache;
-
-    // Time when unrefreshed cached names were checked last.
-    F64 mLastExpireCheck;
 };
 
 // Parse a cache-control header to get the max-age delta-seconds.

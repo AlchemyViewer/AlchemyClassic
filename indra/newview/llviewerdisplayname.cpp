@@ -145,7 +145,7 @@ public:
 		{
 			LLUUID agent_id = gAgent.getID();
 			// Flush stale data
-			LLAvatarNameCache::erase( agent_id );
+			LLAvatarNameCache::instance().erase( agent_id );
 			// Queue request for new data: nothing to do on callback though...
 			// Note: no need to disconnect the callback as it never gets out of scope
 			LLAvatarNameCache::get(agent_id, boost::bind(&LLViewerDisplayName::doNothing));
@@ -185,11 +185,12 @@ class LLDisplayNameUpdate : public LLHTTPNode
 		// default value
 		// *TODO: get actual headers out of ResponsePtr
 		//LLSD headers = response->mHeaders;
+		auto& name_cache_inst = LLAvatarNameCache::instance();
 		LLSD headers;
 		av_name.mExpires = 
-			LLAvatarNameCache::nameExpirationFromHeaders(headers);
+			name_cache_inst.nameExpirationFromHeaders(headers);
 
-		LLAvatarNameCache::insert(agent_id, av_name);
+		name_cache_inst.insert(agent_id, av_name);
 
 		// force name tag to update
 		LLVOAvatar::invalidateNameTag(agent_id);

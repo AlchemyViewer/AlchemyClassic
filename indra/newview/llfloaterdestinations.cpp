@@ -67,11 +67,12 @@ BOOL LLFloaterDestinations::postBuild()
 		LLViewerRegion *regionp = gAgent.getRegion();
 		if (regionp)
 		{
+			auto& vmedia_inst = LLViewerMedia::instance();
 			std::string dest_url = regionp->getDestinationGuideURL();
 			dest_url = LLWeb::expandURLSubstitutions(dest_url, LLSD());
 			destinations->navigateTo(dest_url, HTTP_CONTENT_TEXT_HTML);
 
-			std::string authority = LLViewerMedia::sOpenIDURL.mAuthority;
+			const std::string& authority = vmedia_inst.mOpenIDURL.mAuthority;
 			std::string::size_type hostStart = authority.find('@');
 			if (hostStart == std::string::npos)
 			{   // no username/password
@@ -95,7 +96,7 @@ BOOL LLFloaterDestinations::postBuild()
 			std::string cookie_path = "";
 			bool httponly = true;
 			bool secure = true;
-			if (LLViewerMedia::parseRawCookie(LLViewerMedia::sOpenIDCookie, cookie_name, cookie_value, cookie_path, httponly, secure) &&
+			if (vmedia_inst.parseRawCookie(vmedia_inst.mOpenIDCookie, cookie_name, cookie_value, cookie_path, httponly, secure) &&
 				destinations->getMediaPlugin())
 			{
 				// MAINT-5711 - inexplicably, the CEF setCookie function will no longer set the cookie if the 
@@ -105,7 +106,7 @@ BOOL LLFloaterDestinations::postBuild()
 				// (Feels like there must be a less dirty way to construct a URL from component LLURL parts)
 				// MAINT-6392 - Rider: Do not change, however, the original URI requested, since it is used further
 				// down.
-				std::string cefUrl(std::string(LLViewerMedia::sOpenIDURL.mURI) + "://" + std::string(LLViewerMedia::sOpenIDURL.mAuthority));
+				std::string cefUrl(std::string(vmedia_inst.mOpenIDURL.mURI) + "://" + std::string(vmedia_inst.mOpenIDURL.mAuthority));
 
 				destinations->getMediaPlugin()->setCookie(cefUrl, cookie_name, cookie_value, cookie_host, cookie_path, httponly, secure);
 			}

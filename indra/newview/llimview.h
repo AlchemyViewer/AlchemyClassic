@@ -503,7 +503,7 @@ private:
 class LLCallDialogManager : public LLSingleton<LLCallDialogManager>
 {
 	LLSINGLETON(LLCallDialogManager);
-	~LLCallDialogManager();
+	~LLCallDialogManager() = default;
 public:
 	// static for convinience
 	static void onVoiceChannelChanged(const LLUUID &session_id);

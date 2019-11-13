@@ -774,10 +774,6 @@ bool LLAppViewer::init()
 	// initalize libxml2
 	xmlInitParser();
 
-	// initialize LLWearableType translation bridge.
-	// Memory will be cleaned up in ::cleanupClass()
-	LLWearableType::initParamSingleton(new LLUITranslationBridge());
-
 	// initialize SSE options
 	LLVector4a::initClass();
 
@@ -797,6 +793,10 @@ bool LLAppViewer::init()
 
 	if (!initConfiguration())
 		return false;
+
+	// initialize LLWearableType translation bridge.
+	// Memory will be cleaned up in ::cleanupClass()
+	LLWearableType::initParamSingleton(new LLUITranslationBridge());
 
 	LL_INFOS("InitInfo") << "Configuration initialized." << LL_ENDL ;
 

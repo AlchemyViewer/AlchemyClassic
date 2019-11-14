@@ -68,12 +68,6 @@ uniform float spot_shadow_bias;
 uniform float spot_shadow_offset;
 
 
-vec2 encode_normal(vec3 n)
-{
-	float f = sqrt(8 * n.z + 8);
-	return n.xy / f + 0.5;
-}
-
 vec3 decode_normal (vec2 enc)
 {
     vec2 fenc = enc*4-2;

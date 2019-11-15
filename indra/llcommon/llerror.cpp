@@ -120,6 +120,8 @@ namespace {
 	public:
 		RecordToFile(const std::string& filename)
 		{
+			showMultiline(true);
+
 			mFile.open(filename.c_str(), std::ios_base::out | std::ios_base::app);
 			if (!mFile)
 			{

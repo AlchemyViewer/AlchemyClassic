@@ -7,7 +7,7 @@ set(CMAKE_FOLDER "Third Party")
 FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v2.10.1
+  GIT_TAG        v2.11.0
   )
 FetchContent_Declare(
   fmt
@@ -16,8 +16,8 @@ FetchContent_Declare(
   )
 FetchContent_Declare(
   absl
-  GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-  GIT_TAG        19b021cb3ff23048dfbe236a4e611925d8930831
+  GIT_REPOSITORY https://git.alchemyviewer.org/alchemy/thirdparty/abseil-cpp.git
+  GIT_TAG        e1cc7cb79594d18ce150957d7edf57446a136b0e
 )
 
 # This is a hack because absl has dumb cmake

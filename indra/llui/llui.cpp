@@ -146,13 +146,13 @@ LLUI::LLUI(const settings_map_t& settings,
 				 LLImageProviderInterface* image_provider,
 				 LLUIAudioCallback audio_callback,
 				 LLUIAudioCallback deferred_audio_callback)
-: mSettingGroups(settings),
-mAudioCallback(audio_callback),
-mDeferredAudioCallback(deferred_audio_callback),
-mWindow(NULL), // set later in startup
-mRootView(NULL),
-mDirty(FALSE),
-mHelpImpl(NULL)
+:   mDirty(FALSE),
+    mSettingGroups(settings),
+    mAudioCallback(audio_callback),
+    mDeferredAudioCallback(deferred_audio_callback),
+    mWindow(NULL), // set later in startup
+    mRootView(NULL),
+    mHelpImpl(NULL)
 {
 	LLRender2D::initParamSingleton(image_provider);
 

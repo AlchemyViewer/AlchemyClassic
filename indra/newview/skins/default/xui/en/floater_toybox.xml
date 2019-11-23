@@ -4,7 +4,7 @@
   can_dock="false"
   can_minimize="false"
   can_resize="true"
-  height="375"
+  height="400"
   min_height="250"
   help_topic="toybox"
   layout="topleft"
@@ -14,7 +14,7 @@
   save_rect="true"
   single_instance="true"
   title="TOOLBAR BUTTONS"
-  width="650"
+  width="730"
   min_width="320">
   <text
     follows="left|top|right"

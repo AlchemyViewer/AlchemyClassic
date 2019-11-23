@@ -9039,6 +9039,23 @@ void show_topinfobar_context_menu(LLView* ctrl, S32 x, S32 y)
 	LLMenuGL::showPopup(ctrl, show_topbarinfo_context_menu, x, y);
 }
 
+void toggleTeleportHistory()
+{
+	LLFloater* floater = LLFloaterReg::findInstance("places");
+	if (floater && floater->isMinimized())
+	{
+		floater->setMinimized(FALSE);
+	}
+	else if (LLFloater::isShown(floater))
+	{
+		LLFloaterReg::hideInstance("places");
+	}
+	else
+	{
+		LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "open_teleport_history_tab"));
+	}
+}
+
 void initialize_edit_menu()
 {
 	view_listener_t::addMenu(new LLEditUndo(), "Edit.Undo");
@@ -9578,4 +9595,5 @@ void initialize_menus()
 	}
 // [/RLVa:KB]
 	ALViewerMenu::initialize_menus();
+	commit.add("ToggleTeleportHistory", boost::bind(&toggleTeleportHistory));
 }

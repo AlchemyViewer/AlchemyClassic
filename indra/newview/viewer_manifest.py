@@ -1380,8 +1380,8 @@ class LinuxManifest(ViewerManifest):
             self.path("alchemy-bin","do-not-directly-run-alchemy-bin")
             self.path2basename("../llplugin/slplugin", "AlchemyPlugin")
             #this copies over the python wrapper script, associated utilities and required libraries, see SL-321, SL-322 and SL-323
-            with self.prefix(src="../viewer_components/manager", dst=""):
-                self.path("*.py")
+            #with self.prefix(src="../viewer_components/manager", dst=""):
+            #    self.path("*.py")
 
         # recurses, packaged again
         self.path("res-sdl")
@@ -1395,18 +1395,18 @@ class LinuxManifest(ViewerManifest):
                 self.path("alchemy_256.BMP","ll_icon.BMP")
 
         # plugins
-        with self.prefix(src="../media_plugins", dst="bin/llplugin"):
-            self.path("gstreamer010/libmedia_plugin_gstreamer010.so",
-                      "libmedia_plugin_gstreamer.so")
-            self.path2basename("libvlc", "libmedia_plugin_libvlc.so")
-            self.path("../media_plugins/cef/libmedia_plugin_cef.so", "libmedia_plugin_cef.so")
+        #with self.prefix(src="../media_plugins", dst="bin/llplugin"):
+            #self.path("gstreamer010/libmedia_plugin_gstreamer010.so",
+            #          "libmedia_plugin_gstreamer.so")
+            #self.path2basename("libvlc", "libmedia_plugin_libvlc.so")
+            #self.path("../media_plugins/cef/libmedia_plugin_cef.so", "libmedia_plugin_cef.so")
 
-        with self.prefix(src=os.path.join(pkgdir, 'lib', 'vlc', 'plugins'), dst="bin/llplugin/vlc/plugins"):
-            self.path( "plugins.dat" )
-            self.path( "*/*.so" )
+        #with self.prefix(src=os.path.join(pkgdir, 'lib', 'vlc', 'plugins'), dst="bin/llplugin/vlc/plugins"):
+        #    self.path( "plugins.dat" )
+        #    self.path( "*/*.so" )
 
-        with self.prefix(src=os.path.join(pkgdir, 'lib' ), dst="lib"):
-            self.path( "libvlc*.so*" )
+        #with self.prefix(src=os.path.join(pkgdir, 'lib' ), dst="lib"):
+        #    self.path( "libvlc*.so*" )
 
         # CEF files 
         with self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="bin"):
@@ -1414,7 +1414,7 @@ class LinuxManifest(ViewerManifest):
             self.path("dullahan_host")
             self.path("natives_blob.bin")
             self.path("snapshot_blob.bin")
-            self.path("v8_context_snapshot.bin")
+            #self.path("v8_context_snapshot.bin")
 
         with self.prefix(src=os.path.join(pkgdir, 'resources'), dst="bin"):
             self.path("cef.pak")
@@ -1478,10 +1478,6 @@ class LinuxManifest(ViewerManifest):
             self.path("vi.pak")
             self.path("zh-CN.pak")
             self.path("zh-TW.pak")
-
-        # llcommon
-        if not self.path("../llcommon/libllcommon.so", "lib/libllcommon.so"):
-            print "Skipping llcommon.so (assuming llcommon was linked statically)"
 
         self.path("featuretable_linux.txt")
 
@@ -1555,7 +1551,6 @@ class Linux_i686_Manifest(LinuxManifest):
             self.path("libGLOD.so")
             self.path("libSDL-1.2.so.*")
             self.path("libopenjpeg.so*")
-            self.path("libhunspell-1.6.so*")
             self.path("libalut.so")
             self.path("libopenal.so", "libopenal.so.1")
             self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
@@ -1582,14 +1577,7 @@ class Linux_i686_Manifest(LinuxManifest):
             self.path("libfreetype.so.*.*")
 
             try:
-                self.path("libtcmalloc.so*") #formerly called google perf tools
-                pass
-            except:
-                print "tcmalloc files not found, skipping"
-                pass
-
-            try:
-                self.path("libfmod.so*")
+                self.path_optional("libfmod.so*")
                 pass
             except:
                 print "Skipping libfmod.so - not found"
@@ -1629,7 +1617,6 @@ class Linux_x86_64_Manifest(LinuxManifest):
             self.path("libGLOD.so")
             self.path("libSDL-1.2.so.*")
             self.path("libopenjpeg.so*")
-            self.path("libhunspell-1.6.so*")
             self.path("libalut.so*")
             self.path("libopenal.so*")
             # KLUDGE: As of 2012-04-11, the 'fontconfig' package installs
@@ -1655,14 +1642,7 @@ class Linux_x86_64_Manifest(LinuxManifest):
             self.path("libfreetype.so*")
 
             try:
-                self.path("libtcmalloc.so*") #formerly called google perf tools
-                pass
-            except:
-                print "tcmalloc files not found, skipping"
-                pass
-
-            try:
-                self.path("libfmod.so*")
+                self.path_optional("libfmod.so*")
                 pass
             except:
                 print "Skipping libfmod.so - not found"

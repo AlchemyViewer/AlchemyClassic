@@ -465,7 +465,7 @@ void LLViewerAssetStorage::assetRequestCoro(
         LL_WARNS_ONCE("ViewerAsset") << "capsRecv got event" << LL_ENDL;
         LL_WARNS_ONCE("ViewerAsset") << "region " << gAgent.getRegion() << " mViewerAssetUrl " << mViewerAssetUrl << LL_ENDL;
     }
-    if (mViewerAssetUrl.empty() && gAgent.getRegion())
+    if (gAgent.getRegion())
     {
         mViewerAssetUrl = gAgent.getRegion()->getViewerAssetUrl();
     }

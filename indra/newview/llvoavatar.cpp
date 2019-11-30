@@ -4368,6 +4368,7 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 	}
 
 	BOOL visible = isVisible();
+#if LL_DEBUG
     bool is_control_avatar = isControlAvatar(); // capture state to simplify tracing
 	bool is_attachment = false;
 	if (is_control_avatar)
@@ -4376,7 +4377,6 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
         is_attachment = cav->mRootVolp && cav->mRootVolp->isAttachment(); // For attached animated objects
 	}
 
-#if LL_DEBUG
     LLScopedContextString str("updateCharacter " + getFullname() + " is_control_avatar "
                               + std::to_string(is_control_avatar) 
                               + " is_attachment " + std::to_string(is_attachment));

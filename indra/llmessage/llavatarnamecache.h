@@ -29,6 +29,7 @@
 #define LLAVATARNAMECACHE_H
 
 #include "llavatarname.h"	// for convenience
+#include "lluuid.h"
 #include "llsingleton.h"
 
 #include <boost/signals2.hpp>
@@ -38,7 +39,6 @@
 #include <set>
 
 class LLSD;
-class LLUUID;
 
 class LLAvatarNameCache : public LLSingleton<LLAvatarNameCache>
 {
@@ -187,7 +187,7 @@ private:
     // May have multiple callbacks for a single ID, which are
     // represented as multiple slots bound to the signal.
     // Avoid copying signals via pointers.
-    typedef absl::flat_hash_map<LLUUID, callback_signal_t*> signal_map_t;
+    typedef absl::flat_hash_map<LLUUID, callback_signal_t* > signal_map_t;
     signal_map_t mSignalMap;
 
     // The cache at last, i.e. avatar names we know about.

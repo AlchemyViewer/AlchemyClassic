@@ -152,7 +152,12 @@ public:
     {
         return mMaxTokens;
     }
-
+#if LL_LINUX
+    bool adjacent_tokens_only() const override
+    {
+        return false;
+    }
+#endif
 	bool is_composing() const override
     {
         return mIsComposing;

@@ -857,7 +857,7 @@ void LLFloaterPreference::onAddSkin()
 				zip->extractFile("manifest.json", buf.get(), buf_size);
 				buf[buf_size - 1] = '\0'; // force.
 				std::stringstream ss;
-				ss << buf;
+				ss << std::string(const_cast<const char*>(buf.get()), buf_size);
 				buf.reset();
 				
 				nlohmann::json root;

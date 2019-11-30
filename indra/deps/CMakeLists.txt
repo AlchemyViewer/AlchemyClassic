@@ -3,6 +3,7 @@ project(deps)
 include(FetchContent)
 
 set(CMAKE_FOLDER "Third Party")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 FetchContent_Declare(
   Catch2
@@ -41,4 +42,5 @@ endif()
 #Download the rest of the libraries
 FetchContent_MakeAvailable(fmt)
 
-set(CMAKE_FOLDER "")
+unset(CMAKE_FOLDER)
+unset(CMAKE_POSITION_INDEPENDENT_CODE)

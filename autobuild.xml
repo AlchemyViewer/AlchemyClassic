@@ -3559,139 +3559,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>linux</key>
         <map>
           <key>build_directory</key>
-          <string>build-linux-i686</string>
-          <key>configurations</key>
-          <map>
-            <key>Debug</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>command</key>
-                <string>ninja</string>
-              </map>
-              <key>configure</key>
-              <map>
-                <key>arguments</key>
-                <array>
-                  <string>../indra</string>
-                </array>
-                <key>options</key>
-                <array>
-                  <string>-G</string>
-                  <string>'Ninja'</string>
-                </array>
-              </map>
-              <key>name</key>
-              <string>Debug</string>
-            </map>
-            <key>DebugOS</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>command</key>
-                <string>ninja</string>
-              </map>
-              <key>configure</key>
-              <map>
-                <key>options</key>
-                <array>
-                  <string>-G</string>
-                  <string>'Ninja'</string>
-                </array>
-              </map>
-              <key>name</key>
-              <string>DebugOS</string>
-            </map>
-            <key>RelWithDebInfo</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>command</key>
-                <string>ninja</string>
-              </map>
-              <key>configure</key>
-              <map>
-                <key>arguments</key>
-                <array>
-                  <string>../indra</string>
-                </array>
-                <key>options</key>
-                <array>
-                  <string>-G</string>
-                  <string>'Ninja'</string>
-                </array>
-              </map>
-              <key>default</key>
-              <string>True</string>
-              <key>name</key>
-              <string>RelWithDebInfo</string>
-            </map>
-            <key>RelWithDebInfoOS</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>command</key>
-                <string>ninja</string>
-              </map>
-              <key>configure</key>
-              <map>
-                <key>options</key>
-                <array>
-                  <string>-G</string>
-                  <string>'Ninja'</string>
-                </array>
-              </map>
-              <key>name</key>
-              <string>RelWithDebInfoOS</string>
-            </map>
-            <key>Release</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>command</key>
-                <string>ninja</string>
-              </map>
-              <key>configure</key>
-              <map>
-                <key>arguments</key>
-                <array>
-                  <string>../indra</string>
-                </array>
-                <key>options</key>
-                <array>
-                  <string>-G</string>
-                  <string>'Ninja'</string>
-                </array>
-              </map>
-              <key>name</key>
-              <string>Release</string>
-            </map>
-            <key>ReleaseOS</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>command</key>
-                <string>ninja</string>
-              </map>
-              <key>configure</key>
-              <map>
-                <key>options</key>
-                <array>
-                  <string>-G</string>
-                  <string>'Ninja'</string>
-                </array>
-              </map>
-              <key>name</key>
-              <string>ReleaseOS</string>
-            </map>
-          </map>
-          <key>name</key>
-          <string>linux</string>
-        </map>
-        <key>linux64</key>
-        <map>
-          <key>build_directory</key>
-          <string>build-linux-x86_64</string>
+          <string>build-linux-$AUTOBUILD_ADDRSIZE</string>
           <key>configurations</key>
           <map>
             <key>Coverity</key>
@@ -3713,7 +3581,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <array>
                   <string>-G</string>
                   <string>"Ninja"</string>
-                  <string>-DADDRESS_SIZE:STRING=64</string>
+                  <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
                 </array>
               </map>
               <key>name</key>
@@ -3735,8 +3603,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Ninja'</string>
-                  <string>-DADDRESS_SIZE:STRING=64</string>
+                  <string>Ninja</string>
+                  <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
                 </array>
               </map>
               <key>name</key>
@@ -3754,8 +3622,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Ninja'</string>
-                  <string>-DADDRESS_SIZE:STRING=64</string>
+                  <string>Ninja</string>
+                  <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
                 </array>
               </map>
               <key>name</key>
@@ -3777,8 +3645,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Ninja'</string>
-                  <string>-DADDRESS_SIZE:STRING=64</string>
+                  <string>Ninja</string>
+                  <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
                 </array>
               </map>
               <key>default</key>
@@ -3798,7 +3666,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Ninja'</string>
+                  <string>Ninja</string>
                   <string>-DADDRESS_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -3821,8 +3689,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Ninja'</string>
-                  <string>-DADDRESS_SIZE:STRING=64</string>
+                  <string>Ninja</string>
+                  <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
                 </array>
               </map>
               <key>name</key>
@@ -3840,8 +3708,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Ninja'</string>
-                  <string>-DADDRESS_SIZE:STRING=64</string>
+                  <string>Ninja</string>
+                  <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
                 </array>
               </map>
               <key>name</key>
@@ -3849,7 +3717,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             </map>
           </map>
           <key>name</key>
-          <string>linux64</string>
+          <string>linux</string>
         </map>
         <key>windows</key>
         <map>

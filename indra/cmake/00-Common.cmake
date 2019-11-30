@@ -16,7 +16,7 @@
 if(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)
 set(${CMAKE_CURRENT_LIST_FILE}_INCLUDED "YES")
 
-include(CheckCCompilerFlag)
+include(CheckCXXCompilerFlag)
 include(Variables)
 
 # Portable compilation flags.
@@ -188,9 +188,9 @@ if (LINUX)
     -fno-math-errno
     -fno-strict-aliasing
     -fsigned-char
-    -std=gnu++14
     -g
     -pthread
+    -msse4.2
     )
 
   add_definitions(
@@ -229,9 +229,9 @@ if (LINUX)
     endif (USE_THDSAN)
   endif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
-  CHECK_C_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
-  CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
-  CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
+  CHECK_CXX_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
+  CHECK_CXX_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
+  CHECK_CXX_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
   if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     if(HAS_STRONG_STACK_PROTECTOR)
       add_compile_options(-fstack-protector-strong)
@@ -244,7 +244,6 @@ if (LINUX)
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if (ADDRESS_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
       add_compile_options(
-        -msse2
         -mfpmath=sse
         -march=pentium4)
     endif (ADDRESS_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
@@ -260,9 +259,9 @@ if (LINUX)
       else (HAS_DEBUG_OPTIMIZATION)
         set(CMAKE_CXX_FLAGS_RELEASE "-O1 -fno-omit-frame-pointer ${CMAKE_CXX_FLAGS_RELEASE}")
       endif (HAS_DEBUG_OPTIMIZATION)
-    else (USE_ASAN OR USE_LEAKSAN OR USE_UBSAN OR USE_THDSAN)
+    else ()
       set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
-    endif (USE_ASAN OR USE_LEAKSAN OR USE_UBSAN OR USE_THDSAN)
+    endif ()
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     if (ADDRESS_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
       add_compile_options(-msse2 -march=pentium4)
@@ -283,7 +282,6 @@ if (LINUX)
   set(CMAKE_EXE_LINKER_FLAGS "-Wl,-z,relro -Wl,-z,now -Wl,--as-needed ${CMAKE_EXE_LINKER_FLAGS}")
   set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-z,relro -Wl,-z,now -Wl,--as-needed ${CMAKE_SHARED_LINKER_FLAGS}")
 endif (LINUX)
-
 
 if (DARWIN)
   add_definitions(-DLL_DARWIN=1 -DGL_SILENCE_DEPRECATION)
@@ -318,8 +316,8 @@ if (LINUX OR DARWIN)
   endif (NOT UNIX_DISABLE_FATAL_WARNINGS)
 
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(UNIX_WARNINGS "-Wall -Wno-unused-variable -Wno-maybe-uninitialized ${UNIX_WARNINGS} ")
-    set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-reorder")
+    set(UNIX_WARNINGS "-Wall -Wno-unused-variable -Wno-maybe-uninitialized -Wno-sign-compare -Wno-attributes ${UNIX_WARNINGS}")
+    set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-reorder -Wno-unused-local-typedefs")
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
     set(UNIX_WARNINGS "-Wall ${UNIX_WARNINGS} ")
     set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-unused-local-typedef -Wempty-body -Wunreachable-code -Wundefined-bool-conversion -Wenum-conversion -Wassign-enum -Wint-conversion -Wconstant-conversion -Wnewline-eof -Wno-protocol -Wno-tautological-type-limit-compare -Wno-unused-template -Wno-undef")

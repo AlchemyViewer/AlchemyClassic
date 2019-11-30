@@ -126,7 +126,9 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 LLStatusBar::~LLStatusBar()
 {
     if (mCurrencyChangedSlot.connected())
+	{
         mCurrencyChangedSlot.disconnect();
+	}
 
 	delete mBalanceTimer;
 	mBalanceTimer = nullptr;

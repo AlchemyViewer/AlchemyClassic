@@ -1960,9 +1960,8 @@ LLVector3d LLAgentCamera::calcCameraPositionTargetGlobal(BOOL *hit_limit)
 		bool fCamAvDistClamped, fCamAvDistLocked = false; float nCamAvDistLimitMin, nCamAvDistLimitMax;
 		if ((fCamAvDistClamped = RlvActions::getCameraAvatarDistanceLimits(nCamAvDistLimitMin, nCamAvDistLimitMax)))
 			fCamAvDistLocked = nCamAvDistLimitMin == nCamAvDistLimitMax;
-		bool fCamOriginDistClamped, fCamOriginDistLocked = false; float nCamOriginDistLimitMin, nCamOriginDistLimitMax;
-		if ((fCamOriginDistClamped = RlvActions::getCameraOriginDistanceLimits(nCamOriginDistLimitMin, nCamOriginDistLimitMax)))
-			fCamOriginDistLocked = nCamOriginDistLimitMin == nCamOriginDistLimitMax;
+		bool fCamOriginDistClamped = false; float nCamOriginDistLimitMin, nCamOriginDistLimitMax;
+		fCamOriginDistClamped = RlvActions::getCameraOriginDistanceLimits(nCamOriginDistLimitMin, nCamOriginDistLimitMax);
 
 		// Check focus distance limits
 		if ( (fCamOriginDistClamped) && (!fCamAvDistLocked) )
@@ -2038,7 +2037,7 @@ bool LLAgentCamera::clampCameraPosition(LLVector3d& posCamGlobal, const LLVector
 		m_fRlvMinDist = true;
 	}
 
-	if (!isnan(nDistMult))
+	if (!llisnan(nDistMult))
 	{
 		posCamGlobal = posCamRefGlobal + nDistMult * offsetCamera;
 		m_posRlvRefGlobal = posCamRefGlobal;

@@ -55,7 +55,10 @@
 #endif
 
 #include <cstring>
+
+#if LL_WINDOWS
 #include <charconv>
+#endif
 
 const char LL_UNKNOWN_CHAR = '?';
 class LLSD;

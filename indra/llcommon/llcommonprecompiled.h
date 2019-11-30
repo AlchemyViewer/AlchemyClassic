@@ -36,7 +36,9 @@
 #include <algorithm>
 #include <atomic>
 #include <array>
-#include <charconv>
+#ifdef LL_WINDOWS
+#include <charconv> // MSVC is the only impl with complete charconv support currently
+#endif
 #include <condition_variable>
 #include <deque>
 #include <functional>

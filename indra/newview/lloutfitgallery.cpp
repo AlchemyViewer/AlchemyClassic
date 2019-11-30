@@ -594,7 +594,9 @@ void LLOutfitGallery::onOutfitRightClick(LLUICtrl* ctrl, S32 x, S32 y, const LLU
 void LLOutfitGallery::onChangeOutfitSelection(LLWearableItemsList* list, const LLUUID& category_id)
 {
     if (mSelectedOutfitUUID == category_id)
+    {
         return;
+    }
 
 	auto outfit_iter = mOutfitMap.find(mSelectedOutfitUUID);
 	if (outfit_iter != mOutfitMap.end())

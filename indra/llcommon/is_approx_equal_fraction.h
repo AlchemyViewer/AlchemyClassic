@@ -32,6 +32,7 @@
 #define LL_IS_APPROX_EQUAL_FRACTION_H
 
 #include <cmath>
+#include <cstdint>
 
 /**
  * Originally llmath.h contained two complete implementations of

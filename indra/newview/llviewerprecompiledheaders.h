@@ -39,7 +39,9 @@
 
 #include <algorithm>
 #include <atomic>
+#if LL_WINDOWS
 #include <charconv>
+#endif
 #include <condition_variable>
 #include <deque>
 #include <functional>

@@ -146,7 +146,7 @@ void LLThread::threadRun()
 
 LLThread::LLThread(std::string name, apr_pool_t *poolp) :
     mPaused(false), 
-    mNativeHandle(nullptr),
+    mNativeHandle(),
     mName(std::move(name)),
     mRunCondition(std::make_unique<LLCondition>()),
     mDataLock(std::make_unique<LLMutex>()),

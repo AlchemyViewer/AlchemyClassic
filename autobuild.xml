@@ -2167,11 +2167,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8c022c23093dff32180598b8d1797110</string>
+              <string>b48cd4b92a59e3ab750f691728fbf86f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/ndPhysicsStub-0.1.2-linux64-201609250322.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/ndphysicsstub/linux64/ndPhysicsStub-0.1.2-linux64-193341247.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

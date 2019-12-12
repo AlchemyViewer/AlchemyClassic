@@ -617,7 +617,7 @@ void LLPreviewTexture::adjustAspectRatio()
 		LLComboBox* combo = getChild<LLComboBox>("combo_aspect_ratio");
 		if (combo)
 		{
-			auto ratio = fmt::format(fmt("{}:{}"), num, denom);
+			auto ratio = fmt::format(FMT_STRING("{}:{}"), num, denom);
 			std::vector<std::string>::const_iterator found = std::find(mRatiosList.begin(), mRatiosList.end(), ratio);
 			if (found == mRatiosList.end())
 			{

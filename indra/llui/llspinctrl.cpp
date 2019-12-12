@@ -341,7 +341,7 @@ void LLSpinCtrl::updateEditor()
 //		displayed_value = 0.f;
 //	}
 
-	std::string text = fmt::format(fmt("{:.{}f}"), displayed_value, mPrecision);
+	std::string text = fmt::format(FMT_STRING("{:.{}f}"), displayed_value, mPrecision);
 	mEditor->setText( text );
 }
 

@@ -117,7 +117,7 @@ void LLParamSDParser::writeSDImpl(LLSD& sd, const LLInitParam::BaseBlock& block,
 		it != mNameStack.end();
 		++it)
 	{
-		full_name.append(fmt::format(fmt("[{:s}]"), it->first));
+		full_name.append(fmt::format(FMT_STRING("[{:s}]"), it->first));
 	}
 
 	return full_name;

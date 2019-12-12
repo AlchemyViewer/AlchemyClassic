@@ -228,14 +228,14 @@ LLOSInfo::LLOSInfo() :
 		mMajorVer = osvi.dwMajorVersion;
 		mMinorVer = osvi.dwMinorVersion;
 		mBuild = osvi.dwBuildNumber;
-		tmpstr = fmt::format(fmt("{:s}(Build {:d})"), service_pack, mBuild);
+		tmpstr = fmt::format(FMT_STRING("{:s}(Build {:d})"), service_pack, mBuild);
 	}
 	else
 	{
 		mMajorVer = 0;
 		mMinorVer = 0;
 		mBuild = 0;
-		tmpstr = fmt::format(fmt("{:s}(Build {:d})"), service_pack, 0);
+		tmpstr = fmt::format(FMT_STRING("{:s}(Build {:d})"), service_pack, 0);
 	}
 
 	// Display version, service pack (if any), and build number.

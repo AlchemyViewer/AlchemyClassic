@@ -418,7 +418,7 @@ public:
 		const std::from_chars_result& ret = std::from_chars(str.data() + str.find_first_not_of(WHITESPACE), end, num);
 		if (ret.ec == std::errc::invalid_argument || ret.ec == std::errc::result_out_of_range)
 		{
-			LL_WARNS() << fmt::format(fmt("Failed to parse typeid<{:s}> from string \"{:s}\" with ec: {:d}"), typeid(U).name(), str, ret.ec) << LL_ENDL;
+			LL_WARNS() << fmt::format(FMT_STRING("Failed to parse typeid<{:s}> from string \"{:s}\" with ec: {:d}"), typeid(U).name(), str, ret.ec) << LL_ENDL;
 			return false;
 		}
 		else

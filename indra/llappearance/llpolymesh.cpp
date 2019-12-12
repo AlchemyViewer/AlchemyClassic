@@ -923,7 +923,7 @@ void LLPolyMesh::dumpDiagInfo()
                 S32 num_faces = mesh->mNumFaces;
                 U32 num_kb = mesh->getNumKB();
 
-                buf = fmt::format(fmt("{:8d} {:8d} {:8d} {:s}"), num_verts, num_faces, num_kb, mesh_name);
+                buf = fmt::format(FMT_STRING("{:8d} {:8d} {:8d} {:s}"), num_verts, num_faces, num_kb, mesh_name);
                 LL_INFOS() << buf << LL_ENDL;
 
                 total_verts += num_verts;
@@ -932,7 +932,7 @@ void LLPolyMesh::dumpDiagInfo()
         }
 
         LL_INFOS() << "-----------------------------------------------------" << LL_ENDL;
-        buf = fmt::format(fmt("{:8d} {:8d} {:8d} TOTAL"), total_verts, total_faces, total_kb );
+        buf = fmt::format(FMT_STRING("{:8d} {:8d} {:8d} TOTAL"), total_verts, total_faces, total_kb );
         LL_INFOS() << buf << LL_ENDL;
         LL_INFOS() << "-----------------------------------------------------" << LL_ENDL;
 }

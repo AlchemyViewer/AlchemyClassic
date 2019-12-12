@@ -222,7 +222,7 @@ void LLMetricPerformanceTesterBasic::analyzePerformance(llofstream* os, LLSD* ba
 
 		if(in_base && in_current)
 		{				
-			*os << fmt::format(fmt("{:s}\n"), label) ;
+			*os << fmt::format(FMT_STRING("{:s}\n"), label) ;
 
 			for (const auto& metric_string : mMetricStrings)
             {
@@ -253,14 +253,14 @@ void LLMetricPerformanceTesterBasic::analyzePerformance(llofstream* os, LLSD* ba
 /*virtual*/ 
 void LLMetricPerformanceTesterBasic::compareTestResults(llofstream* os, std::string metric_string, S32 v_base, S32 v_current) 
 {
-	*os << fmt::format(fmt(" ,{:s}, {:d}, {:d}, {:d}, {:.4f}\n"), metric_string, v_base, v_current, 
+	*os << fmt::format(FMT_STRING(" ,{:s}, {:d}, {:d}, {:d}, {:.4f}\n"), metric_string, v_base, v_current, 
 						v_current - v_base, (v_base != 0) ? 100.f * v_current / v_base : 0) ;
 }
 
 /*virtual*/ 
 void LLMetricPerformanceTesterBasic::compareTestResults(llofstream* os, std::string metric_string, F32 v_base, F32 v_current) 
 {
-	*os << fmt::format(fmt(" ,{:s}, {:.4f}, {:.4f}, {:.4f}, {:.4f}\n"), metric_string.c_str(), v_base, v_current,
+	*os << fmt::format(FMT_STRING(" ,{:s}, {:.4f}, {:.4f}, {:.4f}, {:.4f}\n"), metric_string.c_str(), v_base, v_current,
 						v_current - v_base, (fabs(v_base) > 0.0001f) ? 100.f * v_current / v_base : 0.f ) ;
 }
 

@@ -1100,19 +1100,19 @@ std::string LLStringOps::getReadableNumber(F64 num)
 {
     if (fabs(num)>=1e9)
     {
-		return fmt::format(fmt("{:.2f}B"), num / 1e9);
+		return fmt::format(FMT_STRING("{:.2f}B"), num / 1e9);
     }
     else if (fabs(num)>=1e6)
     {
-		return fmt::format(fmt("{:.2f}M"), num / 1e6);
+		return fmt::format(FMT_STRING("{:.2f}M"), num / 1e6);
     }
     else if (fabs(num)>=1e3)
     {
-		return fmt::format(fmt("{:.2f}K"), num / 1e3);
+		return fmt::format(FMT_STRING("{:.2f}K"), num / 1e3);
     }
     else
     {
-		return fmt::format(fmt("{:.2f}"), num);
+		return fmt::format(FMT_STRING("{:.2f}"), num);
     }
 }
 
@@ -1349,7 +1349,7 @@ void LLStringUtil::formatNumber(std::string& numStr, const std::string& decimals
 
 		if (convertToF32(numStr, floatStr))
 		{
-			numStr = fmt::format(fmt("{:#.{}f}"), floatStr, intDecimals);
+			numStr = fmt::format(FMT_STRING("{:#.{}f}"), floatStr, intDecimals);
 		}
 	}
 }

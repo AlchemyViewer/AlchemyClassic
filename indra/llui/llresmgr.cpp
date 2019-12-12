@@ -217,7 +217,7 @@ void LLResMgr::getIntegerString( std::string& output, S32 input ) const
 			}
 			else
 			{
-				fraction_string = fmt::format(fmt("{:3d}"), fraction);
+				fraction_string = fmt::format(FMT_STRING("{:3d}"), fraction);
 			}
 			output = fraction_string;
 		}

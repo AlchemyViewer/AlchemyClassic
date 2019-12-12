@@ -334,7 +334,7 @@ void LLAvatarListItem::setDistance(F32 distance)
 	if (distance == 0)
 		mDistance->setValue(LLStringUtil::null);
 	else
-		mDistance->setValue(fmt::format(fmt("{:0.1f}m"), distance));
+		mDistance->setValue(fmt::format(FMT_STRING("{:0.1f}m"), distance));
 }
 
 void LLAvatarListItem::showLastInteractionTime(bool show)

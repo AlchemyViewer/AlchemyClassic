@@ -614,7 +614,7 @@ namespace LLError
         default:          mLevelString = "XXX";     break;
 		};
 
-		mLocationString = fmt::format(fmt("{:s}({:d})"), abbreviateFile(mFile), mLine);
+		mLocationString = fmt::format(FMT_STRING("{:s}({:d})"), abbreviateFile(mFile), mLine);
 #if LL_WINDOWS
 		// DevStudio: __FUNCTION__ already includes the full class name
 #else

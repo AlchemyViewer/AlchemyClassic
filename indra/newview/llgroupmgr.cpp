@@ -937,7 +937,7 @@ static void formatDateString(std::string &date_string)
 		S32 day		= std::stoi(result[2]);
 
 		// ISO 8601 date format
-		date_string = fmt::format(fmt("{}/{}/{}"), year, month, day);
+		date_string = fmt::format(FMT_STRING("{}/{}/{}"), year, month, day);
 	}
 }
 

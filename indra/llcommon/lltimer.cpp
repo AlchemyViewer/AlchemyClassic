@@ -551,7 +551,7 @@ void microsecondsToTimecodeString(U64MicrosecondsImplicit current_time, std::str
 	subframes = current_time / (U64)42;
 	subframes %= 100;
 
-	tcstring = fmt::format(fmt("{:3d}:{:2d}:{:2d}:{:2d}.{:2d}"), hours, minutes, seconds, frames, subframes);
+	tcstring = fmt::format(FMT_STRING("{:3d}:{:2d}:{:2d}:{:2d}.{:2d}"), hours, minutes, seconds, frames, subframes);
 }
 
 

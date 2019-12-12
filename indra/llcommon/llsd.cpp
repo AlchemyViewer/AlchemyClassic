@@ -260,7 +260,7 @@ namespace
 		{ return !llisnan(mValue) ? static_cast<LLSD::Integer>(mValue) : 0; }
 		
 	LLSD::String ImplReal::asString() const
-		{ return fmt::format(fmt("{:g}"), mValue); }
+		{ return fmt::format(FMT_STRING("{:g}"), mValue); }
 
 
 	class ImplString final

@@ -207,7 +207,7 @@ void LLVolatileAPRPool::clearVolatileAPRPool()
 	}
 	else
 	{
-		llassert_always_msg(mNumActiveRef > 0, fmt::format(fmt("Volatile APR Pool '{:s}' attempted to be cleared with {:d} references"), mName, mNumActiveRef));
+		llassert_always_msg(mNumActiveRef > 0, fmt::format(FMT_STRING("Volatile APR Pool '{:s}' attempted to be cleared with {:d} references"), mName, mNumActiveRef));
 	}
 
 	llassert(mNumTotalRef <= (FULL_VOLATILE_APR_POOL << 2)) ;

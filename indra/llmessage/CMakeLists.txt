@@ -13,7 +13,6 @@ include(LLAddBuildTest)
 include(Python)
 include(Tut)
 include(Python)
-include(Json)
 include(NGHTTP2)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
@@ -24,7 +23,6 @@ include_directories(
     ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
-    ${JSON_INCLUDE_DIR}
     )
 
 include_directories(
@@ -218,6 +216,7 @@ endif(USE_PRECOMPILED_HEADERS)
 
 target_link_libraries(
   llmessage
+  PUBLIC
   ${LLCOREHTTP_LIBRARIES}
   ${LLVFS_LIBRARIES}
   ${LLMATH_LIBRARIES}
@@ -230,6 +229,7 @@ target_link_libraries(
   ${BOOST_COROUTINE_LIBRARY}
   ${BOOST_CONTEXT_LIBRARY}
   ${BOOST_SYSTEM_LIBRARY}
+  nlohmann_json::nlohmann_json
   ${RT_LIBRARY}
   ${PTHREAD_LIBRARY}
   )

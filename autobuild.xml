@@ -2090,38 +2090,6 @@
           </map>
         </map>
       </map>
-      <key>modernjson</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 2013-2019 Niels Lohmann</string>
-        <key>description</key>
-        <string>JSON for Modern C++</string>
-        <key>license</key>
-        <string>MIT</string>
-        <key>license_file</key>
-        <string>LICENSES/modernjson.txt</string>
-        <key>name</key>
-        <string>modernjson</string>
-        <key>platforms</key>
-        <map>
-          <key>common</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>fa2eb2ed28bb18730484ed5da29ac9d5</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/modernjson/common/modernjson-3.7.0.192211123-common-192211123.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>common</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>3.7.0.192211123</string>
-      </map>
       <key>ndPhysicsStub</key>
       <map>
         <key>copyright</key>

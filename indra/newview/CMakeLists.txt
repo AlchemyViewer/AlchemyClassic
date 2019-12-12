@@ -21,7 +21,6 @@ include(GLOD)
 include(GLEW)
 include(GooglePerfTools)
 include(Hunspell)
-include(Json)
 include(LLAppearance)
 include(LLDarwin)
 include(LLAudio)
@@ -80,7 +79,6 @@ endif(USE_CRASHPAD)
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
-    ${JSON_INCLUDE_DIR}
     ${GLOD_INCLUDE_DIR}
     ${LLDARWIN_INCLUDE_DIRS}
     ${LLAUDIO_INCLUDE_DIRS}
@@ -2042,6 +2040,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${LLAPPEARANCE_LIBRARIES}
     absl::flat_hash_map
     absl::node_hash_map
+    nlohmann_json::nlohmann_json
     )
 
 set(ARTWORK_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH

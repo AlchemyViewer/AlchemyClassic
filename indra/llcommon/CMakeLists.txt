@@ -13,7 +13,6 @@ include(Linking)
 include(Boost)
 include(OpenSSL)
 include(LLSharedLibs)
-include(Json)
 include(GooglePerfTools)
 include(Copy3rdPartyLibs)
 include(ZLIB)
@@ -24,7 +23,6 @@ include_directories(
     ${LLCOMMON_INCLUDE_DIRS}
     ${LLDARWIN_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
-    ${JSON_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS}
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     ${URIPARSER_INCLUDE_DIRS}
@@ -312,6 +310,7 @@ target_link_libraries(
     absl::flat_hash_map
     absl::node_hash_map
     fmt::fmt
+    nlohmann_json::nlohmann_json
     ${RT_LIBRARY}
     )
 

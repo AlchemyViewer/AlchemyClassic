@@ -65,7 +65,7 @@ public:
 	};
 
 
-	virtual ~LLSplitButton() {};
+	virtual ~LLSplitButton() = default;
 
 	//Overridden
 	void	onFocusLost() override;

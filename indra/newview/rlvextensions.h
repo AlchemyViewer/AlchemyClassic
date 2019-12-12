@@ -31,7 +31,7 @@ class RlvExtGetSet : public RlvExtCommandHandler
 {
 public:
 	RlvExtGetSet();
-	virtual ~RlvExtGetSet() {}
+	virtual ~RlvExtGetSet() = default;
 
 	virtual bool onForceCommand(const RlvCommand& rlvCmd, ERlvCmdRet& cmdRet);
 	virtual bool onReplyCommand(const RlvCommand& rlvCmd, ERlvCmdRet& cmdRet);

@@ -95,8 +95,8 @@ extern S32 gMaxAgentGroups;
 class LLAvatarItemRecentComparator : public LLAvatarItemComparator
 {
 public:
-	LLAvatarItemRecentComparator() {};
-	virtual ~LLAvatarItemRecentComparator() {};
+	LLAvatarItemRecentComparator() = default;
+	virtual ~LLAvatarItemRecentComparator() = default;
 
 protected:
 	bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const override
@@ -114,7 +114,7 @@ protected:
 class LLAvatarItemStatusComparator : public LLAvatarItemComparator
 {
 public:
-	LLAvatarItemStatusComparator() {};
+	LLAvatarItemStatusComparator() = default;
 
 protected:
 	/**
@@ -146,7 +146,7 @@ class LLAvatarItemDistanceComparator : public LLAvatarItemComparator
 {
 public:
 	typedef std::map < LLUUID, LLVector3d > id_to_pos_map_t;
-	LLAvatarItemDistanceComparator() {};
+	LLAvatarItemDistanceComparator() = default;
 
 	void updateAvatarsPositions(std::vector<LLVector3d>& positions, uuid_vec_t& uuids)
 	{
@@ -183,8 +183,8 @@ private:
 class LLAvatarItemRecentSpeakerComparator : public  LLAvatarItemNameComparator
 {
 public:
-	LLAvatarItemRecentSpeakerComparator() {};
-	virtual ~LLAvatarItemRecentSpeakerComparator() {};
+	LLAvatarItemRecentSpeakerComparator() = default;
+	virtual ~LLAvatarItemRecentSpeakerComparator() = default;
 
 protected:
 	bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const override

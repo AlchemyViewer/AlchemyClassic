@@ -701,7 +701,7 @@ protected:
 	friend class LLUICtrlFactory;
 
 public:
-	virtual ~LLContextMenu() {}
+	virtual ~LLContextMenu() = default;
 
 	// LLView Functionality
 	// can't set visibility directly, must call show or hide
@@ -818,7 +818,7 @@ public:
 	struct Params : public LLInitParam::Block<Params, LLPanel::Params>
 	{};
 	LLMenuHolderGL(const Params& p);
-	virtual ~LLMenuHolderGL() {}
+	virtual ~LLMenuHolderGL() = default;
 
 	virtual BOOL hideMenus();
 	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
@@ -909,9 +909,9 @@ public:
 		static LLEditMenuHandlerMgr instance;
 		return instance;
 	}
-	virtual ~LLEditMenuHandlerMgr() {}
+	virtual ~LLEditMenuHandlerMgr() = default;
 private:
-	LLEditMenuHandlerMgr() {};
+	LLEditMenuHandlerMgr() = default;;
 };
 
 

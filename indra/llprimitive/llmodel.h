@@ -109,7 +109,7 @@ public:
 	class Decomposition
 	{
 	public:
-		Decomposition() { }
+		Decomposition() = default;
 		Decomposition(LLSD& data);
 		void fromLLSD(LLSD& data);
 		LLSD asLLSD() const;

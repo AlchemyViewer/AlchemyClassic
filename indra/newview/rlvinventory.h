@@ -113,7 +113,7 @@ class RlvRenameOnWearObserver : public LLInventoryFetchItemsObserver
 {
 public:
 	RlvRenameOnWearObserver(const LLUUID& idItem) : LLInventoryFetchItemsObserver(idItem) {}
-	virtual ~RlvRenameOnWearObserver() {}
+	virtual ~RlvRenameOnWearObserver() = default;
 	virtual void done();
 protected:
 	void doneIdle();
@@ -127,8 +127,8 @@ protected:
 class RlvGiveToRLVOffer
 {
 protected:
-	RlvGiveToRLVOffer() {}
-	virtual ~RlvGiveToRLVOffer() {}
+	RlvGiveToRLVOffer() = default;
+	virtual ~RlvGiveToRLVOffer() = default;
 protected:
 	bool         createDestinationFolder(const std::string& strPath);
 	virtual void onDestinationCreated(const LLUUID& idFolder, const std::string& strName) = 0;
@@ -163,7 +163,7 @@ class RlvGiveToRLVAgentOffer : public LLInventoryFetchDescendentsObserver, RlvGi
 {
 public:
 	RlvGiveToRLVAgentOffer(const LLUUID& idFolder) : LLInventoryFetchDescendentsObserver(idFolder), RlvGiveToRLVOffer()  {}
-	/*virtual*/ ~RlvGiveToRLVAgentOffer() {}
+	/*virtual*/ ~RlvGiveToRLVAgentOffer() = default;
 public:
 	/*virtual*/ void done();
 protected:
@@ -191,7 +191,7 @@ public:
 			idxLast = idxIt + 2;
 		}
 	}
-	virtual ~RlvCriteriaCategoryCollector() {}
+	virtual ~RlvCriteriaCategoryCollector() = default;
 
 	virtual bool operator()(LLInventoryCategory* pFolder, LLInventoryItem* pItem)
 	{
@@ -227,7 +227,7 @@ class RlvWearableItemCollector : public LLInventoryCollectFunctor
 {
 public:
 	RlvWearableItemCollector(const LLInventoryCategory* pFolder, RlvForceWear::EWearAction eAction, RlvForceWear::EWearFlags eFlags);
-	virtual ~RlvWearableItemCollector() {}
+	virtual ~RlvWearableItemCollector() = default;
 
 	virtual bool operator()(LLInventoryCategory* pFolder, LLInventoryItem* pItem);
 
@@ -261,8 +261,8 @@ protected:
 class RlvIsLinkType : public LLInventoryCollectFunctor
 {
 public:
-	RlvIsLinkType() {}
-	/*virtual*/ ~RlvIsLinkType() {}
+	RlvIsLinkType() = default;
+	/*virtual*/ ~RlvIsLinkType() = default;
 	virtual bool operator()(LLInventoryCategory* pFolder, LLInventoryItem* pItem) { return (pItem) && (pItem->getIsLinkType()); }
 };
 
@@ -271,7 +271,7 @@ class RlvFindAttachmentsOnPoint : public LLInventoryCollectFunctor
 {
 public:
 	RlvFindAttachmentsOnPoint(const LLViewerJointAttachment* pAttachPt) : m_pAttachPt(pAttachPt) {}
-	/*virtual*/ ~RlvFindAttachmentsOnPoint() {}
+	/*virtual*/ ~RlvFindAttachmentsOnPoint() = default;
 	virtual bool operator()(LLInventoryCategory* pFolder, LLInventoryItem* pItem);
 protected:
 	const LLViewerJointAttachment* m_pAttachPt;

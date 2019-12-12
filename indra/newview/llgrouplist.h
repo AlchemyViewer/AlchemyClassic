@@ -50,7 +50,7 @@ class LLGroupList final : public LLFlatListViewEx, public LLOldEvents::LLSimpleL
 public:
 	struct Params : public LLInitParam::Block<Params, LLFlatListViewEx::Params>
 	{
-		Params(){};
+		Params() = default;
 	};
 
 	LLGroupList(const Params& p);

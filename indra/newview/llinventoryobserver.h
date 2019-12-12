@@ -191,7 +191,7 @@ private:
 class LLInventoryAddedObserver : public LLInventoryObserver
 {
 public:
-	LLInventoryAddedObserver() {}
+	LLInventoryAddedObserver() = default;
 	/*virtual*/ void changed(U32 mask) override;
 
 protected:
@@ -231,7 +231,7 @@ protected:
 class LLInventoryCompletionObserver : public LLInventoryObserver
 {
 public:
-	LLInventoryCompletionObserver() {}
+	LLInventoryCompletionObserver() = default;
 	/*virtual*/ void changed(U32 mask) override;
 
 	void watchItem(const LLUUID& id);
@@ -255,7 +255,7 @@ class LLInventoryCategoriesObserver : public LLInventoryObserver
 public:
 	typedef std::function<void()> callback_t;
 
-	LLInventoryCategoriesObserver() {};
+	LLInventoryCategoriesObserver() = default;
 	void changed(U32 mask) override;
 
 	/**

@@ -145,7 +145,7 @@ public:
 		mSkyMap(std::move(skyMap)),
 		mDayTime(dayTime)
 	{}
-	~LLEnvironmentSettings() {}
+	~LLEnvironmentSettings() = default;
 
 	void saveParams(const LLSD& dayCycle, const LLSD& skyMap, const LLSD& waterParams, F64 dayTime)
 	{

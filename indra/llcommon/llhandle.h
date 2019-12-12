@@ -229,7 +229,7 @@ public:
     };
 
 protected:
-    LLCheckedHandleBase() { }
+    LLCheckedHandleBase() = default;
 
 };
 

@@ -31,7 +31,7 @@
 class LLHelp
 {
  public:
-    virtual ~LLHelp() {}
+    virtual ~LLHelp() = default;
 	virtual void showTopic(const std::string &topic) = 0;
 	virtual std::string getURL(const std::string &topic) = 0;
 	// return default (fallback) topic name suitable for showTopic()

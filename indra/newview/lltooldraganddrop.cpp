@@ -73,8 +73,8 @@
 class LLNoPreferredType : public LLInventoryCollectFunctor
 {
 public:
-	LLNoPreferredType() {}
-	virtual ~LLNoPreferredType() {}
+	LLNoPreferredType() = default;
+	virtual ~LLNoPreferredType() = default;
 
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override
@@ -110,7 +110,7 @@ class LLDroppableItem : public LLInventoryCollectFunctor
 public:
 	LLDroppableItem(BOOL is_transfer) :
 		mCountLosing(0), mIsTransfer(is_transfer) {}
-	virtual ~LLDroppableItem() {}
+	virtual ~LLDroppableItem() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 	S32 countNoCopy() const { return mCountLosing; }
@@ -180,7 +180,7 @@ public:
 							const uuid_vec_t& item_ids) :
 		LLInventoryFetchComboObserver(folder_ids, item_ids)
 	{}
-	~LLCategoryFireAndForget() {}
+	~LLCategoryFireAndForget() = default;
 
 	void done() override
 	{
@@ -241,7 +241,7 @@ public:
 		mObjectID(obj_id),
 		mSource(src)
 	{}
-	~LLCategoryDropDescendentsObserver() {}
+	~LLCategoryDropDescendentsObserver() = default;
 	virtual void done();
 
 protected:

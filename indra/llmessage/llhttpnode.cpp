@@ -443,8 +443,6 @@ namespace
     }
 }
 
-LLHTTPRegistrar::NodeFactory::~NodeFactory() { }
-
 void LLHTTPRegistrar::registerFactory(
     const std::string& path, NodeFactory& factory)
 {

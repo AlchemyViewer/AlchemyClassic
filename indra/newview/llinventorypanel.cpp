@@ -81,7 +81,7 @@ class LLInventoryPanelObserver : public LLInventoryObserver
 {
 public:
 	LLInventoryPanelObserver(LLInventoryPanel* ip) : mIP(ip) {}
-	virtual ~LLInventoryPanelObserver() {}
+	virtual ~LLInventoryPanelObserver() = default;
 
 	void changed(U32 mask) override
 	{

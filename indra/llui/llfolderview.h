@@ -66,7 +66,7 @@ class LLTextBox;
 class LLFolderViewScrollContainer final : public LLScrollContainer
 {
 public:
-	/*virtual*/ ~LLFolderViewScrollContainer() {};
+	/*virtual*/ ~LLFolderViewScrollContainer() = default;
 	/*virtual*/ const LLRect getScrolledViewRect() const override;
 
 protected:
@@ -344,7 +344,7 @@ public:
 class LLFolderViewFunctor
 {
 public:
-	virtual ~LLFolderViewFunctor() {}
+	virtual ~LLFolderViewFunctor() = default;
 	virtual void doFolder(LLFolderViewFolder* folder) = 0;
 	virtual void doItem(LLFolderViewItem* item) = 0;
 };
@@ -364,7 +364,7 @@ class LLSelectFirstFilteredItem : public LLFolderViewFunctor
 {
 public:
 	LLSelectFirstFilteredItem() : mItemSelected(FALSE), mFolderSelected(FALSE) {}
-	virtual ~LLSelectFirstFilteredItem() {}
+	virtual ~LLSelectFirstFilteredItem() = default;
 	void doFolder(LLFolderViewFolder* folder) override;
 	void doItem(LLFolderViewItem* item) override;
 	BOOL wasItemSelected() { return mItemSelected || mFolderSelected; }
@@ -376,8 +376,8 @@ protected:
 class LLOpenFilteredFolders : public LLFolderViewFunctor
 {
 public:
-	LLOpenFilteredFolders()  {}
-	virtual ~LLOpenFilteredFolders() {}
+	LLOpenFilteredFolders() = default;
+	virtual ~LLOpenFilteredFolders() = default;
 	void doFolder(LLFolderViewFolder* folder) override;
 	void doItem(LLFolderViewItem* item) override;
 };

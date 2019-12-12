@@ -601,8 +601,8 @@ void LLMarketplaceInventoryImporter::updateImport()
 class LLMarketplaceInventoryObserver : public LLInventoryObserver
 {
 public:
-	LLMarketplaceInventoryObserver() {}
-	virtual ~LLMarketplaceInventoryObserver() {}
+	LLMarketplaceInventoryObserver() = default;
+	virtual ~LLMarketplaceInventoryObserver() = default;
 	void changed(U32 mask) override;
 };
 

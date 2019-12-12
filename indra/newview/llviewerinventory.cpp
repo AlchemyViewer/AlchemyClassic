@@ -2403,7 +2403,7 @@ class LLRegenerateLinkCollector : public LLInventoryCollectFunctor
 {
 public:
 	LLRegenerateLinkCollector(const LLViewerInventoryItem *target_item) : mTargetItem(target_item) {}
-	virtual ~LLRegenerateLinkCollector() {}
+	virtual ~LLRegenerateLinkCollector() = default;
 
     bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override

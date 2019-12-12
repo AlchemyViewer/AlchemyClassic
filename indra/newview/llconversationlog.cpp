@@ -165,8 +165,8 @@ void LLConversation::setListenIMFloaterOpened()
 class LLConversationLogFriendObserver : public LLFriendObserver
 {
 public:
-	LLConversationLogFriendObserver() {}
-	virtual ~LLConversationLogFriendObserver() {}
+	LLConversationLogFriendObserver() = default;
+	virtual ~LLConversationLogFriendObserver() = default;
 	void changed(U32 mask) override;
 };
 

@@ -40,7 +40,7 @@ public:
 
 	virtual void buildSearchHistory();
 
-	virtual ~LLSearchHistoryBuilder(){}
+	virtual ~LLSearchHistoryBuilder() = default;
 
 protected:
 

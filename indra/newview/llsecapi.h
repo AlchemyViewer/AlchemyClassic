@@ -63,10 +63,10 @@ struct LLProtectedDataException: public LLException
 class LLCredential  : public LLThreadSafeRefCount
 {
 public:
-	LLCredential() {}
+	LLCredential() = default;
     LLCredential(std::string grid) : mGrid(std::move(grid)) {}
 	
-	virtual ~LLCredential() {}
+	virtual ~LLCredential() = default;
 	
 	virtual void setCredentialData(const LLSD& identifier, const LLSD& authenticator) 
 	{ 
@@ -108,8 +108,8 @@ std::ostream& operator <<(std::ostream& s, const LLCredential& cred);
 class LLSecAPIHandler : public LLThreadSafeRefCount
 {
 public:
-	LLSecAPIHandler() {}
-	virtual ~LLSecAPIHandler() {}
+	LLSecAPIHandler() = default;
+	virtual ~LLSecAPIHandler() = default;
 	
 	// initialize the SecAPIHandler
 	virtual void init() {};

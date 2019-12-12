@@ -41,7 +41,7 @@ enum ELocationType {
 class LLLocationHistoryItem {
 			
 public:
-	LLLocationHistoryItem(){}
+	LLLocationHistoryItem() = default;
 	LLLocationHistoryItem(std::string typed_location, 
 			LLVector3d global_position, std::string tooltip,ELocationType type ):
 		mGlobalPos(global_position),		

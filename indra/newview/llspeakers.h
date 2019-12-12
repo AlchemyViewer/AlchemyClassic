@@ -59,7 +59,7 @@ public:
 
 
 	LLSpeaker(const LLUUID& id, const std::string& name = LLStringUtil::null, const ESpeakerType type = SPEAKER_AGENT);
-	~LLSpeaker() {};
+	~LLSpeaker() = default;
 	void lookupName();
 
 	void onNameCache(const LLUUID& id, const LLAvatarName& full_name);

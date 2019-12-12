@@ -350,7 +350,7 @@ public:
 	class NodeFactory
 	{
 	public:
-		virtual ~NodeFactory();
+		virtual ~NodeFactory() = default;
 		virtual LLHTTPNode* build() const = 0;
 	};
 

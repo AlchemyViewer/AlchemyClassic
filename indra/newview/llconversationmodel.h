@@ -244,7 +244,7 @@ public:
 	static constexpr U32 SO_DEFAULT = (SO_SESSION_TYPE << 16) | (SO_DATE);
 	
 	LLConversationFilter() { mEmpty.clear(); }
-	~LLConversationFilter() {}
+	~LLConversationFilter() = default;
 		
 	bool 				check(const LLFolderViewModelItem* item) override { return true; }
 	bool				checkFolder(const LLFolderViewModelItem* folder) const override { return true; }

@@ -38,7 +38,7 @@ class LLStreamInfo : LLEventTimer
 public:
 	LLStreamInfo();
 private:
-	~LLStreamInfo() {}
+	~LLStreamInfo() = default;
 	BOOL tick() override;
 };
 

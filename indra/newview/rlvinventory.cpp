@@ -41,7 +41,7 @@ class RlvSharedInventoryFetcher : public LLInventoryFetchDescendentsObserver
 {
 public:
 	RlvSharedInventoryFetcher(const uuid_vec_t& idFolders): LLInventoryFetchDescendentsObserver(idFolders) {}
-	virtual ~RlvSharedInventoryFetcher() {}
+	virtual ~RlvSharedInventoryFetcher() = default;
 
 	virtual void done()
 	{

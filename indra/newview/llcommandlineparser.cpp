@@ -108,7 +108,7 @@ public:
         mLastOption(false)
         {}
       
-    virtual ~LLCLPValue() {};
+    virtual ~LLCLPValue() = default;
 
     void setMinTokens(unsigned c) 
     {

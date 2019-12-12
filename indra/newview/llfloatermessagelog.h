@@ -43,7 +43,7 @@ class LLMessageLogFilter
 {
 public:
     LLMessageLogFilter(const std::string& filter);
-	~LLMessageLogFilter() {}
+	~LLMessageLogFilter() = default;
 	
 	void set(const std::string& filter);
 	bool empty() const { return mPositiveNames.empty() && mNegativeNames.empty(); }
@@ -153,7 +153,7 @@ protected:
 	{
 	public:
 		LLMessageLogNetMan(LLFloaterMessageLog* parent);
-		~LLMessageLogNetMan() {}
+		~LLMessageLogNetMan() = default;
 		
 	private:
 		BOOL tick() override;

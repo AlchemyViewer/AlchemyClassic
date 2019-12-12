@@ -88,7 +88,7 @@ public:
 		: TextCmd(pos, group_with_next, segment), mWString(std::move(ws))
 	{
 	}
-	virtual ~TextCmdInsert() {}
+	virtual ~TextCmdInsert() = default;
 
 	BOOL execute( LLTextBase* editor, S32* delta ) override
 	{

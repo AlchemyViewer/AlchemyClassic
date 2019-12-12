@@ -39,7 +39,7 @@ public:
 	void sendNotification(const std::string& title, const std::string& body, bool play_sound) override;
     bool isImplemented() override { return false; }
 
-    LLDesktopNotificationsNope() {}
+    LLDesktopNotificationsNope() = default;
 };
 
 #endif // LL_DESKTOPNOTIFICATIONS_NOPE_H

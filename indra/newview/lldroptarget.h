@@ -45,7 +45,7 @@ public:
 	};
 	
 	LLDropTarget(const Params&);
-	~LLDropTarget() {};
+	~LLDropTarget() = default;
 	
 	void doDrop(EDragAndDropType cargo_type, void* cargo_data);
 	

@@ -44,7 +44,7 @@ class LLFloaterDisplayName final : public LLFloater
 {
 public:
 	LLFloaterDisplayName(const LLSD& key);
-	virtual ~LLFloaterDisplayName() { }
+	virtual ~LLFloaterDisplayName() = default;
 	/*virtual*/	BOOL	postBuild() override;
 	void onSave();
 	void onReset();

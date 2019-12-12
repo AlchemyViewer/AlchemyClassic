@@ -52,7 +52,7 @@ protected:
 // [/RLVa:KB]
 	{};
 public:
-	~LLFloaterIMNearbyChatToastPanel(){}
+	~LLFloaterIMNearbyChatToastPanel() = default;
 	
 	static LLFloaterIMNearbyChatToastPanel* createInstance();
 

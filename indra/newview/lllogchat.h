@@ -153,7 +153,7 @@ class LLChatLogFormatter
 {
 public:
 	LLChatLogFormatter(LLSD im) : mIM(std::move(im)) {}
-	virtual ~LLChatLogFormatter() {};
+	virtual ~LLChatLogFormatter() = default;
 
 	friend std::ostream& operator<<(std::ostream& str, const LLChatLogFormatter& formatter)
 	{
@@ -194,8 +194,8 @@ public:
 	static bool parse(std::string& raw, LLSD& im, const LLSD& parse_params = LLSD());
 
 protected:
-	LLChatLogParser();
-	virtual ~LLChatLogParser() {};
+	LLChatLogParser() = default;
+	virtual ~LLChatLogParser() = default;
 };
 
 

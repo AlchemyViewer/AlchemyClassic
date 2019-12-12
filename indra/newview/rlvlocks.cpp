@@ -932,7 +932,7 @@ class RlvLockedDescendentsCollector : public LLInventoryCollectFunctor
 public:
 	RlvLockedDescendentsCollector(int eSourceTypeMask, RlvFolderLocks::ELockPermission ePermMask, ERlvLockMask eLockTypeMask) 
 		: m_ePermMask(ePermMask), m_eSourceTypeMask(eSourceTypeMask), m_eLockTypeMask(eLockTypeMask) {}
-	/*virtual*/ ~RlvLockedDescendentsCollector() {}
+	/*virtual*/ ~RlvLockedDescendentsCollector() = default;
 	/*virtual*/ bool operator()(LLInventoryCategory* pFolder, LLInventoryItem* pItem)
 	{
 		return (pFolder) && (RlvFolderLocks::instance().isLockedFolderEntry(pFolder->getUUID(), m_eSourceTypeMask, m_ePermMask, m_eLockTypeMask));

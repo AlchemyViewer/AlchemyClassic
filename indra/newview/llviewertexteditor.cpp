@@ -71,7 +71,7 @@ class LLEmbeddedLandmarkCopied final : public LLInventoryCallback
 {
 public:
 
-	LLEmbeddedLandmarkCopied(){}
+	LLEmbeddedLandmarkCopied() = default;
 	void fire(const LLUUID& inv_item) override
 	{
 		showInfo(inv_item);

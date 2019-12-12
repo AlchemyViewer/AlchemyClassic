@@ -257,8 +257,8 @@ std::map<std::string, std::string> LLAgent::sTeleportProgressMessages;
 class LLAgentFriendObserver : public LLFriendObserver
 {
 public:
-	LLAgentFriendObserver() {}
-	virtual ~LLAgentFriendObserver() {}
+	LLAgentFriendObserver() = default;
+	virtual ~LLAgentFriendObserver() = default;
 	void changed(U32 mask) override;
 };
 

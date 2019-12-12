@@ -49,7 +49,7 @@ public:
 	class Request : public QueuedRequest
 	{
 	protected:
-		~Request() {}; // use deleteRequest()
+		~Request() = default; // use deleteRequest()
 		
 	public:
 		Request(handle_t handle, U32 priority, U32 flags,

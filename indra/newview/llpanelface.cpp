@@ -2236,7 +2236,7 @@ void LLPanelFace::LLSelectedTEMaterial::getCurrentDiffuseAlphaMode(U8& diffuse_a
 	{
 		LLSelectedTEGetDiffuseAlphaMode() : _isAlpha(false) {}
 		LLSelectedTEGetDiffuseAlphaMode(bool diffuse_texture_has_alpha) : _isAlpha(diffuse_texture_has_alpha) {}
-		virtual ~LLSelectedTEGetDiffuseAlphaMode() {}
+		virtual ~LLSelectedTEGetDiffuseAlphaMode() = default;
 
 		U8 get(LLViewerObject* object, S32 face) override
 		{

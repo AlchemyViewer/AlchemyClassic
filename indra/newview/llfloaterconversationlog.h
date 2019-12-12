@@ -35,7 +35,7 @@ class LLFloaterConversationLog final : public LLFloater
 public:
 
 	LLFloaterConversationLog(const LLSD& key);
-	virtual ~LLFloaterConversationLog(){};
+	virtual ~LLFloaterConversationLog() = default;
 
 	BOOL postBuild() override;
 

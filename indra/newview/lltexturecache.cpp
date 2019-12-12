@@ -73,7 +73,7 @@ private:
 	{
 	public:
 		ReadResponder(LLTextureCache* cache, handle_t handle) : mCache(cache), mHandle(handle) {}
-		~ReadResponder() {}
+		~ReadResponder() = default;
 		void completed(S32 bytes) override
 		{
 			mCache->lockWorkers();

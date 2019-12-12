@@ -110,7 +110,7 @@ S32 compute_stock_count(LLUUID cat_uuid, bool force_count = false);
 class LLInventoryCollectFunctor
 {
 public:
-	virtual ~LLInventoryCollectFunctor(){};
+	virtual ~LLInventoryCollectFunctor() = default;
 	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) = 0;
 
 	static bool itemTransferCommonlyAllowed(const LLInventoryItem* item);
@@ -127,7 +127,7 @@ class LLAssetIDMatches : public LLInventoryCollectFunctor
 {
 public:
 	LLAssetIDMatches(const LLUUID& asset_id) : mAssetID(asset_id) {}
-	virtual ~LLAssetIDMatches() {}
+	virtual ~LLAssetIDMatches() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 	
 protected:
@@ -144,7 +144,7 @@ class LLLinkedItemIDMatches : public LLInventoryCollectFunctor
 {
 public:
 	LLLinkedItemIDMatches(const LLUUID& item_id) : mBaseItemID(item_id) {}
-	virtual ~LLLinkedItemIDMatches() {}
+	virtual ~LLLinkedItemIDMatches() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 	
 protected:
@@ -162,7 +162,7 @@ class LLIsType : public LLInventoryCollectFunctor
 {
 public:
 	LLIsType(LLAssetType::EType type) : mType(type) {}
-	virtual ~LLIsType() {}
+	virtual ~LLIsType() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 protected:
@@ -179,7 +179,7 @@ class LLIsNotType : public LLInventoryCollectFunctor
 {
 public:
 	LLIsNotType(LLAssetType::EType type) : mType(type) {}
-	virtual ~LLIsNotType() {}
+	virtual ~LLIsNotType() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 protected:
@@ -198,7 +198,7 @@ class LLIsOfAssetType : public LLInventoryCollectFunctor
 {
 public:
 	LLIsOfAssetType(LLAssetType::EType type) : mType(type) {}
-	virtual ~LLIsOfAssetType() {}
+	virtual ~LLIsOfAssetType() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 protected:
@@ -270,7 +270,7 @@ class LLParticularBuddyCollector : public LLInventoryCollectFunctor
 {
 public:
 	LLParticularBuddyCollector(const LLUUID& id) : mBuddyID(id) {}
-	virtual ~LLParticularBuddyCollector() {}
+	virtual ~LLParticularBuddyCollector() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 protected:
@@ -398,7 +398,7 @@ class LLFindWearablesOfType : public LLInventoryCollectFunctor
 {
 public:
 	LLFindWearablesOfType(LLWearableType::EType type) : mWearableType(type) {}
-	virtual ~LLFindWearablesOfType() {}
+	virtual ~LLFindWearablesOfType() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 	void setType(LLWearableType::EType type);
 
@@ -411,7 +411,7 @@ class LLFindActualWearablesOfType : public LLFindWearablesOfType
 {
 public:
 	LLFindActualWearablesOfType(LLWearableType::EType type) : LLFindWearablesOfType(type) {}
-	virtual ~LLFindActualWearablesOfType() {}
+	virtual ~LLFindActualWearablesOfType() = default;
 
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{
@@ -425,7 +425,7 @@ class LLIsTypeActual : public LLIsType
 {
 public:
 	LLIsTypeActual(LLAssetType::EType type) : LLIsType(type) {}
-	virtual ~LLIsTypeActual() {}
+	virtual ~LLIsTypeActual() = default;
 
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{

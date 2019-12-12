@@ -50,7 +50,7 @@ typedef struct event_st{
 	U32 flags = 0;
 	event_st(U32 id, F64 epoch, std::string date_str, std::string name)
 		: eventId(id), eventEpoch(epoch), eventDateStr(std::move(date_str)), eventName(std::move(name)){}
-	event_st(){}
+	event_st() = default;
 } LLEventStruct;
 
 class LLEventNotifier

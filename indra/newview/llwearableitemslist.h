@@ -106,7 +106,7 @@ public:
 
 	static LLPanelDeletableWearableListItem* create(LLViewerInventoryItem* item);
 
-	virtual ~LLPanelDeletableWearableListItem() {};
+	virtual ~LLPanelDeletableWearableListItem() = default;
 
 	/*virtual*/ BOOL postBuild() override;
 
@@ -125,7 +125,7 @@ class LLPanelAttachmentListItem final : public LLPanelDeletableWearableListItem
 	LOG_CLASS(LLPanelAttachmentListItem);
 public:
 	static LLPanelAttachmentListItem* create(LLViewerInventoryItem* item);
-	virtual ~LLPanelAttachmentListItem() {};
+	virtual ~LLPanelAttachmentListItem() = default;
 
 	/** Set item title. Joint name is added to the title in parenthesis */
 	/*virtual*/ void updateItem(const std::string& name,
@@ -247,8 +247,8 @@ class LLWearableListItemComparator : public LLFlatListView::ItemComparator
 	LOG_CLASS(LLWearableListItemComparator);
 
 public:
-	LLWearableListItemComparator() {};
-	virtual ~LLWearableListItemComparator() {};
+	LLWearableListItemComparator() = default;
+	virtual ~LLWearableListItemComparator() = default;
 
 	bool compare(const LLPanel* item1, const LLPanel* item2) const override
 	{

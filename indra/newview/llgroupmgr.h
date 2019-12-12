@@ -56,7 +56,7 @@ class LLGroupMgrObserver
 public:
 	LLGroupMgrObserver(const LLUUID& id) : mID(id){};
 	LLGroupMgrObserver() : mID(LLUUID::null){};
-	virtual ~LLGroupMgrObserver(){};
+	virtual ~LLGroupMgrObserver() = default;
 	virtual void changed(LLGroupChange gc) = 0;
 	const LLUUID& getID() const { return mID; }
 
@@ -67,7 +67,7 @@ protected:
 class LLParticularGroupObserver
 {
 public:
-	virtual ~LLParticularGroupObserver(){}
+	virtual ~LLParticularGroupObserver() = default;
 	virtual void changed(const LLUUID& group_id, LLGroupChange gc) = 0;
 };
 

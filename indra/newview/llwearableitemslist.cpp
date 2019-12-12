@@ -51,7 +51,7 @@
 class LLFindOutfitItems final : public LLInventoryCollectFunctor
 {
 public:
-	LLFindOutfitItems() {}
+	LLFindOutfitItems() = default;
 	virtual ~LLFindOutfitItems() = default;
 	bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;

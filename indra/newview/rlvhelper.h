@@ -63,7 +63,7 @@ public:
 
 	RlvBehaviourInfo(std::string strBhvr, ERlvBehaviour eBhvr, U32 maskParamType, U32 nBhvrFlags = 0)
 		: m_strBhvr(strBhvr), m_eBhvr(eBhvr), m_nBhvrFlags(nBhvrFlags), m_maskParamType(maskParamType) {}
-	virtual ~RlvBehaviourInfo() {}
+	virtual ~RlvBehaviourInfo() = default;
 
 	const std::string&	getBehaviour() const      { return m_strBhvr; }
 	ERlvBehaviour		getBehaviourType() const  { return m_eBhvr; }
@@ -385,7 +385,7 @@ struct RlvCommandOption
 protected:
 	RlvCommandOption() : m_fValid(false) {}
 public:
-	virtual ~RlvCommandOption() {}
+	virtual ~RlvCommandOption() = default;
 
 public:
 	virtual bool isEmpty() const { return false; }

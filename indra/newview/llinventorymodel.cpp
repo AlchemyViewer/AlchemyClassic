@@ -97,7 +97,7 @@ class LLCanCache : public LLInventoryCollectFunctor
 {
 public:
 	LLCanCache(LLInventoryModel* model) : mModel(model) {}
-	virtual ~LLCanCache() {}
+	virtual ~LLCanCache() = default;
 	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 protected:
 	LLInventoryModel* mModel;
@@ -796,7 +796,7 @@ bool LLInventoryModel::hasMatchingDirectDescendent(const LLUUID& cat_id,
 class LLAlwaysCollect : public LLInventoryCollectFunctor
 {
 public:
-	virtual ~LLAlwaysCollect() {}
+	virtual ~LLAlwaysCollect() = default;
 
 	bool operator()(LLInventoryCategory* cat,
 	                        LLInventoryItem* item) override
@@ -2688,7 +2688,7 @@ void LLInventoryModel::createCommonSystemCategories()
 
 struct LLUUIDAndName
 {
-	LLUUIDAndName() {}
+	LLUUIDAndName() = default;
 	LLUUIDAndName(const LLUUID& id, std::string name);
 	bool operator==(const LLUUIDAndName& rhs) const;
 	bool operator<(const LLUUIDAndName& rhs) const;

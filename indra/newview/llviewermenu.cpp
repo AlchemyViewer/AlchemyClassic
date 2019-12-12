@@ -3863,7 +3863,7 @@ class LLHaveCallingcard : public LLInventoryCollectFunctor
 {
 public:
 	LLHaveCallingcard(const LLUUID& agent_id);
-	virtual ~LLHaveCallingcard() {}
+	virtual ~LLHaveCallingcard() = default;
 	virtual bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item);
 	BOOL isThere() const { return mIsThere;}
@@ -7843,7 +7843,7 @@ class LLHasAsset : public LLInventoryCollectFunctor
 {
 public:
 	LLHasAsset(const LLUUID& id) : mAssetID(id), mHasAsset(FALSE) {}
-	virtual ~LLHasAsset() {}
+	virtual ~LLHasAsset() = default;
     bool operator()(LLInventoryCategory* cat,
 							LLInventoryItem* item) override;
 	BOOL hasAsset() const { return mHasAsset; }

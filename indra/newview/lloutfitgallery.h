@@ -48,8 +48,8 @@ class LLOutfitGalleryContextMenu;
 class LLUpdateGalleryOnPhotoLinked : public LLInventoryCallback
 {
 public:
-    LLUpdateGalleryOnPhotoLinked(){}
-    virtual ~LLUpdateGalleryOnPhotoLinked(){}
+    LLUpdateGalleryOnPhotoLinked() = default;
+    virtual ~LLUpdateGalleryOnPhotoLinked() = default;
     /* virtual */ void fire(const LLUUID& inv_item_id) override;
 private:
 };

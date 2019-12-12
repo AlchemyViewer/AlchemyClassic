@@ -370,7 +370,7 @@ struct mem_info {
 	}
 
 private:
-	mem_info(){}
+	mem_info() = default;
 };
 
 void* ll_aligned_malloc_fallback( size_t size, int align )

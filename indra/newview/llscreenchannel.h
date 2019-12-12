@@ -156,8 +156,8 @@ public:
 	class Matcher
 	{
 	public:
-		Matcher(){}
-		virtual ~Matcher() {}
+		Matcher() = default;
+		virtual ~Matcher() = default;
 		virtual bool matches(const LLNotificationPtr) const = 0;
 	};
 

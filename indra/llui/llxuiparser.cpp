@@ -331,8 +331,6 @@ LLXSDWriter::LLXSDWriter()
 	registerInspectFunc<LLSD>(std::bind(&LLXSDWriter::writeAttribute, this, "xs:string", std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 }
 
-LLXSDWriter::~LLXSDWriter() {}
-
 void LLXSDWriter::writeXSD(const std::string& type_name, LLXMLNodePtr node, const LLInitParam::BaseBlock& block, const std::string& xml_namespace)
 {
 	Schema schema(xml_namespace);

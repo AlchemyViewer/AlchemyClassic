@@ -64,7 +64,7 @@ public:
 	/*virtual*/ std::string getCurrentElementName() override { return LLStringUtil::null; }
 	/*virtual*/ std::string getCurrentFileName() override { return LLStringUtil::null; }
 	LLXSDWriter();
-	~LLXSDWriter();
+	~LLXSDWriter() = default;
 
 protected:
 	void writeAttribute(const std::string& type, const Parser::name_stack_t&, S32 min_count, S32 max_count, const std::vector<std::string>* possible_values);

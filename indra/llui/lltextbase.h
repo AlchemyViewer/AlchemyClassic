@@ -516,7 +516,7 @@ protected:
 				mSegments.push_back(segment);
 			}
 		}
-		virtual			~TextCmd() {}
+		virtual			~TextCmd() = default;
 		virtual BOOL	execute(LLTextBase* editor, S32* delta) = 0;
 		virtual S32		undo(LLTextBase* editor) = 0;
 		virtual S32		redo(LLTextBase* editor) = 0;

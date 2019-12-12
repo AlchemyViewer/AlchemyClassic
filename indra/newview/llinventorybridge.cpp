@@ -144,7 +144,7 @@ class LLRightClickInventoryFetchDescendentsObserver : public LLInventoryFetchDes
 {
 public:
 	LLRightClickInventoryFetchDescendentsObserver(const uuid_vec_t& ids) : LLInventoryFetchDescendentsObserver(ids) {}
-	~LLRightClickInventoryFetchDescendentsObserver() {}
+	~LLRightClickInventoryFetchDescendentsObserver() = default;
 	virtual void execute(bool clear_observer = false);
 
     void done() override
@@ -158,7 +158,7 @@ class LLRightClickInventoryFetchObserver : public LLInventoryFetchItemsObserver
 {
 public:
 	LLRightClickInventoryFetchObserver(const uuid_vec_t& ids) : LLInventoryFetchItemsObserver(ids) { };
-	~LLRightClickInventoryFetchObserver() {}
+	~LLRightClickInventoryFetchObserver() = default;
 	void execute(bool clear_observer = false)
 	{
 		if (clear_observer)
@@ -3129,7 +3129,7 @@ class LLInventoryCopyAndWearObserver : public LLInventoryObserver
 public:
 	LLInventoryCopyAndWearObserver(const LLUUID& cat_id, int count, bool folder_added=false, bool replace=false) :
 		mCatID(cat_id), mContentsCount(count), mFolderAdded(folder_added), mReplace(replace){}
-	virtual ~LLInventoryCopyAndWearObserver() {}
+	virtual ~LLInventoryCopyAndWearObserver() = default;
     void changed(U32 mask) override;
 
 protected:
@@ -7362,7 +7362,7 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLCallingCardBridgeAction(){}
+	virtual ~LLCallingCardBridgeAction() = default;
 protected:
 	LLCallingCardBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 
@@ -7382,7 +7382,7 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();
 	}
-	virtual ~LLNotecardBridgeAction(){}
+	virtual ~LLNotecardBridgeAction() = default;
 protected:
 	LLNotecardBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };
@@ -7401,7 +7401,7 @@ public:
 		}
 		LLInvFVBridgeAction::doIt();		
 	}
-	virtual ~LLGestureBridgeAction(){}
+	virtual ~LLGestureBridgeAction() = default;
 protected:
 	LLGestureBridgeAction(const LLUUID& id,LLInventoryModel* model) : LLInvFVBridgeAction(id,model) {}
 };

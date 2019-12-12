@@ -135,7 +135,7 @@ public:
 	{
 	}
 
-	virtual ~LLNotificationContext() {}
+	virtual ~LLNotificationContext() = default;
 
 	LLSD asLLSD() const
 	{
@@ -635,7 +635,7 @@ public:
 
 	bool matchesTag(const std::string& tag);
 
-	virtual ~LLNotification() {}
+	virtual ~LLNotification() = default;
 };
 
 std::ostream& operator<<(std::ostream& s, const LLNotification& notification);
@@ -735,7 +735,7 @@ public:
 	:	mItems(), 
 		mFilter(std::move(filter)) 
 	{}
-	virtual ~LLNotificationChannelBase() {}
+	virtual ~LLNotificationChannelBase() = default;
 	// you can also connect to a Channel, so you can be notified of
 	// changes to this channel
 	template <typename LISTENER>

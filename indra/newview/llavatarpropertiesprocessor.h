@@ -190,7 +190,7 @@ struct LLAvatarInterests
 class LLAvatarPropertiesObserver
 {
 public:
-	virtual ~LLAvatarPropertiesObserver() {}
+	virtual ~LLAvatarPropertiesObserver() = default;
 	virtual void processProperties(void* data, EAvatarProcessorType type) = 0;
 };
 

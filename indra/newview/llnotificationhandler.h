@@ -66,7 +66,7 @@ namespace LLNotificationsUI
 class LLEventHandler
 {
 public:
-	virtual ~LLEventHandler() {};
+	virtual ~LLEventHandler() = default;
 
 protected:
 	virtual void onDeleteToast(LLToast* toast) {}
@@ -91,7 +91,7 @@ class LLNotificationHandler : public LLEventHandler, public LLNotificationChanne
 {
 public:
 	LLNotificationHandler(const std::string& name, const std::string& notification_type, const std::string& parentName);
-	virtual ~LLNotificationHandler() {};
+	virtual ~LLNotificationHandler() = default;
 
 	// base interface functions
 	void onAdd(LLNotificationPtr p) override { processNotification(p); }
@@ -106,14 +106,14 @@ class LLSystemNotificationHandler : public LLNotificationHandler
 {
 public:
 	LLSystemNotificationHandler(const std::string& name, const std::string& notification_type);
-	virtual ~LLSystemNotificationHandler() {};
+	virtual ~LLSystemNotificationHandler() = default;
 };
 
 class LLCommunicationNotificationHandler : public LLNotificationHandler
 {
 public:
 	LLCommunicationNotificationHandler(const std::string& name, const std::string& notification_type);
-	virtual ~LLCommunicationNotificationHandler() {};
+	virtual ~LLCommunicationNotificationHandler() = default;
 };
 
 /**
@@ -122,7 +122,7 @@ public:
 class LLChatHandler : public LLEventHandler
 {
 public:
-	virtual ~LLChatHandler() {};
+	virtual ~LLChatHandler() = default;
 
 	virtual void processChat(const LLChat& chat_msg, const LLSD &args)=0;
 };
@@ -269,7 +269,7 @@ class LLBrowserNotification : public LLSystemNotificationHandler
 {
 public:
 	LLBrowserNotification();
-	virtual ~LLBrowserNotification() {}
+	virtual ~LLBrowserNotification() = default;
 
 	bool processNotification(const LLNotificationPtr& p) override;
 

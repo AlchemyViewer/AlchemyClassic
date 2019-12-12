@@ -138,7 +138,7 @@ struct LLBumpImageEntry;
 class LLBumpImageList
 {
 public:
-	LLBumpImageList() {}
+	LLBumpImageList() = default;
 	~LLBumpImageList();
 
 	void		init();

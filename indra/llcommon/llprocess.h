@@ -365,7 +365,7 @@ public:
 	class LL_COMMON_API BasePipe
 	{
 	public:
-		virtual ~BasePipe() = 0;
+		virtual ~BasePipe() = default;
 
 		typedef std::size_t size_type;
 		static const size_type npos;

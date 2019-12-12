@@ -51,7 +51,7 @@ class LLChatBarGestureObserver : public LLGestureManagerObserver
 {
 public:
 	LLChatBarGestureObserver(LLChatBar* chat_barp) : mChatBar(chat_barp){}
-	virtual ~LLChatBarGestureObserver() {}
+	virtual ~LLChatBarGestureObserver() = default;
 	void changed() override { mChatBar->refreshGestures(); }
 private:
 	LLChatBar* mChatBar;

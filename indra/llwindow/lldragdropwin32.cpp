@@ -295,15 +295,9 @@ class LLDragDropWin32Target:
 ////////////////////////////////////////////////////////////////////////////////
 //
 LLDragDropWin32::LLDragDropWin32() :
-	mDropTarget(nullptr ),
-	mDropWindowHandle(nullptr )
+	mDropTarget(nullptr),
+	mDropWindowHandle(nullptr)
 
-{
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//
-LLDragDropWin32::~LLDragDropWin32()
 {
 }
 

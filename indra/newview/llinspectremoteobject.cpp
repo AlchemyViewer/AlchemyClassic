@@ -53,7 +53,7 @@ class LLInspectRemoteObject final : public LLInspect
 	
 public:
 	LLInspectRemoteObject(const LLSD& object_id);
-	virtual ~LLInspectRemoteObject() {};
+	virtual ~LLInspectRemoteObject() = default;
 
 	/*virtual*/ BOOL postBuild(void) override;
 	/*virtual*/ void onOpen(const LLSD& avatar_id) override;

@@ -184,7 +184,7 @@ public:
 
 	struct ApplyFunctor
 	{
-		virtual ~ApplyFunctor() {};
+		virtual ~ApplyFunctor() = default;
 		virtual void apply(const std::string& name, LLControlVariable* control) = 0;
 	};
 	void applyToAll(ApplyFunctor* func);

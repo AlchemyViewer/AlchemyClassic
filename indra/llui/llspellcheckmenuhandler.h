@@ -30,7 +30,7 @@
 class LLSpellCheckMenuHandler
 {
 public:
-    virtual ~LLSpellCheckMenuHandler() {}
+    virtual ~LLSpellCheckMenuHandler() = default;
     
 	virtual bool	getSpellCheck() const			{ return false; }
 

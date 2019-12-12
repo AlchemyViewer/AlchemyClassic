@@ -105,7 +105,7 @@ class LLOverlapPanel final : public LLPanel
 public:
 	struct Params : public LLInitParam::Block<Params, LLPanel::Params>
 	{
-		Params() {}
+		Params() = default;
 	};
 	LLOverlapPanel(Params p = Params()) : LLPanel(p),
 		mLastClickedElement(nullptr),

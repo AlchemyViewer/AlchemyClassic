@@ -35,7 +35,7 @@ class LLSecAPIBasicCredential : public LLCredential
 {
 public:
 	LLSecAPIBasicCredential(const std::string& grid) : LLCredential(grid) {} 
-	virtual ~LLSecAPIBasicCredential() {}
+	virtual ~LLSecAPIBasicCredential() = default;
 
 	// return a value representing the user id, (could be guid, name, whatever)
 	std::string userID() const override;

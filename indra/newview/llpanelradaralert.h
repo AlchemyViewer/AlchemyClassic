@@ -41,7 +41,7 @@ private:
 	friend class LLToastPanel;
 	
 	LLPanelRadarAlert(const LLNotificationPtr& notification);
-	virtual ~LLPanelRadarAlert() {}
+	virtual ~LLPanelRadarAlert() = default;
 };
 
 #endif // LL_PANELRADARALERT_H

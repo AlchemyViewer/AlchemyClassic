@@ -180,7 +180,7 @@ public:
 									
 	LLInventoryFilter(const Params& p = Params());
 	LLInventoryFilter(const LLInventoryFilter& other) { *this = other; }
-	virtual ~LLInventoryFilter() {}
+	virtual ~LLInventoryFilter() = default;
 
 	// +-------------------------------------------------------------------+
 	// + Parameters

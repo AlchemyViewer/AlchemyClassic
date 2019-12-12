@@ -845,7 +845,7 @@ namespace LLInitParam
 			mParamProvided(false)
 		{}
 
-		virtual ~BaseBlock() {}
+		virtual ~BaseBlock() = default;
 		bool submitValue(Parser::name_stack_t& name_stack, Parser& p, bool silent=false);
 
 		param_handle_t getHandleFromParam(const Param* param) const;

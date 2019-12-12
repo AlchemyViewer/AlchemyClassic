@@ -87,7 +87,7 @@ public:
 		}
 	};
 	LLGroupDropTarget(const Params&);
-	~LLGroupDropTarget() {};
+	~LLGroupDropTarget() = default;
 
 	void doDrop(EDragAndDropType cargo_type, void* cargo_data);
 

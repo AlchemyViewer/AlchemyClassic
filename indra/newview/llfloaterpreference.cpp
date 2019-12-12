@@ -2253,7 +2253,7 @@ public:
 		mEventTimer.stop();
 	}
 
-	virtual ~Updater(){}
+	virtual ~Updater() = default;
 
 	void update(const LLSD& new_value)
 	{

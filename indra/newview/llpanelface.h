@@ -64,7 +64,7 @@ class LLMaterialEditFunctor
 {
 public:
 	LLMaterialEditFunctor(const DataType& data) : _data(data) {}
-	virtual ~LLMaterialEditFunctor() {}
+	virtual ~LLMaterialEditFunctor() = default;
 	virtual void apply(LLMaterialPtr& material) { (material->*(MaterialEditFunc))(_data); }
 	DataType _data;
 };
@@ -75,7 +75,7 @@ template<
 class LLMaterialGetFunctor
 {
 public:
-	LLMaterialGetFunctor() {}
+	LLMaterialGetFunctor() = default;
 	virtual ~LLMaterialGetFunctor() = default;
 	virtual DataType get(LLMaterialPtr& material) { return (material->*(MaterialGetFunc)); }
 };
@@ -86,7 +86,7 @@ template<
 class LLTEGetFunctor
 {
 public:
-	LLTEGetFunctor() {}
+	LLTEGetFunctor() = default;
 	virtual ~LLTEGetFunctor() = default;
 	virtual DataType get(LLTextureEntry* entry) { return (entry*(TEGetFunc)); }
 };

@@ -198,8 +198,8 @@ LLMapTrackAvatarHandler gMapTrackAvatar;
 class LLMapInventoryObserver : public LLInventoryObserver
 {
 public:
-	LLMapInventoryObserver() {}
-	virtual ~LLMapInventoryObserver() {}
+	LLMapInventoryObserver() = default;
+	virtual ~LLMapInventoryObserver() = default;
 	void changed(U32 mask) override;
 };
 
@@ -216,8 +216,8 @@ void LLMapInventoryObserver::changed(U32 mask)
 class LLMapFriendObserver : public LLFriendObserver
 {
 public:
-	LLMapFriendObserver() {}
-	virtual ~LLMapFriendObserver() {}
+	LLMapFriendObserver() = default;
+	virtual ~LLMapFriendObserver() = default;
 	void changed(U32 mask) override;
 };
 

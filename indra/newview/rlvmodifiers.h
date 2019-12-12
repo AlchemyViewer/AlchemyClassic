@@ -41,7 +41,7 @@ protected:
 
 struct RlvBehaviourModifierComp
 {
-	virtual ~RlvBehaviourModifierComp() {}
+	virtual ~RlvBehaviourModifierComp() = default;
 	virtual bool operator()(const RlvBehaviourModifierValueTuple& lhs, const RlvBehaviourModifierValueTuple& rhs)
 	{
 		// Values that match the primary object take precedence (otherwise maintain relative ordering)
@@ -146,7 +146,7 @@ public:
 			RLV_ASSERT(false);
 		}
 	}
-	~RlvBehaviourModifierCache() {}
+	~RlvBehaviourModifierCache() = default;
 
 	/*
 	 * Member functions

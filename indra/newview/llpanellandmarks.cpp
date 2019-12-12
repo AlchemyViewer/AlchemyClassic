@@ -130,7 +130,7 @@ public:
 	LLLandmarksPanelObserver(LLLandmarksPanel* lp)
 	:	mLP(lp)
 	{}
-	virtual ~LLLandmarksPanelObserver() {}
+	virtual ~LLLandmarksPanelObserver() = default;
 	/*virtual*/ void changed(U32 mask) override;
 
 private:

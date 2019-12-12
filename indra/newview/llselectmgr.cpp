@@ -4653,7 +4653,7 @@ void LLSelectMgr::sendDelink()
 
 	struct f : public LLSelectedObjectFunctor
 	{ //on delink, any modifyable object should
-		f() {}
+		f() = default;
 
 	    bool apply(LLViewerObject* object) override
 		{

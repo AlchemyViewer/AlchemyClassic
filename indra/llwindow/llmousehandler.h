@@ -37,8 +37,8 @@
 class LLMouseHandler
 {
 public:
-	LLMouseHandler() {}
-	virtual ~LLMouseHandler() {}
+	LLMouseHandler() = default;
+	virtual ~LLMouseHandler() = default;
 
 	typedef enum {
 		SHOW_NEVER,

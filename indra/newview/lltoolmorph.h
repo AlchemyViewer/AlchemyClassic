@@ -104,7 +104,7 @@ protected:
 class LLVisualParamReset final : public LLViewerDynamicTexture
 {
 protected:
-	/*virtual */ ~LLVisualParamReset(){}
+	/*virtual */ ~LLVisualParamReset() = default;
 public:
 	LLVisualParamReset();
 	/*virtual */ BOOL render() override;

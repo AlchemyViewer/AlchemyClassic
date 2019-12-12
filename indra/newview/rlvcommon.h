@@ -202,7 +202,7 @@ protected:
 class RlvExtCommandHandler
 {
 public:
-	virtual ~RlvExtCommandHandler() {}
+	virtual ~RlvExtCommandHandler() = default;
 	virtual bool onAddRemCommand(const RlvCommand& rlvCmd, ERlvCmdRet& cmdRet) { return false; }
 	virtual bool onClearCommand(const RlvCommand& rlvCmd, ERlvCmdRet& cmdRet)  { return false; }
 	virtual bool onReplyCommand(const RlvCommand& rlvCmd, ERlvCmdRet& cmdRet)  { return false; }
@@ -228,14 +228,14 @@ bool rlvCanDeleteOrReturn(const LLViewerObject* pObj);
 
 struct RlvSelectHasLockedAttach : public LLSelectedNodeFunctor
 {
-	RlvSelectHasLockedAttach() {}
+	RlvSelectHasLockedAttach() = default;
 	virtual bool apply(LLSelectNode* pNode);
 };
 
 // Filters out selected objects that can't be editable (i.e. getFirstNode() will return NULL if the selection is fully editable)
 struct RlvSelectIsEditable : public LLSelectedNodeFunctor
 {
-	RlvSelectIsEditable() {}
+	RlvSelectIsEditable() = default;
 	/*virtual*/ bool apply(LLSelectNode* pNode);
 };
 
@@ -276,13 +276,13 @@ protected:
 
 struct RlvPredCanRemoveItem
 {
-	RlvPredCanRemoveItem() {}
+	RlvPredCanRemoveItem() = default;
 	bool operator()(const LLViewerInventoryItem* pItem) { return rlvPredCanRemoveItem(pItem); }
 };
 
 struct RlvPredCanNotRemoveItem
 {
-	RlvPredCanNotRemoveItem() {}
+	RlvPredCanNotRemoveItem() = default;
 	bool operator()(const LLViewerInventoryItem* pItem) { return rlvPredCanNotRemoveItem(pItem); }
 };
 

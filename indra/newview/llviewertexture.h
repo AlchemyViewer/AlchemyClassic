@@ -543,7 +543,7 @@ public:
 class LLViewerLODTexture final : public LLViewerFetchedTexture
 {
 protected:
-	/*virtual*/ ~LLViewerLODTexture(){}
+	/*virtual*/ ~LLViewerLODTexture() = default;
 
 public:
 	LLViewerLODTexture(const LLUUID& id, FTType f_type, const LLHost& host = LLHost(), BOOL usemipmaps = TRUE);

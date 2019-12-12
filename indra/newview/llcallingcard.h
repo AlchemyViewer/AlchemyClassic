@@ -76,7 +76,7 @@ public:
 };
 	
 
-class LLAvatarTracker : public LLSingleton<LLAvatarTracker>
+class LLAvatarTracker final : public LLSingleton<LLAvatarTracker>
 {
 	LLSINGLETON(LLAvatarTracker);
 	~LLAvatarTracker();

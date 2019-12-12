@@ -145,7 +145,7 @@ static int scale_speaker_volume(float volume)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-class LLVivoxVoiceClientMuteListObserver : public LLMuteListObserver
+class LLVivoxVoiceClientMuteListObserver final : public LLMuteListObserver
 {
 	/* virtual */ void onChange() override { LLVivoxVoiceClient::getInstance()->muteListChanged();}
 };

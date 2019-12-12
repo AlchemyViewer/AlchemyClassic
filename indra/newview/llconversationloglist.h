@@ -39,7 +39,7 @@ class LLConversationLogListItem;
  * it's always in actual state.
  */
 
-class LLConversationLogList: public LLFlatListViewEx, public LLConversationLogObserver
+class LLConversationLogList final : public LLFlatListViewEx, public LLConversationLogObserver
 {
 	LOG_CLASS(LLConversationLogList);
 public:

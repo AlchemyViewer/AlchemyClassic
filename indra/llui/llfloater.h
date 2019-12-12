@@ -96,7 +96,7 @@ struct LLCoordFloater : LLCoord<LL_COORD_FLOATER>
 {
 	typedef LLCoord<LL_COORD_FLOATER> coord_t;
 
-	LLCoordFloater() {}
+	LLCoordFloater() = default;
 	LLCoordFloater(F32 x, F32 y, LLFloater& floater);
 	LLCoordFloater(const LLCoordCommon& other, LLFloater& floater);
 

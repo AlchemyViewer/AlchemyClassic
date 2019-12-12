@@ -37,7 +37,7 @@
 
 class LLViewerRegion;
 
-class LLMaterialMgr : public LLSingleton<LLMaterialMgr>
+class LLMaterialMgr final : public LLSingleton<LLMaterialMgr>
 {
 	LLSINGLETON(LLMaterialMgr);
 	virtual ~LLMaterialMgr();

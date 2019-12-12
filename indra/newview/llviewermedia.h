@@ -70,7 +70,7 @@ private:
 
 class LLViewerMediaImpl;
 
-class LLViewerMedia: public LLSingleton<LLViewerMedia>
+class LLViewerMedia final : public LLSingleton<LLViewerMedia>
 {
 	LLSINGLETON(LLViewerMedia);
 	~LLViewerMedia();
@@ -185,7 +185,7 @@ private:
 };
 
 // Implementation functions not exported into header file
-class LLViewerMediaImpl
+class LLViewerMediaImpl final
 	:	public LLMouseHandler, public LLRefCount, public LLPluginClassMediaOwner, public LLViewerMediaEventEmitter, public LLEditMenuHandler
 {
 	LOG_CLASS(LLViewerMediaImpl);

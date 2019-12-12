@@ -89,7 +89,7 @@ protected:
 // RlvBehaviourDictionary and related classes
 //
 
-class RlvBehaviourDictionary : public LLSingleton<RlvBehaviourDictionary>
+class RlvBehaviourDictionary final : public LLSingleton<RlvBehaviourDictionary>
 {
 	friend class RlvFloaterBehaviours;
 	LLSINGLETON(RlvBehaviourDictionary);
@@ -394,7 +394,7 @@ protected:
 	bool m_fValid;
 };
 
-struct RlvCommandOptionGetPath : public RlvCommandOption
+struct RlvCommandOptionGetPath final : public RlvCommandOption
 {
 	typedef boost::function<void(const uuid_vec_t&)> getpath_callback_t;
 	RlvCommandOptionGetPath(const RlvCommand& rlvCmd, getpath_callback_t cb = NULL);
@@ -412,7 +412,7 @@ protected:
 	uuid_vec_t m_idItems;
 };
 
-struct RlvCommandOptionAdjustHeight : public RlvCommandOption
+struct RlvCommandOptionAdjustHeight final : public RlvCommandOption
 {
 	RlvCommandOptionAdjustHeight(const RlvCommand& rlvCmd);
 
@@ -470,7 +470,7 @@ protected:
 // RlvForceWear
 //
 
-class RlvForceWear : public LLSingleton<RlvForceWear>
+class RlvForceWear final : public LLSingleton<RlvForceWear>
 {
 	LLSINGLETON(RlvForceWear);
 public:
@@ -572,7 +572,7 @@ private:
 // RlvBehaviourNotifyObserver
 //
 
-class RlvBehaviourNotifyHandler : public LLSingleton<RlvBehaviourNotifyHandler>
+class RlvBehaviourNotifyHandler final : public LLSingleton<RlvBehaviourNotifyHandler>
 {
 	LLSINGLETON(RlvBehaviourNotifyHandler);
 protected:

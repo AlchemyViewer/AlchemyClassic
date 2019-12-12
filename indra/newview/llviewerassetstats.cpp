@@ -98,7 +98,7 @@ const char *makeNewAutoName()
 }
 
 template <typename T = F64>
-class DCCountStatHandle:
+class DCCountStatHandle final :
         public CountStatHandle<T>
 {
 public:
@@ -109,7 +109,7 @@ public:
 };
 
 template <typename T = F64>
-class DCEventStatHandle:
+class DCEventStatHandle final :
         public EventStatHandle<T>
 {
 public:

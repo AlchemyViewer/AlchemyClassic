@@ -47,7 +47,7 @@ class LLAvatarName;
 // their inventory.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLViewerInventoryItem : public LLInventoryItem, public boost::signals2::trackable
+class LLViewerInventoryItem final : public LLInventoryItem, public boost::signals2::trackable
 {
 public:
 	typedef std::vector<LLPointer<LLViewerInventoryItem> > item_array_t;
@@ -177,7 +177,7 @@ public:
 // new ones as needed.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLViewerInventoryCategory  : public LLInventoryCategory
+class LLViewerInventoryCategory final : public LLInventoryCategory
 {
 public:
 	typedef std::vector<LLPointer<LLViewerInventoryCategory> > cat_array_t;
@@ -263,7 +263,7 @@ void create_script_cb(const LLUUID& inv_item);
 void create_gesture_cb(const LLUUID& inv_item);
 void create_notecard_cb(const LLUUID& inv_item);
 
-class AddFavoriteLandmarkCallback : public LLInventoryCallback
+class AddFavoriteLandmarkCallback final : public LLInventoryCallback
 {
 public:
 	AddFavoriteLandmarkCallback() : mTargetLandmarkId(LLUUID::null) {}
@@ -284,7 +284,7 @@ void no_op_llsd_func(const LLSD&); // likewise for LLSD
 void no_op(); // A do-nothing nullary func.
 
 // Shim between inventory callback and boost function/callable
-class LLBoostFuncInventoryCallback: public LLInventoryCallback
+class LLBoostFuncInventoryCallback final : public LLInventoryCallback
 {
 public:
 

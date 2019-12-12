@@ -40,7 +40,7 @@ class LLSD;
 class LLUUID;
 
 
-class LLExperienceCache: public LLSingleton < LLExperienceCache >
+class LLExperienceCache final : public LLSingleton < LLExperienceCache >
 {
     LLSINGLETON(LLExperienceCache);
 

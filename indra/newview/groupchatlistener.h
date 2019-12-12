@@ -31,7 +31,7 @@
 
 #include "lleventapi.h"
 
-class GroupChatListener: public LLEventAPI
+class GroupChatListener final : public LLEventAPI
 {
 public:
     GroupChatListener();

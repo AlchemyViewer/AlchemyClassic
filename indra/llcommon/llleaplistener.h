@@ -19,7 +19,7 @@
 
 /// Listener class implementing LLLeap query/control operations.
 /// See https://jira.lindenlab.com/jira/browse/DEV-31978.
-class LLLeapListener: public LLEventAPI
+class LLLeapListener final : public LLEventAPI
 {
 public:
     /**

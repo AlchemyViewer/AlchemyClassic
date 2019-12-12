@@ -33,7 +33,7 @@
 #include "llleaplistener.h"
 #include "llexception.h"
 
-class LLLeapImpl: public LLLeap
+class LLLeapImpl final : public LLLeap
 {
     LOG_CLASS(LLLeap);
 public:

@@ -300,7 +300,7 @@ public:
 	class StaticRegistrar : public registry_t::Registrar
 	{
 	public:
-		virtual ~StaticRegistrar() {}
+		virtual ~StaticRegistrar() = default;
 		StaticRegistrar(ref_const_key_t key, ref_const_value_t value)
 		{
 			if (singleton_t::instance().exists(key))

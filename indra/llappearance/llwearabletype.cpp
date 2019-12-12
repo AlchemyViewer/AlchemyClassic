@@ -58,7 +58,7 @@ struct WearableEntry : public LLDictionaryEntry
 	BOOL mAllowMultiwear;
 };
 
-class LLWearableDictionary : public LLParamSingleton<LLWearableDictionary>,
+class LLWearableDictionary final : public LLParamSingleton<LLWearableDictionary>,
 							 public LLDictionary<LLWearableType::EType, WearableEntry>
 {
 	LLSINGLETON(LLWearableDictionary);

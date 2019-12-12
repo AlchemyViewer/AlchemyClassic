@@ -62,7 +62,7 @@ BOOL LLFloaterSettingsDebug::postBuild()
 {
 	mComboSettings = getChild<LLComboBox>("settings_combo");
 
-	struct f : public LLControlGroup::ApplyFunctor
+	struct f final : public LLControlGroup::ApplyFunctor
 	{
 		LLComboBox* combo;
 		f(LLComboBox* c) : combo(c) {}

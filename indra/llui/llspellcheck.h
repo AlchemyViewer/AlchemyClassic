@@ -33,7 +33,7 @@
 
 class Hunspell;
 
-class LLSpellChecker : public LLSingleton<LLSpellChecker>
+class LLSpellChecker final : public LLSingleton<LLSpellChecker>
 {
 	LLSINGLETON(LLSpellChecker);
 	~LLSpellChecker();

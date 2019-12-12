@@ -65,11 +65,11 @@ const F32 DWELL_NAN = -1.0f;	// A dwell having this value will be displayed as L
 class LLParcelObserver
 {
 public:
-	virtual ~LLParcelObserver() {};
+	virtual ~LLParcelObserver() = default;
 	virtual void changed() = 0;
 };
 
-class LLViewerParcelMgr : public LLSingleton<LLViewerParcelMgr>
+class LLViewerParcelMgr final : public LLSingleton<LLViewerParcelMgr>
 {
 	LLSINGLETON(LLViewerParcelMgr);
 	~LLViewerParcelMgr();

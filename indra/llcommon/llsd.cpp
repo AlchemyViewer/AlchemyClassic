@@ -204,7 +204,7 @@ namespace
 	};
 
 	
-	class ImplBoolean
+	class ImplBoolean final
 		: public ImplBase<LLSD::TypeBoolean, LLSD::Boolean>
 	{
 	public:
@@ -225,7 +225,7 @@ namespace
 		{ return mValue ? "true" : ""; }
 
 
-	class ImplInteger
+	class ImplInteger final
 		: public ImplBase<LLSD::TypeInteger, LLSD::Integer>
 	{
 	public:
@@ -241,7 +241,7 @@ namespace
 		{ return fmt::format("{:d}", mValue); }
 
 
-	class ImplReal
+	class ImplReal final
 		: public ImplBase<LLSD::TypeReal, LLSD::Real>
 	{
 	public:
@@ -263,7 +263,7 @@ namespace
 		{ return fmt::format(fmt("{:g}"), mValue); }
 
 
-	class ImplString
+	class ImplString final
 		: public ImplBase<LLSD::TypeString, LLSD::String, const LLSD::String&>
 	{
 	public:
@@ -307,7 +307,7 @@ namespace
 	}
 	
 
-	class ImplUUID
+	class ImplUUID final
 		: public ImplBase<LLSD::TypeUUID, LLSD::UUID, const LLSD::UUID&>
 	{
 	public:
@@ -318,7 +318,7 @@ namespace
 	};
 
 
-	class ImplDate
+	class ImplDate final
 		: public ImplBase<LLSD::TypeDate, LLSD::Date, const LLSD::Date&>
 	{
 	public:
@@ -341,7 +341,7 @@ namespace
 	};
 
 
-	class ImplURI
+	class ImplURI final
 		: public ImplBase<LLSD::TypeURI, LLSD::URI, const LLSD::URI&>
 	{
 	public:
@@ -352,7 +352,7 @@ namespace
 	};
 
 
-	class ImplBinary
+	class ImplBinary final
 		: public ImplBase<LLSD::TypeBinary, LLSD::Binary, const LLSD::Binary&>
 	{
 	public:
@@ -362,7 +362,7 @@ namespace
 	};
 
 
-	class ImplMap : public LLSD::Impl
+	class ImplMap final : public LLSD::Impl
 	{
 	private:
 		typedef std::map<LLSD::String, LLSD>	DataMap;
@@ -483,7 +483,7 @@ namespace
 	}
 
 
-	class ImplArray : public LLSD::Impl
+	class ImplArray final : public LLSD::Impl
 	{
 	private:
 		typedef std::vector<LLSD>	DataVector;

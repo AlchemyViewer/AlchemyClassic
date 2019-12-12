@@ -61,7 +61,7 @@ struct InventoryEntry : public LLDictionaryEntry
 	asset_vec_t mAssetTypes;
 };
 
-class LLInventoryDictionary : public LLSingleton<LLInventoryDictionary>,
+class LLInventoryDictionary final : public LLSingleton<LLInventoryDictionary>,
 							  public LLDictionary<LLInventoryType::EType, InventoryEntry>
 {
 	LLSINGLETON(LLInventoryDictionary);

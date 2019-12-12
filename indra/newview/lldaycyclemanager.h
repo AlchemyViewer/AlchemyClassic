@@ -35,7 +35,7 @@
  *
  * Provides interface for accessing, loading and saving day cycles.
  */
-class LLDayCycleManager : public LLSingleton<LLDayCycleManager>
+class LLDayCycleManager final : public LLSingleton<LLDayCycleManager>
 {
 	LLSINGLETON_EMPTY_CTOR(LLDayCycleManager);
 	LOG_CLASS(LLDayCycleManager);

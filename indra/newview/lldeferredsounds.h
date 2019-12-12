@@ -29,7 +29,7 @@
 
 struct SoundData;
 
-class LLDeferredSounds : public LLSingleton<LLDeferredSounds>
+class LLDeferredSounds final : public LLSingleton<LLDeferredSounds>
 {
 	LLSINGLETON_EMPTY_CTOR(LLDeferredSounds);
 	std::vector<SoundData> soundVector;

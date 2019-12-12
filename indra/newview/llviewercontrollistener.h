@@ -34,7 +34,7 @@
 class LLControlGroup;
 class LLSD;
 
-class  LLViewerControlListener : public LLEventAPI
+class  LLViewerControlListener final : public LLEventAPI
 {
 public:
 	LLViewerControlListener();

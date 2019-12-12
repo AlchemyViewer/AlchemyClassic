@@ -45,8 +45,8 @@
 class LLIOFlush : public LLIOPipe
 {
 public:
-	LLIOFlush() {}
-	virtual ~LLIOFlush() {}
+	LLIOFlush() = default;
+	virtual ~LLIOFlush() = default;
 
 protected:
 	/* @name LLIOPipe virtual implementations
@@ -75,7 +75,7 @@ class LLIOSleep : public LLIOPipe
 {
 public:
 	LLIOSleep(F64 sleep_seconds) : mSeconds(sleep_seconds) {}
-	virtual ~LLIOSleep() {}
+	virtual ~LLIOSleep() = default;
 
 protected:
 	/* @name LLIOPipe virtual implementations
@@ -107,7 +107,7 @@ public:
 		mChain(std::move(chain)),
 		mTimeout(timeout)
 	{}
-	virtual ~LLIOAddChain() {}
+	virtual ~LLIOAddChain() = default;
 
 protected:
 	/* @name LLIOPipe virtual implementations

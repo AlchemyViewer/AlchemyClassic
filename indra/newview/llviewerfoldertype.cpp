@@ -34,7 +34,7 @@
 
 static const std::string empty_string;
 
-struct ViewerFolderEntry : public LLDictionaryEntry
+struct ViewerFolderEntry final : public LLDictionaryEntry
 {
 	// Constructor for non-ensembles
 	ViewerFolderEntry(std::string new_category_name, // default name when creating a new category of this type
@@ -96,7 +96,7 @@ struct ViewerFolderEntry : public LLDictionaryEntry
 	bool mHideIfEmpty;
 };
 
-class LLViewerFolderDictionary : public LLSingleton<LLViewerFolderDictionary>,
+class LLViewerFolderDictionary final : public LLSingleton<LLViewerFolderDictionary>,
 								 public LLDictionary<LLFolderType::EType, ViewerFolderEntry>
 {
 	LLSINGLETON(LLViewerFolderDictionary);

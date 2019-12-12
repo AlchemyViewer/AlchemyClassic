@@ -84,7 +84,7 @@ class Suspending;
  * Finally, the next frame ("mainloop" event) after the coroutine terminates,
  * LLCoros will notice its demise and destroy it.
  */
-class LL_COMMON_API LLCoros: public LLSingleton<LLCoros>
+class LL_COMMON_API LLCoros final : public LLSingleton<LLCoros>
 {
     LLSINGLETON(LLCoros);
 public:

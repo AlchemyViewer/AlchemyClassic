@@ -32,7 +32,7 @@
 
 class LLAvatarName;
 
-class LLAvatarIconIDCache: public LLSingleton<LLAvatarIconIDCache>
+class LLAvatarIconIDCache final : public LLSingleton<LLAvatarIconIDCache>
 {
 	LLSINGLETON(LLAvatarIconIDCache);
 

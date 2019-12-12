@@ -40,7 +40,7 @@ class LLViewerRegion;
 
 class LinksetsResponder;
 
-class LLPathfindingManager : public LLSingleton<LLPathfindingManager>
+class LLPathfindingManager final : public LLSingleton<LLPathfindingManager>
 {
 	LLSINGLETON(LLPathfindingManager);
 	virtual ~LLPathfindingManager();

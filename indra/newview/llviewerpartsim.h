@@ -132,7 +132,7 @@ protected:
 	LLViewerRegion *mRegionp;
 };
 
-class LLViewerPartSim : public LLSingleton<LLViewerPartSim>
+class LLViewerPartSim final : public LLSingleton<LLViewerPartSim>
 {
 	LLSINGLETON(LLViewerPartSim);
 public:

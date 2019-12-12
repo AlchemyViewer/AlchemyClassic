@@ -242,7 +242,7 @@ public:
  * 1. Use region settings.
  * 2. Use my setting: <water preset> + <fixed_sky>|<day_cycle>
  */
-class LLEnvManagerNew : public LLSingleton<LLEnvManagerNew>
+class LLEnvManagerNew final : public LLSingleton<LLEnvManagerNew>
 {
 	LLSINGLETON(LLEnvManagerNew);
 	LOG_CLASS(LLEnvManagerNew);

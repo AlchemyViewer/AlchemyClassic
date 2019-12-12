@@ -33,7 +33,7 @@
 class LLURLDispatcher;
 class LLSD;
 
-class LLURLDispatcherListener: public LLEventAPI
+class LLURLDispatcherListener final : public LLEventAPI
 {
 public:
     LLURLDispatcherListener(/* LLURLDispatcher* instance */); // all static members

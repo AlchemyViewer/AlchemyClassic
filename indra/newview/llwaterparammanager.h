@@ -211,7 +211,7 @@ struct WaterExpFloatControl
 
 
 /// WindLight parameter manager class - what controls all the wind light shaders
-class LLWaterParamManager : public LLSingleton<LLWaterParamManager>
+class LLWaterParamManager final : public LLSingleton<LLWaterParamManager>
 {
 	LLSINGLETON(LLWaterParamManager);
 	~LLWaterParamManager();

@@ -44,7 +44,7 @@
 // In all other cases, the text and the UUIDs are very much independent.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLClipboard : public LLSingleton<LLClipboard>
+class LLClipboard final : public LLSingleton<LLClipboard>
 {
 	LLSINGLETON(LLClipboard);
 	~LLClipboard();

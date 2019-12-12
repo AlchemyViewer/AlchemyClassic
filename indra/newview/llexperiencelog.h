@@ -29,7 +29,7 @@
 #ifndef LL_LLEXPERIENCELOG_H
 #define LL_LLEXPERIENCELOG_H
 
-class LLExperienceLog : public LLSingleton<LLExperienceLog>
+class LLExperienceLog final : public LLSingleton<LLExperienceLog>
 {
 	LLSINGLETON(LLExperienceLog);
 public:

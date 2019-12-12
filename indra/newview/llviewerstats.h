@@ -85,13 +85,13 @@ struct SimMeasurementSampler : public LLInstanceTracker<SimMeasurementSampler, E
 	SimMeasurementSampler(ESimStatID id)
 	:	LLInstanceTracker<SimMeasurementSampler, ESimStatID>(id)
 	{}
-	virtual ~SimMeasurementSampler() {}
+	virtual ~SimMeasurementSampler() = default;
 
 	virtual void sample(F64 value) = 0;
 };
 
 template<typename T = F64>
-struct SimMeasurement : public LLTrace::SampleStatHandle<T>, public SimMeasurementSampler
+struct SimMeasurement final : public LLTrace::SampleStatHandle<T>, public SimMeasurementSampler
 {
 	typedef SimMeasurement<T> self_t;
 
@@ -244,7 +244,7 @@ extern LLTrace::EventStatHandle<LLUnit<F32, LLUnits::Percent> > OBJECT_CACHE_HIT
 
 }
 
-class LLViewerStats : public LLSingleton<LLViewerStats>
+class LLViewerStats final : public LLSingleton<LLViewerStats>
 {
 	LLSINGLETON(LLViewerStats);
 	~LLViewerStats();

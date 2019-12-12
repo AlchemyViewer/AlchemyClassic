@@ -37,7 +37,7 @@
 
 extern const LLColor4 UI_VERTEX_COLOR;
 
-class LLUIImage : public LLRefCount
+class LLUIImage final : public LLRefCount
 {
 public:
 	enum EScaleStyle

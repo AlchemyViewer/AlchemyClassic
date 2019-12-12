@@ -34,7 +34,7 @@
 class LLSD;
 
 /// Event API wrapper for LLFloaterReg
-class LLFloaterRegListener: public LLEventAPI
+class LLFloaterRegListener final : public LLEventAPI
 {
 public:
     /// As all public LLFloaterReg methods are static, there's no point in

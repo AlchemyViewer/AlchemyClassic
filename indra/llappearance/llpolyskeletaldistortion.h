@@ -62,7 +62,7 @@ class LLPolySkeletalDistortionInfo final : public LLViewerVisualParamInfo
 public:
 	
 	LLPolySkeletalDistortionInfo();
-	/*virtual*/ ~LLPolySkeletalDistortionInfo() {};
+	/*virtual*/ ~LLPolySkeletalDistortionInfo() = default;
 	
 	/*virtual*/ BOOL parseXml(LLXmlTreeNode* node) override;
 

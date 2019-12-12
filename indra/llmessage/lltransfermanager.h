@@ -435,7 +435,7 @@ class LLTransferSourceParamsInvItem: public LLTransferSourceParams
 {
 public:
 	LLTransferSourceParamsInvItem();
-	virtual ~LLTransferSourceParamsInvItem() {}
+	virtual ~LLTransferSourceParamsInvItem() = default;
 	/*virtual*/ void packParams(LLDataPacker &dp) const override;
 	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 

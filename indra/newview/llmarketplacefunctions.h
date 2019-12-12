@@ -78,7 +78,7 @@ namespace MarketplaceFetchCodes
 }
 
 
-class LLMarketplaceInventoryImporter
+class LLMarketplaceInventoryImporter final
 	: public LLSingleton<LLMarketplaceInventoryImporter>
 {
 	LLSINGLETON(LLMarketplaceInventoryImporter);
@@ -172,7 +172,7 @@ class LLSLMUpdateListingsResponder;
 class LLSLMAssociateListingsResponder;
 class LLSLMDeleteListingsResponder;
 
-class LLMarketplaceData
+class LLMarketplaceData final
     : public LLSingleton<LLMarketplaceData>
 {
     LLSINGLETON(LLMarketplaceData);

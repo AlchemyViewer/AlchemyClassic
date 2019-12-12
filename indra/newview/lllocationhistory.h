@@ -95,7 +95,7 @@ public:
 	ELocationType mType;
 };
 
-class LLLocationHistory: public LLSingleton<LLLocationHistory>
+class LLLocationHistory final : public LLSingleton<LLLocationHistory>
 {
 	LLSINGLETON(LLLocationHistory);
 	LOG_CLASS(LLLocationHistory);

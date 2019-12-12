@@ -263,7 +263,7 @@ void LLURLDispatcherImpl::regionHandleCallback(U64 region_handle, const LLSLURL&
 // Teleportation links are handled here because they are tightly coupled
 // to SLURL parsing and sim-fragment parsing
 
-class LLTeleportHandler : public LLCommandHandler, public LLEventAPI
+class LLTeleportHandler final : public LLCommandHandler, public LLEventAPI
 {
 public:
 	// Teleport requests *must* come from a trusted browser

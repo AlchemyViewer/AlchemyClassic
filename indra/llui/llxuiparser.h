@@ -37,7 +37,7 @@
 class LLView;
 
 // lookup widget type by name
-class LLWidgetTypeRegistry
+class LLWidgetTypeRegistry final
 :	public LLRegistrySingleton<std::string, const std::type_info*, LLWidgetTypeRegistry>
 {
 	LLSINGLETON_EMPTY_CTOR(LLWidgetTypeRegistry);
@@ -49,7 +49,7 @@ typedef boost::function<LLView* (LLXMLNodePtr node, LLView *parent, LLXMLNodePtr
 
 typedef LLRegistry<std::string, LLWidgetCreatorFunc> widget_registry_t;
 
-class LLChildRegistryRegistry
+class LLChildRegistryRegistry final
 : public LLRegistrySingleton<const std::type_info*, widget_registry_t, LLChildRegistryRegistry>
 {
 	LLSINGLETON_EMPTY_CTOR(LLChildRegistryRegistry);

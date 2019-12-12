@@ -126,7 +126,7 @@ struct LightsharePacket
 
 #pragma pack(pop)
 
-class LLLightshare : public LLSingleton<LLLightshare>
+class LLLightshare final : public LLSingleton<LLLightshare>
 {
 	friend class LLDispatchLightshare;
 	LLSINGLETON(LLLightshare);

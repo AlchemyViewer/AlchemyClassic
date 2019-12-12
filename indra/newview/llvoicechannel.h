@@ -165,7 +165,7 @@ private:
 	BOOL mIsRetrying;
 };
 
-class LLVoiceChannelProximal : public LLVoiceChannel, public LLSingleton<LLVoiceChannelProximal>
+class LLVoiceChannelProximal final : public LLVoiceChannel, public LLSingleton<LLVoiceChannelProximal>
 {
 	LLSINGLETON(LLVoiceChannelProximal);
 public:

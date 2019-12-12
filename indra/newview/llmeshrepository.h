@@ -412,7 +412,7 @@ private:
 	S32 mMeshUploadTimeOut ; //maximum time in seconds to execute an uploading request.
 
 public:
-	class DecompRequest : public LLPhysicsDecomp::Request
+	class DecompRequest final : public LLPhysicsDecomp::Request
 	{
 	public:
 		LLPointer<LLModel> mModel;

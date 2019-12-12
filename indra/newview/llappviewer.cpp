@@ -385,7 +385,7 @@ const char* const VIEWER_WINDOW_CLASSNAME = "Alchemy";
  * Tasks added to this list will be executed in the next LLAppViewer::idle() iteration.
  * All tasks are executed only once.
  */
-class LLDeferredTaskList : public LLSingleton<LLDeferredTaskList>
+class LLDeferredTaskList final : public LLSingleton<LLDeferredTaskList>
 {
 	LLSINGLETON(LLDeferredTaskList);
 	LOG_CLASS(LLDeferredTaskList);

@@ -430,7 +430,7 @@ class LLHTTPResponseHeader : public LLIOPipe
 {
 public:
 	LLHTTPResponseHeader() : mCode(0) {}
-	virtual ~LLHTTPResponseHeader() {}
+	virtual ~LLHTTPResponseHeader() = default;
 
 protected:
 	/* @name LLIOPipe virtual implementations

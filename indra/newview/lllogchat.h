@@ -81,7 +81,7 @@ public:
 	static void deleteHistory();
 };
 
-class LLLogChat : public LLSingleton<LLLogChat>
+class LLLogChat final : public LLSingleton<LLLogChat>
 {
     LLSINGLETON(LLLogChat);
     ~LLLogChat();

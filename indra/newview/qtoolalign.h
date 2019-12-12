@@ -14,11 +14,11 @@ class LLViewerObject;
 class LLPickInfo;
 class LLToolSelectRect;
 
-class QToolAlign
+class QToolAlign final
 :	public LLTool, public LLSingleton<QToolAlign>
 {
 	LLSINGLETON(QToolAlign);
-	~QToolAlign() {}
+	~QToolAlign() = default;
     
 public:
 	void	handleSelect() override;

@@ -43,7 +43,7 @@
 class LLHUDText;
 
 
-class LLTracker : public LLSingleton<LLTracker>
+class LLTracker final : public LLSingleton<LLTracker>
 {
 	LLSINGLETON(LLTracker);
 	~LLTracker();

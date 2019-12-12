@@ -79,7 +79,7 @@ protected:
 class LLInventoryItem;
 class LLVFS;
 
-class LLAOEngine : public LLSingleton<LLAOEngine>
+class LLAOEngine final : public LLSingleton<LLAOEngine>
 {
 	LLSINGLETON(LLAOEngine);
 	~LLAOEngine();

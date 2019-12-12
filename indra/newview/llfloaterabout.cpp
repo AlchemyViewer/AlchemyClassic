@@ -263,7 +263,7 @@ void LLFloaterAbout::handleServerReleaseNotes(LLSD results)
     }
 }
 
-class LLFloaterAboutListener: public LLEventAPI
+class LLFloaterAboutListener final : public LLEventAPI
 {
 public:
 	LLFloaterAboutListener():

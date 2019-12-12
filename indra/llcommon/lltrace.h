@@ -96,7 +96,7 @@ protected:
 
 
 template<>
-class StatType<TimeBlockAccumulator::CallCountFacet>
+class StatType<TimeBlockAccumulator::CallCountFacet> final
 :	public StatType<TimeBlockAccumulator>
 {
 public:
@@ -107,7 +107,7 @@ public:
 };
 
 template<>
-class StatType<TimeBlockAccumulator::SelfTimeFacet>
+class StatType<TimeBlockAccumulator::SelfTimeFacet> final
 	:	public StatType<TimeBlockAccumulator>
 {
 public:
@@ -194,7 +194,7 @@ void add(CountStatHandle<T>& count, VALUE_T value)
 }
 
 template<>
-class StatType<MemAccumulator::AllocationFacet>
+class StatType<MemAccumulator::AllocationFacet> final
 :	public StatType<MemAccumulator>
 {
 public:
@@ -205,7 +205,7 @@ public:
 };
 
 template<>
-class StatType<MemAccumulator::DeallocationFacet>
+class StatType<MemAccumulator::DeallocationFacet> final
 :	public StatType<MemAccumulator>
 {
 public:
@@ -215,7 +215,7 @@ public:
 	{}
 };
 
-class MemStatHandle : public StatType<MemAccumulator>
+class MemStatHandle  final : public StatType<MemAccumulator>
 {
 public:
 	typedef StatType<MemAccumulator> stat_t;

@@ -53,7 +53,7 @@ public:
     typedef typename PairVector::const_iterator const_iterator;
 
     /// Empty
-    LLSortedVector() {}
+    LLSortedVector() = default;
 
     /// Fixed initial size
     LLSortedVector(std::size_t size):

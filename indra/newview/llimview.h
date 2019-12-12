@@ -60,7 +60,7 @@ private:
 /**
  * Model (MVC) for IM Sessions
  */
-class LLIMModel :  public LLSingleton<LLIMModel>
+class LLIMModel final :  public LLSingleton<LLIMModel>
 {
 	LLSINGLETON(LLIMModel);
 public:
@@ -311,7 +311,7 @@ public:
 };
 
 
-class LLIMMgr : public LLSingleton<LLIMMgr>
+class LLIMMgr final : public LLSingleton<LLIMMgr>
 {
 	LLSINGLETON(LLIMMgr);
 	friend class LLIMModel;
@@ -500,7 +500,7 @@ private:
 	LLSD mPendingAgentListUpdates;
 };
 
-class LLCallDialogManager : public LLSingleton<LLCallDialogManager>
+class LLCallDialogManager final : public LLSingleton<LLCallDialogManager>
 {
 	LLSINGLETON(LLCallDialogManager);
 	~LLCallDialogManager() = default;

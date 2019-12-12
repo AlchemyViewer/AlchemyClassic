@@ -48,7 +48,7 @@ public:
 	typedef typename map_t::iterator iterator_t;
 	typedef typename map_t::const_iterator const_iterator_t;
 	
-	LLDictionary() {}
+	LLDictionary() = default;
 	virtual ~LLDictionary()
 	{
 		for (iterator_t iter = map_t::begin(); iter != map_t::end(); ++iter)

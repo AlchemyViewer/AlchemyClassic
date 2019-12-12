@@ -32,7 +32,7 @@
 
 class LLPathfindingNavMeshStatus;
 
-class LLMenuOptionPathfindingRebakeNavmesh : public LLSingleton<LLMenuOptionPathfindingRebakeNavmesh>
+class LLMenuOptionPathfindingRebakeNavmesh final : public LLSingleton<LLMenuOptionPathfindingRebakeNavmesh>
 {
 	LLSINGLETON(LLMenuOptionPathfindingRebakeNavmesh);
 	virtual ~LLMenuOptionPathfindingRebakeNavmesh();

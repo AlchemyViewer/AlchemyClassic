@@ -218,7 +218,7 @@ protected:
  * @class LLSDNotationParser
  * @brief Parser which handles the original notation format for LLSD.
  */
-class LL_COMMON_API LLSDNotationParser : public LLSDParser
+class LL_COMMON_API LLSDNotationParser final : public LLSDParser
 {
 protected:
 	/** 
@@ -295,7 +295,7 @@ private:
  * @class LLSDXMLParser
  * @brief Parser which handles XML format LLSD.
  */
-class LL_COMMON_API LLSDXMLParser : public LLSDParser
+class LL_COMMON_API LLSDXMLParser final : public LLSDParser
 {
 protected:
 	/** 
@@ -345,7 +345,7 @@ private:
  * @class LLSDBinaryParser
  * @brief Parser which handles binary formatted LLSD.
  */
-class LL_COMMON_API LLSDBinaryParser : public LLSDParser
+class LL_COMMON_API LLSDBinaryParser final : public LLSDParser
 {
 protected:
 	/** 
@@ -487,7 +487,7 @@ protected:
  * @class LLSDNotationFormatter
  * @brief Formatter which outputs the original notation format for LLSD.
  */
-class LL_COMMON_API LLSDNotationFormatter : public LLSDFormatter
+class LL_COMMON_API LLSDNotationFormatter final : public LLSDFormatter
 {
 protected:
 	/** 
@@ -539,7 +539,7 @@ protected:
  * @class LLSDXMLFormatter
  * @brief Formatter which outputs the LLSD as XML.
  */
-class LL_COMMON_API LLSDXMLFormatter : public LLSDFormatter
+class LL_COMMON_API LLSDXMLFormatter final : public LLSDFormatter
 {
 protected:
 	/** 
@@ -607,7 +607,7 @@ protected:
  * Map: '{' + 4 byte integer size  every(key + value) + '}'<br>
  *  map keys are serialized as 'k' + 4 byte integer size + string
  */
-class LL_COMMON_API LLSDBinaryFormatter : public LLSDFormatter
+class LL_COMMON_API LLSDBinaryFormatter final : public LLSDFormatter
 {
 protected:
 	/** 
@@ -827,7 +827,7 @@ public:
 	}
 };
 
-class LL_COMMON_API LLUZipHelper : public LLRefCount
+class LL_COMMON_API LLUZipHelper final : public LLRefCount
 {
 public:
     typedef enum e_zip_result

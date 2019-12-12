@@ -241,7 +241,7 @@ struct LLTextureMaskData
  **/
 
 
-struct LLAppearanceMessageContents: public LLRefCount
+struct LLAppearanceMessageContents final : public LLRefCount
 {
 	LLAppearanceMessageContents():
 		mAppearanceVersion(-1),

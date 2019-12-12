@@ -182,7 +182,7 @@ public:
     LLListenerOrPumpName(const T& listener): mListener(listener) {}
 
     /// for omitted method parameter: uninitialized mListener
-    LLListenerOrPumpName() {}
+    LLListenerOrPumpName() = default;
 
     /// test for validity
     operator bool() const { return bool(mListener); }
@@ -224,7 +224,7 @@ class LLEventPump;
 // capable of this.) In that case, instead of calling LLEventPumps::instance()
 // again -- resurrecting the deleted LLSingleton -- store an
 // LLHandle<LLEventPumps> and test it before use.
-class LL_COMMON_API LLEventPumps: public LLSingleton<LLEventPumps>,
+class LL_COMMON_API LLEventPumps final : public LLSingleton<LLEventPumps>,
                                   public LLHandleProvider<LLEventPumps>
 {
     LLSINGLETON(LLEventPumps);
@@ -630,7 +630,7 @@ class LL_COMMON_API LLEventStream: public LLEventPump
 {
 public:
     LLEventStream(const std::string& name, bool tweak=false): LLEventPump(name, tweak) {}
-    virtual ~LLEventStream() {}
+    virtual ~LLEventStream() = default;
 
     /// Post an event to all listeners
 	bool post(const LLSD& event) override;
@@ -662,7 +662,7 @@ class LL_COMMON_API LLEventMailDrop : public LLEventStream
 {
 public:
     LLEventMailDrop(const std::string& name, bool tweak = false) : LLEventStream(name, tweak) {}
-    virtual ~LLEventMailDrop() {}
+    virtual ~LLEventMailDrop() = default;
     
     /// Post an event to all listeners
     bool post(const LLSD& event) override;
@@ -690,7 +690,7 @@ class LL_COMMON_API LLEventQueue: public LLEventPump
 {
 public:
     LLEventQueue(const std::string& name, bool tweak=false): LLEventPump(name, tweak) {}
-    virtual ~LLEventQueue() {}
+    virtual ~LLEventQueue() = default;
 
     /// Post an event to all listeners
 	bool post(const LLSD& event) override;

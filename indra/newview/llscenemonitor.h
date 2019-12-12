@@ -36,7 +36,7 @@ class LLCharacter;
 class LLRenderTarget;
 class LLViewerTexture;
 
-class LLSceneMonitor : public LLSingleton<LLSceneMonitor>
+class LLSceneMonitor final : public LLSingleton<LLSceneMonitor>
 {
 	LLSINGLETON(LLSceneMonitor);
 	~LLSceneMonitor();

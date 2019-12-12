@@ -35,7 +35,7 @@
 class LLNotifications;
 class LLSD;
 
-class LLNotificationsListener : public LLEventAPI
+class LLNotificationsListener final : public LLEventAPI
 {
 public:
     LLNotificationsListener(LLNotifications & notifications);

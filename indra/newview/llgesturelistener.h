@@ -34,7 +34,7 @@
 
 class LLSD;
 
-class LLGestureListener : public LLEventAPI
+class LLGestureListener final : public LLEventAPI
 {
 public:
 	LLGestureListener();

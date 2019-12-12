@@ -44,8 +44,8 @@ class LLDispatchHandler
 public:
 	typedef std::vector<std::string> sparam_t;
 	//typedef std::vector<S32> iparam_t;
-	LLDispatchHandler() {}
-	virtual ~LLDispatchHandler() {}
+	LLDispatchHandler() = default;
+	virtual ~LLDispatchHandler() = default;
 	virtual bool operator()(
 		const LLDispatcher* dispatcher,
 		const std::string& key,

@@ -58,7 +58,7 @@ class LLServiceCreator
 {
 public:
 	typedef boost::intrusive_ptr<LLService> service_t;
-	virtual ~LLServiceCreator() {}
+	virtual ~LLServiceCreator() = default;
 	virtual service_t activate() = 0;
 	virtual void discard() = 0;
 

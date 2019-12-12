@@ -164,7 +164,7 @@ public:
 		Params();
 	};
 
-	virtual ~LLChiclet() {}
+	virtual ~LLChiclet() = default;
 
 	/**
 	 * Associates chat session id with chiclet.
@@ -252,7 +252,7 @@ public:
 	{};
 
 	
-	virtual ~LLIMChiclet() {};
+	virtual ~LLIMChiclet() = default;
 
 	/**
 	 * It is used for default setting up of chicklet:click handler, etc.  

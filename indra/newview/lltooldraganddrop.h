@@ -41,7 +41,7 @@ class LLViewerRegion;
 class LLVOAvatar;
 class LLPickInfo;
 
-class LLToolDragAndDrop : public LLTool, public LLSingleton<LLToolDragAndDrop>
+class LLToolDragAndDrop final : public LLTool, public LLSingleton<LLToolDragAndDrop>
 {
 	LLSINGLETON(LLToolDragAndDrop);
 public:
@@ -270,7 +270,7 @@ public:
 
 	// Classes used for determining 3d drag and drop types.
 private:
-	struct DragAndDropEntry : public LLDictionaryEntry
+	struct DragAndDropEntry final : public LLDictionaryEntry
 	{
 		DragAndDropEntry(dragOrDrop3dImpl f_none,
 						 dragOrDrop3dImpl f_self,
@@ -279,7 +279,7 @@ private:
 						 dragOrDrop3dImpl f_land);
 		dragOrDrop3dImpl mFunctions[DT_COUNT];
 	};	
-	class LLDragAndDropDictionary : public LLSingleton<LLDragAndDropDictionary>,
+	class LLDragAndDropDictionary final : public LLSingleton<LLDragAndDropDictionary>,
 									public LLDictionary<EDragAndDropType, DragAndDropEntry>
 	{
 		LLSINGLETON(LLDragAndDropDictionary);

@@ -442,7 +442,7 @@ protected:
 class LLAudioBuffer
 {
 public:
-	virtual ~LLAudioBuffer() {};
+	virtual ~LLAudioBuffer() = default;
 	virtual bool loadWAV(const std::string& filename) = 0;
 	virtual U32 getLength() = 0;
 

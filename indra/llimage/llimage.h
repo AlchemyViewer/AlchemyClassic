@@ -88,7 +88,7 @@ typedef enum e_image_codec
 //============================================================================
 // library initialization class
 
-class LLImage : public LLParamSingleton<LLImage>
+class LLImage final : public LLParamSingleton<LLImage>
 {
 	LLSINGLETON(LLImage, bool use_new_byte_range = false, S32 minimal_reverse_byte_range_percent = 75);
 	~LLImage();

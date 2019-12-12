@@ -116,7 +116,7 @@ struct WLFloatControl {
 };
 
 /// WindLight parameter manager class - what controls all the wind light shaders
-class LLWLParamManager : public LLSingleton<LLWLParamManager>
+class LLWLParamManager final : public LLSingleton<LLWLParamManager>
 {
 	LLSINGLETON(LLWLParamManager);
 	~LLWLParamManager();

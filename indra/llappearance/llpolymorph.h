@@ -134,7 +134,7 @@ class LLPolyMorphTargetInfo final : public LLViewerVisualParamInfo
 	friend class LLPolyMorphTarget;
 public:
 	LLPolyMorphTargetInfo();
-	/*virtual*/ ~LLPolyMorphTargetInfo() {};
+	/*virtual*/ ~LLPolyMorphTargetInfo() = default;
 	
 	/*virtual*/ BOOL parseXml(LLXmlTreeNode* node) override;
 

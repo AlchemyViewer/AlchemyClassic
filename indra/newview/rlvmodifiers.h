@@ -90,7 +90,7 @@ struct RlvBehaviourModifierTween
 	RlvBehaviourModifierValue endValue;
 };
 
-class RlvBehaviourModifierAnimator : public LLSingleton<RlvBehaviourModifierAnimator>
+class RlvBehaviourModifierAnimator final : public LLSingleton<RlvBehaviourModifierAnimator>
 {
 	LLSINGLETON_EMPTY_CTOR(RlvBehaviourModifierAnimator);
 public:
@@ -129,7 +129,7 @@ protected:
 
 // Inspired by LLControlCache<T>
 template<typename T>
-class RlvBehaviourModifierCache : public LLRefCount, public LLInstanceTracker<RlvBehaviourModifierCache<T>, ERlvBehaviourModifier>
+class RlvBehaviourModifierCache final : public LLRefCount, public LLInstanceTracker<RlvBehaviourModifierCache<T>, ERlvBehaviourModifier>
 {
 public:
 	RlvBehaviourModifierCache(ERlvBehaviourModifier eModifier)

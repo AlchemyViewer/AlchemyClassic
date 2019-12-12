@@ -246,7 +246,7 @@ private:
     LOG_CLASS(LLViewerTextureList);
 };
 
-class LLUIImageList : public LLImageProviderInterface, public LLSingleton<LLUIImageList>
+class LLUIImageList final : public LLImageProviderInterface, public LLSingleton<LLUIImageList>
 {
 	LLSINGLETON_EMPTY_CTOR(LLUIImageList);
 public:

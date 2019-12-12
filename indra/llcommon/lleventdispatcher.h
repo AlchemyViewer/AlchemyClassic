@@ -279,7 +279,7 @@ private:
     struct DispatchEntry
     {
         DispatchEntry(std::string desc);
-        virtual ~DispatchEntry() {} // suppress MSVC warning, sigh
+        virtual ~DispatchEntry() = default; // suppress MSVC warning, sigh
 
         std::string mDesc;
 

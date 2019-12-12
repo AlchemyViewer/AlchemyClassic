@@ -52,14 +52,14 @@ static const S32 WAV_HEADER_SIZE = 44;
 //////////////////////////////////////////////////////////////////////////////
 
 
-class LLVorbisDecodeState : public LLRefCount
+class LLVorbisDecodeState final : public LLRefCount
 {
 public:
-	class WriteResponder : public LLLFSThread::Responder
+	class WriteResponder final : public LLLFSThread::Responder
 	{
 	public:
 		WriteResponder(LLVorbisDecodeState* decoder) : mDecoder(decoder) {}
-		~WriteResponder() {}
+		~WriteResponder() = default;
 		void completed(S32 bytes) override
 		{
 			mDecoder->ioComplete(bytes);
@@ -555,8 +555,8 @@ class LLAudioDecodeMgr::Impl
 {
 	friend class LLAudioDecodeMgr;
 public:
-	Impl() {};
-	~Impl() {};
+	Impl() = default;
+	~Impl() = default;
 
 	void processQueue(const F32 num_secs = 0.005);
 

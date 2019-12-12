@@ -35,7 +35,7 @@ class LLAppViewer;
 class LLSD;
 
 /// Listen on an LLEventPump with specified name for LLAppViewer request events.
-class LLAppViewerListener: public LLEventAPI
+class LLAppViewerListener final : public LLEventAPI
 {
 public:
     typedef std::function<LLAppViewer*(void)> LLAppViewerGetter;

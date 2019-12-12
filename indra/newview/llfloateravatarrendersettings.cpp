@@ -61,7 +61,7 @@ protected:
     LLFloaterAvatarRenderSettings* mFloaterSettings;
 };
 
-class LLAvatarRenderMuteListObserver : public LLMuteListObserver
+class LLAvatarRenderMuteListObserver final : public LLMuteListObserver
 {
     /* virtual */ void onChange() override { LLFloaterAvatarRenderSettings::setNeedsUpdate();}
 };

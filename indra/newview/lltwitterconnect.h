@@ -40,7 +40,7 @@ class LLEventPump;
  * Manages authentication to, and interaction with, a web service allowing the
  * the viewer to post status updates and upload photos to Twitter.
  */
-class LLTwitterConnect : public LLSingleton<LLTwitterConnect>
+class LLTwitterConnect final : public LLSingleton<LLTwitterConnect>
 {
 	LLSINGLETON(LLTwitterConnect);
 	LOG_CLASS(LLTwitterConnect);

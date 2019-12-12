@@ -66,7 +66,7 @@ public:
  * 
  * @see LLNavigationBar
  */
-class LLTeleportHistory: public LLSingleton<LLTeleportHistory>
+class LLTeleportHistory final : public LLSingleton<LLTeleportHistory>
 {
 	LLSINGLETON(LLTeleportHistory);
 	~LLTeleportHistory();

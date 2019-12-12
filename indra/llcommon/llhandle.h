@@ -37,7 +37,7 @@
  * Helper object for LLHandle. Don't instantiate these directly, used
  * exclusively by LLHandle.
  */
-class LLTombStone : public LLRefCount
+class LLTombStone final : public LLRefCount
 {
 public:
 	LLTombStone(void* target = nullptr) : mTarget(target) {}
@@ -152,7 +152,7 @@ public:
 	typedef LLHandle<T> base_t;
 
 	LLRootHandle(T* object) { bind(object); }
-	LLRootHandle() {};
+	LLRootHandle() = default;
 	~LLRootHandle() { unbind(); }
 
 	// this is redundant, since an LLRootHandle *is* an LLHandle

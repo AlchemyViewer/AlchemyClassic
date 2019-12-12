@@ -214,7 +214,7 @@ static void remove_media_impl(LLViewerMediaImpl* media)
 	}
 }
 
-class LLViewerMediaMuteListObserver : public LLMuteListObserver
+class LLViewerMediaMuteListObserver final : public LLMuteListObserver
 {
 	/* virtual */ void onChange() override { LLViewerMedia::getInstance()->muteListChanged();}
 };

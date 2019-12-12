@@ -128,7 +128,7 @@ class LLTexLayerParamAlphaInfo final : public LLViewerVisualParamInfo
 	friend class LLTexLayerParamAlpha;
 public:
 	LLTexLayerParamAlphaInfo();
-	/*virtual*/ ~LLTexLayerParamAlphaInfo() {};
+	/*virtual*/ ~LLTexLayerParamAlphaInfo() = default;
 
 	/*virtual*/ BOOL parseXml(LLXmlTreeNode* node) override;
 
@@ -210,7 +210,7 @@ class LLTexLayerParamColorInfo final : public LLViewerVisualParamInfo
 
 public:
 	LLTexLayerParamColorInfo();
-	virtual ~LLTexLayerParamColorInfo() {};
+	virtual ~LLTexLayerParamColorInfo() = default;
 	BOOL parseXml( LLXmlTreeNode* node ) override;
 	LLTexLayerParamColor::EColorOperation getOperation() const { return mOperation; }
 private:

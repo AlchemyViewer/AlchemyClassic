@@ -147,7 +147,7 @@ public:
 		mName = LLMessageStringTable::getInstance()->getString(name); 
 	}
 	
-	~LLMessageVariable() {}
+	~LLMessageVariable() = default;
 
 	friend std::ostream&	 operator<<(std::ostream& s, LLMessageVariable &msg);
 

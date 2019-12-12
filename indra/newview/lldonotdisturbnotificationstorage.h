@@ -45,7 +45,7 @@ public:
     BOOL tick() override;
 };
 
-class LLDoNotDisturbNotificationStorage : public LLParamSingleton<LLDoNotDisturbNotificationStorage>, public LLNotificationStorage
+class LLDoNotDisturbNotificationStorage final : public LLParamSingleton<LLDoNotDisturbNotificationStorage>, public LLNotificationStorage
 {
 	LLSINGLETON(LLDoNotDisturbNotificationStorage);
 	~LLDoNotDisturbNotificationStorage();

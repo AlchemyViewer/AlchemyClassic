@@ -292,7 +292,7 @@ typedef enum
 	static LLGLSLShader* sVertexProgram;
 };
 
-class LLVertexBufferAvatar : public LLVertexBuffer
+class LLVertexBufferAvatar final : public LLVertexBuffer
 {
 public:
 	LLVertexBufferAvatar();

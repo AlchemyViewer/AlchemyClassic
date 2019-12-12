@@ -31,7 +31,7 @@
 #include "llsingleton.h"
 
 #include <mmeapi.h>
-class VolumeCatcherImpl : public LLSingleton<VolumeCatcherImpl>
+class VolumeCatcherImpl final : public LLSingleton<VolumeCatcherImpl>
 {
 	LLSINGLETON(VolumeCatcherImpl);
 	// This is a singleton class -- both callers and the component implementation should use getInstance() to find the instance.

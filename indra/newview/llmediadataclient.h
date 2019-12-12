@@ -302,7 +302,7 @@ private:
 };
 
 // MediaDataClient specific for the ObjectMedia cap
-class LLObjectMediaDataClient : public LLMediaDataClient
+class LLObjectMediaDataClient final : public LLMediaDataClient
 {
 protected:
     LOG_CLASS(LLObjectMediaDataClient);
@@ -383,7 +383,7 @@ private:
 
 
 // MediaDataClient specific for the ObjectMediaNavigate cap
-class LLObjectMediaNavigateClient : public LLMediaDataClient
+class LLObjectMediaNavigateClient final : public LLMediaDataClient
 {
 protected:
     LOG_CLASS(LLObjectMediaNavigateClient);

@@ -219,7 +219,7 @@ enum LLSocks5AuthType
  * To ensure thread safety, all LLProxy members that relate to the HTTP
  * proxy require the LLProxyMutex to be locked before accessing.
  */
-class LLProxy: public LLSingleton<LLProxy>
+class LLProxy final : public LLSingleton<LLProxy>
 {
 	/*###########################################################################################
 	METHODS THAT DO NOT LOCK mProxyMutex!

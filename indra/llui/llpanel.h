@@ -265,7 +265,7 @@ typedef std::function<LLPanel* (void)> LLPanelClassCreatorFunc;
 
 // local static instance for registering a particular panel class
 
-class LLRegisterPanelClass
+class LLRegisterPanelClass final
 :	public LLSingleton< LLRegisterPanelClass >
 {
 	LLSINGLETON_EMPTY_CTOR(LLRegisterPanelClass);

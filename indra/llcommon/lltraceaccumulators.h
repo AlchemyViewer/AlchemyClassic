@@ -50,7 +50,7 @@ namespace LLTrace
 	};
 
 	template<typename ACCUMULATOR>
-	class AccumulatorBuffer : public LLRefCount
+	class AccumulatorBuffer final : public LLRefCount
 	{
 		typedef AccumulatorBuffer<ACCUMULATOR> self_t;
 		static const S32 DEFAULT_ACCUMULATOR_BUFFER_SIZE = 32;
@@ -575,7 +575,7 @@ namespace LLTrace
 		CountAccumulator	mDeallocations;
 	};
 
-	struct AccumulatorBufferGroup : public LLRefCount
+	struct AccumulatorBufferGroup final : public LLRefCount
 	{
 		AccumulatorBufferGroup();
 		AccumulatorBufferGroup(const AccumulatorBufferGroup&);

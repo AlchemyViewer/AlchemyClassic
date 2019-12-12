@@ -111,8 +111,8 @@ public:
 	static const std::string&	badLookup(); // error string when a lookup fails
 
 protected:
-	LLFolderType() {}
-	~LLFolderType() {}
+	LLFolderType() = default;
+	~LLFolderType() = default;
 };
 
 #endif // LL_LLFOLDERTYPE_H

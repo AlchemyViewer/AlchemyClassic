@@ -36,7 +36,7 @@ class LLTransferSourceParamsAsset : public LLTransferSourceParams
 {
 public:
 	LLTransferSourceParamsAsset();
-	virtual ~LLTransferSourceParamsAsset() {}
+	virtual ~LLTransferSourceParamsAsset() = default;
 	/*virtual*/ void packParams(LLDataPacker &dp) const override;
 	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 

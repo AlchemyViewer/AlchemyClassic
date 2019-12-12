@@ -33,7 +33,7 @@
 class LLStartUp;
 class LLSD;
 
-class LLStartupListener: public LLEventAPI
+class LLStartupListener final : public LLEventAPI
 {
 public:
     LLStartupListener(/* LLStartUp* instance */); // all static members!

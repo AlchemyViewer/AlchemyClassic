@@ -33,7 +33,7 @@
 
 static const std::string empty_string;
 
-struct ViewerAssetEntry : public LLDictionaryEntry
+struct ViewerAssetEntry final : public LLDictionaryEntry
 {
 	ViewerAssetEntry(EDragAndDropType dad_type // drag and drop type
 		)
@@ -45,7 +45,7 @@ struct ViewerAssetEntry : public LLDictionaryEntry
 	EDragAndDropType mDadType;
 };
 
-class LLViewerAssetDictionary : public LLSingleton<LLViewerAssetDictionary>,
+class LLViewerAssetDictionary final : public LLSingleton<LLViewerAssetDictionary>,
 						  public LLDictionary<LLViewerAssetType::EType, ViewerAssetEntry>
 {
 	LLSINGLETON(LLViewerAssetDictionary);

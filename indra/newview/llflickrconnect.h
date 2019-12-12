@@ -40,10 +40,10 @@ class LLEventPump;
  * Manages authentication to, and interaction with, a web service allowing the
  * the viewer to upload photos to Flickr.
  */
-class LLFlickrConnect : public LLSingleton<LLFlickrConnect>
+class LLFlickrConnect final : public LLSingleton<LLFlickrConnect>
 {
 	LLSINGLETON(LLFlickrConnect);
-	~LLFlickrConnect() {};
+	~LLFlickrConnect() = default;
 	LOG_CLASS(LLFlickrConnect);
 public:
     enum EConnectionState

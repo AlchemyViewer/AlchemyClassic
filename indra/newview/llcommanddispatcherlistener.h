@@ -33,7 +33,7 @@
 class LLCommandDispatcher;
 class LLSD;
 
-class LLCommandDispatcherListener: public LLEventAPI
+class LLCommandDispatcherListener final : public LLEventAPI
 {
 public:
     LLCommandDispatcherListener(/* LLCommandDispatcher* instance */); // all static members

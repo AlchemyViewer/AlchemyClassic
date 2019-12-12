@@ -278,12 +278,12 @@ private:
 	//--------------------------------------------------------------------------------
 private:
 
-	class createStandardWearablesAllDoneCallback : public LLRefCount
+	class createStandardWearablesAllDoneCallback final : public LLRefCount
 	{
 	protected:
 		~createStandardWearablesAllDoneCallback();
 	};
-	class sendAgentWearablesUpdateCallback : public LLRefCount
+	class sendAgentWearablesUpdateCallback final : public LLRefCount
 	{
 	protected:
 		~sendAgentWearablesUpdateCallback();

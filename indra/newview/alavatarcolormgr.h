@@ -26,7 +26,7 @@
 class LLColor4;
 class LLUUID;
 
-class ALAvatarColorMgr : public LLSingleton < ALAvatarColorMgr >
+class ALAvatarColorMgr final : public LLSingleton < ALAvatarColorMgr >
 {
 	LLSINGLETON_EMPTY_CTOR(ALAvatarColorMgr);
 	~ALAvatarColorMgr() = default;

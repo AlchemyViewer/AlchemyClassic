@@ -69,7 +69,7 @@ public:
 	U32			mFlags;	// flags pertaining to this mute entry
 };
 
-class LLMuteList : public LLSingleton<LLMuteList>
+class LLMuteList final : public LLSingleton<LLMuteList>
 {
 	LLSINGLETON(LLMuteList);
 	~LLMuteList();
@@ -177,7 +177,7 @@ public:
 	virtual void onChangeDetailed(const LLMute& ) { }
 };
 
-class LLRenderMuteList : public LLSingleton<LLRenderMuteList>
+class LLRenderMuteList final : public LLSingleton<LLRenderMuteList>
 {
 	LLSINGLETON_EMPTY_CTOR(LLRenderMuteList);
 public:

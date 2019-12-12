@@ -38,7 +38,7 @@
 #include <string>
 #include <boost/signals2.hpp>
 
-class LLCurrencyWrapper : public LLSingleton<LLCurrencyWrapper>
+class LLCurrencyWrapper final : public LLSingleton<LLCurrencyWrapper>
 {
 	LLSINGLETON_EMPTY_CTOR(LLCurrencyWrapper);
 

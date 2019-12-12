@@ -33,7 +33,7 @@
 
 class LLSD;
 
-class LLUIListener: public LLEventAPI
+class LLUIListener final : public LLEventAPI
 {
 public:
     LLUIListener();

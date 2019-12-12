@@ -28,7 +28,7 @@
 #ifndef LL_LLURLWHITELIST_H
 #define LL_LLURLWHITELIST_H
 
-class LLUrlWhiteList : public LLSingleton<LLUrlWhiteList>
+class LLUrlWhiteList final : public LLSingleton<LLUrlWhiteList>
 {
 	LLSINGLETON(LLUrlWhiteList);
 	~LLUrlWhiteList();

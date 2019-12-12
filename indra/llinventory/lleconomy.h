@@ -38,7 +38,7 @@ class LLVector3;
 class LLEconomyObserver
 {
 public:
-	virtual ~LLEconomyObserver() {}
+	virtual ~LLEconomyObserver() = default;
 	virtual void onEconomyDataChange() = 0;
 };
 
@@ -101,7 +101,7 @@ private:
 	std::list<LLEconomyObserver*> mObservers;
 };
 
-class LLGlobalEconomy: public LLSingleton<LLGlobalEconomy>, public LLBaseEconomy
+class LLGlobalEconomy final : public LLSingleton<LLGlobalEconomy>, public LLBaseEconomy
 {
 	LLSINGLETON_EMPTY_CTOR(LLGlobalEconomy);
 };

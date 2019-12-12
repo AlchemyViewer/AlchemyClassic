@@ -232,7 +232,7 @@ protected:
 	S32				mLastTESelected;
 };
 
-class LLObjectSelection : public LLRefCount
+class LLObjectSelection final : public LLRefCount
 {
 	friend class LLSelectMgr;
 	friend class LLSafeHandle<LLObjectSelection>;

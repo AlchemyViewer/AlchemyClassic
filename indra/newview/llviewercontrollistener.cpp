@@ -189,7 +189,7 @@ void LLViewerControlListener::groups(LLSD const & request)
 	}
 }
 
-struct CollectVars: public LLControlGroup::ApplyFunctor
+struct CollectVars final : public LLControlGroup::ApplyFunctor
 {
 	CollectVars(LLControlGroup* g):
 		mGroup(g)

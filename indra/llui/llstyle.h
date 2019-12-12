@@ -34,7 +34,7 @@
 
 class LLFontGL;
 
-class LLStyle : public LLRefCount
+class LLStyle final : public LLRefCount
 {
 public:
 	struct Params : public LLInitParam::Block<Params>
@@ -99,7 +99,7 @@ public:
 	LLFontGL::ShadowType		mDropShadow;
 
 protected:
-	~LLStyle() { }
+	~LLStyle() = default;
 
 private:
 	BOOL				mVisible;

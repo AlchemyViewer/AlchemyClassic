@@ -41,7 +41,7 @@
 #include <iosfwd>
 #include <string>
 
-class LL_COMMON_API LLOSInfo : public LLSingleton<LLOSInfo>
+class LL_COMMON_API LLOSInfo final : public LLSingleton<LLOSInfo>
 {
 	LLSINGLETON(LLOSInfo);
 public:
@@ -69,7 +69,7 @@ private:
 };
 
 
-class LL_COMMON_API LLCPUInfo : public LLSingleton<LLCPUInfo>
+class LL_COMMON_API LLCPUInfo final : public LLSingleton<LLCPUInfo>
 {
 	LLSINGLETON(LLCPUInfo);
 public:

@@ -384,7 +384,7 @@ class LLWearableItemCreationDateComparator final : public LLWearableItemNameComp
 
 public:
 	// clang demands a default ctor here 
-	LLWearableItemCreationDateComparator() {}
+	LLWearableItemCreationDateComparator() = default;
 
 protected:
 	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* item1, const LLPanelInventoryListItemBase* item2) const override;
@@ -408,7 +408,7 @@ public:
 	 * (e.g. for items selected across multiple wearable lists),
 	 * so making it a singleton.
 	 */
-	class ContextMenu : public LLListContextMenu, public LLSingleton<ContextMenu>
+	class ContextMenu final : public LLListContextMenu, public LLSingleton<ContextMenu>
 	{
 		LLSINGLETON(ContextMenu);
 	public:

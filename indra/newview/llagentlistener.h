@@ -37,7 +37,7 @@ class LLSD;
 class LLViewerObject; 
 class LLVector3d;
 
-class LLAgentListener : public LLEventAPI
+class LLAgentListener final : public LLEventAPI
 {
 public:
     LLAgentListener(LLAgent &agent);

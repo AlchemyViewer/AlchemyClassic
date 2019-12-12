@@ -255,7 +255,7 @@ public:
 
 	LLUICtrl* findRootMostFocusRoot();
 
-	class LLTextInputFilter : public LLQueryFilter, public LLSingleton<LLTextInputFilter>
+	class LLTextInputFilter final : public LLQueryFilter, public LLSingleton<LLTextInputFilter>
 	{
 		LLSINGLETON_EMPTY_CTOR(LLTextInputFilter);
 		/*virtual*/ filterResult_t operator() (const LLView* const view, const viewList_t & children) const override

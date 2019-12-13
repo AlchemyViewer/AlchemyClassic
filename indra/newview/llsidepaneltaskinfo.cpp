@@ -244,6 +244,30 @@ void LLSidepanelTaskInfo::disableAll()
 
 	mDeedBtn->setEnabled(FALSE);
 
+	mPathfindingAttributesText->setEnabled(FALSE);
+	mPathfindingAttributesText->setValue(LLStringUtil::null);
+
+	mNextOwnerCanModifyCheck->setValue(FALSE);
+	mNextOwnerCanModifyCheck->setEnabled(FALSE);
+	mSaleCostSpinner->setValue(LLStringUtil::null);
+	mSaleTypeCombo->setValue(LLSaleInfo::FS_COPY);
+
+	disablePermissions();
+
+	mAdvPermB->setVisible(FALSE);
+	mAdvPermO->setVisible(FALSE);
+	mAdvPermG->setVisible(FALSE);
+	mAdvPermE->setVisible(FALSE);
+	mAdvPermN->setVisible(FALSE);
+	mAdvPermF->setVisible(FALSE);
+	
+	mOpenBtn->setEnabled(FALSE);
+	mPayBtn->setEnabled(FALSE);
+	mBuyBtn->setEnabled(FALSE);
+}
+
+void LLSidepanelTaskInfo::disablePermissions()
+{
 	mClickActionLabel->setEnabled(FALSE);
 	mClickActionCombo->setEnabled(FALSE);
 	mClickActionCombo->clear();
@@ -278,29 +302,13 @@ void LLSidepanelTaskInfo::disableAll()
 	mForSaleCheck->setValue(FALSE);
 	mForSaleCheck->setEnabled(FALSE);
 
-	mSaleTypeCombo->setValue(LLSaleInfo::FS_COPY);
 	mSaleTypeCombo->setEnabled(FALSE);
 
-	mSaleCostSpinner->setValue(LLStringUtil::null);
 	mSaleCostSpinner->setEnabled(FALSE);
 	
 	//checkbox include in search
 	mSearchCheck->setValue(FALSE);
 	mSearchCheck->setEnabled(FALSE);
-
-	mPathfindingAttributesText->setEnabled(FALSE);
-	mPathfindingAttributesText->setValue(LLStringUtil::null);
-
-	mAdvPermB->setVisible(FALSE);
-	mAdvPermO->setVisible(FALSE);
-	mAdvPermG->setVisible(FALSE);
-	mAdvPermE->setVisible(FALSE);
-	mAdvPermN->setVisible(FALSE);
-	mAdvPermF->setVisible(FALSE);
-	
-	mOpenBtn->setEnabled(FALSE);
-	mPayBtn->setEnabled(FALSE);
-	mBuyBtn->setEnabled(FALSE);
 }
 
 void LLSidepanelTaskInfo::refresh()
@@ -1024,6 +1032,12 @@ void LLSidepanelTaskInfo::onCommitPerm(BOOL enabled, U8 field, U32 perm)
 	if(!object) return;
 
 	LLSelectMgr::getInstance()->selectionSetObjectPermissions(field, enabled, perm);
+
+    LLSidepanelTaskInfo* self = (LLSidepanelTaskInfo*)data;
+    if (self)
+    {
+        self->disablePermissions();
+    }
 }
 
 void LLSidepanelTaskInfo::onCommitGroupShare(const LLSD& user_data)

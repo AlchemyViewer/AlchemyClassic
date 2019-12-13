@@ -3182,7 +3182,7 @@ void LLAppearanceMgr::removeAllAttachmentsFromAvatar()
 	{
 		LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 		LLViewerJointAttachment* attachment = curiter->second;
-		for (auto attached_object : attachment->mAttachedObjects)
+		for (const auto& attached_object : attachment->mAttachedObjects)
         {
             if (attached_object)
 			{

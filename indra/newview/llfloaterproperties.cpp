@@ -89,7 +89,7 @@ public:
 
 	void changed(U32 mask) override;
 private:
-	LLFloaterProperties* mFloater;
+	LLFloaterProperties* mFloater; // Not a handle because LLFloaterProperties is managing LLPropertiesObserver
 };
 
 void LLPropertiesObserver::changed(U32 mask)

@@ -402,7 +402,7 @@ void LLDarwin::callDeltaUpdate(double *delta, MASK mask)
 	gWindowImplementation->updateMouseDeltas(delta);
 }
 
-void LLDarwin::callMiddleMouseDown(float *pos, MASK mask)
+void LLDarwin::callOtherMouseDown(float *pos, MASK mask, int button)
 {
 	LLCoordGL		outCoords;
 	outCoords.mX = ll_round(pos[0]);
@@ -411,10 +411,18 @@ void LLDarwin::callMiddleMouseDown(float *pos, MASK mask)
 	gWindowImplementation->getMouseDeltas(deltas);
 	outCoords.mX += deltas[0];
 	outCoords.mY += deltas[1];
-	gWindowImplementation->getCallbacks()->handleMiddleMouseDown(gWindowImplementation, outCoords, mask);
+
+    if (button == 2)
+    {
+        gWindowImplementation->getCallbacks()->handleMiddleMouseDown(gWindowImplementation, outCoords, mask);
+    }
+    else
+    {
+        gWindowImplementation->getCallbacks()->handleOtherMouseDown(gWindowImplementation, outCoords, mask, button + 1);
+    }
 }
 
-void LLDarwin::callMiddleMouseUp(float *pos, MASK mask)
+void LLDarwin::callOtherMouseUp(float *pos, MASK mask, int button)
 {
 	LLCoordGL outCoords;
 	outCoords.mX = ll_round(pos[0]);
@@ -422,8 +430,15 @@ void LLDarwin::callMiddleMouseUp(float *pos, MASK mask)
 	S32 deltas[2];
 	gWindowImplementation->getMouseDeltas(deltas);
 	outCoords.mX += deltas[0];
-	outCoords.mY += deltas[1];
-	gWindowImplementation->getCallbacks()->handleMiddleMouseUp(gWindowImplementation, outCoords, mask);
+    outCoords.mY += deltas[1];
+    if (button == 2)
+    {
+        gWindowImplementation->getCallbacks()->handleMiddleMouseUp(gWindowImplementation, outCoords, mask);
+    }
+    else
+    {
+        gWindowImplementation->getCallbacks()->handleOtherMouseUp(gWindowImplementation, outCoords, mask, button + 1);
+    }
 }
 
 void LLDarwin::callModifier(MASK mask)

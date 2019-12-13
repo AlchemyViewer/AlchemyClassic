@@ -1937,7 +1937,7 @@ void LLViewerObjectList::generatePickList(LLCamera &camera)
 				LLViewerJointAttachment* attachment = curiter->second;
 				if (attachment->getIsHUDAttachment())
 				{
-					for (auto attached_object : attachment->mAttachedObjects)
+					for (const auto& attached_object : attachment->mAttachedObjects)
                     {
 						if (attached_object)
 						{

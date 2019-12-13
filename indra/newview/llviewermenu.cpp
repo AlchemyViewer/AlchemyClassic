@@ -6769,10 +6769,10 @@ private:
 
 	static void onNearAttachObject(BOOL success, void *user_data);
 	void confirmReplaceAttachment(S32 option, LLViewerJointAttachment* attachment_point);
-
-	struct CallbackData
+	class CallbackData : public LLSelectionCallbackData
 	{
-		CallbackData(LLViewerJointAttachment* point, bool replace) : mAttachmentPoint(point), mReplace(replace) {}
+	public:
+		CallbackData(LLViewerJointAttachment* point, bool replace) : LLSelectionCallbackData(), mAttachmentPoint(point), mReplace(replace) {}
 
 		LLViewerJointAttachment*	mAttachmentPoint;
 		bool						mReplace;
@@ -6813,8 +6813,8 @@ void LLObjectAttachToAvatar::onNearAttachObject(BOOL success, void *user_data)
 			// interpret 0 as "default location"
 			attachment_id = 0;
 		}
-		LLSelectMgr::getInstance()->sendAttach(attachment_id, cb_data->mReplace);
-	}		
+		LLSelectMgr::getInstance()->sendAttach(cb_data->getSelection(), attachment_id, cb_data->mReplace);
+	}
 	LLObjectAttachToAvatar::setObjectSelection(NULL);
 
 	delete cb_data;
@@ -6954,7 +6954,7 @@ class LLAttachmentDetachFromPoint : public view_listener_t
 		if (attachment && (attachment->getNumObjects() > 0) && ((!rlv_handler_t::isEnabled()) || (gRlvAttachmentLocks.canDetach(attachment))) )
 // [/RLVa:KB]
 		{
-			for (auto attached_object : attachment->mAttachedObjects)
+			for (const auto& attached_object : attachment->mAttachedObjects)
             {
 // [RLVa:KB] - Checked: 2010-03-04 (RLVa-1.2.0a) | Added: RLVa-1.2.0a
 				if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(attached_object)) )
@@ -6985,7 +6985,7 @@ static bool onEnableAttachmentLabel(LLUICtrl* ctrl, const LLSD& data)
 		if (attachment)
 		{
 			label = data["label"].asString();
-			for (auto attached_object : attachment->mAttachedObjects)
+			for (const auto& attached_object : attachment->mAttachedObjects)
             {
                 if (attached_object)
 				{
@@ -7117,7 +7117,7 @@ class LLAttachmentEnableDrop : public view_listener_t
 
 			if (attachment)
 			{
-				for (auto& attached_object : attachment->mAttachedObjects)
+				for (const auto& attached_object : attachment->mAttachedObjects)
                 {
 					// make sure item is in your inventory (it could be a delayed attach message being sent from the sim)
 					// so check to see if the item is in the inventory already
@@ -7609,7 +7609,7 @@ void handle_dump_attachments(void*)
 		LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 		LLViewerJointAttachment* attachment = curiter->second;
 		S32 key = curiter->first;
-		for (auto attached_object : attachment->mAttachedObjects)
+		for (const auto& attached_object : attachment->mAttachedObjects)
         {
             BOOL visible = (attached_object != NULL &&
 							attached_object->mDrawable.notNull() && 

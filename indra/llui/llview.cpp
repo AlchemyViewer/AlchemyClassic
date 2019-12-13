@@ -934,10 +934,16 @@ BOOL LLView::handleToolTip(S32 x, S32 y, MASK mask)
 		F32 timeout = LLToolTipMgr::instance().toolTipVisible() 
 		              ? tool_tip_fast_delay
 		              : tool_tip_delay;
-		LLToolTipMgr::instance().show(LLToolTip::Params()
-		                              .message(tooltip)
-		                              .sticky_rect(calcScreenRect())
-		                              .delay_time(timeout));
+
+		// Even if we don't show tooltips, consume the event, nothing below should show tooltip
+		static LLUICachedControl<bool> allow_ui_tooltips("BasicUITooltips", true);
+		if (allow_ui_tooltips)
+		{
+			LLToolTipMgr::instance().show(LLToolTip::Params()
+			                              .message(tooltip)
+			                              .sticky_rect(calcScreenRect())
+			                              .delay_time(timeout));
+		}
 		handled = TRUE;
 	}
 

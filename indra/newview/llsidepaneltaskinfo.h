@@ -94,6 +94,7 @@ protected:
 
 	void doClickAction(U8 click_action);
 	void disableAll();
+	void disablePermissions();
 
 private:
 	void closeParentFloater();

@@ -1751,7 +1751,7 @@ void LLAgentWearables::findAttachmentsAddRemoveInfo(LLInventoryModel::item_array
 	for (auto& attachment_point : gAgentAvatarp->mAttachmentPoints)
     {
 		LLViewerJointAttachment* attachment = attachment_point.second;
-		for (auto objectp : attachment->mAttachedObjects)
+		for (const auto& objectp : attachment->mAttachedObjects)
         {
             if (objectp)
 			{
@@ -1810,7 +1810,7 @@ std::vector<LLViewerObject*> LLAgentWearables::getTempAttachments()
 		{
 			LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 			LLViewerJointAttachment* attachment = curiter->second;
-			for (auto objectp : attachment->mAttachedObjects)
+			for (const auto& objectp : attachment->mAttachedObjects)
             {
                 if (objectp && objectp->isTempAttachment())
 				{

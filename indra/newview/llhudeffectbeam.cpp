@@ -89,7 +89,7 @@ void LLHUDEffectBeam::packData(LLMessageSystem *mesgsys)
 	U8 packed_data[41] = {0};
 	if (mSourceObject)
 	{
-		htonmemcpy(packed_data, mSourceObject->mID.mData, MVT_LLUUID, 16);
+		htolememcpy(packed_data, mSourceObject->mID.mData, MVT_LLUUID, 16);
 	}
 
 	if (mTargetObject)
@@ -103,11 +103,11 @@ void LLHUDEffectBeam::packData(LLMessageSystem *mesgsys)
 
 	if (mTargetObject)
 	{
-		htonmemcpy(&(packed_data[17]), mTargetObject->mID.mData, MVT_LLUUID, 16);
+		htolememcpy(&(packed_data[17]), mTargetObject->mID.mData, MVT_LLUUID, 16);
 	}
 	else
 	{
-		htonmemcpy(&(packed_data[17]), mTargetPos.mdV, MVT_LLVector3d, 24);
+		htolememcpy(&(packed_data[17]), mTargetPos.mdV, MVT_LLVector3d, 24);
 	}
 	mesgsys->addBinaryDataFast(_PREHASH_TypeData, packed_data, 41);
 }
@@ -130,7 +130,7 @@ void LLHUDEffectBeam::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 	}
 	mesgsys->getBinaryDataFast(_PREHASH_Effect, _PREHASH_TypeData, packed_data, 41, blocknum);
 	
-	htonmemcpy(source_id.mData, packed_data, MVT_LLUUID, 16);
+	htolememcpy(source_id.mData, packed_data, MVT_LLUUID, 16);
 
 	LLViewerObject *objp = gObjectList.findObject(source_id);
 	if (objp)
@@ -142,7 +142,7 @@ void LLHUDEffectBeam::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 
 	if (use_target_object)
 	{
-		htonmemcpy(target_id.mData, &packed_data[17], MVT_LLUUID, 16);
+		htolememcpy(target_id.mData, &packed_data[17], MVT_LLUUID, 16);
 
 		LLViewerObject *objp = gObjectList.findObject(target_id);
 		if (objp)
@@ -152,7 +152,7 @@ void LLHUDEffectBeam::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 	}
 	else
 	{
-		htonmemcpy(new_target.mdV, &(packed_data[17]), MVT_LLVector3d, 24);
+		htolememcpy(new_target.mdV, &(packed_data[17]), MVT_LLVector3d, 24);
 		setTargetPos(new_target);
 	}
 

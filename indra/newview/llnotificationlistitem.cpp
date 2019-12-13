@@ -267,6 +267,7 @@ std::set<std::string> LLTransactionNotificationListItem::getTypes()
     std::set<std::string> types;
     types.insert("PaymentReceived");
     types.insert("PaymentSent");
+    types.insert("UploadPayment");
     return types;
 }
 

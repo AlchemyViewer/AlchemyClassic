@@ -139,6 +139,7 @@ public:
 	void onClickResetCache();
 	void onClickSetKey();
 	void setKey(KEY key);
+	void setMouse(LLMouseHandler::EClickType click);
 	void onClickSetMiddleMouse();
 	void onClickSetSounds();
 	void onClickEnablePopup();

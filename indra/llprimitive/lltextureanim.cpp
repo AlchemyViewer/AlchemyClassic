@@ -89,9 +89,9 @@ void LLTextureAnim::packTAMessage(LLMessageSystem *mesgsys) const
 	data[1] = mFace;
 	data[2] = mSizeX;
 	data[3] = mSizeY;
-	htonmemcpy(data + 4, &mStart, MVT_F32, sizeof(F32));
-	htonmemcpy(data + 8, &mLength, MVT_F32, sizeof(F32));
-	htonmemcpy(data + 12, &mRate, MVT_F32, sizeof(F32));
+	htolememcpy(data + 4, &mStart, MVT_F32, sizeof(F32));
+	htolememcpy(data + 8, &mLength, MVT_F32, sizeof(F32));
+	htolememcpy(data + 12, &mRate, MVT_F32, sizeof(F32));
 
 	mesgsys->addBinaryDataFast(_PREHASH_TextureAnim, data, TA_BLOCK_SIZE);
 }
@@ -104,9 +104,9 @@ void LLTextureAnim::packTAMessage(LLDataPacker &dp) const
 	data[1] = mFace;
 	data[2] = mSizeX;
 	data[3] = mSizeY;
-	htonmemcpy(data + 4, &mStart, MVT_F32, sizeof(F32));
-	htonmemcpy(data + 8, &mLength, MVT_F32, sizeof(F32));
-	htonmemcpy(data + 12, &mRate, MVT_F32, sizeof(F32));
+	htolememcpy(data + 4, &mStart, MVT_F32, sizeof(F32));
+	htolememcpy(data + 8, &mLength, MVT_F32, sizeof(F32));
+	htolememcpy(data + 12, &mRate, MVT_F32, sizeof(F32));
 
 	dp.packBinaryData(data, TA_BLOCK_SIZE, "TextureAnimation");
 }
@@ -141,9 +141,9 @@ void LLTextureAnim::unpackTAMessage(LLMessageSystem *mesgsys, const S32 block_nu
 		mSizeX = llmax((U8)1, data[2]);
 		mSizeY = llmax((U8)1, data[3]);
 	}
-	htonmemcpy(&mStart, data + 4, MVT_F32, sizeof(F32));
-	htonmemcpy(&mLength, data + 8, MVT_F32, sizeof(F32));
-	htonmemcpy(&mRate, data + 12, MVT_F32, sizeof(F32));
+	htolememcpy(&mStart, data + 4, MVT_F32, sizeof(F32));
+	htolememcpy(&mLength, data + 8, MVT_F32, sizeof(F32));
+	htolememcpy(&mRate, data + 12, MVT_F32, sizeof(F32));
 }
 
 void LLTextureAnim::unpackTAMessage(LLDataPacker &dp)
@@ -165,9 +165,9 @@ void LLTextureAnim::unpackTAMessage(LLDataPacker &dp)
 	mFace = data[1];
 	mSizeX = data[2];
 	mSizeY = data[3];
-	htonmemcpy(&mStart, data + 4, MVT_F32, sizeof(F32));
-	htonmemcpy(&mLength, data + 8, MVT_F32, sizeof(F32));
-	htonmemcpy(&mRate, data + 12, MVT_F32, sizeof(F32));
+	htolememcpy(&mStart, data + 4, MVT_F32, sizeof(F32));
+	htolememcpy(&mLength, data + 8, MVT_F32, sizeof(F32));
+	htolememcpy(&mRate, data + 12, MVT_F32, sizeof(F32));
 }
 
 LLSD LLTextureAnim::asLLSD() const

@@ -86,7 +86,7 @@ private:
 
 	const LLHTTPNode& mNode;
 
-	class Response : public LLHTTPNode::Response
+	class Response final : public LLHTTPNode::Response
 	{
 	public:
 

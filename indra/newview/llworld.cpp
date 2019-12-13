@@ -1180,7 +1180,7 @@ void process_enable_simulator(LLMessageSystem *msg, void **user_data)
 	msg->sendReliable(sim);
 }
 
-class LLEstablishAgentCommunication : public LLHTTPNode
+class LLEstablishAgentCommunication final : public LLHTTPNode
 {
 	LOG_CLASS(LLEstablishAgentCommunication);
 public:

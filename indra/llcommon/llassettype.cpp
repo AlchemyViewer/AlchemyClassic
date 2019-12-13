@@ -34,7 +34,7 @@
 ///----------------------------------------------------------------------------
 /// Class LLAssetType
 ///----------------------------------------------------------------------------
-struct AssetEntry : public LLDictionaryEntry
+struct AssetEntry final : public LLDictionaryEntry
 {
 	AssetEntry(const char *desc_name,
 			   const char *type_name, 	// 8 character limit!

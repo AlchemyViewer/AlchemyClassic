@@ -40,7 +40,7 @@ void LLSDAppServices::useServices()
 	*/
 }
 
-class LLHTTPConfigService : public LLHTTPNode
+class LLHTTPConfigService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -65,7 +65,7 @@ public:
 LLHTTPRegistration<LLHTTPConfigService>
 	gHTTPRegistratiAppConfig("/app/config");
 
-class LLHTTPConfigRuntimeService : public LLHTTPNode
+class LLHTTPConfigRuntimeService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -105,7 +105,7 @@ public:
 LLHTTPRegistration<LLHTTPConfigRuntimeService>
 	gHTTPRegistrationRuntimeConfig("/app/config/runtime-override");
 
-class LLHTTPConfigRuntimeSingleService : public LLHTTPNode
+class LLHTTPConfigRuntimeSingleService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -180,7 +180,7 @@ LLHTTPRegistration<LLHTTPConfigRuntimeSingleService>
 		"/app/config/runtime-override/<option-name>");
 
 template<int PRIORITY>
-class LLHTTPConfigPriorityService : public LLHTTPNode
+class LLHTTPConfigPriorityService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -210,7 +210,7 @@ LLHTTPRegistration<
 LLHTTPRegistration< LLHTTPConfigPriorityService<LLApp::PRIORITY_DEFAULT> >
 	gHTTPRegistrationDefaultConfig("/app/config/default");
 
-class LLHTTPLiveConfigService : public LLHTTPNode
+class LLHTTPLiveConfigService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -245,7 +245,7 @@ public:
 LLHTTPRegistration<LLHTTPLiveConfigService>
 	gHTTPRegistrationLiveConfig("/app/config/live");
 
-class LLHTTPLiveConfigSingleService : public LLHTTPNode
+class LLHTTPLiveConfigSingleService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override

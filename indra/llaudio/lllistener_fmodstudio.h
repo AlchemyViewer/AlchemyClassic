@@ -37,7 +37,7 @@ namespace FMOD
 }
 
 //Interfaces
-class LLListener_FMODSTUDIO : public LLListener
+class LLListener_FMODSTUDIO final : public LLListener
 {
  public:  
 	LLListener_FMODSTUDIO(FMOD::System *system);

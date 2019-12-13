@@ -880,7 +880,7 @@ LLVoiceEffectInterface* LLVoiceClient::getVoiceEffectInterface() const
 ///////////////////
 // version checking
 
-class LLViewerRequiredVoiceVersion : public LLHTTPNode
+class LLViewerRequiredVoiceVersion final : public LLHTTPNode
 {
 	static BOOL sAlertedUser;
 
@@ -912,7 +912,7 @@ class LLViewerRequiredVoiceVersion : public LLHTTPNode
 	}
 };
 
-class LLViewerParcelVoiceInfo : public LLHTTPNode
+class LLViewerParcelVoiceInfo final : public LLHTTPNode
 {
 	void post(
 					  LLHTTPNode::ResponsePtr response,

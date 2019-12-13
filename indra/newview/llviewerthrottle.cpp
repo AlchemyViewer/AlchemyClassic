@@ -184,7 +184,7 @@ void LLViewerThrottleGroup::dump()
 	LL_DEBUGS("Throttle") << "Total: " << mThrottleTotal << LL_ENDL;
 }
 
-class LLBPSListener : public LLSimpleListener
+class LLBPSListener final : public LLSimpleListener
 {
 public:
 	bool handleEvent(LLPointer<LLEvent> event, const LLSD& userdata) override

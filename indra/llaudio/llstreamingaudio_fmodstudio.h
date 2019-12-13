@@ -43,7 +43,7 @@ namespace FMOD
 }
 
 //Interfaces
-class LLStreamingAudio_FMODSTUDIO : public LLStreamingAudioInterface
+class LLStreamingAudio_FMODSTUDIO final : public LLStreamingAudioInterface
 {
  public:
 	LLStreamingAudio_FMODSTUDIO(FMOD::System *system);

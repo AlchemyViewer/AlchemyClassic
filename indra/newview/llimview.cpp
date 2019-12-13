@@ -3492,7 +3492,7 @@ void LLIMMgr::processIMTypingCore(const LLUUID& from_id, const EInstantMessage i
 	}
 }
 
-class LLViewerChatterBoxSessionStartReply : public LLHTTPNode
+class LLViewerChatterBoxSessionStartReply final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -3548,7 +3548,7 @@ public:
 	}
 };
 
-class LLViewerChatterBoxSessionEventReply : public LLHTTPNode
+class LLViewerChatterBoxSessionEventReply final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -3579,7 +3579,7 @@ public:
 	}
 };
 
-class LLViewerForceCloseChatterBoxSession: public LLHTTPNode
+class LLViewerForceCloseChatterBoxSession final : public LLHTTPNode
 {
 public:
 	void post(ResponsePtr response,
@@ -3593,7 +3593,7 @@ public:
 	}
 };
 
-class LLViewerChatterBoxSessionAgentListUpdates : public LLHTTPNode
+class LLViewerChatterBoxSessionAgentListUpdates final : public LLHTTPNode
 {
 public:
 	void post(
@@ -3606,7 +3606,7 @@ public:
 	}
 };
 
-class LLViewerChatterBoxSessionUpdate : public LLHTTPNode
+class LLViewerChatterBoxSessionUpdate final : public LLHTTPNode
 {
 public:
 	void post(
@@ -3629,7 +3629,7 @@ public:
 };
 
 
-class LLViewerChatterBoxInvitation : public LLHTTPNode
+class LLViewerChatterBoxInvitation final : public LLHTTPNode
 {
 public:
 

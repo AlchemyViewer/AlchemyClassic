@@ -120,7 +120,7 @@ void LLViewerDisplayName::set(const std::string& display_name, const set_name_sl
 	LLCoros::instance().launch("setDisplayNameCoro", boost::bind(&LLViewerDisplayName::setDisplayNameCoro, cap_url, change_array));
 }
 
-class LLSetDisplayNameReply : public LLHTTPNode
+class LLSetDisplayNameReply final : public LLHTTPNode
 {
 	LOG_CLASS(LLSetDisplayNameReply);
 public:
@@ -160,7 +160,7 @@ public:
 };
 
 
-class LLDisplayNameUpdate : public LLHTTPNode
+class LLDisplayNameUpdate final : public LLHTTPNode
 {
 	/*virtual*/ void post(
 		LLHTTPNode::ResponsePtr response,

@@ -145,7 +145,7 @@ bool LLEventDispatcher::fireEvent(LLPointer<LLEvent> event, LLSD filter)
 	return impl->fireEvent(event, filter);
 }
 
-class LLSimpleDispatcher : public LLEventDispatcher::Impl
+class LLSimpleDispatcher final : public LLEventDispatcher::Impl
 {
 public:
 	LLSimpleDispatcher(LLEventDispatcher *parent) : mParent(parent) { }

@@ -591,7 +591,7 @@ private:
 #include <mach/machine.h>
 #include <sys/sysctl.h>
 
-class LLProcessorInfoDarwinImpl : public LLProcessorInfoImpl
+class LLProcessorInfoDarwinImpl final : public LLProcessorInfoImpl
 {
 public:
 	LLProcessorInfoDarwinImpl() 
@@ -718,7 +718,7 @@ private:
 #elif LL_LINUX
 const char CPUINFO_FILE[] = "/proc/cpuinfo";
 
-class LLProcessorInfoLinuxImpl : public LLProcessorInfoImpl
+class LLProcessorInfoLinuxImpl final : public LLProcessorInfoImpl
 {
 public:
 	LLProcessorInfoLinuxImpl() 

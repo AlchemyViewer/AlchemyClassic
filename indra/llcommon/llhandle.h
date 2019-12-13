@@ -145,7 +145,7 @@ private:
  * NULL.
  */
 template <typename T>
-class LLRootHandle : public LLHandle<T>
+class LLRootHandle final : public LLHandle<T>
 {
 public:
 	typedef LLRootHandle<T> self_t;
@@ -240,7 +240,7 @@ protected:
  * been destroyed.
  **/
 template <typename T> 
-class LLCheckedHandle: public LLCheckedHandleBase
+class LLCheckedHandle final : public LLCheckedHandleBase
 {
 public:
 

@@ -95,7 +95,7 @@ public:
 	apr_pollfd_t mPollFD;
 };
 
-class LLMessageHandlerBridge : public LLHTTPNode
+class LLMessageHandlerBridge final : public LLHTTPNode
 {
 	bool validate(const std::string& name, LLSD& context) const override
 	{ return true; }

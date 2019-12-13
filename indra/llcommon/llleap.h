@@ -30,7 +30,7 @@
  * LLLeap* pointer should be validated before use by
  * LLLeap::getInstance(LLLeap*) (see LLInstanceTracker).
  */
-class LL_COMMON_API LLLeap: public LLInstanceTracker<LLLeap>
+class LL_COMMON_API LLLeap : public LLInstanceTracker<LLLeap>
 {
 public:
 

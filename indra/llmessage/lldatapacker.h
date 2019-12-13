@@ -103,7 +103,7 @@ protected:
 	BOOL mWriteEnabled; // disable this to do things like determine filesize without actually copying data
 };
 
-class LLDataPackerBinaryBuffer : public LLDataPacker
+class LLDataPackerBinaryBuffer final : public LLDataPacker
 {
 public:
 	LLDataPackerBinaryBuffer(U8 *bufferp, S32 size)
@@ -209,7 +209,7 @@ inline BOOL LLDataPackerBinaryBuffer::verifyLength(const S32 data_size, const ch
 	return TRUE;
 }
 
-class LLDataPackerAsciiBuffer : public LLDataPacker
+class LLDataPackerAsciiBuffer final : public LLDataPacker
 {
 public:
 	LLDataPackerAsciiBuffer(char* bufferp, S32 size)
@@ -331,7 +331,7 @@ inline BOOL LLDataPackerAsciiBuffer::verifyLength(const S32 data_size, const cha
 	return TRUE;
 }
 
-class LLDataPackerAsciiFile : public LLDataPacker
+class LLDataPackerAsciiFile final : public LLDataPacker
 {
 public:
 	LLDataPackerAsciiFile(LLFILE *fp, const S32 indent = 2)

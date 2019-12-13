@@ -70,7 +70,7 @@ namespace
 
 	// This handles responses for console commands sent via the asynchronous
 	// API.
-	class ConsoleResponseNode : public LLHTTPNode
+	class ConsoleResponseNode final : public LLHTTPNode
 	{
 	public:
 		/* virtual */

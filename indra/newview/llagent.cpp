@@ -3502,7 +3502,7 @@ void LLAgent::processAgentDropGroup(LLMessageSystem *msg, void **)
 	}
 }
 
-class LLAgentDropGroupViewerNode : public LLHTTPNode
+class LLAgentDropGroupViewerNode final : public LLHTTPNode
 {
 	void post(
 		LLHTTPNode::ResponsePtr response,
@@ -3634,7 +3634,7 @@ void LLAgent::processAgentGroupDataUpdate(LLMessageSystem *msg, void **)
 
 }
 
-class LLAgentGroupDataUpdateViewerNode : public LLHTTPNode
+class LLAgentGroupDataUpdateViewerNode final : public LLHTTPNode
 {
 	void post(
 		LLHTTPNode::ResponsePtr response,

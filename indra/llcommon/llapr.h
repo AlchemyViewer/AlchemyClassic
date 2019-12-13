@@ -108,7 +108,7 @@ protected:
 //which clears memory automatically.
 //so it can not hold static data or data after memory is cleared
 //
-class LL_COMMON_API LLVolatileAPRPool : public LLAPRPool
+class LL_COMMON_API LLVolatileAPRPool final : public LLAPRPool
 {
 public:
 	LLVolatileAPRPool(std::string name, BOOL is_local = TRUE, apr_pool_t *parent = nullptr, apr_size_t size = 0, BOOL releasePoolFlag = TRUE);

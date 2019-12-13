@@ -392,7 +392,7 @@ LLEventDispatcher::LLEventDispatcher(std::string desc, std::string key):
 /**
  * DispatchEntry subclass used for callables accepting(const LLSD&)
  */
-struct LLEventDispatcher::LLSDDispatchEntry: public LLEventDispatcher::DispatchEntry
+struct LLEventDispatcher::LLSDDispatchEntry : public LLEventDispatcher::DispatchEntry
 {
     LLSDDispatchEntry(const std::string& desc, Callable func, LLSD required):
         DispatchEntry(desc),
@@ -446,7 +446,7 @@ struct LLEventDispatcher::ParamsDispatchEntry: public LLEventDispatcher::Dispatc
  * DispatchEntry subclass for dispatching LLSD::Array to functions accepting
  * arbitrary argument types (convertible via LLSDParam)
  */
-struct LLEventDispatcher::ArrayParamsDispatchEntry: public LLEventDispatcher::ParamsDispatchEntry
+struct LLEventDispatcher::ArrayParamsDispatchEntry final : public LLEventDispatcher::ParamsDispatchEntry
 {
     ArrayParamsDispatchEntry(const std::string& desc, const invoker_function& func,
                              LLSD::Integer arity):
@@ -472,7 +472,7 @@ struct LLEventDispatcher::ArrayParamsDispatchEntry: public LLEventDispatcher::Pa
  * DispatchEntry subclass for dispatching LLSD::Map to functions accepting
  * arbitrary argument types (convertible via LLSDParam)
  */
-struct LLEventDispatcher::MapParamsDispatchEntry: public LLEventDispatcher::ParamsDispatchEntry
+struct LLEventDispatcher::MapParamsDispatchEntry final : public LLEventDispatcher::ParamsDispatchEntry
 {
     MapParamsDispatchEntry(const std::string& name, const std::string& desc,
                            const invoker_function& func,

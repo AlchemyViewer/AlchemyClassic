@@ -106,7 +106,7 @@ public:
     /**
      * Exception thrown by sort() if there's a cycle
      */
-    struct Cycle: public LLException
+    struct Cycle : public LLException
     {
         Cycle(const std::string& what): LLException(what) {}
     };
@@ -193,7 +193,7 @@ struct LLDependenciesEmpty
  */
 template<typename KEY = std::string,
          typename NODE = LLDependenciesEmpty>
-class LLDependencies: public LLDependenciesBase
+class LLDependencies final : public LLDependenciesBase
 {
     typedef LLDependencies<KEY, NODE> self_type;
 

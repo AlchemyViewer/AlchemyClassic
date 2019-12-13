@@ -298,7 +298,7 @@ private:
 
 
 
-class LLSimpleResponse : public LLHTTPNode::Response
+class LLSimpleResponse final : public LLHTTPNode::Response
 {
 public:
 	static LLPointer<LLSimpleResponse> create();
@@ -370,7 +370,7 @@ public:
 	}
 
 private:
-	class ThisNodeFactory : public LLHTTPRegistrar::NodeFactory
+	class ThisNodeFactory final : public LLHTTPRegistrar::NodeFactory
 	{
 	public:
 		LLHTTPNode* build() const override { return new NodeType; }
@@ -390,7 +390,7 @@ public:
 	}
 
 private:
-	class ThisNodeFactory : public LLHTTPRegistrar::NodeFactory
+	class ThisNodeFactory final : public LLHTTPRegistrar::NodeFactory
 	{
 	public:
 		ThisNodeFactory(LLSD params) : mParams(params) {}

@@ -45,7 +45,7 @@ void LLHTTPStandardServices::useServices()
 
 
 
-class LLHTTPHelloService : public LLHTTPNode
+class LLHTTPHelloService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -68,7 +68,7 @@ LLHTTPRegistration<LLHTTPHelloService>
 
 
 
-class LLHTTPEchoService : public LLHTTPNode
+class LLHTTPEchoService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override
@@ -91,7 +91,7 @@ LLHTTPRegistration<LLHTTPEchoService>
 
 
 
-class LLAPIService : public LLHTTPNode
+class LLAPIService final : public LLHTTPNode
 {
 public:
 	void describe(Description& desc) const override

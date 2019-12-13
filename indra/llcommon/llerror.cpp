@@ -74,7 +74,7 @@ namespace {
 		}
 	}
 #else
-	class RecordToSyslog : public LLError::Recorder
+	class RecordToSyslog final : public LLError::Recorder
 	{
 	public:
 		RecordToSyslog(const std::string& identity)
@@ -115,7 +115,7 @@ namespace {
 	};
 #endif
 
-	class RecordToFile : public LLError::Recorder
+	class RecordToFile final : public LLError::Recorder
 	{
 	public:
 		RecordToFile(const std::string& filename)
@@ -172,7 +172,7 @@ namespace {
 	};
 	
 	
-	class RecordToStderr : public LLError::Recorder
+	class RecordToStderr final : public LLError::Recorder
 	{
 	public:
 		RecordToStderr(bool timestamp) : mUseANSI(ANSI_PROBE) 
@@ -240,7 +240,7 @@ namespace {
 		};
 	};
 
-	class RecordToFixedBuffer : public LLError::Recorder
+	class RecordToFixedBuffer final : public LLError::Recorder
 	{
 	public:
 		RecordToFixedBuffer(LLLineBuffer* buffer)
@@ -267,7 +267,7 @@ namespace {
 	};
 
 #if LL_WINDOWS
-	class RecordToWinDebug: public LLError::Recorder
+	class RecordToWinDebug final : public LLError::Recorder
 	{
 	public:
 		RecordToWinDebug()
@@ -362,7 +362,7 @@ namespace
 	}
 
 
-	class LogControlFile : public LLLiveFile
+	class LogControlFile final : public LLLiveFile
 	{
 		LOG_CLASS(LogControlFile);
 	

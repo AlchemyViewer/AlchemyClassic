@@ -184,7 +184,7 @@ protected:
 	LLPointer<LLEventDispatcher> mDispatcher;
 };
 
-class LLValueChangedEvent : public LLEvent
+class LLValueChangedEvent final : public LLEvent
 {
 public:
 	LLValueChangedEvent(LLObservable* source, LLSD value) : LLEvent(source, "value_changed"), mValue(std::move(value)) { }

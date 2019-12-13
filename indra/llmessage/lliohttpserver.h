@@ -117,7 +117,7 @@ private:
 
 
 template<class Pipe>
-class LLHTTPNodeForPipe : public LLHTTPNodeForFactory<
+class LLHTTPNodeForPipe final : public LLHTTPNodeForFactory<
 						  			LLChainIOFactoryForPipe<Pipe> >
 {
 };

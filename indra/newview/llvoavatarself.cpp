@@ -2550,7 +2550,7 @@ void LLVOAvatarSelf::sendViewerAppearanceChangeMetrics()
 	}
 }
 
-//class CheckAgentAppearanceServiceResponder: public LLHTTPClient::Responder
+//class CheckAgentAppearanceServiceResponder final : public LLHTTPClient::Responder
 //{
 //public:
 //	CheckAgentAppearanceServiceResponder() {}

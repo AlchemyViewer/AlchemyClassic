@@ -6905,7 +6905,7 @@ LLVOAvatar* LLViewerObject::getAvatar() const
 }
 
 
-class ObjectPhysicsProperties : public LLHTTPNode
+class ObjectPhysicsProperties final : public LLHTTPNode
 {
 public:
     void post(

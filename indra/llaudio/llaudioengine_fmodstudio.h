@@ -44,7 +44,7 @@ namespace FMOD
 typedef struct FMOD_DSP_DESCRIPTION FMOD_DSP_DESCRIPTION;
 
 //Interfaces
-class LLAudioEngine_FMODSTUDIO : public LLAudioEngine 
+class LLAudioEngine_FMODSTUDIO final : public LLAudioEngine 
 {
 public:
 	enum
@@ -93,7 +93,7 @@ public:
 };
 
 
-class LLAudioChannelFMODSTUDIO : public LLAudioChannel
+class LLAudioChannelFMODSTUDIO final : public LLAudioChannel
 {
 public:
 	LLAudioChannelFMODSTUDIO(FMOD::System *audioengine);
@@ -118,7 +118,7 @@ protected:
 };
 
 
-class LLAudioBufferFMODSTUDIO : public LLAudioBuffer
+class LLAudioBufferFMODSTUDIO final : public LLAudioBuffer
 {
 public:
 	LLAudioBufferFMODSTUDIO(FMOD::System *audioengine);

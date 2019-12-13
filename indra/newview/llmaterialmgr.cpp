@@ -66,7 +66,7 @@
 
 
 
-class LLMaterialHttpHandler : public LLHttpSDHandler
+class LLMaterialHttpHandler final : public LLHttpSDHandler
 {
 public: 
 	typedef std::function<void(bool, const LLSD&)> CallbackFunction;

@@ -15,41 +15,25 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
         if ((NOT REVISION_FROM_HG) AND DEFINED ENV{revision})
            set(VIEWER_VERSION_REVISION $ENV{revision})
            message(STATUS "Revision (from environment): ${VIEWER_VERSION_REVISION}")
-
         elseif ((NOT REVISION_FROM_HG) AND DEFINED ENV{AUTOBUILD_BUILD_ID})
            set(VIEWER_VERSION_REVISION $ENV{AUTOBUILD_BUILD_ID})
            message(STATUS "Revision (from autobuild environment): ${VIEWER_VERSION_REVISION}")
-
         else ()
-          find_program(MERCURIAL
-                       NAMES hg
-                       PATHS [HKEY_LOCAL_MACHINE\\Software\\TortoiseHG]
-                       PATH_SUFFIXES Mercurial)
-          mark_as_advanced(MERCURIAL)
-          if (MERCURIAL)
-            execute_process(COMMAND ${MERCURIAL} identify -n
-                            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                            RESULT_VARIABLE hg_id_result
-                            ERROR_VARIABLE hg_id_error
-                            OUTPUT_VARIABLE VIEWER_VERSION_REVISION
-                            OUTPUT_STRIP_TRAILING_WHITESPACE)
-            if (NOT ${hg_id_result} EQUAL 0)
-              message(SEND_ERROR "Revision number generation failed with output:\n${hg_id_error}")
-            else (NOT ${hg_id_result} EQUAL 0)
-              string(REGEX REPLACE "[^0-9a-f]" "" VIEWER_VERSION_REVISION ${VIEWER_VERSION_REVISION})
-            endif (NOT ${hg_id_result} EQUAL 0)
-            if ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
-              message(STATUS "Revision (from hg) ${VIEWER_VERSION_REVISION}")
-            else ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
-              message(STATUS "Revision not set (repository not found?); using 0")
-              set(VIEWER_VERSION_REVISION 0 )
-            endif ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
-           else (MERCURIAL)
-              message(STATUS "Revision not set: mercurial not found; using 0")
+          find_package(Git REQUIRED)
+          execute_process(
+                       COMMAND ${GIT_EXECUTABLE} rev-list HEAD --count
+                       OUTPUT_VARIABLE GIT_REV_LIST_COUNT
+                       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                       OUTPUT_STRIP_TRAILING_WHITESPACE
+                       )
+
+            if(GIT_REV_LIST_COUNT)
+              set(VIEWER_VERSION_REVISION ${GIT_REV_LIST_COUNT})
+            else(GIT_REV_LIST_COUNT)
               set(VIEWER_VERSION_REVISION 0)
-           endif (MERCURIAL)
+            endif(GIT_REV_LIST_COUNT)
         endif ()
-        message(STATUS "Building '${VIEWER_CHANNEL}' Version ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}")
+        message("Building '${VIEWER_CHANNEL}' Version ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}")
     else ( EXISTS ${VIEWER_VERSION_BASE_FILE} )
         message(SEND_ERROR "Cannot get viewer version from '${VIEWER_VERSION_BASE_FILE}'") 
     endif ( EXISTS ${VIEWER_VERSION_BASE_FILE} )

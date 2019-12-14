@@ -1,7 +1,10 @@
-![Alchemy Logo](http://2.bp.blogspot.com/-NWf0umfCazg/U_HEfrzkWGI/AAAAAAAAAeM/vtBxnNqFevw/s1600/Banner_New.png)
+![Alchemy Logo](https://www.alchemyviewer.org/images/banner.png)
+## About
+Alchemy is a client for Second Life and OpenMetaverse protocol simulators. We focus on creating a smooth and easy to use experience with secure and sane defaults.
+
 ## Resources
 * [Alchemy Website](http://www.alchemyviewer.org)
-* [Issue Tracker](http://alchemy.atlassian.net/)
-* [Wiki](https://alchemy.atlassian.net/wiki/)
+* [Issue Tracker](https://git.alchemyviewer.org/alchemy/alchemy/issues)
+* [Wiki](https://git.alchemyviewer.org/alchemy/alchemy/wikis/home)
 ## Code Status
 ![Coverity Scan Build Status](https://scan.coverity.com/projects/1904/badge.svg)

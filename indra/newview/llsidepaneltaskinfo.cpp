@@ -1033,11 +1033,7 @@ void LLSidepanelTaskInfo::onCommitPerm(BOOL enabled, U8 field, U32 perm)
 
 	LLSelectMgr::getInstance()->selectionSetObjectPermissions(field, enabled, perm);
 
-    LLSidepanelTaskInfo* self = (LLSidepanelTaskInfo*)data;
-    if (self)
-    {
-        self->disablePermissions();
-    }
+	disablePermissions();
 }
 
 void LLSidepanelTaskInfo::onCommitGroupShare(const LLSD& user_data)

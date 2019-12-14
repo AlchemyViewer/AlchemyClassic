@@ -850,7 +850,7 @@ LLTextureCache::LLTextureCache(bool threaded)
 	  mTexturesSizeTotal(0),
 	  mDoPurge(false)
 {
-    mHeaderAPRFilePoolp = new LLVolatileAPRPool(); // is_local = true, because this pool is for headers, headers are under own mutex
+    mHeaderAPRFilePoolp = new LLVolatileAPRPool("Texture Cache Header"); // is_local = true, because this pool is for headers, headers are under own mutex
 }
 
 LLTextureCache::~LLTextureCache()

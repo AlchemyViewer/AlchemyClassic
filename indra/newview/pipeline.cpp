@@ -10117,7 +10117,7 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 
 		for (const auto& attach_pair : avatar->mAttachmentPoints)
 		{
-			for (const auto& attached_object : attach_pair.second->mAttachedObjects)
+			for (auto& attached_object : attach_pair.second->mAttachedObjects)
 			{
 				if (attached_object)
 				{

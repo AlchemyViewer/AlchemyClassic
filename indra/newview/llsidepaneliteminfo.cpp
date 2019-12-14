@@ -789,7 +789,7 @@ void LLSidepanelItemInfo::setPropertiesFieldsEnabled(bool enabled)
 {
     for(auto const& item : property_fields)
     {
-        getChildView(fields[t])->setEnabled(false);
+        getChildView(item)->setEnabled(false);
     }
 }
 

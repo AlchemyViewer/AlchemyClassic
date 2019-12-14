@@ -1405,7 +1405,7 @@ void LLVOAvatar::calculateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 
 		if (attachment->getValid())
 		{
-			for (const auto& attached_object : attachment->mAttachedObjects)
+			for (auto& attached_object : attachment->mAttachedObjects)
 			{
                     // Don't we need to look at children of attached_object as well?
 				if (attached_object && !attached_object->isHUDAttachment())
@@ -1881,7 +1881,7 @@ LLViewerObject* LLVOAvatar::lineSegmentIntersectRiggedAttachments(const LLVector
 		{
 			LLViewerJointAttachment* attachment = attach_pair.second;
 
-			for(const auto& attached_object : attachment->mAttachedObjects)
+			for(auto& attached_object : attachment->mAttachedObjects)
 			{
 					
 				if (attached_object->lineSegmentIntersect(start, local_end, face, pick_transparent, pick_rigged, face_hit, &local_intersection, tex_coord, normal, tangent))
@@ -2695,7 +2695,7 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 		{
 			LLViewerJointAttachment* attachment = attach_pair.second;
 
-			for(const auto& attached_object : attachment->mAttachedObjects)
+			for(auto& attached_object : attachment->mAttachedObjects)
 			{
 				BOOL visibleAttachment = visible || (attached_object && 
 													 !(attached_object->mDrawable->getSpatialBridge() &&
@@ -8431,7 +8431,7 @@ void LLVOAvatar::updateMeshTextures()
     {
 		LLViewerJointAttachment* attachment = attachment_point.second;
 
-		for (const auto& attached_object : attachment->mAttachedObjects)
+		for (auto& attached_object : attachment->mAttachedObjects)
         {
             if (attached_object && !attached_object->isDead())
 			{
@@ -10049,7 +10049,7 @@ void LLVOAvatar::getAssociatedVolumes(std::vector<LLVOVolume*>& volumes)
 {
 	for ( const auto& pair : mAttachmentPoints)
 	{
-		for(const auto& attached_object : pair.second->mAttachedObjects)
+		for(auto& attached_object : pair.second->mAttachedObjects)
 		{
 			if (!attached_object)
 				continue;

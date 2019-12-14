@@ -47,6 +47,8 @@
 #include "llclipboard.h"
 #include "lltrans.h"
 
+#include <boost/tokenizer.hpp>
+
 LLTrace::BlockTimerStatHandle FT_FILTER_CLIPBOARD("Filter Clipboard");
 
 LLInventoryFilter::FilterOps::FilterOps(const Params& p)

@@ -7609,9 +7609,9 @@ void handle_dump_attachments(void*)
 		LLVOAvatar::attachment_map_t::iterator curiter = iter++;
 		LLViewerJointAttachment* attachment = curiter->second;
 		S32 key = curiter->first;
-		for (const auto& attached_object : attachment->mAttachedObjects)
+		for (auto& attached_object : attachment->mAttachedObjects)
         {
-            BOOL visible = (attached_object != NULL &&
+            BOOL visible = (attached_object.notNull() &&
 							attached_object->mDrawable.notNull() && 
 							!attached_object->mDrawable->isRenderType(0));
 			LLVector3 pos;

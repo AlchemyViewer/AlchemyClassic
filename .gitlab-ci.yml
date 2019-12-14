@@ -8,6 +8,7 @@ variables:
 build:windows64:
   stage: build
   tags:
+    - autobuild
     - windows
   before_script:
     - pipenv install

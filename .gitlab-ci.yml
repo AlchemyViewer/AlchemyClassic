@@ -5,7 +5,7 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-build:staging:windows64:
+build:project:windows32:
   stage: build
   tags:
     - autobuild
@@ -13,21 +13,49 @@ build:staging:windows64:
   before_script:
     - pipenv install
   script:
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="%SENTRY_DSN%" -DVIEWER_CHANNEL_TYPE:STRING="Project" -DVIEWER_CHANNEL_CODENAME="FluffyFox"
-    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
+    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="FluffyFox"
+    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
+    - cd build-vc-32/newview/Release/
+    - sentry-cli upload-dif AlchemyProjectFluffyFox.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     paths:
-      - build-vc-64/newview/Release/Alchemy_*_FluffyFox_*.exe
+      - build-vc-32/newview/Release/Alchemy_Project_*_*.exe
   only:
     refs:
       - FluffyFox
       
-deploy_staging:
+build:project:windows64:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="FluffyFox"
+    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
+    - cd build-vc-64/newview/Release/
+    - sentry-cli upload-dif AlchemyProjectFluffyFox.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+  artifacts:
+    paths:
+      - build-vc-64/newview/Release/Alchemy_Project_*_*.exe
+  only:
+    refs:
+      - FluffyFox
+      
+deploy:project:
   stage: deploy
   tags:
     - autobuild
     - windows
   script:
-    - echo "Deploy to staging server"
+    - mkdir upload
+    - cp build-vc-32/newview/Release/Alchemy_Project_*_*.exe upload/
+    - cp build-vc-64/newview/Release/Alchemy_Project_*_*.exe upload/
+    - cd upload
+    - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_i686_Setup.exe
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/alchemy-project/fluffyfox/$FileNameWin32
+    - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/alchemy-project/fluffyfox/$FileNameWin64
   only:
     - FluffyFox

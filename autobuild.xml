@@ -3697,19 +3697,16 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <map>
               <key>build</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>Alchemy.sln</string>
-                </array>
                 <key>command</key>
-                <string>msbuild.exe</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>/p:Configuration=Debug</string>
-                  <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
-                  <string>/t:Build</string>
-                  <string>/p:useenv=true</string>
-                  <string>/verbosity:normal</string>
+                  <string>--build</string>
+                  <string>.</string>
+                  <string>--config</string>
+                  <string>Debug</string>
+                  <string>--</string>
+                  <string>/m</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3720,6 +3717,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>${AUTOBUILD_WIN_CMAKE_GEN|NOTWIN}</string>
                   <string>-A</string>
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
+                  <string>-T</string>
+                  <string>host=x64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3729,20 +3728,16 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <map>
               <key>build</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>Alchemy.sln</string>
-                </array>
                 <key>command</key>
-                <string>msbuild.exe</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>/p:Configuration=Debug</string>
-                  <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
-                  <string>/t:Build</string>
-                  <string>/p:PreferredToolArchitecture=x64</string>
-                  <string>/p:useenv=true</string>
-                  <string>/verbosity:normal</string>
+                  <string>--build</string>
+                  <string>.</string>
+                  <string>--config</string>
+                  <string>Debug</string>
+                  <string>--</string>
+                  <string>/m</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3753,6 +3748,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>${AUTOBUILD_WIN_CMAKE_GEN|NOTWIN}</string>
                   <string>-A</string>
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
+                  <string>-T</string>
+                  <string>host=x64</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
                 </array>
@@ -3788,6 +3785,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>${AUTOBUILD_WIN_CMAKE_GEN|NOTWIN}</string>
                   <string>-A</string>
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
+                  <string>-T</string>
+                  <string>host=x64</string>
                 </array>
               </map>
               <key>default</key>
@@ -3799,20 +3798,16 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <map>
               <key>build</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>Alchemy.sln</string>
-                </array>
                 <key>command</key>
-                <string>msbuild.exe</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>/p:Configuration=RelWithDebInfo</string>
-                  <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
-                  <string>/t:Build</string>
-                  <string>/p:PreferredToolArchitecture=x64</string>
-                  <string>/p:useenv=true</string>
-                  <string>/verbosity:normal</string>
+                  <string>--build</string>
+                  <string>.</string>
+                  <string>--config</string>
+                  <string>RelWithDebInfo</string>
+                  <string>--</string>
+                  <string>/m</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3827,6 +3822,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>${AUTOBUILD_WIN_CMAKE_GEN|NOTWIN}</string>
                   <string>-A</string>
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
+                  <string>-T</string>
+                  <string>host=x64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -3863,6 +3860,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>${AUTOBUILD_WIN_CMAKE_GEN|NOTWIN}</string>
                   <string>-A</string>
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
+                  <string>-T</string>
+                  <string>host=x64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3872,20 +3871,16 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <map>
               <key>build</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>Alchemy.sln</string>
-                </array>
                 <key>command</key>
-                <string>msbuild.exe</string>
+                <string>cmake</string>
                 <key>options</key>
                 <array>
-                  <string>/p:Configuration=Release</string>
-                  <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
-                  <string>/t:Build</string>
-                  <string>/p:PreferredToolArchitecture=x64</string>
-                  <string>/p:useenv=true</string>
-                  <string>/verbosity:normal</string>
+                  <string>--build</string>
+                  <string>.</string>
+                  <string>--config</string>
+                  <string>Release</string>
+                  <string>--</string>
+                  <string>/m</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3900,6 +3895,8 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>${AUTOBUILD_WIN_CMAKE_GEN|NOTWIN}</string>
                   <string>-A</string>
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
+                  <string>-T</string>
+                  <string>host=x64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
                 </array>

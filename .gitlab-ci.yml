@@ -1,0 +1,23 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+build:windows64:
+  stage: build
+  tags:
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON 
+    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
+  artifacts:
+    paths:
+      - build-vc-64/newview/Release/Alchemy
+  only:
+    refs:
+      - FluffyFox
+      - Release

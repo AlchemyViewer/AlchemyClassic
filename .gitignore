@@ -1,5 +1,3 @@
-syntax: glob
-
 # WinMerge temp files
 *.bak
 # Compiled python bytecode
@@ -8,16 +6,19 @@ syntax: glob
 .*.swp
 #OSX image cache file
 *.DS_Store
-#*.orig
+*.orig
+*.cpp.bak
+*.h.bak
+*.diff
+*.old
+*.rej
+
 **/.vs
-LICENSES
+
+/build-*
+/clion-*
 indra/.distcc
-build-linux-*
-build-darwin-*
-build-vc*
-build-qt*
-build-clion*
-build-*
+
 clion-linux*
 indra/.idea
 indra-build/
@@ -63,23 +64,13 @@ debian/files
 build-stamp
 configure-stamp
 ^indra/lib/python/mulib.*
-^web/locale.*
-^web/secondlife.com.*
-^web/config.*
-^indra/web/dataservice/locale.*
-^indra/web/dataservice/lib/shared/vault.*
-^indra/web/dataservice/vendor.*
-glob:indra/newview/dbghelp.dll
-glob:*.cpp.bak
-glob:*.h.bak
-glob:indra/newview/typed_locations.txt
-glob:indra/newview/teleport_history.txt
-glob:indra/newview/search_history.txt
-glob:indra/newview/filters.xml
-glob:indra/newview/avatar_icons_cache.txt
-glob:indra/newview/avatar_lad.log
-glob:*.diff
-glob:*.old
+
+indra/newview/typed_locations.txt
+indra/newview/teleport_history.txt
+indra/newview/search_history.txt
+indra/newview/filters.xml
+indra/newview/avatar_icons_cache.txt
+indra/newview/avatar_lad.log
 indra/newview/pilot.txt
 indra/newview/pilot.xml
-*.rej
+

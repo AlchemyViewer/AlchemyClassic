@@ -1,0 +1,13 @@
+* text eol=lf
+
+*.sln text eol=crlf
+*.vcproj text eol=crlf
+*.vcxproj text eol=crlf
+
+*.gif binary
+*.png binary
+*.tga binary
+*.jpg binary
+*.j2k binary
+
+/indra/tools/manifests/compatibility.manifest text eol=crlf

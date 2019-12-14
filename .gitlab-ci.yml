@@ -22,7 +22,7 @@ build:staging:windows64:
     refs:
       - FluffyFox
       
-deploy:staging:
+deploy_staging:
   stage: deploy
   only:
     refs:

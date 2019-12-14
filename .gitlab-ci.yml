@@ -5,7 +5,7 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-build:windows64:
+build:staging:windows64:
   stage: build
   tags:
     - autobuild
@@ -13,12 +13,17 @@ build:windows64:
   before_script:
     - pipenv install
   script:
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON 
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="%SENTRY_DSN%" -DVIEWER_CHANNEL_TYPE:STRING="Project" -DVIEWER_CHANNEL_CODENAME="FluffyFox"
     - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
   artifacts:
     paths:
-      - build-vc-64/newview/Release/Alchemy
+      - build-vc-64/newview/Release/Alchemy_*_FluffyFox_*.exe
   only:
     refs:
       - FluffyFox
-      - Release
+      
+deploy:staging:
+  stage: deploy
+  only:
+    refs:
+      - FluffyFox

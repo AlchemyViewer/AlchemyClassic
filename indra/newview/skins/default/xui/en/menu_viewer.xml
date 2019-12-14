@@ -1572,21 +1572,21 @@
              name="Alchemy Repository">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="https://bitbucket.org/alchemyviewer/"/>
+                 parameter="https://git.alchemyviewer.org/alchemy/alchemy"/>
         </menu_item_call>  
         <menu_item_call
-             label="[APP_NAME] Support Portal"
+             label="[APP_NAME] Issue Tracker"
              name="Alchemy Jira">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="https://jira.alchemyviewer.org/servicedesk/customer/portal/1"/>
+                 parameter="https://git.alchemyviewer.org/alchemy/alchemy/issues"/>
         </menu_item_call>  
         <menu_item_call
              label="[APP_NAME] Wiki"
              name="Alchemy Wiki">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="https://wiki.alchemyviewer.org"/>
+                 parameter="https://git.alchemyviewer.org/alchemy/alchemy/wikis"/>
         </menu_item_call>
 		<menu_item_separator/>
         <menu_item_call

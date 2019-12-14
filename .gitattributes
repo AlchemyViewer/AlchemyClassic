@@ -1,5 +1,9 @@
 * text eol=lf
 
+# Viewer Files
+*.db2 binary
+*.llm binary
+
 *.sln text eol=crlf
 *.vcproj text eol=crlf
 *.vcxproj text eol=crlf
@@ -9,5 +13,10 @@
 *.tga binary
 *.jpg binary
 *.j2k binary
+*.j2c binary
+*.ico binary
+*.icns binary
+*.bmp binary
+*.BMP binary
 
 /indra/tools/manifests/compatibility.manifest text eol=crlf

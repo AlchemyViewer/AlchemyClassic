@@ -24,6 +24,10 @@ build:staging:windows64:
       
 deploy_staging:
   stage: deploy
+  tags:
+    - autobuild
+    - windows
+  script:
+    - echo "Deploy to staging server"
   only:
-    refs:
-      - FluffyFox
+    - FluffyFox

@@ -3740,6 +3740,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>/p:Configuration=Debug</string>
                   <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
                   <string>/t:Build</string>
+                  <string>/p:PreferredToolArchitecture=x64</string>
                   <string>/p:useenv=true</string>
                   <string>/verbosity:normal</string>
                 </array>
@@ -3809,6 +3810,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>/p:Configuration=RelWithDebInfo</string>
                   <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
                   <string>/t:Build</string>
+                  <string>/p:PreferredToolArchitecture=x64</string>
                   <string>/p:useenv=true</string>
                   <string>/verbosity:normal</string>
                 </array>
@@ -3881,6 +3883,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
                   <string>/p:Configuration=Release</string>
                   <string>/p:Platform=${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
                   <string>/t:Build</string>
+                  <string>/p:PreferredToolArchitecture=x64</string>
                   <string>/p:useenv=true</string>
                   <string>/verbosity:normal</string>
                 </array>

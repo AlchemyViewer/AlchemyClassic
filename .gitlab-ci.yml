@@ -7,7 +7,6 @@ variables:
 
 build:master:windows32:
   stage: build
-  when: manual
   tags:
     - autobuild
     - windows
@@ -21,10 +20,11 @@ build:master:windows32:
     expire_in: 2 week
     paths:
       - build-vc-32/newview/Release/Alchemy_*_*_*.exe
+  only:
+    - schedules
 
 build:master:windows64:
   stage: build
-  when: manual
   tags:
     - autobuild
     - windows
@@ -38,6 +38,8 @@ build:master:windows64:
     expire_in: 2 week
     paths:
       - build-vc-64/newview/Release/Alchemy_*_*_*.exe
+  only:
+    - schedules
 
 build:project:windows32:
   stage: build

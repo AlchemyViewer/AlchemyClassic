@@ -5,6 +5,42 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+build:master:windows32:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DVIEWER_CHANNEL_TYPE="Test"
+    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
+  artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
+    paths:
+      - build-vc-32/newview/Release/Alchemy_*_*_*.exe
+  only:
+    - schedules
+      
+build:master:windows64:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DVIEWER_CHANNEL_TYPE="Test"
+    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
+  artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
+    paths:
+      - build-vc-64/newview/Release/Alchemy_*_*_*.exe
+  only:
+    - schedules
+
 build:project:windows32:
   stage: build
   tags:
@@ -13,16 +49,20 @@ build:project:windows32:
   before_script:
     - pipenv install
   script:
-    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="FluffyFox"
+    - $env:VIEWER_CHANNEL_CODENAME = $env:CI_COMMIT_REF_NAME[8..100] -join ''
+    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_NONPROD" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="$env:VIEWER_CHANNEL_CODENAME"
     - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
     - cd build-vc-32/newview/Release/
-    - sentry-cli upload-dif AlchemyProjectFluffyFox.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_NONPROD
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
     paths:
       - build-vc-32/newview/Release/Alchemy_Project_*_*.exe
   only:
-    refs:
-      - FluffyFox
+    - /^project/.*$/
+    - schedules
       
 build:project:windows64:
   stage: build
@@ -32,30 +72,87 @@ build:project:windows64:
   before_script:
     - pipenv install
   script:
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="FluffyFox"
+    - $env:VIEWER_CHANNEL_CODENAME = $env:CI_COMMIT_REF_NAME[8..100] -join ''
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_NONPROD" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="$env:VIEWER_CHANNEL_CODENAME"
     - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
     - cd build-vc-64/newview/Release/
-    - sentry-cli upload-dif AlchemyProjectFluffyFox.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_NONPROD
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
     paths:
       - build-vc-64/newview/Release/Alchemy_Project_*_*.exe
   only:
-    refs:
-      - FluffyFox
+    - /^project/.*$/
+    - schedules
+
+build:beta:windows32:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
+    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
+    - cd build-vc-32/newview/Release/
+    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+  artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
+    paths:
+      - build-vc-32/newview/Release/Alchemy_Beta_*_*.exe
+  only:
+    - /^beta/.*$/
+    - schedules
       
-deploy:project:
+build:beta:windows64:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
+    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
+    - cd build-vc-64/newview/Release/
+    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+  artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
+    paths:
+      - build-vc-64/newview/Release/Alchemy_Beta_*_*.exe
+  only:
+    - /^beta/.*$/
+    - schedules
+      
+deploy:nexus:
   stage: deploy
   tags:
     - autobuild
     - windows
   script:
     - mkdir upload
-    - cp build-vc-32/newview/Release/Alchemy_Project_*_*.exe upload/
-    - cp build-vc-64/newview/Release/Alchemy_Project_*_*.exe upload/
+    - cp build-vc-32/newview/Release/Alchemy_*_*_*.exe upload/
+    - cp build-vc-64/newview/Release/Alchemy_*_*_*.exe upload/
     - cd upload
+    - $UploadDestLower = $env:CI_COMMIT_REF_NAME.ToLower()
     - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_i686_Setup.exe
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/alchemy-project/fluffyfox/$FileNameWin32
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin32
     - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/alchemy-project/fluffyfox/$FileNameWin64
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin64
   only:
-    - FluffyFox
+    - master
+    - /^project/.*$/
+    - /^beta/.*$/
+    - schedules
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME =~ /^project/'
+      when: manual
+    - if: '$CI_COMMIT_REF_NAME =~ /^beta/ || $CI_COMMIT_REF_NAME =~ /^release/'
+      when: always

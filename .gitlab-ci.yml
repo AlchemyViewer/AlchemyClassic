@@ -22,10 +22,6 @@ build:master:windows32:
       - build-vc-32/newview/Release/Alchemy_*_*_*.exe
   only:
     - schedules
-  except:
-    - /^project-.*$/
-    - /^beta-.*$/
-    - /^release-.*$/
 
 build:master:windows64:
   stage: build
@@ -44,10 +40,6 @@ build:master:windows64:
       - build-vc-64/newview/Release/Alchemy_*_*_*.exe
   only:
     - schedules
-  except:
-    - /^project-.*$/
-    - /^beta-.*$/
-    - /^release-.*$/
 
 build:project:windows32:
   stage: build
@@ -72,9 +64,7 @@ build:project:windows32:
     - /^project-.*$/
     - schedules
   except:
-    - master
-    - /^beta-.*$/
-    - /^release-.*$/
+    - branches
       
 build:project:windows64:
   stage: build
@@ -99,9 +89,7 @@ build:project:windows64:
     - /^project-.*$/
     - schedules
   except:
-    - master
-    - /^beta-.*$/
-    - /^release-.*$/
+    - branches
 
 build:beta:windows32:
   stage: build
@@ -120,14 +108,12 @@ build:beta:windows32:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
     expire_in: 2 week
     paths:
-      - build-vc-32/newview/Release/Alchemy_Beta_*_*.exe
+      - build-vc-32/newview/Release/Alchemy_*_*_*.exe
   only:
-    - /^beta-.*$/
+    - beta
     - schedules
   except:
-    - master
-    - /^project-.*$/
-    - /^release-.*$/
+    - branches
       
 build:beta:windows64:
   stage: build
@@ -146,15 +132,61 @@ build:beta:windows64:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
     expire_in: 2 week
     paths:
-      - build-vc-64/newview/Release/Alchemy_Beta_*_*.exe
+      - build-vc-64/newview/Release/Alchemy_*_*_*.exe
   only:
-    - /^beta-.*$/
+    - beta
     - schedules
   except:
-    - master
-    - /^project-.*$/
-    - /^release-.*$/
+    - branches
+
+build:release:windows32:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
+    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
+    - cd build-vc-32/newview/Release/
+    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+  artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
+    paths:
+      - build-vc-32/newview/Release/Alchemy_*_*_*.exe
+  only:
+    - release
+    - schedules
+  except:
+    - branches
       
+build:release:windows64:
+  stage: build
+  tags:
+    - autobuild
+    - windows
+  before_script:
+    - pipenv install
+  script:
+    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
+    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
+    - cd build-vc-64/newview/Release/
+    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+  artifacts:
+    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
+    expire_in: 2 week
+    paths:
+      - build-vc-64/newview/Release/Alchemy_*_*_*.exe
+  only:
+    - release
+    - schedules
+  except:
+    - branches
+
 deploy:nexus:
   stage: deploy
   tags:
@@ -166,14 +198,15 @@ deploy:nexus:
     - cp build-vc-64/newview/Release/Alchemy_*_*_*.exe upload/
     - cd upload
     - $UploadDestLower = $env:CI_COMMIT_REF_NAME.ToLower().Replace("-", "/")
+    - $UploadDestVer = $(Get-Content .\indra\newview\VIEWER_VERSION.txt) + "." + $(git rev-list HEAD --count | Out-String)
     - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_i686_Setup.exe
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin32
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$UploadDestVer/$FileNameWin32
     - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin64
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$UploadDestVer/$FileNameWin64
   when: manual
   only:
     - /^project-.*$/
-    - /^beta-.*$/
-    - /^release-.*$/
+    - beta
+    - release
   except:
-    - master
+    - branches

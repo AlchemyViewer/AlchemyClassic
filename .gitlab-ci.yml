@@ -22,6 +22,10 @@ build:master:windows32:
       - build-vc-32/newview/Release/Alchemy_*_*_*.exe
   only:
     - schedules
+  except:
+    - /^project/.*$/
+    - /^beta/.*$/
+    - /^release/.*$/
 
 build:master:windows64:
   stage: build
@@ -40,6 +44,10 @@ build:master:windows64:
       - build-vc-64/newview/Release/Alchemy_*_*_*.exe
   only:
     - schedules
+  except:
+    - /^project/.*$/
+    - /^beta/.*$/
+    - /^release/.*$/
 
 build:project:windows32:
   stage: build
@@ -63,6 +71,10 @@ build:project:windows32:
   only:
     - /^project/.*$/
     - schedules
+  except:
+    - master
+    - /^beta/.*$/
+    - /^release/.*$/
       
 build:project:windows64:
   stage: build
@@ -86,6 +98,10 @@ build:project:windows64:
   only:
     - /^project/.*$/
     - schedules
+  except:
+    - master
+    - /^beta/.*$/
+    - /^release/.*$/
 
 build:beta:windows32:
   stage: build
@@ -108,6 +124,10 @@ build:beta:windows32:
   only:
     - /^beta/.*$/
     - schedules
+  except:
+    - master
+    - /^project/.*$/
+    - /^release/.*$/
       
 build:beta:windows64:
   stage: build
@@ -130,6 +150,10 @@ build:beta:windows64:
   only:
     - /^beta/.*$/
     - schedules
+  except:
+    - master
+    - /^project/.*$/
+    - /^release/.*$/
       
 deploy:nexus:
   stage: deploy

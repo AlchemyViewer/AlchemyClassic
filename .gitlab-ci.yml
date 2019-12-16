@@ -90,7 +90,7 @@ build:project:windows64:
     - /^project-.*$/
     - schedules
   except:
-     - beta
+    - beta
     - release
 
 build:beta:windows32:
@@ -140,7 +140,7 @@ build:beta:windows64:
     - beta
     - schedules
   except:
-     - /^project-.*$/
+    - /^project-.*$/
     - release
 
 build:release:windows32:

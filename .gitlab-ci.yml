@@ -23,9 +23,9 @@ build:master:windows32:
   only:
     - schedules
   except:
-    - /^project/.*$/
-    - /^beta/.*$/
-    - /^release/.*$/
+    - /^project-.*$/
+    - /^beta-.*$/
+    - /^release-.*$/
 
 build:master:windows64:
   stage: build
@@ -45,9 +45,9 @@ build:master:windows64:
   only:
     - schedules
   except:
-    - /^project/.*$/
-    - /^beta/.*$/
-    - /^release/.*$/
+    - /^project-.*$/
+    - /^beta-.*$/
+    - /^release-.*$/
 
 build:project:windows32:
   stage: build
@@ -69,12 +69,12 @@ build:project:windows32:
     paths:
       - build-vc-32/newview/Release/Alchemy_Project_*_*.exe
   only:
-    - /^project/.*$/
+    - /^project-.*$/
     - schedules
   except:
     - master
-    - /^beta/.*$/
-    - /^release/.*$/
+    - /^beta-.*$/
+    - /^release-.*$/
       
 build:project:windows64:
   stage: build
@@ -96,12 +96,12 @@ build:project:windows64:
     paths:
       - build-vc-64/newview/Release/Alchemy_Project_*_*.exe
   only:
-    - /^project/.*$/
+    - /^project-.*$/
     - schedules
   except:
     - master
-    - /^beta/.*$/
-    - /^release/.*$/
+    - /^beta-.*$/
+    - /^release-.*$/
 
 build:beta:windows32:
   stage: build
@@ -122,12 +122,12 @@ build:beta:windows32:
     paths:
       - build-vc-32/newview/Release/Alchemy_Beta_*_*.exe
   only:
-    - /^beta/.*$/
+    - /^beta-.*$/
     - schedules
   except:
     - master
-    - /^project/.*$/
-    - /^release/.*$/
+    - /^project-.*$/
+    - /^release-.*$/
       
 build:beta:windows64:
   stage: build
@@ -148,12 +148,12 @@ build:beta:windows64:
     paths:
       - build-vc-64/newview/Release/Alchemy_Beta_*_*.exe
   only:
-    - /^beta/.*$/
+    - /^beta-.*$/
     - schedules
   except:
     - master
-    - /^project/.*$/
-    - /^release/.*$/
+    - /^project-.*$/
+    - /^release-.*$/
       
 deploy:nexus:
   stage: deploy
@@ -165,15 +165,15 @@ deploy:nexus:
     - cp build-vc-32/newview/Release/Alchemy_*_*_*.exe upload/
     - cp build-vc-64/newview/Release/Alchemy_*_*_*.exe upload/
     - cd upload
-    - $UploadDestLower = $env:CI_COMMIT_REF_NAME.ToLower()
+    - $UploadDestLower = $env:CI_COMMIT_REF_NAME.ToLower().Replace("-", "/")
     - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_i686_Setup.exe
     - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin32
     - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
     - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin64
   when: manual
   only:
-    - /^project/.*$/
-    - /^beta/.*$/
-    - /^release/.*$/
+    - /^project-.*$/
+    - /^beta-.*$/
+    - /^release-.*$/
   except:
     - master

@@ -200,15 +200,19 @@ deploy:nexus:
     - windows
   script:
     - $UploadDestDirLower = $env:CI_COMMIT_REF_NAME.ToLower().Replace("-", "/")
-    - $UploadDestVer = $(Get-Content .\indra\newview\VIEWER_VERSION.txt) + "." + $(git rev-list HEAD --count | Out-String)
+    - $UploadDestDirLower
+    - $UploadDestVer = $($(Get-Content .\indra\newview\VIEWER_VERSION.txt) + "." + $(git rev-list HEAD --count | Out-String)).trim()
+    - $UploadDestVer
     - mkdir upload
     - cp build-vc-32/newview/Release/Alchemy_*_*_*.exe upload/
     - cp build-vc-64/newview/Release/Alchemy_*_*_*.exe upload/
     - cd upload
     - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_i686_Setup.exe
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestDirLower/$UploadDestVer/$FileNameWin32
+    - $FileNameWin32
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 "https://pkg.alchemyviewer.org/repository/viewer/alchemy/${UploadDestDirLower}/${UploadDestVer}/${FileNameWin32}"
     - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestDirLower/$UploadDestVer/$FileNameWin64
+    - $FileNameWin64
+    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 "https://pkg.alchemyviewer.org/repository/viewer/alchemy/${UploadDestDirLower}/${UploadDestVer}/${FileNameWin64}"
   when: manual
   only:
     - /^project-.*$/

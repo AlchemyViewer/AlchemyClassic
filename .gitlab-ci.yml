@@ -64,7 +64,8 @@ build:project:windows32:
     - /^project-.*$/
     - schedules
   except:
-    - branches
+    - beta
+    - release
       
 build:project:windows64:
   stage: build
@@ -89,7 +90,8 @@ build:project:windows64:
     - /^project-.*$/
     - schedules
   except:
-    - branches
+     - beta
+    - release
 
 build:beta:windows32:
   stage: build
@@ -113,7 +115,8 @@ build:beta:windows32:
     - beta
     - schedules
   except:
-    - branches
+    - /^project-.*$/
+    - release
       
 build:beta:windows64:
   stage: build
@@ -137,7 +140,8 @@ build:beta:windows64:
     - beta
     - schedules
   except:
-    - branches
+     - /^project-.*$/
+    - release
 
 build:release:windows32:
   stage: build
@@ -161,8 +165,9 @@ build:release:windows32:
     - release
     - schedules
   except:
-    - branches
-      
+    - /^project-.*$/
+    - beta
+
 build:release:windows64:
   stage: build
   tags:
@@ -185,7 +190,8 @@ build:release:windows64:
     - release
     - schedules
   except:
-    - branches
+    - /^project-.*$/
+    - beta
 
 deploy:nexus:
   stage: deploy
@@ -209,4 +215,4 @@ deploy:nexus:
     - beta
     - release
   except:
-    - branches
+    - master

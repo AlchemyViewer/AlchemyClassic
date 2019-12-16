@@ -175,4 +175,5 @@ deploy:nexus:
     - /^project/.*$/
     - /^beta/.*$/
     - /^release/.*$/
-    - schedules
+   except:
+    - master

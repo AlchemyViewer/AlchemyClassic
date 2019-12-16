@@ -53,7 +53,7 @@ build:project:windows32:
     - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_NONPROD" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="$env:VIEWER_CHANNEL_CODENAME"
     - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
     - cd build-vc-32/newview/Release/
-    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_NONPROD
+    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_NONPROD
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
@@ -78,7 +78,7 @@ build:project:windows64:
     - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_NONPROD" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="$env:VIEWER_CHANNEL_CODENAME"
     - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
     - cd build-vc-64/newview/Release/
-    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_NONPROD
+    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_NONPROD
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
@@ -102,7 +102,7 @@ build:beta:windows32:
     - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
     - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
     - cd build-vc-32/newview/Release/
-    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_PROD
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
@@ -126,7 +126,7 @@ build:beta:windows64:
     - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
     - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
     - cd build-vc-64/newview/Release/
-    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_PROD
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
@@ -150,7 +150,7 @@ build:release:windows32:
     - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
     - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
     - cd build-vc-32/newview/Release/
-    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
+    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_PROD
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"

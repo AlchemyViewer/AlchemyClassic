@@ -146,8 +146,9 @@ deploy:nexus:
     - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin32
     - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
     - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 https://pkg.alchemyviewer.org/repository/viewer/alchemy/$UploadDestLower/$FileNameWin64
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME =~ /^project/'
-      when: manual
-    - if: '$CI_COMMIT_REF_NAME =~ /^beta/ || $CI_COMMIT_REF_NAME =~ /^release/'
-      when: always
+  when: manual
+  only:
+    - /^project/.*$/
+    - /^beta/.*$/
+    - /^release/.*$/
+    - schedules

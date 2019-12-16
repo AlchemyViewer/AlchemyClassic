@@ -175,5 +175,5 @@ deploy:nexus:
     - /^project/.*$/
     - /^beta/.*$/
     - /^release/.*$/
-   except:
+  except:
     - master

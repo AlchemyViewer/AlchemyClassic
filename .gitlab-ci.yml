@@ -219,7 +219,7 @@ deploy:nexus:
     - $UploadDestViewerDir = $BuildData."Channel".ToLower().Replace(" ", "/")
     - $UploadDestVer = $BuildData."Version"
     - $UploadDestURL = "https://pkg.alchemyviewer.org/repository/viewer/${$UploadDestViewerDir}/${$UploadDestVer}"
-    -
+
     - $UploadParams = @{
       UseBasicParsing = $true
       Method          = "PUT"
@@ -229,12 +229,12 @@ deploy:nexus:
         }
       Verbose         = $true
       }
-    -
+
     - Push-Location .\build-vc-32\newview\Release\
     - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_Setup.exe
     - Invoke-WebRequest @$UploadParams -InFile .\$FileNameWin32 --Uri "${$UploadDestURL}/${FileNameWin32}"
     - Pop-Location
-    -
+
     - Push-Location .\build-vc-64\newview\Release\
     - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_Setup.exe
     - Invoke-WebRequest @$UploadParams -InFile .\$FileNameWin32 --Uri "${$UploadDestURL}/${FileNameWin64}"

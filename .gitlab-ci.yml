@@ -17,9 +17,11 @@ build:master:windows32:
     - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-32/newview/Release/Alchemy_*_*_*.exe
+      - build-vc-32/newview/Release/build_data.json
+      - build-vc-32/newview/Release/alchemy-bin.pdb
+      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
   only:
     - schedules
 
@@ -35,9 +37,11 @@ build:master:windows64:
     - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-64/newview/Release/Alchemy_*_*_*.exe
+      - build-vc-64/newview/Release/build_data.json
+      - build-vc-64/newview/Release/alchemy-bin.pdb
+      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
   only:
     - schedules
 
@@ -57,9 +61,11 @@ build:project:windows32:
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-32/newview/Release/Alchemy_Project_*_*.exe
+      - build-vc-32/newview/Release/build_data.json
+      - build-vc-32/newview/Release/alchemy-bin.pdb
+      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
   only:
     - /^project-.*$/
     - schedules
@@ -83,9 +89,11 @@ build:project:windows64:
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-64/newview/Release/Alchemy_Project_*_*.exe
+      - build-vc-64/newview/Release/build_data.json
+      - build-vc-64/newview/Release/alchemy-bin.pdb
+      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
   only:
     - /^project-.*$/
     - schedules
@@ -108,9 +116,11 @@ build:beta:windows32:
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-32/newview/Release/Alchemy_*_*_*.exe
+      - build-vc-32/newview/Release/build_data.json
+      - build-vc-32/newview/Release/alchemy-bin.pdb
+      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
   only:
     - beta
     - schedules
@@ -133,9 +143,11 @@ build:beta:windows64:
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-64/newview/Release/Alchemy_*_*_*.exe
+      - build-vc-64/newview/Release/build_data.json
+      - build-vc-64/newview/Release/alchemy-bin.pdb
+      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
   only:
     - beta
     - schedules
@@ -158,9 +170,11 @@ build:release:windows32:
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-32/newview/Release/Alchemy_*_*_*.exe
+      - build-vc-32/newview/Release/build_data.json
+      - build-vc-32/newview/Release/alchemy-bin.pdb
+      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
   only:
     - release
     - schedules
@@ -183,9 +197,11 @@ build:release:windows64:
     - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 2 week
+    expire_in: 4 week
     paths:
-      - build-vc-64/newview/Release/Alchemy_*_*_*.exe
+      - build-vc-64/newview/Release/build_data.json
+      - build-vc-64/newview/Release/alchemy-bin.pdb
+      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
   only:
     - release
     - schedules
@@ -199,20 +215,30 @@ deploy:nexus:
     - autobuild
     - windows
   script:
-    - $UploadDestDirLower = $env:CI_COMMIT_REF_NAME.ToLower().Replace("-", "/")
-    - $UploadDestDirLower
-    - $UploadDestVer = $($(Get-Content .\indra\newview\VIEWER_VERSION.txt) + "." + $(git rev-list HEAD --count | Out-String)).trim()
-    - $UploadDestVer
-    - mkdir upload
-    - cp build-vc-32/newview/Release/Alchemy_*_*_*.exe upload/
-    - cp build-vc-64/newview/Release/Alchemy_*_*_*.exe upload/
-    - cd upload
-    - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_i686_Setup.exe
-    - $FileNameWin32
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin32 "https://pkg.alchemyviewer.org/repository/viewer/alchemy/${UploadDestDirLower}/${UploadDestVer}/${FileNameWin32}"
-    - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_x86_64_Setup.exe
-    - $FileNameWin64
-    - curl.exe -v --user "${env:AUTOBUILD_HTTP_USER}:${env:AUTOBUILD_HTTP_PASS}" --upload-file $FileNameWin64 "https://pkg.alchemyviewer.org/repository/viewer/alchemy/${UploadDestDirLower}/${UploadDestVer}/${FileNameWin64}"
+    - $BuildData = Get-Content .\build-vc-64\newview\Release\build_data.json | ConvertFrom-Json
+    - $UploadDestViewerDir = $BuildData."Channel".ToLower().Replace(" ", "/")
+    - $UploadDestVer = $BuildData."Version"
+    - $UploadDestURL = "https://pkg.alchemyviewer.org/repository/viewer/${$UploadDestViewerDir}/${$UploadDestVer}"
+    -
+    - $UploadParams = @{
+      UseBasicParsing = $true
+      Method          = "PUT"
+      Headers         = @{
+        ContentType   = "application/x-executable"
+        Authorization = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$env:AUTOBUILD_HTTP_USER`:$env:AUTOBUILD_HTTP_PASS")))" 
+        }
+      Verbose         = $true
+      }
+    -
+    - Push-Location .\build-vc-32\newview\Release\
+    - $FileNameWin32 = Get-ChildItem -Path . -Name -Include Alchemy_*_Setup.exe
+    - Invoke-WebRequest @$UploadParams -InFile .\$FileNameWin32 --Uri "${$UploadDestURL}/${FileNameWin32}"
+    - Pop-Location
+    -
+    - Push-Location .\build-vc-64\newview\Release\
+    - $FileNameWin64 = Get-ChildItem -Path . -Name -Include Alchemy_*_Setup.exe
+    - Invoke-WebRequest @$UploadParams -InFile .\$FileNameWin32 --Uri "${$UploadDestURL}/${FileNameWin64}"
+    - Pop-Location
   when: manual
   only:
     - /^project-.*$/

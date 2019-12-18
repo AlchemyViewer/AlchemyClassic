@@ -62,6 +62,10 @@ endif(USE_ASAN AND USE_LEAKSAN)
 
 # Configure crash reporting
 option(USE_CRASHPAD "Build support for crashpad reporting engine" OFF)
+if (DEFINED ENV{VIEWER_USE_CRASHPAD})
+  set(USE_CRASHPAD $ENV{VIEWER_USE_CRASHPAD})
+endif()
+
 if (DEFINED ENV{VIEWER_CRASHPAD_URL})
   set(CRASHPAD_URL $ENV{VIEWER_CRASHPAD_URL} CACHE STRING "Viewer Channel Base Name")
 else()

@@ -4,8 +4,9 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  VIEWER_USE_CRASHPAD: "TRUE"
 
-build:master:windows32:
+.win_build: &win_build
   stage: build
   tags:
     - autobuild
@@ -13,59 +14,50 @@ build:master:windows32:
   before_script:
     - pipenv install
   script:
-    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DVIEWER_CHANNEL_TYPE="Test"
-    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
+    - If ($env:VIEWER_CHANNEL_TYPE -eq 'Project') 
+      { 
+          $env:VIEWER_CHANNEL_CODENAME = $env:CI_COMMIT_REF_NAME[8..100] -join '' 
+      }
+    - pipenv run autobuild configure -c ReleaseOS -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=$env:VIEWER_USE_CRASHPAD
+    - pipenv run autobuild build -c ReleaseOS --no-configure
+    - If ($env:VIEWER_USE_CRASHPAD) {
+    - Push-Location .\build-vc-*\newview\Release\
+#    - If ($env:VIEWER_CHANNEL_TYPE -eq 'Project') { $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_NONPROD } ElseIf ($env:VIEWER_CHANNEL_TYPE -eq 'Beta' -OR $env:VIEWER_CHANNEL_TYPE -eq 'Release') {$env:SENTRY_PROJECT = $env:SENTRY_PROJECT_NONPROD }
+    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
+    - Pop-Location }
   artifacts:
     name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
     expire_in: 4 week
     paths:
-      - build-vc-32/newview/Release/build_data.json
-      - build-vc-32/newview/Release/alchemy-bin.pdb
-      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
+      - build-vc-*/newview/Release/build_data.json
+      - build-vc-*/newview/Release/alchemy-bin.pdb
+      - build-vc-*/newview/Release/Alchemy_*_Setup.exe
+      
+build:master:windows32:
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 32
+    VIEWER_CHANNEL_TYPE: Test
+    VIEWER_USE_CRASHPAD: "FALSE"
   only:
     - schedules
 
 build:master:windows64:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DVIEWER_CHANNEL_TYPE="Test"
-    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-64/newview/Release/build_data.json
-      - build-vc-64/newview/Release/alchemy-bin.pdb
-      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 64
+    VIEWER_CHANNEL_TYPE: Test
+    VIEWER_USE_CRASHPAD: "FALSE"
   only:
     - schedules
 
 build:project:windows32:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - $env:VIEWER_CHANNEL_CODENAME = $env:CI_COMMIT_REF_NAME[8..100] -join ''
-    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_NONPROD" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="$env:VIEWER_CHANNEL_CODENAME"
-    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
-    - cd build-vc-32/newview/Release/
-    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_NONPROD
-    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-32/newview/Release/build_data.json
-      - build-vc-32/newview/Release/alchemy-bin.pdb
-      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 32
+    VIEWER_CHANNEL_TYPE: Project
+    VIEWER_CRASHPAD_URL: $SENTRY_DSN_NONPROD
+    SENTRY_PROJECT: $SENTRY_PROJECT_NONPROD
   only:
     - /^project-.*$/
     - schedules
@@ -74,26 +66,12 @@ build:project:windows32:
     - release
       
 build:project:windows64:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - $env:VIEWER_CHANNEL_CODENAME = $env:CI_COMMIT_REF_NAME[8..100] -join ''
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_NONPROD" -DVIEWER_CHANNEL_TYPE="Project" -DVIEWER_CHANNEL_CODENAME="$env:VIEWER_CHANNEL_CODENAME"
-    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
-    - cd build-vc-64/newview/Release/
-    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_NONPROD
-    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-64/newview/Release/build_data.json
-      - build-vc-64/newview/Release/alchemy-bin.pdb
-      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 64
+    VIEWER_CHANNEL_TYPE: Project
+    VIEWER_CRASHPAD_URL: $SENTRY_DSN_NONPROD
+    SENTRY_PROJECT: $SENTRY_PROJECT_NONPROD
   only:
     - /^project-.*$/
     - schedules
@@ -102,25 +80,12 @@ build:project:windows64:
     - release
 
 build:beta:windows32:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
-    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
-    - cd build-vc-32/newview/Release/
-    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_PROD
-    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-32/newview/Release/build_data.json
-      - build-vc-32/newview/Release/alchemy-bin.pdb
-      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 32
+    VIEWER_CHANNEL_TYPE: Beta
+    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
+    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   only:
     - beta
     - schedules
@@ -129,25 +94,12 @@ build:beta:windows32:
     - release
       
 build:beta:windows64:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
-    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
-    - cd build-vc-64/newview/Release/
-    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_PROD
-    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-64/newview/Release/build_data.json
-      - build-vc-64/newview/Release/alchemy-bin.pdb
-      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 64
+    VIEWER_CHANNEL_TYPE: Beta
+    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
+    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   only:
     - beta
     - schedules
@@ -156,25 +108,12 @@ build:beta:windows64:
     - release
 
 build:release:windows32:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - pipenv run autobuild configure -c ReleaseOS -A32 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
-    - pipenv run autobuild build -c ReleaseOS -A32 --no-configure
-    - cd build-vc-32/newview/Release/
-    - $env:SENTRY_PROJECT = $env:SENTRY_PROJECT_PROD
-    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-32/newview/Release/build_data.json
-      - build-vc-32/newview/Release/alchemy-bin.pdb
-      - build-vc-32/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 64
+    VIEWER_CHANNEL_TYPE: Release
+    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
+    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   only:
     - release
     - schedules
@@ -183,25 +122,12 @@ build:release:windows32:
     - beta
 
 build:release:windows64:
-  stage: build
-  tags:
-    - autobuild
-    - windows
-  before_script:
-    - pipenv install
-  script:
-    - pipenv run autobuild configure -c ReleaseOS -A64 -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON -DUSE_CRASHPAD=ON -DCRASHPAD_URL="$env:SENTRY_DSN_PROD" -DVIEWER_CHANNEL_TYPE="Beta"
-    - pipenv run autobuild build -c ReleaseOS -A64 --no-configure
-    - cd build-vc-64/newview/Release/
-    - $env:SENTRY_PROJECT = $:env:SENTRY_PROJECT_PROD
-    - sentry-cli upload-dif alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
-  artifacts:
-    name: "$env:CI_COMMIT_REF_NAME-$env:CI_COMMIT_SHORT_SHA"
-    expire_in: 4 week
-    paths:
-      - build-vc-64/newview/Release/build_data.json
-      - build-vc-64/newview/Release/alchemy-bin.pdb
-      - build-vc-64/newview/Release/Alchemy_*_Setup.exe
+  <<: *win_build
+  variables:
+    AUTOBUILD_ADDRSIZE: 64
+    VIEWER_CHANNEL_TYPE: Release
+    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
+    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   only:
     - release
     - schedules

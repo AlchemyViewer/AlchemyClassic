@@ -15219,6 +15219,15 @@
         <key>Value</key>
             <real>1</real>
         </map>
+    <key>PoolSizeExpCache</key>
+        <map>
+        <key>Comment</key>
+            <string>Coroutine Pool size for Experience Cache</string>
+        <key>Type</key>
+            <string>U32</string>
+        <key>Value</key>
+            <real>1</real>
+        </map>
     <key>PoolSizeAssetStorage</key>
         <map>
         <key>Comment</key>

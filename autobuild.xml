@@ -808,11 +808,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e0e87e0423fa42e4d2997b47b92eac6e</string>
+              <string>22daed7c860daaef217eb8d90dfc1119</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows/fmodstudio-2.00.03.192211030-windows-192211030.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows/fmodstudio-2.00.06.3-windows-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -822,18 +822,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c2e55e1bfef7e066a0e40867a64b4cce</string>
+              <string>ccf7b1935743df55244139c4323c0465</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows64/fmodstudio-2.00.03.192211029-windows64-192211029.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows64/fmodstudio-2.00.06.3-windows64-3.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.00.03.192211300</string>
+        <string>2.00.06.3</string>
       </map>
       <key>fontconfig</key>
       <map>

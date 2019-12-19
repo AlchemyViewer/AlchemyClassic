@@ -126,8 +126,6 @@ build:release:windows64:
   tags:
     - autobuild
     - windows
-  before_script:
-    - pipenv install
   script:
     - $BuildData = Get-Content .\build-vc-64\newview\Release\build_data.json | ConvertFrom-Json
     - $BuildChannelVersion = $BuildData."Channel" + ' ' + $BuildData."Version"

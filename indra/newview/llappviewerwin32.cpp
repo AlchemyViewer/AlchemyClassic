@@ -582,10 +582,11 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	annotations.emplace("sentry[contexts][app][app_version]", LLVersionInfo::getVersion());
 	annotations.emplace("sentry[contexts][app][app_build]", LLVersionInfo::getChannelAndVersion());
 
+	annotations.emplace("sentry[release]", LLVersionInfo::getChannelAndVersion());
+
 	annotations.emplace("sentry[tags][second_instance]", fmt::to_string(isSecondInstance()));
 	annotations.emplace("sentry[tags][bitness]", fmt::to_string(ADDRESS_SIZE));
 
-	annotations.emplace("sentry[version]", LLVersionInfo::getChannelAndVersion());
 
 	// Optional arguments to pass to the handler
 	std::vector<std::string> arguments;

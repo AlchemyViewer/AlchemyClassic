@@ -1464,15 +1464,14 @@ namespace LLError
 	}
 
 #if LL_WINDOWS
-		// VC80 was optimizing the error away.
-//		#pragma optimize("", off)
+		// MSVC is optimizing the error away.
+		#pragma optimize("", off)
 #endif
 	void crashAndLoop(const std::string& message)
 	{
 		// Now, we go kaboom!
 		int* make_me_crash = nullptr;
-
-		*make_me_crash = 0;
+		*make_me_crash = 0xDEADBEEF;
 
 		while(true)
 		{
@@ -1488,7 +1487,7 @@ namespace LLError
 #endif
 	}
 #if LL_WINDOWS
-//		#pragma optimize("", on)
+		#pragma optimize("", on)
 #endif
 
 	std::string utcTime()

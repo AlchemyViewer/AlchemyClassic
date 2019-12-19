@@ -99,18 +99,6 @@
   CRCCheck on
 
 ;--------------------------------
-;Version Information
-
-  VIProductVersion "${VERSION_LONG}"
-  VIAddVersionKey "ProductName" "${APPNAME} Installer"
-  VIAddVersionKey "Comments" "A viewer for the meta-verse!"
-  VIAddVersionKey "CompanyName" "Alchemy Viewer Project"
-  VIAddVersionKey "LegalCopyright" "Copyright © 2013-2019, Alchemy Viewer Project"
-  VIAddVersionKey "FileDescription" "${APPNAME} Installer"
-  VIAddVersionKey "ProductVersion" "${VERSION_LONG}"
-  VIAddVersionKey "FileVersion" "${VERSION_LONG}"
-
-;--------------------------------
 ;Interface Settings
 
   ;Show Details
@@ -194,6 +182,18 @@
   !include "%%SOURCE%%\installers\windows\lang_ru.nsi"
   !include "%%SOURCE%%\installers\windows\lang_tr.nsi"
   !include "%%SOURCE%%\installers\windows\lang_zh.nsi"
+
+;--------------------------------
+;Version Information
+
+  VIProductVersion "${VERSION_LONG}"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${APPNAME} Installer"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "A viewer for the meta-verse!"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Alchemy Viewer Project"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Copyright © 2013-2019, Alchemy Viewer Project"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${APPNAME} Installer"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION_LONG}"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION_LONG}"
 
 ;--------------------------------
 ;Reserve Files

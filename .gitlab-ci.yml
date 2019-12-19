@@ -4,6 +4,7 @@ stages:
 
 variables:
   VIEWER_USE_CRASHPAD: "TRUE"
+  VIEWER_CRASHPAD_URL: $SENTRY_DSN
 
 .win_build: &win_build
   stage: build
@@ -69,8 +70,6 @@ build:project:windows32:
   variables:
     AUTOBUILD_ADDRSIZE: 32
     VIEWER_CHANNEL_TYPE: Project
-    VIEWER_CRASHPAD_URL: $SENTRY_DSN_NONPROD
-    SENTRY_PROJECT: $SENTRY_PROJECT_NONPROD
   only:
     - /^project-.*$/
 
@@ -80,8 +79,6 @@ build:project:windows64:
   variables:
     AUTOBUILD_ADDRSIZE: 64
     VIEWER_CHANNEL_TYPE: Project
-    VIEWER_CRASHPAD_URL: $SENTRY_DSN_NONPROD
-    SENTRY_PROJECT: $SENTRY_PROJECT_NONPROD
   only:
     - /^project-.*$/
 
@@ -90,8 +87,6 @@ build:beta:windows32:
   variables:
     AUTOBUILD_ADDRSIZE: 32
     VIEWER_CHANNEL_TYPE: Beta
-    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
-    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   <<: *beta_rules
 
 build:beta:windows64:
@@ -99,8 +94,6 @@ build:beta:windows64:
   variables:
     AUTOBUILD_ADDRSIZE: 64
     VIEWER_CHANNEL_TYPE: Beta
-    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
-    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   <<: *beta_rules
 
 build:release:windows32:
@@ -108,8 +101,6 @@ build:release:windows32:
   variables:
     AUTOBUILD_ADDRSIZE: 32
     VIEWER_CHANNEL_TYPE: Release
-    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
-    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   <<: *release_rules
 
 build:release:windows64:
@@ -117,8 +108,6 @@ build:release:windows64:
   variables:
     AUTOBUILD_ADDRSIZE: 64
     VIEWER_CHANNEL_TYPE: Release
-    VIEWER_CRASHPAD_URL: $SENTRY_DSN_PROD
-    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   <<: *release_rules
 
 .deploy_template: &deploy_template
@@ -156,8 +145,6 @@ build:release:windows64:
 
 deploy_project:
   <<: *deploy_template
-  variables:
-    SENTRY_PROJECT: $SENTRY_PROJECT_NONPROD
   environment:
     name: qa
   only:
@@ -165,16 +152,12 @@ deploy_project:
 
 deploy_beta:
   <<: *deploy_template
-  variables:
-    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   environment:
     name: staging
   <<: *beta_rules
 
 deploy_release:
   <<: *deploy_template
-  variables:
-    SENTRY_PROJECT: $SENTRY_PROJECT_PROD
   environment:
     name: production
   <<: *release_rules

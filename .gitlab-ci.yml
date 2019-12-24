@@ -20,7 +20,7 @@ variables:
       }
     - pipenv run autobuild configure -c ReleaseOS -- -DUSE_FMODSTUDIO=ON -DUSE_NVAPI=ON -DUSE_LTO=ON -DVS_DISABLE_FATAL_WARNINGS=ON
     - pipenv run autobuild build -c ReleaseOS --no-configure
-    - If ($env:VIEWER_USE_CRASHPAD) {
+    - If ($env:VIEWER_USE_CRASHPAD -eq 'TRUE') {
     - Push-Location .\build-vc-*\newview\Release\
     - sentry-cli upload-dif --include-sources alchemy-bin.exe alchemy-bin.pdb crashpad_handler.exe crashpad_handler.pdb openjpeg.pdb openjpeg.dll fmod.dll libcrypto-1_1.dll libcrypto-1_1.pdb libssl-1_1.dll libssl-1_1.pdb libcrypto-1_1-x64.dll libcrypto-1_1-x64.pdb libssl-1_1-x64.dll libssl-1_1-x64.pdb vcruntime140.dll msvcp140.dll nghttp2.dll glod.dll
     - Pop-Location }

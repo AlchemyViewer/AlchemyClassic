@@ -58,6 +58,9 @@ LLEmote::LLEmote(const LLUUID &id) : LLMotion(id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLEmote::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	mCharacter = character;
 	return STATUS_SUCCESS;
 }

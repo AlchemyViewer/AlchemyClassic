@@ -68,7 +68,6 @@ protected:
 	//-------------------------------------------------------------------------
 	// Member Data
 	//-------------------------------------------------------------------------
-	LLCharacter*	mCharacter;
 	F32				mVelocityZ;
 	LLPointer<LLJointState>	mPelvisState;
 	LLQuaternion	mRotationToGroundNormal;

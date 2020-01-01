@@ -61,6 +61,9 @@ LLTargetingMotion::LLTargetingMotion(const LLUUID &id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLTargetingMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	// save character for future use
 	mCharacter = character;
 

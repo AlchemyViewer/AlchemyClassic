@@ -54,7 +54,6 @@ const F32 SPEED_ADJUST_TIME_CONSTANT = 0.1f; 	// time constant for speed adjustm
 //-----------------------------------------------------------------------------
 LLKeyframeWalkMotion::LLKeyframeWalkMotion(const LLUUID &id)
 :	LLKeyframeMotion(id),
-    mCharacter(nullptr),
     mCyclePhase(0.0f),
     mRealTimeLast(0.0f),
     mAdjTimeLast(0.0f),
@@ -66,8 +65,6 @@ LLKeyframeWalkMotion::LLKeyframeWalkMotion(const LLUUID &id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLKeyframeWalkMotion::onInitialize(LLCharacter *character)
 {
-	mCharacter = character;
-
 	return LLKeyframeMotion::onInitialize(character);
 }
 
@@ -148,6 +145,9 @@ LLWalkAdjustMotion::LLWalkAdjustMotion(const LLUUID &id) :
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLWalkAdjustMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	mCharacter = character;
 	mLeftAnkleJoint = mCharacter->getJoint("mAnkleLeft");
 	mRightAnkleJoint = mCharacter->getJoint("mAnkleRight");
@@ -338,6 +338,9 @@ LLFlyAdjustMotion::LLFlyAdjustMotion(const LLUUID &id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLFlyAdjustMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	mCharacter = character;
 
 	LLJoint* pelvisJoint = mCharacter->getJoint("mPelvis");

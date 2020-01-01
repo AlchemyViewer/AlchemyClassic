@@ -80,6 +80,9 @@ LLHandMotion::LLHandMotion(const LLUUID &id) : LLMotion(id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLHandMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	mCharacter = character;
 
 	return STATUS_SUCCESS;

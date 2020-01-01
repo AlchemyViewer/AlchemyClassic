@@ -69,8 +69,6 @@ public:
 	//-------------------------------------------------------------------------
 	// Member Data
 	//-------------------------------------------------------------------------
-	LLCharacter	*mCharacter;
-
 	BOOL				mFlipFeet;
 
 	LLPointer<LLJointState>	mPelvisState;

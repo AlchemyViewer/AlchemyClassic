@@ -430,6 +430,9 @@ LLJoint* LLKeyframeMotion::getJoint(U32 index)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLKeyframeMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	mCharacter = character;
 	
 	LLUUID* character_id;

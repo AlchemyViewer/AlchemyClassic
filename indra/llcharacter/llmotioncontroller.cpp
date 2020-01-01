@@ -767,8 +767,8 @@ void LLMotionController::updateMotionsByType(LLMotion::LLMotionBlendType anim_ty
 void LLMotionController::updateLoadingMotions()
 {
 	// query pending motions for completion
-	for (auto iter = mLoadingMotions.begin();
-		 iter != mLoadingMotions.end(); )
+	for (auto iter = mLoadingMotions.begin(), end = mLoadingMotions.end();
+		 iter != end; )
 	{
 		auto curiter = iter++;
 		LLMotion* motionp = *curiter;

@@ -46,7 +46,6 @@
 LLKeyframeFallMotion::LLKeyframeFallMotion(const LLUUID &id) : LLKeyframeMotion(id)
 {
 	mVelocityZ = 0.f;
-	mCharacter = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -54,11 +53,12 @@ LLKeyframeFallMotion::LLKeyframeFallMotion(const LLUUID &id) : LLKeyframeMotion(
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLKeyframeFallMotion::onInitialize(LLCharacter *character)
 {
-	// save character pointer for later use
-	mCharacter = character;
-
 	// load keyframe data, setup pose and joint states
 	LLMotion::LLMotionInitStatus result = LLKeyframeMotion::onInitialize(character);
+	if (result == STATUS_FAILURE)
+	{
+		return result;
+	}
 
 	for (U32 jm=0; jm<mJointMotionList->getNumJointMotions(); jm++)
 	{

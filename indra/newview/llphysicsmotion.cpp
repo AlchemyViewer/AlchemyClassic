@@ -127,150 +127,153 @@ void LLPhysicsMotionController::onDeactivate()
 {
 }
 
-LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter *character)
+LLMotion::LLMotionInitStatus LLPhysicsMotionController::onInitialize(LLCharacter* character)
 {
-        mCharacter = character;
+	if (!character)
+		return STATUS_FAILURE;
 
-        mMotions.clear();
+	mCharacter = character;
 
-        // Breast Cleavage
-        {
-                LLPhysicsMotion::controller_map_t controller;
-                controller["Mass"] = "Breast_Physics_Mass";
-                controller["Gravity"] = "Breast_Physics_Gravity";
-                controller["Drag"] = "Breast_Physics_Drag";
-                controller["Damping"] = "Breast_Physics_InOut_Damping";
-                controller["MaxEffect"] = "Breast_Physics_InOut_Max_Effect";
-                controller["Spring"] = "Breast_Physics_InOut_Spring";
-                controller["Gain"] = "Breast_Physics_InOut_Gain";
-				auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_InOut_Controller",
-                                                                                                          "mChest",
-                                                                                                          character,
-                                                                                                          LLVector3(-1,0,0),
-                                                                                                          controller);
-                if (!motion->initialize())
-                {
-                        llassert_always(FALSE);
-                        return STATUS_FAILURE;
-                }
-                addMotion(std::move(motion));
-        }
+	mMotions.clear();
 
-        // Breast Bounce
-        {
-                LLPhysicsMotion::controller_map_t controller;
-                controller["Mass"] = "Breast_Physics_Mass";
-                controller["Gravity"] = "Breast_Physics_Gravity";
-                controller["Drag"] = "Breast_Physics_Drag";
-                controller["Damping"] = "Breast_Physics_UpDown_Damping";
-                controller["MaxEffect"] = "Breast_Physics_UpDown_Max_Effect";
-                controller["Spring"] = "Breast_Physics_UpDown_Spring";
-                controller["Gain"] = "Breast_Physics_UpDown_Gain";
-				auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_UpDown_Controller",
-                                                                                                          "mChest",
-                                                                                                          character,
-                                                                                                          LLVector3(0,0,1),
-                                                                                                          controller);
-                if (!motion->initialize())
-                {
-                        llassert_always(FALSE);
-                        return STATUS_FAILURE;
-                }
-				addMotion(std::move(motion));
-        }
+	// Breast Cleavage
+	{
+		LLPhysicsMotion::controller_map_t controller;
+		controller["Mass"] = "Breast_Physics_Mass";
+		controller["Gravity"] = "Breast_Physics_Gravity";
+		controller["Drag"] = "Breast_Physics_Drag";
+		controller["Damping"] = "Breast_Physics_InOut_Damping";
+		controller["MaxEffect"] = "Breast_Physics_InOut_Max_Effect";
+		controller["Spring"] = "Breast_Physics_InOut_Spring";
+		controller["Gain"] = "Breast_Physics_InOut_Gain";
+		auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_InOut_Controller",
+			"mChest",
+			character,
+			LLVector3(-1, 0, 0),
+			controller);
+		if (!motion->initialize())
+		{
+			llassert_always(FALSE);
+			return STATUS_FAILURE;
+		}
+		addMotion(std::move(motion));
+	}
 
-        // Breast Sway
-        {
-                LLPhysicsMotion::controller_map_t controller;
-                controller["Mass"] = "Breast_Physics_Mass";
-                controller["Gravity"] = "Breast_Physics_Gravity";
-                controller["Drag"] = "Breast_Physics_Drag";
-                controller["Damping"] = "Breast_Physics_LeftRight_Damping";
-                controller["MaxEffect"] = "Breast_Physics_LeftRight_Max_Effect";
-                controller["Spring"] = "Breast_Physics_LeftRight_Spring";
-                controller["Gain"] = "Breast_Physics_LeftRight_Gain";
-				auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_LeftRight_Controller",
-                                                                                                          "mChest",
-                                                                                                          character,
-                                                                                                          LLVector3(0,-1,0),
-                                                                                                          controller);
-                if (!motion->initialize())
-                {
-                        llassert_always(FALSE);
-                        return STATUS_FAILURE;
-                }
-				addMotion(std::move(motion));
-        }
-        // Butt Bounce
-        {
-                LLPhysicsMotion::controller_map_t controller;
-                controller["Mass"] = "Butt_Physics_Mass";
-                controller["Gravity"] = "Butt_Physics_Gravity";
-                controller["Drag"] = "Butt_Physics_Drag";
-                controller["Damping"] = "Butt_Physics_UpDown_Damping";
-                controller["MaxEffect"] = "Butt_Physics_UpDown_Max_Effect";
-                controller["Spring"] = "Butt_Physics_UpDown_Spring";
-                controller["Gain"] = "Butt_Physics_UpDown_Gain";
-				auto motion = std::make_unique<LLPhysicsMotion>("Butt_Physics_UpDown_Controller",
-                                                                                                          "mPelvis",
-                                                                                                          character,
-                                                                                                          LLVector3(0,0,-1),
-                                                                                                          controller);
-                if (!motion->initialize())
-                {
-                        llassert_always(FALSE);
-                        return STATUS_FAILURE;
-                }
-				addMotion(std::move(motion));
-        }
+	// Breast Bounce
+	{
+		LLPhysicsMotion::controller_map_t controller;
+		controller["Mass"] = "Breast_Physics_Mass";
+		controller["Gravity"] = "Breast_Physics_Gravity";
+		controller["Drag"] = "Breast_Physics_Drag";
+		controller["Damping"] = "Breast_Physics_UpDown_Damping";
+		controller["MaxEffect"] = "Breast_Physics_UpDown_Max_Effect";
+		controller["Spring"] = "Breast_Physics_UpDown_Spring";
+		controller["Gain"] = "Breast_Physics_UpDown_Gain";
+		auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_UpDown_Controller",
+			"mChest",
+			character,
+			LLVector3(0, 0, 1),
+			controller);
+		if (!motion->initialize())
+		{
+			llassert_always(FALSE);
+			return STATUS_FAILURE;
+		}
+		addMotion(std::move(motion));
+	}
 
-        // Butt LeftRight
-        {
-                LLPhysicsMotion::controller_map_t controller;
-                controller["Mass"] = "Butt_Physics_Mass";
-                controller["Gravity"] = "Butt_Physics_Gravity";
-                controller["Drag"] = "Butt_Physics_Drag";
-                controller["Damping"] = "Butt_Physics_LeftRight_Damping";
-                controller["MaxEffect"] = "Butt_Physics_LeftRight_Max_Effect";
-                controller["Spring"] = "Butt_Physics_LeftRight_Spring";
-                controller["Gain"] = "Butt_Physics_LeftRight_Gain";
-				auto motion = std::make_unique<LLPhysicsMotion>("Butt_Physics_LeftRight_Controller",
-                                                                                                          "mPelvis",
-                                                                                                          character,
-                                                                                                          LLVector3(0,-1,0),
-                                                                                                          controller);
-                if (!motion->initialize())
-                {
-                        llassert_always(FALSE);
-                        return STATUS_FAILURE;
-                }
-                addMotion(std::move(motion));
-        }
+	// Breast Sway
+	{
+		LLPhysicsMotion::controller_map_t controller;
+		controller["Mass"] = "Breast_Physics_Mass";
+		controller["Gravity"] = "Breast_Physics_Gravity";
+		controller["Drag"] = "Breast_Physics_Drag";
+		controller["Damping"] = "Breast_Physics_LeftRight_Damping";
+		controller["MaxEffect"] = "Breast_Physics_LeftRight_Max_Effect";
+		controller["Spring"] = "Breast_Physics_LeftRight_Spring";
+		controller["Gain"] = "Breast_Physics_LeftRight_Gain";
+		auto motion = std::make_unique<LLPhysicsMotion>("Breast_Physics_LeftRight_Controller",
+			"mChest",
+			character,
+			LLVector3(0, -1, 0),
+			controller);
+		if (!motion->initialize())
+		{
+			llassert_always(FALSE);
+			return STATUS_FAILURE;
+		}
+		addMotion(std::move(motion));
+	}
+	// Butt Bounce
+	{
+		LLPhysicsMotion::controller_map_t controller;
+		controller["Mass"] = "Butt_Physics_Mass";
+		controller["Gravity"] = "Butt_Physics_Gravity";
+		controller["Drag"] = "Butt_Physics_Drag";
+		controller["Damping"] = "Butt_Physics_UpDown_Damping";
+		controller["MaxEffect"] = "Butt_Physics_UpDown_Max_Effect";
+		controller["Spring"] = "Butt_Physics_UpDown_Spring";
+		controller["Gain"] = "Butt_Physics_UpDown_Gain";
+		auto motion = std::make_unique<LLPhysicsMotion>("Butt_Physics_UpDown_Controller",
+			"mPelvis",
+			character,
+			LLVector3(0, 0, -1),
+			controller);
+		if (!motion->initialize())
+		{
+			llassert_always(FALSE);
+			return STATUS_FAILURE;
+		}
+		addMotion(std::move(motion));
+	}
 
-        // Belly Bounce
-        {
-                LLPhysicsMotion::controller_map_t controller;
-                controller["Mass"] = "Belly_Physics_Mass";
-                controller["Gravity"] = "Belly_Physics_Gravity";
-                controller["Drag"] = "Belly_Physics_Drag";
-                controller["Damping"] = "Belly_Physics_UpDown_Damping";
-                controller["MaxEffect"] = "Belly_Physics_UpDown_Max_Effect";
-                controller["Spring"] = "Belly_Physics_UpDown_Spring";
-                controller["Gain"] = "Belly_Physics_UpDown_Gain";
-                auto motion = std::make_unique<LLPhysicsMotion>("Belly_Physics_UpDown_Controller",
-                                                                                                          "mPelvis",
-                                                                                                          character,
-                                                                                                          LLVector3(0,0,-1),
-                                                                                                          controller);
-                if (!motion->initialize())
-                {
-                        llassert_always(FALSE);
-                        return STATUS_FAILURE;
-                }
-                addMotion(std::move(motion));
-        }
-        
-        return STATUS_SUCCESS;
+	// Butt LeftRight
+	{
+		LLPhysicsMotion::controller_map_t controller;
+		controller["Mass"] = "Butt_Physics_Mass";
+		controller["Gravity"] = "Butt_Physics_Gravity";
+		controller["Drag"] = "Butt_Physics_Drag";
+		controller["Damping"] = "Butt_Physics_LeftRight_Damping";
+		controller["MaxEffect"] = "Butt_Physics_LeftRight_Max_Effect";
+		controller["Spring"] = "Butt_Physics_LeftRight_Spring";
+		controller["Gain"] = "Butt_Physics_LeftRight_Gain";
+		auto motion = std::make_unique<LLPhysicsMotion>("Butt_Physics_LeftRight_Controller",
+			"mPelvis",
+			character,
+			LLVector3(0, -1, 0),
+			controller);
+		if (!motion->initialize())
+		{
+			llassert_always(FALSE);
+			return STATUS_FAILURE;
+		}
+		addMotion(std::move(motion));
+	}
+
+	// Belly Bounce
+	{
+		LLPhysicsMotion::controller_map_t controller;
+		controller["Mass"] = "Belly_Physics_Mass";
+		controller["Gravity"] = "Belly_Physics_Gravity";
+		controller["Drag"] = "Belly_Physics_Drag";
+		controller["Damping"] = "Belly_Physics_UpDown_Damping";
+		controller["MaxEffect"] = "Belly_Physics_UpDown_Max_Effect";
+		controller["Spring"] = "Belly_Physics_UpDown_Spring";
+		controller["Gain"] = "Belly_Physics_UpDown_Gain";
+		auto motion = std::make_unique<LLPhysicsMotion>("Belly_Physics_UpDown_Controller",
+			"mPelvis",
+			character,
+			LLVector3(0, 0, -1),
+			controller);
+		if (!motion->initialize())
+		{
+			llassert_always(FALSE);
+			return STATUS_FAILURE;
+		}
+		addMotion(std::move(motion));
+	}
+
+	return STATUS_SUCCESS;
 }
 
 void LLPhysicsMotionController::addMotion(std::unique_ptr<LLPhysicsMotion> motion)

@@ -89,6 +89,7 @@ LLMotion::LLMotionInitStatus LLHeadRotMotion::onInitialize(LLCharacter *characte
 {
 	if (!character)
 		return STATUS_FAILURE;
+
 	mCharacter = character;
 
 	mPelvisJoint = character->getJoint("mPelvis");
@@ -289,6 +290,9 @@ LLEyeMotion::LLEyeMotion(const LLUUID &id) : LLMotion(id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLEyeMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	mCharacter = character;
 
 	mHeadJoint = character->getJoint("mHead");

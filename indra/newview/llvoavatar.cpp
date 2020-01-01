@@ -320,7 +320,7 @@ public:
 	// must return true to indicate success and be available for activation
 	LLMotionInitStatus onInitialize(LLCharacter *character) override
 	{
-		if( !mTorsoState->setJoint( character->getJoint("mTorso") ))
+		if (!character || !mTorsoState->setJoint(character->getJoint("mTorso")))
 		{
 			return STATUS_FAILURE;
 		}
@@ -379,8 +379,7 @@ public:
 	// Constructor
 	LLBreatheMotionRot(const LLUUID &id) :
 		LLMotion(id),
-		mBreatheRate(1.f),
-		mCharacter(nullptr)
+		mBreatheRate(1.f)
 	{
 		mName = "breathe_rot";
 		mChestState = new LLJointState;
@@ -427,10 +426,9 @@ public:
 	// must return true to indicate success and be available for activation
 	LLMotionInitStatus onInitialize(LLCharacter *character) override
 	{		
-		mCharacter = character;
 		BOOL success = true;
 
-		if ( !mChestState->setJoint( character->getJoint( "mChest" ) ) )
+		if (!character || !mChestState->setJoint(character->getJoint("mChest")))
 		{
 			success = false;
 		}
@@ -479,7 +477,6 @@ private:
 	//-------------------------------------------------------------------------
 	LLPointer<LLJointState> mChestState;
 	F32					mBreatheRate;
-	LLCharacter*		mCharacter;
 };
 
 //-----------------------------------------------------------------------------
@@ -491,7 +488,7 @@ class LLPelvisFixMotion final :
 public:
 	// Constructor
 	LLPelvisFixMotion(const LLUUID &id)
-		: LLMotion(id), mCharacter(nullptr)
+		: LLMotion(id)
 	{
 		mName = "pelvis_fix";
 
@@ -539,7 +536,8 @@ public:
 	// must return true to indicate success and be available for activation
 	LLMotionInitStatus onInitialize(LLCharacter *character) override
 	{
-		mCharacter = character;
+		if (!character)
+			return STATUS_FAILURE;
 
 		if (!mPelvisState->setJoint( character->getJoint("mPelvis")))
 		{
@@ -575,7 +573,6 @@ private:
 	// joint states to be animated
 	//-------------------------------------------------------------------------
 	LLPointer<LLJointState> mPelvisState;
-	LLCharacter*		mCharacter;
 };
 
 /**

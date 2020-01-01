@@ -71,6 +71,9 @@ LLEditingMotion::LLEditingMotion( const LLUUID &id) : LLMotion(id)
 //-----------------------------------------------------------------------------
 LLMotion::LLMotionInitStatus LLEditingMotion::onInitialize(LLCharacter *character)
 {
+	if (!character)
+		return STATUS_FAILURE;
+
 	// save character for future use
 	mCharacter = character;
 

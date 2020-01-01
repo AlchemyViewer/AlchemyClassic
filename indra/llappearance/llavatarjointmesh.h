@@ -76,7 +76,6 @@ protected:
 
 	U32							mNumSkinJoints;
 	LLSkinJoint*				mSkinJoints;
-	S32							mMeshID;
 
 public:
 	static BOOL					sPipelineRender;
@@ -124,9 +123,6 @@ public:
 
 	// Render time method to upload batches of joint matrices
 	void uploadJointMatrices();
-
-	// Sets ID for picking
-	void setMeshID( S32 id ) {mMeshID = id;}
 
 	// Gets ID for picking
 	S32 getMeshID() { return mMeshID; }	

@@ -71,7 +71,6 @@ void LLAvatarJoint::init()
 	mMinPixelArea = DEFAULT_AVATAR_JOINT_LOD;
 	mPickName = PN_DEFAULT;
 	mVisible = TRUE;
-	mMeshID = 0;
 	mIsTransparent = FALSE;
 }
 

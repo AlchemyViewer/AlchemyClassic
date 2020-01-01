@@ -184,7 +184,7 @@ public:
 	void setParent(LLFloaterPreference* parent) { mParent = parent; }
 	
 	BOOL handleKeyHere(KEY key, MASK mask) override;
-	BOOL handleAnyMouseClick(S32 x, S32 y, MASK mask, LLMouseHandler::EClickType clicktype, BOOL down);
+	BOOL handleAnyMouseClick(S32 x, S32 y, MASK mask, LLMouseHandler::EClickType clicktype, BOOL down) override;
 	static void onCancel(void* user_data);
 		
 private:

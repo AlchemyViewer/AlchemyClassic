@@ -870,16 +870,10 @@ class DarwinManifest(ViewerManifest):
                         self.path("*.png")
                         self.path("*.gif")
 
-                with self.prefix(src=relpkgdir, dst=""):
-                    self.path("libndofdev.dylib")
-                    self.path("libhunspell-1.3.a")   
-
                 with self.prefix(src_dst="cursors_mac"):
                     self.path("*.tif")
 
-                self.path("licenses-mac.txt", dst="licenses.txt")
                 self.path("featuretable_mac.txt")
-                self.path("Alchemy.nib")
 
                 with self.prefix(src=pkgdir,dst=""):
                     self.path("ca-bundle.crt")
@@ -939,17 +933,11 @@ class DarwinManifest(ViewerManifest):
                 libfile_parent = self.get_dst_prefix()
                 dylibs=[]
                 for libfile in (
-                                "libapr-1.0.dylib",
-                                "libaprutil-1.0.dylib",
-                                "libexpat.1.dylib",
-                                "libexception_handler.dylib",
                                 "libGLOD.dylib",
-                                "libfreetype.*dylib",
                                 "libopenjpeg.dylib",
                                 # libnghttp2.dylib is a symlink to
                                 # libnghttp2.major.dylib, which is a symlink to
                                 # libnghttp2.version.dylib. Get all of them.
-                                "libnghttp2.*dylib",
                                 ):
                     dylibs += path_optional(os.path.join(relpkgdir, libfile), libfile)
 
@@ -1169,16 +1157,16 @@ class DarwinManifest(ViewerManifest):
                         [newpath, self.dst_path_of(dylibexecutable)])
 
                     # copy LibVLC plugin itself
-                    self.path2basename("../media_plugins/libvlc/" + self.args['configuration'],
-                                       "media_plugin_libvlc.dylib")
+                    #self.path2basename("../media_plugins/libvlc/" + self.args['configuration'],
+                    #                   "media_plugin_libvlc.dylib")
 
                     # copy LibVLC dynamic libraries
-                    with self.prefix(src=relpkgdir, dst="lib"):
-                        self.path( "libvlc*.dylib*" )
-                        # copy LibVLC plugins folder
-                        with self.prefix(src='plugins', dst=""):
-                            self.path( "*.dylib" )
-                            self.path( "plugins.dat" )
+                    #with self.prefix(src=relpkgdir, dst="lib"):
+                    #    self.path( "libvlc*.dylib*" )
+                    #    # copy LibVLC plugins folder
+                    #    with self.prefix(src='plugins', dst=""):
+                    #        self.path( "*.dylib" )
+                    #        self.path( "plugins.dat" )
 
     def package_finish(self):
         global CHANNEL_VENDOR_BASE

@@ -371,59 +371,62 @@ void LLControlAvatar::updateDebugText()
 
         for (auto volp : volumes)
         {
-            S32 verts = 0;
-            total_tris += volp->getTriangleCount(&verts);
-            total_verts += verts;
-            est_tris += volp->getEstTrianglesMax();
-            est_streaming_tris += volp->getEstTrianglesStreamingCost();
-            streaming_cost += volp->getStreamingCost();
-            lod_string += llformat("%d",volp->getLOD());
-            if (volp && volp->mDrawable)
+            if (volp)
             {
-                bool is_animated_flag = volp->getExtendedMeshFlags() & LLExtendedMeshParams::ANIMATED_MESH_ENABLED_FLAG;
-                if (is_animated_flag)
+                S32 verts = 0;
+                total_tris += volp->getTriangleCount(&verts);
+                total_verts += verts;
+                est_tris += volp->getEstTrianglesMax();
+                est_streaming_tris += volp->getEstTrianglesStreamingCost();
+                streaming_cost += volp->getStreamingCost();
+                lod_string += llformat("%d", volp->getLOD());
+                if (volp->mDrawable)
                 {
-                    animated_object_flag_string += "1";
+                    bool is_animated_flag = volp->getExtendedMeshFlags() & LLExtendedMeshParams::ANIMATED_MESH_ENABLED_FLAG;
+                    if (is_animated_flag)
+                    {
+                        animated_object_flag_string += "1";
+                    }
+                    else
+                    {
+                        animated_object_flag_string += "0";
+                    }
+                    if (volp->mDrawable->isActive())
+                    {
+                        active_string += "A";
+                    }
+                    else
+                    {
+                        active_string += "S";
+                    }
+                    if (volp->isRiggedMesh())
+                    {
+                        // Rigged/animatable mesh
+                        type_string += "R";
+                        lod_radius = volp->mLODRadius;
+                    }
+                    else if (volp->isMesh())
+                    {
+                        // Static mesh
+                        type_string += "M";
+                    }
+                    else
+                    {
+                        // Any other prim
+                        type_string += "P";
+                    }
+                    if (cam_dist_count < 4)
+                    {
+                        cam_dist_string += LLStringOps::getReadableNumber(volp->mLODDistance) + "/" +
+                            LLStringOps::getReadableNumber(volp->mLODAdjustedDistance) + " ";
+                        cam_dist_count++;
+                    }
                 }
                 else
                 {
-                    animated_object_flag_string += "0";
+                    active_string += "-";
+                    type_string += "-";
                 }
-                if (volp->mDrawable->isActive())
-                {
-                    active_string += "A";
-                }
-                else
-                {
-                    active_string += "S";
-                }
-                if (volp->isRiggedMesh())
-                {
-                    // Rigged/animatable mesh
-                    type_string += "R";
-                    lod_radius = volp->mLODRadius;
-                }
-                else if (volp->isMesh())
-                {
-                    // Static mesh
-                    type_string += "M";
-                }
-                else
-                {
-                    // Any other prim
-                    type_string += "P";
-                }
-                if (cam_dist_count < 4)
-                {
-                    cam_dist_string += LLStringOps::getReadableNumber(volp->mLODDistance) + "/" +
-                        LLStringOps::getReadableNumber(volp->mLODAdjustedDistance) + " ";
-                    cam_dist_count++;
-                }
-            }
-            else
-            {
-                active_string += "-";
-                type_string += "-";
             }
         }
         addDebugText(llformat("CAV obj %d anim %d active %s impost %d upprd %d strcst %f",
@@ -504,7 +507,8 @@ void LLControlAvatar::updateAnimations()
     {
         LLVOVolume *volp = *vol_it;
         //LL_INFOS("AnimatedObjects") << "updating anim for vol " << volp->getID() << " root " << mRootVolp->getID() << LL_ENDL;
-        signaled_animation_map_t& signaled_animations = LLObjectSignaledAnimationMap::instance().getMap()[volp->getID()];
+        auto& signaled_anim_map = LLObjectSignaledAnimationMap::instance().getMap();
+        signaled_animation_map_t& signaled_animations = signaled_anim_map[volp->getID()];
         for (auto anim_it = signaled_animations.begin(), anim_it_end = signaled_animations.end();
              anim_it != anim_it_end;
              ++anim_it)

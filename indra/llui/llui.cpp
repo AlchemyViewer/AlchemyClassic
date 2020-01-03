@@ -91,18 +91,19 @@ LLUUID find_ui_sound(const char * namep)
 	std::string name = ll_safe_string(namep);
 	LLUUID uuid = LLUUID(NULL);
 	LLUI *ui_inst = LLUI::getInstance();
-	if (!ui_inst->mSettingGroups["config"]->controlExists(name))
+	auto config_group = ui_inst->mSettingGroups["config"];
+	if (!config_group->controlExists(name))
 	{
 		LL_WARNS() << "tried to make UI sound for unknown sound name: " << name << LL_ENDL;	
 	}
 	else
 	{
-		uuid = LLUUID(ui_inst->mSettingGroups["config"]->getString(name));
+		uuid = LLUUID(config_group->getString(name));
 		if (uuid.isNull())
 		{
-			if (ui_inst->mSettingGroups["config"]->getString(name) == LLUUID::null.asString())
+			if (config_group->getString(name) == LLUUID::null.asString())
 			{
-				if (ui_inst->mSettingGroups["config"]->getBOOL("UISndDebugSpamToggle"))
+				if (config_group->getBOOL("UISndDebugSpamToggle"))
 				{
 					LL_INFOS() << "UI sound name: " << name << " triggered but silent (null uuid)" << LL_ENDL;	
 				}				
@@ -114,7 +115,7 @@ LLUUID find_ui_sound(const char * namep)
 		}
 		else if (ui_inst->mAudioCallback != NULL)
 		{
-			if (ui_inst->mSettingGroups["config"]->getBOOL("UISndDebugSpamToggle"))
+			if (config_group->getBOOL("UISndDebugSpamToggle"))
 			{
 				LL_INFOS() << "UI sound name: " << name << LL_ENDL;	
 			}

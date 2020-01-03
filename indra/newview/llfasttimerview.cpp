@@ -793,7 +793,7 @@ LLSD LLFastTimerView::analyzePerformanceLogDefault(std::istream& is)
 	stats_map_t time_stats;
 	stats_map_t sample_stats;
 
-	while (!is.eof() && LLSDParser::PARSE_FAILURE != LLSDSerialize::fromXML(cur, is))
+	while (!is.eof() && !is.fail() && LLSDParser::PARSE_FAILURE != LLSDSerialize::fromXML(cur, is))
 	{
 		for (LLSD::map_iterator iter = cur.beginMap(); iter != cur.endMap(); ++iter)
 		{

@@ -4733,7 +4733,7 @@ LLVolumeFace& LLVolumeFace::operator=(const LLVolumeFace& src)
 
 	if (mNumIndices)
 	{
-		S32 idx_size = (mNumIndices*sizeof(U16)+0xF) & ~0xF;
+		size_t idx_size = (mNumIndices*sizeof(U16)+0xF) & ~0xF;
 		
 		LLVector4a::memcpyNonAliased16((F32*) mIndices, (F32*) src.mIndices, idx_size);
 	}

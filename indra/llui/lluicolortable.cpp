@@ -84,7 +84,7 @@ void LLUIColorTable::insertFromParams(const Params& p, string_color_map_t& table
 		visited_refs.clear();
 
 		string_string_map_t::iterator current = unresolved_refs.begin();
-		string_string_map_t::iterator previous;
+		string_string_map_t::iterator previous = current;
 
 		while(true)
 		{

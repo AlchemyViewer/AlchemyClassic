@@ -395,7 +395,7 @@ void LLAgentCamera::slamLookAt(const LLVector3 &look_at)
 //-----------------------------------------------------------------------------
 // calcFocusOffset()
 //-----------------------------------------------------------------------------
-LLVector3 LLAgentCamera::calcFocusOffset(LLViewerObject *object, LLVector3 original_focus_point, S32 x, S32 y) const
+LLVector3 LLAgentCamera::calcFocusOffset(LLViewerObject *object, const LLVector3& original_focus_point, S32 x, S32 y) const
 {
 	LLMatrix4 obj_matrix = object->getRenderMatrix();
 	LLQuaternion obj_rot = object->getRenderRotation();
@@ -2027,7 +2027,7 @@ bool LLAgentCamera::allowFocusOffsetChange(const LLVector3d& offsetFocus)
 	return true;
 }
 
-bool LLAgentCamera::clampCameraPosition(LLVector3d& posCamGlobal, const LLVector3d posCamRefGlobal, float nDistMin, float nDistMax)
+bool LLAgentCamera::clampCameraPosition(LLVector3d& posCamGlobal, const LLVector3d& posCamRefGlobal, float nDistMin, float nDistMax)
 {
 	const LLVector3d offsetCamera = posCamGlobal - posCamRefGlobal;
 

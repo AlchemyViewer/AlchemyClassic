@@ -453,7 +453,7 @@ void LLConversationViewSession::refresh()
 	}
 
 	LLConversationViewParticipant* participant = nullptr;
-	for (auto iter = getItemsBegin(); iter != getItemsEnd(); iter++)
+	for (auto iter = getItemsBegin(); iter != getItemsEnd(); ++iter)
 	{
 		participant = dynamic_cast<LLConversationViewParticipant*>(*iter);
 		if (participant)

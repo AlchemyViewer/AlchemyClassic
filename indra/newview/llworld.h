@@ -59,9 +59,9 @@ class CapUrlMatches
 {
 public:
 	CapUrlMatches(std::set<LLViewerRegion*>& regions, std::set<std::string>& cap_names)
+		: mRegions(regions)
+		, mCapNames(cap_names)
 	{
-		mRegions = regions;
-		mCapNames = cap_names;
 	}
 
 	std::set<LLViewerRegion*> mRegions;

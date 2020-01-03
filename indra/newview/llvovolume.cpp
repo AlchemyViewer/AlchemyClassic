@@ -3125,7 +3125,7 @@ S32 LLVOVolume::getFaceIndexWithMediaImpl(const LLViewerMediaImpl* media_impl, S
 
 //----------------------------------------------------------------------------
 
-void LLVOVolume::setLightTextureID(LLUUID id)
+void LLVOVolume::setLightTextureID(const LLUUID& id)
 {
 	LLViewerTexture* old_texturep = getLightTexture(); // same as mLightTexture, but inits if nessesary
 	if (id.notNull())
@@ -3166,7 +3166,7 @@ void LLVOVolume::setLightTextureID(LLUUID id)
 	}		
 }
 
-void LLVOVolume::setSpotLightParams(LLVector3 params)
+void LLVOVolume::setSpotLightParams(const LLVector3& params)
 {
 	LLLightImageParams* param_block = (LLLightImageParams*) getParameterEntry(LLNetworkData::PARAMS_LIGHT_IMAGE);
 	if (param_block && param_block->getParams() != params)

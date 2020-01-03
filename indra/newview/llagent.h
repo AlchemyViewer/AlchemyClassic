@@ -794,7 +794,7 @@ public:
 	bool 			canAccessMature() const;
 	bool 			canAccessAdult() const;
 	bool 			canAccessMaturityInRegion( U64 region_handle ) const;
-	bool 			canAccessMaturityAtGlobal( LLVector3d pos_global ) const;
+	bool 			canAccessMaturityAtGlobal( const LLVector3d& pos_global ) const;
 	bool 			prefersPG() const;
 	bool 			prefersMature() const;
 	bool 			prefersAdult() const;

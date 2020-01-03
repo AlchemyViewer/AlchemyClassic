@@ -1012,7 +1012,7 @@ void LLFavoritesBarCtrl::updateMenuItems(LLToggleableMenu* menu)
 void LLFavoritesBarCtrl::fitLabelWidth(LLMenuItemCallGL* menu_item)
 {
 	U32 max_width = llmin(DROP_DOWN_MENU_WIDTH, getRect().getWidth());
-	std::string item_name = menu_item->getName();
+	const std::string& item_name = menu_item->getName();
 
 	// Check whether item name wider than menu
 	if (menu_item->getNominalWidth() > max_width)

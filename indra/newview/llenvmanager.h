@@ -106,7 +106,7 @@ public:
 		scope = EScope(llsd[SCOPE_IDX].asInteger());
 	}
 
-	inline bool operator <(const LLWLParamKey other) const
+	inline bool operator <(const LLWLParamKey& other) const
 	{
 		if (name < other.name)
 		{	
@@ -122,7 +122,7 @@ public:
 		}
 	}
 
-	inline bool operator ==(const LLWLParamKey other) const
+	inline bool operator ==(const LLWLParamKey& other) const
 	{
 		return (name == other.name) && (scope == other.scope);
 	}

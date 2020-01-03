@@ -121,7 +121,7 @@ private:
 
 	F32Seconds updateTimerBarWidths(LLTrace::BlockTimerStatHandle* time_block, TimerBarRow& row, S32 history_index, U32& bar_index);
 	S32 updateTimerBarOffsets(LLTrace::BlockTimerStatHandle* time_block, TimerBarRow& row, S32 timer_bar_index = 0);
-	S32 drawBar(LLRect bar_rect, TimerBarRow& row, S32 image_width, S32 image_height, bool hovered = false, bool visible = true, S32 bar_index = 0);
+	S32 drawBar(const LLRect& bar_rect, const TimerBarRow& row, S32 image_width, S32 image_height, bool hovered = false, bool visible = true, S32 bar_index = 0);
 	void setPauseState(bool pause_state);
 
 	std::deque<TimerBarRow> mTimerBarRows;

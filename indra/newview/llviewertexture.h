@@ -332,7 +332,7 @@ public:
 	BOOL needsAux() const { return mNeedsAux; }
 
 	// Host we think might have this image, used for baked av textures.
-	void setTargetHost(LLHost host)			{ mTargetHost = host; }
+	void setTargetHost(const LLHost& host)			{ mTargetHost = host; }
 	LLHost getTargetHost() const			{ return mTargetHost; }
 	
 	// Set the decode priority for this image...

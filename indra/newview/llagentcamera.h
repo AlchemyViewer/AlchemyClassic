@@ -204,7 +204,7 @@ private:
 	//--------------------------------------------------------------------
 public:
 	LLVector3d		calcFocusPositionTargetGlobal();
-	LLVector3		calcFocusOffset(LLViewerObject *object, LLVector3 pos_agent, S32 x, S32 y) const;
+	LLVector3		calcFocusOffset(LLViewerObject *object, const LLVector3& pos_agent, S32 x, S32 y) const;
 	BOOL			getFocusOnAvatar() const		{ return mFocusOnAvatar; }
 	LLPointer<LLViewerObject>&	getFocusObject() 	{ return mFocusObject; }
 	F32				getFocusObjectDist() const		{ return mFocusObjectDist; }
@@ -252,7 +252,7 @@ public:
 	//--------------------------------------------------------------------
 public:
 	LLVector3d		calcThirdPersonFocusOffset();
-	void			setThirdPersonHeadOffset(LLVector3 offset) 	{ mThirdPersonHeadOffset = offset; }	
+	void			setThirdPersonHeadOffset(const LLVector3& offset) 	{ mThirdPersonHeadOffset = offset; }	
 private:
 	LLVector3		mThirdPersonHeadOffset;						// Head offset for third person camera position
 
@@ -316,7 +316,7 @@ public:
 	//--------------------------------------------------------------------
 protected:
 	bool allowFocusOffsetChange(const LLVector3d& offsetFocus);
-	bool clampCameraPosition(LLVector3d& posCamGlobal, const LLVector3d posCamRefGlobal, float nDistMin, float nDistMax);
+	bool clampCameraPosition(LLVector3d& posCamGlobal, const LLVector3d& posCamRefGlobal, float nDistMin, float nDistMax);
 
 	bool m_fRlvMaxDist;				// True if the camera is at max distance
 	bool m_fRlvMinDist;				// True if the camera is at min distance

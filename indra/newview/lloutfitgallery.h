@@ -267,7 +267,7 @@ public:
     void setOutfitName(std::string name);
     void setOutfitWorn(bool value);
     void setSelected(bool value);
-    void setUUID(LLUUID outfit_id) {mUUID = outfit_id;}
+    void setUUID(const LLUUID& outfit_id) {mUUID = outfit_id;}
     
     std::string getItemName() {return mOutfitName;}
     bool isDefaultImage() {return mDefaultImage;}

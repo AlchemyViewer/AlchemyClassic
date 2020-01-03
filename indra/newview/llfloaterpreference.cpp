@@ -769,7 +769,6 @@ skin_t manifestFromJson(const std::string& filename, const ESkinType type)
 {
 	skin_t skin;
 	nlohmann::json root;
-	std::string errors;
 	llifstream in;
 	in.open(filename);
 	if (in.is_open())

@@ -280,8 +280,8 @@ void LLFloaterIMNearbyChatToastPanel::init(LLSD& notification)
 	int chars = 0;
 
 	//Remove excessive chars if message does not fit in available height. MAINT-6891
-	std::string::iterator it;
-	for (it = messageText.begin(); it < messageText.end() && lines < max_lines; it++)
+	std::string::iterator it = messageText.begin();
+	for (auto it_end = messageText.end(); it < it_end && lines < max_lines; ++it)
 	{
 		if (*it == '\n')
 			++lines;

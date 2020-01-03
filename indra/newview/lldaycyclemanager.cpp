@@ -82,7 +82,7 @@ void LLDayCycleManager::getUserPresetNames(preset_name_list_t& user) const
 	getPresetNames(user, sys);
 }
 
-bool LLDayCycleManager::getPreset(const std::string name, LLWLDayCycle& day_cycle) const
+bool LLDayCycleManager::getPreset(const std::string& name, LLWLDayCycle& day_cycle) const
 {
 	dc_map_t::const_iterator it = mDayCycleMap.find(name);
 	if (it == mDayCycleMap.end())
@@ -94,7 +94,7 @@ bool LLDayCycleManager::getPreset(const std::string name, LLWLDayCycle& day_cycl
 	return true;
 }
 
-bool LLDayCycleManager::getPreset(const std::string name, LLSD& day_cycle) const
+bool LLDayCycleManager::getPreset(const std::string& name, LLSD& day_cycle) const
 {
 	LLWLDayCycle dc;
 	if (!getPreset(name, dc))
@@ -106,7 +106,7 @@ bool LLDayCycleManager::getPreset(const std::string name, LLSD& day_cycle) const
 	return true;
 }
 
-bool LLDayCycleManager::presetExists(const std::string name) const
+bool LLDayCycleManager::presetExists(const std::string& name) const
 {
 	LLWLDayCycle dummy;
 	return getPreset(name, dummy);

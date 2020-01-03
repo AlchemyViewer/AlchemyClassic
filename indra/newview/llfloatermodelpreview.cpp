@@ -202,7 +202,7 @@ LLViewerFetchedTexture* bindMaterialDiffuseTexture(const LLImportMaterial& mater
 	return nullptr;
 }
 
-std::string stripSuffix(std::string name)
+std::string stripSuffix(const std::string& name)
 {
 	if ((name.find("_LOD") != std::string::npos) || (name.find("_PHYS") != std::string::npos))
 	{
@@ -4569,7 +4569,7 @@ void LLFloaterModelPreview::DecompRequest::completed()
 	}
 }
 
-void dump_llsd_to_file(const LLSD& content, std::string filename);
+void dump_llsd_to_file(const LLSD& content, const std::string& filename);
 
 void LLFloaterModelPreview::onPermissionsReceived(const LLSD& result)
 {

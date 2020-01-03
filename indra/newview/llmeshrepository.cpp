@@ -408,12 +408,12 @@ namespace {
 }
 
 static S32 dump_num = 0;
-std::string make_dump_name(std::string prefix, S32 num)
+std::string make_dump_name(const std::string& prefix, S32 num)
 {
 	return prefix + fmt::to_string(num) + LLStringExplicit(".xml");
 }
-void dump_llsd_to_file(const LLSD& content, std::string filename);
-LLSD llsd_from_file(std::string filename);
+void dump_llsd_to_file(const LLSD& content, const std::string& filename);
+LLSD llsd_from_file(const std::string& filename);
 
 const std::string header_lod[] = 
 {
@@ -2158,7 +2158,7 @@ void LLMeshUploadThread::run()
 	}
 }
 
-void dump_llsd_to_file(const LLSD& content, std::string filename)
+void dump_llsd_to_file(const LLSD& content, const std::string& filename)
 {
 	if (gSavedSettings.getBOOL("MeshUploadLogXML"))
 	{
@@ -2167,9 +2167,9 @@ void dump_llsd_to_file(const LLSD& content, std::string filename)
 	}
 }
 
-LLSD llsd_from_file(std::string filename)
+LLSD llsd_from_file(const std::string& filename)
 {
-	llifstream ifs(filename.c_str());
+	llifstream ifs(filename);
 	LLSD result;
 	LLSDSerialize::fromXML(result,ifs);
 	return result;
@@ -3821,18 +3821,19 @@ void LLMeshRepository::notifyLoadedMeshes()
 		}
 		hold_offs = 0;
 		
-		if (gAgent.getRegion())
+		LLViewerRegion* regionp = gAgent.getRegion();
+		if (regionp)
 		{
 			// Update capability urls
 			static std::string region_name("never name a region this");
 			
-			if (gAgent.getRegion()->getName() != region_name && gAgent.getRegion()->capabilitiesReceived())
+			if (regionp->getName() != region_name && regionp->capabilitiesReceived())
 			{
-				region_name = gAgent.getRegion()->getName();
+				region_name = regionp->getName();
 				const bool use_v1(gSavedSettings.getBOOL("MeshUseGetMesh1"));
-				const std::string mesh_cap(gAgent.getRegion()->getViewerAssetUrl());
-				const std::string legacy_mesh1_cap(gAgent.getRegion()->getCapability("GetMesh"));
-				const std::string legacy_mesh2_cap(gAgent.getRegion()->getCapability("GetMesh2"));
+				const std::string mesh_cap(regionp->getViewerAssetUrl());
+				const std::string legacy_mesh1_cap(regionp->getCapability("GetMesh"));
+				const std::string legacy_mesh2_cap(regionp->getCapability("GetMesh2"));
 				mLegacyGetMeshVersion = ((mesh_cap.empty() && legacy_mesh2_cap.empty()) || use_v1) ? 1 : (!mesh_cap.empty() ? 0 : 2);
 				mThread->setGetMeshCap(mesh_cap, legacy_mesh1_cap, legacy_mesh2_cap, mLegacyGetMeshVersion);
 				LL_DEBUGS(LOG_MESH) << "Retrieving caps for region '" << region_name

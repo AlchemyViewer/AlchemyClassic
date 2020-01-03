@@ -337,16 +337,15 @@ LLConversationItemParticipant* LLConversationItemSession::findParticipant(const 
 	// This is *not* a general tree parsing algorithm. It assumes that a session contains only 
 	// items (LLConversationItemParticipant) that have themselve no children.
 	LLConversationItemParticipant* participant = nullptr;
-	child_list_t::iterator iter;
-	for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
+	for (auto iter = mChildren.begin(), iter_end = mChildren.end(); iter != iter_end; ++iter)
 	{
 		participant = dynamic_cast<LLConversationItemParticipant*>(*iter);
 		if (participant->hasSameValue(participant_id))
 		{
-			break;
+			return (iter == mChildren.end() ? NULL : participant);
 		}
 	}
-	return (iter == mChildren.end() ? NULL : participant);
+	return nullptr;
 }
 
 void LLConversationItemSession::setParticipantIsMuted(const LLUUID& participant_id, bool is_muted)
@@ -449,8 +448,7 @@ bool LLConversationItemSession::getTime(F64& time) const
 	F64 most_recent_time = mLastActiveTime;
 	bool has_time = (most_recent_time > 0.1);
 	LLConversationItemParticipant* participant = nullptr;
-	child_list_t::const_iterator iter;
-	for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
+	for (auto iter = mChildren.begin(), iter_end = mChildren.end(); iter != iter_end; ++iter)
 	{
 		participant = dynamic_cast<LLConversationItemParticipant*>(*iter);
 		F64 participant_time;

@@ -180,11 +180,11 @@ LLAvatarList::~LLAvatarList()
 
 void LLAvatarList::setShowIcons(std::string param_name)
 {
-	mIconParamName= param_name;
+	mIconParamName = std::move(param_name);
 	mShowIcons = gSavedSettings.getBOOL(mIconParamName);
 }
 
-std::string LLAvatarList::getAvatarName(LLAvatarName av_name)
+std::string LLAvatarList::getAvatarName(const LLAvatarName& av_name)
 {
 	return mShowCompleteName? av_name.getCompleteName(false) : av_name.getDisplayName();
 }
@@ -691,7 +691,7 @@ BOOL LLAvalineListItem::postBuild()
 		setShowProfileBtn(false);
 		setShowInfoBtn(false);
 		mAvatarIcon->setValue("Avaline_Icon");
-		mAvatarIcon->setToolTip(std::string(""));
+		mAvatarIcon->setToolTip(std::string());
 	}
 	return rv;
 }

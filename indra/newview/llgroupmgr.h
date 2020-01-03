@@ -153,7 +153,7 @@ public:
 	S32 getTotalMembersInRole() const { return mMemberCount ? mMemberCount : mMemberIDs.size(); } //FIXME: Returns 0 for Everyone role when Member list isn't yet loaded, see MAINT-5225
 
 	LLRoleData getRoleData() const { return mRoleData; }
-	void setRoleData(LLRoleData data) { mRoleData = data; }
+	void setRoleData(const LLRoleData& data) { mRoleData = data; }
 	
 	void addMember(const LLUUID& member);
 	bool removeMember(const LLUUID& member);

@@ -484,8 +484,7 @@ void LLChicletPanel::objectChicletCallback(const LLSD& data)
 	bool new_message = data["new_message"];
 
 	std::list<LLChiclet*> chiclets = LLIMChiclet::sFindChicletsSignal(notification_id);
-	std::list<LLChiclet *>::iterator iter;
-	for (iter = chiclets.begin(); iter != chiclets.end(); iter++)
+	for (auto iter = chiclets.begin(), iter_end = chiclets.end(); iter != iter_end; ++iter)
 	{
 		LLIMChiclet* chiclet = dynamic_cast<LLIMChiclet*>(*iter);
 		if (chiclet != nullptr)

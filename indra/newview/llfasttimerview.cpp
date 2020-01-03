@@ -1630,9 +1630,9 @@ S32 LLFastTimerView::updateTimerBarOffsets(LLTrace::BlockTimerStatHandle* time_b
 	return timer_bar_index;
 }
 
-S32 LLFastTimerView::drawBar(LLRect bar_rect, TimerBarRow& row, S32 image_width, S32 image_height, bool hovered, bool visible, S32 bar_index)
+S32 LLFastTimerView::drawBar(const LLRect& bar_rect, const TimerBarRow& row, S32 image_width, S32 image_height, bool hovered, bool visible, S32 bar_index)
 {
-	TimerBar& timer_bar = row.mBars[bar_index];
+	const TimerBar& timer_bar = row.mBars[bar_index];
 	LLTrace::BlockTimerStatHandle* time_block = timer_bar.mTimeBlock;
 
 	hovered |= mHoverID == time_block;

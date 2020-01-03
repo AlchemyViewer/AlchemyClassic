@@ -93,6 +93,7 @@ public:
 	LLSD mPostData;
 
 	LLTextureUploadData()
+		: mTexture(nullptr)
 	{
 		mRetries = 0;
 	}

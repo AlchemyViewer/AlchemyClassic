@@ -69,7 +69,7 @@ void al_handle_object_derender()
 	LLSelectMgr* select_mgr = LLSelectMgr::getInstance();
 	LLObjectSelectionHandle selection = select_mgr->getSelection();
 	std::vector<LLViewerObject*> objects;
-	for (LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); iter++)
+	for (LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); ++iter)
 	{
 		LLSelectNode* nodep = *iter;
 		if (!nodep)
@@ -124,7 +124,7 @@ class LLEnableEditParticleSource : public view_listener_t
 	{
 		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
 		for (LLObjectSelection::valid_root_iterator iter = selection->valid_root_begin();
-			iter != selection->valid_root_end(); iter++)
+			iter != selection->valid_root_end(); ++iter)
 		{
 			LLSelectNode* node = *iter;
 			if (node->mPermissions->getOwner() == gAgent.getID())

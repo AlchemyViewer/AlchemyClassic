@@ -31,13 +31,13 @@ LLEasyMessageReader::~LLEasyMessageReader()
 //we might want the sequenceid of the packet, which we can't get from
 //a messagetemplate pointer, allow for passing in a U32 to be replaced
 //with the sequenceid
-LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data_len, LLHost const& from_host)
+LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data_len, const LLHost& from_host)
 {
 	U32 fake_id = 0;
 	return decodeTemplateMessage(data, data_len, from_host, fake_id);
 }
 
-LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data_len, LLHost from_host, U32& sequence_id)
+LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data_len, const LLHost& from_host, U32& sequence_id)
 {
 	if(data_len > MAX_BUFFER_SIZE)
 	{

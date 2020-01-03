@@ -2684,7 +2684,7 @@ bool LLAgent::canAccessMaturityInRegion( U64 region_handle ) const
 	return true;
 }
 
-bool LLAgent::canAccessMaturityAtGlobal( LLVector3d pos_global ) const
+bool LLAgent::canAccessMaturityAtGlobal(const LLVector3d& pos_global ) const
 {
 	U64 region_handle = to_region_handle_global( pos_global.mdV[0], pos_global.mdV[1] );
 	return canAccessMaturityInRegion( region_handle );

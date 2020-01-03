@@ -53,9 +53,9 @@ public:
 	const std::string& findPreset(const std::string& strPresetName);
 // [/RLVa:KB]
 
-	bool getPreset(const std::string name, LLWLDayCycle& day_cycle) const;
-	bool getPreset(const std::string name, LLSD& day_cycle) const;
-	bool presetExists(const std::string name) const;
+	bool getPreset(const std::string& name, LLWLDayCycle& day_cycle) const;
+	bool getPreset(const std::string& name, LLSD& day_cycle) const;
+	bool presetExists(const std::string& name) const;
 	bool isSystemPreset(const std::string& name) const;
 	bool savePreset(const std::string& name, const LLSD& data);
 	bool deletePreset(const std::string& name);

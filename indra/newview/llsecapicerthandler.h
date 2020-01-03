@@ -484,9 +484,8 @@ class LLCertValidationExpirationException : public LLCertException
 public:
     LLCertValidationExpirationException(const LLSD& cert_data, const LLDate& current_time) 
     : LLCertException(cert_data, "CertExpired")
-    {
-        mTime = current_time;
-    }
+    , mTime(current_time)
+    { }
     virtual ~LLCertValidationExpirationException() noexcept = default;
     LLDate GetTime() const { return mTime; }
 protected:

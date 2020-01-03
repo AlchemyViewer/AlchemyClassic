@@ -105,9 +105,9 @@ void LLAvatarRenderInfoAccountant::avatarRenderInfoGetCoro(std::string url, U64 
         const LLSD & agents = result[KEY_AGENTS];
         if (agents.isMap())
         {
-            for (LLSD::map_const_iterator agent_iter = agents.beginMap();
-                 agent_iter != agents.endMap();
-                 agent_iter++
+            for (LLSD::map_const_iterator agent_iter = agents.beginMap(), agent_iter_end = agents.endMap();
+                 agent_iter != agent_iter_end;
+                 ++agent_iter
                  )
             {
                 LLUUID target_agent_id = LLUUID(agent_iter->first);
@@ -209,10 +209,11 @@ void LLAvatarRenderInfoAccountant::avatarRenderInfoReportCoro(std::string url, U
         {
             avatar->calculateUpdateRenderComplexity();			// Make sure the numbers are up-to-date
 
-            LLSD info = LLSD::emptyMap();
             U32 avatar_complexity = avatar->getVisualComplexity();
             if (avatar_complexity > 0)
             {
+                LLSD info = LLSD::emptyMap();
+
                 // the weight/complexity is unsigned, but LLSD only stores signed integers,
                 // so if it's over that (which would be ridiculously high), just store the maximum signed int value
                 info[KEY_WEIGHT] = (S32)(avatar_complexity < S32_MAX ? avatar_complexity : S32_MAX);
@@ -224,7 +225,7 @@ void LLAvatarRenderInfoAccountant::avatarRenderInfoReportCoro(std::string url, U
                 num_avs++;
             }
         }
-        iter++;
+        ++iter;
     }
 
     // Reset this regions timer, moving to longer intervals if there are lots of avatars around

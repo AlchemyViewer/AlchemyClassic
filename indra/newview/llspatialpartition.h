@@ -234,7 +234,7 @@ public:
 
 	struct CompareUpdateUrgency
 	{
-		bool operator()(const LLPointer<LLSpatialGroup> lhs, const LLPointer<LLSpatialGroup> rhs)
+		bool operator()(const LLPointer<LLSpatialGroup>& lhs, const LLPointer<LLSpatialGroup>& rhs)
 		{
 			return lhs->getUpdateUrgency() > rhs->getUpdateUrgency();
 		}

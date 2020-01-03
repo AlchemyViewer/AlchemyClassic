@@ -249,8 +249,8 @@ public:
 	void setLightRadius(F32 radius);
 	void setLightFalloff(F32 falloff);
 	void setLightCutoff(F32 cutoff);
-	void setLightTextureID(LLUUID id);
-	void setSpotLightParams(LLVector3 params);
+	void setLightTextureID(const LLUUID& id);
+	void setSpotLightParams(const LLVector3& params);
 
 	BOOL getIsLight() const;
 	LLColor3 getLightBaseColor() const; // not scaled by intensity

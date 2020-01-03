@@ -282,11 +282,11 @@ void LLMultiSliderCtrl::clear()
 	setCurSliderValue(0.0f);
 	if( mEditor )
 	{
-		mEditor->setText(std::string(""));
+		mEditor->setText(LLStringUtil::null);
 	}
 	if( mTextBox )
 	{
-		mTextBox->setText(std::string(""));
+		mTextBox->setText(LLStringUtil::null);
 	}
 
 	// get rid of sliders

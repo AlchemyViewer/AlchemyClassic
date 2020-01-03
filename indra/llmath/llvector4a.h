@@ -310,7 +310,7 @@ public:
 	void negate();
 
 	// Set this vector to  rhs(2, 3, 2, 3)
-	inline void setMoveHighLow(const LLVector4a rhs);
+	inline void setMoveHighLow(const LLVector4a& rhs);
 
 	// Move high order bits to low order bits (2, 3, 2, 3)
 	inline void moveHighLow();

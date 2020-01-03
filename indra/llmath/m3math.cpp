@@ -250,8 +250,6 @@ LLQuaternion	LLMatrix3::quaternion() const
 {
 	LLQuaternion	quat;
 	F32		tr, s, q[4];
-	U32		i, j, k;
-	U32		nxt[3] = {1, 2, 0};
 
 	tr = mMatrix[0][0] + mMatrix[1][1] + mMatrix[2][2];
 
@@ -267,6 +265,9 @@ LLQuaternion	LLMatrix3::quaternion() const
 	} 
 	else
 	{		
+		U32		i, j, k;
+		const U32 nxt[3] = { 1, 2, 0 };
+
 		// diagonal is negative
 		i = 0;
 		if (mMatrix[1][1] > mMatrix[0][0]) 

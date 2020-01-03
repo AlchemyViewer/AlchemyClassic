@@ -588,7 +588,7 @@ inline void LLVector4a::negate()
 	mQ = _mm_xor_ps(*reinterpret_cast<const LLQuad*>(signMask), mQ);
 }
 
-inline void LLVector4a::setMoveHighLow(const LLVector4a rhs)
+inline void LLVector4a::setMoveHighLow(const LLVector4a& rhs)
 {
 	mQ = _mm_movehl_ps(rhs.mQ, rhs.mQ);
 }

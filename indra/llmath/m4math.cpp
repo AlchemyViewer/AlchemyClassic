@@ -307,8 +307,6 @@ LLQuaternion	LLMatrix4::quaternion() const
 {
 	LLQuaternion	quat;
 	F32		tr, s, q[4];
-	U32		i, j, k;
-	U32		nxt[3] = {1, 2, 0};
 
 	tr = mMatrix[0][0] + mMatrix[1][1] + mMatrix[2][2];
 
@@ -324,6 +322,9 @@ LLQuaternion	LLMatrix4::quaternion() const
 	} 
 	else
 	{		
+		U32		i, j, k;
+		const U32 nxt[3] = { 1, 2, 0 };
+
 		// diagonal is negative
 		i = 0;
 		if (mMatrix[1][1] > mMatrix[0][0]) 
@@ -752,64 +753,6 @@ LLVector3 rotate_vector(const LLVector3 &a, const LLMatrix4 &b)
 				 a.mV[VY] * b.mMatrix[VY][VZ] + 
 				 a.mV[VZ] * b.mMatrix[VZ][VZ];
 	return vec;
-}
-
-bool operator==(const LLMatrix4 &a, const LLMatrix4 &b)
-{
-	U32		i, j;
-	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
-	{
-		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
-		{
-			if (a.mMatrix[j][i] != b.mMatrix[j][i])
-				return FALSE;
-		}
-	}
-	return TRUE;
-}
-
-bool operator!=(const LLMatrix4 &a, const LLMatrix4 &b)
-{
-	U32		i, j;
-	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
-	{
-		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
-		{
-			if (a.mMatrix[j][i] != b.mMatrix[j][i])
-				return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-bool operator<(const LLMatrix4& a, const LLMatrix4 &b)
-{
-	U32		i, j;
-	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
-	{
-		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
-		{
-			if (a.mMatrix[i][j] != b.mMatrix[i][j])
-			{
-				return a.mMatrix[i][j] < b.mMatrix[i][j];
-			}
-		}
-	}
-
-	return false;
-}
-
-const LLMatrix4& operator*=(LLMatrix4 &a, F32 k)
-{
-	U32		i, j;
-	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
-	{
-		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
-		{
-			a.mMatrix[j][i] *= k;
-		}
-	}
-	return a;
 }
 
 std::ostream& operator<<(std::ostream& s, const LLMatrix4 &a) 

@@ -4113,9 +4113,9 @@ public:
 };
 
 LLVertexIndexPair::LLVertexIndexPair(const LLVector3 &vertex, const S32 index)
+	: mVertex(vertex)
+	, mIndex(index)
 {
-	mVertex = vertex;
-	mIndex = index;
 }
 
 const F32 VERTEX_SLOP = 0.00001f;

@@ -239,7 +239,7 @@ public:
 	friend const LLMatrix4& operator+=(LLMatrix4 &a, const LLMatrix4 &b);	// Return a + b
 	friend const LLMatrix4& operator-=(LLMatrix4 &a, const LLMatrix4 &b);	// Return a - b
 	friend const LLMatrix4& operator*=(LLMatrix4 &a, const LLMatrix4 &b);	// Return a * b
-	friend const LLMatrix4& operator*=(LLMatrix4 &a, const F32 &b);			// Return a * b
+	friend const LLMatrix4& operator*=(LLMatrix4 &a, const F32 b);			// Return a * b
 
 	friend std::ostream&	 operator<<(std::ostream& s, const LLMatrix4 &a);	// Stream a
 };
@@ -294,6 +294,50 @@ inline bool LLMatrix4::isIdentity() const
 		mMatrix[3][3] == 1.f;
 }
 
+inline bool operator==(const LLMatrix4& a, const LLMatrix4& b)
+{
+	U32		i, j;
+	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
+		{
+			if (a.mMatrix[j][i] != b.mMatrix[j][i])
+				return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+inline bool operator!=(const LLMatrix4& a, const LLMatrix4& b)
+{
+	U32		i, j;
+	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
+		{
+			if (a.mMatrix[j][i] != b.mMatrix[j][i])
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+inline bool operator<(const LLMatrix4& a, const LLMatrix4& b)
+{
+	U32		i, j;
+	for (i = 0; i < NUM_VALUES_IN_MAT4; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT4; j++)
+		{
+			if (a.mMatrix[i][j] != b.mMatrix[i][j])
+			{
+				return a.mMatrix[i][j] < b.mMatrix[i][j];
+			}
+		}
+	}
+
+	return false;
+}
 
 /*
 inline LLMatrix4 operator*(const LLMatrix4 &a, const LLMatrix4 &b)
@@ -333,7 +377,7 @@ inline const LLMatrix4& operator*=(LLMatrix4 &a, const LLMatrix4 &b)
 	return a;
 }
 
-inline const LLMatrix4& operator*=(LLMatrix4 &a, const F32 &b)
+inline const LLMatrix4& operator*=(LLMatrix4 &a, const F32 b)
 {
 	U32		i, j;
 	LLMatrix4	mat;

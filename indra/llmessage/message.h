@@ -140,14 +140,14 @@ enum EPacketHeaderLayout
 
 
 const S32 LL_DEFAULT_RELIABLE_RETRIES = 3;
-const F32Seconds LL_MINIMUM_RELIABLE_TIMEOUT_SECONDS(1.f);
-const F32Seconds LL_MINIMUM_SEMIRELIABLE_TIMEOUT_SECONDS(1.f);
-const F32Seconds LL_PING_BASED_TIMEOUT_DUMMY(0.0f);
+extern const F32Seconds LL_MINIMUM_RELIABLE_TIMEOUT_SECONDS;
+extern const F32Seconds LL_MINIMUM_SEMIRELIABLE_TIMEOUT_SECONDS;
+extern const F32Seconds LL_PING_BASED_TIMEOUT_DUMMY;
 
 const F32 LL_SEMIRELIABLE_TIMEOUT_FACTOR	= 5.f;		// averaged ping
 const F32 LL_RELIABLE_TIMEOUT_FACTOR		= 5.f;		// averaged ping
 const F32 LL_LOST_TIMEOUT_FACTOR			= 16.f;     // averaged ping for marking packets "Lost"
-const F32Seconds LL_MAX_LOST_TIMEOUT(5.f);				// Maximum amount of time before considering something "lost"
+extern const F32Seconds LL_MAX_LOST_TIMEOUT;				// Maximum amount of time before considering something "lost"
 
 const S32 MAX_MESSAGE_COUNT_NUM = 1024;
 

@@ -60,6 +60,11 @@
 const S32 PING_START_BLOCK = 3;		// How many pings behind we have to be to consider ourself blocked.
 const S32 PING_RELEASE_BLOCK = 2;	// How many pings behind we have to be to consider ourself unblocked.
 
+const F32Milliseconds LL_AVERAGED_PING_MAX(2000);
+const F32Milliseconds LL_AVERAGED_PING_MIN(100);    // increased to avoid retransmits when a process is slow
+
+const U32Milliseconds INITIAL_PING_VALUE_MSEC(1000); // initial value for the ping delay, or for ping delay for an unknown circuit
+
 const F32Seconds TARGET_PERIOD_LENGTH(5.f);
 const F32Seconds LL_DUPLICATE_SUPPRESSION_TIMEOUT(60.f); //this can be long, as time-based cleanup is
 													// only done when wrapping packetids, now...

@@ -52,6 +52,8 @@
 #include "llmetrics.h"
 #include "lltrace.h"
 
+const F64Minutes LL_ASSET_STORAGE_TIMEOUT(5);
+
 LLAssetStorage *gAssetStorage = nullptr;
 LLMetrics *LLAssetStorage::metric_recipient = nullptr;
 

@@ -41,10 +41,10 @@
 // Constants
 //
 const F32 LL_AVERAGED_PING_ALPHA = 0.2f;  // relaxation constant on ping running average
-const F32Milliseconds LL_AVERAGED_PING_MAX(2000);    
-const F32Milliseconds LL_AVERAGED_PING_MIN(100);    // increased to avoid retransmits when a process is slow
+extern const F32Milliseconds LL_AVERAGED_PING_MAX;    
+extern const F32Milliseconds LL_AVERAGED_PING_MIN;    // increased to avoid retransmits when a process is slow
 
-const U32Milliseconds INITIAL_PING_VALUE_MSEC(1000); // initial value for the ping delay, or for ping delay for an unknown circuit
+extern const U32Milliseconds INITIAL_PING_VALUE_MSEC; // initial value for the ping delay, or for ping delay for an unknown circuit
 
 const TPACKETID LL_MAX_OUT_PACKET_ID = 0x01000000;
 const int LL_ERR_CIRCUIT_GONE   = -23017;

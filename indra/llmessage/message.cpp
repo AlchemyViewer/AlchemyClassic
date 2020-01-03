@@ -77,6 +77,11 @@
 #include "llpounceable.h"
 
 // Constants
+const F32Seconds LL_MINIMUM_RELIABLE_TIMEOUT_SECONDS(1.f);
+const F32Seconds LL_MINIMUM_SEMIRELIABLE_TIMEOUT_SECONDS(1.f);
+const F32Seconds LL_PING_BASED_TIMEOUT_DUMMY(0.0f);
+const F32Seconds LL_MAX_LOST_TIMEOUT(5.f);				// Maximum amount of time before considering something "lost"
+
 //const char* MESSAGE_LOG_FILENAME = "message.log";
 static const F32Seconds CIRCUIT_DUMP_TIMEOUT(30.f);
 static const S32 TRUST_TIME_WINDOW = 3;

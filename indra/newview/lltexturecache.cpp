@@ -1282,7 +1282,7 @@ void LLTextureCache::writeEntryToHeaderImmediately(S32& idx, Entry& entry, bool 
 	{
 		aprfile = openHeaderEntriesFile(false, offset);
 	}
-	bytes_written = aprfile->write((void*)&entry, (S32)sizeof(Entry));
+	bytes_written = aprfile->write((void*)&entry, sizeof(Entry));
 	if(bytes_written != sizeof(Entry))
 	{
 		clearCorruptedCache() ; //clear the cache.
@@ -1300,7 +1300,7 @@ void LLTextureCache::readEntryFromHeaderImmediately(S32& idx, Entry& entry)
 {
 	S32 offset = sizeof(EntriesInfo) + idx * sizeof(Entry);
 	LLAPRFile* aprfile = openHeaderEntriesFile(true, offset);
-	S32 bytes_read = aprfile->read((void*)&entry, (S32)sizeof(Entry));
+	S32 bytes_read = aprfile->read((void*)&entry, sizeof(Entry));
 	closeHeaderEntriesFile();
 
 	if(bytes_read != sizeof(Entry))
@@ -1412,7 +1412,7 @@ U32 LLTextureCache::openAndReadEntries(std::vector<Entry>& entries)
 	for (U32 idx=0; idx<num_entries; idx++)
 	{
 		Entry entry;
-		S32 bytes_read = aprfile->read((void*)(&entry), (S32)sizeof(Entry));
+		S32 bytes_read = aprfile->read((void*)(&entry), sizeof(Entry));
 		if (bytes_read < sizeof(Entry))
 		{
 			LL_WARNS() << "Corrupted header entries, failed at " << idx << " / " << num_entries << LL_ENDL;

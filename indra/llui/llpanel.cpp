@@ -597,7 +597,7 @@ std::string LLPanel::getString(const std::string_view name, const LLStringUtil::
 	if (found_it != mUIStrings.end())
 	{
 		// make a copy as format works in place
-		LLUIString formatted_string = LLUIString(found_it->second);
+		LLUIString formatted_string(found_it->second);
 		formatted_string.setArgList(args);
 		return formatted_string.getString();
 	}

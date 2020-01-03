@@ -1515,11 +1515,6 @@ endif (DARWIN)
 
 if (LINUX)
     LIST(APPEND viewer_SOURCE_FILES llappviewerlinux.cpp)
-    set_source_files_properties(
-      llappviewerlinux.cpp
-      PROPERTIES
-      COMPILE_DEFINITIONS "${VIEWER_CHANNEL_VERSION_DEFINES}"
-      )
     LIST(APPEND viewer_SOURCE_FILES llappviewerlinux_api_dbus.cpp)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
 

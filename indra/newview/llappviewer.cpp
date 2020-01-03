@@ -3109,12 +3109,11 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["BUILD_TIME"] = __TIME__;
 	info["CHANNEL"] = LLVersionInfo::getChannel();
     info["ADDRESS_SIZE"] = ADDRESS_SIZE;
-    std::string build_config = LLVersionInfo::getBuildConfig();
-    if (build_config != "Release")
-    {
-        info["BUILD_CONFIG"] = build_config;
-    }
+    info["BUILD_CONFIG"] = LLVersionInfo::getBuildConfig();
 
+	info["GIT_REV"] = LL_VIEWER_COMMIT_SHA;
+	info["GIT_SHORT_REV"] = LL_VIEWER_COMMIT_SHORT_SHA;
+ 
 	// return a URL to the release notes for this viewer, such as:
 	// https://releasenotes.secondlife.com/viewer/2.1.0.123456.html
 	std::string url = LLTrans::getString("RELEASE_NOTES_BASE_URL");
@@ -3344,10 +3343,6 @@ std::string LLAppViewer::getViewerInfoString(bool default_string) const
 
 	// Now build the various pieces
 	support << LLTrans::getString("AboutHeader", args, default_string);
-	if (info.has("BUILD_CONFIG"))
-	{
-		support << "\n" << LLTrans::getString("BuildConfig", args, default_string);
-	}
 	if (info.has("REGION"))
 	{
 // [RLVa:KB] - Checked: 2014-02-24 (RLVa-1.4.10)
@@ -3364,10 +3359,25 @@ std::string LLAppViewer::getViewerInfoString(bool default_string) const
 	support << "\n" << LLTrans::getString("AboutOGL", args, default_string);
 	support << "\n\n" << LLTrans::getString("AboutSettings", args, default_string);
 	support << "\n\n" << LLTrans::getString("AboutLibs", args, default_string);
+	support << "\n";
+
 	if (info.has("COMPILER"))
 	{
 		support << "\n" << LLTrans::getString("AboutCompiler", args, default_string);
 	}
+	if (info.has("BUILD_CONFIG"))
+	{
+		support << "\n" << LLTrans::getString("BuildConfig", args, default_string);
+	}
+	if (info.has("BUILD_DATE"))
+	{
+		support << "\n" << LLTrans::getString("BuildDate", args, default_string);
+	}
+	if (info.has("GIT_REV"))
+	{
+		support << "\n" << LLTrans::getString("AboutVCSRev", args, default_string);
+	}
+	support << "\n";
 	if (info.has("PACKETS_IN"))
 	{
 		support << '\n' << LLTrans::getString("AboutTraffic", args, default_string);

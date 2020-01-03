@@ -76,9 +76,7 @@ LLViewerPart::LLViewerPart() :
 	mPartID(0),
 	mLastUpdateTime(0.f),
 	mSkipOffset(0.f),
-	mImagep(NULL),
-	mStartGlow(0.f),
-	mEndGlow(0.f)
+	mImagep(NULL)
 {
 	mPartSourcep = NULL;
 	mParent = NULL;

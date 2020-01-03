@@ -872,6 +872,8 @@ namespace LLInitParam
 
 		const Param* getParamFromHandle(const param_handle_t param_handle) const
 		{
+			if (param_handle == 0) return nullptr;
+
 			const uintptr_t baseblock_address = reinterpret_cast<uintptr_t>(this);
 			return reinterpret_cast<const Param*>(baseblock_address + param_handle);
 		}

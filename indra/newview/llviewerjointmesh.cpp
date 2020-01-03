@@ -469,28 +469,28 @@ BOOL LLViewerJointMesh::updateLOD(F32 pixel_area, BOOL activate)
 }
 
 // static
-void LLViewerJointMesh::updateGeometry(LLFace *mFace, LLPolyMesh *mMesh)
+void LLViewerJointMesh::updateGeometry(LLFace* facep, LLPolyMesh* mesh)
 {
 	LLStrider<LLVector3> o_vertices;
 	LLStrider<LLVector3> o_normals;
 
 	//get vertex and normal striders
-	LLVertexBuffer* buffer = mFace->getVertexBuffer();
+	LLVertexBuffer* buffer = facep->getVertexBuffer();
 	buffer->getVertexStrider(o_vertices,  0);
 	buffer->getNormalStrider(o_normals,   0);
 
 	F32* __restrict vert = o_vertices[0].mV;
 	F32* __restrict norm = o_normals[0].mV;
 
-	const F32* __restrict weights = mMesh->getWeights();
-	const LLVector4a* __restrict coords = (LLVector4a*) mMesh->getCoords();
-	const LLVector4a* __restrict normals = (LLVector4a*) mMesh->getNormals();
+	const F32* __restrict weights = mesh->getWeights();
+	const LLVector4a* __restrict coords = (LLVector4a*)mesh->getCoords();
+	const LLVector4a* __restrict normals = (LLVector4a*)mesh->getNormals();
 
-	U32 offset = mMesh->mFaceVertexOffset*4;
+	U32 offset = mesh->mFaceVertexOffset*4;
 	vert += offset;
 	norm += offset;
 
-	for (U32 index = 0; index < mMesh->getNumVertices(); index++)
+	for (U32 index = 0; index < mesh->getNumVertices(); index++)
 	{
 		// equivalent to joint = floorf(weights[index]);
 		S32 joint = _mm_cvtt_ss2si(_mm_load_ss(weights+index));

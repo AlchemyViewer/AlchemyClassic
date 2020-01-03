@@ -1928,7 +1928,7 @@ void LLScrollListCtrl::addFriend(const std::string& id)
 	LLUrlAction::addFriend(slurl);
 }
 
-void LLScrollListCtrl::removeFriend(std::string id)
+void LLScrollListCtrl::removeFriend(const std::string& id)
 {
 	std::string slurl = "secondlife:///app/agent/" + id + "/about";
 	LLUrlAction::removeFriend(slurl);

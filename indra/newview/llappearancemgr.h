@@ -158,8 +158,8 @@ public:
 	void setAttachmentInvLinkEnable(bool val);
 
 	// Add COF link to individual item.
-	void addCOFItemLink(const LLUUID& item_id, LLPointer<LLInventoryCallback> cb = nullptr, const std::string description = "");
-	void addCOFItemLink(const LLInventoryItem *item, LLPointer<LLInventoryCallback> cb = nullptr, const std::string description = "");
+	void addCOFItemLink(const LLUUID& item_id, LLPointer<LLInventoryCallback> cb = nullptr, const std::string& description = "");
+	void addCOFItemLink(const LLInventoryItem *item, LLPointer<LLInventoryCallback> cb = nullptr, const std::string& description = "");
 
 	// Find COF entries referencing the given item.
 	LLInventoryModel::item_array_t findCOFItemLinks(const LLUUID& item_id);

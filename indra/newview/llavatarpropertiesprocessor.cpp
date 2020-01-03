@@ -95,7 +95,7 @@ void LLAvatarPropertiesProcessor::removeObserver(const LLUUID& avatar_id, LLAvat
 }
 
 
-void LLAvatarPropertiesProcessor::sendGenericRequest(const LLUUID& avatar_id, EAvatarProcessorType type, const std::string method)
+void LLAvatarPropertiesProcessor::sendGenericRequest(const LLUUID& avatar_id, EAvatarProcessorType type, const std::string& method)
 {
 	// Suppress duplicate requests while waiting for a response from the network
 	if (isPendingRequest(avatar_id, type))
@@ -492,7 +492,7 @@ void LLAvatarPropertiesProcessor::sendFriendRights(const LLUUID& avatar_id, S32 
 	}
 }
 
-void LLAvatarPropertiesProcessor::sendNotes(const LLUUID& avatar_id, const std::string notes)
+void LLAvatarPropertiesProcessor::sendNotes(const LLUUID& avatar_id, const std::string& notes)
 {
 	if(!avatar_id.isNull())
 	{

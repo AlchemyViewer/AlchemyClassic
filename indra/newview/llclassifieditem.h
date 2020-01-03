@@ -53,7 +53,7 @@ public:
 	void setClassifiedId(const LLUUID& classified_id) { mClassifiedId = classified_id; }
 	void setPosGlobal(const LLVector3d& pos) { mPosGlobal = pos; }
 	const LLVector3d getPosGlobal() const { return mPosGlobal; }
-	void setLocationText(const std::string location) { mLocationText = location; }
+	void setLocationText(const std::string location) { mLocationText = std::move(location); }
 	std::string getLocationText() const { return mLocationText; }
 	void setClassifiedName(const std::string& name);
 	std::string getClassifiedName() const { return getChild<LLUICtrl>("name")->getValue().asString(); }

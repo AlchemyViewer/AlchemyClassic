@@ -3041,7 +3041,7 @@ private:
 // Dangerous if caller assumes link will exist after calling the function.
 void LLAppearanceMgr::addCOFItemLink(const LLUUID &item_id,
 									 LLPointer<LLInventoryCallback> cb,
-									 const std::string description)
+									 const std::string& description)
 {
 	const LLInventoryItem *item = gInventory.getItem(item_id);
 	if (!item)
@@ -3057,7 +3057,7 @@ void LLAppearanceMgr::addCOFItemLink(const LLUUID &item_id,
 
 void LLAppearanceMgr::addCOFItemLink(const LLInventoryItem *item,
 									 LLPointer<LLInventoryCallback> cb,
-									 const std::string description)
+									 const std::string& description)
 {
 	const LLViewerInventoryItem *vitem = dynamic_cast<const LLViewerInventoryItem*>(item);
 	if (!vitem)

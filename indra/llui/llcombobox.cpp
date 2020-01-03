@@ -968,11 +968,8 @@ void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 
 void LLComboBox::updateSelection()
 {
-	LLWString left_wstring = mTextEntry->getWText().substr(0, mTextEntry->getCursor());
-	// user-entered portion of string, based on assumption that any selected
-    // text was a result of auto-completion
-	LLWString user_wstring = mHasAutocompletedText ? left_wstring : mTextEntry->getWText();
-	std::string full_string = mTextEntry->getText();
+	const LLWString left_wstring = mTextEntry->getWText().substr(0, mTextEntry->getCursor());
+	const std::string& full_string = mTextEntry->getText();
 
 	// go ahead and arrange drop down list on first typed character, even
 	// though we aren't showing it... some code relies on prearrange
@@ -1000,6 +997,10 @@ void LLComboBox::updateSelection()
 	}
 	else // no matching items found
 	{
+		// user-entered portion of string, based on assumption that any selected
+		// text was a result of auto-completion
+		const LLWString user_wstring = mHasAutocompletedText ? left_wstring : mTextEntry->getWText();
+
 		mList->deselectAllItems();
 		mTextEntry->setText(wstring_to_utf8str(user_wstring)); // removes text added by autocompletion
 		mTextEntry->setTentative(mTextEntryTentative);

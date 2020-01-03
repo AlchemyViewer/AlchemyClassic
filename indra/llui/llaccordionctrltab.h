@@ -118,7 +118,7 @@ public:
 	void setTitleFontStyle(const std::string& style);
 
 	// Set text color in LLAccordionCtrlTabHeader
-	void setTitleColor(LLUIColor color);
+	void setTitleColor(const LLUIColor& color);
 
 	boost::signals2::connection setFocusReceivedCallback(const focus_signal_t::slot_type& cb);
 	boost::signals2::connection setFocusLostCallback(const focus_signal_t::slot_type& cb);

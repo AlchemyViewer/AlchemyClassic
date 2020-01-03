@@ -256,7 +256,7 @@ LLAgentWearables::AddWearableToAgentInventoryCallback::AddWearableToAgentInvento
 	mWearable(wearable),
 	mTodo(todo),
 	mCB(std::move(cb)),
-	mDescription(description)
+	mDescription(std::move(description))
 {
 	LL_INFOS() << "constructor" << LL_ENDL;
 }
@@ -411,7 +411,7 @@ void LLAgentWearables::sendAgentWearablesUpdate()
 }
 
 void LLAgentWearables::saveWearable(const LLWearableType::EType type, const U32 index, BOOL send_update,
-									const std::string new_name)
+									const std::string& new_name)
 {
 	LLViewerWearable* old_wearable = getViewerWearable(type, index);
 	if(!old_wearable) return;

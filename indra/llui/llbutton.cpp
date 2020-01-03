@@ -731,13 +731,12 @@ void LLButton::draw()
 		// else use usual flashing via flash_color
 		else if (mFlashingTimer)
 		{
-			LLColor4 flash_color = mFlashBgColor.get();
 			use_glow_effect = TRUE;
 			glow_type = LLRender::BT_ALPHA; // blend the glow
 
 			if (mFlashingTimer->isCurrentlyHighlighted() || !mFlashingTimer->isFlashingInProgress())
 			{
-				glow_color = flash_color;
+				glow_color = mFlashBgColor.get();
 			}
 			else if (mNeedsHighlight)
 			{
@@ -1056,7 +1055,7 @@ const LLUIString& LLButton::getCurrentLabel() const
 
 void LLButton::setImageUnselected(LLPointer<LLUIImage> image)
 {
-	mImageUnselected = image;
+	mImageUnselected = std::move(image);
 	if (mImageUnselected.isNull())
 	{
 		LL_WARNS() << "Setting default button image for: " << getName() << " to NULL" << LL_ENDL;
@@ -1112,7 +1111,7 @@ void LLButton::setImages( const std::string &image_name, const std::string &sele
 
 void LLButton::setImageSelected(LLPointer<LLUIImage> image)
 {
-	mImageSelected = image;
+	mImageSelected = std::move(image);
 }
 
 void LLButton::setImageColor(const LLColor4& c)		
@@ -1127,36 +1126,36 @@ void LLButton::setColor(const LLColor4& color)
 
 void LLButton::setImageDisabled(LLPointer<LLUIImage> image)
 {
-	mImageDisabled = image;
+	mImageDisabled = std::move(image);
 	mDisabledImageColor = mImageColor;
 	mFadeWhenDisabled = TRUE;
 }
 
 void LLButton::setImageDisabledSelected(LLPointer<LLUIImage> image)
 {
-	mImageDisabledSelected = image;
+	mImageDisabledSelected = std::move(image);
 	mDisabledImageColor = mImageColor;
 	mFadeWhenDisabled = TRUE;
 }
 
 void LLButton::setImagePressed(LLPointer<LLUIImage> image)
 {
-	mImagePressed = image;
+	mImagePressed = std::move(image);
 }
 
 void LLButton::setImageHoverSelected(LLPointer<LLUIImage> image)
 {
-	mImageHoverSelected = image;
+	mImageHoverSelected = std::move(image);
 }
 
 void LLButton::setImageHoverUnselected(LLPointer<LLUIImage> image)
 {
-	mImageHoverUnselected = image;
+	mImageHoverUnselected = std::move(image);
 }
 
 void LLButton::setImageFlash(LLPointer<LLUIImage> image)
 {
-	mImageFlash = image;
+	mImageFlash = std::move(image);
 }
 
 void LLButton::setImageOverlay(const std::string& image_name, LLFontGL::HAlign alignment, const LLColor4& color)

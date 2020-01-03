@@ -300,7 +300,7 @@ bool LLAutoReplaceSettings::setFromLLSD(const LLSD& settingsFromLLSD)
 	return settingsValid;
 }
 
-bool LLAutoReplaceSettings::listNameMatches( const LLSD& list, const std::string name )
+bool LLAutoReplaceSettings::listNameMatches( const LLSD& list, const std::string& name )
 {
 	return list.isMap()
 		&& list.has(AUTOREPLACE_LIST_NAME)
@@ -673,7 +673,7 @@ bool LLAutoReplaceSettings::decreaseListPriority(std::string listName)
 }
 
 
-std::string LLAutoReplaceSettings::replaceWord(const std::string currentWord)
+std::string LLAutoReplaceSettings::replaceWord(const std::string& currentWord)
 {
 	std::string returnedWord = currentWord; // in case no replacement is found
 	static LLCachedControl<bool> autoreplace_enabled(gSavedSettings, "AutoReplace", false);

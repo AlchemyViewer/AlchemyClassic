@@ -73,7 +73,7 @@ public:
 
 	void	setTitleFontStyle(std::string style);
 
-	void	setTitleColor(LLUIColor);
+	void	setTitleColor(const LLUIColor& color);
 
 	void	setSelected(bool is_selected) { mIsSelected = is_selected; }
 
@@ -190,7 +190,7 @@ void LLAccordionCtrlTab::LLAccordionCtrlTabHeader::setTitleFontStyle(std::string
 	}
 }
 
-void LLAccordionCtrlTab::LLAccordionCtrlTabHeader::setTitleColor(LLUIColor color)
+void LLAccordionCtrlTab::LLAccordionCtrlTabHeader::setTitleColor(const LLUIColor& color)
 {
 	if(mHeaderTextbox)
 	{
@@ -536,7 +536,7 @@ void LLAccordionCtrlTab::setTitleFontStyle(const std::string& style)
 	}
 }
 
-void LLAccordionCtrlTab::setTitleColor(LLUIColor color)
+void LLAccordionCtrlTab::setTitleColor(const LLUIColor& color)
 {
 	if (mHeader)
 	{

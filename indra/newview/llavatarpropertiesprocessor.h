@@ -229,7 +229,7 @@ public:
 
 	void sendFriendRights(const LLUUID& avatar_id, S32 rights);
 
-	void sendNotes(const LLUUID& avatar_id, const std::string notes);
+	void sendNotes(const LLUUID& avatar_id, const std::string& notes);
 
 	void sendPickDelete(const LLUUID& pick_id);
 
@@ -262,7 +262,7 @@ public:
 
 protected:
 
-	void sendGenericRequest(const LLUUID& avatar_id, EAvatarProcessorType type, const std::string method);
+	void sendGenericRequest(const LLUUID& avatar_id, EAvatarProcessorType type, const std::string& method);
 
 	void notifyObservers(const LLUUID& id,void* data, EAvatarProcessorType type);
 

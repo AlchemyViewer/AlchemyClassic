@@ -121,7 +121,7 @@ class LLAutoReplaceSettings
 	 * Look for currentWord in the lists in order, returning any substitution found
 	 * If no configured substitution is found, returns currentWord
 	 */
-	std::string replaceWord(const std::string currentWord /**< word to search for */ );
+	std::string replaceWord(const std::string& currentWord /**< word to search for */ );
 
 	/// Provides a hard-coded example of settings 
 	LLSD getExampleLLSD();
@@ -132,7 +132,7 @@ class LLAutoReplaceSettings
 	
   private:
 	/// Efficiently and safely compare list names 
-	bool listNameMatches( const LLSD& list, const std::string name );
+	bool listNameMatches( const LLSD& list, const std::string& name );
 
 	/// The actual llsd data structure
 	LLSD mLists;

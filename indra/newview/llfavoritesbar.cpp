@@ -848,7 +848,7 @@ void LLFavoritesBarCtrl::updateButtons()
 
 }
 
-LLButton* LLFavoritesBarCtrl::createButton(const LLPointer<LLViewerInventoryItem> item, const LLButton::Params& button_params, S32 x_offset)
+LLButton* LLFavoritesBarCtrl::createButton(const LLPointer<LLViewerInventoryItem>& item, const LLButton::Params& button_params, S32 x_offset)
 {
 	S32 def_button_width = button_params.rect.width;
 	S32 button_x_delta = button_params.rect.left; // default value

@@ -514,10 +514,10 @@ namespace LLInitParam
 			}
 			else
 			{
-				found_it = mParserReadFuncs->find(&typeid(S32));
+				found_it = mParserReadFuncs->find(&typeid(size_t));
 				if (found_it != mParserReadFuncs->end())
 				{
-					S32 int_value;
+					size_t int_value;
 					bool parsed = found_it->second(*this, (void*)&int_value);
 					param = (T)int_value;
 					return parsed;

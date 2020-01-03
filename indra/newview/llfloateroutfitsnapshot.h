@@ -58,7 +58,7 @@ public:
 
     const LLRect& getThumbnailPlaceholderRect() { return mThumbnailPlaceholder->getRect(); }
 
-    void setOutfitID(LLUUID id) { mOutfitID = id; }
+    void setOutfitID(LLUUID id) { mOutfitID = std::move(id); }
     LLUUID getOutfitID() { return mOutfitID; }
     void setGallery(LLOutfitGallery* gallery) { mOutfitGallery = gallery; }
 

@@ -159,8 +159,8 @@ bool LLEasyMessageSender::sendLLUDPMessage(const LLHost& region_host, const std:
 				else
 					pv.hex = FALSE;
 
-				pv.name = field;
-				pv.value = value;
+				pv.name = std::move(field);
+				pv.value = std::move(value);
 				parts[current_block_index].vars.push_back(pv);
 			}
 		}
@@ -525,7 +525,7 @@ BOOL LLEasyMessageSender::addField(e_message_variable_type var_type, const char*
 		if(nibble)
 			return FALSE;
 
-		input = new_input;
+		input = std::move(new_input);
 	}
 
 	std::stringstream stream(input);

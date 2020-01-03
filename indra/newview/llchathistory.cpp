@@ -775,7 +775,7 @@ public:
 			payload["owner_id"]		= chat.mOwnerID;
 			payload["slurl"]		= LLWeb::escapeURL(slurl);
 
-			mObjectData = payload;
+			mObjectData = std::move(payload);
 		}
 	}
 

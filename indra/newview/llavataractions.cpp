@@ -1210,7 +1210,7 @@ bool LLAvatarActions::handlePay(const LLSD& notification, const LLSD& response, 
 void LLAvatarActions::callback_invite_to_group(LLUUID group_id, LLUUID id)
 {
 	uuid_vec_t agent_ids;
-	agent_ids.push_back(id);
+	agent_ids.emplace_back(std::move(id));
 	
 	LLFloaterGroupInvite::showForGroup(group_id, &agent_ids);
 }

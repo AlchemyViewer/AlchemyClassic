@@ -5338,7 +5338,7 @@ void LLVOAvatar::releaseOldTextures()
 			}
 		}
 	}
-	mTextureIDs = new_texture_ids;
+	mTextureIDs = std::move(new_texture_ids);
 }
 
 void LLVOAvatar::updateTextures()
@@ -7336,7 +7336,7 @@ void LLVOAvatar::lazyAttach()
 		}
 	}
 
-	mPendingAttachment = still_pending;
+	mPendingAttachment = std::move(still_pending);
 }
 
 void LLVOAvatar::resetHUDAttachments()
@@ -10454,7 +10454,7 @@ void LLVOAvatar::accountRenderComplexityForObject(
                         hud_object_complexity.objectId = attached_object->getAttachmentItemID();
                         std::string joint_name;
                         gAgentAvatarp->getAttachedPointName(attached_object->getAttachmentItemID(), joint_name);
-                        hud_object_complexity.jointName = joint_name;
+                        hud_object_complexity.jointName = std::move(joint_name);
                         // get cost and individual textures
                         hud_object_complexity.objectsCost += volume->getRenderCost(textures);
                         hud_object_complexity.objectsCount++;

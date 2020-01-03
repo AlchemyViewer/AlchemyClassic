@@ -1251,7 +1251,7 @@ void LLMeshRepoThread::constructUrl(LLUUID mesh_id, std::string * url, int * leg
 		LL_DEBUGS_ONCE(LOG_MESH) << "Cannot load mesh " << mesh_id << " due to missing capability." << LL_ENDL;
 	}
 
-	*url = res_url;
+	*url = std::move(res_url);
 	*legacy_version = res_version;
 }
 

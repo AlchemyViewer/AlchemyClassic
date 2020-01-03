@@ -59,7 +59,7 @@ public:
 						getTime()				const	{ return mTime; }
 	bool				hasOfflineMessages()	const	{ return mHasOfflineIMs; }
 
-	void setConversationName(std::string conv_name) { mConversationName = conv_name; }
+	void setConversationName(std::string conv_name) { mConversationName = std::move(conv_name); }
 	void setOfflineMessages(bool new_messages) { mHasOfflineIMs = new_messages; }
 	bool isOlderThan(U32Days days) const;
 

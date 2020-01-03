@@ -108,7 +108,7 @@ void LLConversationLogList::setNameFilter(const std::string& filter)
 	LLStringUtil::toUpper(filter_upper);
 	if (mNameFilter != filter_upper)
 	{
-		mNameFilter = filter_upper;
+		mNameFilter = std::move(filter_upper);
 		setDirty();
 	}
 }

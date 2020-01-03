@@ -196,17 +196,15 @@ void LLDebugVarMessageBox::show(const std::string& title, LLVector3 *var, LLVect
 
 LLDebugVarMessageBox* LLDebugVarMessageBox::show(const std::string& title, EDebugVarType var_type, void *var)
 {
-	std::string title_string(title);
-
-	LLDebugVarMessageBox *box = sInstances[title_string];
+	LLDebugVarMessageBox *box = sInstances[title];
 	if (!box)
 	{
 		box = new LLDebugVarMessageBox(title, var_type, var);
-		sInstances[title_string] = box;
+		sInstances[title] = box;
 		gFloaterView->addChild(box);
 		box->reshape(200,150);
 		box->openFloater();
-		box->mTitle = title_string;
+		box->mTitle = title;
 	}
 
 	return box;

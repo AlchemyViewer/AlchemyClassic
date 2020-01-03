@@ -98,7 +98,7 @@ public:
 	void setSnapshotBufferType(LLSnapshotModel::ESnapshotLayerType type) { mSnapshotBufferType = type; }
     void setAllowRenderUI(BOOL allow) { mAllowRenderUI = allow; }
     void setAllowFullScreenPreview(BOOL allow) { mAllowFullScreenPreview = allow; }
-    void setFilter(std::string filter_name) { mFilterName = filter_name; }
+    void setFilter(std::string filter_name) { mFilterName = std::move(filter_name); }
     std::string  getFilter() const { return mFilterName; }
 	void updateSnapshot(BOOL new_snapshot, BOOL new_thumbnail = FALSE, F32 delay = 0.f);
     void saveTexture(BOOL outfit_snapshot = FALSE, std::string name = "");

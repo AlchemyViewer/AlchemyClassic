@@ -64,7 +64,7 @@ public:
 	F32 getFadeVolume();
 	bool getForcedTeleportFade() { return mForcedTeleportFade; };
 	void setForcedTeleportFade(bool fade) { mForcedTeleportFade = fade;} ;
-	void setNextStreamURI(std::string stream) { mNextStreamURI = stream; } ;
+	void setNextStreamURI(std::string stream) { mNextStreamURI = std::move(stream); } ;
 	void setWasPlaying(bool playing) { mWasPlaying = playing;} ;
 
 private:

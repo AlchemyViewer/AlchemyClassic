@@ -403,8 +403,7 @@ const void upload_bulk(const std::vector<std::string>& filenames, LLFilePicker::
 		std::string const& filename = in_iter;
 		if (!check_file_extension(filename, type)) continue;
 		
-		std::string name = gDirUtilp->getBaseFileName(filename, true);
-		std::string asset_name = name;
+		std::string asset_name = gDirUtilp->getBaseFileName(filename, true);
 		LLStringUtil::replaceNonstandardASCII(asset_name, '?');
 		LLStringUtil::replaceChar(asset_name, '|', '?');
 		LLStringUtil::stripNonprintable(asset_name);

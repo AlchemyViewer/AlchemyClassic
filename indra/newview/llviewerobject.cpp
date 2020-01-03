@@ -1511,7 +1511,7 @@ U32 LLViewerObject::processUpdateMessage(LLMessageSystem *mesgsys,
 					}
 // [/RLVa:KB]
 
-					mHudText = temp_string;
+					mHudText = std::move(temp_string);
 					mHudTextColor = LLColor4(coloru);
 
 					setChanged(MOVED | SILHOUETTE);
@@ -1898,7 +1898,7 @@ U32 LLViewerObject::processUpdateMessage(LLMessageSystem *mesgsys,
 					}
 // [/RLVa:KB]
 
-                    mHudText = temp_string;
+                    mHudText = std::move(temp_string);
                     mHudTextColor = LLColor4(coloru);
 
 					setChanged(TEXTURE);

@@ -232,15 +232,13 @@ void LLFloaterIMNearbyChatToastPanel::init(LLSD& notification)
 	mMsgText->setContentTrusted(false);
 	mMsgText->setIsFriendCallback(LLAvatarActions::isFriend);
 
-	mMsgText->setText(std::string(""));
+	mMsgText->setText(LLStringUtil::null);
 
 	if ( notification["chat_style"].asInteger() != CHAT_STYLE_IRC )
 	{
-		std::string str_sender;
+		std::string str_sender = std::move(fromName);
 
-		str_sender = fromName;
-
-		str_sender+=" ";
+		str_sender.append(" ");
 
 		//append sender name
 		if (mSourceType == CHAT_SOURCE_AGENT || mSourceType == CHAT_SOURCE_OBJECT)

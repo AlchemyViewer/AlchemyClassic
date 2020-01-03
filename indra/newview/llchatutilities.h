@@ -83,12 +83,12 @@ void LLChatUtilities::processChat(T* editor, EChatType type)
 				// discard returned "found" boolean
 				if (!LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text))
 				{
-					utf8_revised_text = utf8text;
+					utf8_revised_text = std::move(utf8text);
 				}
 			}
 			else
 			{
-				utf8_revised_text = utf8text;
+				utf8_revised_text = std::move(utf8text);
 			}
 
 			utf8_revised_text = utf8str_trim(utf8_revised_text);

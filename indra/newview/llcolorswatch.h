@@ -86,7 +86,7 @@ public:
 	void			setOnCancelCallback(commit_callback_t cb) { mOnCancelCallback = cb; }
 	void			setOnSelectCallback(commit_callback_t cb) { mOnSelectCallback = cb; }
 	void			setPreviewCallback(commit_callback_t cb) { mPreviewCallback = cb; }
-	void			setFallbackImage(LLPointer<LLUIImage> image) { mFallbackImage = image; }
+	void			setFallbackImage(LLPointer<LLUIImage> image) { mFallbackImage = std::move(image); }
 
 	void			showPicker(BOOL take_focus);
 

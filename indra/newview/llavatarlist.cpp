@@ -235,7 +235,7 @@ void LLAvatarList::setNameFilter(const std::string& filter)
 	LLStringUtil::toUpper(filter_upper);
 	if (mNameFilter != filter_upper)
 	{
-		mNameFilter = filter_upper;
+		mNameFilter = std::move(filter_upper);
 
 		// update message for empty state here instead of refresh() to avoid blinking when switch
 		// between tabs.

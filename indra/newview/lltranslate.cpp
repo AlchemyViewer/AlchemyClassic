@@ -301,7 +301,6 @@ bool LLGoogleTranslationHandler::parseResponse(
 {
 	std::stringstream stream(body);
 	nlohmann::json root;
-	std::string errors;
     try
     {
 		stream >> root;

@@ -3147,8 +3147,10 @@ void LLViewerRegion::setCapability(const std::string& name, const std::string& u
 				mViewerAssetUrl = VIEWERASSET;
 			}
 			else
+			{
+				mViewerAssetUrl = url;
+			}
 			/*==============================================================*/
-			mViewerAssetUrl = url;
 		}
 		else if (name == "GetTexture")
 		{
@@ -3175,8 +3177,10 @@ void LLViewerRegion::setCapabilityDebug(const std::string& name, const std::stri
 				mViewerAssetUrl = VIEWERASSET;
 			}
 			else
+			{
+				mViewerAssetUrl = url;
+			}
 			/*==============================================================*/
-			mViewerAssetUrl = url;
 		}
 		else if (name == "GetTexture")
 		{

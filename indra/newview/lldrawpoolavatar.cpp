@@ -1876,10 +1876,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
                 {
                     is_alpha_mask = true;
                 }
-            }
 
-            if (tex)
-            {
                 LLGLenum image_format = tex->getPrimaryFormat();
                 if (!is_alpha_mask && (image_format == GL_RGBA || image_format == GL_ALPHA))
                 {

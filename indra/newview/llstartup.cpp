@@ -476,7 +476,7 @@ bool idle_startup()
 			if (!found_template)
 			{
 				message_template_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "app_settings", "message_template.msg");
-				found_template = LLFile::fopen(message_template_path.c_str(), "r");		/* Flawfinder: ignore */
+				found_template = LLFile::fopen(message_template_path, "r");		/* Flawfinder: ignore */
 			}	
 		#elif LL_DARWIN
 			// On Mac dev builds, message_template.msg lives in:
@@ -532,7 +532,7 @@ bool idle_startup()
 				// be located in indra/build-vc**/newview/<config>/app_settings.
 				std::string message_path = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS,"message.xml");
 							
-				if (!LLFile::isfile(message_path.c_str())) 
+				if (!LLFile::isfile(message_path)) 
 				{
 					LLMessageConfig::initClass("viewer", gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "app_settings", ""));
 				}
@@ -737,7 +737,7 @@ bool idle_startup()
 	{
 		LL_DEBUGS("AppInit") << "STATE_BROWSER_INIT" << LL_ENDL;
 		std::string msg = LLTrans::getString("LoginInitializingBrowser");
-		set_startup_status(0.03f, msg.c_str(), gAgent.mMOTD.c_str());
+		set_startup_status(0.03f, msg, gAgent.mMOTD);
 		display_startup();
 		// LLViewerMedia::initBrowser();
 		LLStartUp::setStartupState( STATE_LOGIN_SHOW );
@@ -968,16 +968,16 @@ bool idle_startup()
 
 		//good a place as any to create user windlight directories
 		std::string user_windlight_path_name(gDirUtilp->getExpandedFilename( LL_PATH_USER_SETTINGS , "windlight", ""));
-		LLFile::mkdir(user_windlight_path_name.c_str());		
+		LLFile::mkdir(user_windlight_path_name);		
 
 		std::string user_windlight_skies_path_name(gDirUtilp->getExpandedFilename( LL_PATH_USER_SETTINGS , "windlight/skies", ""));
-		LLFile::mkdir(user_windlight_skies_path_name.c_str());
+		LLFile::mkdir(user_windlight_skies_path_name);
 
 		std::string user_windlight_water_path_name(gDirUtilp->getExpandedFilename( LL_PATH_USER_SETTINGS , "windlight/water", ""));
-		LLFile::mkdir(user_windlight_water_path_name.c_str());
+		LLFile::mkdir(user_windlight_water_path_name);
 
 		std::string user_windlight_days_path_name(gDirUtilp->getExpandedFilename( LL_PATH_USER_SETTINGS , "windlight/days", ""));
-		LLFile::mkdir(user_windlight_days_path_name.c_str());
+		LLFile::mkdir(user_windlight_days_path_name);
 
 
 		if (show_connect_box)
@@ -1376,11 +1376,11 @@ bool idle_startup()
 			{
 				LLStringUtil::format_map_t args;
 				args["[NUMBER]"] = llformat("%d", num_retries + 1);
-				set_startup_status(0.4f, LLTrans::getString("LoginRetrySeedCapGrant", args), gAgent.mMOTD.c_str());
+				set_startup_status(0.4f, LLTrans::getString("LoginRetrySeedCapGrant", args), gAgent.mMOTD);
 			}
 			else
 			{
-				set_startup_status(0.4f, LLTrans::getString("LoginRequestSeedCapGrant"), gAgent.mMOTD.c_str());
+				set_startup_status(0.4f, LLTrans::getString("LoginRequestSeedCapGrant"), gAgent.mMOTD);
 			}
 		}
 		display_startup();
@@ -2132,7 +2132,7 @@ bool idle_startup()
 			update_texture_fetch();
 			set_startup_status(0.60f + 0.30f * timeout_frac,
 				LLTrans::getString("LoginPrecaching"),
-					gAgent.mMOTD.c_str());
+					gAgent.mMOTD);
 			display_startup();
 		}
 		

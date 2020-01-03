@@ -339,7 +339,6 @@ void LLLandmarkActions::onRegionResponseSLURL(slurl_callback_t cb,
 										 bool escaped,
 										 const std::string& url)
 {
-	std::string sim_name;
 	std::string slurl;
     const LLSimInfo* siminfo = LLWorldMap::getInstance()->simInfoFromPosGlobal(global_pos);
 	if (siminfo)

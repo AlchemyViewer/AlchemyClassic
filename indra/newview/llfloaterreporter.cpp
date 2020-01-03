@@ -801,8 +801,7 @@ LLSD LLFloaterReporter::gatherReport()
 
 	// only send a screenshot ID if we're asked to and the email is 
 	// going to LL - Estate Owners cannot see the screenshot asset
-	LLUUID screenshot_id = LLUUID::null;
-	screenshot_id = getChild<LLUICtrl>("screenshot")->getValue();
+	LLUUID screenshot_id = getChild<LLUICtrl>("screenshot")->getValue().asUUID();
 
 	LLSD report = LLSD::emptyMap();
 	report["report-type"] = (U8) mReportType;

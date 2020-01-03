@@ -282,7 +282,6 @@ void LLScriptEditor::drawSelectionBackground()
 		for (auto& rect_it : selection_rects)
         {
 			LLRect selection_rect = rect_it;
-			selection_rect = rect_it;
 			selection_rect.translate(mVisibleTextRect.mLeft - content_display_rect.mLeft, mVisibleTextRect.mBottom - content_display_rect.mBottom);
 			gl_rect_2d(selection_rect, selection_color);
 		}

@@ -718,8 +718,7 @@ std::string LLGridManager::getGrid(const std::string& grid) const
 
 std::string LLGridManager::getGridByProbing(const std::string& identifier) const
 {
-	std::string grid = LLStringUtil::null;
-	grid = getGridByAttribute(GRID_GATEKEEPER, identifier);
+	std::string grid = getGridByAttribute(GRID_GATEKEEPER, identifier);
 	if (!grid.empty()) return grid;
 	grid = getGridByAttribute(GRID_VALUE, identifier);
 	if (!grid.empty()) return grid;

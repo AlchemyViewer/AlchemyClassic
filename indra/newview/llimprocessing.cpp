@@ -531,8 +531,6 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
         is_owned_by_me = source->permYouOwner();
     }
 
-    std::string separator_string(": ");
-
     LLSD args;
     LLSD payload;
     LLNotification::Params params;

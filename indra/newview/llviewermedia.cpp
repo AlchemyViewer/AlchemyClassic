@@ -1229,7 +1229,6 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
     httpOpts->setWantHeaders(true);
 
     LLURL hostUrl(url.c_str());
-    std::string hostAuth = hostUrl.getAuthority();
 
     // *TODO: Expand LLURL to split and extract this information better. 
     // The structure of a URL is well defined and needing to retrieve parts of it are common.

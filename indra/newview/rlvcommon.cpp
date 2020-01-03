@@ -666,8 +666,8 @@ void RlvUtil::sendIMMessage(const LLUUID& idRecipient, const std::string& strMsg
 			false,
 			gAgent.getSessionID(),
 			idRecipient,
-			strAgentName.c_str(),
-			strMsg.c_str(),
+			strAgentName,
+			strMsg,
 			((!pBuddyInfo) || (pBuddyInfo->isOnline())) ? IM_ONLINE : IM_OFFLINE,
 			IM_NOTHING_SPECIAL,
 			idSession);

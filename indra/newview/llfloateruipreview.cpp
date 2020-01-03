@@ -508,7 +508,7 @@ BOOL LLFloaterUIPreview::postBuild()
 		if((found = iter.next(language_directory)))		// get next directory
 		{
 			std::string full_path = gDirUtilp->add(xui_dir, language_directory);
-			if(LLFile::isfile(full_path.c_str()))	// if it's not a directory, skip it
+			if(LLFile::isfile(full_path))	// if it's not a directory, skip it
 			{
 				continue;
 			}
@@ -657,7 +657,7 @@ void LLFloaterUIPreview::refreshList()
 	{
 		if((found = floater_iter.next(name)))	// get next file matching pattern
 		{
-			addFloaterEntry(name.c_str());	// and add it to the list (file name only; localization code takes care of rest of path)
+			addFloaterEntry(name);	// and add it to the list (file name only; localization code takes care of rest of path)
 		}
 	}
 	found = TRUE;
@@ -667,7 +667,7 @@ void LLFloaterUIPreview::refreshList()
 	{
 		if((found = inspect_iter.next(name)))	// get next file matching pattern
 		{
-			addFloaterEntry(name.c_str());	// and add it to the list (file name only; localization code takes care of rest of path)
+			addFloaterEntry(name);	// and add it to the list (file name only; localization code takes care of rest of path)
 		}
 	}
 	found = TRUE;
@@ -677,7 +677,7 @@ void LLFloaterUIPreview::refreshList()
 	{
 		if((found = menu_iter.next(name)))	// get next file matching pattern
 		{
-			addFloaterEntry(name.c_str());	// and add it to the list (file name only; localization code takes care of rest of path)
+			addFloaterEntry(name);	// and add it to the list (file name only; localization code takes care of rest of path)
 		}
 	}
 	found = TRUE;
@@ -687,7 +687,7 @@ void LLFloaterUIPreview::refreshList()
 	{
 		if((found = panel_iter.next(name)))	// get next file matching pattern
 		{
-			addFloaterEntry(name.c_str());	// and add it to the list (file name only; localization code takes care of rest of path)
+			addFloaterEntry(name);	// and add it to the list (file name only; localization code takes care of rest of path)
 		}
 	}
 	found = TRUE;
@@ -697,7 +697,7 @@ void LLFloaterUIPreview::refreshList()
 	{
 		if((found = sidepanel_iter.next(name)))	// get next file matching pattern
 		{
-			addFloaterEntry(name.c_str());	// and add it to the list (file name only; localization code takes care of rest of path)
+			addFloaterEntry(name);	// and add it to the list (file name only; localization code takes care of rest of path)
 		}
 	}
 
@@ -902,7 +902,7 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 	std::string full_path(getLocalizedDirectory().append(path));
 	std::string floater_lang("EN");
 	llstat dummy;
-	if(!LLFile::stat(full_path.c_str(), &dummy))	// if the file does not exist
+	if(!LLFile::stat(full_path, &dummy))	// if the file does not exist
 	{
 		floater_lang = getLocStr(ID);
 	}
@@ -977,7 +977,7 @@ void LLFloaterUIPreview::onClickEditFloater()
 
 		// stat file to see if it exists (some localized versions may not have it there are no diffs, and then we try to open an nonexistent file)
 		llstat dummy;
-		if(LLFile::stat(file_path.c_str(), &dummy))								// if the file does not exist
+		if(LLFile::stat(file_path, &dummy))								// if the file does not exist
 		{
 			popupAndPrintWarning(LLStringExplicit("No file for this floater exists in the selected localization.  Opening the EN version instead."));
 			file_path = get_xui_dir() + mDelim + "en" + mDelim + file_name; // open the en version instead, by default
@@ -1130,7 +1130,7 @@ void LLFloaterUIPreview::onClickToggleDiffHighlighting()
 		}
 
 		llstat dummy;
-		if(LLFile::stat(path_in_textfield.c_str(), &dummy) && !error)			// check if the file exists (empty check is reduntant but useful for the informative error message)
+		if(LLFile::stat(path_in_textfield, &dummy) && !error)			// check if the file exists (empty check is reduntant but useful for the informative error message)
 		{
 			std::string warning = LLStringExplicit("Unable to highlight differences because an invalid path to a difference file was provided:\"") + path_in_textfield + "\"";
 			popupAndPrintWarning(warning);

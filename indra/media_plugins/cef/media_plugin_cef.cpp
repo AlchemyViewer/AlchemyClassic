@@ -612,7 +612,6 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 			else if (message_name == "set_user_data_path")
 			{
 				std::string user_data_path_cache = message_in.getValue("cache_path");
-				std::string user_data_path_cookies = message_in.getValue("cookies_path");
 
 				mUserDataPath = user_data_path_cache + "cef_data";
 				mCachePath = user_data_path_cache + "cef_cache";

@@ -333,7 +333,7 @@ void LLFloaterBulkPermission::handleInventory(LLViewerObject* viewer_obj, LLInve
 				invname=item->getName().substr(0,item->getName().size() < 30 ? item->getName().size() : 30 );
 				
 				LLUIString status_text = getString("status_text");
-				status_text.setArg("[NAME]", invname.c_str());
+				status_text.setArg("[NAME]", invname);
 				// Check whether we appear to have the appropriate permissions to change permission on this item.
 				// Although the server will disallow any forbidden changes, it is a good idea to guess correctly
 				// so that we can warn the user. The risk of getting this check wrong is therefore the possibility

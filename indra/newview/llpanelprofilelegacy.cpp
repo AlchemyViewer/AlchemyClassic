@@ -606,7 +606,6 @@ BOOL LLPanelProfileLegacy::LLPanelProfilePicks::postBuild()
 {
 	mPicksList = getChild<LLFlatListView>("picks_list");
 	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
-	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
 	childSetAction("add_btn", boost::bind(&LLPanelProfilePicks::onClickPlusBtn, this));
 	childSetAction("teleport_btn", boost::bind(&LLPanelProfilePicks::onClickTeleport, this));
 	childSetAction("show_on_map_btn", boost::bind(&LLPanelProfilePicks::onClickShowOnMap, this));

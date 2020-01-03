@@ -582,7 +582,7 @@ public:
     void    setRegionAllowAccessOverride(BOOL override) { mRegionAllowAccessoverride = override; }
 
 	// Accessors for parcel sellWithObjects
-	void	setPreviousOwnerID(LLUUID prev_owner)	{ mPreviousOwnerID = prev_owner; }
+	void	setPreviousOwnerID(const LLUUID& prev_owner)	{ mPreviousOwnerID = prev_owner; }
 	void	setPreviouslyGroupOwned(BOOL b)			{ mPreviouslyGroupOwned = b; }
 	void	setSellWithObjects(BOOL b)				{ setParcelFlag(PF_SELL_PARCEL_OBJECTS, b); }
 

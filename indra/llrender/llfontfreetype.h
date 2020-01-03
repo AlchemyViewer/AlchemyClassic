@@ -59,11 +59,10 @@ private:
 	struct LoadedFont
 	{
 		LoadedFont(std::string aName, std::unique_ptr<U8[]> aAddress, long aSize)
-			: mAddress(std::move(aAddress))
-		{
-			mName = aName;
-			mSize = aSize;
-		}
+			: mName(std::move(aName))
+			, mAddress(std::move(aAddress))
+			, mSize(aSize)
+		{ }
 
 		std::string mName;
 		std::unique_ptr<U8[]> mAddress;

@@ -75,7 +75,7 @@ public:
 	std::string	getImageName() const;
 
 	void			setColor(const LLColor4& color) override { mColor = color; }
-	void			setImage(LLPointer<LLUIImage> image) { mImagep = image; }
+	void			setImage(LLPointer<LLUIImage> image) { mImagep = std::move(image); }
 	const LLPointer<LLUIImage> getImage() const { return mImagep; }
 	
 protected:

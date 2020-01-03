@@ -130,7 +130,7 @@ public:
 	/*virtual*/ bool				canEdit() const override { return true; }
 	/*virtual*/ const LLColor4&		getColor() const override { return mStyle->getColor(); }
 	/*virtual*/ LLStyleConstSP		getStyle() const override { return mStyle; }
-	/*virtual*/ void 				setStyle(LLStyleConstSP style) override { mStyle = style; }
+	/*virtual*/ void 				setStyle(LLStyleConstSP style) override { mStyle = std::move(style); }
 	/*virtual*/ void				setToken( LLKeywordToken* token ) override { mToken = token; }
 	/*virtual*/ LLKeywordToken*		getToken() const override { return mToken; }
 	/*virtual*/ BOOL				getToolTip( std::string& msg ) const;

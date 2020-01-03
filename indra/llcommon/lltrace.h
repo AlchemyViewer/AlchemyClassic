@@ -294,7 +294,7 @@ struct MeasureMem<T*, IS_MEM_TRACKABLE, IS_BYTES>
 template<typename T, typename IS_MEM_TRACKABLE, typename IS_BYTES>
 struct MeasureMem<LLPointer<T>, IS_MEM_TRACKABLE, IS_BYTES>
 {
-	static size_t measureFootprint(const LLPointer<T> value)
+	static size_t measureFootprint(const LLPointer<T>& value)
 	{
 		if (value.isNull())
 		{

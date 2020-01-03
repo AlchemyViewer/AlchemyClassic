@@ -86,7 +86,7 @@ public:
 	void setAutoScale(bool auto_scale);
 	void setZoomFactor(F64 zoom_factor) { mZoomFactor = zoom_factor; }
 
-	void setBackgroundColor(LLColor4 color) { mBackgroundColor = color; };
+	void setBackgroundColor(const LLColor4& color) { mBackgroundColor = color; };
 	
 	void setOwner(LLPluginClassMediaOwner *owner) { mOwner = owner; };
 	
@@ -148,7 +148,7 @@ public:
 	// "Exited" means any regular or error state after "Running" (plugin may have crashed or exited normally)
 	bool isPluginExited(void) { return mPlugin?mPlugin->isDone():false; };
 
-	std::string getPluginVersion() { return mPlugin?mPlugin->getPluginVersion():std::string(""); };
+	std::string getPluginVersion() { return mPlugin?mPlugin->getPluginVersion():std::string(); };
 
 	bool getDisableTimeout() { return mPlugin?mPlugin->getDisableTimeout():false; };
 	void setDisableTimeout(bool disable) { if(mPlugin) mPlugin->setDisableTimeout(disable); };

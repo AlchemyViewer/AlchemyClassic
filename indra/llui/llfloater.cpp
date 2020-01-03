@@ -2080,19 +2080,21 @@ void LLFloater::updateTitleButtons()
 			LLRect btn_rect;
 			if (mDragOnLeft)
 			{
+				const S32 size = ll_round((F32)floater_close_box_size * mButtonScale);
 				btn_rect.setLeftTopAndSize(
 					LLPANEL_BORDER_WIDTH,
 					getRect().getHeight() - close_box_from_top - (floater_close_box_size + 1) * button_count,
-					ll_round((F32)floater_close_box_size * mButtonScale),
-					ll_round((F32)floater_close_box_size * mButtonScale));
+					size,
+					size);
 			}
 			else
 			{
+				const S32 size = ll_round((F32)floater_close_box_size * mButtonScale);
 				btn_rect.setLeftTopAndSize(
 					getRect().getWidth() - LLPANEL_BORDER_WIDTH - (floater_close_box_size + 1) * button_count,
 					getRect().getHeight() - close_box_from_top,
-					ll_round((F32)floater_close_box_size * mButtonScale),
-					ll_round((F32)floater_close_box_size * mButtonScale));
+					size,
+					size);
 			}
 
 			// first time here, init 'buttons_rect'
@@ -2140,19 +2142,21 @@ void LLFloater::buildButtons(const Params& floater_params)
 		LLRect btn_rect;
 		if (mDragOnLeft)
 		{
+			const S32 size = ll_round((F32)floater_close_box_size * mButtonScale);
 			btn_rect.setLeftTopAndSize(
 				LLPANEL_BORDER_WIDTH,
 				getRect().getHeight() - close_box_from_top - (floater_close_box_size + 1) * (i + 1),
-				ll_round(floater_close_box_size * mButtonScale),
-				ll_round(floater_close_box_size * mButtonScale));
+				size,
+				size);
 		}
 		else
 		{
+			const S32 size = ll_round((F32)floater_close_box_size * mButtonScale);
 			btn_rect.setLeftTopAndSize(
 				getRect().getWidth() - LLPANEL_BORDER_WIDTH - (floater_close_box_size + 1) * (i + 1),
 				getRect().getHeight() - close_box_from_top,
-				ll_round(floater_close_box_size * mButtonScale),
-				ll_round(floater_close_box_size * mButtonScale));
+				size,
+				size);
 		}
 
 		LLButton::Params p;

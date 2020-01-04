@@ -176,6 +176,101 @@ inline LLMatrix3::LLMatrix3(const F32 *mat)
 	mMatrix[2][2] = mat[8];
 }
 
+inline LLMatrix3 operator*(const LLMatrix3& a, const LLMatrix3& b)
+{
+	U32		i, j;
+	LLMatrix3	mat;
+	for (i = 0; i < NUM_VALUES_IN_MAT3; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT3; j++)
+		{
+			mat.mMatrix[j][i] = a.mMatrix[j][0] * b.mMatrix[0][i] +
+				a.mMatrix[j][1] * b.mMatrix[1][i] +
+				a.mMatrix[j][2] * b.mMatrix[2][i];
+		}
+	}
+	return mat;
+}
+
+/* Not implemented to help enforce code consistency with the syntax of
+   row-major notation.  This is a Good Thing.
+LLVector3 operator*(const LLMatrix3 &a, const LLVector3 &b)
+{
+	LLVector3	vec;
+	// matrix operates "from the left" on column vector
+	vec.mV[VX] = a.mMatrix[VX][VX] * b.mV[VX] +
+				 a.mMatrix[VX][VY] * b.mV[VY] +
+				 a.mMatrix[VX][VZ] * b.mV[VZ];
+
+	vec.mV[VY] = a.mMatrix[VY][VX] * b.mV[VX] +
+				 a.mMatrix[VY][VY] * b.mV[VY] +
+				 a.mMatrix[VY][VZ] * b.mV[VZ];
+
+	vec.mV[VZ] = a.mMatrix[VZ][VX] * b.mV[VX] +
+				 a.mMatrix[VZ][VY] * b.mV[VY] +
+				 a.mMatrix[VZ][VZ] * b.mV[VZ];
+	return vec;
+}
+*/
+
+
+inline bool operator==(const LLMatrix3& a, const LLMatrix3& b)
+{
+	U32		i, j;
+	for (i = 0; i < NUM_VALUES_IN_MAT3; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT3; j++)
+		{
+			if (a.mMatrix[j][i] != b.mMatrix[j][i])
+				return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+inline bool operator!=(const LLMatrix3& a, const LLMatrix3& b)
+{
+	U32		i, j;
+	for (i = 0; i < NUM_VALUES_IN_MAT3; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT3; j++)
+		{
+			if (a.mMatrix[j][i] != b.mMatrix[j][i])
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+inline const LLMatrix3& operator*=(LLMatrix3& a, const LLMatrix3& b)
+{
+	U32		i, j;
+	LLMatrix3	mat;
+	for (i = 0; i < NUM_VALUES_IN_MAT3; i++)
+	{
+		for (j = 0; j < NUM_VALUES_IN_MAT3; j++)
+		{
+			mat.mMatrix[j][i] = a.mMatrix[j][0] * b.mMatrix[0][i] +
+				a.mMatrix[j][1] * b.mMatrix[1][i] +
+				a.mMatrix[j][2] * b.mMatrix[2][i];
+		}
+	}
+	a = mat;
+	return a;
+}
+
+inline const LLMatrix3& operator*=(LLMatrix3& a, F32 scalar)
+{
+	for (auto& i : a.mMatrix)
+	{
+		for (float& j : i)
+		{
+			j *= scalar;
+		}
+	}
+
+	return a;
+}
 
 #endif
 

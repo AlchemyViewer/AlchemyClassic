@@ -2308,7 +2308,7 @@ void LLAppearanceMgr::createBaseOutfitLink(const LLUUID& category, LLPointer<LLI
 {
 	const LLUUID cof = getCOF();
 	LLViewerInventoryCategory* catp = gInventory.getCategory(category);
-	std::string new_outfit_name = "";
+	std::string new_outfit_name;
 
 	purgeBaseOutfitLink(cof, link_waiter);
 

@@ -199,7 +199,7 @@ public:
 	void			setText(const LLStringExplicit &new_text);
 
 	const std::string& getText() const		{ return mText.getString(); }
-	LLWString       getWText() const	{ return mText.getWString(); }
+	const LLWString&   getWText() const		{ return mText.getWString(); }
 	LLWString getConvertedText() const; // trimmed text with paragraphs converted to newlines
 
 	S32				getLength() const	{ return mText.length(); }

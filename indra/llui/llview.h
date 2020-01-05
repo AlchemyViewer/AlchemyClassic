@@ -319,7 +319,7 @@ public:
 	virtual LLRect getSnapRect() const;
 	LLRect getLocalSnapRect() const;
 
-	std::string getLayout() { return mLayout; }
+	const std::string& getLayout() { return mLayout; }
 
 	// Override and return required size for this object. 0 for width/height means don't care.
 	virtual LLRect getRequiredRect();

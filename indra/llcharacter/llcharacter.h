@@ -182,7 +182,7 @@ public:
 	
 	virtual LLJoint* findCollisionVolume(S32 volume_id) { return nullptr; }
 
-	virtual S32 getCollisionVolumeID(std::string &name) { return -1; }
+	virtual S32 getCollisionVolumeID(const std::string &name) { return -1; }
 
 	void setAnimationData(const std::string& name, void *data);
 	

@@ -1322,7 +1322,7 @@ LLJoint* LLAvatarAppearance::findCollisionVolume(S32 volume_id)
 //-----------------------------------------------------------------------------
 // findCollisionVolume()
 //-----------------------------------------------------------------------------
-S32 LLAvatarAppearance::getCollisionVolumeID(std::string &name)
+S32 LLAvatarAppearance::getCollisionVolumeID(const std::string &name)
 {
 	for (S32 i = 0; i < mNumCollisionVolumes; i++)
 	{

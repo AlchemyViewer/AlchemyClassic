@@ -583,7 +583,7 @@ public:
 	BOOL			getAutoPilotUseRotation() const		{ return mAutoPilotUseRotation; }
 	LLVector3		getAutoPilotTargetFacing() const	{ return mAutoPilotTargetFacing; }
 	F32				getAutoPilotRotationThreshold() const	{ return mAutoPilotRotationThreshold; }
-	std::string		getAutoPilotBehaviorName() const	{ return mAutoPilotBehaviorName; }
+	const std::string&	getAutoPilotBehaviorName() const	{ return mAutoPilotBehaviorName; }
 
 	void			startAutoPilotGlobal(const LLVector3d &pos_global, 
 										 const std::string& behavior_name = std::string(), 

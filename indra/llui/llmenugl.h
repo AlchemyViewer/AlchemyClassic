@@ -114,7 +114,7 @@ public:
 
 	// change the label
 	void setLabel( const LLStringExplicit& label ) { mLabel = label; }	
-	std::string getLabel( void ) const { return mLabel.getString(); }
+	const std::string& getLabel( void ) const { return mLabel.getString(); }
 	BOOL setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
 
 	// Get the parent menu for this item

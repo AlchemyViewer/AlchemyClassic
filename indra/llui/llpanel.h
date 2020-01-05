@@ -151,9 +151,9 @@ public:
 	void			setDefaultBtn(const std::string& id);
 	void			updateDefaultBtn();
 	void			setLabel(const LLStringExplicit& label) { mLabel = label; }
-	std::string		getLabel() const { return mLabel; }
+	const std::string&		getLabel() const { return mLabel.getString(); }
 	void			setHelpTopic(const std::string& help_topic) { mHelpTopic = help_topic; }
-	std::string		getHelpTopic() const { return mHelpTopic; }
+	const std::string&		getHelpTopic() const { return mHelpTopic; }
 	
 	void			setCtrlsEnabled(BOOL b);
 	ctrl_list_t		getCtrlList() const;

@@ -95,7 +95,7 @@ public:
 	/*virtual*/ const char*		getAnimationPrefix() override { return "avatar"; }
 	/*virtual*/ LLVector3		getVolumePos(S32 joint_index, LLVector3& volume_offset) override;
 	/*virtual*/ LLJoint*		findCollisionVolume(S32 volume_id) override;
-	/*virtual*/ S32				getCollisionVolumeID(std::string &name) override;
+	/*virtual*/ S32				getCollisionVolumeID(const std::string &name) override;
 	/*virtual*/ LLPolyMesh*		getHeadMesh() override;
 	/*virtual*/ LLPolyMesh*		getUpperBodyMesh() override;
 

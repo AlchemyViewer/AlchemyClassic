@@ -333,7 +333,7 @@ namespace LLInitParam
 				}
 			}
 
-			return "";
+			return std::string();
 		}
 
 		void clearValueName() const

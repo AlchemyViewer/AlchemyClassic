@@ -1264,7 +1264,7 @@ LLAOSet* LLAOEngine::getSetByName(const std::string& name) const
 	return found;
 }
 
-const std::string LLAOEngine::getCurrentSetName() const
+const std::string& LLAOEngine::getCurrentSetName() const
 {
 	if(mCurrentSet)
 	{

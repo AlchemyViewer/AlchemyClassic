@@ -179,7 +179,7 @@ public:
 	U32 getFilterPermMask() const;
 	void setFilterWearableTypes(U64 filter);
 	void setFilterSubString(const std::string& string);
-	const std::string getFilterSubString();
+	const std::string& getFilterSubString();
 	void setSinceLogoff(BOOL sl);
 	void setHoursAgo(U32 hours);
 	void setDateSearchDirection(U32 direction);

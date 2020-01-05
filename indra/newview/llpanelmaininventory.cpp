@@ -655,7 +655,7 @@ void LLPanelMainInventory::onFilterSelected()
 	setFilterTextFromFilter();
 }
 
-const std::string LLPanelMainInventory::getFilterSubString() 
+const std::string& LLPanelMainInventory::getFilterSubString() 
 { 
 	return mActivePanel->getFilterSubString(); 
 }

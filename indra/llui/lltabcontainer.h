@@ -202,7 +202,7 @@ public:
 	void 		setTabImage(LLPanel* child, const LLUUID& img_id, const LLColor4& color = LLColor4::white);
 	void		setTabImage(LLPanel* child, LLIconCtrl* icon);
 	void		setTitle( const std::string& title );
-	const std::string getPanelTitle(S32 index);
+	const std::string& getPanelTitle(S32 index);
 
 	void		setTopBorderHeight(S32 height);
 	S32			getTopBorderHeight() const;

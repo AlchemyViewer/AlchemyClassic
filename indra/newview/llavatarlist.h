@@ -83,7 +83,7 @@ public:
 	void sortByName();
 	void setShowIcons(std::string param_name);
 	bool getIconsVisible() const { return mShowIcons; }
-	const std::string getIconParamName() const {return mIconParamName;}
+	const std::string& getIconParamName() const {return mIconParamName;}
 	std::string getAvatarName(const LLAvatarName& av_name);
 	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 	BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;

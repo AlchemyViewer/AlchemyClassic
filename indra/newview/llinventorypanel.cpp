@@ -387,7 +387,7 @@ void LLInventoryPanel::setFilterSubString(const std::string& string)
 	getFilter().setFilterSubString(string);
 }
 
-const std::string LLInventoryPanel::getFilterSubString() 
+const std::string& LLInventoryPanel::getFilterSubString() 
 { 
 	return getFilter().getFilterSubString();
 }

@@ -1713,7 +1713,7 @@ void LLTabContainer::setTitle(const std::string& title)
 	}
 }
 
-const std::string LLTabContainer::getPanelTitle(S32 index)
+const std::string& LLTabContainer::getPanelTitle(S32 index)
 {
 	if (index >= 0 && index < (S32)mTabList.size())
 	{

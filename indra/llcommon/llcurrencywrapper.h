@@ -45,8 +45,8 @@ class LLCurrencyWrapper final : public LLSingleton<LLCurrencyWrapper>
 public:
     void setCurrency(const std::string& currency);
     void setHomeCurrency(const std::string& currency);
-    std::string getCurrency() const { return mCurrency; }
-    std::string getHomeCurrency() const { return mHomeCurrency; }
+    const std::string& getCurrency() const { return mCurrency; }
+    const std::string& getHomeCurrency() const { return mHomeCurrency; }
     std::string wrapCurrency(const std::string& to_substitute) const;
     void wrapCurrency(std::string& to_substitute) const;
 

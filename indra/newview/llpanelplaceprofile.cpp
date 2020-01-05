@@ -390,7 +390,7 @@ void LLPanelPlaceProfile::displaySelectedParcelInfo(LLParcel* parcel,
 		mEstateRatingIcon->setValue(icon_pg);
 	}
 
-	std::string rating = LLViewerRegion::accessToString(sim_access);
+	const std::string& rating = LLViewerRegion::accessToString(sim_access);
 	mParcelRatingText->setText(rating);
 	mRegionRatingText->setText(rating);
 

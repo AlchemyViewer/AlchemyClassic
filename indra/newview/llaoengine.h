@@ -129,7 +129,7 @@ public:
 	static void onLoginComplete();
 
 	const std::vector<LLAOSet*> getSetList() const;
-	const std::string getCurrentSetName() const;
+	const std::string& getCurrentSetName() const;
 	const LLAOSet* getDefaultSet() const;
 	bool renameSet(LLAOSet* set, const std::string& name);
 

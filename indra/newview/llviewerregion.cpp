@@ -841,7 +841,7 @@ BOOL LLViewerRegion::canManageEstate() const
 		|| gAgent.getID() == getOwner();
 }
 
-const std::string LLViewerRegion::getSimAccessString() const
+const std::string& LLViewerRegion::getSimAccessString() const
 {
 	return accessToString(mSimAccess);
 }
@@ -871,7 +871,7 @@ std::string LLViewerRegion::regionFlagsToString(U64 flags)
 }
 
 // static
-std::string LLViewerRegion::accessToString(U8 sim_access)
+const std::string& LLViewerRegion::accessToString(U8 sim_access)
 {
 	switch (sim_access)
 	{
@@ -907,42 +907,51 @@ std::string LLViewerRegion::accessToString(U8 sim_access)
 }
 
 // static
-std::string LLViewerRegion::getAccessIcon(U8 sim_access)
+const std::string& LLViewerRegion::getAccessIcon(U8 sim_access)
 {
+	static const std::string parcel_m_dark("Parcel_M_Dark");
+	static const std::string parcel_r_light("Parcel_R_Light");
+	static const std::string parcel_pg_light("Parcel_PG_Light");
+
 	switch(sim_access)
 	{
 	case SIM_ACCESS_MATURE:
-		return "Parcel_M_Dark";
+		return parcel_m_dark;
 
 	case SIM_ACCESS_ADULT:
-		return "Parcel_R_Light";
+		return parcel_r_light;
 
 	case SIM_ACCESS_PG:
-		return "Parcel_PG_Light";
+		return parcel_pg_light;
 
 	case SIM_ACCESS_MIN:
 	default:
-		return "";
+		return LLStringUtil::null;
 	}
 }
 
 // static
-std::string LLViewerRegion::accessToShortString(U8 sim_access)
+const std::string& LLViewerRegion::accessToShortString(U8 sim_access)
 {
+	static const std::string ACCESS_PG_SHORT_STR("PG");
+	static const std::string ACCESS_MATURE_SHORT_STR("M");
+	static const std::string ACCESS_ADULT_SHORT_STR("A");
+	static const std::string ACCESS_MIN_SHORT_STR("U");
+
 	switch(sim_access)		/* Flawfinder: ignore */
 	{
 	case SIM_ACCESS_PG:
-		return "PG";
+		return ACCESS_PG_SHORT_STR;
 
 	case SIM_ACCESS_MATURE:
-		return "M";
+		return ACCESS_MATURE_SHORT_STR;
 
 	case SIM_ACCESS_ADULT:
-		return "A";
+		return ACCESS_ADULT_SHORT_STR;
 
 	case SIM_ACCESS_MIN:
 	default:
-		return "U";
+		return ACCESS_MIN_SHORT_STR;
 	}
 }
 

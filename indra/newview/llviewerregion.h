@@ -192,7 +192,7 @@ public:
 
 	void setSimAccess(U8 sim_access)			{ mSimAccess = sim_access; }
 	U8 getSimAccess() const						{ return mSimAccess; }
-	const std::string getSimAccessString() const;
+	const std::string& getSimAccessString() const;
 	
 	// Homestead-related getters; there are no setters as nobody should be
 	// setting them other than the individual message handler which is a member
@@ -206,14 +206,14 @@ public:
 	static std::string regionFlagsToString(U64 flags);
 
 	// Returns translated version of "Mature", "PG", "Adult", etc.
-	static std::string accessToString(U8 sim_access);
+	static const std::string& accessToString(U8 sim_access);
 
 	// Returns "M", "PG", "A" etc.
-	static std::string accessToShortString(U8 sim_access);
+	static const std::string& accessToShortString(U8 sim_access);
 	static U8          shortStringToAccess(const std::string &sim_access);
 
 	// Return access icon name
-	static std::string getAccessIcon(U8 sim_access);
+	static const std::string& getAccessIcon(U8 sim_access);
 	
 	// helper function which just makes sure all interested parties
 	// can process the message.
@@ -361,8 +361,8 @@ public:
 	friend std::ostream& operator<<(std::ostream &s, const LLViewerRegion &region);
     /// implements LLCapabilityProvider
     virtual std::string getDescription() const override;
-    std::string getLegacyHttpUrl() const { return mLegacyHttpUrl; }
-    std::string getViewerAssetUrl() const { return mViewerAssetUrl; }
+    const std::string& getLegacyHttpUrl() const { return mLegacyHttpUrl; }
+    const std::string& getViewerAssetUrl() const { return mViewerAssetUrl; }
 
 	U32 getNumOfVisibleGroups() const;
 	U32 getNumOfActiveCachedObjects() const;

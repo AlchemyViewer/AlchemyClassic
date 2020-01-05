@@ -248,7 +248,7 @@ void LLView::setToolTipArgs( const LLStringUtil::format_map_t& args )
 const std::string LLView::getToolTip() const
 {
     if (!mToolTipMsg || !mToolTipMsg[0])
-        return "";
+        return std::string();
     
     if (mTooltipArgs)
     {

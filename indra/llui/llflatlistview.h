@@ -492,7 +492,7 @@ public:
 	 * Sets up new filter string and filters the list.
 	 */
 	void setFilterSubString(const std::string& filter_str);
-	std::string getFilterSubString() const { return mFilterSubString; }
+	const std::string& getFilterSubString() const { return mFilterSubString; }
 	
 	/**
 	 * Filters the list, rearranges and notifies parent about shape changes.

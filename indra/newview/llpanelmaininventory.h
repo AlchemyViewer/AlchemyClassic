@@ -110,7 +110,7 @@ protected:
 	static BOOL incrementalFind(LLFolderViewItem* first_item, const char *find_text, BOOL backward);
 	void onFilterSelected();
 
-	const std::string getFilterSubString();
+	const std::string& getFilterSubString();
 	void setFilterSubString(const std::string& string);
 
 	// menu callbacks

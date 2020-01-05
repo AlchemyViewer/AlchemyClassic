@@ -14,10 +14,10 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
         string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+" "\\1" VIEWER_VERSION_MINOR ${VIEWER_SHORT_VERSION})
         string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+)" "\\1" VIEWER_VERSION_PATCH ${VIEWER_SHORT_VERSION})
 
-        if ((NOT REVISION_FROM_HG) AND DEFINED ENV{revision})
+        if ((NOT REVISION_FROM_VCS) AND DEFINED ENV{revision})
            set(VIEWER_VERSION_REVISION $ENV{revision})
            message(STATUS "Revision (from environment): ${VIEWER_VERSION_REVISION}")
-        elseif ((NOT REVISION_FROM_HG) AND DEFINED ENV{AUTOBUILD_BUILD_ID})
+        elseif ((NOT REVISION_FROM_VCS) AND DEFINED ENV{AUTOBUILD_BUILD_ID})
            set(VIEWER_VERSION_REVISION $ENV{AUTOBUILD_BUILD_ID})
            message(STATUS "Revision (from autobuild environment): ${VIEWER_VERSION_REVISION}")
         elseif (Git_FOUND)

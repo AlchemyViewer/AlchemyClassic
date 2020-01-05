@@ -70,7 +70,7 @@ public:
 	void			setTitleVisible(BOOL visible);
 
 	virtual void	setTitle( const std::string& title ) = 0;
-	virtual std::string	getTitle() const = 0;
+	virtual const std::string& getTitle() const = 0;
 
 	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
 	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
@@ -109,7 +109,7 @@ protected:
 	friend class LLUICtrlFactory;
 public:
 	void	setTitle( const std::string& title ) override;
-	std::string getTitle() const override;
+	const std::string& getTitle() const override;
 	void	draw() override;
 	void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
@@ -127,7 +127,7 @@ protected:
 	friend class LLUICtrlFactory;
 public:
 	void	setTitle( const std::string& title ) override;
-	std::string getTitle() const override;
+	const std::string& getTitle() const override;
 	void	draw() override;
 	void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 

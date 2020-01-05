@@ -115,7 +115,7 @@ void LLDragHandleTop::setTitle(const std::string& title)
 }
 
 
-std::string LLDragHandleTop::getTitle() const
+const std::string& LLDragHandleTop::getTitle() const
 {
 	return mTitleBox == nullptr ? LLStringUtil::null : mTitleBox->getText();
 }
@@ -133,7 +133,7 @@ void LLDragHandleLeft::setTitle(const std::string& )
 }
 
 
-std::string LLDragHandleLeft::getTitle() const
+const std::string& LLDragHandleLeft::getTitle() const
 {
 	return LLStringUtil::null;
 }

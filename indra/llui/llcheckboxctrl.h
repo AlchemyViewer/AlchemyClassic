@@ -99,7 +99,7 @@ public:
 	void				setDisabledColor( const LLColor4 &color ) { mTextDisabledColor = color; }
 
 	void				setLabel( const LLStringExplicit& label );
-	std::string			getLabel() const;
+	const std::string&	getLabel() const;
 
 	void				setFont( const LLFontGL* font ) { mFont = font; }
 	const LLFontGL*		getFont() { return mFont; }

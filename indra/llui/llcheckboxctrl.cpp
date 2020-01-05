@@ -191,7 +191,7 @@ void LLCheckBoxCtrl::setLabel( const LLStringExplicit& label )
 	reshape(getRect().getWidth(), getRect().getHeight(), FALSE);
 }
 
-std::string LLCheckBoxCtrl::getLabel() const
+const std::string& LLCheckBoxCtrl::getLabel() const
 {
 	return mLabel->getText();
 }

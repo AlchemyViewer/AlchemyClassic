@@ -68,10 +68,10 @@ public:
 
 	BOOL postBuild() override;
 
-	std::string getTitle();
+	const std::string& getTitle();
 	void	setTitle(const std::string& title, const std::string& hl);
 
-	void	setTitleFontStyle(std::string style);
+	void	setTitleFontStyle(const std::string& style);
 
 	void	setTitleColor(const LLUIColor& color);
 
@@ -155,7 +155,7 @@ BOOL LLAccordionCtrlTab::LLAccordionCtrlTabHeader::postBuild()
 	return TRUE;
 }
 
-std::string LLAccordionCtrlTab::LLAccordionCtrlTabHeader::getTitle()
+const std::string& LLAccordionCtrlTab::LLAccordionCtrlTabHeader::getTitle()
 {
 	if(mHeaderTextbox)
 	{
@@ -179,7 +179,7 @@ void LLAccordionCtrlTab::LLAccordionCtrlTabHeader::setTitle(const std::string& t
 	}
 }
 
-void LLAccordionCtrlTab::LLAccordionCtrlTabHeader::setTitleFontStyle(std::string style)
+void LLAccordionCtrlTab::LLAccordionCtrlTabHeader::setTitleFontStyle(const std::string& style)
 {
 	if (mHeaderTextbox)
 	{
@@ -508,7 +508,7 @@ void LLAccordionCtrlTab::setAccordionView(LLView* panel)
 	addChild(panel,0);
 }
 
-std::string LLAccordionCtrlTab::getTitle() const
+const std::string& LLAccordionCtrlTab::getTitle() const
 {
 	if (mHeader)
 	{

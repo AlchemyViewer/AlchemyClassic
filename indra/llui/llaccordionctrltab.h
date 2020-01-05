@@ -109,7 +109,7 @@ public:
 	void		setAccordionView(LLView* panel);
 	LLView*		getAccordionView() { return mContainerPanel; };
 
-	std::string getTitle() const;
+	const std::string& getTitle() const;
 
 	// Set text and highlight substring in LLAccordionCtrlTabHeader
 	void setTitle(const std::string& title, const std::string& hl = LLStringUtil::null);

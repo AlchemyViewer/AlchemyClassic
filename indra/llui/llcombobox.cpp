@@ -1011,7 +1011,7 @@ void LLComboBox::updateSelection()
 
 void LLComboBox::onTextCommit(const LLSD& data)
 {
-	std::string text = mTextEntry->getText();
+	const std::string& text = mTextEntry->getText();
 	setSimple(text);
 	onCommit();
 	mTextEntry->selectAll();

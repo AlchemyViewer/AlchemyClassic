@@ -63,7 +63,7 @@ public:
 
 	LLChatEntry* getChatBox() const { return mInputEditor; }
 
-	std::string getCurrentChat() const;
+	const std::string& getCurrentChat() const;
 	S32 getMessageArchiveLength() const {return mMessageArchive.size();}
 
 	BOOL handleKeyHere( KEY key, MASK mask ) override;

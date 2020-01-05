@@ -320,7 +320,7 @@ void LLTimeCtrl::updateText()
 LLTimeCtrl::EEditingPart LLTimeCtrl::getEditingPart()
 {
 	S32 cur_pos = mEditor->getCursor();
-	std::string time_str = mEditor->getText();
+	const std::string& time_str = mEditor->getText();
 
 	size_t colon_index = time_str.find_first_of(':');
 

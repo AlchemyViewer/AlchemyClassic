@@ -2047,9 +2047,9 @@ void LLTextBase::setText(const LLStringExplicit &utf8str, const LLStyle::Params&
 }
 
 //virtual
-std::string LLTextBase::getText() const
+const std::string& LLTextBase::getText() const
 {
-	return getViewModel()->getValue().asString();
+	return getViewModel()->getValue().asStringRef();
 }
 
 // IDEVO - icons can be UI image names or UUID sent from

@@ -69,8 +69,8 @@ public:
     // "general" fields
     bool getAltImageEnable() const { return mAltImageEnable; }
     MediaControls getControls() const { return mControls; }
-    std::string getCurrentURL() const { return mCurrentURL; }
-    std::string getHomeURL() const { return mHomeURL; }
+    const std::string& getCurrentURL() const { return mCurrentURL; }
+    const std::string& getHomeURL() const { return mHomeURL; }
     bool getAutoLoop() const { return mAutoLoop; }
     bool getAutoPlay() const { return mAutoPlay; }
     bool getAutoScale() const { return mAutoScale; }

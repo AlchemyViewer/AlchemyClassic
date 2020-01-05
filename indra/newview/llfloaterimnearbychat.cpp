@@ -373,7 +373,7 @@ void LLFloaterIMNearbyChat::showHistory()
 	setResizeLimits(getMinWidth(), EXPANDED_MIN_HEIGHT);
 }
 
-std::string LLFloaterIMNearbyChat::getCurrentChat() const
+const std::string& LLFloaterIMNearbyChat::getCurrentChat() const
 {
 	return mInputEditor ? mInputEditor->getText() : LLStringUtil::null;
 }

@@ -23,7 +23,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   absl
   GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-  GIT_TAG        29235139149790f5afc430c11cec8f1eb1677607
+  GIT_TAG        0f86336b6939ea673cc1cbe29189286cae67d63a
 )
 
 # This is a hack because absl has dumb cmake

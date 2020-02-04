@@ -10,4 +10,4 @@
 ## Screenshots, Mockups, etc
 (Attach or paste any relevant screenshots or mockups.)
 
-/label ~New-Feature ~Needs-Investigation
+/label ~Type::New Feature ~Status::Awaiting-Investigation

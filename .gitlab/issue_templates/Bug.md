@@ -11,8 +11,10 @@
 (What you should see instead)
 
 ## Environment
-(Please open `Help->About Alchemy` and use Copy to Clipboard then paste its contents within the code blocks below)
 ```
+
+(Please open `Help->About Alchemy` and click Copy to Clipboard then paste its contents here)
+
 
 ```
 ## Relevant logs and/or screenshots
@@ -20,4 +22,4 @@
 logs, and code as it's very hard to read otherwise.)
 
 
-/label ~Bug ~Needs-Investigation
+/label ~Type::Bug ~Status::Awaiting-Investigation

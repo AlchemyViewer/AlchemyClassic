@@ -1351,7 +1351,8 @@
 
                 <menu_item_check
                  label="Show Selection Outlines"
-                 name="Show Selection Outlines">
+                 name="Show Selection Outlines"
+                 shortcut="control|alt|H">
                     <menu_item_check.on_check
                      function="CheckControl"
                      parameter="RenderHighlightSelections" />
@@ -1361,7 +1362,8 @@
                 </menu_item_check>
                 <menu_item_check
                  label="Show Hidden Selection"
-                 name="Show Hidden Selection">
+                 name="Show Hidden Selection"
+                 shortcut="control|alt|B">
                     <menu_item_check.on_check
                      control="RenderHiddenSelections" />
                     <menu_item_check.on_click

@@ -125,9 +125,11 @@ BOOL LLSidepanelTaskInfo::postBuild()
 
 	mCreatorNameLabel = getChild<LLTextBox>("CreatorNameLabel");
 	mCreatorNameEditor = getChild<LLTextBox>("Creator Name");
+	mCreatorNameEditor->setValue(LLStringUtil::null);
 
 	mOwnerNameLabel = getChild<LLTextBox>("Owner:");
 	mOwnerNameEditor = getChild<LLTextBox>("Owner Name");
+	mOwnerNameEditor->setValue(LLStringUtil::null);
 
 	mGroupNameLabel = getChild<LLTextBox>("Group_label");
 	mGroupSetButton = getChild<LLButton>("button set group");

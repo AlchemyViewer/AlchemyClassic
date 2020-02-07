@@ -38,7 +38,7 @@ void ll::prefs::SearchableItem::setNotHighlighted()
 	mCtrl->setHighlighted( false );
 }
 
-bool ll::prefs::SearchableItem::hightlightAndHide( LLWString const &aFilter )
+bool ll::prefs::SearchableItem::highlightAndHide( LLWString const &aFilter )
 {
 	if( mCtrl->getHighlighted() )
 		return true;
@@ -65,38 +65,33 @@ bool ll::prefs::SearchableItem::hightlightAndHide( LLWString const &aFilter )
 ll::prefs::PanelData::~PanelData()
 {}
 
-bool ll::prefs::PanelData::hightlightAndHide( LLWString const &aFilter )
+bool ll::prefs::PanelData::highlightAndHide( LLWString const &aFilter )
 {
 	for (auto& itr : mChildren)
-        itr->setNotHighlighted( );
+		itr->setNotHighlighted();
 
-	if (aFilter.empty())
-	{
-		return true;
-	}
-
-	bool bVisible(false);
+	bool bVisible(mChildren.size() == 0 && aFilter.empty());
 	for (auto& itr : mChildren)
-        bVisible |= itr->hightlightAndHide( aFilter );
+		bVisible |= itr->highlightAndHide(aFilter);
 
 	for (auto& itr : mChildPanel)
-        bVisible |= itr->hightlightAndHide( aFilter );
+		bVisible |= itr->highlightAndHide(aFilter);
 
 	return bVisible;
 }
 
-bool ll::prefs::TabContainerData::hightlightAndHide( LLWString const &aFilter )
+bool ll::prefs::TabContainerData::highlightAndHide( LLWString const &aFilter )
 {
 	for (auto& itr : mChildren)
         itr->setNotHighlighted( );
 
 	bool bVisible(false);
 	for (auto& itr : mChildren)
-        bVisible |= itr->hightlightAndHide( aFilter );
+        bVisible |= itr->highlightAndHide( aFilter );
 
 	for (auto& itr : mChildPanel)
     {
-		bool bPanelVisible = itr->hightlightAndHide( aFilter );
+		bool bPanelVisible = itr->highlightAndHide( aFilter );
 		if(itr->mPanel )
 			mTabContainer->setTabVisibility(itr->mPanel, bPanelVisible );
 		bVisible |= bPanelVisible;
@@ -125,7 +120,7 @@ void ll::statusbar::SearchableItem::setNotHighlighted( )
 	}
 }
 
-bool ll::statusbar::SearchableItem::hightlightAndHide(LLWString const &aFilter, bool hide)
+bool ll::statusbar::SearchableItem::highlightAndHide(LLWString const &aFilter, bool hide)
 {
 	if ((mMenu && !mMenu->getVisible() && !mWasHiddenBySearch) || dynamic_cast<LLMenuItemTearOffGL*>(mMenu))
 		return false;
@@ -149,7 +144,7 @@ bool ll::statusbar::SearchableItem::hightlightAndHide(LLWString const &aFilter, 
 
 	bool bVisible(false);
 	for (auto& itr : mChildren)
-        bVisible |= itr->hightlightAndHide(aFilter, !bHighlighted);
+        bVisible |= itr->highlightAndHide(aFilter, !bHighlighted);
 
 	if (mCtrl && !bVisible && !bHighlighted)
 	{

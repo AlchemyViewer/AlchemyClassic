@@ -400,7 +400,7 @@
       <key>curl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1996 - 2018, Daniel Stenberg, (daniel@haxx.se), and many contributors</string>
+        <string>Copyright (c) 1996 - 2019, Daniel Stenberg, (daniel@haxx.se), and many contributors</string>
         <key>description</key>
         <string>Library for transferring data specified with URL syntax</string>
         <key>license</key>
@@ -456,11 +456,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>db4e519d70f3df36667da0c1b8e941e2</string>
+              <string>8d241eeb98bc9074fd9d6239c1be707f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows/curl-7.66.0.5-windows-5.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows/curl-7.68.0.175-windows-175.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -470,18 +470,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>be66d8208beea0ed996c7196b624df4e</string>
+              <string>b0f5b29abd291f431da5e674d2f2bad6</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows64/curl-7.66.0.5-windows64-5.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/windows64/curl-7.68.0.175-windows64-175.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.66.0.5</string>
+        <string>7.68.0.175</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -2212,11 +2212,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dd879ffe07d5649c1c7a5f30aa473b96</string>
+              <string>b35e92ce25c81ef08a380712808887e0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/windows/nghttp2-1.39.2.3-windows-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/windows/nghttp2-1.40.0.172-windows-172.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2226,11 +2226,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9d352514cdc27540218bbbf2dfce2921</string>
+              <string>e70b5cdbc934ed48f75e3c2465a668b4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/windows64/nghttp2-1.39.2.3-windows64-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/windows64/nghttp2-1.40.0.172-windows64-172.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2239,7 +2239,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>source_type</key>
         <string>hg</string>
         <key>version</key>
-        <string>1.39.2.3</string>
+        <string>1.40.0.172</string>
       </map>
       <key>nvapi</key>
       <map>

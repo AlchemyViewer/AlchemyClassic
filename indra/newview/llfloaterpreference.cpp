@@ -3082,18 +3082,18 @@ void LLFloaterPreference::disableUnavailableSettings()
 
 void LLFloaterPreference::onUpdateFilterTerm(bool force)
 {
-	LLWString seachValue = utf8str_to_wstring( mFilterEdit->getValue() );
-	LLWStringUtil::toLower( seachValue );
+	LLWString searchValue = utf8str_to_wstring( mFilterEdit->getValue() );
+	LLWStringUtil::toLower( searchValue );
 
-	if( !mSearchData || (mSearchData->mLastFilter == seachValue && !force))
+	if( !mSearchData || (mSearchData->mLastFilter == searchValue && !force))
 		return;
 
-	mSearchData->mLastFilter = seachValue;
+	mSearchData->mLastFilter = searchValue;
 
 	if( !mSearchData->mRootTab )
 		return;
 
-	mSearchData->mRootTab->hightlightAndHide( seachValue );
+	mSearchData->mRootTab->highlightAndHide( searchValue );
 	LLTabContainer *pRoot = getChild< LLTabContainer >( "pref core" );
 	if( pRoot )
 		pRoot->selectFirstTab();

@@ -35,10 +35,10 @@ namespace ll
 	{
 		class SearchableControl
 		{
-			mutable bool mIsHighlighed;
+			mutable bool mIsHighlighted;
 		public:
 			SearchableControl()
-				: mIsHighlighed( false )
+				: mIsHighlighted( false )
 			{ }
 			virtual ~SearchableControl() = default;
 
@@ -50,11 +50,11 @@ namespace ll
 
 			void setHighlighted( bool aVal ) const
 			{
-				mIsHighlighed = aVal;
+				mIsHighlighted = aVal;
 				onSetHighlight( );
 			}
 			bool getHighlighted( ) const
-			{ return mIsHighlighed; }
+			{ return mIsHighlighted; }
 
 			std::string getSearchText() const
 			{ return _getSearchText(); } 

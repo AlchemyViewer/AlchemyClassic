@@ -70,12 +70,7 @@ bool ll::prefs::PanelData::highlightAndHide( LLWString const &aFilter )
 	for (auto& itr : mChildren)
 		itr->setNotHighlighted();
 
-	if (aFilter.empty())
-	{
-		return true;
-	}
-
-	bool bVisible(false);
+	bool bVisible(mChildren.size() == 0 && aFilter.empty());
 	for (auto& itr : mChildren)
 		bVisible |= itr->highlightAndHide(aFilter);
 

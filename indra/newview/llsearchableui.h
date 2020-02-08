@@ -60,7 +60,7 @@ namespace ll
 			virtual ~SearchableItem();
 
 			void setNotHighlighted();
-			virtual bool hightlightAndHide( LLWString const &aFilter );
+			virtual bool highlightAndHide( LLWString const &aFilter );
 		};
 
 		struct PanelData
@@ -73,13 +73,13 @@ namespace ll
 
 			virtual ~PanelData();
 
-			virtual bool hightlightAndHide( LLWString const &aFilter );
+			virtual bool highlightAndHide( LLWString const &aFilter );
 		};
 
 		struct TabContainerData: public PanelData
 		{
 			LLTabContainer *mTabContainer;
-			virtual bool hightlightAndHide( LLWString const &aFilter );
+			virtual bool highlightAndHide( LLWString const &aFilter );
 		};
 
 		struct SearchData
@@ -107,7 +107,7 @@ namespace ll
 			SearchableItem();
 
 			void setNotHighlighted( );
-			bool hightlightAndHide( LLWString const &aFilter, bool hide = true );
+			bool highlightAndHide( LLWString const &aFilter, bool hide = true );
 		};
 
 		struct SearchData

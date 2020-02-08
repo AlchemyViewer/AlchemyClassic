@@ -706,7 +706,7 @@ void LLStatusBar::onUpdateFilterTerm()
 
 	mSearchData->mLastFilter = searchValue;
 
-	mSearchData->mRootMenu->hightlightAndHide( searchValue );
+	mSearchData->mRootMenu->highlightAndHide( searchValue );
 	gMenuBarView->needsArrange();
 }
 

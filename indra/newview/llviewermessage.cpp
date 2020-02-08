@@ -2219,8 +2219,7 @@ void send_do_not_disturb_message(LLMessageSystem* msg, const LLUUID& from_id, co
 		std::string my_name;
 		LLAgentUI::buildFullname(my_name);
 		std::string name;
-		msg->getStringFast(_PREHASH_MessageBlock, _PREHASH_FromAgentName, name);
-		name = LLCacheName::cleanFullName(name);
+		gCacheName->getFullName(from_id, name);
 		std::string response = gSavedPerAccountSettings.getString("DoNotDisturbModeResponse");
 		pack_instant_message(
 			msg,

@@ -670,22 +670,17 @@ BOOL LLFloaterMessageLog::onClickCloseCircuit(void* user_data)
 void LLFloaterMessageLog::onConfirmCloseCircuit(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (option != 0)
+	{
+		// Not yes
+		return;
+	}
 
 	LLCircuitData* cdp = gMessageSystem->mCircuitInfo.findCircuit(LLHost(notification["payload"]["circuittoclose"].asString()));
 	if(!cdp) return;
 	LLViewerRegion* regionp = LLWorld::getInstance()->getRegion(cdp->getHost());
-	switch(option)
-	{
-	case 0: // yes
-		gMessageSystem->newMessageFast(_PREHASH_CloseCircuit);
-		gMessageSystem->sendReliable(cdp->getHost());
-		break;
-	case 2: // cancel
-		return;
-	case 1: // no
-	default:
-		break;
-	}
+	gMessageSystem->newMessageFast(_PREHASH_CloseCircuit);
+	gMessageSystem->sendReliable(cdp->getHost());
 	if(gMessageSystem->findCircuitCode(cdp->getHost()))
 		gMessageSystem->disableCircuit(cdp->getHost());
 	else

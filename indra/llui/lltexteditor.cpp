@@ -291,6 +291,7 @@ LLTextEditor::LLTextEditor(const LLTextEditor::Params& p) :
 	setText(p.default_text());
 	
 	mParseOnTheFly = TRUE;
+	mParseHTML = p.read_only;
 }
 
 void LLTextEditor::initFromParams( const LLTextEditor::Params& p)
@@ -2135,6 +2136,7 @@ void LLTextEditor::setEnabled(BOOL enabled)
 	bool read_only = !enabled;
 	if (read_only != mReadOnly)
 	{
+		mParseHTML = read_only;
 		//mReadOnly = read_only;
 		LLTextBase::setReadOnly(read_only);
 		updateSegments();

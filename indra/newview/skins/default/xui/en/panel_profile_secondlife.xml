@@ -158,8 +158,7 @@
        bg_readonly_color="DkGray2"
        text_readonly_color="White"
        commit_on_focus_lost="true"
-       word_wrap="true"
-       parse_urls="true" />
+       word_wrap="true" />
       <text
        font="SansSerifSmall"
        text_color="White_50"

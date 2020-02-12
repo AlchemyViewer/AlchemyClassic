@@ -98,7 +98,7 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 		LLAvatarNameCache::get(id, &av_name);
 
 		const bool rlv_show_name = RlvActions::canShowName(RlvActions::SNC_DEFAULT, id);
-		if (LLMuteList::instance().isLinden(av_name.getUserName()) && rlv_show_name) // linden
+		if (LLMuteList::instance().isLinden(av_name.getUserName())) // linden
 		{
 			return av_linden_color.get();
 		}

@@ -1337,7 +1337,7 @@ void send_agent_resume()
 	LLAppViewer::instance()->resumeMainloopTimeout();
 }
 
-static LLVector3d unpackLocalToGlobalPosition(U32 compact_local, const LLVector3d& region_origin)
+static LLVector3d unpackLocalToGlobalPosition(U32 compact_local, const LLVector3d& region_origin, F32 width_scale_factor)
 {
 	LLVector3d pos_local;
 
@@ -1345,6 +1345,9 @@ static LLVector3d unpackLocalToGlobalPosition(U32 compact_local, const LLVector3
 	pos_local.mdV[VY] = (compact_local >> 8) & 0xFFU;
 	pos_local.mdV[VX] = (compact_local >> 16) & 0xFFU;
 
+	// Scaling for OpenSim VarRegions
+	pos_local.mdV[VX] *= width_scale_factor;
+	pos_local.mdV[VY] *= width_scale_factor;
 	return region_origin + pos_local;
 }
 
@@ -1396,7 +1399,7 @@ void LLWorld::getAvatars(uuid_vec_t* avatar_ids, std::vector<LLVector3d>* positi
 		{
 			LLUUID uuid = regionp->mMapAvatarIDs[i];
 			if (uuid.isNull()) continue;
-			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global);
+			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global, regionp->getWidthScaleFactor());
 			if(dist_vec_squared(pos_global, relative_to) <= radius_squared)
 			{
 				// if this avatar doesn't already exist in the list, add it
@@ -1450,7 +1453,7 @@ void LLWorld::getAvatars(pos_map_t* umap, const LLVector3d& relative_to, F32 rad
 			LLUUID uuid = regionp->mMapAvatarIDs[i];
 			if (uuid.isNull()) continue;
 
-			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global);
+			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global, regionp->getWidthScaleFactor());
 			if(dist_vec_squared(pos_global, relative_to) <= radius_squared)
 			{
 				umap->emplace(uuid, pos_global);
@@ -1497,7 +1500,7 @@ void LLWorld::getAvatars(region_gpos_map_t* umap, const LLVector3d& relative_to,
 			LLUUID uuid = regionp->mMapAvatarIDs[i];
 			if (uuid.isNull()) continue;
 
-			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global);
+			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global, regionp->getWidthScaleFactor());
 			if (dist_vec_squared(pos_global, relative_to) <= radius_squared)
 			{
 				umap->emplace(uuid, regionp_gpos_pair_t(regionp, pos_global));
@@ -1525,7 +1528,7 @@ bool LLWorld::getAvatar(const LLUUID& idAvatar, LLVector3d& posAvatar) const
 		{
 			if (idAvatar == pRegion->mMapAvatarIDs[idxAgent])
 			{
-				posAvatar = unpackLocalToGlobalPosition(pRegion->mMapAvatars[idxAgent], pRegion->getOriginGlobal());
+				posAvatar = unpackLocalToGlobalPosition(pRegion->mMapAvatars[idxAgent], pRegion->getOriginGlobal(), pRegion->getWidthScaleFactor());
 				return true;
 			}
 		}

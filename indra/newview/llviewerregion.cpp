@@ -533,6 +533,7 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mWidth(region_width_meters),
 	mHandle(handle),
 	mTimeDilation(1.0f),
+	mWidthScaleFactor(region_width_meters / REGION_WIDTH_METERS),
 	mName(""),
 	mZoning(""),
 	mIsEstateManager(FALSE),
@@ -2072,8 +2073,8 @@ public:
 			if(i == target_index)
 			{
 				LLVector3d global_pos(region->getOriginGlobal());
-				global_pos.mdV[VX] += (F64)x;
-				global_pos.mdV[VY] += (F64)y;
+				global_pos.mdV[VX] += (F64)x * region->getWidthScaleFactor();
+				global_pos.mdV[VY] += (F64)y * region->getWidthScaleFactor();
 				global_pos.mdV[VZ] += (F64)z * 4.0;
 				LLAvatarTracker::instance().setTrackedCoarseLocation(global_pos);
 			}
@@ -2176,8 +2177,8 @@ void LLViewerRegion::updateCoarseLocations(LLMessageSystem* msg)
 		if(i == target_index)
 		{
 			LLVector3d global_pos(mImpl->mOriginGlobal);
-			global_pos.mdV[VX] += (F64)(x_pos);
-			global_pos.mdV[VY] += (F64)(y_pos);
+			global_pos.mdV[VX] += (F64)(x_pos) * mWidthScaleFactor;
+			global_pos.mdV[VY] += (F64)(y_pos) * mWidthScaleFactor;
 			global_pos.mdV[VZ] += (F64)(z_pos) * 4.0;
 			LLAvatarTracker::instance().setTrackedCoarseLocation(global_pos);
 		}

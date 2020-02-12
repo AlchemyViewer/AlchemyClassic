@@ -4813,7 +4813,7 @@ void LLAgent::sendAgentSetAppearance()
 	// KLW - TAT this will probably need to check the local queue.
 	BOOL textures_current = gAgentAvatarp->areTexturesCurrent();
 
-	for(U8 baked_index = 0; baked_index < BAKED_NUM_INDICES; baked_index++ )
+	for(U8 baked_index = 0; baked_index < gAgentAvatarp->getNumBakes(); baked_index++ )
 	{
 		const ETextureIndex texture_index = LLAvatarAppearanceDictionary::bakedToLocalTextureIndex((EBakedTextureIndex)baked_index);
 
@@ -4846,13 +4846,19 @@ void LLAgent::sendAgentSetAppearance()
 			dumpSentAppearance(dump_prefix);
 		}
 		LL_INFOS("Avatar") << gAgentAvatarp->avString() << "TAT: Sending cached texture data" << LL_ENDL;
-		for (U8 baked_index = 0; baked_index < BAKED_NUM_INDICES; baked_index++)
+		for (U8 baked_index = 0; baked_index < gAgentAvatarp->getNumBakes(); baked_index++)
 		{
 			BOOL generate_valid_hash = TRUE;
 			if (isAgentAvatarValid() && !gAgentAvatarp->isBakedTextureFinal((LLAvatarAppearanceDefines::EBakedTextureIndex)baked_index))
 			{
 				generate_valid_hash = FALSE;
 				LL_DEBUGS("Avatar") << gAgentAvatarp->avString() << "Not caching baked texture upload for " << (U32)baked_index << " due to being uploaded at low resolution." << LL_ENDL;
+			}
+
+			if (baked_index == BAKED_SKIRT && !gAgentAvatarp->isWearingWearableType(LLWearableType::WT_SKIRT))
+			{
+				LL_DEBUGS("Avatar") << "Not caching baked texture for unworn skirt." << LL_ENDL;
+				generate_valid_hash = FALSE;
 			}
 
 			const LLUUID hash = gAgentWearables.computeBakedTextureHash((EBakedTextureIndex) baked_index, generate_valid_hash);

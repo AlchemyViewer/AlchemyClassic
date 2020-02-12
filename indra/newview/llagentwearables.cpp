@@ -1355,6 +1355,16 @@ void LLAgentWearables::setWearableOutfit(const LLInventoryItem::item_array_t& it
 		LLPointer<LLInventoryItem> new_item = items[i];
 
 		const LLWearableType::EType type = new_wearable->getType();
+		if(!gAgent.getRegion()->bakesOnMeshEnabled())
+		{
+			if(type == LLWearableType::WT_UNIVERSAL)
+			{
+				LL_DEBUGS("Avatar") << "Universal wearable not supported on this region - ignoring." << LL_ENDL;
+				mismatched++;
+				continue;
+			}
+		}
+
 		if (type < 0 || type>=LLWearableType::WT_COUNT)
 		{
 			LL_WARNS() << "invalid type " << type << LL_ENDL;
@@ -1659,7 +1669,7 @@ void LLAgentWearables::queryWearableCache()
 	gMessageSystem->addS32Fast(_PREHASH_SerialNum, gAgentQueryManager.mWearablesCacheQueryID);
 
 	S32 num_queries = 0;
-	for (U8 baked_index = 0; baked_index < BAKED_NUM_INDICES; baked_index++)
+	for (U8 baked_index = 0; baked_index < gAgentAvatarp->getNumBakes(); baked_index++)
 	{
 		LLUUID hash_id = computeBakedTextureHash((EBakedTextureIndex) baked_index);
 		if (hash_id.notNull())

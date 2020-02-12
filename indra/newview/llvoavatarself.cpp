@@ -912,10 +912,31 @@ void LLVOAvatarSelf::removeMissingBakedTextures()
 	}
 }
 
+void LLVOAvatarSelf::checkBOMRebakeRequired()
+{
+	if(!getRegion())
+	{
+		auto newBOMStatus = getRegion()->bakesOnMeshEnabled();
+		static const LLCachedControl<bool> using_bom(gSavedSettings, "CurrentlyUsingBakesOnMesh", true);
+		if(!using_bom != newBOMStatus)
+		{
+			// force a rebake when the last grid we were on (including previous login) had different BOM support
+			// This replicates forceAppearanceUpdate rather than pulling in the whole of llavatarself.
+			if(!LLGridManager::instance().isInSecondlife())
+			{
+				doAfterInterval(boost::bind(&LLVOAvatarSelf::forceBakeAllTextures,	gAgentAvatarp.get(), true), 5.0);
+			}
+			// update the setting even if we are in SL so that switch SL to OS and back 
+			gSavedSettings.setBOOL("CurrentlyUsingBakesOnMesh", newBOMStatus);
+		}
+	}
+}
+
 void LLVOAvatarSelf::onSimulatorFeaturesReceived(const LLUUID& region_id)
 {
 	LL_INFOS("Avatar") << "simulator features received, setting hover based on region props" << LL_ENDL;
 	setHoverIfRegionEnabled();
+	checkBOMRebakeRequired(); // BOM we may have stale cache, rebake may be needed
 }
 
 //virtual
@@ -942,6 +963,7 @@ void LLVOAvatarSelf::updateRegion(LLViewerRegion *regionp)
 		if (regionp->simulatorFeaturesReceived())
 		{
 			setHoverIfRegionEnabled();
+			checkBOMRebakeRequired();// <FS:Beq/> BOM we may have stale cache, rebake may be needed
 		}
 		else
 		{
@@ -1767,7 +1789,7 @@ bool LLVOAvatarSelf::areTexturesCurrent() const
 // virtual
 bool LLVOAvatarSelf::hasPendingBakedUploads() const
 {
-	for (U32 i = 0; i < mBakedTextureDatas.size(); i++)
+	for (U32 i = 0; i < getNumBakes(); i++)
 	{
 		LLViewerTexLayerSet* layerset = getTexLayerSet(i);
 		if (layerset && layerset->getViewerComposite() && layerset->getViewerComposite()->uploadPending())
@@ -2873,7 +2895,7 @@ void LLVOAvatarSelf::outputRezDiagnostics() const
 		}
 	}
 	LL_DEBUGS("Avatar") << "\t Time points for each upload (start / finish)" << LL_ENDL;
-	for (U32 i = 0; i < LLAvatarAppearanceDefines::BAKED_NUM_INDICES; ++i)
+	for (U32 i = 0; i < getNumBakes(); ++i)
 	{
 		LL_DEBUGS("Avatar") << "\t\t (" << i << ") \t" << (S32)mDebugBakedTextureTimes[i][0] << " / " << (S32)mDebugBakedTextureTimes[i][1] << LL_ENDL;
 	}
@@ -3056,7 +3078,7 @@ LLViewerTexLayerSet* LLVOAvatarSelf::getLayerSet(EBakedTextureIndex baked_index)
                case TEX_HEAD_BAKED:
                case TEX_HEAD_BODYPAINT:
                        return mHeadLayerSet; */
-       if (baked_index >= 0 && baked_index < BAKED_NUM_INDICES)
+       if (baked_index >= 0 && baked_index < getNumBakes())
        {
 		   return  getTexLayerSet(baked_index);
        }
@@ -3142,7 +3164,15 @@ bool LLVOAvatarSelf::sendAppearanceMessage(LLMessageSystem *mesgsys) const
     {
 		const ETextureIndex index = iter.first;
 		const LLAvatarAppearanceDictionary::TextureEntry *texture_dict = iter.second;
-		if (!texture_dict->mIsBakedTexture)
+		if( (index == TEX_SKIRT || index == TEX_SKIRT_TATTOO) && !gAgentAvatarp->isWearingWearableType(LLWearableType::WT_SKIRT) )
+		{
+			// TODO(BEQ): combine this with clause below once proven it works.
+			LL_DEBUGS("Avatar") << "Ignoring skirt related texture at index=" << index << LL_ENDL;
+			LLTextureEntry* entry = getTE((U8) index);
+			texture_id[index] = entry->getID();
+			entry->setID(IMG_DEFAULT_AVATAR);
+		}
+		if (!texture_dict->mIsBakedTexture || index >= getRegion()->getRegionMaxTEs())
 		{
 			LLTextureEntry* entry = getTE((U8) index);
 			texture_id[index] = entry->getID();
@@ -3157,7 +3187,7 @@ bool LLVOAvatarSelf::sendAppearanceMessage(LLMessageSystem *mesgsys) const
     {
 		const ETextureIndex index = iter.first;
 		const LLAvatarAppearanceDictionary::TextureEntry *texture_dict = iter.second;
-		if (!texture_dict->mIsBakedTexture)
+		if (!texture_dict->mIsBakedTexture || index >= getRegion()->getRegionMaxTEs())
 		{
 			LLTextureEntry* entry = getTE((U8) index);
 			entry->setID(texture_id[index]);

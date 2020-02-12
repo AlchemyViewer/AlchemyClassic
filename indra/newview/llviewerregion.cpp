@@ -560,7 +560,13 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mDead(FALSE),
 	mPaused(FALSE),
 	mRegionCacheHitCount(0),
-	mRegionCacheMissCount(0)
+	mRegionCacheMissCount(0),
+	mMaxBakes(LLGridManager::getInstance()->isInSecondlife()?
+		LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_NUM_INDICES:
+		LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_LEFT_ARM),
+	mMaxTEs(LLGridManager::getInstance()->isInSecondlife()?
+		LLAvatarAppearanceDefines::ETextureIndex::TEX_NUM_INDICES:
+		LLAvatarAppearanceDefines::ETextureIndex::TEX_HEAD_UNIVERSAL_TATTOO)
 {
 	mImpl->mOriginGlobal = from_region_handle(handle); 
 	updateRenderMatrix();
@@ -2310,6 +2316,17 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
         {
             LLCurrencyWrapper::instance().setCurrency(cur_symbol);
         }
+	}
+	
+	if (mSimulatorFeatures.has("BakesOnMeshEnabled") && (mSimulatorFeatures["BakesOnMeshEnabled"].asBoolean()==true))
+	{
+		mMaxBakes = LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_NUM_INDICES;
+		mMaxTEs   = LLAvatarAppearanceDefines::ETextureIndex::TEX_NUM_INDICES;
+	}
+	else
+	{
+		mMaxBakes = LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_LEFT_ARM;
+		mMaxTEs   = LLAvatarAppearanceDefines::ETextureIndex::TEX_HEAD_UNIVERSAL_TATTOO;
 	}
 	setSimulatorFeaturesReceived(true);
 }

@@ -1523,7 +1523,7 @@ std::string LLUrlEntryJira::getUrl(const std::string &url) const
 	}
 	else if(url.find("FIRE") != std::string::npos)
 	{
-		ret = llformat("http://jira.phoenixviewer.com/browse/%s", url.c_str());
+		ret = llformat("https://jira.firestormviewer.org/browse/%s", url.c_str());
 	}
 	else
 	{

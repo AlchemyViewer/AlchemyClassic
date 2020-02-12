@@ -271,8 +271,8 @@ void LLNetMap::draw()
 			// background region rectangle
 			F32 bottom =	relative_y;
 			F32 left =		relative_x;
-			F32 top =		bottom + (real_width / REGION_WIDTH_METERS) * mScale ;
-			F32 right =		left + (real_width / REGION_WIDTH_METERS) * mScale ;
+			F32 top =		bottom + (real_width / region_width) * mScale ;
+			F32 right =		left + (real_width / region_width) * mScale ;
 
 			if (regionp == curregionp)
 			{
@@ -293,10 +293,10 @@ void LLNetMap::draw()
 			if (use_world_map_image)
 			{
 				const LLViewerRegion::tex_matrix_t& tiles(regionp->getWorldMapTiles());
-				for (S32 i(0), scaled_width((S32)real_width / region_width), square_width(scaled_width * scaled_width);
+				for (S32 i(0), scaled_width(real_width / region_width), square_width(scaled_width * scaled_width);
 					 i < square_width; ++i)
 				{
-					const F32 y(i / (F32)scaled_width);
+					const F32 y(i / scaled_width);
 					const F32 x(i - y * scaled_width);
 					const F32 local_left(left + x * mScale);
 					const F32 local_right(local_left + mScale);

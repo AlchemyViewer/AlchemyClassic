@@ -1622,7 +1622,7 @@ void LLSpatialBridge::cleanupReferences()
 				}
 			}
 
-		LLDrawable* drawablep = mDrawable;
+		LLPointer<LLDrawable> drawablep = mDrawable;
 		mDrawable = nullptr;
 		drawablep->setSpatialBridge(nullptr);
 	}

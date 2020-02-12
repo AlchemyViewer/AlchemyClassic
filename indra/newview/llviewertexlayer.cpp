@@ -491,10 +491,10 @@ void LLViewerTexLayerSetBuffer::doUpload()
 			LLVFile file(gVFS, asset_id, LLAssetType::AT_TEXTURE);
 			file_size = file.getSize();
 			U8* data = integrity_test->allocateData(file_size);
-			file.read(data, file_size);
 			std::string asset_data;
 			if (data)
 			{
+				file.read(data, file_size);
 				asset_data.append(reinterpret_cast< char const*> (data), file_size);
 				valid = integrity_test->validate(data, file_size); // integrity_test will delete 'data'
 			}

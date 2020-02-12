@@ -34,6 +34,7 @@
 class LLWLParamManager;
 class LLWaterParamManager;
 class LLWLAnimator;
+class WindLightRefresh;
 
 // generic key
 struct LLEnvKey
@@ -323,6 +324,9 @@ private:
 
 	bool useRegionSky();
 	bool useRegionWater();
+
+private:
+	friend class WindLightRefresh;
 
 	bool useDefaultSky();
 	bool useDefaultWater();

@@ -1077,6 +1077,11 @@ void LLAgent::removeRegionChangedCallback(boost::signals2::connection callback)
 	mRegionChangedSignal.disconnect(callback);
 }
 
+void LLAgent::regionChanged()
+{
+	mRegionChangedSignal();
+}
+
 //-----------------------------------------------------------------------------
 // inPrelude()
 //-----------------------------------------------------------------------------

@@ -399,7 +399,7 @@ LLScrollListItem* LLScrollListCtrl::getFirstSelected() const
 	for(iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem* item  = *iter;
-		if (item->getSelected())
+		if (item && item->getSelected())
 		{
 			return item;
 		}
@@ -414,7 +414,7 @@ std::vector<LLScrollListItem*> LLScrollListCtrl::getAllSelected() const
 	for(iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem* item  = *iter;
-		if (item->getSelected())
+		if (item && item->getSelected())
 		{
 			ret.push_back(item);
 		}
@@ -429,7 +429,7 @@ S32 LLScrollListCtrl::getNumSelected() const
 	for(item_list::const_iterator iter = mItemList.begin(); iter != mItemList.end(); ++iter)
 	{
 		LLScrollListItem* item  = *iter;
-		if (item->getSelected())
+		if (item && item->getSelected())
 		{
 			++numSelected;
 		}
@@ -449,7 +449,7 @@ S32 LLScrollListCtrl::getFirstSelectedIndex() const
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem* item  = *iter;
-		if (item->getSelected())
+		if (item && item->getSelected())
 		{
 			return CurSelectedIndex;
 		}
@@ -499,7 +499,7 @@ LLScrollListItem* LLScrollListCtrl::getItem(const LLSD& sd) const
 	{
 		LLScrollListItem* item  = *iter;
 		// assumes string representation is good enough for comparison
-		if (item->getValue().asString() == string_val)
+		if (item && item->getValue().asString() == string_val)
 		{
 			return item;
 		}
@@ -653,6 +653,7 @@ S32 LLScrollListCtrl::calcMaxContentWidth()
 			item_list::iterator iter;
 			for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 			{
+				if (!(*iter)) continue;
 				LLScrollListCell* cellp = (*iter)->getColumn(column->mIndex);
 				if (!cellp) continue;
 
@@ -792,6 +793,11 @@ void LLScrollListCtrl::updateColumns(bool force_update)
 		for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 		{
 			LLScrollListItem *itemp = *iter;
+			if (!itemp)
+			{
+				continue;
+			}
+
 			S32 num_cols = itemp->getNumColumns();
 			S32 i = 0;
 			for (LLScrollListCell* cell = itemp->getColumn(i); i < num_cols; cell = itemp->getColumn(++i))
@@ -829,7 +835,7 @@ BOOL LLScrollListCtrl::selectFirstItem()
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem *itemp = *iter;
-		if( first_item && itemp->getEnabled() )
+		if( first_item && itemp && itemp->getEnabled() )
 		{
 			if (!itemp->getSelected())
 			{
@@ -970,7 +976,7 @@ void LLScrollListCtrl::deleteItems(const LLSD& sd)
 	for (iter = mItemList.begin(); iter < mItemList.end(); )
 	{
 		LLScrollListItem* itemp = *iter;
-		if (itemp->getValue().asString() == sd.asString())
+		if (itemp && itemp->getValue().asString() == sd.asString())
 		{
 			if (itemp == mLastSelected)
 			{
@@ -994,7 +1000,7 @@ void LLScrollListCtrl::deleteSelectedItems()
 	for (iter = mItemList.begin(); iter < mItemList.end(); )
 	{
 		LLScrollListItem* itemp = *iter;
-		if (itemp->getSelected())
+		if (itemp && itemp->getSelected())
 		{
 			delete itemp;
 			iter = mItemList.erase(iter);
@@ -1078,7 +1084,7 @@ S32 LLScrollListCtrl::getItemIndex( const LLUUID& target_id ) const
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem *itemp = *iter;
-		if (target_id == itemp->getUUID())
+		if (itemp && target_id == itemp->getUUID())
 		{
 			return index;
 		}
@@ -1105,7 +1111,7 @@ void LLScrollListCtrl::selectPrevItem( BOOL extend_selection)
 		{
 			LLScrollListItem* cur_item = *iter;
 
-			if (cur_item->getSelected())
+			if (cur_item && cur_item->getSelected())
 			{
 				if (prev_item)
 				{
@@ -1119,7 +1125,7 @@ void LLScrollListCtrl::selectPrevItem( BOOL extend_selection)
 			}
 
 			// don't allow navigation to disabled elements
-			prev_item = cur_item->getEnabled() ? cur_item : prev_item;
+			prev_item = (cur_item && cur_item->getEnabled()) ? cur_item : prev_item;
 		}
 	}
 
@@ -1149,7 +1155,7 @@ void LLScrollListCtrl::selectNextItem( BOOL extend_selection)
 		{
 			LLScrollListItem* cur_item = *iter;
 
-			if (cur_item->getSelected())
+			if (cur_item && cur_item->getSelected())
 			{
 				if (next_item)
 				{
@@ -1163,7 +1169,7 @@ void LLScrollListCtrl::selectNextItem( BOOL extend_selection)
 			}
 
 			// don't allow navigation to disabled items
-			next_item = cur_item->getEnabled() ? cur_item : next_item;
+			next_item = (cur_item && cur_item->getEnabled()) ? cur_item : next_item;
 		}
 	}
 
@@ -1252,6 +1258,11 @@ LLScrollListItem* LLScrollListCtrl::getItemByLabel(const std::string& label, BOO
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem* item = *iter;
+		if (!item)
+		{
+			continue;
+		}
+
 		std::string item_text = item->getColumn(column)->getValue().asString();	// Only select enabled items with matching names
 		if (!case_sensitive)
 		{
@@ -1287,6 +1298,11 @@ BOOL LLScrollListCtrl::selectItemByPrefix(const LLWString& target, BOOL case_sen
 		for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 		{
 			LLScrollListItem* item = *iter;
+			if (!item)
+			{
+				continue;
+			}
+
 			// Only select enabled items with matching names
 			LLScrollListCell* cellp = item->getColumn(getSearchColumn());
 			BOOL select = cellp ? item->getEnabled() && ('\0' == cellp->getValue().asString()[0]) : FALSE;
@@ -1399,7 +1415,7 @@ BOOL LLScrollListCtrl::setSelectedByValue(const LLSD& value, BOOL selected)
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem* item = *iter;
-		if (item->getEnabled() && (item->getValue().asString() == value.asString()))
+		if (item && item->getEnabled() && (item->getValue().asString() == value.asString()))
 		{
 			if (selected)
 			{
@@ -1428,7 +1444,7 @@ BOOL LLScrollListCtrl::isSelected(const LLSD& value) const
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem* item = *iter;
-		if (item->getValue().asString() == value.asString())
+		if (item && item->getValue().asString() == value.asString())
 		{
 			return item->getSelected();
 		}
@@ -1497,6 +1513,10 @@ void LLScrollListCtrl::drawItems()
 		for (S32 line = first_line; line <= last_line; line++)
 		{
 			LLScrollListItem* item = mItemList[line];
+			if (!item)
+			{
+				continue;
+			}
 			
 			item_rect.setOriginAndSize( 
 				x, 
@@ -2095,7 +2115,7 @@ LLScrollListItem* LLScrollListCtrl::hitItem( S32 x, S32 y )
 		LLScrollListItem* item  = *iter;
 		if( mScrollLines <= line && line < mScrollLines + num_page_lines )
 		{
-			if( item->getEnabled() && item_rect.pointInRect( x, y ) )
+			if(item && item->getEnabled() && item_rect.pointInRect( x, y ) )
 			{
 				hit_item = item;
 				break;
@@ -2388,26 +2408,28 @@ BOOL LLScrollListCtrl::handleUnicodeCharHere(llwchar uni_char)
 		while(iter != start_iter)
 		{
 			LLScrollListItem* item = *iter;
-
-			LLScrollListCell* cellp = item->getColumn(getSearchColumn());
-			if (cellp)
+			if (item)
 			{
-				// Only select enabled items with matching first characters
-				LLWString item_label = utf8str_to_wstring(cellp->getValue().asString());
-				if (item->getEnabled() && LLStringOps::toLower(item_label[0]) == uni_char)
+				LLScrollListCell* cellp = item->getColumn(getSearchColumn());
+				if (cellp)
 				{
-					selectItem(item);
-					mNeedsScroll = true;
-					cellp->highlightText(0, 1);
-					mSearchTimer.reset();
-
-					if (mCommitOnKeyboardMovement
-						&& !mCommitOnSelectionChange) 
+					// Only select enabled items with matching first characters
+					LLWString item_label = utf8str_to_wstring(cellp->getValue().asString());
+					if (item->getEnabled() && LLStringOps::toLower(item_label[0]) == uni_char)
 					{
-						onCommit();
-					}
+						selectItem(item);
+						mNeedsScroll = true;
+						cellp->highlightText(0, 1);
+						mSearchTimer.reset();
 
-					break;
+						if (mCommitOnKeyboardMovement
+							&& !mCommitOnSelectionChange)
+						{
+							onCommit();
+						}
+
+						break;
+					}
 				}
 			}
 
@@ -2725,7 +2747,7 @@ void	LLScrollListCtrl::selectAll()
 	for (iter = mItemList.begin(); iter != mItemList.end(); iter++)
 	{
 		LLScrollListItem *itemp = *iter;
-		if( itemp->getEnabled() )
+		if(itemp && itemp->getEnabled() )
 		{
 			selectItem(itemp, FALSE);
 		}
@@ -2857,11 +2879,13 @@ void LLScrollListCtrl::onClickColumn(void *userdata)
 	S32 column_index = info->mIndex;
 
 	LLScrollListColumn* column = parent->mColumnsIndexed[info->mIndex];
+	if (!column) return;
 	bool ascending = column->mSortDirection == LLScrollListColumn::ASCENDING;
 	if (column->mSortingColumn != column->mName
 		&& parent->mColumns.find(column->mSortingColumn) != parent->mColumns.end())
 	{
 		LLScrollListColumn* info_redir = parent->mColumns[column->mSortingColumn];
+		if (!info_redir) return;
 		column_index = info_redir->mIndex;
 	}
 

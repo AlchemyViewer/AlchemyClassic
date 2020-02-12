@@ -4155,6 +4155,12 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
 				{
 					disabled_items.push_back(std::string("Delete"));
 				}
+
+				items.push_back(std::string("Paste As Link"));
+				if (!isClipboardPasteableAsLink() || (flags & FIRST_SELECTED_ITEM) == 0)
+				{
+					disabled_items.push_back(std::string("Paste As Link"));
+				}
 			}
 		}
 
@@ -4762,6 +4768,9 @@ bool move_task_inventory_callback(const LLSD& notification, const LLSD& response
 // Returns true if the item can be moved to Current Outfit or any outfit folder.
 static BOOL can_move_to_outfit(LLInventoryItem* inv_item, BOOL move_is_into_current_outfit)
 {
+	if( !inv_item )
+		return FALSE;
+
 	LLInventoryType::EType inv_type = inv_item->getInventoryType();
 	if ((inv_type != LLInventoryType::IT_WEARABLE) &&
 		(inv_type != LLInventoryType::IT_GESTURE) &&

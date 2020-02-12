@@ -188,6 +188,13 @@ LLMuteList::~LLMuteList()
 
 }
 
+BOOL LLMuteList::isLinden(const LLUUID& id) const
+{
+	std::string name;
+	gCacheName->getFullName(id, name);
+	return isLinden(name);
+}
+
 BOOL LLMuteList::isLinden(const std::string& name) const
 {
 	std::string username = boost::replace_all_copy(name, ".", " ");
@@ -200,20 +207,19 @@ BOOL LLMuteList::isLinden(const std::string& name) const
 	++token_iter;
 	if (token_iter == tokens.end()) return FALSE;
 	std::string last_name = *token_iter;
-	LLStringUtil::toLower(last_name);
 	if (LLGridManager::getInstance()->isInSecondlife())
 	{
 		// Simple!
-		return last_name == "linden";
+		return last_name == "Linden" || last_name == "ProductEngine";
 	}
 	else if (LLGridManager::getInstance()->isInOpenSim())
 	{
 		LLViewerRegion* region = gAgent.getRegion();
 		if (!region) return FALSE;
-		std::set<std::string> gods = region->getGods();
+		const auto& gods = region->getGods();
 		if (gods.empty()) return FALSE;
 		
-		return (gods.find(name) != gods.end() || gods.find(last_name) != gods.end());
+		return (gods.find(name) != gods.cend() || gods.find(last_name) != gods.cend());
 	}
 	return FALSE;
 }

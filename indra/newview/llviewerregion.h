@@ -38,6 +38,7 @@
 #include "llframetimer.h"
 #include "lleasymessagesender.h"
 #include <unordered_map>
+#include "absl/container/flat_hash_set.h"
 
 // Surface id's
 #define LAND  1
@@ -420,7 +421,7 @@ public:
     U32 getWhisperRange() const;
 
 	/// "God names" surname and full account names map
-	std::set<std::string> getGods() const { return mGodNames; };
+	const auto& getGods() const { return mGodNames; };
 	//@}
 
 	typedef std::vector<LLPointer<LLViewerTexture> > tex_matrix_t;
@@ -594,7 +595,7 @@ private:
 	LLFrameTimer mRenderInfoReportTimer;
 
 	mutable tex_matrix_t mWorldMapTiles;
-	std::set<std::string> mGodNames;
+	absl::flat_hash_set<std::string> mGodNames;
 
 	LLEasyMessageSender mMessageSender;
 	using url_mapping_t = std::unordered_multimap<std::string, std::string>;

@@ -3062,9 +3062,7 @@ bool enable_object_mute()
 	if (avatar)
 	{
 		// It's an avatar
-		LLNameValue *lastname = avatar->getNVPair("LastName");
-		bool is_linden =
-			lastname && !LLStringUtil::compareStrings(lastname->getString(), "Linden");
+		bool is_linden = LLMuteList::instance().isLinden(avatar->getID());
 		bool is_self = avatar->isSelf();
 //		return !is_linden && !is_self;
 // [RLVa:KB] - Checked: RLVa-1.2.1
@@ -3088,9 +3086,7 @@ bool enable_object_unmute()
 	if (avatar)
 	{
 		// It's an avatar
-		LLNameValue *lastname = avatar->getNVPair("LastName");
-		bool is_linden =
-			lastname && !LLStringUtil::compareStrings(lastname->getString(), "Linden");
+		bool is_linden = LLMuteList::instance().isLinden(avatar->getID());
 		bool is_self = avatar->isSelf();
 		return !is_linden && !is_self;
 	}

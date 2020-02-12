@@ -100,6 +100,7 @@ public:
 	// Alternate (convenience) form for places we don't need to pass the name, but do need flags
 	BOOL isMuted(const LLUUID& id, U32 flags) const { return isMuted(id, LLStringUtil::null, flags); };
 	
+	BOOL isLinden(const LLUUID& id) const;
 	BOOL isLinden(const std::string& name) const;
 	
 	BOOL isLoaded() const { return mIsLoaded; }

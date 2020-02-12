@@ -610,6 +610,11 @@ void LLPanelGroupInvite::updateLists()
 		}
         else if (gdatap)
         {
+            if (!gdatap->isGroupPropertiesDataComplete())
+            {
+                LLGroupMgr::getInstance()->sendGroupPropertiesRequest(mImplementation->mGroupID);
+            }
+
             // restart requests that were interrupted/dropped/failed to start
             if (!gdatap->isRoleDataPending() && !gdatap->isRoleDataComplete())
             {

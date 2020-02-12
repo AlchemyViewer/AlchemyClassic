@@ -385,7 +385,7 @@ BOOL LLInvFVBridge::perform_cutToClipboard()
 BOOL LLInvFVBridge::copyToClipboard() const
 {
 	const LLInventoryObject* obj = gInventory.getObject(mUUID);
-	if (obj && isItemCopyable())
+	if (obj && (isItemCopyable() || isItemLinkable()))
 	{
 		return LLClipboard::instance().addToClipboard(mUUID);
 	}
@@ -783,8 +783,14 @@ void LLInvFVBridge::getClipboardEntries(bool show_asset_id,
 	{
 		
 		items.push_back(std::string("Copy Separator"));
+		items.push_back(std::string("Cut"));
+		if (!isItemMovable() || !isItemRemovable() || isLibraryItem())
+		{
+			disabled_items.push_back(std::string("Cut"));
+		}
+
 		items.push_back(std::string("Copy"));
-		if (!isItemCopyable())
+		if (!isItemCopyable() && !isItemLinkable())
 		{
 			disabled_items.push_back(std::string("Copy"));
 		}
@@ -830,12 +836,6 @@ void LLInvFVBridge::getClipboardEntries(bool show_asset_id,
 				{
 					disabled_items.push_back(std::string("Copy Asset UUID"));
 				}
-			}
-
-			items.push_back(std::string("Cut"));
-			if (!isItemMovable() || !isItemRemovable())
-			{
-				disabled_items.push_back(std::string("Cut"));
 			}
 
 			if (canListOnMarketplace() && !isMarketplaceListingsFolder() && !isInboxFolder())
@@ -2117,9 +2117,20 @@ BOOL LLItemBridge::isItemCopyable() const
 	LLViewerInventoryItem* item = getItem();
 	if (item)
 	{
-		return item->getPermissions().allowCopyBy(gAgent.getID()) || gSavedSettings.getBOOL("InventoryLinking");
+		if (item->getIsLinkType())
+		{
+			return item->getLinkedItem() != nullptr;
+		}
+
+		return item->getPermissions().allowCopyBy(gAgent.getID());
 	}
 	return FALSE;
+}
+
+bool LLItemBridge::isItemLinkable() const
+{
+	LLViewerInventoryItem* item = getItem();
+	return (item && LLAssetType::lookupCanLink(item->getType()));
 }
 
 LLViewerInventoryItem* LLItemBridge::getItem() const
@@ -2348,6 +2359,12 @@ BOOL LLFolderBridge::isItemCopyable() const
 	
 		return TRUE;
 	}
+
+bool LLFolderBridge::isItemLinkable() const
+{
+	LLFolderType::EType ftType = getPreferredType();
+	return (LLFolderType::FT_NONE == ftType || LLFolderType::FT_OUTFIT == ftType);
+}
 
 BOOL LLFolderBridge::isClipboardPasteable() const
 {
@@ -3899,13 +3916,10 @@ void LLFolderBridge::perform_pasteFromClipboard()
                                     break;
                                 }
                             }
-                            else if (item->getIsLinkType())
-                            {
-                                link_inventory_object(parent_id, item_id,
-                                    LLPointer<LLInventoryCallback>(NULL));
-                            }
                             else
                             {
+                                if (item->getPermissions().allowCopyBy(gAgent.getID()))
+                                {
                                 copy_inventory_item(
                                                     gAgent.getID(),
                                                     item->getPermissions().getOwner(),
@@ -3913,6 +3927,15 @@ void LLFolderBridge::perform_pasteFromClipboard()
                                                     parent_id,
                                                     std::string(),
                                                     LLPointer<LLInventoryCallback>(NULL));
+                                }
+                                else if (LLAssetType::lookupIsLinkType(item->getActualType()))
+                                {
+                                    LLInventoryObject::const_object_list_t obj_array;
+                                    obj_array.push_back(LLConstPointer<LLInventoryObject>(item));
+                                    link_inventory_array(parent_id,
+                                                         obj_array,
+                                                         LLPointer<LLInventoryCallback>(NULL));
+                                }
                             }
                         }
                     }

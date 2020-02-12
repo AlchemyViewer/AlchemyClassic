@@ -760,7 +760,7 @@ void LLViewerPartSim::updateSimulation()
 
 		if ((LLDrawable::getCurrentFrame()+mViewerPartGroups[i]->mID)%visirate == 0)
 		{
-			if (vobj && !vobj->isDead())
+			if (vobj && !vobj->isDead() && vobj->mDrawable)
 			{
 				gPipeline.markRebuild(vobj->mDrawable, LLDrawable::REBUILD_ALL, TRUE);
 			}

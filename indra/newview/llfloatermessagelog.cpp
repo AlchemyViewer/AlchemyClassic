@@ -533,53 +533,55 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	}
 
 	//add the message to the messagelog scroller
-    LLSD element;
-	element["id"] = item->mID;
+	LLScrollListCell::Params sequence_column;
+	LLScrollListCell::Params protocol_column;
+	LLScrollListCell::Params verb_column;
+	LLScrollListCell::Params net_column;
+	LLScrollListCell::Params name_column;
 
-    LLSD& sequence_column = element["columns"][0];
-    sequence_column["column"] = "sequence";
-    sequence_column["value"] = fmt::to_string(item->mSequenceID);
+	sequence_column.column("sequence").type("text").value(fmt::to_string(item->mSequenceID));
 
-	LLSD& protocol_column = element["columns"][1];
-    protocol_column["column"] = "protocol";
-    switch (message_type)
-    {
-    case LLMessageLogEntry::TEMPLATE:
-        protocol_column["value"] = "UDP";
-        break;
-    case LLMessageLogEntry::HTTP_REQUEST:
-        protocol_column["value"] = "HTTP";
-        break;
-    default:
-        protocol_column["value"] = "\?\?\?";
-        break;
-    }
-
-    LLSD& verb_column = element["columns"][2];
-    verb_column["column"] = "verb";
+	protocol_column.column("protocol").type("text");
 	switch (message_type)
 	{
 	case LLMessageLogEntry::TEMPLATE:
-        verb_column["value"] = item->isOutgoing() ? "out" : "in";
+		protocol_column.value("UDP");
 		break;
 	case LLMessageLogEntry::HTTP_REQUEST:
-        verb_column["value"] = httpMethodAsVerb((*item)()->mMethod);
+		protocol_column.value("HTTP");
 		break;
 	default:
-        break;
+		protocol_column.value("\?\?\?");
+		break;
 	}
 
-	LLSD& net_column = element["columns"][3];
-	net_column["column"] = "net";
-	net_column["value"] = net_name;
+	verb_column.column("verb").type("text");
+	switch (message_type)
+	{
+	case LLMessageLogEntry::TEMPLATE:
+		verb_column.value(item->isOutgoing() ? "out" : "in");
+		break;
+	case LLMessageLogEntry::HTTP_REQUEST:
+		verb_column.value(httpMethodAsVerb((*item)()->mMethod));
+		break;
+	default:
+		break;
+	}
 
-	LLSD& name_column = element["columns"][4];
-	name_column["column"] = "name";
-	name_column["value"] = item->getName();
+	net_column.column("net").type("text").value(net_name);
+	name_column.column("name").type("text").value(item->getName());
+
+	LLScrollListItem::Params row;
+	row.value = item->mID;
+	row.columns.add(sequence_column);
+	row.columns.add(protocol_column);
+	row.columns.add(verb_column);
+	row.columns.add(net_column);
+	row.columns.add(name_column);
 
 	S32 scroll_pos = mMessagelogScrollListCtrl->getScrollPos();
 
-	mMessagelogScrollListCtrl->addElement(element, ADD_BOTTOM);
+	mMessagelogScrollListCtrl->addRow(row, ADD_BOTTOM);
 
 	if (scroll_pos > mMessagelogScrollListCtrl->getItemCount() - mMessagelogScrollListCtrl->getLinesPerPage() - 4)
 		mMessagelogScrollListCtrl->setScrollPos(mMessagelogScrollListCtrl->getItemCount());

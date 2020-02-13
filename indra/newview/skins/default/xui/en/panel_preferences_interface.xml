@@ -277,6 +277,15 @@
          value="3"
          width="90" />
     </radio_group>
+    <check_box
+      follows="left|top"
+      height="16"
+      label="Mark unnamed objects in chat and IMs"
+      left="7"
+      top_pad="15"
+      name="AlchemyChatMarkUnnamedObjects"
+      control_name="AlchemyChatMarkUnnamedObjects"
+      width="150" />
    </panel>
   </tab_container>
 </panel>

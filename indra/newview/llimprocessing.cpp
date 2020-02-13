@@ -493,7 +493,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
     // make sure that we don't have an empty or all-whitespace name
     LLStringUtil::trim(name);
     static const LLCachedControl<bool> sMarkUnnamedObjects(gSavedSettings, "AlchemyChatMarkUnnamedObjects");
-    if (name.empty() && sMarkUnnamedObjects)
+    if (sMarkUnnamedObjects && name.empty())
     {
         name = LLTrans::getString("Unnamed");
     }

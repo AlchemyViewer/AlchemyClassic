@@ -79,6 +79,7 @@
 #include "llcorehttputil.h"
 #include "llcallstack.h"
 
+#include "absl/container/node_hash_map.h"
 #include <boost/lexical_cast.hpp>
 #include "llweb.h"
 #include "llcurrencywrapper.h"
@@ -100,7 +101,7 @@ BOOL LLViewerRegion::sVOCacheCullingEnabled = FALSE;
 S32  LLViewerRegion::sLastCameraUpdated = 0;
 S32  LLViewerRegion::sNewObjectCreationThrottle = -1;
 
-typedef std::map<std::string, std::string> CapabilityMap;
+typedef absl::node_hash_map<std::string, std::string> CapabilityMap;
 
 static void log_capabilities(const CapabilityMap &capmap);
 

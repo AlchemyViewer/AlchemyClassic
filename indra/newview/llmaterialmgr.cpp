@@ -46,16 +46,16 @@
  * Materials cap parameters
  */
 
-#define MATERIALS_CAPABILITY_NAME                 "RenderMaterials"
+static const std::string MATERIALS_CAPABILITY_NAME("RenderMaterials");
 
-#define MATERIALS_CAP_ZIP_FIELD                   "Zipped"
+static const std::string MATERIALS_CAP_ZIP_FIELD("Zipped");
 
-#define MATERIALS_CAP_FULL_PER_FACE_FIELD         "FullMaterialsPerFace"
-#define MATERIALS_CAP_FACE_FIELD                  "Face"
-#define MATERIALS_CAP_MATERIAL_FIELD              "Material"
-#define MATERIALS_CAP_OBJECT_ID_FIELD             "ID"
-#define MATERIALS_CAP_MATERIAL_ID_FIELD           "MaterialID"
-#define SIM_FEATURE_MAX_MATERIALS_PER_TRANSACTION "MaxMaterialsPerTransaction"
+static const std::string MATERIALS_CAP_FULL_PER_FACE_FIELD("FullMaterialsPerFace");
+static const std::string MATERIALS_CAP_FACE_FIELD("Face");
+static const std::string MATERIALS_CAP_MATERIAL_FIELD("Material");
+static const std::string MATERIALS_CAP_OBJECT_ID_FIELD("ID");
+static const std::string MATERIALS_CAP_MATERIAL_ID_FIELD("MaterialID");
+static const std::string SIM_FEATURE_MAX_MATERIALS_PER_TRANSACTION("MaxMaterialsPerTransaction");
 
 #define MATERIALS_GET_MAX_ENTRIES                 50
 #define MATERIALS_GET_TIMEOUT                     (60.f * 20)

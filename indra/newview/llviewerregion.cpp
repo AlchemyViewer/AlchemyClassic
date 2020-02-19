@@ -84,6 +84,10 @@
 #include "llweb.h"
 #include "llcurrencywrapper.h"
 
+// Constants
+static const std::string CAP_NAME_SEED("Seed");
+static const std::string CAP_NAME_OBJECT_MEDIA("ObjectMedia");
+
 // When we receive a base grant of capabilities that has a different number of 
 // capabilities than the original base grant received for the region, print 
 // out the two lists of capabilities for analysis.
@@ -255,7 +259,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCoro(U64 regionHandle)
         LL_DEBUGS("AppInit", "Capabilities") << "requesting seed caps for handle " << regionHandle 
                                              << " name " << regionp->getName() << LL_ENDL;
 
-        std::string url = regionp->getCapability("Seed");
+        std::string url = regionp->getCapability(CAP_NAME_SEED);
         if (url.empty())
         {
             LL_WARNS("AppInit", "Capabilities") << "Failed to get seed capabilities, and can not determine url!" << LL_ENDL;
@@ -378,7 +382,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCompleteCoro(U64 regionHandle)
             break; // this error condition is not recoverable.
         }
 
-        std::string url = regionp->getCapabilityDebug("Seed");
+        std::string url = regionp->getCapabilityDebug(CAP_NAME_SEED);
         if (url.empty())
         {
             LL_WARNS("AppInit", "Capabilities") << "Failed to get seed capabilities, and can not determine url!" << LL_ENDL;
@@ -3039,7 +3043,7 @@ void LLViewerRegionImpl::buildCapabilityNames(LLSD& capabilityNames)
 	capabilityNames.append("NavMeshGenerationStatus");
 	capabilityNames.append("NewFileAgentInventory");
 	capabilityNames.append("ObjectAnimation");
-	capabilityNames.append("ObjectMedia");
+	capabilityNames.append(CAP_NAME_OBJECT_MEDIA);
 	capabilityNames.append("ObjectMediaNavigate");
 	capabilityNames.append("ObjectNavMeshProperties");
 	capabilityNames.append("OpenSimExtras");
@@ -3088,9 +3092,9 @@ void LLViewerRegionImpl::buildCapabilityNames(LLSD& capabilityNames)
 
 void LLViewerRegion::setSeedCapability(const std::string& url)
 {
-	if (getCapability("Seed") == url)
+	if (getCapability(CAP_NAME_SEED) == url)
     {	
-		setCapabilityDebug("Seed", url);
+		setCapabilityDebug(CAP_NAME_SEED, url);
 		LL_WARNS("CrossingCaps") <<  "Received duplicate seed capability, posting to seed " <<
 				url	<< LL_ENDL;
 
@@ -3105,7 +3109,7 @@ void LLViewerRegion::setSeedCapability(const std::string& url)
 	mImpl->mEventPoll = nullptr;
 	
 	mImpl->mCapabilities.clear();
-	setCapability("Seed", url);
+	setCapability(CAP_NAME_SEED, url);
 
     std::string coroname =
         LLCoros::instance().launch("LLViewerRegionImpl::requestBaseCapabilitiesCoro",
@@ -3222,7 +3226,7 @@ std::string LLViewerRegion::getCapabilityDebug(const std::string& name) const
     CapabilityMap::const_iterator iter = mImpl->mSecondCapabilitiesTracker.find(name);
     if (iter == mImpl->mSecondCapabilitiesTracker.end())
     {
-        return "";
+        return std::string();
     }
 
     return iter->second;
@@ -3236,7 +3240,7 @@ bool LLViewerRegion::isSpecialCapabilityName(const std::string &name)
 
 std::string LLViewerRegion::getCapability(const std::string& name) const
 {
-	if (!capabilitiesReceived() && (name!=std::string("Seed")) && (name!=std::string("ObjectMedia")))
+	if (!capabilitiesReceived() && (name != CAP_NAME_SEED) && (name != CAP_NAME_OBJECT_MEDIA))
 	{
 		LL_WARNS() << "getCapability called before caps received for " << name << LL_ENDL;
 	}
@@ -3244,7 +3248,7 @@ std::string LLViewerRegion::getCapability(const std::string& name) const
 	CapabilityMap::const_iterator iter = mImpl->mCapabilities.find(name);
 	if(iter == mImpl->mCapabilities.end())
 	{
-		return "";
+		return std::string();
 	}
 
 	return iter->second;
@@ -3252,7 +3256,7 @@ std::string LLViewerRegion::getCapability(const std::string& name) const
 
 bool LLViewerRegion::isCapabilityAvailable(const std::string& name) const
 {
-	if (!capabilitiesReceived() && (name!=std::string("Seed")) && (name!=std::string("ObjectMedia")))
+	if (!capabilitiesReceived() && (name!= CAP_NAME_SEED) && (name != CAP_NAME_OBJECT_MEDIA))
 	{
 		LL_WARNS() << "isCapabilityAvailable called before caps received for " << name << LL_ENDL;
 	}

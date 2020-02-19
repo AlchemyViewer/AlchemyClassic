@@ -152,6 +152,7 @@ class ViewerManifest(LLManifest):
                             self.path("textures.xml")
                     self.path("*/xui/*/*.xml")
                     self.path("*/xui/*/widgets/*.xml")
+                    self.path("*/*.json")
                     self.path("*/*.xml")
                     with self.prefix(src="*/html", dst="*/html.old"):
                             self.path("*.png")

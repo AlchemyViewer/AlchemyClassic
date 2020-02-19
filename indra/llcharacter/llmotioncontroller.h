@@ -36,6 +36,7 @@
 #include "llframetimer.h"
 #include "llstring.h"
 
+#include "absl/container/node_hash_map.h"
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/flat_hash_set.h"
 
@@ -72,7 +73,7 @@ public:
 
 
 protected:
-	typedef absl::flat_hash_map<LLUUID, LLMotionConstructor> motion_map_t;
+	typedef absl::node_hash_map<LLUUID, LLMotionConstructor> motion_map_t;
 	motion_map_t mMotionTable;
 };
 

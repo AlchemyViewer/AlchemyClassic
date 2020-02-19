@@ -1276,7 +1276,7 @@ void LLAvatarActions::requestFriendship(const LLUUID& target_id, const std::stri
 //static
 bool LLAvatarActions::isFriend(const LLUUID& id)
 {
-	return (nullptr != LLAvatarTracker::instance().getBuddyInfo(id) );
+	return LLAvatarTracker::instance().isBuddy(id);
 }
 
 // static

@@ -509,7 +509,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
         // object IMs contain sender object id in session_id (STORM-1209)
         || (dialog == IM_FROM_TASK && LLMuteList::getInstance()->isMuted(session_id));
 	bool is_owned_by_me = false;
-	bool is_friend = (LLAvatarTracker::instance().getBuddyInfo(from_id) == nullptr) ? false : true;
+	bool is_friend = LLAvatarTracker::instance().isBuddy(from_id);
 	bool accept_im_from_only_friend = gSavedSettings.getBOOL("VoiceCallsFriendsOnly");
 	bool is_linden = chat.mSourceType != CHAT_SOURCE_OBJECT &&
         LLMuteList::getInstance()->isLinden(name);
@@ -1389,7 +1389,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
             {
                 return;
             }
-            else if (gSavedSettings.getBOOL("VoiceCallsFriendsOnly") && (LLAvatarTracker::instance().getBuddyInfo(from_id) == NULL))
+            else if (gSavedSettings.getBOOL("VoiceCallsFriendsOnly") && !LLAvatarTracker::instance().isBuddy(from_id))
             {
                 return;
             }

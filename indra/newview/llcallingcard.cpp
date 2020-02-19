@@ -473,7 +473,7 @@ void LLAvatarTracker::notifyObservers()
 		friend_observer->changed(mModifyMask);
 	}
 
-	for (auto buddy_id : mChangedBuddyIDs)
+	for (const auto& buddy_id : mChangedBuddyIDs)
 	{
 		notifyParticularFriendObservers(buddy_id);
 	}

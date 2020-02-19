@@ -918,14 +918,14 @@ void LLPanelPeople::updateButtons()
 		if (item_selected)
 		{
 			selected_id = selected_uuids.front();
-			is_friend = LLAvatarTracker::instance().getBuddyInfo(selected_id) != nullptr;
+			is_friend = LLAvatarTracker::instance().isBuddy(selected_id);
 			is_self = gAgent.getID() == selected_id;
 		}
 		else if (multiple_selected)
 		{
 			for (uuid_vec_t::const_iterator itr = selected_uuids.begin(); itr != selected_uuids.end(); ++itr)
 			{
-				if (LLAvatarTracker::instance().getBuddyInfo(*itr) != nullptr)
+				if (LLAvatarTracker::instance().isBuddy(*itr))
 				{
 					is_friend = true;
 				}

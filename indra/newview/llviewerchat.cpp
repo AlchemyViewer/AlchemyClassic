@@ -43,50 +43,58 @@ LLViewerChat::font_change_signal_t LLViewerChat::sChatFontChangedSignal;
 //static 
 void LLViewerChat::getChatColor(const LLChat& chat, LLColor4& r_color)
 {
+	static const LLUIColor lt_gray = LLUIColorTable::instance().getColor("LtGray");
+	static const LLUIColor system_chat_color = LLUIColorTable::instance().getColor("SystemChatColor");
+	static const LLUIColor user_chat_color = LLUIColorTable::instance().getColor("UserChatColor");
+	static const LLUIColor agent_chat_color = LLUIColorTable::instance().getColor("AgentChatColor");
+	static const LLUIColor script_err_color = LLUIColorTable::instance().getColor("ScriptErrorColor");
+	static const LLUIColor owner_say_chat_color = LLUIColorTable::instance().getColor("llOwnerSayChatColor");
+	static const LLUIColor direct_chat_color = LLUIColorTable::instance().getColor("DirectChatColor");
+	static const LLUIColor object_chat_color = LLUIColorTable::instance().getColor("ObjectChatColor");
 	if(chat.mMuted)
 	{
-		r_color= LLUIColorTable::instance().getColor("LtGray");
+		r_color = lt_gray;
 	}
 	else
 	{
 		switch(chat.mSourceType)
 		{
 			case CHAT_SOURCE_SYSTEM:
-				r_color = LLUIColorTable::instance().getColor("SystemChatColor"); 
+				r_color = system_chat_color;
 				break;
 			case CHAT_SOURCE_AGENT:
 				if (chat.mFromID.isNull() || SYSTEM_FROM == chat.mFromName)
 				{
-					r_color = LLUIColorTable::instance().getColor("SystemChatColor");
+					r_color = system_chat_color;
 				}
 				else
 				{
 					if(gAgentID == chat.mFromID)
 					{
-						r_color = LLUIColorTable::instance().getColor("UserChatColor");
+						r_color = user_chat_color;
 					}
 					else
 					{
-						r_color = LLUIColorTable::instance().getColor("AgentChatColor");
+						r_color = agent_chat_color;
 					}
 				}
 				break;
 			case CHAT_SOURCE_OBJECT:
 				if (chat.mChatType == CHAT_TYPE_DEBUG_MSG)
 				{
-					r_color = LLUIColorTable::instance().getColor("ScriptErrorColor");
+					r_color = script_err_color;
 				}
 				else if ( chat.mChatType == CHAT_TYPE_OWNER )
 				{
-					r_color = LLUIColorTable::instance().getColor("llOwnerSayChatColor");
+					r_color = owner_say_chat_color;
 				}
 				else if ( chat.mChatType == CHAT_TYPE_DIRECT )
 				{
-					r_color = LLUIColorTable::instance().getColor("DirectChatColor");
+					r_color = direct_chat_color;
 				}
 				else
 				{
-					r_color = LLUIColorTable::instance().getColor("ObjectChatColor");
+					r_color = object_chat_color;
 				}
 				break;
 			default:
@@ -95,7 +103,7 @@ void LLViewerChat::getChatColor(const LLChat& chat, LLColor4& r_color)
 		
 		if (!chat.mPosAgent.isExactlyZero())
 		{
-			LLVector3 pos_agent = gAgent.getPositionAgent();
+			const LLVector3& pos_agent = gAgent.getPositionAgent();
 			F32 distance_squared = dist_vec_squared(pos_agent, chat.mPosAgent);
 			F32 dist_near_chat = gAgent.getNearChatRadius();
 			if (distance_squared > dist_near_chat * dist_near_chat)

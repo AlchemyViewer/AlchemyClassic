@@ -262,13 +262,15 @@ void LLIMWellWindow::ObjectRowPanel::initChiclet(const LLUUID& notification_id, 
 //---------------------------------------------------------------------------------
 void LLIMWellWindow::ObjectRowPanel::onMouseEnter(S32 x, S32 y, MASK mask)
 {
-	setTransparentColor(LLUIColorTable::instance().getColor("SysWellItemSelected"));
+	static LLUIColor sys_well_item_selected = LLUIColorTable::instance().getColor("SysWellItemSelected");
+	setTransparentColor(sys_well_item_selected);
 }
 
 //---------------------------------------------------------------------------------
 void LLIMWellWindow::ObjectRowPanel::onMouseLeave(S32 x, S32 y, MASK mask)
 {
-	setTransparentColor(LLUIColorTable::instance().getColor("SysWellItemUnselected"));
+	static LLUIColor sys_well_item_unselected = LLUIColorTable::instance().getColor("SysWellItemUnselected");
+	setTransparentColor(sys_well_item_unselected);
 }
 
 //---------------------------------------------------------------------------------

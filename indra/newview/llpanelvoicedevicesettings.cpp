@@ -116,6 +116,10 @@ void LLPanelVoiceDeviceSettings::draw()
 		F32 voice_power = LLVoiceClient::getInstance()->tuningGetEnergy() / LLVoiceClient::OVERDRIVEN_POWER_LEVEL;
 		S32 discrete_power = llmin(num_bars, llfloor(voice_power * (F32)num_bars + 0.1f));
 
+		static LLUIColor overdriven_color = LLUIColorTable::instance().getColor("OverdrivenColor");
+		static LLUIColor speaking_color = LLUIColorTable::instance().getColor("SpeakingColor");
+		static LLUIColor panel_focus_background_color = LLUIColorTable::instance().getColor("PanelFocusBackgroundColor");
+
 		for(S32 power_bar_idx = 0; power_bar_idx < num_bars; power_bar_idx++)
 		{
 			std::string view_name = llformat("%s%d", "bar", power_bar_idx);
@@ -127,11 +131,11 @@ void LLPanelVoiceDeviceSettings::draw()
 				LLColor4 color;
 				if (power_bar_idx < discrete_power)
 				{
-					color = (power_bar_idx >= 3) ? LLUIColorTable::instance().getColor("OverdrivenColor") : LLUIColorTable::instance().getColor("SpeakingColor");
+					color = (power_bar_idx >= 3) ? overdriven_color : speaking_color;
 				}
 				else
 				{
-					color = LLUIColorTable::instance().getColor("PanelFocusBackgroundColor");
+					color = panel_focus_background_color;
 				}
 
 				LLRect color_rect = bar_view->getRect();

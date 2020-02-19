@@ -696,10 +696,11 @@ void LLOutfitGalleryItem::draw()
     LLPanel::draw();
     
     // Draw border
-    LLUIColor border_color = LLUIColorTable::instance().getColor(mSelected ? "OutfitGalleryItemSelected" : "OutfitGalleryItemUnselected", LLColor4::white);
+    static LLUIColor item_selected_color = LLUIColorTable::instance().getColor("OutfitGalleryItemSelected");
+    static LLUIColor item_unselected_color = LLUIColorTable::instance().getColor("OutfitGalleryItemUnselected");
     LLRect border = mIconPreviewOutfit->getRect();
     border.mRight = border.mRight + 1;
-    gl_rect_2d(border, border_color.get(), FALSE);
+    gl_rect_2d(border, mSelected ? item_selected_color : item_unselected_color, FALSE);
 
     // If the floater is focused, don't apply its alpha to the texture (STORM-677).
     const F32 alpha = getTransparencyType() == TT_ACTIVE ? 1.0f : getCurrentTransparency();

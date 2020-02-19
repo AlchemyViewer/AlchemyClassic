@@ -4260,12 +4260,12 @@ void LLModelPreview::setPreviewLOD(S32 lod)
 		LLComboBox* combo_box3 = mFMP->getChild<LLComboBox>("preview_lod_combo3");
 		combo_box3->setCurrentByIndex((NUM_LOD-1)-mPreviewLOD); // combo box list of lods is in reverse order
 
-		LLColor4 highlight_color = LLUIColorTable::instance().getColor("MeshImportTableHighlightColor");
-		LLColor4 normal_color = LLUIColorTable::instance().getColor("MeshImportTableNormalColor");
+		static const LLUIColor highlight_color = LLUIColorTable::instance().getColor("MeshImportTableHighlightColor");
+		static const LLUIColor normal_color = LLUIColorTable::instance().getColor("MeshImportTableNormalColor");
 
 		for (S32 i = 0; i <= LLModel::LOD_HIGH; ++i)
 		{
-			const LLColor4& color = (i == lod) ? highlight_color : normal_color;
+			const LLColor4& color = (i == lod) ? highlight_color.get() : normal_color.get();
 
 			mFMP->childSetColor(lod_status_name[i], color);
 			mFMP->childSetColor(lod_label_name[i], color);

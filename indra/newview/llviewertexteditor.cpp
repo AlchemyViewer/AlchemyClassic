@@ -220,15 +220,10 @@ public:
 		image_rect.mTop = image_rect.mBottom + mImage->getHeight();
 		mImage->draw(LLRect(image_rect.mLeft, image_rect.mTop, image_rect.mRight, image_rect.mBottom));
 
-		LLColor4 color;
-		if (mEditor.getReadOnly())
-		{
-			color = LLUIColorTable::instance().getColor("TextEmbeddedItemReadOnlyColor");
-		}
-		else
-		{
-			color = LLUIColorTable::instance().getColor("TextEmbeddedItemColor");
-		}
+		static const LLUIColor text_embed_item_readonly_color = LLUIColorTable::instance().getColor("TextEmbeddedItemReadOnlyColor");
+		static const LLUIColor text_embed_item_color = LLUIColorTable::instance().getColor("TextEmbeddedItemColor");
+
+		const LLColor4 color = mEditor.getReadOnly() ? text_embed_item_readonly_color : text_embed_item_color;
 
 		F32 right_x;
 		mStyle->getFont()->render(mLabel, 0, image_rect.mRight + EMBEDDED_ITEM_LABEL_PADDING, draw_rect.mTop, color, LLFontGL::LEFT, LLFontGL::TOP, LLFontGL::UNDERLINE, LLFontGL::NO_SHADOW, mLabel.length(), S32_MAX, &right_x);

@@ -81,13 +81,15 @@ BOOL LLSysWellItem::handleMouseDown(S32 x, S32 y, MASK mask)
 //---------------------------------------------------------------------------------
 void LLSysWellItem::onMouseEnter(S32 x, S32 y, MASK mask)
 {
-	setTransparentColor(LLUIColorTable::instance().getColor( "SysWellItemSelected" ));
+    static LLUIColor sys_well_item_selected = LLUIColorTable::instance().getColor("SysWellItemSelected");
+	setTransparentColor(sys_well_item_selected);
 }
 
 //---------------------------------------------------------------------------------
 void LLSysWellItem::onMouseLeave(S32 x, S32 y, MASK mask)
 {
-	setTransparentColor(LLUIColorTable::instance().getColor( "SysWellItemUnselected" ));
+    static LLUIColor sys_well_item_unselected = LLUIColorTable::instance().getColor("SysWellItemUnselected");
+	setTransparentColor(sys_well_item_unselected);
 }
 
 //---------------------------------------------------------------------------------

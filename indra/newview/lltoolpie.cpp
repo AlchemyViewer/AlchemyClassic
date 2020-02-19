@@ -930,7 +930,8 @@ static bool needs_tooltip(LLSelectNode* nodep)
 BOOL LLToolPie::handleTooltipLand(std::string line, std::string tooltip_msg)
 {
 	//  Do not show hover for land unless prefs are set to allow it. 
-	if (!gSavedSettings.getBOOL("ShowLandHoverTip")) return TRUE; 
+	static LLCachedControl<bool> show_land_hovetips(gSavedSettings, "ShowLandHoverTip");
+	if (!show_land_hovetips) return TRUE;
 
     LLViewerParcelMgr::getInstance()->setHoverParcel( mHoverPick.mPosGlobal );
 

@@ -1782,7 +1782,7 @@ void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 	static LLUIColor physical_object_color(LLUIColorTable::instance().getColor("NetMapPhysicalObject"));
 	static LLUIColor temp_object_color(LLUIColorTable::instance().getColor("NetMapTempObject"));
 
-	static LLCachedControl<F32> max_radius(gSavedSettings, "MiniMapPrimMaxRadius");
+	static const LLCachedControl<F32> max_radius(gSavedSettings, "MiniMapPrimMaxRadius");
 
 	const vobj_list_t::const_iterator end_it = mMapObjects.cend();
 	for (vobj_list_t::iterator iter = mMapObjects.begin(); iter != end_it; ++iter)

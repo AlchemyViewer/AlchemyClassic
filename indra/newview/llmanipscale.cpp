@@ -1760,7 +1760,8 @@ void LLManipScale::renderSnapGuides(const LLBBox& bbox)
 		start_tick = -(llmin(ticks_from_scale_center_1, num_ticks_per_side1));
 		stop_tick = llmin(max_ticks1, num_ticks_per_side1);
 
-		F32 grid_resolution = mObjectSelection->getSelectType() == SELECT_TYPE_HUD ? 0.25f : llmax(gSavedSettings.getF32("GridResolution"), 0.001f);
+		static const LLCachedControl<F32> grid_resolution_setting(gSavedSettings, "GridResolution");
+		F32 grid_resolution = mObjectSelection->getSelectType() == SELECT_TYPE_HUD ? 0.25f : llmax((F32)grid_resolution_setting, 0.001f);
 		S32 label_sub_div_offset_1 = ll_round(fmod(dist_grid_axis - grid_offset1, mScaleSnapUnit1  * 32.f) / smallest_subdivision1);
 		S32 label_sub_div_offset_2 = ll_round(fmod(dist_grid_axis - grid_offset2, mScaleSnapUnit2  * 32.f) / smallest_subdivision2);
 
@@ -1787,7 +1788,7 @@ void LLManipScale::renderSnapGuides(const LLBBox& bbox)
 				F32 tick_value;
 				if (grid_mode == GRID_MODE_WORLD)
 				{
-					tick_value = (grid_multiple1 + i) / (sGridMaxSubdivisionLevel / grid_resolution);
+					tick_value = (grid_multiple1 + i) / (sGridMaxSubdivisionLevel / (F32)grid_resolution);
 				}
 				else
 				{
@@ -1834,7 +1835,7 @@ void LLManipScale::renderSnapGuides(const LLBBox& bbox)
 					F32 tick_value;
 					if (grid_mode == GRID_MODE_WORLD)
 					{
-						tick_value = (grid_multiple2 + i) / (sGridMaxSubdivisionLevel / grid_resolution);
+						tick_value = (grid_multiple2 + i) / (sGridMaxSubdivisionLevel / (F32)grid_resolution);
 					}
 					else
 					{

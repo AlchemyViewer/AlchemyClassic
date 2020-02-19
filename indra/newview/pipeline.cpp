@@ -6099,7 +6099,7 @@ void LLPipeline::enableLightsPreview()
 	light->enable();
 	light->setPosition(light_pos);
 	light->setDiffuse(diffuse0);
-	light->setAmbient(LLColor4::black);
+	light->setAmbient(ambient);
 	light->setSpecular(specular0);
 	light->setSpotExponent(0.f);
 	light->setSpotCutoff(180.f);
@@ -6110,7 +6110,7 @@ void LLPipeline::enableLightsPreview()
 	light->enable();
 	light->setPosition(light_pos);
 	light->setDiffuse(diffuse1);
-	light->setAmbient(LLColor4::black);
+	light->setAmbient(ambient);
 	light->setSpecular(specular1);
 	light->setSpotExponent(0.f);
 	light->setSpotCutoff(180.f);
@@ -6120,7 +6120,7 @@ void LLPipeline::enableLightsPreview()
 	light->enable();
 	light->setPosition(light_pos);
 	light->setDiffuse(diffuse2);
-	light->setAmbient(LLColor4::black);
+	light->setAmbient(ambient);
 	light->setSpecular(specular2);
 	light->setSpotExponent(0.f);
 	light->setSpotCutoff(180.f);

@@ -244,6 +244,9 @@ void LLExperienceLog::eraseExpired()
 
 bool LLExperienceLog::isExpired(const std::string& date)
 {
+	if (date.empty())
+		return true;
+
 	S32 month, day, year = 0;
 	S32 matched = sscanf(date.c_str(), "%d-%d-%d", &year, &month, &day);
 	if (matched != 3) return false;

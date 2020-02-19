@@ -125,11 +125,11 @@ BOOL LLViewerDynamicTexture::render()
 //-----------------------------------------------------------------------------
 void LLViewerDynamicTexture::preRender(BOOL clear_depth)
 {
-	//only images up to 1024*1024 are supported
-	llassert(mFullHeight <= 512);
-	llassert(mFullWidth <= 512);
+	gPipeline.allocatePhysicsBuffer();
+	llassert(mFullWidth <= static_cast<S32>(gPipeline.mPhysicsDisplay.getWidth()));
+	llassert(mFullHeight <= static_cast<S32>(gPipeline.mPhysicsDisplay.getHeight()));
 
-	if (gGLManager.mHasFramebufferObject && gPipeline.mWaterDis.isComplete() && !gGLManager.mIsATI)
+	if (gGLManager.mHasFramebufferObject && gPipeline.mPhysicsDisplay.isComplete() && !gGLManager.mIsATI)
 	{ //using offscreen render target, just use the bottom left corner
 		mOrigin.set(0, 0);
 	}
@@ -216,11 +216,10 @@ BOOL LLViewerDynamicTexture::updateAllInstances()
 		return TRUE;
 	}
 
-	bool use_fbo = gGLManager.mHasFramebufferObject && gPipeline.mWaterDis.isComplete() && !gGLManager.mIsATI;
-
+	bool use_fbo = gGLManager.mHasFramebufferObject && gPipeline.mPhysicsDisplay.isComplete() && !gGLManager.mIsATI;
 	if (use_fbo)
 	{
-		gPipeline.mWaterDis.bindTarget();
+		gPipeline.mPhysicsDisplay.bindTarget();
 	}
 
 	LLGLSLShader::bindNoShader();
@@ -256,7 +255,7 @@ BOOL LLViewerDynamicTexture::updateAllInstances()
 
 	if (use_fbo)
 	{
-		gPipeline.mWaterDis.flush();
+		gPipeline.mPhysicsDisplay.flush();
 	}
 
 	return ret;

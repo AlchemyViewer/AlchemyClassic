@@ -90,7 +90,8 @@ void LLExperienceLog::handleExperienceMessage(LLSD& message)
 
 	std::string day = daybuf;
 
-	if(!mEvents.has(day))
+	auto iter = mEvents.find(day);
+	if(iter == mEvents.end())
 	{
 		mEvents[day] = LLSD::emptyArray();
 	}
@@ -178,7 +179,12 @@ void LLExperienceLog::saveEvents()
 {
 	eraseExpired();
 	std::string filename = getFilename();
-	LLSD settings = LLSD::emptyMap().with("Events", mEvents);
+	LLSD temp_events;
+	for (const auto& event_pair : mEvents)
+	{
+		temp_events[event_pair.first] = event_pair.second;
+	}
+	LLSD settings = LLSD::emptyMap().with("Events", temp_events);
 
 	settings["MaxDays"] = (int)mMaxDays;
 	settings["Notify"] = mNotifyNewEvent;
@@ -212,7 +218,11 @@ void LLExperienceLog::loadEvents()
 	mEvents.clear();
 	if(mMaxDays > 0 && settings.has("Events"))
 	{
-		mEvents = settings["Events"];
+		const auto& events = settings["Events"];
+		for (auto iter = events.beginMap(), end = events.endMap(); iter != end; ++iter)
+		{
+			mEvents[iter->first] = iter->second;
+		}
 	}
 
 	eraseExpired();
@@ -225,21 +235,14 @@ LLExperienceLog::~LLExperienceLog()
 
 void LLExperienceLog::eraseExpired()
 {
-    std::vector<std::string> expired;
-	std::for_each(mEvents.beginMap(), mEvents.endMap(),
-				  [&](const auto& event_pair)
+	for (auto it = mEvents.begin(), end = mEvents.end(); it != end;)
 	{
-		const std::string& date = event_pair.first;
-		if (isExpired(date))
+		auto event_it = it++;
+		if (isExpired(event_it->first))
 		{
-            expired.push_back(date);
+			mEvents.erase(event_it);
 		}
-	});
-    
-    for (const auto& date : expired)
-    {
-        mEvents.erase(date);
-    }
+	}
 }
 
 bool LLExperienceLog::isExpired(const std::string& date)
@@ -254,11 +257,6 @@ bool LLExperienceLog::isExpired(const std::string& date)
 	event_date.fromYMDHMS(year, month, day);
 
 	return event_date.secondsSinceEpoch() <= (LLDate::now().secondsSinceEpoch() - F64(getMaxDays() * 86400U));
-}
-
-const LLSD& LLExperienceLog::getEvents() const
-{
-	return mEvents;
 }
 
 void LLExperienceLog::clear()

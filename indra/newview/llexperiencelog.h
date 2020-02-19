@@ -50,7 +50,7 @@ public:
 	U32 getPageSize() const { return mPageSize; }
 	void setPageSize(U32 val) { mPageSize = val; }
 
-	const LLSD& getEvents()const;
+	const auto& getEvents() const { return mEvents; };
 	void clear();
 
 	virtual ~LLExperienceLog();
@@ -67,7 +67,7 @@ protected:
 	void saveEvents();
 	void eraseExpired();
 
-	LLSD mEvents;
+	std::map<std::string, LLSD> mEvents;
 	callback_signal_t mSignals;
 	callback_connection_t mNotifyConnection;
 	U32 mMaxDays;

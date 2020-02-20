@@ -3270,9 +3270,9 @@ void LLIMMgr::addPendingAgentListUpdates(
 		//of agent_id -> "LEAVE"/"ENTER"
 
 		//only want to keep last update for each agent
-		for (
-			iter = updates["updates"].beginMap();
-			iter != updates["updates"].endMap();
+		const LLSD& update = updates["updates"];
+		for (auto iter = update.beginMap(), end = update.endMap();
+			iter != end;
 			++iter)
 		{
 			mPendingAgentListUpdates[session_id.asString()]["updates"][iter->first] =

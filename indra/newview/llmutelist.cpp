@@ -876,7 +876,7 @@ bool LLRenderMuteList::loadFromFile()
 
 	if (visual_mute_settings.isMap() && visual_mute_settings.size() > 0)
 	{
-		for (auto it = visual_mute_settings.beginMap(); it != visual_mute_settings.endMap(); ++it)
+		for (auto it = visual_mute_settings.beginMap(), end = visual_mute_settings.endMap(); it != end; ++it)
 		{
 			LLUUID agent_id(it->first);
 			if (agent_id.isNull())

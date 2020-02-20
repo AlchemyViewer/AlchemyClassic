@@ -141,8 +141,7 @@ std::string LLKeywords::getArguments(LLSD& arguments)
 			LLSD& args = (*arrayIt);
 			if (args.isMap())
 			{
-				LLSD::map_iterator argsIt = args.beginMap();
-				for ( ; argsIt != args.endMap(); ++argsIt)
+				for (LLSD::map_const_iterator argsIt = args.beginMap(), argsEnd = args.endMap(); argsIt != argsEnd; ++argsIt)
 				{
 					argString += argsIt->second.get("type").asString() + " " + argsIt->first;
 					if (argsCount-- > 1)
@@ -239,8 +238,7 @@ void LLKeywords::processTokens()
 	addToken(LLKeywordToken::TT_TWO_SIDED_DELIMITER, "/*", LLUIColorTable::instance().getColor("SyntaxLslComment"), "Comment (multi-line)\nNon-functional commentary or disabled code", "*/" );
 	addToken(LLKeywordToken::TT_DOUBLE_QUOTATION_MARKS, "\"", LLUIColorTable::instance().getColor("SyntaxLslStringLiteral"), "String literal", "\"" );
 
-	LLSD::map_iterator itr = mSyntax.beginMap();
-	for ( ; itr != mSyntax.endMap(); ++itr)
+	for (auto itr = mSyntax.beginMap(), ite = mSyntax.endMap(); itr != ite; ++itr)
 	{
 		if (itr->first == "llsd-lsl-syntax-version")
 		{
@@ -300,15 +298,13 @@ void LLKeywords::processTokensGroup(const LLSD& tokens, const std::string& group
 
 	if (tokens.isMap())
 	{
-		LLSD::map_const_iterator outer_itr = tokens.beginMap();
-		for ( ; outer_itr != tokens.endMap(); ++outer_itr )
+		for (auto outer_itr = tokens.beginMap(), outer_ite = tokens.endMap(); outer_itr != outer_ite; ++outer_itr )
 		{
 			if (outer_itr->second.isMap())
 			{
 				mAttributes.clear();
 				LLSD arguments = LLSD();
-				LLSD::map_const_iterator inner_itr = outer_itr->second.beginMap();
-				for ( ; inner_itr != outer_itr->second.endMap(); ++inner_itr )
+				for (auto inner_itr = outer_itr->second.beginMap(), inner_ite = outer_itr->second.endMap(); inner_itr != inner_ite; ++inner_itr )
 				{
 					if (inner_itr->first == "arguments")
 					{ 

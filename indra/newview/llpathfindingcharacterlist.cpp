@@ -58,8 +58,9 @@ void LLPathfindingCharacterList::parseCharacterListData(const LLSD& pCharacterLi
 {
     LLPathfindingObjectMap &objectMap = getObjectMap();
 
-    for (LLSD::map_const_iterator characterDataIter = pCharacterListData.beginMap();
-        characterDataIter != pCharacterListData.endMap(); ++characterDataIter)
+    for (LLSD::map_const_iterator characterDataIter = pCharacterListData.beginMap(), 
+        characterDataEnd = pCharacterListData.endMap();
+        characterDataIter != characterDataEnd; ++characterDataIter)
     {
         if (characterDataIter->second.isUndefined())
             continue;

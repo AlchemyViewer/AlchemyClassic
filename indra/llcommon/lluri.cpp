@@ -740,10 +740,9 @@ std::string LLURI::mapToQueryString(const LLSD& queryMap)
 	if (queryMap.isMap())
 	{
 		bool first_element = true;
-        auto iter = queryMap.beginMap();
-        auto end = queryMap.endMap();
+
 		std::ostringstream ostr;
-		for (; iter != end; ++iter)
+		for (auto iter = queryMap.beginMap(), end = queryMap.endMap(); iter != end; ++iter)
 		{
 			if(first_element)
 			{

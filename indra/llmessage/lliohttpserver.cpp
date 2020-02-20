@@ -494,9 +494,7 @@ LLIOPipe::EStatus LLHTTPResponseHeader::process_impl(
 		LLSD headers = context[CONTEXT_RESPONSE][CONTEXT_HEADERS];
 		if(headers.isDefined())
 		{
-			LLSD::map_iterator iter = headers.beginMap();
-			LLSD::map_iterator end = headers.endMap();
-			for(; iter != end; ++iter)
+			for(auto iter = headers.beginMap(), end = headers.endMap(); iter != end; ++iter)
 			{
 				ostr << (*iter).first << ": " << (*iter).second.asString()
 					<< "\r\n";

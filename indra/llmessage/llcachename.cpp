@@ -320,9 +320,7 @@ bool LLCacheName::importFile(std::istream& istr)
 	// iterate over the agents
 	S32 count = 0;
 	LLSD agents = data[AGENTS];
-	LLSD::map_iterator iter = agents.beginMap();
-	LLSD::map_iterator end = agents.endMap();
-	for( ; iter != end; ++iter)
+	for(auto iter = agents.beginMap(), end = agents.endMap(); iter != end; ++iter)
 	{
 		LLUUID id((*iter).first);
 		LLSD agent = (*iter).second;
@@ -344,9 +342,9 @@ bool LLCacheName::importFile(std::istream& istr)
 
 	count = 0;
 	LLSD groups = data[GROUPS];
-	iter = groups.beginMap();
-	end = groups.endMap();
-	for( ; iter != end; ++iter)
+
+	for(auto iter = groups.beginMap(),
+		end = groups.endMap(); iter != end; ++iter)
 	{
 		LLUUID id((*iter).first);
 		LLSD group = (*iter).second;

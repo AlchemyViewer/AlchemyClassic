@@ -103,7 +103,7 @@ nlohmann::json LlsdToJson(const LLSD &val)
         result = val.asString();
         break;
     case LLSD::TypeMap:
-        for (auto it = val.beginMap(); it != val.endMap(); ++it)
+        for (auto it = val.beginMap(), it_end = val.endMap(); it != it_end; ++it)
         {
             result[it->first] = LlsdToJson(it->second);
         }

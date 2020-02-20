@@ -997,7 +997,7 @@ U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_v
 	U32	validitems = 0;
 	bool hidefromsettingseditor = false;
 	
-	for(LLSD::map_const_iterator itr = settings.beginMap(); itr != settings.endMap(); ++itr)
+	for(LLSD::map_const_iterator itr = settings.beginMap(), ite = settings.endMap(); itr != ite; ++itr)
 	{
 		LLControlVariable::ePersist persist = LLControlVariable::PERSIST_NONDFT;
 		std::string const & name = itr->first;

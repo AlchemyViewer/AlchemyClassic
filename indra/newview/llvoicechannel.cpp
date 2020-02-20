@@ -645,8 +645,7 @@ void LLVoiceChannelGroup::voiceCallCapCoro(std::string url)
 
     result.erase(LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS);
 
-    LLSD::map_const_iterator iter;
-    for (iter = result.beginMap(); iter != result.endMap(); ++iter)
+    for (LLSD::map_const_iterator iter = result.beginMap(), end = result.endMap(); iter != end; ++iter)
     {
         LL_DEBUGS("Voice") << "LLVoiceCallCapResponder::result got "
             << iter->first << LL_ENDL;

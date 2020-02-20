@@ -291,7 +291,7 @@ void RlvStrings::loadFromFile(const std::string& strFilePath, bool fUserOverride
 	if (sdFileData.has("strings"))
 	{
 		const LLSD& sdStrings = sdFileData["strings"];
-		for (LLSD::map_const_iterator itString = sdStrings.beginMap(); itString != sdStrings.endMap(); ++itString)
+		for (LLSD::map_const_iterator itString = sdStrings.beginMap(), itEnd = sdStrings.endMap(); itString != itEnd; ++itString)
 		{
 			if ( (!itString->second.has("value")) || ((fUserOverride) && (!hasString(itString->first))) )
 				continue;

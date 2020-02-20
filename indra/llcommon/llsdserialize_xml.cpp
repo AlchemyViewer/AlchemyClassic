@@ -97,9 +97,8 @@ S32 LLSDXMLFormatter::format_impl(const LLSD& data, std::ostream& ostr, U32 opti
 		else
 		{
 			ostr << pre << "<map>" << post;
-            auto iter = data.beginMap();
-            auto end = data.endMap();
-			for(; iter != end; ++iter)
+
+			for(auto iter = data.beginMap(), end = data.endMap(); iter != end; ++iter)
 			{
 				ostr << pre << "<key>" << escapeString((*iter).first) << "</key>" << post;
 				format_count += format_impl((*iter).second, ostr, options, level + 1);

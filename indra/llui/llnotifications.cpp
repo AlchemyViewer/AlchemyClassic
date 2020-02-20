@@ -652,8 +652,8 @@ S32 LLNotification::getSelectedOption(const LLSD& notification, const LLSD& resp
 //static
 std::string LLNotification::getSelectedOptionName(const LLSD& response)
 {
-	for (LLSD::map_const_iterator response_it = response.beginMap();
-		response_it != response.endMap();
+	for (LLSD::map_const_iterator response_it = response.beginMap(), response_end = response.endMap();
+		response_it != response_end;
 		++response_it)
 	{
 		if (response_it->second.isBoolean() && response_it->second.asBoolean())

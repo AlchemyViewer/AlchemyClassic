@@ -103,7 +103,7 @@ LLSD LLMetricPerformanceTesterBasic::analyzeMetricPerformanceLog(std::istream& i
 	
 	while (!is.fail() && !is.eof() && LLSDParser::PARSE_FAILURE != LLSDSerialize::fromXML(cur, is))
 	{
-		for (auto iter = cur.beginMap(); iter != cur.endMap(); ++iter)
+		for (auto iter = cur.beginMap(), end = cur.endMap(); iter != end; ++iter)
 		{
 			std::string label = iter->first;
 			

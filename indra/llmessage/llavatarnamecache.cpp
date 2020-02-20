@@ -441,8 +441,7 @@ bool LLAvatarNameCache::importFile(std::istream& istr)
 
 	LLUUID agent_id;
 	LLAvatarName av_name;
-	LLSD::map_const_iterator it = agents.beginMap();
-	for ( ; it != agents.endMap(); ++it)
+	for (auto it = agents.beginMap(), end = agents.endMap(); it != end; ++it)
 	{
 		agent_id.set(it->first);
 		av_name.fromLLSD( it->second );

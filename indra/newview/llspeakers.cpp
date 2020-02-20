@@ -676,8 +676,9 @@ void LLIMSpeakerMgr::setSpeakers(const LLSD& speakers)
 
 	if ( speakers.has("agent_info") && speakers["agent_info"].isMap() )
 	{
-		for(LLSD::map_const_iterator speaker_it = speakers["agent_info"].beginMap();
-			speaker_it != speakers["agent_info"].endMap();
+		const LLSD& agent_info = speakers["agent_info"];
+		for(LLSD::map_const_iterator speaker_it = agent_info.beginMap(), speaker_end = agent_info.endMap();
+			speaker_it != speaker_end;
 			++speaker_it)
 		{
 			LLUUID agent_id(speaker_it->first);
@@ -724,8 +725,9 @@ void LLIMSpeakerMgr::updateSpeakers(const LLSD& update)
 
 	if ( update.has("agent_updates") && update["agent_updates"].isMap() )
 	{
-		for(LLSD::map_const_iterator update_it = update["agent_updates"].beginMap();
-			update_it != update["agent_updates"].endMap();
+		const LLSD& agent_update = update["agent_updates"];
+		for(LLSD::map_const_iterator update_it = agent_update.beginMap(), update_end = agent_update.endMap();
+			update_it != update_end;
 			++update_it)
 		{
 			LLUUID agent_id(update_it->first);
@@ -778,8 +780,9 @@ void LLIMSpeakerMgr::updateSpeakers(const LLSD& update)
 	}
 	else if ( update.has("updates") && update["updates"].isMap() )
 	{
-		for (LLSD::map_const_iterator update_it = update["updates"].beginMap();
-			 update_it != update["updates"].endMap();
+		const LLSD& update_ref = update["updates"];
+		for (LLSD::map_const_iterator update_it = update_ref.beginMap(), update_end = update_ref.endMap();
+			 update_it != update_end;
 			 ++update_it)
 		{
 			LLUUID agent_id(update_it->first);

@@ -242,7 +242,7 @@ LLSD LLWLParamManager::createSkyMap(std::map<LLWLParamKey, LLWLParamSet> refs)
 
 void LLWLParamManager::addAllSkies(const LLWLParamKey::EScope scope, const LLSD& sky_presets)
 {
-	for(LLSD::map_const_iterator iter = sky_presets.beginMap(); iter != sky_presets.endMap(); ++iter)
+	for(LLSD::map_const_iterator iter = sky_presets.beginMap(), end = sky_presets.endMap(); iter != end; ++iter)
 	{
 		LLWLParamSet set;
 		set.setAll(iter->second);

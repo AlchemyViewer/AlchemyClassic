@@ -4073,8 +4073,7 @@ truncate_viewer_metrics(int max_regions, LLSD & metrics)
 	reg_ordered_list_t regions_by_duration;
 
 	int ind(0);
-	LLSD::array_const_iterator it_end(reg_map.endArray());
-	for (LLSD::array_const_iterator it(reg_map.beginArray()); it_end != it; ++it, ++ind)
+	for (LLSD::array_const_iterator it(reg_map.beginArray()), it_end(reg_map.endArray()); it_end != it; ++it, ++ind)
 	{
 		LLSD::Real duration = (*it)[duration_tag].asReal();
 		regions_by_duration.insert(reg_ordered_list_t::value_type(duration, ind));

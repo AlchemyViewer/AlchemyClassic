@@ -1525,8 +1525,8 @@ void LLFavoritesOrderStorage::load()
         LL_WARNS("FavoritesBar") << "unable to open favorites order file at '" << filename << "'" << LL_ENDL;
     }
 
-	for (LLSD::map_const_iterator iter = settings_llsd.beginMap();
-		iter != settings_llsd.endMap(); ++iter)
+	for (LLSD::map_const_iterator iter = settings_llsd.beginMap(), end = settings_llsd.endMap();
+		iter != end; ++iter)
 	{
 		mSortIndexes.insert(std::make_pair(LLUUID(iter->first), (S32)iter->second.asInteger()));
 	}

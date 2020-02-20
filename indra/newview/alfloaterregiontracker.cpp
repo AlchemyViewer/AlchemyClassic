@@ -115,7 +115,7 @@ void ALFloaterRegionTracker::refresh()
 
 	const std::string& cur_region_name = gAgent.getRegion() ? gAgent.getRegion()->getName() : LLStringUtil::null;
 
-	for (LLSD::map_const_iterator it = mRegionMap.beginMap(); it != mRegionMap.endMap(); it++)
+	for (LLSD::map_const_iterator it = mRegionMap.beginMap(), end = mRegionMap.endMap(); it != end; it++)
 	{
 		const std::string& sim_name = it->first;
 		const LLSD& data = it->second;
@@ -181,7 +181,7 @@ void ALFloaterRegionTracker::requestRegionData()
 	if (!mRegionMap.size())
 		return;
 
-	for (LLSD::map_const_iterator it = mRegionMap.beginMap(); it != mRegionMap.endMap(); it++)
+	for (LLSD::map_const_iterator it = mRegionMap.beginMap(), end = mRegionMap.endMap(); it != end; ++it)
 	{
 		const auto& name = it->first;
 		if (LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromName(name))
@@ -252,7 +252,7 @@ void ALFloaterRegionTracker::onRegionAddedCallback(const LLSD& notification, con
 		{
 			if (mRegionMap.has(name))
 			{
-				for (LLSD::map_iterator it = mRegionMap.beginMap(); it != mRegionMap.endMap(); it++)
+				for (LLSD::map_iterator it = mRegionMap.beginMap(), end = mRegionMap.endMap(); it != end; ++it)
 					if (it->first == name) it->second["label"] = label;
 			}
 			else

@@ -196,8 +196,9 @@ void LLPathfindingLinksetList::parseLinksetListData(const LLSD& pLinksetListData
 {
 	LLPathfindingObjectMap &objectMap = getObjectMap();
 
-	for (LLSD::map_const_iterator linksetDataIter = pLinksetListData.beginMap();
-		linksetDataIter != pLinksetListData.endMap(); ++linksetDataIter)
+	for (LLSD::map_const_iterator linksetDataIter = pLinksetListData.beginMap(),
+		linksetDataEnd = pLinksetListData.endMap();
+		linksetDataIter != linksetDataEnd; ++linksetDataIter)
 	{
 		const std::string& uuid(linksetDataIter->first);
 		const LLSD& linksetData = linksetDataIter->second;

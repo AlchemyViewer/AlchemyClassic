@@ -256,8 +256,8 @@ void LLParamSDParserUtilities::readSDValues(read_sd_cb_t cb, const LLSD& sd, LLI
 {
 	if (sd.isMap())
 	{
-		for (auto it = sd.beginMap();
-			it != sd.endMap();
+		for (auto it = sd.beginMap(), it_end = sd.endMap();
+			it != it_end;
 			++it)
 		{
 			stack.push_back(make_pair(it->first, true));

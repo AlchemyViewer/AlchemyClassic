@@ -84,7 +84,7 @@ LLCore::HttpHeaders::ptr_t LLWebProfile::buildDefaultHeaders()
     auto httpHeaders = std::make_shared<LLCore::HttpHeaders>();
     LLSD headers = LLViewerMedia::getInstance()->getHeaders();
 
-    for (LLSD::map_iterator it = headers.beginMap(); it != headers.endMap(); ++it)
+    for (LLSD::map_iterator it = headers.beginMap(), end = headers.endMap(); it != end; ++it)
     {
         httpHeaders->append((*it).first, (*it).second.asStringRef());
     }

@@ -1085,8 +1085,8 @@ void LLSpeakerVolumeStorage::load()
             
 	}
 
-	for (LLSD::map_const_iterator iter = settings_llsd.beginMap();
-		iter != settings_llsd.endMap(); ++iter)
+	for (LLSD::map_const_iterator iter = settings_llsd.beginMap(), iter_end = settings_llsd.endMap();
+		iter != iter_end; ++iter)
 	{
 		// Maintain compatibility with 1.23 non-linear saved volume levels
 		F32 volume = transformFromLegacyVolume((F32)iter->second.asReal());

@@ -276,12 +276,9 @@ BOOL compare_llsd_with_template(
 		//any excess is taken from the template
 		//excess is ignored in the test
 		LLSD value;
-		LLSD::map_const_iterator template_iter;
-
 		resultant_llsd = LLSD::emptyMap();
-		for (
-			template_iter = template_llsd.beginMap();
-			template_iter != template_llsd.endMap();
+		for (auto template_iter = template_llsd.beginMap(), template_end = template_llsd.endMap();
+			template_iter != template_end;
 			++template_iter)
 		{
 			if ( llsd_to_test.has(template_iter->first) )
@@ -492,7 +489,7 @@ std::string llsd_matches(const LLSD& prototype, const LLSD& data, const std::str
         out << colon(pfx);
         const char* init = "Map missing keys: ";
         const char* sep = init;
-        for (auto mi = prototype.beginMap(); mi != prototype.endMap(); ++mi)
+        for (auto mi = prototype.beginMap(), mi_end = prototype.endMap(); mi != mi_end; ++mi)
         {
             if (! data.has(mi->first))
             {
@@ -507,7 +504,7 @@ std::string llsd_matches(const LLSD& prototype, const LLSD& data, const std::str
         }
         // Good, the data block contains all the keys required by the
         // prototype. Now match the prototype entries.
-        for (auto mi2 = prototype.beginMap(); mi2 != prototype.endMap(); ++mi2)
+        for (auto mi2 = prototype.beginMap(), mi2_end = prototype.endMap(); mi2 != mi2_end; ++mi2)
         {
             std::string match(llsd_matches(mi2->second, data[mi2->first],
                                            STRINGIZE("['" << mi2->first << "']")));

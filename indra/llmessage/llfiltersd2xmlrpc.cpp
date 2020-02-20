@@ -171,9 +171,8 @@ void LLFilterSD2XMLRPC::streamOut(std::ostream& ostr, const LLSD& sd)
 		{
 			LL_INFOS() << "STREAM FAILURE writing struct" << LL_ENDL;
 		}
-		LLSD::map_const_iterator it = sd.beginMap();
-		LLSD::map_const_iterator end = sd.endMap();
-		for(; it != end; ++it)
+		for(auto it = sd.beginMap(), end = sd.endMap(); 
+			it != end; ++it)
 		{
 			ostr << "<member><name>" << xml_escape_string((*it).first)
 				<< "</name>";

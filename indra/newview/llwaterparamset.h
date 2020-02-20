@@ -145,7 +145,7 @@ inline void LLWaterParamSet::updateHashedNames()
 {
 	mParamHashedNames.clear();
 	// Iterate through values
-	for(LLSD::map_iterator iter = mParamValues.beginMap(); iter != mParamValues.endMap(); ++iter)
+	for(LLSD::map_iterator iter = mParamValues.beginMap(), end = mParamValues.endMap(); iter != end; ++iter)
 	{
 		mParamHashedNames.emplace_back(iter->first);
 	}

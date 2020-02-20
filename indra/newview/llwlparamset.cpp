@@ -291,7 +291,7 @@ void LLWLParamSet::mix(LLWLParamSet& src, LLWLParamSet& dest, F32 weight)
 	LLSD destVal;
 
 	// Iterate through values
-	for(LLSD::map_iterator iter = mParamValues.beginMap(); iter != mParamValues.endMap(); ++iter)
+	for(auto iter = mParamValues.beginMap(), end = mParamValues.endMap(); iter != end; ++iter)
 	{
 		// If param exists in both src and dest, set the holder variables, otherwise skip
 		if(src.mParamValues.has(iter->first) && dest.mParamValues.has(iter->first))
@@ -398,7 +398,7 @@ void LLWLParamSet::updateHashedNames()
 {
 	mParamHashedNames.clear();
 	// Iterate through values
-	for(auto iter = mParamValues.beginMap(); iter != mParamValues.endMap(); ++iter)
+	for(auto iter = mParamValues.beginMap(), end = mParamValues.endMap(); iter != end; ++iter)
 	{
 		mParamHashedNames.emplace_back(iter->first);
 	}

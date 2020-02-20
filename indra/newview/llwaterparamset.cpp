@@ -230,7 +230,8 @@ void LLWaterParamSet::mix(LLWaterParamSet& src, LLWaterParamSet& dest, F32 weigh
 	LLSD srcVal, destVal;													// LLSD holders for get/set calls, reusable
 
 	// Iterate through values
-	for(LLSD::map_iterator iter = mParamValues.beginMap(); iter != mParamValues.endMap(); ++iter)
+	for(LLSD::map_iterator iter = mParamValues.beginMap(), 
+		iter_end = mParamValues.endMap(); iter != iter_end; ++iter)
 	{
 		// If param exists in both src and dest, set the holder variables, otherwise skip
 		if(src.mParamValues.has(iter->first) && dest.mParamValues.has(iter->first))

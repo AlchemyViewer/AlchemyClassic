@@ -81,8 +81,7 @@ void LLFloaterMessageRewriter::refreshRuleList()
 	
 	LLSD& messages = LLMessageConfigFile::instance().mMessages;
 	
-	LLSD::map_iterator map_end = messages.endMap();
-	for(LLSD::map_iterator map_iter = messages.beginMap() ; map_iter != map_end; ++map_iter)
+	for(LLSD::map_iterator map_iter = messages.beginMap(), map_end = messages.endMap(); map_iter != map_end; ++map_iter)
 	{
 		std::string key((*map_iter).first);
 		messageChooser->add(key, ADD_BOTTOM, true);

@@ -1298,9 +1298,8 @@ S32 LLSDNotationFormatter::format_impl(const LLSD& data, std::ostream& ostr, U32
 		}
 
 		bool need_comma = false;
-        auto iter = data.beginMap();
-        auto end = data.endMap();
-		for(; iter != end; ++iter)
+        
+		for(auto iter = data.beginMap(), end = data.endMap(); iter != end; ++iter)
 		{
 			if(need_comma) ostr << ",";
 			need_comma = true;
@@ -1445,9 +1444,8 @@ S32 LLSDBinaryFormatter::format(const LLSD& data, std::ostream& ostr, U32 option
 		ostr.put('{');
 		U32 size_nbo = htonl(data.size());
 		ostr.write(reinterpret_cast<const char*>(&size_nbo), sizeof(U32));
-        auto iter = data.beginMap();
-        auto end = data.endMap();
-		for(; iter != end; ++iter)
+
+		for(auto iter = data.beginMap(), end = data.endMap(); iter != end; ++iter)
 		{
 			ostr.put('k');
 			formatString((*iter).first, ostr);

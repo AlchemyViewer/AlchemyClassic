@@ -63,8 +63,8 @@ bool valueCompareLLSD(const LLSD& lhs, const LLSD& rhs)
     {
         // iterate through the map, verifying the right hand side has all of the
         // values that the left hand side has.
-        for (LLSD::map_const_iterator litt = lhs.beginMap();
-             litt != lhs.endMap();
+        for (LLSD::map_const_iterator litt = lhs.beginMap(), lite = lhs.endMap();
+             litt != lite;
              ++litt)
         {
             if (!rhs.has(litt->first))
@@ -75,8 +75,8 @@ bool valueCompareLLSD(const LLSD& lhs, const LLSD& rhs)
         
         // Now validate that the left hand side has everything the
         // right hand side has, and that the values are equal.
-        for (LLSD::map_const_iterator ritt = rhs.beginMap();
-             ritt != rhs.endMap();
+        for (LLSD::map_const_iterator ritt = rhs.beginMap(), rite = rhs.endMap();
+             ritt != rite;
              ++ritt)
         {
             if (!lhs.has(ritt->first))
@@ -554,8 +554,8 @@ LLBasicCertificateVector::iterator LLBasicCertificateVector::find(const LLSD& pa
         found = true;
         LLSD cert_info;
         (*cert)->getLLSD(cert_info);
-        for (LLSD::map_const_iterator param = params.beginMap();
-             found && param != params.endMap();
+        for (LLSD::map_const_iterator param = params.beginMap(), param_end = params.endMap();
+             found && param != param_end;
              ++param)
         {
             if (   !cert_info.has(static_cast<std::string>(param->first))

@@ -651,7 +651,7 @@ BOOL RlvFloaterStrings::postBuild()
 	}
 
 	// Populate the combo box
-	for (LLSD::map_const_iterator itString = m_sdStringsInfo.beginMap(); itString != m_sdStringsInfo.endMap(); ++itString)
+	for (LLSD::map_const_iterator itString = m_sdStringsInfo.beginMap(), itEnd = m_sdStringsInfo.endMap(); itString != itEnd; ++itString)
 	{
 		const LLSD& sdStringInfo = itString->second;
 		if ( (!sdStringInfo.has("customizable")) || (!sdStringInfo["customizable"].asBoolean()) )

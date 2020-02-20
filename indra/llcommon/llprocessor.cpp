@@ -276,8 +276,8 @@ public:
 		out << "//////////////////////////" << std::endl;
 		
 		// Iterate through the dictionary of configuration options.
-		LLSD configs = mProcessorInfo["config"];
-		for(LLSD::map_const_iterator cfgItr = configs.beginMap(); cfgItr != configs.endMap(); ++cfgItr)
+		const LLSD& configs = mProcessorInfo["config"];
+		for(LLSD::map_const_iterator cfgItr = configs.beginMap(), cfgEnd = configs.endMap(); cfgItr != cfgEnd; ++cfgItr)
 		{
 			out << cfgItr->first << " = " << cfgItr->second << std::endl;
 		}
@@ -286,7 +286,8 @@ public:
 		out << "// CPU Extensions" << std::endl;
 		out << "//////////////////////////" << std::endl;
 		
-		for(auto itr = mProcessorInfo["extension"].beginMap(); itr != mProcessorInfo["extension"].endMap(); ++itr)
+		const LLSD& extensions = mProcessorInfo["extension"];
+		for(auto itr = extensions.beginMap(),  end = extensions.endMap(); itr != end; ++itr)
 		{
 			out << "  " << itr->first << std::endl;			
 		}

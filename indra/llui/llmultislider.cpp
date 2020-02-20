@@ -140,9 +140,8 @@ void LLMultiSlider::setSliderValue(const std::string& name, F32 value, BOOL from
 
 		// look at the current spot
 		// and see if anything is there
-		LLSD::map_iterator mIt = mValue.beginMap();
-		for(;mIt != mValue.endMap(); mIt++) {
-			
+		for( auto mIt = mValue.beginMap(), multEnd = mValue.endMap(); mIt != multEnd; ++mIt)
+		{
 			F32 testVal = (F32)mIt->second.asReal() - newValue;
 			if(testVal > -FLOAT_THRESHOLD && testVal < FLOAT_THRESHOLD &&
 				mIt->first != name) {
@@ -186,7 +185,7 @@ void LLMultiSlider::setValue(const LLSD& value)
 		LLSD::map_const_iterator mIt = value.beginMap();
 		mCurSlider = mIt->first;
 
-		for(; mIt != value.endMap(); mIt++) {
+		for(auto mEnd = value.endMap(); mIt != mEnd; ++mIt) {
 			setSliderValue(mIt->first, (F32)mIt->second.asReal(), TRUE);
 		}
 	}
@@ -276,9 +275,8 @@ bool LLMultiSlider::findUnusedValue(F32& initVal)
 
 		// look at the current spot
 		// and see if anything is there
-		LLSD::map_iterator mIt = mValue.beginMap();
-		for(;mIt != mValue.endMap(); mIt++) {
-			
+		for (auto mIt = mValue.beginMap(), multEnd = mValue.endMap(); mIt != multEnd; ++mIt)
+		{
 			F32 testVal = (F32)mIt->second.asReal() - initVal;
 			if(testVal > -FLOAT_THRESHOLD && testVal < FLOAT_THRESHOLD) {
 				hit = true;

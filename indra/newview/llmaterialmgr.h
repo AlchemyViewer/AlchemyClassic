@@ -43,7 +43,7 @@ class LLMaterialMgr final : public LLSingleton<LLMaterialMgr>
 	virtual ~LLMaterialMgr();
 
 public:
-	typedef std::map<LLMaterialID, LLMaterialPtr> material_map_t;
+	typedef absl::node_hash_map<LLMaterialID, LLMaterialPtr> material_map_t;
 
 	typedef boost::signals2::signal<void (const LLMaterialID&, const LLMaterialPtr)> get_callback_t;
 	const LLMaterialPtr         get(const LLUUID& region_id, const LLMaterialID& material_id);
@@ -100,23 +100,22 @@ private:
 		bool operator<(const TEMaterialPair& b) const { return (te < b.te) ? TRUE : (materialID < b.materialID);}
 	};
 	
-	typedef std::set<LLMaterialID> material_queue_t;
-	typedef std::map<LLUUID, material_queue_t> get_queue_t;
+	typedef absl::flat_hash_set<LLMaterialID> material_queue_t;
+	typedef absl::flat_hash_map<LLUUID, material_queue_t> get_queue_t;
 	typedef std::pair<const LLUUID, LLMaterialID> pending_material_t;
-	typedef std::map<const pending_material_t, F64> get_pending_map_t;
-	typedef std::map<LLMaterialID, get_callback_t*> get_callback_map_t;
+	typedef absl::flat_hash_map<const pending_material_t, F64> get_pending_map_t;
+	typedef absl::flat_hash_map<LLMaterialID, get_callback_t*> get_callback_map_t;
 
 
 	typedef absl::flat_hash_map<TEMaterialPair, get_callback_te_t*> get_callback_te_map_t;
-	typedef std::set<LLUUID> getall_queue_t;
-	typedef std::map<LLUUID, F64> getall_pending_map_t;
-	typedef std::map<LLUUID, getall_callback_t*> getall_callback_map_t;
-	typedef std::map<U8, LLMaterial> facematerial_map_t;
-	typedef std::map<LLUUID, facematerial_map_t> put_queue_t;
+	typedef absl::flat_hash_set<LLUUID> getall_queue_t;
+	typedef absl::flat_hash_map<LLUUID, F64> getall_pending_map_t;
+	typedef absl::flat_hash_map<LLUUID, getall_callback_t*> getall_callback_map_t;
+	typedef absl::flat_hash_map<U8, LLMaterial> facematerial_map_t;
+	typedef absl::flat_hash_map<LLUUID, facematerial_map_t> put_queue_t;
 
 
 	get_queue_t				mGetQueue;
-    uuid_set_t              mRegionGets;
 	get_pending_map_t		mGetPending;
 	get_callback_map_t		mGetCallbacks;
 

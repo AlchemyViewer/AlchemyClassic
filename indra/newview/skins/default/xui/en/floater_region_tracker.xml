@@ -65,7 +65,8 @@
    multi_select="true"
    draw_heading="true"
    column_padding="0"
-   search_column="0">
+   search_column="0"
+   sort_column="0">
    <scroll_list.columns
     name="region_label"
     label="Label"

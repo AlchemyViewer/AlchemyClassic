@@ -111,6 +111,8 @@ void ALFloaterRegionTracker::refresh()
 
 	const std::string& saved_selected_value = mRegionScrollList->getSelectedValue().asString();
 	S32 saved_scroll_pos = mRegionScrollList->getScrollPos();
+	auto sort_column_name = mRegionScrollList->getSortColumnName();
+	auto sort_asending = mRegionScrollList->getSortAscending();
 	mRegionScrollList->deleteAllItems();
 
 	const std::string& cur_region_name = gAgent.getRegion() ? gAgent.getRegion()->getName() : LLStringUtil::null;
@@ -165,6 +167,8 @@ void ALFloaterRegionTracker::refresh()
 			mRegionScrollList->addRow(row);
 		}
 	}
+
+	mRegionScrollList->sortByColumn(sort_column_name, sort_asending);
 	if (!saved_selected_value.empty())
 		mRegionScrollList->selectByValue(saved_selected_value);
 	mRegionScrollList->setScrollPos(saved_scroll_pos);

@@ -219,10 +219,7 @@ void LLExperienceLog::loadEvents()
 	if(mMaxDays > 0 && settings.has("Events"))
 	{
 		const auto& events = settings["Events"];
-		for (auto iter = events.beginMap(), end = events.endMap(); iter != end; ++iter)
-		{
-			mEvents[iter->first] = iter->second;
-		}
+		mEvents.insert(events.beginMap(), events.endMap());
 	}
 
 	eraseExpired();

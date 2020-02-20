@@ -162,7 +162,7 @@ void LLInitialWearablesFetch::processWearablesMessage()
 			{
 				LLViewerJointAttachment* attachment = iter->second;
 				if (!attachment) continue;
-				for (auto attached_object : attachment->mAttachedObjects)
+				for (LLViewerObject* attached_object : attachment->mAttachedObjects)
                 {
                     if (!attached_object) continue;
 					const LLUUID& item_id = attached_object->getAttachmentItemID();

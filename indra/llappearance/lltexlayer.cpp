@@ -1281,7 +1281,7 @@ const U8*	LLTexLayer::getAlphaData() const
 	const LLUUID& uuid = getUUID();
 	alpha_mask_crc.update((U8*)(&uuid.mData), UUID_BYTES);
 
-	for (auto param : mParamAlphaList)
+	for (const LLTexLayerParamAlpha* param : mParamAlphaList)
     {
         // MULTI-WEARABLE: verify visual parameters used here
 		F32 param_weight = param->getWeight();

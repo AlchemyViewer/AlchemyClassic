@@ -265,6 +265,10 @@ void LLVOAvatarSelf::setHoverIfRegionEnabled()
 			setHoverOffset(LLVector3(0.0, 0.0, llclamp(hover_z,MIN_HOVER_Z,MAX_HOVER_Z)));
 			LL_INFOS("Avatar") << avString() << " set hover height from debug setting " << hover_z << LL_ENDL;
 		}
+		else if (!isUsingServerBakes())
+		{
+			computeBodySize();
+		}
 		else 
 		{
 			setHoverOffset(LLVector3(0.0, 0.0, 0.0));
@@ -1412,9 +1416,8 @@ BOOL LLVOAvatarSelf::detachObject(LLViewerObject *viewer_object)
 		LLFollowCamMgr::getInstance()->setCameraActive(viewer_object->getID(), FALSE);
 		
 		LLViewerObject::const_child_list_t& child_list = viewer_object->getChildren();
-		for (const auto& iter : child_list)
+		for (LLViewerObject* child_objectp : child_list)
         {
-			LLViewerObject* child_objectp = iter;
 			// the simulator should automatically handle
 			// permissions revocation
 			
@@ -2538,7 +2541,7 @@ LLSD summarize_by_buckets(std::vector<LLSD> in_records,
 	for (auto& record : in_records)
     {
         LLSD key;
-		for (auto& field : by_fields)
+		for (const auto& field : by_fields)
         {
             key[field] = record[field];
 		}
@@ -2557,7 +2560,7 @@ LLSD summarize_by_buckets(std::vector<LLSD> in_records,
 
 void LLVOAvatarSelf::sendViewerAppearanceChangeMetrics()
 {
-    std::string	caps_url;
+	std::string	caps_url;
 	if (getRegion())
 	{
 		// runway - change here to activate.
@@ -2566,44 +2569,33 @@ void LLVOAvatarSelf::sendViewerAppearanceChangeMetrics()
 	if (!caps_url.empty())
 	{
 
-        LLCoros::instance().launch("LLVOAvatarSelf::appearanceChangeMetricsCoro",
-            boost::bind(&LLVOAvatarSelf::appearanceChangeMetricsCoro, this, caps_url));
+		LLCoros::instance().launch("LLVOAvatarSelf::appearanceChangeMetricsCoro",
+			boost::bind(&LLVOAvatarSelf::appearanceChangeMetricsCoro, this, caps_url));
 		mTimeSinceLastRezMessage.reset();
 	}
 }
 
-//class CheckAgentAppearanceServiceResponder final : public LLHTTPClient::Responder
-//{
-//public:
-//	CheckAgentAppearanceServiceResponder() {}
-//	
-//	virtual ~CheckAgentAppearanceServiceResponder()	{}
-//
-//	/* virtual */ void httpSuccess()
-//	{
-//		LL_DEBUGS("Avatar") << "OK" << LL_ENDL;
-//	}
-//
-//	// Error
-//	/*virtual*/ void httpFailure()
-//	{
-//		if (isAgentAvatarValid())
-//		{
-//			LL_DEBUGS("Avatar") << "failed, will rebake "
-//					<< dumpResponse() << LL_ENDL;
-//			forceAppearanceUpdate();
-//		}
-//	}	
-//
-//	static void forceAppearanceUpdate()
-//	{
-//		// Trying to rebake immediately after crossing region boundary
-//		// seems to be failure prone; adding a delay factor. Yes, this
-//		// fix is ad-hoc and not guaranteed to work in all cases.
-//		doAfterInterval(boost::bind(&LLVOAvatarSelf::forceBakeAllTextures,
-//									gAgentAvatarp.get(), true), 5.0);
-//	}
-//};
+void CheckAgentAppearanceService_httpSuccess( LLSD const &aData )
+{
+		LL_DEBUGS("Avatar") << "OK" << LL_ENDL;
+}
+
+void forceAppearanceUpdate()
+{
+	// Trying to rebake immediately after crossing region boundary
+	// seems to be failure prone; adding a delay factor. Yes, this
+	// fix is ad-hoc and not guaranteed to work in all cases.
+	doAfterInterval(boost::bind(&LLVOAvatarSelf::forceBakeAllTextures,	gAgentAvatarp.get(), true), 5.0);
+}
+
+void CheckAgentAppearanceService_httpFailure( LLSD const &aData )
+{
+	if (isAgentAvatarValid())
+	{
+		LL_DEBUGS("Avatar") << "failed, will rebake " << aData << LL_ENDL;
+		forceAppearanceUpdate();
+	}	
+}
 
 void LLVOAvatarSelf::checkForUnsupportedServerBakeAppearance()
 {
@@ -2617,12 +2609,13 @@ void LLVOAvatarSelf::checkForUnsupportedServerBakeAppearance()
 	// if baked image service is unknown, need to refresh.
 	if (LLAppearanceMgr::instance().getAppearanceServiceURL().empty())
 	{
-		//CheckAgentAppearanceServiceResponder::forceAppearanceUpdate();
+		forceAppearanceUpdate();
 	}
 	// query baked image service to check status.
-	//std::string image_url = gAgentAvatarp->getImageURL(TEX_HEAD_BAKED,
-	//												   getTE(TEX_HEAD_BAKED)->getID());
-	//LLHTTPClient::head(image_url, new CheckAgentAppearanceServiceResponder);
+	std::string image_url = gAgentAvatarp->getImageURL(TEX_HEAD_BAKED,
+													   getTE(TEX_HEAD_BAKED)->getID());
+
+	LLCoreHttpUtil::HttpCoroutineAdapter::callbackHttpGet( image_url, CheckAgentAppearanceService_httpSuccess, CheckAgentAppearanceService_httpFailure );
 }
 
 const LLUUID& LLVOAvatarSelf::grabBakedTexture(EBakedTextureIndex baked_index) const
@@ -2691,10 +2684,9 @@ BOOL LLVOAvatarSelf::canGrabBakedTexture(EBakedTextureIndex baked_index) const
 					if (!items.empty())
 					{
 						// search for full permissions version
-						for (auto& item : items)
+						for (LLViewerInventoryItem* itemp : items)
                         {
-							LLViewerInventoryItem* itemp = item;
-												if (itemp->getIsFullPerm())
+							if (itemp->getIsFullPerm())
 							{
 								can_grab = TRUE;
 								break;
@@ -2895,7 +2887,7 @@ void LLVOAvatarSelf::outputRezDiagnostics() const
 		}
 	}
 	LL_DEBUGS("Avatar") << "\t Time points for each upload (start / finish)" << LL_ENDL;
-	for (U32 i = 0; i < getNumBakes(); ++i)
+	for (U32 i = 0; i < LLAvatarAppearanceDefines::BAKED_NUM_INDICES; ++i)
 	{
 		LL_DEBUGS("Avatar") << "\t\t (" << i << ") \t" << (S32)mDebugBakedTextureTimes[i][0] << " / " << (S32)mDebugBakedTextureTimes[i][1] << LL_ENDL;
 	}
@@ -3084,9 +3076,6 @@ LLViewerTexLayerSet* LLVOAvatarSelf::getLayerSet(EBakedTextureIndex baked_index)
        }
        return NULL;
 }
-
-
-
 
 // static
 void LLVOAvatarSelf::onCustomizeStart(bool disable_camera_switch)
@@ -3299,7 +3288,7 @@ void LLVOAvatarSelf::dumpWearableInfo(LLAPRFile& outfile)
 							 type_name.c_str(), wearable->getName().c_str() );
 			LLWearable::visual_param_vec_t v_params;
 			wearable->getVisualParams(v_params);
-			for (auto param : v_params)
+			for (auto* param : v_params)
             {
                 dump_visual_param(file, param, param->getWeight());
 			}

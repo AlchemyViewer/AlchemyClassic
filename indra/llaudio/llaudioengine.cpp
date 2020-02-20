@@ -268,10 +268,11 @@ void LLAudioEngine::idle(F32 max_decode_time)
 
 	F32 max_priority = -1.f;
 	LLAudioSource *max_sourcep = nullptr; // Maximum priority source without a channel
-	source_map::iterator iter;
-	for (iter = mAllSources.begin(); iter != mAllSources.end();)
+	for (auto iter = mAllSources.begin(), iter_end = mAllSources.end(); iter != iter_end;)
 	{
-		LLAudioSource *sourcep = iter->second;
+		// Move on to the next source
+		auto copy_iter = iter++;
+		LLAudioSource *sourcep = copy_iter->second;
 
 		// Update this source
 		sourcep->update();
@@ -281,13 +282,12 @@ void LLAudioEngine::idle(F32 max_decode_time)
 		{
 			// The source is done playing, clean it up.
 			delete sourcep;
-			mAllSources.erase(iter++);
+			mAllSources.erase(copy_iter);
 			continue;
 		}
 
 		if (sourcep->isMuted())
 		{
-			++iter;
 		  	continue;
 		}
 
@@ -300,9 +300,6 @@ void LLAudioEngine::idle(F32 max_decode_time)
 				max_sourcep = sourcep;
 			}
 		}
-
-		// Move on to the next source
-		++iter;
 	}
 
 	// Now, do priority-based organization of audio sources.
@@ -337,7 +334,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 	updateChannels();
 
 	// Update queued sounds (switch to next queued data if the current has finished playing)
-	for (iter = mAllSources.begin(); iter != mAllSources.end(); ++iter)
+	for (auto iter = mAllSources.begin(), iter_end = mAllSources.end(); iter != iter_end; ++iter)
 	{
 		// This is lame, instead of this I could actually iterate through all the sources
 		// attached to each channel, since only those with active channels
@@ -422,7 +419,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 	LLAudioSource *sync_masterp = nullptr;
 	LLAudioChannel *master_channelp = nullptr;
 	F32 max_sm_priority = -1.f;
-	for (iter = mAllSources.begin(); iter != mAllSources.end(); ++iter)
+	for (auto iter = mAllSources.begin(), iter_end = mAllSources.end(); iter != iter_end; ++iter)
 	{
 		LLAudioSource *sourcep = iter->second;
 		if (sourcep->isMuted())
@@ -444,7 +441,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 	{
 		// Synchronize loop slaves with their masters
 		// Update queued sounds (switch to next queued data if the current has finished playing)
-		for (iter = mAllSources.begin(); iter != mAllSources.end(); ++iter)
+		for (auto iter = mAllSources.begin(), iter_end = mAllSources.end(); iter != iter_end; ++iter)
 		{
 			LLAudioSource *sourcep = iter->second;
 
@@ -962,9 +959,7 @@ void LLAudioEngine::commitDeferredChanges()
 
 LLAudioSource * LLAudioEngine::findAudioSource(const LLUUID &source_id)
 {
-	source_map::iterator iter;
-	iter = mAllSources.find(source_id);
-
+	auto iter = mAllSources.find(source_id);
 	if (iter == mAllSources.end())
 	{
 		return nullptr;
@@ -1001,8 +996,7 @@ void LLAudioEngine::addAudioSource(LLAudioSource *asp)
 
 void LLAudioEngine::cleanupAudioSource(LLAudioSource *asp)
 {
-	source_map::iterator iter;
-	iter = mAllSources.find(asp->getID());
+	auto iter = mAllSources.find(asp->getID());
 	if (iter == mAllSources.end())
 	{
 		LL_WARNS() << "Cleaning up unknown audio source!" << LL_ENDL;
@@ -1011,9 +1005,9 @@ void LLAudioEngine::cleanupAudioSource(LLAudioSource *asp)
 	else
 	{
 		LL_DEBUGS("AudioEngine") << "Cleaning up audio sources for "<< asp->getID() <<LL_ENDL;
-	delete asp;
-	mAllSources.erase(iter);
-}
+		delete asp;
+		mAllSources.erase(iter);
+	}
 }
 
 
@@ -1061,7 +1055,6 @@ void LLAudioEngine::startNextTransfer()
 	S32 i;
 	LLAudioSource *asp = nullptr;
 	LLAudioData *adp = nullptr;
-	data_map::iterator data_iter;
 
 	// Check all channels for currently playing sounds.
 	F32 max_pri = -1.f;
@@ -1161,7 +1154,7 @@ void LLAudioEngine::startNextTransfer()
 			}
 
 
-			for (data_iter = asp->mPreloadMap.begin(); data_iter != asp->mPreloadMap.end(); ++data_iter)
+			for (auto data_iter = asp->mPreloadMap.cbegin(), end_iter = asp->mPreloadMap.cend(); data_iter != end_iter; ++data_iter)
 			{
 				LLAudioData *adp = data_iter->second;
 				if (!adp)
@@ -1182,8 +1175,7 @@ void LLAudioEngine::startNextTransfer()
 	if (asset_id.isNull())
 	{
 		max_pri = -1.f;
-		source_map::iterator source_iter;
-		for (source_iter = mAllSources.begin(); source_iter != mAllSources.end(); ++source_iter)
+		for (auto source_iter = mAllSources.begin(), end_iter = mAllSources.end(); source_iter != end_iter; ++source_iter)
 		{
 			asp = source_iter->second;
 			if (!asp)
@@ -1212,7 +1204,7 @@ void LLAudioEngine::startNextTransfer()
 				continue;
 			}
 
-			for (data_iter = asp->mPreloadMap.begin(); data_iter != asp->mPreloadMap.end(); ++data_iter)
+			for (auto data_iter = asp->mPreloadMap.cbegin(), end_iter = asp->mPreloadMap.cend(); data_iter != end_iter; ++data_iter)
 			{
 				LLAudioData *adp = data_iter->second;
 				if (!adp)
@@ -1636,8 +1628,7 @@ void LLAudioSource::addAudioData(LLAudioData *adp, const bool set_current)
 bool LLAudioSource::hasPendingPreloads() const
 {
 	// Check to see if we've got any preloads on deck for this source
-	data_map::const_iterator iter;
-	for (iter = mPreloadMap.begin(); iter != mPreloadMap.end(); ++iter)
+	for (auto iter = mPreloadMap.cbegin(), end_iter = mPreloadMap.end(); iter != end_iter; ++iter)
 	{
 		LLAudioData *adp = iter->second;
 		// note: a bad UUID will forever be !hasDecodedData()

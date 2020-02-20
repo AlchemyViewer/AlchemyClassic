@@ -37,6 +37,7 @@
 #include "llextendedstatus.h"
 
 #include "lllistener.h"
+#include "absl/container/flat_hash_map.h"
 
 const F32 LL_WIND_UPDATE_INTERVAL = 0.1f;
 const F32 LL_WIND_UNDERWATER_CENTER_FREQ = 20.f;
@@ -226,8 +227,8 @@ protected:
 	// A list of all audio sources that are known to the viewer at this time.
 	// This is most likely a superset of the ones that we actually have audio
 	// data for, or are playing back.
-	typedef std::map<LLUUID, LLAudioSource *> source_map;
-	typedef std::map<LLUUID, LLAudioData *> data_map;
+	typedef absl::flat_hash_map<LLUUID, LLAudioSource *> source_map;
+	typedef absl::flat_hash_map<LLUUID, LLAudioData *> data_map;
 
 	source_map mAllSources;
 	data_map mAllData;
@@ -344,7 +345,7 @@ protected:
 	LLAudioData		*mCurrentDatap;
 	LLAudioData		*mQueuedDatap;
 
-	typedef std::map<LLUUID, LLAudioData *> data_map;
+	typedef absl::flat_hash_map<LLUUID, LLAudioData *> data_map;
 	data_map mPreloadMap;
 
 	LLFrameTimer mAgeTimer;

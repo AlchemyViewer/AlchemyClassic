@@ -569,8 +569,9 @@ void LLInventoryModelBackgroundFetch::bulkFetch()
 
 bool LLInventoryModelBackgroundFetch::fetchQueueContainsNoDescendentsOf(const LLUUID & cat_id) const
 {
-	for (fetch_queue_t::const_iterator it = mFetchQueue.begin();
-		 it != mFetchQueue.end();
+	for (fetch_queue_t::const_iterator it = mFetchQueue.begin(),
+		end = mFetchQueue.end();
+		 it != end;
 		 ++it)
 	{
 		const LLUUID & fetch_id = (*it).mUUID;
@@ -660,10 +661,11 @@ void BGFolderHttpHandler::processData(LLSD & content, LLCore::HttpResponse * res
 	// Instead, we assume success and attempt to extract information.
 	if (content.has("folders"))	
 	{
-		LLSD folders(content["folders"]);
+		const LLSD& folders = content["folders"];
 		
-		for (LLSD::array_const_iterator folder_it = folders.beginArray();
-			folder_it != folders.endArray();
+		for (LLSD::array_const_iterator folder_it = folders.beginArray(),
+			folder_end = folders.endArray();
+			folder_it != folder_end;
 			++folder_it)
 		{	
 			LLSD folder_sd(*folder_it);
@@ -685,11 +687,12 @@ void BGFolderHttpHandler::processData(LLSD & content, LLCore::HttpResponse * res
 
             if (parent_id.isNull())
             {
-				LLSD items(folder_sd["items"]);
+				const LLSD& items = folder_sd["items"];
 			    LLPointer<LLViewerInventoryItem> titem = new LLViewerInventoryItem;
 				
-			    for (LLSD::array_const_iterator item_it = items.beginArray();
-				    item_it != items.endArray();
+			    for (LLSD::array_const_iterator item_it = items.beginArray(),
+					item_end = items.endArray();
+				    item_it != item_end;
 				    ++item_it)
 			    {	
                     const LLUUID lost_uuid(gInventory.findCategoryUUIDForType(LLFolderType::FT_LOST_AND_FOUND));
@@ -718,9 +721,10 @@ void BGFolderHttpHandler::processData(LLSD & content, LLCore::HttpResponse * res
 				continue;
 			}
 
-			LLSD categories(folder_sd["categories"]);
-			for (LLSD::array_const_iterator category_it = categories.beginArray();
-				category_it != categories.endArray();
+			const LLSD& categories = folder_sd["categories"];
+			for (LLSD::array_const_iterator category_it = categories.beginArray(),
+				category_end = categories.endArray();
+				category_it != category_end;
 				++category_it)
 			{	
 				LLSD category(*category_it);
@@ -737,10 +741,11 @@ void BGFolderHttpHandler::processData(LLSD & content, LLCore::HttpResponse * res
 				}
 			}
 
-			LLSD items(folder_sd["items"]);
+			const LLSD& items = folder_sd["items"];
 			LLPointer<LLViewerInventoryItem> titem = new LLViewerInventoryItem;
-			for (LLSD::array_const_iterator item_it = items.beginArray();
-				 item_it != items.endArray();
+			for (LLSD::array_const_iterator item_it = items.beginArray(),
+				item_end = items.endArray();
+				 item_it != item_end;
 				 ++item_it)
 			{	
 				LLSD item(*item_it);
@@ -762,9 +767,10 @@ void BGFolderHttpHandler::processData(LLSD & content, LLCore::HttpResponse * res
 		
 	if (content.has("bad_folders"))
 	{
-		LLSD bad_folders(content["bad_folders"]);
-		for (LLSD::array_const_iterator folder_it = bad_folders.beginArray();
-			 folder_it != bad_folders.endArray();
+		const LLSD& bad_folders = content["bad_folders"];
+		for (LLSD::array_const_iterator folder_it = bad_folders.beginArray(),
+			folder_end = bad_folders.endArray();
+			 folder_it != folder_end;
 			 ++folder_it)
 		{
 			// *TODO: Stop copying data [ed:  this isn't copying data]

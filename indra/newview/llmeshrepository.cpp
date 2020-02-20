@@ -793,8 +793,7 @@ void log_upload_error(LLCore::HttpStatus status, const LLSD& content,
 		LL_WARNS(LOG_MESH) << "Bad response to mesh request, no additional error information available." << LL_ENDL;
 	}
 	
-	mav_errors_set_t::iterator mav_errors_it = mav_errors.begin();
-	for (; mav_errors_it != mav_errors.end(); ++mav_errors_it)
+	for (auto mav_errors_it = mav_errors.begin(), mav_errors_end = mav_errors.end(); mav_errors_it != mav_errors_end; ++mav_errors_it)
 	{
 		std::string mav_details = "Mav_Details_" + *mav_errors_it;
 		details << "Message: '" << *mav_errors_it << "': " << LLTrans::getString(mav_details) << std::endl << std::endl;

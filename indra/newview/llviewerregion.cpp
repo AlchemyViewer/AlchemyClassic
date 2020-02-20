@@ -2071,10 +2071,11 @@ public:
 			agents = input["body"]["AgentData"];
 		LLSD::array_iterator 
 			locs_it = locs.beginArray(), 
+			locs_end = locs.endArray(),
 			agents_it = agents.beginArray();
 		BOOL has_agent_data = input["body"].has("AgentData");
 
-		for (int i=0; locs_it != locs.endArray(); i++, ++locs_it)
+		for (int i=0; locs_it != locs_end; i++, ++locs_it)
 		{
 			U8 
 				x = locs_it->get("X").asInteger(),
@@ -3658,8 +3659,9 @@ void LLViewerRegion::setGodnames()
 		if (mSimulatorFeatures["god_names"].has("full_names"))
 		{
 			LLSD god_names = mSimulatorFeatures["god_names"]["full_names"];
-			for (LLSD::array_iterator itr = god_names.beginArray();
-				 itr != god_names.endArray();
+			for (LLSD::array_const_iterator itr = god_names.beginArray(),
+				ite = god_names.endArray();
+				 itr != ite;
 				 ++itr)
 			{
 				mGodNames.insert((*itr).asString());
@@ -3668,8 +3670,8 @@ void LLViewerRegion::setGodnames()
 		if (mSimulatorFeatures["god_names"].has("last_names"))
 		{
 			LLSD god_names = mSimulatorFeatures["god_names"]["last_names"];
-			for (LLSD::array_iterator itr = god_names.beginArray();
-				 itr != god_names.endArray();
+			for (LLSD::array_iterator itr = god_names.beginArray(), ite = god_names.endArray();
+				 itr != ite;
 				 ++itr)
 			{
 				mGodNames.insert((*itr).asString());

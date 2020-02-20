@@ -1167,6 +1167,7 @@ void LLAgentWearables::sendDummyAgentWearablesUpdate()
 
 	gAgent.sendReliableMessage();
 }
+
 void LLAgentWearables::createStandardWearablesDone(S32 type, U32 index)
 {
 	LL_INFOS() << "type " << type << " index " << index << LL_ENDL;

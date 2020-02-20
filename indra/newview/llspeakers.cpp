@@ -705,8 +705,10 @@ void LLIMSpeakerMgr::setSpeakers(const LLSD& speakers)
 	}
 	else if ( speakers.has("agents" ) && speakers["agents"].isArray() )
 	{
-		for(LLSD::array_const_iterator speaker_it = speakers["agents"].beginArray();
-			speaker_it != speakers["agents"].endArray();
+		const LLSD& agents = speakers["agents"];
+		for(LLSD::array_const_iterator speaker_it = agents.beginArray(),
+			speaker_end = agents.endArray();
+			speaker_it != speaker_end;
 			++speaker_it)
 		{
 			const LLUUID agent_id = (*speaker_it).asUUID();

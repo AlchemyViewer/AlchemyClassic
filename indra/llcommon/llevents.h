@@ -53,6 +53,9 @@
 #include "llexception.h"
 #include "llhandle.h"
 
+#include "absl/container/node_hash_map.h"
+#include "absl/container/node_hash_set.h"
+
 /*==========================================================================*|
 // override this to allow binding free functions with more parameters
 #ifndef LLEVENTS_LISTENER_ARITY
@@ -280,16 +283,16 @@ testable:
     // LLEventPump subclass statically, as a class member, on the stack or on
     // the heap. In such cases, the instantiating party is responsible for its
     // lifespan.
-    typedef std::map<std::string, LLEventPump*> PumpMap;
+    typedef absl::node_hash_map<std::string, LLEventPump*> PumpMap;
     PumpMap mPumpMap;
     // Set of all LLEventPumps we instantiated. Membership in this set means
     // we claim ownership, and will delete them when this LLEventPumps is
     // destroyed.
-    typedef std::set<LLEventPump*> PumpSet;
+    typedef absl::node_hash_set<LLEventPump*> PumpSet;
     PumpSet mOurPumps;
     // LLEventPump names that should be instantiated as LLEventQueue rather
     // than as LLEventStream
-    typedef std::set<std::string> PumpNames;
+    typedef absl::node_hash_set<std::string> PumpNames;
     PumpNames mQueueNames;
 };
 

@@ -429,7 +429,7 @@ namespace
 	}
 
 
-	typedef std::map<std::string, LLError::ELevel> LevelMap;
+	typedef absl::flat_hash_map<std::string, LLError::ELevel> LevelMap;
 	typedef std::vector<LLError::RecorderPtr> Recorders;
 	typedef std::vector<LLError::CallSite*> CallSiteVector;
 
@@ -492,7 +492,7 @@ namespace LLError
 		LevelMap                            mClassLevelMap;
 		LevelMap                            mFileLevelMap;
 		LevelMap                            mTagLevelMap;
-		std::map<std::string, unsigned int> mUniqueLogMessages;
+		absl::flat_hash_map<std::string, unsigned int> mUniqueLogMessages;
 		
 		LLError::FatalFunction              mCrashFunction;
 		LLError::TimeFunction               mTimeFunction;
@@ -856,7 +856,7 @@ namespace {
 		LLSD::array_const_iterator i, end;
 		for (i = list.beginArray(), end = list.endArray(); i != end; ++i)
 		{
-			map[*i] = level;
+			map[(*i).asString()] = level;
 		}
 	}
 }
@@ -1368,7 +1368,7 @@ namespace LLError
 		{
             std::ostringstream message_stream;
 
-			std::map<std::string, unsigned int>::iterator messageIter = s->mUniqueLogMessages.find(message);
+			const auto messageIter = s->mUniqueLogMessages.find(message);
 			if (messageIter != s->mUniqueLogMessages.end())
 			{
 				messageIter->second++;

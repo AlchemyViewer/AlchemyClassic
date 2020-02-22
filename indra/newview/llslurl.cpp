@@ -405,8 +405,8 @@ std::string LLSLURL::getSLURLString() const
 		{
 			std::ostringstream app_url;
 			app_url << LLGridManager::getInstance()->getAppSLURLBase() << "/" << mAppCmd;
-			for(auto i = mAppPath.beginArray();
-				i != mAppPath.endArray();
+			for(auto i = mAppPath.beginArray(), end = mAppPath.endArray();
+				i != end;
 			    ++i)
 			{
 				app_url << "/" << i->asString();

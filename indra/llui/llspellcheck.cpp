@@ -83,7 +83,8 @@ S32 LLSpellChecker::getSuggestions(const std::string& word, std::vector<std::str
 
 const LLSD LLSpellChecker::getDictionaryData(const std::string& dict_language)
 {
-	for (LLSD::array_const_iterator it = mDictMap.beginArray(); it != mDictMap.endArray(); ++it)
+	for (LLSD::array_const_iterator it = mDictMap.beginArray(), end = mDictMap.endArray();
+		it != end; ++it)
 	{
 		const LLSD& dict_entry = *it;
 		if (dict_language == dict_entry["language"].asString())
@@ -108,7 +109,8 @@ void LLSpellChecker::setDictionaryData(const LLSD& dict_info)
 		return;
 	}
 
-	for (LLSD::array_iterator it = mDictMap.beginArray(); it != mDictMap.endArray(); ++it)
+	for (LLSD::array_iterator it = mDictMap.beginArray(), end = mDictMap.endArray(); 
+		it != end; ++it)
 	{
 		LLSD& dict_entry = *it;
 		if (dict_language == dict_entry["language"].asString())
@@ -151,7 +153,8 @@ void LLSpellChecker::refreshDictionaryMap()
 	{
 		LLSD custom_dict_map;
 		LLSDSerialize::fromXMLDocument(custom_dict_map, custom_file);
-		for (LLSD::array_iterator it = custom_dict_map.beginArray(); it != custom_dict_map.endArray(); ++it)
+		for (LLSD::array_iterator it = custom_dict_map.beginArray(), end = custom_dict_map.endArray(); 
+			it != end; ++it)
 		{
 			LLSD& dict_info = *it;
 			dict_info["user_installed"] = true;
@@ -162,7 +165,8 @@ void LLSpellChecker::refreshDictionaryMap()
 
 	// Look for installed dictionaries
 	std::string tmp_app_path, tmp_user_path;
-	for (LLSD::array_iterator it = mDictMap.beginArray(); it != mDictMap.endArray(); ++it)
+	for (LLSD::array_iterator it = mDictMap.beginArray(), end = mDictMap.endArray(); 
+		it != end; ++it)
 	{
 		LLSD& sdDict = *it;
 		tmp_app_path = (sdDict.has("name")) ? app_path + sdDict["name"].asString() : LLStringUtil::null;
@@ -417,7 +421,8 @@ void LLSpellChecker::removeDictionary(const std::string& dict_language)
 	}
 
 	LLSD dict_map = loadUserDictionaryMap();
-	for (LLSD::array_const_iterator it = dict_map.beginArray(); it != dict_map.endArray(); ++it)
+	for (LLSD::array_const_iterator it = dict_map.beginArray(), end = dict_map.endArray(); 
+		it != end; ++it)
 	{
 		const LLSD& dict_info = *it;
 		if (dict_info["language"].asString() == dict_language)

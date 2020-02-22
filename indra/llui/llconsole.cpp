@@ -245,8 +245,9 @@ void LLConsole::Paragraph::makeParagraphColorSegments (const LLColor4 &color)
 	LLSD color_sd = color.getValue();
 	paragraph_color_segments[0]["color"]=color_sd;
 
-	for(LLSD::array_const_iterator color_segment_it = paragraph_color_segments.beginArray();
-		color_segment_it != paragraph_color_segments.endArray();
+	for(LLSD::array_const_iterator color_segment_it = paragraph_color_segments.beginArray(),
+		color_segment_end = paragraph_color_segments.endArray();
+		color_segment_it != color_segment_end;
 		++color_segment_it)
 	{			
 		LLSD color_llsd = (*color_segment_it)["color"];

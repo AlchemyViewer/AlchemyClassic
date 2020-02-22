@@ -867,9 +867,8 @@ void LLFloaterIMSession::sessionInitReplyReceived(const LLUUID& im_session_id)
 	//need to send delayed messages collected while waiting for session initialization
 	if (mQueuedMsgsForInit.size())
 	{
-		LLSD::array_iterator iter;
-		for ( iter = mQueuedMsgsForInit.beginArray();
-					iter != mQueuedMsgsForInit.endArray(); ++iter)
+		for (LLSD::array_const_iterator iter = mQueuedMsgsForInit.beginArray(), end = mQueuedMsgsForInit.endArray();
+					iter != end; ++iter)
 		{
 			LLIMModel::sendMessage(iter->asString(), mSessionID,
 				mOtherParticipantUUID, mDialog);

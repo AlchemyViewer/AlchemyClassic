@@ -231,7 +231,7 @@ void LLViewerTextureList::doPrefetchImages()
         file.close();
 	}
     S32 texture_count = 0;
-	for (LLSD::array_iterator iter = imagelist.beginArray(), end = imagelist.endArray();
+	for (LLSD::array_const_iterator iter = imagelist.beginArray(), end = imagelist.endArray();
 		 iter != end; ++iter)
 	{
 		LLSD imagesd = *iter;

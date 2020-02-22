@@ -210,8 +210,8 @@ void LLAvatarNameCache::handleAvNameCacheSuccess(const LLSD &data, const LLSD &h
     F64 now = LLFrameTimer::getTotalSeconds();
 
     const LLSD& agents = data["agents"];
-    LLSD::array_const_iterator it = agents.beginArray();
-    for (; it != agents.endArray(); ++it)
+
+    for (LLSD::array_const_iterator it = agents.beginArray(), end = agents.endArray(); it != end; ++it)
     {
         const LLSD& row = *it;
         LLUUID agent_id = row["id"].asUUID();
@@ -237,8 +237,9 @@ void LLAvatarNameCache::handleAvNameCacheSuccess(const LLSD &data, const LLSD &h
         LL_WARNS("AvNameCache") << "LLAvatarNameResponder::result " << num_unresolved << " unresolved ids; "
             << "expires in " << expires - now << " seconds"
             << LL_ENDL;
-        it = unresolved_agents.beginArray();
-        for (; it != unresolved_agents.endArray(); ++it)
+
+        for (LLSD::array_const_iterator it = unresolved_agents.beginArray(), end = unresolved_agents.endArray(); 
+			it != end; ++it)
         {
             const LLUUID& agent_id = *it;
 

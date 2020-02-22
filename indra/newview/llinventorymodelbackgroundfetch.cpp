@@ -811,8 +811,9 @@ void BGFolderHttpHandler::processFailure(LLCore::HttpStatus status, LLCore::Http
 	if constexpr (/* DISABLES CODE */ (false))
 	{
 		// timed out or curl failure
-		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray();
-			 folder_it != mRequestSD["folders"].endArray();
+		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray(),
+			folder_end = mRequestSD["folders"].endArray();
+			 folder_it != folder_end;
 			 ++folder_it)
 		{
 			LLSD folder_sd(*folder_it);
@@ -848,8 +849,9 @@ void BGFolderHttpHandler::processFailure(const char * const reason, LLCore::Http
 	LLInventoryModelBackgroundFetch *fetcher = LLInventoryModelBackgroundFetch::getInstance();
 	if constexpr (/* DISABLES CODE */ (true))
 	{
-		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray();
-			 folder_it != mRequestSD["folders"].endArray();
+		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray(),
+			 folder_end = mRequestSD["folders"].endArray();
+			 folder_it != folder_end;
 			 ++folder_it)
 		{
 			LLSD folder_sd(*folder_it);

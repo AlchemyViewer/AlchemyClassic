@@ -430,7 +430,7 @@ void LLMaterialMgr::onGetResponse(bool success, const LLSD& content, const LLUUI
 
 	llassert(response_data.isArray());
 	LL_DEBUGS("Materials") << "response has "<< response_data.size() << " materials" << LL_ENDL;
-	for (LLSD::array_const_iterator itMaterial = response_data.beginArray(); itMaterial != response_data.endArray(); ++itMaterial)
+	for (LLSD::array_const_iterator itMaterial = response_data.beginArray(), itEnd = response_data.endArray(); itMaterial != itEnd; ++itMaterial)
 	{
 		const LLSD& material_data = *itMaterial;
 		llassert(material_data.isMap());
@@ -474,7 +474,7 @@ void LLMaterialMgr::onGetAllResponse(bool success, const LLSD& content, const LL
 
 	llassert(response_data.isArray());
 	LL_DEBUGS("Materials") << "response has "<< response_data.size() << " materials" << LL_ENDL;
-	for (LLSD::array_const_iterator itMaterial = response_data.beginArray(); itMaterial != response_data.endArray(); ++itMaterial)
+	for (LLSD::array_const_iterator itMaterial = response_data.beginArray(), itEnd = response_data.endArray(); itMaterial != itEnd; ++itMaterial)
 	{
 		const LLSD& material_data = *itMaterial;
 		llassert(material_data.isMap());
@@ -539,7 +539,8 @@ void LLMaterialMgr::onPutResponse(bool success, const LLSD& content)
 	{
 		llassert(response_data.isArray());
 		LL_DEBUGS("Materials") << "response has "<< response_data.size() << " materials" << LL_ENDL;
-		for (LLSD::array_const_iterator faceIter = response_data.beginArray(); faceIter != response_data.endArray(); ++faceIter)
+		for (LLSD::array_const_iterator faceIter = response_data.beginArray(), faceEnd = response_data.endArray();
+			faceIter != faceEnd; ++faceIter)
 		{
 #           if defined(SHOW_ASSERT)
 			const LLSD& face_data = *faceIter; // conditional to avoid unused variable warning

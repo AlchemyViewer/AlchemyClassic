@@ -53,8 +53,8 @@ std::string LLProductInfoRequestManager::getDescriptionForSku(const std::string&
 {
 	// The description LLSD is an array of maps; each array entry
 	// has a map with 3 fields -- description, name, and sku
-	for (LLSD::array_const_iterator it = mSkuDescriptions.beginArray();
-		 it != mSkuDescriptions.endArray();
+	for (LLSD::array_const_iterator it = mSkuDescriptions.beginArray(), end = mSkuDescriptions.endArray();
+		 it != end;
 		 ++it)
 	{
 		//	LL_WARNS() <<  (*it)["sku"].asString() << " = " << (*it)["description"].asString() << LL_ENDL;

@@ -129,7 +129,7 @@ namespace {
                 LLSD content = result[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS_CONTENT];
                 if (content.isArray())
                 {
-                    for (LLSD::array_iterator it = content.beginArray(); it != content.endArray(); ++it)
+                    for (LLSD::array_const_iterator it = content.beginArray(), end = content.endArray(); it != end; ++it)
                     {
                         if (!description.empty())
                             description += "\n";
@@ -877,17 +877,18 @@ void LLMarketplaceData::getSLMListingsCoro(LLUUID folderId)
     log_SLM_infos("Get /listings", static_cast<U32>(status.getType()), result);
 
     // Extract the info from the results
-    for (LLSD::array_iterator it = result["listings"].beginArray();
-            it != result["listings"].endArray(); ++it)
+    for (LLSD::array_const_iterator it = result["listings"].beginArray(), end = result["listings"].endArray();
+            it != end; ++it)
     { 
         LLSD listing = *it;
 
         int listingId = listing["id"].asInteger();
         bool isListed = listing["is_listed"].asBoolean();
         std::string editUrl = listing["edit_url"].asString();
-        LLUUID folderUuid = listing["inventory_info"]["listing_folder_id"].asUUID();
-        LLUUID versionUuid = listing["inventory_info"]["version_folder_id"].asUUID();
-        int count = listing["inventory_info"]["count_on_hand"].asInteger();
+        const LLSD& listing_inv_info = listing["inventory_info"];
+        LLUUID folderUuid = listing_inv_info["listing_folder_id"].asUUID();
+        LLUUID versionUuid = listing_inv_info["version_folder_id"].asUUID();
+        int count = listing_inv_info["count_on_hand"].asInteger();
 
         if (folderUuid.notNull())
         {
@@ -950,8 +951,8 @@ void LLMarketplaceData::getSingleListingCoro(S32 listingId, LLUUID folderId)
 
 
     // Extract the info from the results
-    for (LLSD::array_iterator it = result["listings"].beginArray();
-        it != result["listings"].endArray(); ++it)
+    for (LLSD::array_const_iterator it = result["listings"].beginArray(), end = result["listings"].endArray();
+        it != end; ++it)
     {
         LLSD listing = *it;
 
@@ -1021,8 +1022,8 @@ void LLMarketplaceData::createSLMListingCoro(LLUUID folderId, LLUUID versionId, 
     log_SLM_infos("Post /listings", status.getType(), result);
 
     // Extract the info from the results
-    for (LLSD::array_iterator it = result["listings"].beginArray();
-        it != result["listings"].endArray(); ++it)
+    for (LLSD::array_const_iterator it = result["listings"].beginArray(), end = result["listings"].endArray();
+        it != end; ++it)
     {
         LLSD listing = *it;
 
@@ -1087,8 +1088,8 @@ void LLMarketplaceData::updateSLMListingCoro(LLUUID folderId, S32 listingId, LLU
     log_SLM_infos("Put /listing", status.getType(), result);
 
     // Extract the info from the Json string
-    for (LLSD::array_iterator it = result["listings"].beginArray();
-        it != result["listings"].endArray(); ++it)
+    for (LLSD::array_const_iterator it = result["listings"].beginArray(), end = result["listings"].endArray();
+        it != end; ++it)
     {
         LLSD listing = *it;
 
@@ -1169,8 +1170,8 @@ void LLMarketplaceData::associateSLMListingCoro(LLUUID folderId, S32 listingId, 
 
     log_SLM_infos("Put /associate_inventory", status.getType(), result);
 
-    for (LLSD::array_iterator it = result["listings"].beginArray();
-            it != result["listings"].endArray(); ++it)
+    for (LLSD::array_const_iterator it = result["listings"].beginArray(), end = result["listings"].endArray();
+        it != end; ++it)
     {
         LLSD listing = *it;
 
@@ -1240,8 +1241,8 @@ void LLMarketplaceData::deleteSLMListingCoro(S32 listingId)
 
     log_SLM_infos("Delete /listing", status.getType(), result);
 
-    for (LLSD::array_iterator it = result["listings"].beginArray(); 
-            it != result["listings"].endArray(); ++it)
+    for (LLSD::array_const_iterator it = result["listings"].beginArray(), end = result["listings"].endArray();
+        it != end; ++it)
     {
         LLSD listing = *it;
 

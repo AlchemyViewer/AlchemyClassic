@@ -764,8 +764,8 @@ void log_upload_error(LLCore::HttpStatus status, const LLSD& content,
 
 			S32 error_num = 0;
 			const LLSD& err_list = err["errors"];
-			for (LLSD::array_const_iterator it = err_list.beginArray();
-				 it != err_list.endArray();
+			for (LLSD::array_const_iterator it = err_list.beginArray(), end = err_list.endArray();
+				 it != end;
 				 ++it)
 			{
 				const LLSD& err_entry = *it;

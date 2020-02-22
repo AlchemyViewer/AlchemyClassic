@@ -3235,8 +3235,8 @@ LLSD transform_cert_args(LLPointer<LLCertificate> cert)
 		{
 			value.clear();
 			LLSD usage = cert_info[iter->first];
-			for (LLSD::array_iterator usage_iter = usage.beginArray();
-				 usage_iter != usage.endArray();
+			for (LLSD::array_const_iterator usage_iter = usage.beginArray(), usage_end = usage.endArray();
+				 usage_iter != usage_end;
 				 usage_iter++)
 			{
 				

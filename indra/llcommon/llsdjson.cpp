@@ -109,7 +109,7 @@ nlohmann::json LlsdToJson(const LLSD &val)
         }
         break;
     case LLSD::TypeArray:
-        for (auto it = val.beginArray(); it != val.endArray(); ++it)
+        for (auto it = val.beginArray(), end = val.endArray(); it != end; ++it)
         {
             result.push_back(LlsdToJson(*it));
         }

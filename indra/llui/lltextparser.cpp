@@ -138,25 +138,25 @@ LLSD LLTextParser::parsePartialLineHighlights(const std::string &text, const LLC
 					S32 retcount=0;
 					
 					//FIXME These loops should be wrapped into a subroutine.
-					for (LLSD::array_iterator iter = start_llsd.beginArray();
-						 iter != start_llsd.endArray();++iter)
+					for (LLSD::array_const_iterator iter = start_llsd.beginArray(), end = start_llsd.endArray();
+						 iter != end; ++iter)
 					{
 						LLSD highlight = *iter;
-						ret_llsd[retcount++]=highlight;
+						ret_llsd[retcount++] = highlight;
 					}
 						   
-					for (LLSD::array_iterator iter = middle_llsd.beginArray();
-						 iter != middle_llsd.endArray();++iter)
+					for (LLSD::array_const_iterator iter = middle_llsd.beginArray(), end = middle_llsd.endArray();
+						 iter != end; ++iter)
 					{
 						LLSD highlight = *iter;
-						ret_llsd[retcount++]=highlight;
+						ret_llsd[retcount++] = highlight;
 					}
 						   
-					for (LLSD::array_iterator iter = end_llsd.beginArray();
-						 iter != end_llsd.endArray();++iter)
+					for (LLSD::array_const_iterator iter = end_llsd.beginArray(), end = end_llsd.endArray();
+						 iter != end; ++iter)
 					{
 						LLSD highlight = *iter;
-						ret_llsd[retcount++]=highlight;
+						ret_llsd[retcount++] = highlight;
 					}
 						   
 					return ret_llsd;

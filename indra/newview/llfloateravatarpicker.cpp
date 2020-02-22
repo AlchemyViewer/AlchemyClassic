@@ -749,8 +749,7 @@ void LLFloaterAvatarPicker::processResponse(const LLUUID& query_id, const LLSD& 
 		search_results->deleteAllItems();
 
 		LLSD item;
-		LLSD::array_const_iterator it = agents.beginArray();
-		for ( ; it != agents.endArray(); ++it)
+		for (LLSD::array_const_iterator it = agents.beginArray(), end = agents.endArray(); it != end; ++it)
 		{
 			const LLSD& row = *it;
 			if (row["id"].asUUID() != gAgent.getID() || !mExcludeAgentFromSearchResults)

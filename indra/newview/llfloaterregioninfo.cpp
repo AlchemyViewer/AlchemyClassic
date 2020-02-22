@@ -4062,7 +4062,7 @@ void LLPanelEstateAccess::requestEstateGetAccessCoro(std::string url)
 
 		allowed_agent_name_list->clearSortOrder();
 		allowed_agent_name_list->deleteAllItems();
-		for (LLSD::array_const_iterator it = result["AllowedAgents"].beginArray(); it != result["AllowedAgents"].endArray(); ++it)
+		for (LLSD::array_const_iterator it = result["AllowedAgents"].beginArray(), end = result["AllowedAgents"].endArray(); it != end; ++it)
 		{ 
 			LLUUID id = (*it)["id"].asUUID(); 
 			allowed_agent_name_list->addNameItem(id);
@@ -4081,7 +4081,7 @@ void LLPanelEstateAccess::requestEstateGetAccessCoro(std::string url)
 
 		banned_agent_name_list->clearSortOrder();
 		banned_agent_name_list->deleteAllItems();
-		for (LLSD::array_const_iterator it = result["BannedAgents"].beginArray(); it != result["BannedAgents"].endArray(); ++it)
+		for (LLSD::array_const_iterator it = result["BannedAgents"].beginArray(), end = result["BannedAgents"].endArray(); it != end; ++it)
 		{
 			LLSD item;
 			item["id"] = (*it)["id"].asUUID();
@@ -4124,7 +4124,7 @@ void LLPanelEstateAccess::requestEstateGetAccessCoro(std::string url)
 
 		allowed_group_name_list->clearSortOrder();
 		allowed_group_name_list->deleteAllItems();
-		for (LLSD::array_const_iterator it = result["AllowedGroups"].beginArray(); it != result["AllowedGroups"].endArray(); ++it)
+		for (LLSD::array_const_iterator it = result["AllowedGroups"].beginArray(), end = result["AllowedGroups"].endArray(); it != end; ++it)
 		{
 			LLUUID id = (*it)["id"].asUUID();
 			allowed_group_name_list->addGroupNameItem(id);
@@ -4143,7 +4143,7 @@ void LLPanelEstateAccess::requestEstateGetAccessCoro(std::string url)
 
 		estate_manager_name_list->clearSortOrder();
 		estate_manager_name_list->deleteAllItems();
-		for (LLSD::array_const_iterator it = result["Managers"].beginArray(); it != result["Managers"].endArray(); ++it)
+		for (LLSD::array_const_iterator it = result["Managers"].beginArray(), end = result["Managers"].endArray(); it != end; ++it)
 		{
 			LLUUID id = (*it)["agent_id"].asUUID();
 			estate_manager_name_list->addNameItem(id);

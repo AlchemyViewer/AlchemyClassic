@@ -241,7 +241,7 @@ void LLPanelLandMedia::refresh()
 		mMusicURLEdit->clearRows();
 		LLSD stream_list = gSavedSettings.getLLSD("StreamList");
 		const LLSD streams = stream_list["audio"];
-		for(LLSD::array_const_iterator s_itr = streams.beginArray(); s_itr != streams.endArray(); ++s_itr)
+		for(LLSD::array_const_iterator s_itr = streams.beginArray(), s_end = streams.endArray(); s_itr != s_end; ++s_itr)
 		{
 			mMusicURLEdit->add(LLSD(*s_itr));
 		}
@@ -405,7 +405,7 @@ void LLPanelLandMedia::onCommitMusicUrl()
 		LLSD stream_list = gSavedSettings.getLLSD("StreamList");
 		const LLSD streams = stream_list["audio"];
 		bool found = false;
-		for(LLSD::array_const_iterator s_itr = streams.beginArray(); s_itr != streams.endArray(); ++s_itr)
+		for(LLSD::array_const_iterator s_itr = streams.beginArray(), s_end = streams.endArray(); s_itr != s_end; ++s_itr)
 		{
 			if (LLStringUtil::compareInsensitive((LLSD(*s_itr)).asString(), music_url) == 0)
 				found = true;

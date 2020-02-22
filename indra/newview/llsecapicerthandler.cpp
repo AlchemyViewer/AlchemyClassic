@@ -94,8 +94,8 @@ bool valueCompareLLSD(const LLSD& lhs, const LLSD& rhs)
     {
         LLSD::array_const_iterator ritt = rhs.beginArray();
         // iterate through the array, comparing
-        for (LLSD::array_const_iterator litt = lhs.beginArray();
-             litt != lhs.endArray();
+        for (LLSD::array_const_iterator litt = lhs.beginArray(), lite = lhs.endArray();
+             litt != lite;
              ++litt)
         {
             if (!valueCompareLLSD(*ritt, *litt))
@@ -914,8 +914,8 @@ bool _cert_hostname_wildcard_match(const std::string& hostname, const std::strin
 // validate that the LLSD array in llsd_set contains the llsd_value
 bool _LLSDArrayIncludesValue(const LLSD& llsd_set, LLSD llsd_value)
 {
-    for(LLSD::array_const_iterator set_value = llsd_set.beginArray();
-        set_value != llsd_set.endArray();
+    for(LLSD::array_const_iterator set_value = llsd_set.beginArray(), set_value_end = llsd_set.endArray();
+        set_value != set_value_end;
         ++set_value)
     {
         if(valueCompareLLSD((*set_value), llsd_value))

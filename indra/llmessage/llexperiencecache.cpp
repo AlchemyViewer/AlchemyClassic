@@ -169,8 +169,8 @@ void LLExperienceCache::exportFile(std::ostream& ostr) const
 void LLExperienceCache::bootstrap(const LLSD& legacyKeys, int initialExpiration)
 {
 	LLExperienceCacheImpl::mapKeys(legacyKeys);
-    LLSD::array_const_iterator it = legacyKeys.beginArray();
-    for (/**/; it != legacyKeys.endArray(); ++it)
+ 
+    for (LLSD::array_const_iterator it = legacyKeys.beginArray(), end = legacyKeys.endArray(); it != end; ++it)
     {
         LLSD experience = *it;
         if (experience.has(EXPERIENCE_ID))
@@ -279,10 +279,10 @@ void LLExperienceCache::requestExperiencesCoro(LLCoreHttpUtil::HttpCoroutineAdap
         return;
     }
 
-    LLSD experiences = result["experience_keys"];
+    const LLSD& experiences = result["experience_keys"];
     
-    for (LLSD::array_const_iterator it = experiences.beginArray(); 
-        it != experiences.endArray(); ++it)
+    for (LLSD::array_const_iterator it = experiences.beginArray(), end = experiences.endArray();
+        it != end; ++it)
     {
         const LLSD& row = *it;
         LLUUID public_key = row[EXPERIENCE_ID].asUUID();
@@ -293,10 +293,10 @@ void LLExperienceCache::requestExperiencesCoro(LLCoreHttpUtil::HttpCoroutineAdap
         processExperience(public_key, row);
     }
 
-    LLSD error_ids = result["error_ids"];
+    const LLSD& error_ids = result["error_ids"];
     
-    for (LLSD::array_const_iterator errIt = error_ids.beginArray(); 
-        errIt != error_ids.endArray(); ++errIt)
+    for (LLSD::array_const_iterator errIt = error_ids.beginArray(), end = error_ids.endArray() ; 
+        errIt != end; ++errIt)
     {
         LLUUID id = errIt->asUUID();
         LLSD exp;
@@ -639,7 +639,7 @@ void LLExperienceCache::findExperienceByNameCoro(LLCoreHttpUtil::HttpCoroutineAd
     result.erase(LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS);
 
     const LLSD& experiences = result["experience_keys"];
-    for (LLSD::array_const_iterator it = experiences.beginArray(); it != experiences.endArray(); ++it)
+    for (LLSD::array_const_iterator it = experiences.beginArray(), end = experiences.endArray(); it != end; ++it)
     {
         insert(*it);
     }
@@ -901,8 +901,7 @@ void LLExperienceCache::updateExperienceCoro(LLCoreHttpUtil::HttpCoroutineAdapte
 //=========================================================================
 void LLExperienceCacheImpl::mapKeys(const LLSD& legacyKeys)
 {
-	LLSD::array_const_iterator exp = legacyKeys.beginArray();
-	for (/**/; exp != legacyKeys.endArray(); ++exp)
+	for (LLSD::array_const_iterator exp = legacyKeys.beginArray(), end = legacyKeys.endArray(); exp != end; ++exp)
 	{
         if (exp->has(LLExperienceCacheImpl::EXPERIENCE_ID) && exp->has(LLExperienceCacheImpl::PRIVATE_KEY))
 		{

@@ -5113,8 +5113,8 @@ bool handle_trusted_experiences_notification(const LLSD& llsdBlock)
 	{
 		std::ostringstream str;
 		const LLSD& experiences = llsdBlock["trusted_experiences"];
-		LLSD::array_const_iterator it = experiences.beginArray();
-		for (/**/; it != experiences.endArray(); ++it)
+
+		for (LLSD::array_const_iterator it = experiences.beginArray(), end = experiences.endArray(); it != end; ++it)
 		{
 			str << LLSLURL("experience", it->asUUID(), "profile").getSLURLString() << "\n";
 		}
@@ -6478,8 +6478,8 @@ void send_lures(const LLSD& notification, const LLSD& response)
 	msg->nextBlockFast(_PREHASH_Info);
 	msg->addU8Fast(_PREHASH_LureType, (U8)0); // sim will fill this in.
 	msg->addStringFast(_PREHASH_Message, text);
-	for (LLSD::array_const_iterator it = notification["payload"]["ids"].beginArray();
-	     it != notification["payload"]["ids"].endArray();
+	for (LLSD::array_const_iterator it = notification["payload"]["ids"].beginArray(), end = notification["payload"]["ids"].endArray();
+	     it != end;
 	     ++it)
 	{
 		LLUUID target_id = it->asUUID();

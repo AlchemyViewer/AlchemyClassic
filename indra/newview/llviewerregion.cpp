@@ -3670,7 +3670,7 @@ void LLViewerRegion::setGodnames()
 		if (mSimulatorFeatures["god_names"].has("last_names"))
 		{
 			LLSD god_names = mSimulatorFeatures["god_names"]["last_names"];
-			for (LLSD::array_iterator itr = god_names.beginArray(), ite = god_names.endArray();
+			for (LLSD::array_const_iterator itr = god_names.beginArray(), ite = god_names.endArray();
 				 itr != ite;
 				 ++itr)
 			{

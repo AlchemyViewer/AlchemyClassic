@@ -1377,7 +1377,7 @@ void link_inventory_array(const LLUUID& category,
     else
 	{
 		LLMessageSystem* msg = gMessageSystem;
-		for (LLSD::array_iterator iter = links.beginArray(); iter != links.endArray(); ++iter )
+		for (LLSD::array_const_iterator iter = links.beginArray(), end = links.endArray(); iter != end; ++iter )
 		{
 			msg->newMessageFast(_PREHASH_LinkInventoryItem);
 			msg->nextBlock(_PREHASH_AgentData);
@@ -2013,8 +2013,8 @@ void slam_inventory_folder(const LLUUID& folder_id,
 	{
 		LL_DEBUGS(LOG_INV) << "using item-by-item calls to slam folder, id " << folder_id
 						   << " new contents: " << ll_pretty_print_sd(contents) << LL_ENDL;
-		for (LLSD::array_const_iterator it = contents.beginArray();
-			 it != contents.endArray();
+		for (LLSD::array_const_iterator it = contents.beginArray(), end = contents.endArray();
+			 it != end;
 			 ++it)
 		{
 			const LLSD& item_contents = *it;

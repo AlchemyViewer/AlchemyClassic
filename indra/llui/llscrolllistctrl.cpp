@@ -3092,8 +3092,8 @@ LLScrollListItem* LLScrollListCtrl::addSimpleElement(const std::string& value, E
 
 void LLScrollListCtrl::setValue(const LLSD& value )
 {
-	LLSD::array_const_iterator itor;
-	for (itor = value.beginArray(); itor != value.endArray(); ++itor)
+	for (LLSD::array_const_iterator itor = value.beginArray(), end = value.endArray();
+		itor != end; ++itor)
 	{
 		addElement(*itor);
 	}

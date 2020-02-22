@@ -127,8 +127,9 @@ void LLPersistentNotificationStorage::loadNotifications()
 	LLNotifications& instance = LLNotifications::instance();
 	S32 processed_notifications = 0;
 	std::vector<LLSD> notifications_array;
-	for (LLSD::reverse_array_iterator notification_it = data.rbeginArray();
-		notification_it != data.rendArray();
+	for (LLSD::reverse_array_iterator notification_it = data.rbeginArray(),
+		notification_end = data.rendArray();
+		notification_it != notification_end;
 		++notification_it)
 	{
 		LLSD notification_params = *notification_it;
@@ -143,8 +144,8 @@ void LLPersistentNotificationStorage::loadNotifications()
 		}
 	}
 
-	for (LLSD::reverse_array_iterator notification_it = notifications_array.rbegin();
-			notification_it != notifications_array.rend();
+	for (auto notification_it = notifications_array.crbegin();
+			notification_it != notifications_array.crend();
 			++notification_it)
 	{
 		LLSD notification_params = *notification_it;

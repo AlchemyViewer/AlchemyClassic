@@ -101,7 +101,7 @@ LLToastAlertPanel::LLToastAlertPanel( LLNotificationPtr notification, bool modal
 	LLSD form_sd = form->asLLSD();
 
 	S32 option_index = 0;
-	for (LLSD::array_const_iterator it = form_sd.beginArray(); it != form_sd.endArray(); ++it)
+	for (LLSD::array_const_iterator it = form_sd.beginArray(), end = form_sd.endArray(); it != end; ++it)
 	{
 		std::string type = (*it)["type"].asString();
 		if (type == "button")
@@ -292,7 +292,7 @@ LLToastAlertPanel::LLToastAlertPanel( LLNotificationPtr notification, bool modal
 
 			// find form text input field
 			LLSD form_text;
-			for (LLSD::array_const_iterator it = form_sd.beginArray(); it != form_sd.endArray(); ++it)
+			for (LLSD::array_const_iterator it = form_sd.beginArray(), end = form_sd.endArray(); it != end; ++it)
 			{
 				std::string type = (*it)["type"].asString();
 				if (type == "text")

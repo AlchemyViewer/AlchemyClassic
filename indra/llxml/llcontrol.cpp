@@ -1016,7 +1016,8 @@ U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_v
 				if(pos!=std::string::npos)
 				{
 					const std::string dir = filename.substr(0,++pos);
-					for(LLSD::array_const_iterator array_itr = control_map.beginArray(); array_itr != control_map.endArray(); ++array_itr)
+					for(LLSD::array_const_iterator array_itr = control_map.beginArray(), array_end = control_map.endArray();
+						array_itr != array_end; ++array_itr)
 						validitems+=loadFromFile(dir+(*array_itr).asString(),set_default_values);
 				}
 			}

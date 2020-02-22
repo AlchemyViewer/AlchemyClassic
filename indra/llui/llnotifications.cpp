@@ -261,8 +261,9 @@ LLSD LLNotificationForm::asLLSD() const
 
 LLSD LLNotificationForm::getElement(const std::string& element_name)
 {
-	for (LLSD::array_const_iterator it = mFormData.beginArray();
-		it != mFormData.endArray();
+	for (LLSD::array_const_iterator it = mFormData.beginArray(),
+		end = mFormData.endArray();
+		it != end;
 		++it)
 	{
 		if ((*it)["name"].asString() == element_name) return (*it);
@@ -273,8 +274,9 @@ LLSD LLNotificationForm::getElement(const std::string& element_name)
 
 bool LLNotificationForm::hasElement(const std::string& element_name) const
 {
-	for (LLSD::array_const_iterator it = mFormData.beginArray();
-		it != mFormData.endArray();
+	for (LLSD::array_const_iterator it = mFormData.beginArray(),
+		end = mFormData.endArray();
+		it != end;
 		++it)
 	{
 		if ((*it)["name"].asString() == element_name) return true;
@@ -288,7 +290,7 @@ void LLNotificationForm::getElements(LLSD& elements, S32 offset)
     LLSD::array_const_iterator it = mFormData.beginArray() + offset;
 
     //Keeps track of only the dynamic elements
-    for(; it != mFormData.endArray(); ++it)
+    for(LLSD::array_const_iterator end = mFormData.endArray(); it != end; ++it)
     {
         elements.append(*it);
     }
@@ -296,8 +298,9 @@ void LLNotificationForm::getElements(LLSD& elements, S32 offset)
 
 bool LLNotificationForm::getElementEnabled(const std::string& element_name) const
 {
-	for (LLSD::array_const_iterator it = mFormData.beginArray();
-		it != mFormData.endArray();
+	for (LLSD::array_const_iterator it = mFormData.beginArray(),
+		end = mFormData.endArray();
+		it != end;
 		++it)
 	{
 		if ((*it)["name"].asString() == element_name)
@@ -311,8 +314,9 @@ bool LLNotificationForm::getElementEnabled(const std::string& element_name) cons
 
 void LLNotificationForm::setElementEnabled(const std::string& element_name, bool enabled)
 {
-	for (LLSD::array_iterator it = mFormData.beginArray();
-		it != mFormData.endArray();
+	for (LLSD::array_iterator it = mFormData.beginArray(),
+		end = mFormData.endArray();
+		it != end;
 		++it)
 	{
 		if ((*it)["name"].asString() == element_name)
@@ -339,8 +343,9 @@ void LLNotificationForm::append(const LLSD& sub_form)
 {
 	if (sub_form.isArray())
 	{
-		for (LLSD::array_const_iterator it = sub_form.beginArray();
-			it != sub_form.endArray();
+		for (LLSD::array_const_iterator it = sub_form.beginArray(),
+			end = sub_form.endArray();
+			it != end;
 			++it)
 		{
 			mFormData.append(*it);
@@ -350,8 +355,9 @@ void LLNotificationForm::append(const LLSD& sub_form)
 
 void LLNotificationForm::formatElements(const LLSD& substitutions)
 {
-	for (LLSD::array_iterator it = mFormData.beginArray();
-		it != mFormData.endArray();
+	for (LLSD::array_iterator it = mFormData.beginArray(),
+		end = mFormData.endArray();
+		it != end;
 		++it)
 	{
 		// format "text" component of each form element
@@ -372,8 +378,9 @@ void LLNotificationForm::formatElements(const LLSD& substitutions)
 
 std::string LLNotificationForm::getDefaultOption()
 {
-	for (LLSD::array_const_iterator it = mFormData.beginArray();
-		it != mFormData.endArray();
+	for (LLSD::array_const_iterator it = mFormData.beginArray(),
+		end = mFormData.endArray();
+		it != end;
 		++it)
 	{
 		if ((*it)["default"]) return (*it)["name"].asString();

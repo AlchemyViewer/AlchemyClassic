@@ -267,8 +267,8 @@ void LLParamSDParserUtilities::readSDValues(read_sd_cb_t cb, const LLSD& sd, LLI
 	}
 	else if (sd.isArray())
 	{
-		for (auto it = sd.beginArray();
-			it != sd.endArray();
+		for (auto it = sd.beginArray(), end = sd.endArray();
+			it != end;
 			++it)
 		{
 			stack.push_back(make_pair(std::string(), true));

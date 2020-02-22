@@ -314,7 +314,7 @@ void RlvStrings::loadFromFile(const std::string& strFilePath, bool fUserOverride
 	if (sdFileData.has("anonyms"))
 	{
 		const LLSD& sdAnonyms = sdFileData["anonyms"];
-		for (LLSD::array_const_iterator itAnonym = sdAnonyms.beginArray(); itAnonym != sdAnonyms.endArray(); ++itAnonym)
+		for (LLSD::array_const_iterator itAnonym = sdAnonyms.beginArray(), endAnonym = sdAnonyms.endArray(); itAnonym != endAnonym; ++itAnonym)
 		{
 			m_Anonyms.push_back((*itAnonym).asString());
 		}

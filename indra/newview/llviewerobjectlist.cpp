@@ -1084,7 +1084,7 @@ void LLViewerObjectList::fetchObjectCosts()
 void LLViewerObjectList::reportObjectCostFailure(LLSD &objectList)
 {
     // TODO*: No more hard coding
-    for (LLSD::array_iterator it = objectList.beginArray(); it != objectList.endArray(); ++it)
+    for (LLSD::array_const_iterator it = objectList.beginArray(), end = objectList.endArray(); it != end; ++it)
     {
         gObjectList.onObjectCostFetchFailure(it->asUUID());
     }
@@ -1150,7 +1150,7 @@ void LLViewerObjectList::fetchObjectCostsCoro(std::string url)
 
     // Success, grab the resource cost and linked set costs
     // for an object if one was returned
-    for (LLSD::array_iterator it = idList.beginArray(); it != idList.endArray(); ++it)
+    for (LLSD::array_const_iterator it = idList.beginArray(), end = idList.endArray(); it != end; ++it)
     {
         LLUUID objectId = it->asUUID();
 
@@ -1208,7 +1208,7 @@ void LLViewerObjectList::fetchPhysicsFlags()
 void LLViewerObjectList::reportPhysicsFlagFailure(LLSD &objectList)
 {
     // TODO*: No more hard coding
-    for (LLSD::array_iterator it = objectList.beginArray(); it != objectList.endArray(); ++it)
+    for (LLSD::array_const_iterator it = objectList.beginArray(), end = objectList.endArray(); it != end; ++it)
     {
         gObjectList.onPhysicsFlagsFetchFailure(it->asUUID());
     }
@@ -1275,7 +1275,7 @@ void LLViewerObjectList::fetchPhisicsFlagsCoro(std::string url)
 
     // Success, grab the resource cost and linked set costs
     // for an object if one was returned
-    for (LLSD::array_iterator it = idList.beginArray(); it != idList.endArray(); ++it)
+    for (LLSD::array_const_iterator it = idList.beginArray(), end = idList.endArray(); it != end; ++it)
     {
         LLUUID objectId = it->asUUID();
 

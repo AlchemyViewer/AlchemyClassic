@@ -386,8 +386,9 @@ void LLFloaterPathfindingObjects::addObjectToScrollList(const LLPathfindingObjec
 	rowParams.value = pObjectPtr->getUUID().asString();
 
 	llassert(pScrollListItemData.isArray());
-	for (LLSD::array_const_iterator cellIter = pScrollListItemData.beginArray();
-		cellIter != pScrollListItemData.endArray(); ++cellIter)
+	for (LLSD::array_const_iterator cellIter = pScrollListItemData.beginArray(),
+		cellEnd = pScrollListItemData.endArray();
+		cellIter != cellEnd; ++cellIter)
 	{
 		const LLSD &cellElement = *cellIter;
 

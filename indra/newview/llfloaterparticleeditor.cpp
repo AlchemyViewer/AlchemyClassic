@@ -201,15 +201,12 @@ bool LLFloaterParticleEditor::handleSaveDialog(const LLSD& notification, const L
         break;
 
     case 1:  // "No"
-        // This will close immediately because mForceClose is true, so we won't
-        // infinite loop with these dialogs. JC
+		mChanged = false;
         closeFloater();
         break;
 
     case 2: // "Cancel"
     default:
-        // If we were quitting, we didn't really mean it.
-        LLAppViewer::instance()->abortQuit();
         break;
     }
     return false;

@@ -7563,6 +7563,10 @@ Offer a teleport?
        index="1"
        name="Decline"
        text="Decline"/>
+      <button
+       index="2"
+       name="IM"
+       text="IM"/>
     </form>
   </notification>
 
@@ -7594,6 +7598,10 @@ Offer a teleport?
        index="1"
        name="Decline"
        text="Decline"/>
+      <button
+       index="2"
+       name="IM"
+       text="IM"/>
     </form>
   </notification>
 

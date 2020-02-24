@@ -736,7 +736,7 @@
       <key>fmodstudio</key>
       <map>
         <key>copyright</key>
-        <string>FMOD Studio, copyright (c) Firelight Technologies Pty, Ltd., 2012-2019.</string>
+        <string>FMOD Studio, Copyright (c) Firelight Technologies Pty Ltd.</string>
         <key>description</key>
         <string>FMOD Studio audio system library</string>
         <key>license</key>
@@ -808,11 +808,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>22daed7c860daaef217eb8d90dfc1119</string>
+              <string>d32efb193ffcd73bcba4875ddfd17bf0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows/fmodstudio-2.00.06.3-windows-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows/fmodstudio-2.00.07.4-windows-4.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -822,18 +822,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ccf7b1935743df55244139c4323c0465</string>
+              <string>0604fd6b53ceaf14ce04d0de1bea51b8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows64/fmodstudio-2.00.06.3-windows64-3.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows64/fmodstudio-2.00.07.4-windows64-4.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.00.06.3</string>
+        <string>2.00.07.4</string>
       </map>
       <key>fontconfig</key>
       <map>

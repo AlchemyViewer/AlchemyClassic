@@ -496,30 +496,6 @@ class WindowsManifest(ViewerManifest):
             #else:
             #    self.path('libtcmalloc_minimal.dll')
 
-            # For msvc redist
-            self.path('api-ms-win-core-c*.dll')
-            self.path('api-ms-win-core-d*.dll')
-            self.path('api-ms-win-core-e*.dll')
-            self.path('api-ms-win-core-f*.dll')
-            self.path('api-ms-win-core-h*.dll')
-            self.path('api-ms-win-core-i*.dll')
-            self.path('api-ms-win-core-l*.dll')
-            self.path('api-ms-win-core-m*.dll')
-            self.path('api-ms-win-core-n*.dll')
-            self.path('api-ms-win-core-p*.dll')
-            self.path('api-ms-win-core-r*.dll')
-            self.path('api-ms-win-core-s*.dll')
-            self.path('api-ms-win-core-t*.dll')
-            self.path('api-ms-win-core-u*.dll')
-            if (self.address_size == 32):
-                self.path('API-MS-Win-core-x*.dll')
-            self.path('api-ms-win-crt*.dll')
-            self.path('ucrt*.dll')
-            self.path('concrt*.dll')
-            self.path('msvc*.dll')
-            self.path('vcruntime*.dll')
-            self.path('vccor*.dll')
-
         # For crashpad
         with self.prefix(src=pkgbindir):
             if os.path.exists(os.path.join(pkgbindir, "crashpad_handler.exe")):
@@ -629,10 +605,11 @@ class WindowsManifest(ViewerManifest):
                 self.path("zh-CN.pak")
                 self.path("zh-TW.pak")
 
-            with self.prefix(src=pkgbindir):
-                self.path("libvlc.dll")
-                self.path("libvlccore.dll")
-                self.path("plugins/")
+            if not self.is_packaging_viewer():
+                with self.prefix(src=pkgbindir):
+                    self.path("libvlc.dll")
+                    self.path("libvlccore.dll")
+                    self.path("plugins/")
 
         if not self.is_packaging_viewer():
             self.package_file = "copied_deps"    

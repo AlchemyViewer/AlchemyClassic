@@ -13,10 +13,6 @@ include(LLCommon)
 # set up platform specific lists of files that need to be copied
 ###################################################################
 if(WINDOWS)
-    set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
-    set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
-    include(InstallRequiredSystemLibrariesAL)
-
     set(SHARED_LIB_STAGING_DIR_DEBUG            "${SHARED_LIB_STAGING_DIR}/Debug")
     set(SHARED_LIB_STAGING_DIR_RELWITHDEBINFO   "${SHARED_LIB_STAGING_DIR}/RelWithDebInfo")
     set(SHARED_LIB_STAGING_DIR_RELEASE          "${SHARED_LIB_STAGING_DIR}/Release")
@@ -96,26 +92,6 @@ if(WINDOWS)
       list(APPEND debug_files fmodL.dll)
       list(APPEND release_files fmod.dll)
     endif (USE_FMODSTUDIO)
-
-    foreach(redistfullfile IN LISTS CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS)
-        get_filename_component(redistfilepath ${redistfullfile} DIRECTORY )
-        get_filename_component(redistfilename ${redistfullfile} NAME)
-        copy_if_different(
-            ${redistfilepath}
-            "${SHARED_LIB_STAGING_DIR_RELEASE}"
-            out_targets
-            ${redistfilename}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-
-        copy_if_different(
-            ${redistfilepath}
-            "${SHARED_LIB_STAGING_DIR_RELWITHDEBINFO}"
-            out_targets
-            ${redistfilename}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-    endforeach()
 
 elseif(DARWIN)
     set(SHARED_LIB_STAGING_DIR_DEBUG            "${SHARED_LIB_STAGING_DIR}/Debug/Resources")

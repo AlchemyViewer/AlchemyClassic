@@ -217,9 +217,31 @@
         tab_stop="false"
         follows="right|bottom"
         name="links" 
-        width="210"
+        width="250"
         min_width="100"
         height="80">
+      <text
+          follows="right|bottom"
+          font="SansSerif"
+          font.style="BOLD"
+          font.size="Large"
+          halign="left"
+          height="16"
+          name="fmod_text"
+          top="8"
+          right="0"
+          width="84"
+          visible="false">
+        Powered By
+      </text>
+          <icon
+           follows="right|bottom"
+           height="38"
+           image_name="FMOD_White"
+           top="33"
+           name="fmod_logo"
+           width="154" 
+           visible="false" />
       <text
           follows="right|bottom"
           font="SansSerif"

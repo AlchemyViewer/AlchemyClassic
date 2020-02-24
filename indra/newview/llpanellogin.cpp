@@ -26,6 +26,8 @@
 
 #include "llviewerprecompiledheaders.h"
 
+#include "llviewerbuildconfig.h"
+
 #include "llpanellogin.h"
 #include "lllayoutstack.h"
 
@@ -190,6 +192,11 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	username_list->setCommitOnSelectionChange(true);
 	
 	mLoginWidgetStack = getChild<LLLayoutStack>("login_widgets");
+
+#if USE_FMODSTUDIO
+	getChild<LLUICtrl>("fmod_text")->setVisible(TRUE);
+	getChild<LLUICtrl>("fmod_logo")->setVisible(TRUE);
+#endif
 }
 
 void LLPanelLogin::addFavoritesToStartLocation()

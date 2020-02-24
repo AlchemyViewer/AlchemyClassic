@@ -370,11 +370,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4614b29cc98021cf1770a8290171602b</string>
+              <string>a96fda7ad5cee967823f5c94390ba35b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/crashpad/windows/crashpad-ce32d093.7-windows-7.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/crashpad/windows/crashpad-c6d76a90.194-windows-194.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -384,18 +384,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d801461b7a6a40fffab828aa1e01e3e6</string>
+              <string>5ff95ca1007ed2dc300b59de17453201</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/crashpad/windows64/crashpad-ce32d093.7-windows64-7.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/crashpad/windows64/crashpad-c6d76a90.194-windows64-194.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>ce32d093.7</string>
+        <string>c6d76a90.194</string>
       </map>
       <key>curl</key>
       <map>

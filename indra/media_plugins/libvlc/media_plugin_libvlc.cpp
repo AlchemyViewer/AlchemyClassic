@@ -34,6 +34,8 @@
 #include "llpluginmessageclasses.h"
 #include "media_plugin_base.h"
 
+#define ssize_t SSIZE_T
+
 #include "vlc/vlc.h"
 #include "vlc/libvlc_version.h"
 
@@ -318,7 +320,7 @@ void MediaPluginLibVLC::logCallback(void *data, int level, const libvlc_log_t *c
 //
 void MediaPluginLibVLC::playMedia()
 {
-	if (mURL.length() == 0)
+	if (mURL.length() == 0 || mWidth == 0 || mHeight == 0)
 	{
 		return;
 	}

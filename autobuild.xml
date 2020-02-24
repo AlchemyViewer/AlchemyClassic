@@ -2918,7 +2918,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
       <key>vlc-bin</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (C) 1998-2016 VLC authors and VideoLAN</string>
+        <string>Copyright (C) 1998-2020 VLC authors and VideoLAN</string>
         <key>license</key>
         <string>GPL2</string>
         <key>license_file</key>
@@ -2956,11 +2956,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>05a4adbea67c24b058485570cc7fbeb8</string>
+              <string>3ff1d097e4f9b8f864a639aff974a506</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc142/vlc_bin-2.2.8.201712260144-windows-201712260144.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/vlc-bin/windows/vlc_bin-3.0.8.189-windows-189.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2970,18 +2970,18 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bbf6d7dd58b6482d2e9d34a961ffc667</string>
+              <string>b890b109b526cc6ad211eadefed83316</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/vlc_bin-2.2.8.201712260141-windows64-201712260141.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/vlc-bin/windows64/vlc_bin-3.0.8.189-windows64-189.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.2.8.201712260144</string>
+        <string>3.0.8.189</string>
       </map>
       <key>xmlrpc-epi</key>
       <map>

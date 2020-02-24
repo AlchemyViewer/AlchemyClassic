@@ -413,9 +413,9 @@ Section "Viewer"
 
   ;Download LibVLC
 !ifdef WIN64_BIN_BUILD
-  NSISdl::download "http://download.videolan.org/pub/videolan/vlc/3.0.8/win64/vlc-3.0.8-win64.7z" "$TEMP\AlchemyInst\libvlc.7z"
+  NSISdl::download "https://download.videolan.org/pub/videolan/vlc/3.0.8/win64/vlc-3.0.8-win64.7z" "$TEMP\AlchemyInst\libvlc.7z"
 !else
-  NSISdl::download "http://download.videolan.org/pub/videolan/vlc/3.0.8/win32/vlc-3.0.8-win32.7z" "$TEMP\AlchemyInst\libvlc.7z"
+  NSISdl::download "https://download.videolan.org/pub/videolan/vlc/3.0.8/win32/vlc-3.0.8-win32.7z" "$TEMP\AlchemyInst\libvlc.7z"
 !endif
   Nsis7z::ExtractWithDetails "$TEMP\AlchemyInst\libvlc.7z" "Unpacking media plugins %s..."
   Rename "$TEMP\AlchemyInst\vlc-3.0.8\libvlc.dll" "$INSTDIR\llplugin\libvlc.dll"
@@ -454,9 +454,9 @@ Section "Viewer"
     CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\$INSTSHORTCUT.lnk" "$INSTDIR\$VIEWER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
     CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\Uninstall $INSTSHORTCUT.lnk" "$INSTDIR\uninst.exe" ""
 !endif
-    WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Create Account.url" "InternetShortcut" "URL" "http://join.secondlife.com/"
-    WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Your Account.url"	"InternetShortcut" "URL" "http://www.secondlife.com/account/"
-    WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Scripting Language Help.url" "InternetShortcut" "URL" "http://wiki.secondlife.com/wiki/LSL_Portal"
+    WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Create Account.url" "InternetShortcut" "URL" "https://join.secondlife.com/"
+    WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Your Account.url"	"InternetShortcut" "URL" "https://www.secondlife.com/account/"
+    WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Scripting Language Help.url" "InternetShortcut" "URL" "https://wiki.secondlife.com/wiki/LSL_Portal"
 
   !insertmacro MUI_STARTMENU_WRITE_END
 

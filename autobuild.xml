@@ -592,11 +592,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>39f773413194b2bd17b53d60de466084</string>
+              <string>5e80552b521e7e3ba0d1fe89993840c9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/dullahan/darwin64/dullahan-1.3.201910091614_77.1.7_gc7dbc2f_chromium-77.0.3865.90-darwin64-1.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/dullahan/darwin64/dullahan-1.3.202002261131_79.1.38_gecefb59_chromium-79.0.3945.130-darwin64-4.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin64</string>

@@ -752,42 +752,14 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4a4e1bfd0e1e982643e75533ead10c55</string>
+              <string>21610bcca4e2ff76b6483c1faae8b152</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/darwin/fmodstudio-2.00.03.192211300-darwin-192211300.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/darwin/fmodstudio-2.00.07.4-darwin-4.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
-          </map>
-          <key>darwin64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>fe1a606582fb72d5d1c9ec4a2d906830</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/darwin64/fmodstudio-2.00.03.192211302-darwin64-192211302.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin64</string>
-          </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>1331456a3df95294eaf44fab990f62cd</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux/lib/fmodstudio-1.06.07-linux-201507231333.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
           </map>
           <key>linux64</key>
           <map>

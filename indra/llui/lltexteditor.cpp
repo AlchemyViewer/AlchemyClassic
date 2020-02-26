@@ -1976,7 +1976,7 @@ void LLTextEditor::doDelete()
 	{	
 		S32 i;
 		S32 chars_to_remove = 1;
-		LLWString text = getWText();
+		const LLWString& text = getWText();
 		if( (text[ mCursorPos ] == ' ') && (mCursorPos + SPACES_PER_TAB < getLength()) )
 		{
 			// Try to remove a full tab's worth of spaces
@@ -2580,7 +2580,7 @@ void LLTextEditor::updateLinkSegments()
 {
 	if (!mParseHTML) return;
 
-	LLWString wtext = getWText();
+	const LLWString& wtext = getWText();
 
 	// update any segments that contain a link
 	for (const auto& mSegment : mSegments)
@@ -2900,7 +2900,7 @@ BOOL LLTextEditor::getPreeditLocation(S32 query_offset, LLCoordGL *coord, LLRect
 		current_line++;
 	}
 
-    const LLWString textString(getWText());
+    const LLWString& textString = getWText();
 	const llwchar * const text = textString.c_str();
 	const S32 line_height = mFont->getLineHeight();
 

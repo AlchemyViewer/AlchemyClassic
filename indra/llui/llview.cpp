@@ -378,7 +378,7 @@ void LLView::removeChild(LLView* child)
 		llassert(!child->mInDraw);
 		mChildList.remove( child );
 
-		for(auto it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
+		for(auto it=mChildHashMap.begin(), end = mChildHashMap.end(); it != end; ++it)
 		{
 			if(it->second == child)
 			{

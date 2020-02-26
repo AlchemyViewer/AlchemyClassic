@@ -707,7 +707,7 @@ class WindowsManifest(ViewerManifest):
             !define APPNAMEONEWORD   "%(app_name_oneword)s"
             !define URLNAME   "secondlife"
             !define CAPTIONSTR "%(caption)s"
-            !define VENDORSTR "Alchemy Viewer Project"
+            !define VENDORSTR "Alchemy Development Group"
             !define VERSION "%(version_short)s"
             !define VERSION_LONG "%(version)s"
             !define VERSION_DASHES "%(version_dashes)s"

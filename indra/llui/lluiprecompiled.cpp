@@ -4,7 +4,7 @@
  *
  * $LicenseInfo:firstyear=2019&license=viewerlgpl$
  * Alchemy Viewer Source Code
- * Copyright (C) 2019, Alchemy Viewer Project, Inc.
+ * Copyright (C) 2019, Alchemy Development Group
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

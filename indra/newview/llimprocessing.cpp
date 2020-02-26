@@ -70,7 +70,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 
-std::string replace_wildcard(std::string input, const LLUUID& id, const std::string& name)
+std::string replace_wildcards(std::string input, const LLUUID& id, const std::string& name)
 {
 	boost::algorithm::replace_all(input, "#n", name);
 // disable boost::lexical_cast warning
@@ -171,11 +171,11 @@ void translate_if_needed(std::string& message)
     }
 }
 
-class LLPostponedIMSystemTipNotification : public LLPostponedNotification
+class LLPostponedIMSystemTipNotification final : public LLPostponedNotification
 {
 protected:
     /* virtual */
-    void modifyNotificationParams()
+    void modifyNotificationParams() override
     {
         LLSD payload = mParams.payload;
         payload["SESSION_NAME"] = mName;
@@ -183,11 +183,11 @@ protected:
     }
 };
 
-class LLPostponedOfferNotification : public LLPostponedNotification
+class LLPostponedOfferNotification final : public LLPostponedNotification
 {
 protected:
     /* virtual */
-    void modifyNotificationParams()
+    void modifyNotificationParams() override
     {
         LLSD substitutions = mParams.substitutions;
         substitutions["NAME"] = mName;
@@ -632,7 +632,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
 				std::string response = gSavedPerAccountSettings.getString(sAutorespondNonFriend && !is_friend
 					? "AlchemyAutoresponseNotFriend"
 					: "AlchemyAutoresponse");
-				response = replace_wildcard(response, from_id, name);
+				response = replace_wildcards(response, from_id, name);
 				pack_instant_message(
 					gMessageSystem,
 					gAgent.getID(),
@@ -754,7 +754,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
 					std::string response = gSavedPerAccountSettings.getString(sAutorespondNonFriend && !is_friend
 						? "AlchemyAutoresponseNotFriend"
 						: "AlchemyAutoresponse");
-					response = replace_wildcard(response, from_id, name);
+					response = replace_wildcards(response, from_id, name);
 					pack_instant_message(gMessageSystem,
 						gAgent.getID(),
 						FALSE,

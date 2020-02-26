@@ -59,5 +59,8 @@ private:
     static void requestOfflineMessagesLegacy();
 };
 
+// Replace wild cards in message strings
+std::string replace_wildcards(std::string input, const LLUUID& id, const std::string& name);
+
 
 #endif  // LL_LLLLIMPROCESSING_H

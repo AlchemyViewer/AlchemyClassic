@@ -520,20 +520,6 @@ void process_layer_data(LLMessageSystem* mesgsys, void** user_data)
 	}
 }
 
-// Replace wild cards in message strings
-std::string replace_wildcards(std::string input, const LLUUID& id, const std::string& name)
-{
-	boost::algorithm::replace_all(input, "#n", name);
-
-	LLSLURL slurl;
-	LLAgentUI::buildSLURL(slurl);
-	boost::algorithm::replace_all(input, "#r", slurl.getSLURLString());
-
-	LLAvatarName av_name;
-	boost::algorithm::replace_all(input, "#d", LLAvatarNameCache::get(id, &av_name) ? av_name.getDisplayName() : name);
-	return input;
-}
-
 void process_derez_ack(LLMessageSystem*, void**)
 {
 	if (gViewerWindow) gViewerWindow->getWindow()->decBusyCount();
@@ -730,6 +716,9 @@ bool join_group_response(const LLSD& notification, const LLSD& response)
 			notification_adjusted = sSavedGroupInvite[id];
 			response_adjusted = sSavedResponse[id];
 		}
+		// Potential memory leak fix
+		sSavedGroupInvite.erase(id);
+		sSavedResponse.erase(id);
 	}
 
 	S32 option = LLNotificationsUtil::getSelectedOption(notification_adjusted, response_adjusted);

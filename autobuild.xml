@@ -416,11 +416,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e76c07e314c1261b9b4b15b5c8d6214b</string>
+              <string>80167c0f53c1c30791e1c71f173d0b97</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/darwin/curl-7.65.3.192281403-darwin-192281403.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/curl/darwin/curl-7.68.0.175-darwin-175.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2198,11 +2198,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>265a1570c0c539724d61f98aa6fe14f4</string>
+              <string>50eeb1d4d135b9bcb733d9f5e039ce49</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/darwin/nghttp2-1.37.0.192270331-darwin-192270331.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/nghttp2/darwin/nghttp2-1.40.0.172-darwin-172.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2564,11 +2564,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1f5a16c4cfa43f4eaa9f0730e5b4aa46</string>
+              <string>8a9a3c6364168b299edd1efe8c22768a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/darwin/openssl-1.1.1c.192261901-darwin-192261901.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/openssl/darwin/openssl-1.1.1d.5-darwin-5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

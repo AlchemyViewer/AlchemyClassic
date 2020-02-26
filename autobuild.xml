@@ -1355,20 +1355,6 @@
         <string>jpeglib</string>
         <key>platforms</key>
         <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>7475e80832d8fece831cb34923cd011a</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/jpeg/darwin/libjpeg_turbo-2.0.1.192261809-darwin-192261809.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
           <key>linux</key>
           <map>
             <key>archive</key>
@@ -1573,6 +1559,20 @@
         <string>libjpeg-turbo</string>
         <key>platforms</key>
         <map>
+          <key>darwin</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>7475e80832d8fece831cb34923cd011a</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-external/jpeg/darwin/libjpeg_turbo-2.0.1.192261809-darwin-192261809.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>

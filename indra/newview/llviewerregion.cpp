@@ -539,6 +539,12 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mHandle(handle),
 	mTimeDilation(1.0f),
 	mWidthScaleFactor(region_width_meters / REGION_WIDTH_METERS),
+mMaxBakes(LLGridManager::getInstance()->isInSecondlife()?
+    LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_NUM_INDICES:
+    LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_LEFT_ARM),
+mMaxTEs(LLGridManager::getInstance()->isInSecondlife()?
+    LLAvatarAppearanceDefines::ETextureIndex::TEX_NUM_INDICES:
+    LLAvatarAppearanceDefines::ETextureIndex::TEX_HEAD_UNIVERSAL_TATTOO),
 	mName(""),
 	mZoning(""),
 	mIsEstateManager(FALSE),
@@ -565,13 +571,7 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mDead(FALSE),
 	mPaused(FALSE),
 	mRegionCacheHitCount(0),
-	mRegionCacheMissCount(0),
-	mMaxBakes(LLGridManager::getInstance()->isInSecondlife()?
-		LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_NUM_INDICES:
-		LLAvatarAppearanceDefines::EBakedTextureIndex::BAKED_LEFT_ARM),
-	mMaxTEs(LLGridManager::getInstance()->isInSecondlife()?
-		LLAvatarAppearanceDefines::ETextureIndex::TEX_NUM_INDICES:
-		LLAvatarAppearanceDefines::ETextureIndex::TEX_HEAD_UNIVERSAL_TATTOO)
+	mRegionCacheMissCount(0)
 {
 	mImpl->mOriginGlobal = from_region_handle(handle); 
 	updateRenderMatrix();

@@ -135,8 +135,7 @@ void LLExperienceCache::importFile(std::istream& istr)
     LLSD experiences = data["experiences"];
 
     LLUUID public_key;
-    LLSD::map_const_iterator it = experiences.beginMap();
-    for (auto it = experiences.beginMap(), end = experiences.endMap(); it != end; ++it)
+    for (LLSD::map_const_iterator it = experiences.beginMap(), end = experiences.endMap(); it != end; ++it)
     {
         public_key.set(it->first);
         mCache[public_key] = it->second;

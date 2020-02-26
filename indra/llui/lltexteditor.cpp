@@ -291,7 +291,6 @@ LLTextEditor::LLTextEditor(const LLTextEditor::Params& p) :
 	setText(p.default_text());
 	
 	mParseOnTheFly = TRUE;
-	mParseHTML = p.read_only;
 }
 
 void LLTextEditor::initFromParams( const LLTextEditor::Params& p)

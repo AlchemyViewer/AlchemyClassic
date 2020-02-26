@@ -3359,7 +3359,6 @@ std::string LLAppViewer::getViewerInfoString(bool default_string) const
 	support << "\n" << LLTrans::getString("AboutOGL", args, default_string);
 	support << "\n\n" << LLTrans::getString("AboutSettings", args, default_string);
 	support << "\n\n" << LLTrans::getString("AboutLibs", args, default_string);
-	support << "\n";
 
 	if (info.has("COMPILER"))
 	{

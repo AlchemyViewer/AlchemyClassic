@@ -46,38 +46,6 @@ RestrainedLove API: [RLV_VERSION]
         width="180" />
     </panel>
     <panel
-      border="true" 
-      label="Credits" 
-      help_topic="about_credits_tab"
-      name="credits_panel">
-      <text
-          follows="top|left|right"
-          height="20"
-          layout="topleft"
-          left="5"
-          name="linden_intro"
-          top="10"
-          width="465"
-          wrap="true">
-Second Life is brought to you by the Lindens, 
-with open source contributions from:
-      </text>
-      <text_editor
-       enabled="false" 
-       follows="top|left"
-       height="340"
-       bg_readonly_color="Transparent"
-       left="5"
-       text_color="LtGray"
-       max_length="65536"
-       name="contrib_names"
-       top_pad="10"
-       width="465"
-       word_wrap="true">
-Dummy Name replaced at run time
-      </text_editor>
-    </panel>
-    <panel
       border="true"
       label="Licenses"
       help_topic="about_licenses_tab"
@@ -126,6 +94,38 @@ Voice chat Audio coding: Polycom(R) Siren14(TM) (ITU-T Rec. G.722.1 Annex C)
       </panel>
     <panel
       border="true" 
+      label="Linden Credits" 
+      help_topic="about_credits_tab"
+      name="credits_panel">
+      <text
+          follows="top|left|right"
+          height="20"
+          layout="topleft"
+          left="5"
+          name="linden_intro"
+          top="10"
+          width="465"
+          wrap="true">
+Second Life is brought to you by the Lindens, 
+with open source contributions from:
+      </text>
+      <text_editor
+       enabled="false" 
+       follows="top|left"
+       height="340"
+       bg_readonly_color="Transparent"
+       left="5"
+       text_color="LtGray"
+       max_length="65536"
+       name="contrib_names"
+       top_pad="10"
+       width="465"
+       word_wrap="true">
+Dummy Name replaced at run time
+      </text_editor>
+    </panel>
+    <panel
+      border="true" 
       label="Alchemy Credits" 
       help_topic="about_alchemy_credits_tab"
       name="alchemy_credits_panel">
@@ -151,8 +151,8 @@ Alchemy Viewer is brought to you by the Alchemy Development Group:
        top_pad="10"
        width="435"
        word_wrap="true">
-Sovereign Engineer, Cinder Roxley, Inusaito Kanya, Luminous Luminos, Electron Electricteeth
-      </text_editor>
+Sovereign Engineer, Luminous Luminos, Cinder Roxley, Inusaito Kanya
+</text_editor>
       <text
           follows="top|left"
           height="10"
@@ -175,7 +175,7 @@ with open source code from:
        top_pad="12"
        width="435"
        word_wrap="true">
-Siana Gearz, Shyotl Kuhr, Xenhat Liamano, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard, Ansariel Hiller, Kitty Barnett, Ayamo Nozaki 
+Siana Gearz, Shyotl Kuhr, Xenhat Liamano, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard, Ansariel Hiller, Kitty Barnett, Ayamo Nozaki, Nicky Dasmijn, Testicular Slingshot, Electron Electricteeth, Latif Khalifa
       </text_editor>
       <text
           follows="top|left"
@@ -198,8 +198,9 @@ and project infrastructure from:
        top_pad="12"
        width="435"
        word_wrap="true">
-Atlassian: Bitbucket, Confluence, Jira, Bamboo
-Coverity: Coverity Scan
+[https://about.gitlab.com/ GitLab] - The best DevOps platform!
+[https://sentry.io/welcome/ Sentry] - Our wonderful crash reporting service provider!
+[https://scan.coverity.com/ Coverity] - It helps us fix bugs and find crashes
       </text_editor>
     </panel>
     </tab_container>

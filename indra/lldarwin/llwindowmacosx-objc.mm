@@ -240,7 +240,7 @@ unsigned long getVramSize(GLViewRef view)
 
 float getDeviceUnitSize(GLViewRef view)
 {
-    return ((__bridge LLOpenGLView*)view).window.backingScaleFactor;
+    return [(__bridge LLOpenGLView*)view convertSizeToBacking:NSMakeSize(1, 1)].width;
 }
 
 void getContentViewBounds(NSWindowRef window, float* bounds)

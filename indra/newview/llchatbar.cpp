@@ -47,7 +47,7 @@
 
 using namespace LLChatUtilities;
 
-class LLChatBarGestureObserver : public LLGestureManagerObserver
+class LLChatBarGestureObserver final : public LLGestureManagerObserver
 {
 public:
 	LLChatBarGestureObserver(LLChatBar* chat_barp) : mChatBar(chat_barp){}
@@ -294,6 +294,7 @@ void LLChatBar::startChat(const char* line)
 		std::string line_string(line);
 		bar->mInputEditor->setText(line_string);
 	}
+	bar->mInputEditor->setCursorToEnd();
 }
 
 // static

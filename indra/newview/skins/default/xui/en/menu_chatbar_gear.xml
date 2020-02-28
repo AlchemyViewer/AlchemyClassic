@@ -8,20 +8,22 @@
    label="Close chat bar on return"
    name="CloseChatBarOnReturn">
     <menu_item_check.on_check
-     control="CloseChatBarOnReturn" />
+     function="CheckControl"
+     parameter="CloseChatBarOnReturn" />
     <menu_item_check.on_click
      function="ToggleControl"
      parameter="CloseChatBarOnReturn" />
   </menu_item_check>
-  <menu_item_check
+  <!-- <menu_item_check
    label="Letter keys open chat"
    name="LetterKeysFocusChatBar">
     <menu_item_check.on_check
-     control="LetterKeysFocusChatBar" />
+     function="CheckControl"
+     parameter="LetterKeysFocusChatBar" />
     <menu_item_check.on_click
      function="ToggleControl"
      parameter="LetterKeysFocusChatBar" />
-  </menu_item_check>
+  </menu_item_check> -->
   <menu_item_separator />
   <menu_item_call
    label="Shout (Control)"

@@ -2180,6 +2180,7 @@ if (DARWIN)
           --artwork=${ARTWORK_DIR}
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
+          --bundleid=${MACOSX_BUNDLE_GUI_IDENTIFIER}
           --channel=${VIEWER_CHANNEL}
           --configuration=${CMAKE_CFG_INTDIR}
           --dest=${VIEWER_APP_BUNDLE}

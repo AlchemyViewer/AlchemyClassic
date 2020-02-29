@@ -15,7 +15,6 @@
   title="ACTIVE RLV LOCKS"
   width="500">
   <panel
-    class="panel_rlvLocks"
     filename="panel_rlv_locks.xml"
     layout="topleft"
     left="9" 

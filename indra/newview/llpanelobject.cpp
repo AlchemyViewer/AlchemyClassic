@@ -373,7 +373,7 @@ void LLPanelObject::getState( )
 	BOOL enable_rotate = enable_move; // already accounts for a case of children, which needs permModify() as well
 
 // [RLVa:KB] - Checked: 2010-03-31 (RLVa-1.2.0c) | Modified: RLVa-1.0.0g
-	if ( (rlv_handler_t::isEnabled()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP))) )
+	if ( (rlv_handler_t::isEnabled()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP))) )
 	{
 		if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == objectp->getRootEdit()) )
 		{

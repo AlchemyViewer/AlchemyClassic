@@ -783,9 +783,9 @@ bool RlvWearableItemCollector::onCollectFolder(const LLInventoryCategory* pFolde
 	{
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		if ( (!RlvSettings::getEnableComposites()) ||							// ... if we're not checking composite folders
-			 (!gRlvHandler.isCompositeFolder(pFolder)) ||						// ... or if it's not a composite folder
-		     ((m_fAttach) && (gRlvHandler.canWearComposite(pFolder))) ||		// ... or if we're attaching and can attach it OR
-			 (!m_fAttach) && (gRlvHandler.canTakeOffComposite(pFolder)) )		// ... or if we're detaching and can detach it
+			 (!RlvHandler::instance().isCompositeFolder(pFolder)) ||						// ... or if it's not a composite folder
+		     ((m_fAttach) && (RlvHandler::instance().canWearComposite(pFolder))) ||		// ... or if we're attaching and can attach it OR
+			 (!m_fAttach) && (RlvHandler::instance().canTakeOffComposite(pFolder)) )		// ... or if we're detaching and can detach it
 		#endif // RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		{
 			m_Wearable.push_front(pFolder->getUUID());
@@ -796,9 +796,9 @@ bool RlvWearableItemCollector::onCollectFolder(const LLInventoryCategory* pFolde
 	#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 	else if ( (RlvSettings::getEnableComposites()) &&
 			  (RLV_FOLDER_PREFIX_HIDDEN == strFolder[0]) &&						// Hidden folder that's a... 
-			  (gRlvHandler.isCompositeFolder(pFolder)) &&						// ... composite folder which we...
-		      ( ((m_fAttach) && (gRlvHandler.canWearComposite(pFolder))) ||		// ... are attaching and can attach OR
-			    (!m_fAttach) && (gRlvHandler.canTakeOffComposite(pFolder)) ) )	// ... are detaching and can detach
+			  (RlvHandler::instance().isCompositeFolder(pFolder)) &&						// ... composite folder which we...
+		      ( ((m_fAttach) && (RlvHandler::instance().canWearComposite(pFolder))) ||		// ... are attaching and can attach OR
+			    (!m_fAttach) && (RlvHandler::instance().canTakeOffComposite(pFolder)) ) )	// ... are detaching and can detach
 	{
 		m_Wearable.push_front(pFolder->getUUID());
 		m_FoldingMap.insert(std::pair<LLUUID, LLUUID>(pFolder->getUUID(), idParent));

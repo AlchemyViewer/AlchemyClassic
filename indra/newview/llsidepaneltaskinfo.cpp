@@ -494,7 +494,7 @@ void LLSidepanelTaskInfo::refresh()
 //	mOwnerNameEditor->setEnabled(TRUE);
 
 // [RLVa:KB] - Checked: 2010-11-01 (RLVa-1.2.2a) | Modified: RLVa-1.2.2a
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWNAMES))
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWNAMES))
 	{
 		// Only anonymize the creator if all of the selection was created by the same avie who's also the owner or they're a nearby avie
 		if ( (creators_identical) && (mCreatorID != gAgent.getID()) && ((mCreatorID == mOwnerID) || (RlvUtil::isNearbyAgent(mCreatorID))) )

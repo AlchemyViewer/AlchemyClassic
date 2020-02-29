@@ -210,7 +210,7 @@ std::string rlvFolderLockSourceToTarget(RlvFolderLocks::folderlock_source_t lock
 // Checked: 2010-04-18 (RLVa-1.3.1c) | Modified: RLVa-1.2.0e
 void RlvFloaterBehaviours::onOpen(const LLSD& sdKey)
 {
-	m_ConnRlvCommand = gRlvHandler.setCommandCallback(boost::bind(&RlvFloaterBehaviours::onCommand, this, _1, _2));
+	m_ConnRlvCommand = RlvHandler::instance().setCommandCallback(boost::bind(&RlvFloaterBehaviours::onCommand, this, _1, _2));
 
 	refreshAll();
 }
@@ -359,7 +359,7 @@ void RlvFloaterBehaviours::refreshAll()
 			if ( (rlvCmd.hasOption()) && (rlvGetShowException(rlvCmd.getBehaviourType())) )
 			{
 				// List under the "Exception" tab
-				sdExceptRow["enabled"] = gRlvHandler.isException(rlvCmd.getBehaviourType(), idOption);
+				sdExceptRow["enabled"] = RlvHandler::instance().isException(rlvCmd.getBehaviourType(), idOption);
 				sdExceptColumns[0]["value"] = rlvCmd.getBehaviour();
 				sdExceptColumns[1]["value"] = strOption;
 				sdExceptColumns[2]["value"] = strIssuer;
@@ -416,7 +416,7 @@ void RlvFloaterBehaviours::refreshAll()
 // Checked: 2010-03-11 (RLVa-1.2.0)
 void RlvFloaterLocks::onOpen(const LLSD& sdKey)
 {
-	m_ConnRlvCommand = gRlvHandler.setCommandCallback(boost::bind(&RlvFloaterLocks::onRlvCommand, this, _1, _2));
+	m_ConnRlvCommand = RlvHandler::instance().setCommandCallback(boost::bind(&RlvFloaterLocks::onRlvCommand, this, _1, _2));
 
 	refreshAll();
 }
@@ -760,7 +760,7 @@ BOOL RlvFloaterConsole::postBuild()
 void RlvFloaterConsole::onClose(bool fQuitting)
 {
 	RlvBehaviourDictionary::instance().clearModifiers(gAgent.getID());
-	gRlvHandler.processCommand(gAgent.getID(), "clear", true);
+	RlvHandler::instance().processCommand(gAgent.getID(), "clear", true);
 }
 
 void RlvFloaterConsole::addCommandReply(const std::string& strCommand, const std::string& strReply)
@@ -796,7 +796,7 @@ void RlvFloaterConsole::onInput(LLUICtrl* pCtrl, const LLSD& sdParam)
 		boost::tokenizer tokens(strInput, boost::char_separator<char>(",", "", boost::drop_empty_tokens));
 		for (std::string strCmd : tokens)
 		{
-			ERlvCmdRet eRet = gRlvHandler.processCommand(gAgent.getID(), strCmd, true);
+			ERlvCmdRet eRet = RlvHandler::instance().processCommand(gAgent.getID(), strCmd, true);
 			if ( RLV_RET_SUCCESS == (eRet & RLV_RET_SUCCESS) )	
 				pstr = &strExecuted;
 			else if ( RLV_RET_FAILED == (eRet & RLV_RET_FAILED) )

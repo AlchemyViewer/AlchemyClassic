@@ -152,7 +152,7 @@ BOOL LLToolPlacer::raycastForNewObjPos( S32 x, S32 y, LLViewerObject** hit_obj, 
 
 // [RLVa:KB] - Checked: 2010-04-11 (RLVa-1.2.0e) | Modified: RLVa-0.2.0f
 	// NOTE: don't use surface_pos_global since for prims it will be the center of the prim while we need center + offset
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_FARTOUCH))
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_FARTOUCH))
 	{
 		static RlvCachedBehaviourModifier<float> s_nFartouchDist(RLV_MODIFIER_FARTOUCHDIST);
 		if (dist_vec_squared(gAgent.getPositionGlobal(), pick.mPosGlobal) > s_nFartouchDist * s_nFartouchDist)
@@ -293,7 +293,7 @@ BOOL LLToolPlacer::addObject( LLPCode pcode, S32 x, S32 y, U8 use_physics )
 	}
 //	if (create_selected)
 // [RLVa:KB] - Checked: 2010-04-11 (RLVa-1.2.0e) | Added: RLVa-1.0.0b
-	if ( (create_selected) && (!gRlvHandler.hasBehaviour(RLV_BHVR_EDIT)) )
+	if ( (create_selected) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_EDIT)) )
 // [/RLVa:KB]
 	{
 		flags |= FLAGS_CREATE_SELECTED;
@@ -556,7 +556,7 @@ BOOL LLToolPlacer::placeObject(S32 x, S32 y, MASK mask)
 	BOOL added = TRUE;
 	
 // [RLVa:KB] - Checked: 2010-03-23 (RLVa-1.2.0e) | Modified: RLVa-1.1.0l
-	if ( (rlv_handler_t::isEnabled()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) || (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT))) )
+	if ( (rlv_handler_t::isEnabled()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT))) )
 	{
 		return TRUE; // Callers seem to expect a "did you handle it?" so we return TRUE rather than FALSE
 	}

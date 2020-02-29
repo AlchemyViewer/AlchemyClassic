@@ -458,7 +458,7 @@ void LLPanelTopInfoBar::onContextMenuItemClicked(const LLSD::String& item)
 	if (item == "landmark")
 	{
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-		if (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 // [/RLVa:KB]
 			LLViewerInventoryItem* landmark = LLLandmarkActions::findLandmarkForAgentPos();
@@ -478,7 +478,7 @@ void LLPanelTopInfoBar::onContextMenuItemClicked(const LLSD::String& item)
 	else if (item == "copy")
 	{
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-		if (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 // [/RLVa:KB]
 			LLSLURL slurl;
@@ -495,7 +495,7 @@ void LLPanelTopInfoBar::onContextMenuItemClicked(const LLSD::String& item)
 void LLPanelTopInfoBar::onInfoButtonClicked()
 {
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		return;
 // [/RLVa:KB]
 

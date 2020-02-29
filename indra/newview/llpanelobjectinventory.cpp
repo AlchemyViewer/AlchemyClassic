@@ -362,7 +362,7 @@ BOOL LLTaskInvFVBridge::isItemMovable() const
 			{
 				return FALSE;
 			}
-			else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP)) )
+			else if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP)) )
 			{
 				if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == pObj->getRootEdit()) )
 					return FALSE;
@@ -383,7 +383,7 @@ BOOL LLTaskInvFVBridge::isItemRemovable() const
 		{
 			return FALSE;
 		}
-		else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP)) )
+		else if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP)) )
 		{
 			if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == object->getRootEdit()) )
 				return FALSE;
@@ -612,8 +612,8 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		{
 			LLViewerObject* pAttachObj = gObjectList.findObject(mPanel->getTaskUUID());
 			bool fLocked = (pAttachObj) ? RlvAttachmentLocks::instance().isLockedAttachment(pAttachObj->getRootEdit()) : false;
-			if ( ((LLAssetType::AT_NOTECARD == item->getType()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_VIEWNOTE)) || (fLocked))) || 
-				 ((LLAssetType::AT_LSL_TEXT == item->getType()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_VIEWSCRIPT)) || (fLocked))) ||
+			if ( ((LLAssetType::AT_NOTECARD == item->getType()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWNOTE)) || (fLocked))) || 
+				 ((LLAssetType::AT_LSL_TEXT == item->getType()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWSCRIPT)) || (fLocked))) ||
 				 ((LLAssetType::AT_TEXTURE == item->getType()) && (!RlvActions::canPreviewTextures())))
 			{
 				disabled_items.emplace_back(std::string("Task Open"));

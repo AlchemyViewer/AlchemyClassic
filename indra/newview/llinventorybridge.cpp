@@ -917,8 +917,8 @@ void LLInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		{
 			const LLInventoryObject* pItem = getInventoryObject();
 			if ( (pItem) &&
-				 ( ((LLAssetType::AT_NOTECARD == pItem->getType()) && (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWNOTE))) ||
-				   ((LLAssetType::AT_LSL_TEXT == pItem->getType()) && (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWSCRIPT))) ||
+				 ( ((LLAssetType::AT_NOTECARD == pItem->getType()) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWNOTE))) ||
+				   ((LLAssetType::AT_LSL_TEXT == pItem->getType()) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWSCRIPT))) ||
 				   ((LLAssetType::AT_TEXTURE == pItem->getType()) && (!RlvActions::canPreviewTextures()))))
 			{
 				disabled_items.push_back(std::string("Open"));

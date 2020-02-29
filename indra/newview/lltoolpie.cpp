@@ -1895,7 +1895,7 @@ BOOL LLToolPie::handleRightClickPick()
 // [RLVa:KB] - Checked: 2010-04-11 (RLVa-1.2.0e) | Modified: RLVa-1.1.0l
 			// Don't show the context menu on empty selection when fartouch restricted [see LLToolSelect::handleObjectSelection()]
 			if ( (!rlv_handler_t::isEnabled()) || (!LLSelectMgr::getInstance()->getSelection()->isEmpty()) ||
-				 (!gRlvHandler.hasBehaviour(RLV_BHVR_FARTOUCH)) )
+				 (!RlvHandler::instance().hasBehaviour(RLV_BHVR_FARTOUCH)) )
 			{
 // [/RLVa:KB]
 				if (is_other_attachment)
@@ -1934,7 +1934,7 @@ BOOL LLToolPie::handleRightClickPick()
 			// Don't show the pie menu on empty selection when fartouch/interaction restricted
 			// (not entirely accurate in case of Tools / Select Only XXX [see LLToolSelect::handleObjectSelection()]
 			if ( (!rlv_handler_t::isEnabled()) || (!LLSelectMgr::getInstance()->getSelection()->isEmpty()) ||
-				 (!gRlvHandler.hasBehaviour(RLV_BHVR_FARTOUCH)) )
+				 (!RlvHandler::instance().hasBehaviour(RLV_BHVR_FARTOUCH)) )
 			{
 // [/RLVa:KB]
 				gMenuObject->show(x, y);

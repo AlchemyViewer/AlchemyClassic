@@ -397,7 +397,7 @@ std::string LLSLURL::getSLURLString() const
 //				LLURI::escape(mRegion) + llformat("/%d/%d/%d",x,y,z); 
 // [RLVa:KB] - Checked: 2010-04-05 (RLVa-1.2.0d) | Added: RLVa-1.2.0d
 				return LLGridManager::getInstance()->getSLURLBase(mGrid) +
-					( ((!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)) || (!RlvUtil::isNearbyRegion(mRegion)))
+					( ((!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)) || (!RlvUtil::isNearbyRegion(mRegion)))
 						? (LLURI::escape(mRegion) + llformat("/%d/%d/%d",x,y,z)) : RlvStrings::getString(RLV_STRING_HIDDEN_REGION) );
 // [/RLVa:KB]
 			}

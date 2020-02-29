@@ -683,7 +683,7 @@ void LLLandmarksPanel::onAddAction(const LLSD& userdata) const
 	if("add_landmark" == command_name)
 	{
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-		if (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 // [/RLVa:KB]
 			LLViewerInventoryItem* landmark = LLLandmarkActions::findLandmarkForAgentPos();
@@ -959,7 +959,7 @@ bool LLLandmarksPanel::isActionEnabled(const LLSD& userdata) const
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
 	else if("add_landmark" == command_name)
 	{
-		return !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC);
+		return !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC);
 	}
 // [/RLVa:KB]
 	else

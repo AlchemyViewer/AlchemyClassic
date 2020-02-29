@@ -2593,7 +2593,7 @@ void LLFace::setDefaultTexture(U32 nChannel, bool fShowDefault) const
 			else
 				mOrigDiffTexture = mTexture[nChannel];	// Cache the original texture
 
-			if ( (!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_TEXTURES)) || (!mVObjp->isAttachment()) )
+			if ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_TEXTURES)) || (!mVObjp->isAttachment()) )
 			{
 				if (LL_PCODE_VOLUME == mVObjp->getPCode())
 					const_cast<LLFace*>(this)->switchTexture(nChannel, LLViewerFetchedTexture::sDefaultDiffuseImagep);

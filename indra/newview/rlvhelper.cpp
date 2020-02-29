@@ -1180,10 +1180,10 @@ void RlvForceWear::forceFolder(const LLViewerInventoryCategory* pFolder, EWearAc
 							LLViewerInventoryCategory* pCompositeFolder = NULL;
 							if ( (pAttachPt->getObject()) && (RlvSettings::getEnableComposites()) && 
 								 (pAttachPt->getItemID() != pItem->getUUID()) &&
-								 (gRlvHandler.getCompositeInfo(pAttachPt->getItemID(), NULL, &pCompositeFolder)) )
+								 (RlvHandler::instance().getCompositeInfo(pAttachPt->getItemID(), NULL, &pCompositeFolder)) )
 							{
 								// If we can't take off the composite folder this item would replace then don't allow it to get attached
-								if (gRlvHandler.canTakeOffComposite(pCompositeFolder))
+								if (RlvHandler::instance().canTakeOffComposite(pCompositeFolder))
 								{
 									forceFolder(pCompositeFolder, ACTION_DETACH, FLAG_DEFAULT);
 									addAttachment(pRlvItem);
@@ -1242,7 +1242,7 @@ bool RlvForceWear::isForceDetachable(const LLViewerObject* pAttachObj, bool fChe
 		&& (isStrippable(pAttachObj->getAttachmentItemID()))
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		&& ( (!fCheckComposite) || (!RlvSettings::getEnableComposites()) || 
-	         (!gRlvHandler.getCompositeInfo(pAttachPt->getItemID(), NULL, &pFolder)) || (gRlvHandler.canTakeOffComposite(pFolder)) )
+	         (!RlvHandler::instance().getCompositeInfo(pAttachPt->getItemID(), NULL, &pFolder)) || (RlvHandler::instance().canTakeOffComposite(pFolder)) )
 		#endif // RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 	  );
 }
@@ -1272,10 +1272,10 @@ void RlvForceWear::forceDetach(const LLViewerObject* pAttachObj)
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		LLViewerInventoryCategory* pFolder = NULL;
 		if ( (RlvSettings::getEnableComposites()) && 
-			 (gRlvHandler.getCompositeInfo(pAttachPt->getItemID(), NULL, &pFolder)) )
+			 (RlvHandler::instance().getCompositeInfo(pAttachPt->getItemID(), NULL, &pFolder)) )
 		{
 			// Attachment belongs to a composite folder so detach the entire folder (if we can take it off)
-			if (gRlvHandler.canTakeOffComposite(pFolder))
+			if (RlvHandler::instance().canTakeOffComposite(pFolder))
 				forceFolder(pFolder, ACTION_DETACH, FLAG_DEFAULT);
 		}
 		else
@@ -1315,7 +1315,7 @@ bool RlvForceWear::isForceRemovable(const LLViewerWearable* pWearable, bool fChe
 		&& (isStrippable(pWearable->getItemID()))
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		&& ( (!fCheckComposite) || (!RlvSettings::getEnableComposites()) || 
-		     (!gRlvHandler.getCompositeInfo(pWearable->getItemID(), NULL, &pFolder)) || (gRlvHandler.canTakeOffComposite(pFolder)) )
+		     (!RlvHandler::instance().getCompositeInfo(pWearable->getItemID(), NULL, &pFolder)) || (RlvHandler::instance().canTakeOffComposite(pFolder)) )
 		#endif // RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 	  );
 }
@@ -1342,10 +1342,10 @@ void RlvForceWear::forceRemove(const LLViewerWearable* pWearable)
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		LLViewerInventoryCategory* pFolder = NULL;
 		if ( (RlvSettings::getEnableComposites()) && 
-			 (gRlvHandler.getCompositeInfo(gAgent.getWearableItem(wtType), NULL, &pFolder)) )
+			 (RlvHandler::instance().getCompositeInfo(gAgent.getWearableItem(wtType), NULL, &pFolder)) )
 		{
 			// Wearable belongs to a composite folder so detach the entire folder (if we can take it off)
-			if (gRlvHandler.canTakeOffComposite(pFolder))
+			if (RlvHandler::instance().canTakeOffComposite(pFolder))
 				forceFolder(pFolder, ACTION_DETACH, FLAG_DEFAULT);
 		}
 		else
@@ -1676,7 +1676,7 @@ void RlvForceWear::onWearableArrived(LLWearable* pWearable, void* pParam)
 			}
 		}
 		if ( (idItem.notNull()) && (idItem != gAgent.getWearableItem(pWearable->getType())) && 
-			 (gRlvHandler.getCompositeInfo(gAgent.getWearableItem(pWearable->getType()), NULL, &pFolder)) )
+			 (RlvHandler::instance().getCompositeInfo(gAgent.getWearableItem(pWearable->getType()), NULL, &pFolder)) )
 		{
 			RlvForceWear rlvWear;
 			rlvWear.forceFolder(pFolder, ACTION_DETACH, FLAG_DEFAULT);
@@ -1698,7 +1698,7 @@ RlvBehaviourNotifyHandler::RlvBehaviourNotifyHandler()
 {
 	// NOTE: the reason we use rlv_command_signal_t instead of the better-suited rlv_behaviour_signal_t is because
 	//       RLV will notify scripts about "invalid" commands so we need to as well
-	m_ConnCommand = gRlvHandler.setCommandCallback(boost::bind(&RlvBehaviourNotifyHandler::onCommand, this, _1, _2, _3));
+	m_ConnCommand = RlvHandler::instance().setCommandCallback(boost::bind(&RlvBehaviourNotifyHandler::onCommand, this, _1, _2, _3));
 }
 
 // Checked: 2010-03-03 (RLVa-1.2.0a) | Modified: RLVa-1.2.0a
@@ -1775,9 +1775,9 @@ void RlvBehaviourNotifyHandler::onReattach(const LLViewerJointAttachment* pAttac
 // Checked: 2010-03-13 (RLVa-1.2.0a) | Modified: RLVa-1.2.0a
 BOOL RlvGCTimer::tick()
 {
-	bool fContinue = gRlvHandler.onGC();
+	bool fContinue = RlvHandler::instance().onGC();
 	if (!fContinue)
-		gRlvHandler.m_pGCTimer = NULL;
+		RlvHandler::instance().m_pGCTimer = NULL;
 	return !fContinue;
 }
 

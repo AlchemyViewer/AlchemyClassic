@@ -32,15 +32,11 @@
 
 // ============================================================================
 
-class RlvHandler : public LLOldEvents::LLSimpleListener, public LLParticularGroupObserver
+class RlvHandler final : public LLSingleton<RlvHandler>, public LLOldEvents::LLSimpleListener, public LLParticularGroupObserver
 {
-	// Temporary LLSingleton look-alike
-public:
-	static RlvHandler& instance();
-	static RlvHandler* getInstance();
+	LLSINGLETON(RlvHandler);
 
 public:
-	RlvHandler();
 	~RlvHandler();
 
 	// --------------------------------
@@ -281,21 +277,10 @@ public:
 };
 
 typedef RlvHandler rlv_handler_t;
-extern rlv_handler_t gRlvHandler;
 
 // ============================================================================
 // Inlined member functions
 //
-
-inline RlvHandler& RlvHandler::instance()
-{
-	return gRlvHandler;
-}
-
-inline RlvHandler* RlvHandler::getInstance()
-{
-	return &gRlvHandler;
-}
 
 inline bool RlvHandler::hasBehaviour(ERlvBehaviour eBhvr, const std::string& strOption) const
 {

@@ -2826,14 +2826,14 @@ void LLFloaterPreference::refreshEnabledStateGraphics()
 	// "Basic Shaders" can't be disabled - but can be enabled - under @setenv=n
 	bool fCtrlShaderEnable = LLFeatureManager::getInstance()->isFeatureAvailable("VertexShaderEnable");
 	ctrl_shader_enable->setEnabled(
-		fCtrlShaderEnable && ((!gRlvHandler.hasBehaviour(RLV_BHVR_SETENV)) || (!gSavedSettings.getBOOL("VertexShaderEnable"))));
+		fCtrlShaderEnable && ((!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETENV)) || (!gSavedSettings.getBOOL("VertexShaderEnable"))));
 	// [/RLVa:KB]
 
 	// [RLVa:KB] - Checked: 2010-03-18 (RLVa-1.2.0a) | Modified: RLVa-0.2.0a
 		// "Atmospheric Shaders" can't be disabled - but can be enabled - under @setenv=n
 	bool fCtrlWindLightEnable = fCtrlShaderEnable && shaders;
 	ctrl_wind_light->setEnabled(
-		fCtrlWindLightEnable && ((!gRlvHandler.hasBehaviour(RLV_BHVR_SETENV)) || (!gSavedSettings.getBOOL("WindLightUseAtmosShaders"))));
+		fCtrlWindLightEnable && ((!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETENV)) || (!gSavedSettings.getBOOL("WindLightUseAtmosShaders"))));
 	// [/RLVa:KB]
 
 	// *HACK just checks to see if we can use shaders... 

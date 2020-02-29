@@ -195,14 +195,14 @@ void LLAgentListener::requestSit(LLSD const & event_data) const
     if (object && object->getPCode() == LL_PCODE_VOLUME)
     {
 // [RLVa:KB] - Checked: 2010-08-29 (RLVa-1.2.1c) | Added: RLVa-1.2.1c
-		if ( (gRlvHandler.hasBehaviour(RLV_BHVR_STANDTP)) && (isAgentAvatarValid()) )
+		if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_STANDTP)) && (isAgentAvatarValid()) )
 		{
 			if (gAgentAvatarp->isSitting())
 			{
 				gAgent.standUp();
 				return;
 			}
-			gRlvHandler.setSitSource(gAgent.getPositionGlobal());
+			RlvHandler::instance().setSitSource(gAgent.getPositionGlobal());
 		}
 // [/RLVa:KB]
 

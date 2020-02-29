@@ -4162,7 +4162,7 @@ LLViewerObject* LLViewerWindow::cursorIntersect(S32 mouse_x, S32 mouse_y, F32 de
 		}
 
 // [RLVa:KB] - Checked: RLVa-1.2.0
-		if ( (found) && ((gTeleportDisplay) || ((rlv_handler_t::isEnabled()) && (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT)))) )
+		if ( (found) && ((gTeleportDisplay) || ((rlv_handler_t::isEnabled()) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT)))) )
 		{
 			// Allow picking if:
 			//   - the drag-and-drop tool is active (allows inventory offers)
@@ -5662,9 +5662,9 @@ void LLPickInfo::fetchResults()
 	mPickPt = mMousePt;
 
 // [RLVa:KB] - Checked: RLVa-2.2 (@setoverlay)
-	if ( (gRlvHandler.isEnabled()) && (hit_object) && (!hit_object->isHUDAttachment()) )
+	if ( (RlvHandler::instance().isEnabled()) && (hit_object) && (!hit_object->isHUDAttachment()) )
 	{
-		if (gRlvHandler.hitTestOverlay(mMousePt))
+		if (RlvHandler::instance().hitTestOverlay(mMousePt))
 		{
 			hit_object = nullptr;
 		}

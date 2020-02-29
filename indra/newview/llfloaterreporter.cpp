@@ -345,7 +345,7 @@ void LLFloaterReporter::getObjectInfo(const LLUUID& object_id)
 				getChild<LLUICtrl>("sim_field")->setValue(regionp->getName());
 // [RLVa:KB] - Checked: 2009-07-04 (RLVa-1.0.0a)
 /*
-				if ( (rlv_handler_t::isEnabled()) && (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)) )
+				if ( (rlv_handler_t::isEnabled()) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)) )
 				{
 					childSetText("sim_field", RlvStrings::getString(RLV_STRING_HIDDEN_REGION));
 				}

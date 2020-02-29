@@ -1171,7 +1171,7 @@ void LLAgentCamera::updateCamera()
 
 // [RLVa:KB] - Checked: RLVa-2.0.0
 	// Set focus back on our avie if something changed it
-	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_UNLOCK)) && ((cameraThirdPerson()) || (cameraFollow())) && (!getFocusOnAvatar()) )
+	if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_UNLOCK)) && ((cameraThirdPerson()) || (cameraFollow())) && (!getFocusOnAvatar()) )
 	{
 		setFocusOnAvatar(TRUE, FALSE);
 	}

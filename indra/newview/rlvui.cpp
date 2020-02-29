@@ -41,7 +41,7 @@
 RlvUIEnabler::RlvUIEnabler()
 {
 	// Connect us to the behaviour toggle signal
-	gRlvHandler.setBehaviourToggleCallback(boost::bind(&RlvUIEnabler::onBehaviourToggle, this, _1, _2));
+	RlvHandler::instance().setBehaviourToggleCallback(boost::bind(&RlvUIEnabler::onBehaviourToggle, this, _1, _2));
 
 	// onRefreshHoverText()
 	m_Handlers.insert(std::pair<ERlvBehaviour, behaviour_handler_t>(RLV_BHVR_SHOWLOC, boost::bind(&RlvUIEnabler::onRefreshHoverText, this)));
@@ -97,11 +97,11 @@ void RlvUIEnabler::onRefreshHoverText()
 // Checked: 2010-03-02 (RLVa-1.4.0a) | Modified: RLVa-1.4.0a
 void RlvUIEnabler::onToggleMovement()
 {
-	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_FLY)) && (gAgent.getFlying()) )
+	if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_FLY)) && (gAgent.getFlying()) )
 		gAgent.setFlying(FALSE);
-	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_ALWAYSRUN)) && (gAgent.getAlwaysRun()) )
+	if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_ALWAYSRUN)) && (gAgent.getAlwaysRun()) )
 		gAgent.clearAlwaysRun();
-	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_TEMPRUN)) && (gAgent.getTempRun()) )
+	if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_TEMPRUN)) && (gAgent.getTempRun()) )
 		gAgent.clearTempRun();
 
 	// Force an update since the status only updates when the current parcel changes [see LLFloaterMove::postBuild()]
@@ -111,7 +111,7 @@ void RlvUIEnabler::onToggleMovement()
 // Checked: 2010-04-22 (RLVa-1.2.0f) | Modified: RLVa-1.2.0f
 void RlvUIEnabler::onToggleShowLoc()
 {
-	bool fEnable = !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC);
+	bool fEnable = !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC);
 
 	if (LLNavigationBar::instanceExists())
 		LLNavigationBar::instance().refreshLocationCtrl();
@@ -178,7 +178,7 @@ void RlvUIEnabler::onToggleShowLoc()
 // Checked: 2010-02-28 (RLVa-1.4.0a) | Added: RLVa-1.2.0a
 void RlvUIEnabler::onToggleShowMinimap()
 {
-	bool fEnable = !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWMINIMAP);
+	bool fEnable = !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWMINIMAP);
 
 	// Start or stop filtering showing the mini-map floater
 	if (!fEnable)
@@ -209,7 +209,7 @@ void RlvUIEnabler::onToggleShowMinimap()
 // Checked: 2010-02-28 (RLVa-1.4.0a) | Added: RLVa-1.2.0a
 void RlvUIEnabler::onToggleShowWorldMap()
 {
-	bool fEnable = !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWWORLDMAP);
+	bool fEnable = !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWWORLDMAP);
 
 	// Hide the world map if it's currently visible
 	if ( (!fEnable) && (LLFloaterReg::instanceVisible("world_map")) )
@@ -229,13 +229,13 @@ void RlvUIEnabler::onToggleTp()
 	LLButton* pNavBarHomeBtn = LLNavigationBar::getInstance()->findChild<LLButton>("home_btn");
 	RLV_ASSERT(pNavBarHomeBtn);
 	if (pNavBarHomeBtn)
-		pNavBarHomeBtn->setEnabled(!(gRlvHandler.hasBehaviour(RLV_BHVR_TPLM) && gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC)));
+		pNavBarHomeBtn->setEnabled(!(RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLM) && RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLOC)));
 }
 
 // Checked: 2010-03-01 (RLVa-1.2.0c) | Added: RLVa-1.2.0a
 void RlvUIEnabler::onToggleUnsit()
 {
-	bool fEnable = !gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT);
+	bool fEnable = !RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT);
 
 	LLPanelStandStopFlying* pPanelStand = LLPanelStandStopFlying::getInstance();
 	RLV_ASSERT(pPanelStand);
@@ -252,8 +252,8 @@ void RlvUIEnabler::onToggleUnsit()
 void RlvUIEnabler::onToggleViewXXX()
 {
 	// If any of the three are still active then we keep filtering
-	bool fHasViewXXX = (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWNOTE)) ||
-		(gRlvHandler.hasBehaviour(RLV_BHVR_VIEWSCRIPT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWTEXTURE));
+	bool fHasViewXXX = (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWNOTE)) ||
+		(RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWSCRIPT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWTEXTURE));
 
 	// Start or stop filtering opening the preview floaters
 	if ( (fHasViewXXX) && (!m_ConnFloaterViewXXX.connected()) )
@@ -327,17 +327,17 @@ bool RlvUIEnabler::filterPanelShowLoc(const std::string& strFloater, const std::
 // Checked: 2010-03-01 (RLVa-1.2.0b) | Added: RLVa-1.2.0a
 bool RlvUIEnabler::filterFloaterViewXXX(const std::string& strName, const LLSD&)
 {
-	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWNOTE)) && ("preview_notecard" == strName) )
+	if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWNOTE)) && ("preview_notecard" == strName) )
 	{
 		RlvUtil::notifyBlockedViewXXX(LLAssetType::AT_NOTECARD);
 		return false;
 	}
-	else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWSCRIPT)) && (("preview_script" == strName) || ("preview_scriptedit" == strName)) )
+	else if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWSCRIPT)) && (("preview_script" == strName) || ("preview_scriptedit" == strName)) )
 	{
 		RlvUtil::notifyBlockedViewXXX(LLAssetType::AT_SCRIPT);
 		return false;
 	}
-	else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_VIEWTEXTURE)) && ("preview_texture" == strName) )
+	else if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWTEXTURE)) && ("preview_texture" == strName) )
 	{
 		RlvUtil::notifyBlockedViewXXX(LLAssetType::AT_TEXTURE);
 		return false;
@@ -351,8 +351,8 @@ bool RlvUIEnabler::filterFloaterViewXXX(const std::string& strName, const LLSD&)
 bool RlvUIEnabler::canViewParcelProperties()
 {
 	// We'll allow "About Land" as long as the user has the ability to return prims (through ownership or through group powers)
-	bool fShow = !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC);
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+	bool fShow = !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC);
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 	{
 		// RELEASE-RLVa: [SL-3.2] Check that opening the "About Land" floater still sets focus to the current parcel is none is selected
 		const LLParcel* pParcel = NULL;
@@ -397,8 +397,8 @@ bool RlvUIEnabler::canViewParcelProperties()
 bool RlvUIEnabler::canViewRegionProperties()
 {
 	// We'll allow "Region / Estate" if the user is either the region owner or an estate manager
-	bool fShow = !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC);
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+	bool fShow = !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC);
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 	{
 		// [See LLRegion::canManageEstate() but without the "god-like" exception]
 		const LLViewerRegion* pRegion = gAgent.getRegion();

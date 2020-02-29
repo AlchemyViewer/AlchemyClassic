@@ -2485,15 +2485,15 @@ void process_chat_from_simulator(LLMessageSystem* msg, void** user_data)
 			{
 				bool fIsEmote = RlvUtil::isEmote(mesg);
 				if ((!fIsEmote) &&
-					(((gRlvHandler.hasBehaviour(RLV_BHVR_RECVCHAT)) && (!gRlvHandler.isException(RLV_BHVR_RECVCHAT, from_id))) ||
-					 ((gRlvHandler.hasBehaviour(RLV_BHVR_RECVCHATFROM)) && (gRlvHandler.isException(RLV_BHVR_RECVCHATFROM, from_id))) ))
+					(((RlvHandler::instance().hasBehaviour(RLV_BHVR_RECVCHAT)) && (!RlvHandler::instance().isException(RLV_BHVR_RECVCHAT, from_id))) ||
+					 ((RlvHandler::instance().hasBehaviour(RLV_BHVR_RECVCHATFROM)) && (RlvHandler::instance().isException(RLV_BHVR_RECVCHATFROM, from_id))) ))
 				{
-					if ( (gRlvHandler.filterChat(mesg, false)) && (!gSavedSettings.getBOOL("RestrainedLoveShowEllipsis")) )
+					if ( (RlvHandler::instance().filterChat(mesg, false)) && (!gSavedSettings.getBOOL("RestrainedLoveShowEllipsis")) )
 						return;
 				}
 				else if ((fIsEmote) &&
-					     (((gRlvHandler.hasBehaviour(RLV_BHVR_RECVEMOTE)) && (!gRlvHandler.isException(RLV_BHVR_RECVEMOTE, from_id))) ||
-					      ((gRlvHandler.hasBehaviour(RLV_BHVR_RECVEMOTEFROM)) && (gRlvHandler.isException(RLV_BHVR_RECVEMOTEFROM, from_id))) ))
+					     (((RlvHandler::instance().hasBehaviour(RLV_BHVR_RECVEMOTE)) && (!RlvHandler::instance().isException(RLV_BHVR_RECVEMOTE, from_id))) ||
+					      ((RlvHandler::instance().hasBehaviour(RLV_BHVR_RECVEMOTEFROM)) && (RlvHandler::instance().isException(RLV_BHVR_RECVEMOTEFROM, from_id))) ))
  				{
 					if (!gSavedSettings.getBOOL("RestrainedLoveShowEllipsis"))
 						return;
@@ -2604,7 +2604,7 @@ void process_chat_from_simulator(LLMessageSystem* msg, void** user_data)
 					{
 						std::string strCmd = *itToken;
 
-						ERlvCmdRet eRet = gRlvHandler.processCommand(from_id, strCmd, true);
+						ERlvCmdRet eRet = RlvHandler::instance().processCommand(from_id, strCmd, true);
 						if ( (RlvSettings::getDebug()) &&
 							 ( (!RlvSettings::getDebugHideUnsetDup()) || 
 							   ((RLV_RET_SUCCESS_UNSET != eRet) && (RLV_RET_SUCCESS_DUPLICATE != eRet)) ) )
@@ -2816,7 +2816,7 @@ void process_teleport_start(LLMessageSystem* msg, void**)
 	LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 //	if (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL)
 // [RLVa:KB] - Checked: 2010-04-07 (RLVa-1.2.0d) | Added: RLVa-0.2.0b
-	if ( (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL) || (!gRlvHandler.getCanCancelTp()) )
+	if ( (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL) || (!RlvHandler::instance().getCanCancelTp()) )
 // [/RLVa:KB]
 	{
 		pProgFloater->setProgressCancelButtonVisible(FALSE);
@@ -2866,7 +2866,7 @@ void process_teleport_progress(LLMessageSystem* msg, void**)
 	LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 //	if (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL)
 // [RLVa:KB] - Checked: 2010-04-07 (RLVa-1.2.0d) | Added: RLVa-0.2.0b
-	if ( (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL) || (!gRlvHandler.getCanCancelTp()) )
+	if ( (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL) || (!RlvHandler::instance().getCanCancelTp()) )
 // [/RLVa:KB]
 	{
 		pProgFloater->setProgressCancelButtonVisible(FALSE);
@@ -5712,7 +5712,7 @@ void notify_cautioned_script_question(const LLSD& notification, const LLSD& resp
 		}
 
 // [RLVa:KB] - Checked: 2010-04-23 (RLVa-1.2.0g) | Modified: RLVa-1.0.0a
-		if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 			notice.setArg("[REGIONNAME]", RlvStrings::getString(RLV_STRING_HIDDEN_REGION));
 			notice.setArg("[REGIONPOS]", RlvStrings::getString(RLV_STRING_HIDDEN));
@@ -6052,7 +6052,7 @@ void process_script_question(LLMessageSystem* msg, void** user_data)
 			{
 				RlvUtil::filterScriptQuestions(questions, payload);
 
-				if ( (questions) && (gRlvHandler.hasBehaviour(RLV_BHVR_ACCEPTPERMISSION)) )
+				if ( (questions) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_ACCEPTPERMISSION)) )
 				{
 					const LLViewerObject* pObj = gObjectList.findObject(taskid);
 					if (pObj)
@@ -6452,7 +6452,7 @@ void send_lures(const LLSD& notification, const LLSD& response)
 // [RLVa:KB] - Checked: RLVa-2.0.0
 	// Filter the lure message if any of the recipients are IM-blocked
 	const LLSD& sdRecipients = notification["payload"]["ids"];
-	if ( (gRlvHandler.isEnabled()) && 
+	if ( (RlvHandler::instance().isEnabled()) && 
 	     (std::any_of(sdRecipients.beginArray(), sdRecipients.endArray(), [](const LLSD& id) { return !RlvActions::canStartIM(id.asUUID()) || !RlvActions::canSendIM(id.asUUID()); })) )
 	{
 		text = RlvStrings::getString(RLV_STRING_HIDDEN);
@@ -6551,7 +6551,7 @@ void handle_lure(const uuid_vec_t& ids)
 
 	LLSD edit_args;
 // [RLVa:KB] - Checked: 2010-04-07 (RLVa-1.2.0d) | Modified: RLVa-1.0.0a
-	edit_args["REGION"] = (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)) ? gAgent.getRegion()->getName() : RlvStrings::getString(RLV_STRING_HIDDEN);
+	edit_args["REGION"] = (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)) ? gAgent.getRegion()->getName() : RlvStrings::getString(RLV_STRING_HIDDEN);
 // [/RLVa:KB]
 //	edit_args["REGION"] = gAgent.getRegion()->getName();
 
@@ -6561,10 +6561,10 @@ void handle_lure(const uuid_vec_t& ids)
 	for (const LLUUID& idAgent : ids)
 	{
 		// Only allow offering teleports if everyone is a @tplure exception or able to map this avie under @showloc=n
-		if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 			const LLRelationship* pBuddyInfo = LLAvatarTracker::instance().getBuddyInfo(idAgent);
-			if ( (!gRlvHandler.isException(RLV_BHVR_TPLURE, idAgent, RLV_CHECK_PERMISSIVE)) &&
+			if ( (!RlvHandler::instance().isException(RLV_BHVR_TPLURE, idAgent, RLV_CHECK_PERMISSIVE)) &&
 				 ((!pBuddyInfo) || (!pBuddyInfo->isOnline()) || (!pBuddyInfo->isRightGrantedTo(LLRelationship::GRANT_MAP_LOCATION))) )
 			{
 				RlvUtil::notifyBlocked(RLV_STRING_BLOCKED_TELEPORT_OFFER);

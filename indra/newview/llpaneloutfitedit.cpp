@@ -625,7 +625,7 @@ void LLPanelOutfitEdit::toggleAddWearablesPanel()
 void LLPanelOutfitEdit::showAddWearablesPanel(bool show_add_wearables)
 {
 // [RLVa:KB] - Checked: 2010-09-16 (RLVa-1.2.1a) | Added: RLVa-1.2.1a
-	show_add_wearables = (show_add_wearables) && (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWINV));
+	show_add_wearables = (show_add_wearables) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWINV));
 // [/RLVa:KB]
 
 	mAddWearablesPanel->setVisible(show_add_wearables);

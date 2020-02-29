@@ -1189,8 +1189,8 @@ void LLVOAvatarSelf::updateAttachmentVisibility(U32 camera_mode)
 			if (rlv_handler_t::isEnabled())
 			{
 				fRlvCanShowAttachment =
-					(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWSELF)) &&
-					( (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWSELFHEAD)) || (RLV_ATTACHGROUP_HEAD != rlvAttachGroupFromIndex(attachment->getGroup())) );
+					(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWSELF)) &&
+					( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWSELFHEAD)) || (RLV_ATTACHGROUP_HEAD != rlvAttachGroupFromIndex(attachment->getGroup())) );
 			}
 // [/RLVa:KB]
 
@@ -1372,7 +1372,7 @@ const LLViewerJointAttachment *LLVOAvatarSelf::attachObject(LLViewerObject *view
 		if (rlv_handler_t::isEnabled())
 		{
 			RlvAttachmentLockWatchdog::instance().onAttach(viewer_object, attachment);
-			gRlvHandler.onAttach(viewer_object, attachment);
+			RlvHandler::instance().onAttach(viewer_object, attachment);
 
 			if ( (attachment->getIsHUDAttachment()) && (!RlvAttachmentLocks::instance().hasLockedHUD()) )
 				RlvAttachmentLocks::instance().updateLockedHUD();
@@ -1398,7 +1398,7 @@ BOOL LLVOAvatarSelf::detachObject(LLViewerObject *viewer_object)
 			if (pAttachPt->isObjectAttached(viewer_object))
 			{
 				RlvAttachmentLockWatchdog::instance().onDetach(viewer_object, pAttachPt);
-				gRlvHandler.onDetach(viewer_object, pAttachPt);
+				RlvHandler::instance().onDetach(viewer_object, pAttachPt);
 			}
 			if (mAttachmentSignal)
 			{

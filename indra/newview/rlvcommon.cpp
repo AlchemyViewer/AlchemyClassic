@@ -139,7 +139,7 @@ void RlvSettings::updateLoginLastLocation()
 {
 	if ( (!LLApp::isQuitting()) && (gSavedPerAccountSettings.controlExists(RLV_SETTING_LOGINLASTLOCATION)) )
 	{
-		BOOL fValue = (gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC)) || (!RlvActions::canStand());
+		BOOL fValue = (RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLOC)) || (!RlvActions::canStand());
 		if (gSavedPerAccountSettings.getBOOL(RLV_SETTING_LOGINLASTLOCATION) != fValue)
 		{
 			gSavedPerAccountSettings.setBOOL(RLV_SETTING_LOGINLASTLOCATION, fValue);
@@ -523,7 +523,7 @@ void RlvUtil::filterScriptQuestions(S32& nQuestions, LLSD& sdPayload)
 	}
 
 	// Check SCRIPT_PERMISSION_TELEPORT
-	if ((gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC)) && (SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_TELEPORT].permbit & nQuestions))
+	if ((RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLOC)) && (SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_TELEPORT].permbit & nQuestions))
 	{
 		// Notify the user that we blocked it since they're not allowed to teleport
 		sdPayload["rlv_blocked"] = RLV_STRING_BLOCKED_PERMTELEPORT;
@@ -734,7 +734,7 @@ bool rlvMenuEnableIfNot(const LLSD& sdParam)
 	if (rlv_handler_t::isEnabled())
 	{
 		ERlvBehaviour eBhvr = RlvBehaviourDictionary::instance().getBehaviourFromString(sdParam.asString(), RLV_TYPE_ADDREM);
-		fEnable = (eBhvr != RLV_BHVR_UNKNOWN) ? !gRlvHandler.hasBehaviour(eBhvr) : true;
+		fEnable = (eBhvr != RLV_BHVR_UNKNOWN) ? !RlvHandler::instance().hasBehaviour(eBhvr) : true;
 	}
 	return fEnable;
 }
@@ -748,14 +748,14 @@ bool rlvCanDeleteOrReturn(const LLViewerObject* pObj)
 {
 	// Block if: @rez=n restricted and owned by us or a group *or* @unsit=n restricted and being sat on by us
 	return
-		( (!gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) || ((!pObj->permYouOwner()) && (!pObj->permGroupOwner())) ) &&
-		( (!gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (!isAgentAvatarValid()) || (!pObj->getRootEdit()->isChild(gAgentAvatarp)) );
+		( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) || ((!pObj->permYouOwner()) && (!pObj->permGroupOwner())) ) &&
+		( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (!isAgentAvatarValid()) || (!pObj->getRootEdit()->isChild(gAgentAvatarp)) );
 }
 
 // Checked: 2011-05-28 (RLVa-1.4.6) | Modified: RLVa-1.4.0
 bool rlvCanDeleteOrReturn()
 {
-	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) || (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) )
+	if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) )
 	{
 		struct RlvCanDeleteOrReturn final : public LLSelectedObjectFunctor
 		{
@@ -894,7 +894,7 @@ BOOL rlvEnableSharedWearEnabler(void* pParam)
 {
 	return false;
 	// Visually disable the "Enable Shared Wear" option when at least one attachment is non-detachable
-	return (!gRlvHandler.hasLockedAttachment(RLV_LOCK_REMOVE));
+	return (!RlvHandler::instance().hasLockedAttachment(RLV_LOCK_REMOVE));
 }
 */
 

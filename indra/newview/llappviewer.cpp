@@ -491,7 +491,7 @@ void idle_afk_check()
 	static LLCachedControl<S32> afk_timeout_cc(gSavedSettings, "AFKTimeout");
 // [RLVa:KB] - Checked: 2010-05-03 (RLVa-1.2.0g) | Modified: RLVa-1.2.0g
 	// Enforce an idle time of 30 minutes if @allowidle=n restricted
-	F32 afk_timeout = (!gRlvHandler.hasBehaviour(RLV_BHVR_ALLOWIDLE)) ? afk_timeout_cc : 60 * 30;
+	F32 afk_timeout = (!RlvHandler::instance().hasBehaviour(RLV_BHVR_ALLOWIDLE)) ? afk_timeout_cc : 60 * 30;
 // [/RLVa:KB]
 //	F32 afk_timeout  = gSavedSettings.getS32("AFKTimeout");
 	if (afk_timeout && (current_idle > afk_timeout) && ! gAgent.getAFK())
@@ -2037,7 +2037,14 @@ bool LLAppViewer::cleanup()
 			gDirUtilp->getExpandedFilename(LL_PATH_LOGS, report_name));
 	}
 
-	SUBSYSTEM_CLEANUP(LLMetricPerformanceTesterBasic) ;
+	SUBSYSTEM_CLEANUP(LLMetricPerformanceTesterBasic);
+
+	//Note:
+	// RLV Must be shut down before textures are destroyed.
+	if(RlvHandler::instanceExists())
+	{
+		RlvHandler::deleteSingleton();
+	}
 
 	LL_INFOS() << "Cleaning up Media and Textures" << LL_ENDL;
 

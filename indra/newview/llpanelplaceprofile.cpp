@@ -620,7 +620,7 @@ void LLPanelPlaceProfile::displaySelectedParcelInfo(LLParcel* parcel,
 
 //	mYouAreHerePanel->setVisible(is_current_parcel);
 // [RLVa:KB] - Checked: 2010-09-02 (RLVa-1.4.5) | Added: RLVa-1.2.1
-	mYouAreHerePanel->setVisible(is_current_parcel && (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)));
+	mYouAreHerePanel->setVisible(is_current_parcel && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)));
 // [/RLVa:KB]
 	getChild<LLAccordionCtrlTab>("sales_tab")->setVisible(for_sale);
 	mAccordionCtrl->arrange();
@@ -691,7 +691,7 @@ void LLPanelPlaceProfile::updateYouAreHereBanner(void* userdata)
 
 //		self->mYouAreHerePanel->setVisible(display_banner);
 // [RLVa:KB] - Checked: 2010-09-02 (RLVa-1.4.5) | Added: RLVa-1.2.1
-		self->mYouAreHerePanel->setVisible(display_banner && (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)));
+		self->mYouAreHerePanel->setVisible(display_banner && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)));
 // [/RLVa:KB]
 	}
 }

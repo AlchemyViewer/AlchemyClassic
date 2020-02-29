@@ -1308,7 +1308,7 @@ void LLToolDragAndDrop::dropObject(LLViewerObject* raycast_target,
 
 // [RLVa:KB] - Checked: 2010-03-23 (RLVa-1.2.0e) | Modified: RLVa-1.2.0a
 	// Fallback in case there's a new code path that leads here (see behaviour notes)
-	if ( (rlv_handler_t::isEnabled()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) || (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT))) )
+	if ( (rlv_handler_t::isEnabled()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT))) )
 	{
 		return;
 	}
@@ -1615,7 +1615,7 @@ EAcceptance LLToolDragAndDrop::willObjectAcceptInventory(LLViewerObject* obj, LL
 		{
 			return ACCEPT_NO_LOCKED;		// Disallow inventory drops on a locked attachment
 		}
-		else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP)) )
+		else if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP)) )
 		{
 			if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == pObjRoot) )
 				return ACCEPT_NO_LOCKED;	// ... or on a linkset the avie is sitting on under @unsit=n/@sittp=n
@@ -1884,7 +1884,7 @@ EAcceptance LLToolDragAndDrop::dad3dRezObjectOnLand(
 {
 // [RLVa:KB] - Checked: 2010-03-23 (RLVa-1.2.0e) | Modified: RLVa-1.1.0l
 	// RELEASE-RLVa: [SL-2.2.0] Make sure the code below is the only code path to LLToolDragAndDrop::dad3dRezFromObjectOnLand()
-	if ( (rlv_handler_t::isEnabled()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) || (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT))) )
+	if ( (rlv_handler_t::isEnabled()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT))) )
 	{
 		return ACCEPT_NO_LOCKED;
 	}
@@ -1956,8 +1956,8 @@ EAcceptance LLToolDragAndDrop::dad3dRezObjectOnObject(
 	// (but not when @interact=n restricted unless the drop target is a HUD attachment)
 	// RELEASE-RLVa: [SL-2.2.0] Make sure the code below is the only code path to LLToolDragAndDrop::dad3dRezFromObjectOnObject()
 	if ( (rlv_handler_t::isEnabled()) &&
-		 ( ( (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) && ((mask & MASK_CONTROL) == 0) ) ||
-		   ( (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT)) && (((mask & MASK_CONTROL) == 0) || (!obj->isHUDAttachment())) ) ) )
+		 ( ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) && ((mask & MASK_CONTROL) == 0) ) ||
+		   ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT)) && (((mask & MASK_CONTROL) == 0) || (!obj->isHUDAttachment())) ) ) )
 	{
 		return ACCEPT_NO_LOCKED;
 	}

@@ -82,8 +82,8 @@ void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
 	//   - prevented from editing and no exceptions are set (see below for the case where exceptions are set)
 	//   - prevented from interacting at all
 	if ( (rlv_handler_t::isEnabled()) && 
-		 ( ((gRlvHandler.hasBehaviour(RLV_BHVR_EDIT)) && (!gRlvHandler.hasException(RLV_BHVR_EDIT))) || 
-		   (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT)) ) )
+		 ( ((RlvHandler::instance().hasBehaviour(RLV_BHVR_EDIT)) && (!RlvHandler::instance().hasException(RLV_BHVR_EDIT))) || 
+		   (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT)) ) )
 	{
 		return;
 	}
@@ -154,7 +154,7 @@ void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
 		LLViewerCamera::getInstance()->setNear(new_near);
 	}
 // [RLVa:KB] - Checked: 2010-04-11 (RLVa-1.2.0e) | Modified: RLVa-1.0.0g
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_FARTOUCH))
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_FARTOUCH))
 	{
 		static RlvCachedBehaviourModifier<float> s_nFartouchDist(RLV_MODIFIER_FARTOUCHDIST);
 

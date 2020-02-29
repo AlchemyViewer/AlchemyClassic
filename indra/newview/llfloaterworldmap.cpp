@@ -527,7 +527,7 @@ void LLFloaterWorldMap::draw()
 	mCopySlurlButton->setEnabled((mSLURL.isValid()) );
 	mTrackRegionButton->setEnabled((BOOL) tracking_status || LLWorldMap::getInstance()->isTracking());
 	mTeleportHomeButton->setEnabled(
-		(!rlv_handler_t::isEnabled()) || !(gRlvHandler.hasBehaviour(RLV_BHVR_TPLM) && gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC)));
+		(!rlv_handler_t::isEnabled()) || !(RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLM) && RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLOC)));
 // [/RLVa:KB]
 	
 	setMouseOpaque(TRUE);
@@ -707,7 +707,7 @@ void LLFloaterWorldMap::trackLocation(const LLVector3d& pos_global)
 	mTrackedStatus = LLTracker::TRACKING_LOCATION;
 	LLWorldMap::getInstance()->cancelTracking();		// The floater is taking over the tracking
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-	tracker.trackLocation(pos_global, (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)) ? full_name : RlvStrings::getString(RLV_STRING_HIDDEN).c_str(), tooltip);
+	tracker.trackLocation(pos_global, (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)) ? full_name : RlvStrings::getString(RLV_STRING_HIDDEN).c_str(), tooltip);
 // [/RLVa:KB]
 //	tracker.trackLocation(pos_global, full_name, tooltip);
 	
@@ -725,18 +725,18 @@ void LLFloaterWorldMap::enableTeleportCoordsDisplay( bool enabled )
 {
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
 	LLUICtrl* pCtrl = getChild<LLUICtrl>("events_label");
-	pCtrl->setVisible(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+	pCtrl->setVisible(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC));
 
 	pCtrl = getChild<LLUICtrl>("teleport_coordinate_x");
-	pCtrl->setVisible(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+	pCtrl->setVisible(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC));
 	pCtrl->setEnabled(enabled);
 
 	pCtrl = getChild<LLUICtrl>("teleport_coordinate_y");
-	pCtrl->setVisible(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+	pCtrl->setVisible(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC));
 	pCtrl->setEnabled(enabled);
 
 	pCtrl = getChild<LLUICtrl>("teleport_coordinate_z");
-	pCtrl->setVisible(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+	pCtrl->setVisible(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC));
 	pCtrl->setEnabled(enabled);
 // [/RLVa:KB]
 //	childSetEnabled("teleport_coordinate_x", enabled );
@@ -792,7 +792,7 @@ void LLFloaterWorldMap::updateLocation()
 			std::string agent_sim_name;
 			gotSimName = LLWorldMap::getInstance()->simNameFromPosGlobal( agentPos, agent_sim_name );
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-			if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+			if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 			{
 				mSetToUserPosition = FALSE;
 
@@ -852,7 +852,7 @@ void LLFloaterWorldMap::updateLocation()
 		
 		// simNameFromPosGlobal can fail, so don't give the user an invalid SLURL
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-		if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 			mSLURL = LLSLURL();
 

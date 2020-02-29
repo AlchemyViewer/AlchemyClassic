@@ -34,15 +34,15 @@
 bool RlvActions::canChangeCameraFOV(const LLUUID& idRlvObject)
 {
 	// NOTE: if an object has exclusive camera control then all other objects are locked out
-	return (!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM)) || (gRlvHandler.hasBehaviour(idRlvObject, RLV_BHVR_SETCAM));
+	return (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM)) || (RlvHandler::instance().hasBehaviour(idRlvObject, RLV_BHVR_SETCAM));
 }
 
 bool RlvActions::canChangeCameraPreset(const LLUUID& idRlvObject)
 {
 	// NOTE: if an object has exclusive camera control then all other objects are locked out
 	return
-		( (!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM)) || (gRlvHandler.hasBehaviour(idRlvObject, RLV_BHVR_SETCAM)) ) &&
-		(!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_EYEOFFSET)) && (!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_FOCUSOFFSET));
+		( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM)) || (RlvHandler::instance().hasBehaviour(idRlvObject, RLV_BHVR_SETCAM)) ) &&
+		(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_EYEOFFSET)) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_FOCUSOFFSET));
 }
 
 bool RlvActions::canChangeToMouselook()
@@ -52,30 +52,30 @@ bool RlvActions::canChangeToMouselook()
 	//   - there is no minimum camera distance defined (or it's higher than > 0m)
 	const RlvBehaviourModifier* pCamDistMinModifier = RlvBehaviourDictionary::instance().getModifier(RLV_MODIFIER_SETCAM_AVDISTMIN);
 	return
-		( (!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM)) ? !gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_MOUSELOOK) : !gRlvHandler.hasBehaviour(pCamDistMinModifier->getPrimaryObject(), RLV_BHVR_SETCAM_MOUSELOOK) ) &&
+		( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM)) ? !RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_MOUSELOOK) : !RlvHandler::instance().hasBehaviour(pCamDistMinModifier->getPrimaryObject(), RLV_BHVR_SETCAM_MOUSELOOK) ) &&
 		( (!pCamDistMinModifier->hasValue()) || (pCamDistMinModifier->getValue<float>() == 0.f) );
 }
 
 bool RlvActions::isCameraDistanceClamped()
 {
 	return
-		(gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_AVDISTMIN)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_AVDISTMAX)) ||
-		(gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMIN)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMAX));
+		(RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_AVDISTMIN)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_AVDISTMAX)) ||
+		(RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMIN)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMAX));
 }
 
 bool RlvActions::isCameraFOVClamped()
 {
-	return (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_FOVMIN)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_FOVMAX));
+	return (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_FOVMIN)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_FOVMAX));
 }
 
 bool RlvActions::isCameraPresetLocked()
 {
-	return (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_EYEOFFSET)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_FOCUSOFFSET));
+	return (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_EYEOFFSET)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_FOCUSOFFSET));
 }
 
 bool RlvActions::getCameraAvatarDistanceLimits(float& nDistMin, float& nDistMax)
 {
-	bool fDistMin = gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_AVDISTMIN), fDistMax = gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_AVDISTMAX);
+	bool fDistMin = RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_AVDISTMIN), fDistMax = RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_AVDISTMAX);
 	if ( (fDistMin) || (fDistMax) )
 	{
 		static RlvCachedBehaviourModifier<float> sCamDistMin(RLV_MODIFIER_SETCAM_AVDISTMIN);
@@ -90,7 +90,7 @@ bool RlvActions::getCameraAvatarDistanceLimits(float& nDistMin, float& nDistMax)
 
 bool RlvActions::getCameraOriginDistanceLimits(float& nDistMin, float& nDistMax)
 {
-	bool fDistMin = gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMIN), fDistMax = gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMAX);
+	bool fDistMin = RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMIN), fDistMax = RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_ORIGINDISTMAX);
 	if ( (fDistMin) || (fDistMax) )
 	{
 		static RlvCachedBehaviourModifier<float> sCamDistMin(RLV_MODIFIER_SETCAM_ORIGINDISTMIN);
@@ -105,7 +105,7 @@ bool RlvActions::getCameraOriginDistanceLimits(float& nDistMin, float& nDistMax)
 
 bool RlvActions::getCameraFOVLimits(F32& nFOVMin, F32& nFOVMax)
 {
-	bool fClampMin = gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_FOVMIN), fClampMax = gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_FOVMAX);
+	bool fClampMin = RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_FOVMIN), fClampMax = RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_FOVMAX);
 	if ( (fClampMin) || (fClampMax) )
 	{
 		static RlvCachedBehaviourModifier<float> sCamFovMin(RLV_MODIFIER_SETCAM_FOVMIN);
@@ -128,7 +128,7 @@ bool RlvActions::canChangeActiveGroup(const LLUUID& idRlvObject)
 {
 	// User can change their active group if:
 	//   - not specifically restricted (by another object that the one specified) from changing their active group
-	return (idRlvObject.isNull()) ? !gRlvHandler.hasBehaviour(RLV_BHVR_SETGROUP) : !gRlvHandler.hasBehaviourExcept(RLV_BHVR_SETGROUP, idRlvObject);
+	return (idRlvObject.isNull()) ? !RlvHandler::instance().hasBehaviour(RLV_BHVR_SETGROUP) : !RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_SETGROUP, idRlvObject);
 }
 
 // Little helper function to check the IM exclusion range for @recvim, @sendim and @startim (returns: min_dist <= (pos user - pos target) <= max_dist)
@@ -159,20 +159,20 @@ bool RlvActions::canReceiveIM(const LLUUID& idSender)
 	//   - not specifically restricted from receiving an IM from the sender
 	return
 		(!isRlvEnabled()) ||
-		( ( (!gRlvHandler.hasBehaviour(RLV_BHVR_RECVIM)) || (gRlvHandler.isException(RLV_BHVR_RECVIM, idSender)) || (rlvCheckAvatarIMDistance(idSender, RLV_MODIFIER_RECVIMDISTMIN, RLV_MODIFIER_RECVIMDISTMAX)) ) &&
-		  ( (!gRlvHandler.hasBehaviour(RLV_BHVR_RECVIMFROM)) || (!gRlvHandler.isException(RLV_BHVR_RECVIMFROM, idSender)) ) );
+		( ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_RECVIM)) || (RlvHandler::instance().isException(RLV_BHVR_RECVIM, idSender)) || (rlvCheckAvatarIMDistance(idSender, RLV_MODIFIER_RECVIMDISTMIN, RLV_MODIFIER_RECVIMDISTMAX)) ) &&
+		  ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_RECVIMFROM)) || (!RlvHandler::instance().isException(RLV_BHVR_RECVIMFROM, idSender)) ) );
 }
 
 bool RlvActions::canPlayGestures()
 {
-	return (!gRlvHandler.hasBehaviour(RLV_BHVR_SENDGESTURE));
+	return (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDGESTURE));
 }
 
 bool RlvActions::canSendChannel(int nChannel)
 {
 	return
-		( (!gRlvHandler.hasBehaviour(RLV_BHVR_SENDCHANNEL)) || (gRlvHandler.isException(RLV_BHVR_SENDCHANNEL, nChannel)) ) &&
-		( (!gRlvHandler.hasBehaviour(RLV_BHVR_SENDCHANNELEXCEPT)) || (!gRlvHandler.isException(RLV_BHVR_SENDCHANNELEXCEPT, nChannel)) );
+		( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDCHANNEL)) || (RlvHandler::instance().isException(RLV_BHVR_SENDCHANNEL, nChannel)) ) &&
+		( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDCHANNELEXCEPT)) || (!RlvHandler::instance().isException(RLV_BHVR_SENDCHANNELEXCEPT, nChannel)) );
 }
 
 bool RlvActions::canSendIM(const LLUUID& idRecipient)
@@ -182,8 +182,8 @@ bool RlvActions::canSendIM(const LLUUID& idRecipient)
 	//   - not specifically restricted from sending an IM to the recipient
 	return
 		(!isRlvEnabled()) ||
-		( ( (!gRlvHandler.hasBehaviour(RLV_BHVR_SENDIM)) || (gRlvHandler.isException(RLV_BHVR_SENDIM, idRecipient)) || (rlvCheckAvatarIMDistance(idRecipient, RLV_MODIFIER_SENDIMDISTMIN, RLV_MODIFIER_SENDIMDISTMAX)) ) &&
-		  ( (!gRlvHandler.hasBehaviour(RLV_BHVR_SENDIMTO)) || (!gRlvHandler.isException(RLV_BHVR_SENDIMTO, idRecipient)) ) );
+		( ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDIM)) || (RlvHandler::instance().isException(RLV_BHVR_SENDIM, idRecipient)) || (rlvCheckAvatarIMDistance(idRecipient, RLV_MODIFIER_SENDIMDISTMIN, RLV_MODIFIER_SENDIMDISTMAX)) ) &&
+		  ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDIMTO)) || (!RlvHandler::instance().isException(RLV_BHVR_SENDIMTO, idRecipient)) ) );
 }
 
 bool RlvActions::canStartIM(const LLUUID& idRecipient, bool fIgnoreOpen)
@@ -194,8 +194,8 @@ bool RlvActions::canStartIM(const LLUUID& idRecipient, bool fIgnoreOpen)
 	//   - the session already exists
 	return
 		(!isRlvEnabled()) ||
-		( ( (!gRlvHandler.hasBehaviour(RLV_BHVR_STARTIM)) || (gRlvHandler.isException(RLV_BHVR_STARTIM, idRecipient)) || (rlvCheckAvatarIMDistance(idRecipient, RLV_MODIFIER_STARTIMDISTMIN, RLV_MODIFIER_STARTIMDISTMAX)) ) &&
-		  ( (!gRlvHandler.hasBehaviour(RLV_BHVR_STARTIMTO)) || (!gRlvHandler.isException(RLV_BHVR_STARTIMTO, idRecipient)) ) ) ||
+		( ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_STARTIM)) || (RlvHandler::instance().isException(RLV_BHVR_STARTIM, idRecipient)) || (rlvCheckAvatarIMDistance(idRecipient, RLV_MODIFIER_STARTIMDISTMIN, RLV_MODIFIER_STARTIMDISTMAX)) ) &&
+		  ( (!RlvHandler::instance().hasBehaviour(RLV_BHVR_STARTIMTO)) || (!RlvHandler::instance().isException(RLV_BHVR_STARTIMTO, idRecipient)) ) ) ||
 		( (!fIgnoreOpen) && ((hasOpenP2PSession(idRecipient)) || (hasOpenGroupSession(idRecipient))) );
 }
 
@@ -211,13 +211,13 @@ bool RlvActions::canShowName(EShowNamesContext eContext, const LLUUID& idAgent)
 		{
 			// Show/hide avatar nametag
 			case SNC_NAMETAG:
-				return (gRlvHandler.isException(RLV_BHVR_SHOWNAMETAGS, idAgent)) || (gAgentID == idAgent);
+				return (RlvHandler::instance().isException(RLV_BHVR_SHOWNAMETAGS, idAgent)) || (gAgentID == idAgent);
 			// Show/hide avatar name
 			case SNC_DEFAULT:
 			case SNC_COUNT:
 			case SNC_TELEPORTOFFER:
 			case SNC_TELEPORTREQUEST:
-				return gRlvHandler.isException(RLV_BHVR_SHOWNAMES, idAgent) || (gAgentID == idAgent);
+				return RlvHandler::instance().isException(RLV_BHVR_SHOWNAMES, idAgent) || (gAgentID == idAgent);
 		}
 	}
 	return false;
@@ -225,7 +225,7 @@ bool RlvActions::canShowName(EShowNamesContext eContext, const LLUUID& idAgent)
 
 bool RlvActions::canShowNearbyAgents()
 {
-	return !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWNEARBY);
+	return !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWNEARBY);
 }
 
 // Handles: @chatwhisper, @chatnormal and @chatshout
@@ -269,7 +269,7 @@ bool RlvActions::canPasteInventory(const LLInventoryItem* pSourceItem, const LLI
 
 bool RlvActions::canPreviewTextures()
 {
-	return (!gRlvHandler.hasBehaviour(RLV_BHVR_VIEWTEXTURE));
+	return (!RlvHandler::instance().hasBehaviour(RLV_BHVR_VIEWTEXTURE));
 }
 
 // ============================================================================
@@ -278,37 +278,37 @@ bool RlvActions::canPreviewTextures()
 
 bool RlvActions::canAcceptTpOffer(const LLUUID& idSender)
 {
-	return ((!gRlvHandler.hasBehaviour(RLV_BHVR_TPLURE)) || (gRlvHandler.isException(RLV_BHVR_TPLURE, idSender))) && (canStand());
+	return ((!RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLURE)) || (RlvHandler::instance().isException(RLV_BHVR_TPLURE, idSender))) && (canStand());
 }
 
 bool RlvActions::autoAcceptTeleportOffer(const LLUUID& idSender)
 {
-	return ((idSender.notNull()) && (gRlvHandler.isException(RLV_BHVR_ACCEPTTP, idSender))) || (gRlvHandler.hasBehaviour(RLV_BHVR_ACCEPTTP));
+	return ((idSender.notNull()) && (RlvHandler::instance().isException(RLV_BHVR_ACCEPTTP, idSender))) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_ACCEPTTP));
 }
 
 bool RlvActions::canAcceptTpRequest(const LLUUID& idSender)
 {
-	return (!gRlvHandler.hasBehaviour(RLV_BHVR_TPREQUEST)) || (gRlvHandler.isException(RLV_BHVR_TPREQUEST, idSender));
+	return (!RlvHandler::instance().hasBehaviour(RLV_BHVR_TPREQUEST)) || (RlvHandler::instance().isException(RLV_BHVR_TPREQUEST, idSender));
 }
 
 bool RlvActions::autoAcceptTeleportRequest(const LLUUID& idRequester)
 {
-	return ((idRequester.notNull()) && (gRlvHandler.isException(RLV_BHVR_ACCEPTTPREQUEST, idRequester))) || (gRlvHandler.hasBehaviour(RLV_BHVR_ACCEPTTPREQUEST));
+	return ((idRequester.notNull()) && (RlvHandler::instance().isException(RLV_BHVR_ACCEPTTPREQUEST, idRequester))) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_ACCEPTTPREQUEST));
 }
 
 bool RlvActions::canFly()
 {
-	return (!gRlvHandler.getCurrentCommand()) ? !gRlvHandler.hasBehaviour(RLV_BHVR_FLY) : !gRlvHandler.hasBehaviourExcept(RLV_BHVR_FLY, gRlvHandler.getCurrentObject());
+	return (!RlvHandler::instance().getCurrentCommand()) ? !RlvHandler::instance().hasBehaviour(RLV_BHVR_FLY) : !RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_FLY, RlvHandler::instance().getCurrentObject());
 }
 
 bool RlvActions::canFly(const LLUUID& idRlvObjExcept)
 {
-	return !gRlvHandler.hasBehaviourExcept(RLV_BHVR_FLY, idRlvObjExcept);
+	return !RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_FLY, idRlvObjExcept);
 }
 
 bool RlvActions::canJump()
 {
-	return !gRlvHandler.hasBehaviour(RLV_BHVR_JUMP);
+	return !RlvHandler::instance().hasBehaviour(RLV_BHVR_JUMP);
 }
 
 // ============================================================================
@@ -322,15 +322,15 @@ bool RlvActions::canTeleportToLocal(const LLVector3d& posGlobal)
 	//   - not restricted from "sit teleporting" (or the destination is within the allowed xyz-radius)
 	//   - not restricted from teleporting locally (or the destination is within the allowed xy-radius)
 	// NOTE: if we're teleporting due to an active command we should disregard any restrictions from the same object
-	const LLUUID& idRlvObjExcept = gRlvHandler.getCurrentObject();
+	const LLUUID& idRlvObjExcept = RlvHandler::instance().getCurrentObject();
 	bool fCanTeleport = RlvActions::canStand(idRlvObjExcept);
-	if ( (fCanTeleport) && (gRlvHandler.hasBehaviourExcept(RLV_BHVR_SITTP, idRlvObjExcept)) )
+	if ( (fCanTeleport) && (RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_SITTP, idRlvObjExcept)) )
 	{
 		const F32 nDistSq = (posGlobal - gAgent.getPositionGlobal()).lengthSquared();
 		const F32 nSitTpDist = RlvBehaviourDictionary::instance().getModifier(RLV_MODIFIER_SITTPDIST)->getValue<F32>();
 		fCanTeleport = nDistSq < nSitTpDist * nSitTpDist;
 	}
-	if ( (fCanTeleport) && (gRlvHandler.hasBehaviourExcept(RLV_BHVR_TPLOCAL, idRlvObjExcept)) )
+	if ( (fCanTeleport) && (RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_TPLOCAL, idRlvObjExcept)) )
 	{
 		const F32 nDistSq = (LLVector2(posGlobal.mdV[0], posGlobal.mdV[1]) - LLVector2(gAgent.getPositionGlobal().mdV[0], gAgent.getPositionGlobal().mdV[1])).lengthSquared();
 		const F32 nTpLocalDist = llmin(RlvBehaviourDictionary::instance().getModifier(RLV_MODIFIER_TPLOCALDIST)->getValue<float>(), RLV_MODIFIER_TPLOCAL_DEFAULT);
@@ -342,8 +342,8 @@ bool RlvActions::canTeleportToLocal(const LLVector3d& posGlobal)
 bool RlvActions::canTeleportToLocation()
 {
 	// NOTE: if we're teleporting due to an active command we should disregard any restrictions from the same object
-	const LLUUID& idRlvObjExcept = gRlvHandler.getCurrentObject();
-	return (!gRlvHandler.hasBehaviourExcept(RLV_BHVR_TPLOC, idRlvObjExcept)) && (RlvActions::canStand(idRlvObjExcept));
+	const LLUUID& idRlvObjExcept = RlvHandler::instance().getCurrentObject();
+	return (!RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_TPLOC, idRlvObjExcept)) && (RlvActions::canStand(idRlvObjExcept));
 }
 
 bool RlvActions::isLocalTp(const LLVector3d& posGlobal)
@@ -362,8 +362,8 @@ bool RlvActions::canBuild()
 	//    - allowed to edit existing objects OR
 	//    - allowed to rez/create objects
 	return
-		(!gRlvHandler.hasBehaviour(RLV_BHVR_EDIT)) ||
-		(!gRlvHandler.hasBehaviour(RLV_BHVR_REZ));
+		(!RlvHandler::instance().hasBehaviour(RLV_BHVR_EDIT)) ||
+		(!RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ));
 }
 
 // Handles: @edit and @editobj
@@ -398,7 +398,7 @@ bool RlvActions::canInteract(const LLViewerObject* pObj, const LLVector3& posOff
 
 bool RlvActions::canRez()
 {
-	return (!gRlvHandler.hasBehaviour(RLV_BHVR_REZ));
+	return (!RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ));
 }
 
 bool RlvActions::canGroundSit()
@@ -424,7 +424,7 @@ bool RlvActions::canSit(const LLViewerObject* pObj, const LLVector3& posOffset /
 		(!hasBehaviour(RLV_BHVR_SIT)) &&
 		( ((!hasBehaviour(RLV_BHVR_UNSIT)) && (!hasBehaviour(RLV_BHVR_STANDTP))) ||
 		  ((isAgentAvatarValid()) && (!gAgentAvatarp->isSitting())) ) &&
-		( ( (NULL != gRlvHandler.getCurrentCommand()) && (RLV_BHVR_SIT == gRlvHandler.getCurrentCommand()->getBehaviourType()) ) ||
+		( ( (NULL != RlvHandler::instance().getCurrentCommand()) && (RLV_BHVR_SIT == RlvHandler::instance().getCurrentCommand()->getBehaviourType()) ) ||
 		  ( ((!hasBehaviour(RLV_BHVR_SITTP)) || (dist_vec_squared(gAgent.getPositionGlobal(), pObj->getPositionGlobal() + LLVector3d(posOffset)) < s_nSitTpDist * s_nSitTpDist)) &&
 		    ((!hasBehaviour(RLV_BHVR_FARTOUCH)) || (dist_vec_squared(gAgent.getPositionGlobal(), pObj->getPositionGlobal() + LLVector3d(posOffset)) < s_nFarTouchDist * s_nFarTouchDist)) ) );
 }
@@ -524,19 +524,19 @@ bool RlvActions::canTouch(const LLViewerObject* pObj, const LLVector3& posOffset
 bool RlvActions::canStand()
 {
 	// NOTE: return FALSE only if we're @unsit=n restricted and the avie is currently sitting on something and TRUE for everything else
-	return (!gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || ((isAgentAvatarValid()) && (!gAgentAvatarp->isSitting()));
+	return (!RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || ((isAgentAvatarValid()) && (!gAgentAvatarp->isSitting()));
 }
 
 bool RlvActions::canStand(const LLUUID& idRlvObjExcept)
 {
 	// NOTE: must match generic function above
-	return (!gRlvHandler.hasBehaviourExcept(RLV_BHVR_UNSIT, idRlvObjExcept)) || ((isAgentAvatarValid()) && (!gAgentAvatarp->isSitting()));
+	return (!RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_UNSIT, idRlvObjExcept)) || ((isAgentAvatarValid()) && (!gAgentAvatarp->isSitting()));
 }
 
 // Checked: 2014-02-24 (RLVa-1.4.10)
 bool RlvActions::canShowLocation()
 {
-	return !gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC);
+	return !RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC);
 }
 
 // ============================================================================
@@ -552,7 +552,7 @@ const float& RlvActions::getModifierValue<float>(ERlvBehaviourModifier eBhvrMod)
 // Checked: 2013-05-10 (RLVa-1.4.9)
 bool RlvActions::hasBehaviour(ERlvBehaviour eBhvr)
 {
-	return gRlvHandler.hasBehaviour(eBhvr);
+	return RlvHandler::instance().hasBehaviour(eBhvr);
 }
 
 // Checked: 2013-05-09 (RLVa-1.4.9)

@@ -1470,7 +1470,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
 
 					// Censor message if: 1) restricted from receiving IMs from the sender, or 2) teleport offer/request and @showloc=n restricted
 					if ( (!RlvActions::canReceiveIM(from_id)) || 
-						 ((gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)) && (IM_LURE_USER == dialog || IM_TELEPORT_REQUEST == dialog)) )
+						 ((RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)) && (IM_LURE_USER == dialog || IM_TELEPORT_REQUEST == dialog)) )
 					{
 						message = RlvStrings::getString(RLV_STRING_HIDDEN);
 					}
@@ -1530,7 +1530,7 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
 					if (fRlvAutoAccept)
 					{
 						if (IM_LURE_USER == dialog)
-							gRlvHandler.setCanCancelTp(false);
+							RlvHandler::instance().setCanCancelTp(false);
 						if (is_do_not_disturb)
 							send_do_not_disturb_message(gMessageSystem, from_id);
 						LLNotifications::instance().forceResponse(LLNotification::Params(params.name).payload(payload), 0);

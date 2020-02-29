@@ -3783,7 +3783,7 @@ BOOL LLSelectMgr::selectGetEditMoveLinksetPermissions(bool &move, bool &modify)
             this_object_movable = true;
 
 // [RLVa:KB] - Checked: 2010-03-31 (RLVa-1.2.0c) | Modified: RLVa-1.0.0g
-            if ( (rlv_handler_t::isEnabled()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP))) )
+            if ( (rlv_handler_t::isEnabled()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP))) )
             {
                 if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == object->getRootEdit()) )
                     move = modify = false;
@@ -4450,7 +4450,7 @@ void LLSelectMgr::convertTransient()
 void LLSelectMgr::deselectAllIfTooFar()
 {
 // [RLVa:KB] - Checked: RLVa-1.3.0
-	if ( (!mSelectedObjects->isEmpty()) && ((gRlvHandler.hasBehaviour(RLV_BHVR_EDIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_EDITOBJ))) )
+	if ( (!mSelectedObjects->isEmpty()) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_EDIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_EDITOBJ))) )
 	{
 		struct NotTransientOrFocusedMediaOrEditable : public LLSelectedNodeFunctor
 		{
@@ -4472,7 +4472,7 @@ void LLSelectMgr::deselectAllIfTooFar()
 
 // [RLVa:KB] - Checked: RLVa-1.2.0
 	// [Fall-back code] Don't allow an active selection (except for HUD attachments - see above) when @interact restricted
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_INTERACT))
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_INTERACT))
 	{
 		deselectAll();
 		return;
@@ -4491,7 +4491,7 @@ void LLSelectMgr::deselectAllIfTooFar()
 // [RLVa:KB] - Checked: 2010-04-11 (RLVa-1.2.0e) | Modified: RLVa-0.2.0f
 	static RlvCachedBehaviourModifier<float> s_nFartouchDist(RLV_MODIFIER_FARTOUCHDIST);
 
-	BOOL fRlvFartouch = gRlvHandler.hasBehaviour(RLV_BHVR_FARTOUCH) && LLToolMgr::instance().inEdit();
+	BOOL fRlvFartouch = RlvHandler::instance().hasBehaviour(RLV_BHVR_FARTOUCH) && LLToolMgr::instance().inEdit();
 	if ( (gSavedSettings.getBOOL("LimitSelectDistance") || (fRlvFartouch) )
 // [/RLVa:KB]
 		&& (!mSelectedObjects->getPrimaryObject() || !mSelectedObjects->getPrimaryObject()->isAvatar())

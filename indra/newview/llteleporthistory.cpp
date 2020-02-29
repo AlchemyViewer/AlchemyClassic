@@ -158,7 +158,7 @@ void LLTeleportHistory::updateCurrentLocation(const LLVector3d& new_pos)
 //			mCurrentItem++;
 // [RLVa:KB] - Checked: 2010-09-03 (RLVa-1.2.1b) | Added: RLVa-1.2.1b
 			// Only append a new item if the list is currently empty or if not @showloc=n restricted and the last entry wasn't zero'ed out
-			if ( (mItems.size() == 0) || ((!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC)) && (!mItems.back().mGlobalPos.isExactlyZero())) )
+			if ( (mItems.size() == 0) || ((!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC)) && (!mItems.back().mGlobalPos.isExactlyZero())) )
 			{
 				mItems.push_back(LLTeleportHistoryItem("", LLVector3d()));
 				mCurrentItem++;
@@ -175,7 +175,7 @@ void LLTeleportHistory::updateCurrentLocation(const LLVector3d& new_pos)
 		}
 
 // [RLVa:KB] - Checked: 2010-09-03 (RLVa-1.2.1b) | Added: RLVa-1.2.1b
-		if (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		{
 // [/RLVa:KB]
 			LLVector3 new_pos_local = gAgent.getPosAgentFromGlobal(new_pos);

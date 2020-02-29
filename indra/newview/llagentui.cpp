@@ -107,7 +107,7 @@ BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt,const 
 	std::string region_name = region->getName();
 // [RLVa:KB] - Checked: 2010-04-04 (RLVa-1.2.0d) | Modified: RLVa-1.2.0d
 	// RELEASE-RLVa: [SL-2.0.0] Check ELocationFormat to make sure our switch still makes sense
-	if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 	{
 		parcel_name = RlvStrings::getString(RLV_STRING_HIDDEN_PARCEL);
 		region_name = RlvStrings::getString(RLV_STRING_HIDDEN_REGION);

@@ -124,7 +124,7 @@ void LLPanelContents::getState(LLViewerObject *objectp )
 			editable = !RlvAttachmentLocks::instance().isLockedAttachment(objectp->getRootEdit());
 
 		// Don't allow creation of new scripts if we're @unsit=n or @sittp=n restricted and we're sitting on the selection
-		if ( (editable) && ((gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP))) )
+		if ( (editable) && ((RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP))) )
 		{
 			// Only check the first (non-)root object because nothing else would result in enabling the button (see below)
 			LLViewerObject* pObj = LLSelectMgr::getInstance()->getSelection()->getFirstRootObject(TRUE);
@@ -185,7 +185,7 @@ void LLPanelContents::onClickNewScript(void *userdata)
 			{
 				return;					// Disallow creating new scripts in a locked attachment
 			}
-			else if ( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP)) )
+			else if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SITTP)) )
 			{
 				if ( (isAgentAvatarValid()) && (gAgentAvatarp->isSitting()) && (gAgentAvatarp->getRoot() == object->getRootEdit()) )
 					return;				// .. or in a linkset the avie is sitting on under @unsit=n/@sittp=n

@@ -432,7 +432,7 @@ bool RlvExtGetSet::processCommand(const RlvCommand& rlvCmd, ERlvCmdRet& eRet)
 			}
 			else if ( ("set" == strGetSet) && (RLV_TYPE_FORCE == rlvCmd.getParamType()) )
 			{
-				if (!gRlvHandler.hasBehaviourExcept(RLV_BHVR_SETDEBUG, rlvCmd.getObjectID()))
+				if (!RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_SETDEBUG, rlvCmd.getObjectID()))
 					eRet = onSetDebug(strSetting, rlvCmd.getOption());
 				else
 					eRet = RLV_RET_FAILED_LOCK;
@@ -450,7 +450,7 @@ bool RlvExtGetSet::processCommand(const RlvCommand& rlvCmd, ERlvCmdRet& eRet)
 			}
 			else if ( ("set" == strGetSet) && (RLV_TYPE_FORCE == rlvCmd.getParamType()) )
 			{
-				if (!gRlvHandler.hasBehaviourExcept(RLV_BHVR_SETENV, rlvCmd.getObjectID()))
+				if (!RlvHandler::instance().hasBehaviourExcept(RLV_BHVR_SETENV, rlvCmd.getObjectID()))
 					eRet = (RlvWindLight::instance().setValue(strSetting, rlvCmd.getOption())) ? RLV_RET_SUCCESS : RLV_RET_FAILED_UNKNOWN;
 				else
 					eRet = RLV_RET_FAILED_LOCK;

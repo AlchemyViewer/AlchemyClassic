@@ -2042,7 +2042,7 @@ BOOL LLAgent::needsRenderAvatar()
 {
 //	if (gAgentCamera.cameraMouselook() && !LLVOAvatar::sVisibleInFirstPerson)
 // [RLVa:KB] - Checked: RLVa-2.0.2
-	if ( (gAgentCamera.cameraMouselook() && !LLVOAvatar::sVisibleInFirstPerson) || (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWSELF)) )
+	if ( (gAgentCamera.cameraMouselook() && !LLVOAvatar::sVisibleInFirstPerson) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWSELF)) )
 // [/RLVa:KB]
 	{
 		return FALSE;
@@ -2055,7 +2055,7 @@ BOOL LLAgent::needsRenderAvatar()
 BOOL LLAgent::needsRenderHead()
 {
 // [RLVa:KB] - Checked: RLVa-2.0.2
-	return ((LLVOAvatar::sVisibleInFirstPerson && LLPipeline::sReflectionRender) || (mShowAvatar && !gAgentCamera.cameraMouselook())) && (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWSELFHEAD));
+	return ((LLVOAvatar::sVisibleInFirstPerson && LLPipeline::sReflectionRender) || (mShowAvatar && !gAgentCamera.cameraMouselook())) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWSELFHEAD));
 // [/RLVa:KB]
 //	return (LLVOAvatar::sVisibleInFirstPerson && LLPipeline::sReflectionRender) || (mShowAvatar && !gAgentCamera.cameraMouselook());
 }
@@ -2615,7 +2615,7 @@ void LLAgent::onAnimStop(const LLUUID& id)
 	else if (id == ANIM_AGENT_AWAY)
 	{
 // [RLVa:KB] - Checked: 2010-05-03 (RLVa-1.2.0g) | Added: RLVa-1.1.0g
-		if (!gRlvHandler.hasBehaviour(RLV_BHVR_ALLOWIDLE))
+		if (!RlvHandler::instance().hasBehaviour(RLV_BHVR_ALLOWIDLE))
 			clearAFK();
 // [/RLVa:KB]
 //		clearAFK();
@@ -3287,13 +3287,13 @@ void LLAgent::sendRevokePermissions(const LLUUID & target, U32 permissions)
 // [RLVa:KB] - Checked: 2011-05-11 (RLVa-1.3.0i) | Added: RLVa-1.3.0i
 void LLAgent::setAlwaysRun()
 {
-	mbAlwaysRun = (!rlv_handler_t::isEnabled()) || (!gRlvHandler.hasBehaviour(RLV_BHVR_ALWAYSRUN));
+	mbAlwaysRun = (!rlv_handler_t::isEnabled()) || (!RlvHandler::instance().hasBehaviour(RLV_BHVR_ALWAYSRUN));
 	sendWalkRun();
 }
 
 void LLAgent::setTempRun()
 {
-	mbTempRun = (!rlv_handler_t::isEnabled()) || (!gRlvHandler.hasBehaviour(RLV_BHVR_TEMPRUN));
+	mbTempRun = (!rlv_handler_t::isEnabled()) || (!RlvHandler::instance().hasBehaviour(RLV_BHVR_TEMPRUN));
 	sendWalkRun();
 }
 
@@ -4279,9 +4279,9 @@ void LLAgent::teleportViaLandmark(const LLUUID& landmark_asset_id)
 // [RLVa:KB] - Checked: 2010-08-22 (RLVa-1.2.1a) | Modified: RLVa-1.2.1a
 	// NOTE: we'll allow teleporting home unless both @tplm=n *and* @tploc=n restricted
 	if ( (rlv_handler_t::isEnabled()) &&
-		 ( ( (landmark_asset_id.notNull()) ? gRlvHandler.hasBehaviour(RLV_BHVR_TPLM)
-		                                   : gRlvHandler.hasBehaviour(RLV_BHVR_TPLM) && gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC) ) ||
-		   ((gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) && (isAgentAvatarValid()) && (gAgentAvatarp->isSitting())) ))
+		 ( ( (landmark_asset_id.notNull()) ? RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLM)
+		                                   : RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLM) && RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLOC) ) ||
+		   ((RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) && (isAgentAvatarValid()) && (gAgentAvatarp->isSitting())) ))
 	{
 		RlvUtil::notifyBlocked(RLV_STRING_BLOCKED_TELEPORT);
 		return;
@@ -4395,9 +4395,9 @@ void LLAgent::teleportViaLocation(const LLVector3d& pos_global)
 			return;
 		}
 
-		if ( (gRlvHandler.getCurrentCommand()) && (RLV_BHVR_TPTO == gRlvHandler.getCurrentCommand()->getBehaviourType()) )
+		if ( (RlvHandler::instance().getCurrentCommand()) && (RLV_BHVR_TPTO == RlvHandler::instance().getCurrentCommand()->getBehaviourType()) )
 		{
-			gRlvHandler.setCanCancelTp(false);
+			RlvHandler::instance().setCanCancelTp(false);
 		}
 	}
 // [/RLVa:KB]
@@ -4468,9 +4468,9 @@ void LLAgent::teleportViaLocationLookAt(const LLVector3d& pos_global, const LLVe
 			return;
 		}
 
-		if ( (gRlvHandler.getCurrentCommand()) && (RLV_BHVR_TPTO == gRlvHandler.getCurrentCommand()->getBehaviourType()) )
+		if ( (RlvHandler::instance().getCurrentCommand()) && (RLV_BHVR_TPTO == RlvHandler::instance().getCurrentCommand()->getBehaviourType()) )
 		{
-			gRlvHandler.setCanCancelTp(false);
+			RlvHandler::instance().setCanCancelTp(false);
 		}
 	}
 

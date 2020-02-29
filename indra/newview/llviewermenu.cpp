@@ -2957,7 +2957,7 @@ bool enable_object_edit()
 	{
 //		enable = true;
 // [RLVa:KB] - Checked: 2010-11-29 (RLVa-1.3.0c) | Modified: RLVa-1.3.0c
-		bool fRlvCanEdit = (!gRlvHandler.hasBehaviour(RLV_BHVR_EDIT)) && (!gRlvHandler.hasBehaviour(RLV_BHVR_EDITOBJ));
+		bool fRlvCanEdit = (!RlvHandler::instance().hasBehaviour(RLV_BHVR_EDIT)) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_EDITOBJ));
 		if (!fRlvCanEdit)
 		{
 			LLObjectSelectionHandle hSel = LLSelectMgr::getInstance()->getSelection();
@@ -3659,7 +3659,7 @@ bool show_sitdown_self()
 bool enable_sitdown_self()
 {
 // [RLVa:KB] - Checked: 2010-08-28 (RLVa-1.2.1a) | Added: RLVa-1.2.1a
-	return isAgentAvatarValid() && !gAgentAvatarp->isEditingAppearance() && !gAgent.getFlying() && !gRlvHandler.hasBehaviour(RLV_BHVR_SIT);
+	return isAgentAvatarValid() && !gAgentAvatarp->isEditingAppearance() && !gAgent.getFlying() && !RlvHandler::instance().hasBehaviour(RLV_BHVR_SIT);
 // [/RLVa:KB]
 //    return isAgentAvatarValid() && !gAgentAvatarp->isEditingAppearance() && !gAgent.getFlying();
 }
@@ -4008,14 +4008,14 @@ void handle_object_sit_or_stand()
 // [/RLVa:KB]
 	{
 // [RLVa:KB] - Checked: 2010-08-29 (RLVa-1.2.1c) | Added: RLVa-1.2.1c
-		if ( (gRlvHandler.hasBehaviour(RLV_BHVR_STANDTP)) && (isAgentAvatarValid()) )
+		if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_STANDTP)) && (isAgentAvatarValid()) )
 		{
 			if (gAgentAvatarp->isSitting())
 			{
 				gAgent.standUp();
 				return;
 			}
-			gRlvHandler.setSitSource(gAgent.getPositionGlobal());
+			RlvHandler::instance().setSitSource(gAgent.getPositionGlobal());
 		}
 // [/RLVa:KB]
 
@@ -4046,7 +4046,7 @@ class LLLandSit : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.2.1f
-		if ( (rlv_handler_t::isEnabled()) && ((!RlvActions::canStand()) || (gRlvHandler.hasBehaviour(RLV_BHVR_SIT))) )
+		if ( (rlv_handler_t::isEnabled()) && ((!RlvActions::canStand()) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_SIT))) )
 			return true;
 // [/RLVa:KB]
 
@@ -6004,7 +6004,7 @@ class LLWorldCreateLandmark : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.4.5) | Added: RLVa-1.0.0
-		if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 			return true;
 // [/RLVa:KB]
 
@@ -6019,7 +6019,7 @@ class LLWorldPlaceProfile : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: 2012-02-08 (RLVa-1.4.5) | Added: RLVa-1.4.5
-		if (gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC))
+		if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 			return true;
 // [/RLVa:KB]
 
@@ -6751,7 +6751,7 @@ private:
 			if ( (rlv_handler_t::isEnabled()) &&
 				 ( ((!index) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY))) ||		    // Can't wear on default
 				   ((index) && ((RLV_WEAR_ADD & RlvAttachmentLocks::instance().canAttach(attachment_point)) == 0)) ||	// or non-attachable attachpt
-				   (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) ) )											    // Attach on object == "Take"
+				   (RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) ) )											    // Attach on object == "Take"
 			{
 				setObjectSelection(NULL); // Clear the selection or it'll get stuck
 				return true;
@@ -6913,7 +6913,7 @@ class LLAttachmentDrop : public view_listener_t
 				if ( (hSelect->isAttachment()) && (hSelect->getFirstRootNode(&f, FALSE) != NULL) )
 					return true;
 			}
-			if (gRlvHandler.hasBehaviour(RLV_BHVR_REZ))
+			if (RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ))
 			{
 				return true;
 			}
@@ -7135,7 +7135,7 @@ class LLAttachmentEnableDrop : public view_listener_t
 		//now check to make sure that the item is actually in the inventory before we enable dropping it
 //		bool new_value = enable_detach() && can_build && item;
 // [RLVa:KB] - Checked: 2010-03-24 (RLVa-1.0.0b) | Modified: RLVa-1.0.0b
-		bool new_value = enable_detach() && can_build && item && (!gRlvHandler.hasBehaviour(RLV_BHVR_REZ));
+		bool new_value = enable_detach() && can_build && item && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ));
 // [/RLVa:KB]
 
 		return new_value;
@@ -7214,7 +7214,7 @@ BOOL object_selected_and_point_valid(const LLSD& sdParam)
 			get_if_there(gAgentAvatarp->mAttachmentPoints, sdParam.asInteger(), (LLViewerJointAttachment*)NULL);
 		if ( ((!pAttachPt) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY))) ||		// Can't wear on default attach point
 			 ((pAttachPt) && ((RLV_WEAR_ADD & RlvAttachmentLocks::instance().canAttach(pAttachPt)) == 0)) ||	// or non-attachable attach point
-			 (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) )												// Attach on object == "Take"
+			 (RlvHandler::instance().hasBehaviour(RLV_BHVR_REZ)) )												// Attach on object == "Take"
 		{
 			return FALSE;
 		}
@@ -7819,7 +7819,7 @@ bool enable_object_take_copy()
 //					return (!obj->permCopy() || obj->isAttachment());
 // [RLVa:KB] - Checked: 2010-04-01 (RLVa-1.2.0c) | Modified: RLVa-1.0.0g
 					return (!obj->permCopy() || obj->isAttachment()) || 
-						( (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) && (isAgentAvatarValid()) && (gAgentAvatarp->getRoot() == obj) );
+						( (RlvHandler::instance().hasBehaviour(RLV_BHVR_UNSIT)) && (isAgentAvatarValid()) && (gAgentAvatarp->getRoot() == obj) );
 // [/RLVa:KB]
 				}
 			} func;
@@ -7927,7 +7927,7 @@ class LLWorldEnableCreateLandmark : public view_listener_t
 	{
 //		return !LLLandmarkActions::landmarkAlreadyExists();
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.4.5) | Added: RLVa-1.2.1
-		return (!LLLandmarkActions::landmarkAlreadyExists()) && (!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+		return (!LLLandmarkActions::landmarkAlreadyExists()) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC));
 // [/RLVa:KB]
 	}
 };
@@ -7951,7 +7951,7 @@ class LLWorldEnableTeleportHome : public view_listener_t
 		bool enable_teleport_home = gAgent.isGodlike() || !agent_on_prelude;
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.2.1f
 		enable_teleport_home &= 
-			(!rlv_handler_t::isEnabled()) || ((!gRlvHandler.hasBehaviour(RLV_BHVR_TPLM)) && (!gRlvHandler.hasBehaviour(RLV_BHVR_TPLOC)));
+			(!rlv_handler_t::isEnabled()) || ((!RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLM)) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_TPLOC)));
 // [/RLVa:KB]
 		return enable_teleport_home;
 	}
@@ -8424,7 +8424,7 @@ class LLViewHighlightTransparent : public view_listener_t
 	{
 //		LLDrawPoolAlpha::sShowDebugAlpha = !LLDrawPoolAlpha::sShowDebugAlpha;
 // [RLVa:KB] - Checked: 2010-11-29 (RLVa-1.3.0c) | Modified: RLVa-1.3.0c
-		LLDrawPoolAlpha::sShowDebugAlpha = (!LLDrawPoolAlpha::sShowDebugAlpha) && (!gRlvHandler.hasBehaviour(RLV_BHVR_EDIT));
+		LLDrawPoolAlpha::sShowDebugAlpha = (!LLDrawPoolAlpha::sShowDebugAlpha) && (!RlvHandler::instance().hasBehaviour(RLV_BHVR_EDIT));
 // [/RLVa:KB]
 		return true;
 	}
@@ -8760,7 +8760,7 @@ class LLWorldEnvSettings : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: 2010-03-18 (RLVa-1.2.0a) | Modified: RLVa-1.0.0g
-		if (gRlvHandler.hasBehaviour(RLV_BHVR_SETENV))
+		if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SETENV))
 			return true;
 // [/RLVa:KB]
 
@@ -9022,7 +9022,7 @@ void show_topinfobar_context_menu(LLView* ctrl, S32 x, S32 y)
 		landmark_item->setLabel(LLTrans::getString("EditLandmarkNavBarMenu"));
 	}
 // [RLVa:KB] - Checked: 2012-02-07 (RLVa-1.4.5) | Added: RLVa-1.4.5
-	landmark_item->setEnabled(!gRlvHandler.hasBehaviour(RLV_BHVR_SHOWLOC));
+	landmark_item->setEnabled(!RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC));
 // [/RLVa:KB]
 
 	if(gMenuHolder->hasVisibleMenu())

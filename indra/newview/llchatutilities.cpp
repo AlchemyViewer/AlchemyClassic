@@ -233,15 +233,15 @@ void send_chat_from_viewer(std::string utf8_out_text, EChatType type, S32 channe
 			type = RlvActions::checkChatVolume(type);
 
 			// Redirect chat if needed
-			if ( ( (gRlvHandler.hasBehaviour(RLV_BHVR_REDIRCHAT) || (gRlvHandler.hasBehaviour(RLV_BHVR_REDIREMOTE)) ) && 
-				 (gRlvHandler.redirectChatOrEmote(utf8_out_text)) ) )
+			if ( ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_REDIRCHAT) || (RlvHandler::instance().hasBehaviour(RLV_BHVR_REDIREMOTE)) ) && 
+				 (RlvHandler::instance().redirectChatOrEmote(utf8_out_text)) ) )
 			{
 				return;
 			}
 
 			// Filter public chat if sendchat restricted
-			if (gRlvHandler.hasBehaviour(RLV_BHVR_SENDCHAT))
-				gRlvHandler.filterChat(utf8_out_text, true);
+			if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDCHAT))
+				RlvHandler::instance().filterChat(utf8_out_text, true);
 		}
 		else
 		{
@@ -253,9 +253,9 @@ void send_chat_from_viewer(std::string utf8_out_text, EChatType type, S32 channe
 			if (CHAT_CHANNEL_DEBUG == channel)
 			{
 				bool fIsEmote = RlvUtil::isEmote(utf8_out_text);
-				if ( (gRlvHandler.hasBehaviour(RLV_BHVR_SENDCHAT)) || 
-					 ((!fIsEmote) && (gRlvHandler.hasBehaviour(RLV_BHVR_REDIRCHAT))) || 
-					 ((fIsEmote) && (gRlvHandler.hasBehaviour(RLV_BHVR_REDIREMOTE))) )
+				if ( (RlvHandler::instance().hasBehaviour(RLV_BHVR_SENDCHAT)) || 
+					 ((!fIsEmote) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_REDIRCHAT))) || 
+					 ((fIsEmote) && (RlvHandler::instance().hasBehaviour(RLV_BHVR_REDIREMOTE))) )
 				{
 					return;
 				}

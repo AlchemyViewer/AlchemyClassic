@@ -3645,7 +3645,7 @@ bool LLVOAvatar::isInMuteList()
 // [RLVa:KB] - Checked: RLVa-2.2 (@setcam_avdist)
 bool LLVOAvatar::isRlvSilhouette()
 {
-	if (!gRlvHandler.hasBehaviour(RLV_BHVR_SETCAM_AVDIST))
+	if (!RlvHandler::instance().hasBehaviour(RLV_BHVR_SETCAM_AVDIST))
 		return false;
 
 	static RlvCachedBehaviourModifier<float> s_nSetCamAvDist(RLV_MODIFIER_SETCAM_AVDIST);
@@ -7478,7 +7478,7 @@ void LLVOAvatar::sitDown(BOOL bSitting)
 // [RLVa:KB] - Checked: 2010-08-29 (RLVa-1.2.1c) | Modified: RLVa-1.2.1c
 		if (rlv_handler_t::isEnabled())
 		{
-			gRlvHandler.onSitOrStand(bSitting);
+			RlvHandler::instance().onSitOrStand(bSitting);
 		}
 // [/RLVa:KB]
 	}

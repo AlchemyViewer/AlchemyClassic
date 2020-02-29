@@ -1311,9 +1311,9 @@ void render_ui(F32 zoom_factor, int subfield)
 		LL_RECORD_BLOCK_TIME(FTM_RENDER_HUD);
 		render_hud_elements();
 // [RLVa:KB] - Checked: RLVa-2.2 (@setoverlay)
-		if (gRlvHandler.isEnabled())
+		if (RlvHandler::instance().isEnabled())
 		{
-			gRlvHandler.renderOverlay();
+			RlvHandler::instance().renderOverlay();
 		}
 // [/RLVa:KB]
 		render_hud_attachments();

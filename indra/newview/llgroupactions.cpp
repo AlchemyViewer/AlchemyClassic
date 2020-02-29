@@ -353,7 +353,7 @@ void LLGroupActions::processLeaveGroupDataResponse(const LLUUID group_id)
 void LLGroupActions::activate(const LLUUID& group_id)
 {
 // [RLVa:KB] - Checked: RLVa-1.3.0
-	if ( (!RlvActions::canChangeActiveGroup()) && (gRlvHandler.getAgentGroup() != group_id) )
+	if ( (!RlvActions::canChangeActiveGroup()) && (RlvHandler::instance().getAgentGroup() != group_id) )
 	{
 		return;
 	}

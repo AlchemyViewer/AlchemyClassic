@@ -187,7 +187,7 @@ typedef RlvForceHandler<RLV_BHVR_SETCAM_EYEOFFSET> RlvForceCamEyeFocusOffsetHand
 // RlvCommandProcessor - Templated glue class that brings RlvBehaviourInfo, RlvCommandHandlerBaseImpl and RlvCommandHandler together
 //
 template <ERlvParamType templParamType, ERlvBehaviour templBhvr, typename handlerImpl = RlvCommandHandler<templParamType, templBhvr>, typename baseImpl = RlvCommandHandlerBaseImpl<templParamType>>
-class RlvCommandProcessor : public RlvBehaviourInfo
+class RlvCommandProcessor final : public RlvBehaviourInfo
 {
 public:
 	// Default constructor used by behaviour specializations
@@ -217,7 +217,7 @@ template<ERlvBehaviourOptionType templOptionType> using RlvForceGenericProcessor
 //
 
 template <ERlvBehaviour eBhvr, typename handlerImpl = RlvBehaviourHandler<eBhvr>, typename toggleHandlerImpl = RlvBehaviourToggleHandler<eBhvr>>
-class RlvBehaviourToggleProcessor : public RlvBehaviourInfo
+class RlvBehaviourToggleProcessor final : public RlvBehaviourInfo
 {
 public:
 	RlvBehaviourToggleProcessor(const std::string& strBhvr, U32 nBhvrFlags = 0) : RlvBehaviourInfo(strBhvr, eBhvr, RLV_TYPE_ADDREM, nBhvrFlags) {}
@@ -639,7 +639,7 @@ private:
 // Various helper classes/timers/functors
 //
 
-class RlvGCTimer : public LLEventTimer
+class RlvGCTimer final : public LLEventTimer
 {
 public:
 	RlvGCTimer() : LLEventTimer(30.0) {}
@@ -647,7 +647,7 @@ public:
 };
 
 // NOTE: Unused as of SL-3.7.2
-class RlvCallbackTimerOnce : public LLEventTimer
+class RlvCallbackTimerOnce final : public LLEventTimer
 {
 public:
 	typedef boost::function<void ()> nullary_func_t;

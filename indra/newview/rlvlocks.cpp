@@ -923,7 +923,7 @@ void RlvWearableLocks::removeWearableTypeLock(LLWearableType::EType eType, const
 // RlvFolderLocks member functions
 //
 
-class RlvLockedDescendentsCollector : public LLInventoryCollectFunctor
+class RlvLockedDescendentsCollector final : public LLInventoryCollectFunctor
 {
 public:
 	RlvLockedDescendentsCollector(int eSourceTypeMask, RlvFolderLocks::ELockPermission ePermMask, ERlvLockMask eLockTypeMask) 

@@ -202,7 +202,7 @@ protected:
 	typedef std::map<LLUUID, RlvWearInfo> rlv_wear_map_t;
 	rlv_wear_map_t m_PendingWear;
 
-	class RlvAttachmentLockWatchdogTimer : public LLEventTimer
+	class RlvAttachmentLockWatchdogTimer final : public LLEventTimer
 	{
 	public:
 		RlvAttachmentLockWatchdogTimer(RlvAttachmentLockWatchdog* pWatchdog) : LLEventTimer(10), m_pWatchdog(pWatchdog) {}

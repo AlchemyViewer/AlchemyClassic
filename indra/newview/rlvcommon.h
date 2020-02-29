@@ -226,20 +226,20 @@ bool rlvMenuEnableIfNot(const LLSD& sdParam);
 bool rlvCanDeleteOrReturn();
 bool rlvCanDeleteOrReturn(const LLViewerObject* pObj);
 
-struct RlvSelectHasLockedAttach : public LLSelectedNodeFunctor
+struct RlvSelectHasLockedAttach final : public LLSelectedNodeFunctor
 {
 	RlvSelectHasLockedAttach() = default;
 	virtual bool apply(LLSelectNode* pNode);
 };
 
 // Filters out selected objects that can't be editable (i.e. getFirstNode() will return NULL if the selection is fully editable)
-struct RlvSelectIsEditable : public LLSelectedNodeFunctor
+struct RlvSelectIsEditable final : public LLSelectedNodeFunctor
 {
 	RlvSelectIsEditable() = default;
 	/*virtual*/ bool apply(LLSelectNode* pNode);
 };
 
-struct RlvSelectIsSittingOn : public LLSelectedNodeFunctor
+struct RlvSelectIsSittingOn final : public LLSelectedNodeFunctor
 {
 	RlvSelectIsSittingOn(const LLVOAvatar* pAvatar) : m_pAvatar(pAvatar) {}
 	/*virtual*/ bool apply(LLSelectNode* pNode);

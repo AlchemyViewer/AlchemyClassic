@@ -25,7 +25,7 @@
 //
 
 template<ERlvBehaviourModifier eBhvrMod>
-class RlvBehaviourModifierHandler : public RlvBehaviourModifier
+class RlvBehaviourModifierHandler final : public RlvBehaviourModifier
 {
 public:
 	//using RlvBehaviourModifier::RlvBehaviourModifier; // Needs VS2015 and up
@@ -53,7 +53,7 @@ struct RlvBehaviourModifierComp
 	LLUUID m_idPrimaryObject;
 };
 
-struct RlvBehaviourModifierCompMin : public RlvBehaviourModifierComp
+struct RlvBehaviourModifierCompMin final : public RlvBehaviourModifierComp
 {
 	bool operator()(const RlvBehaviourModifierValueTuple& lhs, const RlvBehaviourModifierValueTuple& rhs) override
 	{
@@ -63,7 +63,7 @@ struct RlvBehaviourModifierCompMin : public RlvBehaviourModifierComp
 	}
 };
 
-struct RlvBehaviourModifierCompMax : public RlvBehaviourModifierComp
+struct RlvBehaviourModifierCompMax final : public RlvBehaviourModifierComp
 {
 	bool operator()(const RlvBehaviourModifierValueTuple& lhs, const RlvBehaviourModifierValueTuple& rhs) override
 	{
@@ -108,7 +108,7 @@ public:
 	 * Animation timer
 	 */
 protected:
-	class AnimationTimer : public LLEventTimer, public LLHandleProvider<AnimationTimer>
+	class AnimationTimer final : public LLEventTimer, public LLHandleProvider<AnimationTimer>
 	{
 	public:
 		AnimationTimer();

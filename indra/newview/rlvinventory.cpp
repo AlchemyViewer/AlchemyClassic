@@ -37,7 +37,7 @@ const std::string RlvInventory::cstrSharedRoot = RLV_ROOT_FOLDER;
 //
 
 // TODO-RLVa: [RLVa-1.2.1] This class really shouldn't be calling "fetchSharedLinks" directly so find a better way
-class RlvSharedInventoryFetcher : public LLInventoryFetchDescendentsObserver
+class RlvSharedInventoryFetcher final : public LLInventoryFetchDescendentsObserver
 {
 public:
 	RlvSharedInventoryFetcher(const uuid_vec_t& idFolders): LLInventoryFetchDescendentsObserver(idFolders) {}

@@ -612,7 +612,7 @@ bool RlvHandler::processIMQuery(const LLUUID& idSender, const std::string& strMe
 			params.substitutions = LLSD().with("NAME_LABEL", LLSLURL("agent", idSender, "completename").getSLURLString()).with("NAME_SLURL", LLSLURL("agent", idSender, "about").getSLURLString());
 			params.payload = LLSD().with("from_id", idSender).with("command", strMessage);
 
-			class RlvPostponedOfferNotification : public LLPostponedNotification
+			class RlvPostponedOfferNotification final : public LLPostponedNotification
 			{
 			protected:
 				void modifyNotificationParams() override

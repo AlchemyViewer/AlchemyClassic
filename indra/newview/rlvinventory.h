@@ -102,14 +102,13 @@ protected:
 private:
 	static const std::string cstrSharedRoot;
 	friend class RlvSharedInventoryFetcher;
-	friend class LLSingleton<RlvInventory>;
 };
 
 // ============================================================================
 // RlvRenameOnWearObserver - Handles "auto-rename-on-wear" for (linked) items living under #RLV
 //
 
-class RlvRenameOnWearObserver : public LLInventoryFetchItemsObserver
+class RlvRenameOnWearObserver final : public LLInventoryFetchItemsObserver
 {
 public:
 	RlvRenameOnWearObserver(const LLUUID& idItem) : LLInventoryFetchItemsObserver(idItem) {}
@@ -143,7 +142,7 @@ private:
 // [See LLInventoryTransactionObserver which says it's not entirely complete?]
 // NOTE: the offer may span mulitple BulkUpdateInventory messages so if we're no longer around then (ie due to "delete this") then
 //       we'll miss those; in this specific case we only care about the *folder* though and that will be in the very first message
-class RlvGiveToRLVTaskOffer : public LLInventoryObserver, RlvGiveToRLVOffer
+class RlvGiveToRLVTaskOffer final : public LLInventoryObserver, RlvGiveToRLVOffer
 {
 public:
 	RlvGiveToRLVTaskOffer(const LLUUID& idTransaction) : RlvGiveToRLVOffer(), m_idTransaction(idTransaction) {}
@@ -159,7 +158,7 @@ protected:
 	LLUUID       m_idTransaction;
 };
 
-class RlvGiveToRLVAgentOffer : public LLInventoryFetchDescendentsObserver, RlvGiveToRLVOffer
+class RlvGiveToRLVAgentOffer final : public LLInventoryFetchDescendentsObserver, RlvGiveToRLVOffer
 {
 public:
 	RlvGiveToRLVAgentOffer(const LLUUID& idFolder) : LLInventoryFetchDescendentsObserver(idFolder), RlvGiveToRLVOffer()  {}
@@ -175,7 +174,7 @@ protected:
 // RlvCriteriaCategoryCollector - Criteria based folder matching filter used by @findfolder and @findfolders
 //
 
-class RlvCriteriaCategoryCollector : public LLInventoryCollectFunctor
+class RlvCriteriaCategoryCollector final : public LLInventoryCollectFunctor
 {
 public:
 	RlvCriteriaCategoryCollector(const std::string& strCriteria)
@@ -223,7 +222,7 @@ protected:
 // RlvWearableItemCollector - Inventory item filter used by attach/detach/attachall/detachall/getinvworn
 //
 
-class RlvWearableItemCollector : public LLInventoryCollectFunctor
+class RlvWearableItemCollector final : public LLInventoryCollectFunctor
 {
 public:
 	RlvWearableItemCollector(const LLInventoryCategory* pFolder, RlvForceWear::EWearAction eAction, RlvForceWear::EWearFlags eFlags);
@@ -258,7 +257,7 @@ protected:
 // General purpose inventory helper classes
 //
 
-class RlvIsLinkType : public LLInventoryCollectFunctor
+class RlvIsLinkType final : public LLInventoryCollectFunctor
 {
 public:
 	RlvIsLinkType() = default;
@@ -267,7 +266,7 @@ public:
 };
 
 // If the attachment item is linked in COF but isn't worn (or just detached) the function will return inconsistent information
-class RlvFindAttachmentsOnPoint : public LLInventoryCollectFunctor
+class RlvFindAttachmentsOnPoint final : public LLInventoryCollectFunctor
 {
 public:
 	RlvFindAttachmentsOnPoint(const LLViewerJointAttachment* pAttachPt) : m_pAttachPt(pAttachPt) {}

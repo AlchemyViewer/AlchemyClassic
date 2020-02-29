@@ -757,7 +757,7 @@ bool rlvCanDeleteOrReturn()
 {
 	if ( (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) || (gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) )
 	{
-		struct RlvCanDeleteOrReturn : public LLSelectedObjectFunctor
+		struct RlvCanDeleteOrReturn final : public LLSelectedObjectFunctor
 		{
 			/*virtual*/ bool apply(LLViewerObject* pObj) { return rlvCanDeleteOrReturn(pObj); }
 		} f;

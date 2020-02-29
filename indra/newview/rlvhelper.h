@@ -563,9 +563,6 @@ protected:
 
 	typedef std::map<LLUUID, U8> pendingattachments_map_t;
 	pendingattachments_map_t         m_pendingAttachments;
-
-private:
-	friend class LLSingleton<RlvForceWear>;
 };
 
 // ============================================================================

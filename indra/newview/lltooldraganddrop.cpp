@@ -1611,7 +1611,7 @@ EAcceptance LLToolDragAndDrop::willObjectAcceptInventory(LLViewerObject* obj, LL
 	if (rlv_handler_t::isEnabled())
 	{
 		const LLViewerObject* pObjRoot = obj->getRootEdit();
-		if (gRlvAttachmentLocks.isLockedAttachment(pObjRoot))
+		if (RlvAttachmentLocks::instance().isLockedAttachment(pObjRoot))
 		{
 			return ACCEPT_NO_LOCKED;		// Disallow inventory drops on a locked attachment
 		}

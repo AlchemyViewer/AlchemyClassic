@@ -1101,7 +1101,7 @@ void render_hud_attachments()
 	// clamp target zoom level to reasonable values
 //	gAgentCamera.mHUDTargetZoom = llclamp(gAgentCamera.mHUDTargetZoom, 0.1f, 1.f);
 // [RLVa:KB] - Checked: 2010-08-22 (RLVa-1.2.1a) | Modified: RLVa-1.0.0c
-	gAgentCamera.mHUDTargetZoom = llclamp(gAgentCamera.mHUDTargetZoom, (!gRlvAttachmentLocks.hasLockedHUD()) ? 0.1f : 0.85f, 1.f);
+	gAgentCamera.mHUDTargetZoom = llclamp(gAgentCamera.mHUDTargetZoom, (!RlvAttachmentLocks::instance().hasLockedHUD()) ? 0.1f : 0.85f, 1.f);
 // [/RLVa:KB]
 
 	// smoothly interpolate current zoom level

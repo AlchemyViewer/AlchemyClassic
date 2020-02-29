@@ -897,12 +897,12 @@ void LLWearableItemsList::ContextMenu::updateItemsVisibility(LLContextMenu* menu
 			{
 				case LLAssetType::AT_BODYPART:
 				case LLAssetType::AT_CLOTHING:
-					eWearMask = gRlvWearableLocks.canWear(item);
-					rlvCanRemove |= (is_worn) ? gRlvWearableLocks.canRemove(item) : false;
+					eWearMask = RlvWearableLocks::instance().canWear(item);
+					rlvCanRemove |= (is_worn) ? RlvWearableLocks::instance().canRemove(item) : false;
 					break;
 				case LLAssetType::AT_OBJECT:
-					eWearMask = gRlvAttachmentLocks.canAttach(item);
-					rlvCanRemove |= (is_worn) ? gRlvAttachmentLocks.canDetach(item) : false;
+					eWearMask = RlvAttachmentLocks::instance().canAttach(item);
+					rlvCanRemove |= (is_worn) ? RlvAttachmentLocks::instance().canDetach(item) : false;
 					break;
 				default:
 					break;

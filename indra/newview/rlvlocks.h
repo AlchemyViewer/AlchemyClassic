@@ -57,11 +57,9 @@ private:
 //
 
 // TODO-RLVa: [RLVa-1.2.1] Once everything is working for SL-2.0 thin out the member functions since a few of them are duplicates/unneeded
-class RlvAttachmentLocks
+class RlvAttachmentLocks final : public LLSingleton<RlvAttachmentLocks>
 {
-public:
-	RlvAttachmentLocks() : m_fHasLockedHUD(false) {}
-
+	LLSINGLETON_EMPTY_CTOR(RlvAttachmentLocks);
 public:
 	// Adds an RLV_LOCK_REMOVE lock (held by idRlvObj) for the attachment
 	void addAttachmentLock(const LLUUID& idAttachObj, const LLUUID& idRlvObj);
@@ -128,10 +126,8 @@ private:
 	rlv_attachptlock_map_t	m_AttachPtRem;		// Map of attachment points whose attachments can't be detached (idxAttachPt -> idObj)
 	rlv_attachobjlock_map_t	m_AttachObjRem;		// Map of attachments that can't be detached (idAttachObj -> idObj)
 
-	bool m_fHasLockedHUD;
+	bool m_fHasLockedHUD = false;
 };
-
-extern RlvAttachmentLocks gRlvAttachmentLocks;
 
 // ============================================================================
 // RlvAttachmentLockWatchdog - Self contained class that automagically takes care of enforcing attachment locks (ie reattach-on-detach)
@@ -220,8 +216,9 @@ protected:
 // RlvWearableLocks class declaration - modelled on RlvAttachmentLocks (attach pt = wearable type - attachment = wearable)
 //
 
-class RlvWearableLocks
+class RlvWearableLocks final : public LLSingleton<RlvWearableLocks>
 {
+	LLSINGLETON_EMPTY_CTOR(RlvWearableLocks);
 public:
 	// Adds an eLock type lock (held by idRlvObj) for the wearable type
 	void addWearableTypeLock(LLWearableType::EType eType, const LLUUID& idRlvObj, ERlvLockMask eLock);
@@ -272,8 +269,6 @@ protected:
 	rlv_wearabletypelock_map_t m_WearableTypeAdd;
 	rlv_wearabletypelock_map_t m_WearableTypeRem;
 };
-
-extern RlvWearableLocks gRlvWearableLocks;
 
 // ============================================================================
 // RlvFolderLocks class declaration

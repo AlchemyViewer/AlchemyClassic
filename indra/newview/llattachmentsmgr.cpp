@@ -104,14 +104,14 @@ void LLAttachmentsMgr::addAttachmentRequest(const LLUUID& item_id,
 	attachment.mAdd = add;
 
 // [RLVa:KB] - Checked: 2010-09-23 (RLVa-1.2.1)
-	if ( (RlvActions::isRlvEnabled()) && (!fRlvForce) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) && (gAgentWearables.areInitialAttachmentsRequested()) )
+	if ( (RlvActions::isRlvEnabled()) && (!fRlvForce) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) && (gAgentWearables.areInitialAttachmentsRequested()) )
 	{
 		const LLInventoryItem* pItem = gInventory.getItem(item_id); 
 		if (!pItem)
 			return;
 
 		LLViewerJointAttachment* pAttachPt = NULL;
-		ERlvWearMask eWearMask = gRlvAttachmentLocks.canAttach(pItem, &pAttachPt);
+		ERlvWearMask eWearMask = RlvAttachmentLocks::instance().canAttach(pItem, &pAttachPt);
 		if ( ((add) && ((RLV_WEAR_ADD & eWearMask) == 0)) || ((!add) && ((RLV_WEAR_REPLACE & eWearMask) == 0)) )
 			return;
 

@@ -5083,7 +5083,7 @@ void LLVolumeGeometryManager::registerFace(LLSpatialGroup* group, LLFace* facep,
 	bool selected = pObj->isSelected();
 	if ( (pObj->isSelected() && LLSelectMgr::getInstance()->mHideSelectedObjects) &&
 		 ( (!RlvActions::isRlvEnabled()) ||
-		   ( ((!pObj->isHUDAttachment()) || (!gRlvAttachmentLocks.isLockedAttachment(pObj->getRootEdit()))) &&
+		   ( ((!pObj->isHUDAttachment()) || (!RlvAttachmentLocks::instance().isLockedAttachment(pObj->getRootEdit()))) &&
 		     (RlvActions::canEdit(pObj)) ) ) )
 // [/RVLa:KB]
 	{

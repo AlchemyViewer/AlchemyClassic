@@ -1226,7 +1226,7 @@ class LLAdvancedToggleWireframe : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: RLVa-2.0.0
-		bool fRlvBlockWireframe = gRlvAttachmentLocks.hasLockedHUD();
+		bool fRlvBlockWireframe = RlvAttachmentLocks::instance().hasLockedHUD();
 		if ( (!gUseWireframe) && (fRlvBlockWireframe) )
 			RlvUtil::notifyBlocked(RLV_STRING_BLOCKED_WIREFRAME);
 		set_use_wireframe( (!gUseWireframe) && (!fRlvBlockWireframe) );
@@ -3022,7 +3022,7 @@ class LLSelfEnableRemoveAllAttachments : public view_listener_t
 				LLViewerJointAttachment* attachment = curiter->second;
 //				if (attachment->getNumObjects() > 0)
 // [RLVa:KB] - Checked: 2010-03-04 (RLVa-1.2.0a) | Added: RLVa-1.2.0a
-				if ( (attachment->getNumObjects() > 0) && ((!rlv_handler_t::isEnabled()) || (gRlvAttachmentLocks.canDetach(attachment))) )
+				if ( (attachment->getNumObjects() > 0) && ((!rlv_handler_t::isEnabled()) || (RlvAttachmentLocks::instance().canDetach(attachment))) )
 // [/RLVa:KB]
 				{
 					new_value = true;
@@ -5405,7 +5405,7 @@ class LLToolsReleaseKeys : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: 2010-04-19 (RLVa-1.2.0f) | Modified: RLVa-1.0.5a
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
 			return true;
 // [/RLVa:KB]
 
@@ -5420,7 +5420,7 @@ class LLToolsEnableReleaseKeys : public view_listener_t
 	{
 // [RLVa:KB] - Checked: 2010-04-19 (RLVa-1.2.0f) | Modified: RLVa-1.0.5a
 		return (gAgent.anyControlGrabbed()) && 
-			( (!rlv_handler_t::isEnabled()) || (!gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) );
+			( (!rlv_handler_t::isEnabled()) || (!RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) );
 // [/RLVa:KB]
 //		return gAgent.anyControlGrabbed();
 	}
@@ -6749,8 +6749,8 @@ private:
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.2.1f
 			// RELEASE-RLVa: [SL-2.2.0] If 'index != 0' then the object will be "add attached" [see LLSelectMgr::sendAttach()]
 			if ( (rlv_handler_t::isEnabled()) &&
-				 ( ((!index) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY))) ||		    // Can't wear on default
-				   ((index) && ((RLV_WEAR_ADD & gRlvAttachmentLocks.canAttach(attachment_point)) == 0)) ||	// or non-attachable attachpt
+				 ( ((!index) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY))) ||		    // Can't wear on default
+				   ((index) && ((RLV_WEAR_ADD & RlvAttachmentLocks::instance().canAttach(attachment_point)) == 0)) ||	// or non-attachable attachpt
 				   (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) ) )											    // Attach on object == "Take"
 			{
 				setObjectSelection(NULL); // Clear the selection or it'll get stuck
@@ -6905,7 +6905,7 @@ class LLAttachmentDrop : public view_listener_t
 // [RLVa:KB] - Checked: 2010-03-15 (RLVa-1.2.0e) | Modified: RLVa-1.0.5
 		if (rlv_handler_t::isEnabled())
 		{
-			if (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE))
+			if (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE))
 			{
 				// NOTE: copy/paste of the code in enable_detach()
 				LLObjectSelectionHandle hSelect = LLSelectMgr::getInstance()->getSelection();
@@ -6947,13 +6947,13 @@ class LLAttachmentDetachFromPoint : public view_listener_t
 		const LLViewerJointAttachment *attachment = get_if_there(gAgentAvatarp->mAttachmentPoints, user_data.asInteger(), (LLViewerJointAttachment*)NULL);
 //		if (attachment && attachment->getNumObjects() > 0)
 // [RLVa:KB] - Checked: 2010-03-04 (RLVa-1.2.0a) | Added: RLVa-1.2.0a
-		if (attachment && (attachment->getNumObjects() > 0) && ((!rlv_handler_t::isEnabled()) || (gRlvAttachmentLocks.canDetach(attachment))) )
+		if (attachment && (attachment->getNumObjects() > 0) && ((!rlv_handler_t::isEnabled()) || (RlvAttachmentLocks::instance().canDetach(attachment))) )
 // [/RLVa:KB]
 		{
 			for (const auto& attached_object : attachment->mAttachedObjects)
             {
 // [RLVa:KB] - Checked: 2010-03-04 (RLVa-1.2.0a) | Added: RLVa-1.2.0a
-				if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(attached_object)) )
+				if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().isLockedAttachment(attached_object)) )
 					continue;
                 ids_to_remove.push_back(attached_object->getAttachmentItemID());
 // [/RLVa:KB]
@@ -6997,7 +6997,7 @@ static bool onEnableAttachmentLabel(LLUICtrl* ctrl, const LLSD& data)
 
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.2.1f
 		if (rlv_handler_t::isEnabled())
-			fRlvEnable = (!gRlvAttachmentLocks.isLockedAttachmentPoint(attachment, RLV_LOCK_ADD));
+			fRlvEnable = (!RlvAttachmentLocks::instance().isLockedAttachmentPoint(attachment, RLV_LOCK_ADD));
 // [/RLVa:KB]
 
 		menu->setLabel(label);
@@ -7047,7 +7047,7 @@ class LLAttachmentDetach : public view_listener_t
 
 // [RLVa:KB] - Checked: 2010-03-15 (RLVa-1.2.0a) | Modified: RLVa-1.0.5
 		// NOTE: copy/paste of the code in enable_detach()
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
 		{
 			LLObjectSelectionHandle hSelect = LLSelectMgr::getInstance()->getSelection();
 			RlvSelectHasLockedAttach f;
@@ -7167,7 +7167,7 @@ BOOL enable_detach(const LLSD&)
 
 			// RELEASE-RLVa: [SL-2.2.0] LLSelectMgr::sendDetach() and LLSelectMgr::sendDropAttachment() call sendListToRegions with
 			//                          SEND_ONLY_ROOTS so we only need to examine the roots which saves us time
-			if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
+			if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
 			{
 				LLObjectSelectionHandle hSelect = LLSelectMgr::getInstance()->getSelection();
 				RlvSelectHasLockedAttach f;
@@ -7212,8 +7212,8 @@ BOOL object_selected_and_point_valid(const LLSD& sdParam)
 		// RELEASE-RLVa: [SL-2.2.0] If 'idxAttachPt != 0' then the object will be "add attached" [see LLSelectMgr::sendAttach()]
 		const LLViewerJointAttachment* pAttachPt = 
 			get_if_there(gAgentAvatarp->mAttachmentPoints, sdParam.asInteger(), (LLViewerJointAttachment*)NULL);
-		if ( ((!pAttachPt) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY))) ||		// Can't wear on default attach point
-			 ((pAttachPt) && ((RLV_WEAR_ADD & gRlvAttachmentLocks.canAttach(pAttachPt)) == 0)) ||	// or non-attachable attach point
+		if ( ((!pAttachPt) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY))) ||		// Can't wear on default attach point
+			 ((pAttachPt) && ((RLV_WEAR_ADD & RlvAttachmentLocks::instance().canAttach(pAttachPt)) == 0)) ||	// or non-attachable attach point
 			 (gRlvHandler.hasBehaviour(RLV_BHVR_REZ)) )												// Attach on object == "Take"
 		{
 			return FALSE;
@@ -7288,7 +7288,7 @@ class LLAttachmentPointFilled : public view_listener_t
 // [RLVa:KB] - Checked: 2010-03-04 (RLVa-1.2.0a) | Added: RLVa-1.2.0a
 			// Enable the option if there is at least one attachment on this attachment point that can be detached
 			enable = (found_it->second->getNumObjects() > 0) && 
-				((!rlv_handler_t::isEnabled()) || (gRlvAttachmentLocks.canDetach(found_it->second)));
+				((!rlv_handler_t::isEnabled()) || (RlvAttachmentLocks::instance().canDetach(found_it->second)));
 // [/RLVa:KB]
 		}
 		return enable;
@@ -7410,7 +7410,7 @@ class LLToolsSelectedScriptAction : public view_listener_t
 	{
 // [RLVa:KB] - Checked: 2010-04-19 (RLVa-1.2.0f) | Modified: RLVa-1.0.5a
 		// We'll allow resetting the scripts of objects on a non-attachable attach point since they wouldn't be able to circumvent anything
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
 		{
 			LLObjectSelectionHandle hSel = LLSelectMgr::getInstance()->getSelection();
 			RlvSelectHasLockedAttach f;
@@ -7570,7 +7570,7 @@ void handle_test_male(void*)
 // [RLVa:KB] - Checked: 2010-03-19 (RLVa-1.2.0c) | Modified: RLVa-1.2.0a
 	// TODO-RLVa: [RLVa-1.2.1] Is there any reason to still block this?
 	if ( (rlv_handler_t::isEnabled()) && 
-		 ((gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_ANY))) )
+		 ((RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_ANY))) )
 	{
 		return;
 	}
@@ -7585,7 +7585,7 @@ void handle_test_female(void*)
 // [RLVa:KB] - Checked: 2010-03-19 (RLVa-1.2.0c) | Modified: RLVa-1.2.0a
 	// TODO-RLVa: [RLVa-1.2.1] Is there any reason to still block this?
 	if ( (rlv_handler_t::isEnabled()) && 
-		 ((gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_ANY))) )
+		 ((RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_ANY))) )
 	{
 		return;
 	}
@@ -7758,7 +7758,7 @@ static bool is_editable_selected()
 {
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.0.5a
 	// RELEASE-RLVa: [SL-2.2.0] Check that this still isn't called by anything but script actions in the Build menu
-	if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
+	if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
 	{
 		LLObjectSelectionHandle hSelection = LLSelectMgr::getInstance()->getSelection();
 
@@ -8638,7 +8638,7 @@ class LLViewShowHUDAttachments : public view_listener_t
 	bool handleEvent(const LLSD& userdata) override
 	{
 // [RLVa:KB] - Checked: 2010-04-19 (RLVa-1.2.1a) | Modified: RLVa-1.0.0c
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedHUD()) && (LLPipeline::sShowHUDAttachments) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedHUD()) && (LLPipeline::sShowHUDAttachments) )
 			return true;
 // [/RLVa:KB]
 
@@ -8666,7 +8666,7 @@ class LLEditEnableTakeOff : public view_listener_t
 // [RLVa:KB] - Checked: 2010-03-20 (RLVa-1.2.0c) | Modified: RLVa-1.2.0a
 		// NOTE: see below - enable if there is at least one wearable on this type that can be removed
 		if ( (type >= LLWearableType::WT_SHAPE && type < LLWearableType::WT_COUNT) && 
-			 ((!rlv_handler_t::isEnabled()) || (gRlvWearableLocks.canRemove(type))) )
+			 ((!rlv_handler_t::isEnabled()) || (RlvWearableLocks::instance().canRemove(type))) )
 // [/RLVa:KB]
 		{
 			return LLAgentWearables::selfHasWearable(type);
@@ -8693,13 +8693,13 @@ class LLEditTakeOff : public view_listener_t
 				U32 wearable_index = gAgentWearables.getWearableCount(type) - 1;
 
 // [RLVa:KB] - Checked: 2010-06-09 (RLVa-1.2.0g) | Added: RLVa-1.2.0g
-				if ( (rlv_handler_t::isEnabled()) && (gRlvWearableLocks.hasLockedWearable(type)) )
+				if ( (rlv_handler_t::isEnabled()) && (RlvWearableLocks::instance().hasLockedWearable(type)) )
 				{
 					// We'll use the first wearable we come across that can be removed (moving from top to bottom)
 					for (; wearable_index >= 0; wearable_index--)
 					{
 						const LLViewerWearable* pWearable = gAgentWearables.getViewerWearable(type, wearable_index);
-						if (!gRlvWearableLocks.isLockedWearable(pWearable))
+						if (!RlvWearableLocks::instance().isLockedWearable(pWearable))
 							break;
 					}
 					if (wearable_index < 0)

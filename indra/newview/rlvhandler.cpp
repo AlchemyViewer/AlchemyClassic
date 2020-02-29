@@ -861,7 +861,7 @@ void RlvHandler::onAttach(const LLViewerObject* pAttachObj, const LLViewerJointA
 
 				// We need to check this object for an active "@detach=n" and actually lock it down now that it's been attached somewhere
 				if (itObj->second.hasBehaviour(RLV_BHVR_DETACH, false))
-					gRlvAttachmentLocks.addAttachmentLock(pAttachObj->getID(), itObj->second.getObjectID());
+					RlvAttachmentLocks::instance().addAttachmentLock(pAttachObj->getID(), itObj->second.getObjectID());
 			}
 		}
 	}
@@ -901,7 +901,7 @@ void RlvHandler::onDetach(const LLViewerObject* pAttachObj, const LLViewerJointA
 
 				// If this object has an active "@detach=n" then we need to release the attachment lock since it's no longer attached
 				if (itObj->second.hasBehaviour(RLV_BHVR_DETACH, false))
-					gRlvAttachmentLocks.removeAttachmentLock(pAttachObj->getID(), itObj->second.getObjectID());
+					RlvAttachmentLocks::instance().removeAttachmentLock(pAttachObj->getID(), itObj->second.getObjectID());
 			}
 		}
 	}
@@ -1008,12 +1008,12 @@ bool RlvHandler::onGC()
 				//	-> if it does run it likely means that there's a @detach=n in a *child* prim that we couldn't look up in onAttach()
 				//  -> since RLV doesn't currently support @detach=n from child prims it's actually not such a big deal right now but still
 				if ( (pObj->isAttachment()) && (itCurObj->second.hasBehaviour(RLV_BHVR_DETACH, false)) )
-					gRlvAttachmentLocks.addAttachmentLock(pObj->getID(), itCurObj->second.getObjectID());
+					RlvAttachmentLocks::instance().addAttachmentLock(pObj->getID(), itCurObj->second.getObjectID());
 			}
 		}
 	}
 
-	RLV_ASSERT(gRlvAttachmentLocks.verifyAttachmentLocks()); // Verify that we haven't leaked any attachment locks somehow
+	RLV_ASSERT(RlvAttachmentLocks::instance().verifyAttachmentLocks()); // Verify that we haven't leaked any attachment locks somehow
 
 	// Clean up pending temp attachments that we were never able to resolve
 	rlv_blocked_object_list_t::const_iterator itBlocked = m_BlockedObjects.cbegin(), itCurBlocked;
@@ -1305,8 +1305,8 @@ bool RlvHandler::redirectChatOrEmote(const std::string& strUTF8Text) const
 		if ( (!pFolder) || (!pAvatar) )
 			return false;
 		// Sanity check - if nothing is locked then we can definitely take it off
-		if ( (!gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) || 
-			 (!gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_REMOVE)) )
+		if ( (!RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) || 
+			 (!RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_REMOVE)) )
 		{
 			return true;
 		}
@@ -1353,7 +1353,7 @@ bool RlvHandler::redirectChatOrEmote(const std::string& strUTF8Text) const
 		if ( (!pFolder) || (!pAvatar) )
 			return false;
 		// Sanity check - if nothing is locked then we can definitely wear it
-		if ( (!gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (!gRlvWearableLocks.hacLockedWearableType(RLV_LOCK_ANY)) )
+		if ( (!RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (!RlvWearableLocks::instance().hacLockedWearableType(RLV_LOCK_ANY)) )
 			return true;
 
 /*
@@ -1509,9 +1509,9 @@ ERlvCmdRet RlvHandler::processAddRemCommand(const RlvCommand& rlvCmd)
 					if ( (rlvCmdOption.isEmpty()) || ((LLWearableType::EType)idxType == rlvCmdOption.getWearableType()) )
 					{
 						if (RLV_TYPE_ADD == eType)
-							gRlvWearableLocks.addWearableTypeLock((LLWearableType::EType)idxType, rlvCmd.getObjectID(), eLock);
+							RlvWearableLocks::instance().addWearableTypeLock((LLWearableType::EType)idxType, rlvCmd.getObjectID(), eLock);
 						else
-							gRlvWearableLocks.removeWearableTypeLock((LLWearableType::EType)idxType, rlvCmd.getObjectID(), eLock);
+							RlvWearableLocks::instance().removeWearableTypeLock((LLWearableType::EType)idxType, rlvCmd.getObjectID(), eLock);
 					}
 				}
 			}
@@ -1779,9 +1779,9 @@ ERlvCmdRet RlvBehaviourAddRemAttachHandler::onCommand(const RlvCommand& rlvCmd, 
 		if ( (0 == idxAttachPt) || (itAttach->first == idxAttachPt) )
 		{
 			if (RLV_TYPE_ADD == rlvCmd.getParamType())
-				gRlvAttachmentLocks.addAttachmentPointLock(itAttach->first, rlvCmd.getObjectID(), eLock);
+				RlvAttachmentLocks::instance().addAttachmentPointLock(itAttach->first, rlvCmd.getObjectID(), eLock);
 			else
-				gRlvAttachmentLocks.removeAttachmentPointLock(itAttach->first, rlvCmd.getObjectID(), eLock);
+				RlvAttachmentLocks::instance().removeAttachmentPointLock(itAttach->first, rlvCmd.getObjectID(), eLock);
 		}
 	}
 
@@ -1808,9 +1808,9 @@ ERlvCmdRet RlvBehaviourHandler<RLV_BHVR_DETACH>::onCommand(const RlvCommand& rlv
 		if ( (itObj != gRlvHandler.m_Objects.end()) && (itObj->second.hasLookup()) && (itObj->second.getAttachPt()) )
 		{
 			if (RLV_TYPE_ADD == rlvCmd.getParamType())
-				gRlvAttachmentLocks.addAttachmentLock(itObj->second.getRootID(), itObj->first);
+				RlvAttachmentLocks::instance().addAttachmentLock(itObj->second.getRootID(), itObj->first);
 			else
-				gRlvAttachmentLocks.removeAttachmentLock(itObj->second.getRootID(), itObj->first);
+				RlvAttachmentLocks::instance().removeAttachmentLock(itObj->second.getRootID(), itObj->first);
 		}
 	}
 	else							// @detach:<attachpt>=n|y - RLV_LOCK_ADD and RLV_LOCK_REMOVE locks an attachment *point*
@@ -1821,9 +1821,9 @@ ERlvCmdRet RlvBehaviourHandler<RLV_BHVR_DETACH>::onCommand(const RlvCommand& rlv
 			return RLV_RET_FAILED_OPTION;
 
 		if (RLV_TYPE_ADD == rlvCmd.getParamType())
-			gRlvAttachmentLocks.addAttachmentPointLock(idxAttachPt, rlvCmd.getObjectID(), (ERlvLockMask)(RLV_LOCK_ADD | RLV_LOCK_REMOVE));
+			RlvAttachmentLocks::instance().addAttachmentPointLock(idxAttachPt, rlvCmd.getObjectID(), (ERlvLockMask)(RLV_LOCK_ADD | RLV_LOCK_REMOVE));
 		else
-			gRlvAttachmentLocks.removeAttachmentPointLock(idxAttachPt, rlvCmd.getObjectID(), (ERlvLockMask)(RLV_LOCK_ADD | RLV_LOCK_REMOVE));
+			RlvAttachmentLocks::instance().removeAttachmentPointLock(idxAttachPt, rlvCmd.getObjectID(), (ERlvLockMask)(RLV_LOCK_ADD | RLV_LOCK_REMOVE));
 	}
 
 	fRefCount = false;	// Don't reference count @detach[:<option>]=n
@@ -3250,7 +3250,7 @@ ERlvCmdRet RlvHandler::onGetAttachNames(const RlvCommand& rlvCmd, std::string& s
 					fAdd = (pAttachPt->getNumObjects() > 0);
 					break;
 				case RLV_BHVR_GETADDATTACHNAMES:	// Every attachment point that can be attached to (wear replace OR wear add)
-					fAdd = (gRlvAttachmentLocks.canAttach(pAttachPt) & RLV_WEAR);
+					fAdd = (RlvAttachmentLocks::instance().canAttach(pAttachPt) & RLV_WEAR);
 					break;
 				case RLV_BHVR_GETREMATTACHNAMES:	// Every attachment point that has at least one attachment that can be force-detached
 					fAdd = RlvForceWear::isForceDetachable(pAttachPt);
@@ -3550,7 +3550,7 @@ ERlvCmdRet RlvHandler::onGetOutfitNames(const RlvCommand& rlvCmd, std::string& s
 				fAdd = (gAgentWearables.getWearableCount(wtType) > 0);
 				break;
 			case RLV_BHVR_GETADDOUTFITNAMES:	// Every layer that can be worn on (wear replace OR wear add)
-				fAdd = (gRlvWearableLocks.canWear(wtType) & RLV_WEAR);
+				fAdd = (RlvWearableLocks::instance().canWear(wtType) & RLV_WEAR);
 				break;
 			case RLV_BHVR_GETREMOUTFITNAMES:	// Every layer that has at least one wearable that can be force-removed
 				fAdd = RlvForceWear::isForceRemovable(wtType);

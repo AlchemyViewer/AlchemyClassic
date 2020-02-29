@@ -172,8 +172,6 @@ S32 RlvAttachPtLookup::getAttachPointIndexLegacy(const LLInventoryCategory* pFol
 // RlvAttachmentLocks member functions
 //
 
-RlvAttachmentLocks gRlvAttachmentLocks;
-
 // Checked: 2010-02-28 (RLVa-1.2.0a) | Modified: RLVa-1.2.0a
 void RlvAttachmentLocks::addAttachmentLock(const LLUUID& idAttachObj, const LLUUID& idRlvObj)
 {
@@ -628,7 +626,7 @@ void RlvAttachmentLockWatchdog::onAttach(const LLViewerObject* pAttachObj, const
 			for (LLViewerJointAttachment::attachedobjs_vec_t::const_iterator itAttachObj = pAttachPt->mAttachedObjects.begin();
 					((itAttachObj != pAttachPt->mAttachedObjects.end()) && (fAttachAllowed)); ++itAttachObj)
 			{
-				if ( (pAttachObj != *itAttachObj) && (gRlvAttachmentLocks.isLockedAttachment(*itAttachObj)) )
+				if ( (pAttachObj != *itAttachObj) && (RlvAttachmentLocks::instance().isLockedAttachment(*itAttachObj)) )
 				{
 					// Fail if we encounter a non-detachable attachment (unless we're only replacing detachable attachments)
 					if (gSavedSettings.getBOOL("RLVaWearReplaceUnlocked"))
@@ -673,7 +671,7 @@ void RlvAttachmentLockWatchdog::onDetach(const LLViewerObject* pAttachObj, const
 
 	// If the attachment is currently "remove locked" then we should reattach it (unless it's already pending reattach)
 	bool fDetachAllowed = true;
-	if (gRlvAttachmentLocks.isLockedAttachment(pAttachObj))
+	if (RlvAttachmentLocks::instance().isLockedAttachment(pAttachObj))
 	{
 		bool fPendingAttach = false;
 		for (rlv_attach_map_t::const_iterator itReattach = m_PendingAttach.lower_bound(idxAttachPt), 
@@ -768,7 +766,7 @@ void RlvAttachmentLockWatchdog::onWearAttachment(const LLUUID& idItem, ERlvWearM
 {
 	// We only need to keep track of user wears if there's actually anything locked
 	RLV_ASSERT(idItem.notNull());
-	if ( (idItem.isNull()) || (!isAgentAvatarValid()) || (!gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) )
+	if ( (idItem.isNull()) || (!isAgentAvatarValid()) || (!RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) )
 		return;
 
 	// If the attachment point this will end up being attached to is:
@@ -784,7 +782,7 @@ void RlvAttachmentLockWatchdog::onWearAttachment(const LLUUID& idItem, ERlvWearM
 	{
 		const LLViewerJointAttachment* pAttachPt = itAttachPt->second;
 		// We only need to know which attachments were present for RLV_LOCK_ADD locked attachment points (and not RLV_LOCK_REM locked ones)
-		if (gRlvAttachmentLocks.isLockedAttachmentPoint(pAttachPt, RLV_LOCK_ADD))
+		if (RlvAttachmentLocks::instance().isLockedAttachmentPoint(pAttachPt, RLV_LOCK_ADD))
 		{
 			uuid_vec_t attachObjs;
 			for (LLViewerJointAttachment::attachedobjs_vec_t::const_iterator itAttachObj = pAttachPt->mAttachedObjects.begin();
@@ -809,8 +807,6 @@ void RlvAttachmentLockWatchdog::onWearAttachment(const LLUUID& idItem, ERlvWearM
 // ============================================================================
 // RlvWearableLocks member functions
 //
-
-RlvWearableLocks gRlvWearableLocks;
 
 // Checked: 2010-03-18 (RLVa-1.2.0c) | Added: RLVa-1.2.0a
 void RlvWearableLocks::addWearableTypeLock(LLWearableType::EType eType, const LLUUID& idRlvObj, ERlvLockMask eLock)

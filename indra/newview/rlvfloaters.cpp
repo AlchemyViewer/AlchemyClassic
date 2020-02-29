@@ -481,7 +481,7 @@ void RlvFloaterLocks::refreshAll()
 	sdColumns[0]["value"] = "Attachment";
 	sdColumns[1]["value"] = "rem";
 
-	const RlvAttachmentLocks::rlv_attachobjlock_map_t& attachObjRem = gRlvAttachmentLocks.getAttachObjLocks();
+	const RlvAttachmentLocks::rlv_attachobjlock_map_t& attachObjRem = RlvAttachmentLocks::instance().getAttachObjLocks();
 	for (RlvAttachmentLocks::rlv_attachobjlock_map_t::const_iterator itAttachObj = attachObjRem.begin(); 
 			itAttachObj != attachObjRem.end(); ++itAttachObj)
 	{
@@ -497,7 +497,7 @@ void RlvFloaterLocks::refreshAll()
 	sdColumns[0]["value"] = "Attachment Point";
 
 	sdColumns[1]["value"] = "add";
-	const RlvAttachmentLocks::rlv_attachptlock_map_t& attachPtAdd = gRlvAttachmentLocks.getAttachPtLocks(RLV_LOCK_ADD);
+	const RlvAttachmentLocks::rlv_attachptlock_map_t& attachPtAdd = RlvAttachmentLocks::instance().getAttachPtLocks(RLV_LOCK_ADD);
 	for (RlvAttachmentLocks::rlv_attachptlock_map_t::const_iterator itAttachPt = attachPtAdd.begin(); 
 			itAttachPt != attachPtAdd.end(); ++itAttachPt)
 	{
@@ -510,7 +510,7 @@ void RlvFloaterLocks::refreshAll()
 	}
 
 	sdColumns[1]["value"] = "rem";
-	const RlvAttachmentLocks::rlv_attachptlock_map_t& attachPtRem = gRlvAttachmentLocks.getAttachPtLocks(RLV_LOCK_REMOVE);
+	const RlvAttachmentLocks::rlv_attachptlock_map_t& attachPtRem = RlvAttachmentLocks::instance().getAttachPtLocks(RLV_LOCK_REMOVE);
 	for (RlvAttachmentLocks::rlv_attachptlock_map_t::const_iterator itAttachPt = attachPtRem.begin(); 
 			itAttachPt != attachPtRem.end(); ++itAttachPt)
 	{
@@ -528,7 +528,7 @@ void RlvFloaterLocks::refreshAll()
 	sdColumns[0]["value"] = "Wearable Type";
 
 	sdColumns[1]["value"] = "add";
-	const RlvWearableLocks::rlv_wearabletypelock_map_t& wearableTypeAdd = gRlvWearableLocks.getWearableTypeLocks(RLV_LOCK_ADD);
+	const RlvWearableLocks::rlv_wearabletypelock_map_t& wearableTypeAdd = RlvWearableLocks::instance().getWearableTypeLocks(RLV_LOCK_ADD);
 	for (RlvWearableLocks::rlv_wearabletypelock_map_t::const_iterator itWearableType = wearableTypeAdd.begin(); 
 			itWearableType != wearableTypeAdd.end(); ++itWearableType)
 	{
@@ -539,7 +539,7 @@ void RlvFloaterLocks::refreshAll()
 	}
 
 	sdColumns[1]["value"] = "rem";
-	const RlvWearableLocks::rlv_wearabletypelock_map_t& wearableTypeRem = gRlvWearableLocks.getWearableTypeLocks(RLV_LOCK_REMOVE);
+	const RlvWearableLocks::rlv_wearabletypelock_map_t& wearableTypeRem = RlvWearableLocks::instance().getWearableTypeLocks(RLV_LOCK_REMOVE);
 	for (RlvWearableLocks::rlv_wearabletypelock_map_t::const_iterator itWearableType = wearableTypeRem.begin(); 
 			itWearableType != wearableTypeRem.end(); ++itWearableType)
 	{

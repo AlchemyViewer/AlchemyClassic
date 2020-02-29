@@ -2111,7 +2111,7 @@ void LLLiveLSLEditor::onRunningCheckboxClicked( LLUICtrl*, void* userdata )
 	if( object )
 	{
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.0.5a
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().isLockedAttachment(object->getRootEdit())) )
 		{
 			RlvUtil::notifyBlockedGeneric();
 			return;
@@ -2144,7 +2144,7 @@ void LLLiveLSLEditor::onReset(void *userdata)
 	if(object)
 	{
 // [RLVa:KB] - Checked: 2010-09-28 (RLVa-1.2.1f) | Modified: RLVa-1.0.5a
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().isLockedAttachment(object->getRootEdit())) )
 		{
 			RlvUtil::notifyBlockedGeneric();
 			return;
@@ -2281,7 +2281,7 @@ void LLLiveLSLEditor::saveIfNeeded(bool sync /*= true*/)
 	}
 
 // [RLVa:KB] - Checked: 2010-11-25 (RLVa-1.2.2b) | Modified: RLVa-1.2.2b
-	if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit())) )
+	if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().isLockedAttachment(object->getRootEdit())) )
 	{
 		RlvUtil::notifyBlockedGeneric();
 		return;

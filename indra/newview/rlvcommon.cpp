@@ -515,7 +515,7 @@ void RlvUtil::filterNames(std::string& strUTF8Text, bool fFilterLegacy, bool fCl
 void RlvUtil::filterScriptQuestions(S32& nQuestions, LLSD& sdPayload)
 {
 	// Check SCRIPT_PERMISSION_ATTACH
-	if ((!gRlvAttachmentLocks.canAttach()) && (SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_ATTACH].permbit & nQuestions))
+	if ((!RlvAttachmentLocks::instance().canAttach()) && (SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_ATTACH].permbit & nQuestions))
 	{
 		// Notify the user that we blocked it since they're not allowed to wear any new attachments
 		sdPayload["rlv_blocked"] = RLV_STRING_BLOCKED_PERMATTACH;
@@ -770,7 +770,7 @@ bool rlvCanDeleteOrReturn()
 // Checked: 2010-04-20 (RLVa-1.2.0f) | Modified: RLVa-0.2.0f
 bool RlvSelectHasLockedAttach::apply(LLSelectNode* pNode)
 {
-	return (pNode->getObject()) ? gRlvAttachmentLocks.isLockedAttachment(pNode->getObject()->getRootEdit()) : false;
+	return (pNode->getObject()) ? RlvAttachmentLocks::instance().isLockedAttachment(pNode->getObject()->getRootEdit()) : false;
 }
 
 // Checked: 2010-11-29 (RLVa-1.3.0c) | Added: RLVa-1.3.0c
@@ -801,11 +801,11 @@ bool rlvPredCanWearItem(const LLViewerInventoryItem* pItem, ERlvWearMask eWearMa
 		{
 			case LLAssetType::AT_BODYPART:
 				// NOTE: only one body part of each type is allowed so the only way to wear one is if we can replace the current one
-				return (RLV_WEAR_LOCKED != (gRlvWearableLocks.canWear(pItem) & RLV_WEAR_REPLACE & eWearMask));
+				return (RLV_WEAR_LOCKED != (RlvWearableLocks::instance().canWear(pItem) & RLV_WEAR_REPLACE & eWearMask));
 			case LLAssetType::AT_CLOTHING:
-				return (RLV_WEAR_LOCKED != (gRlvWearableLocks.canWear(pItem) & eWearMask));
+				return (RLV_WEAR_LOCKED != (RlvWearableLocks::instance().canWear(pItem) & eWearMask));
 			case LLAssetType::AT_OBJECT:
-				return (RLV_WEAR_LOCKED != (gRlvAttachmentLocks.canAttach(pItem) & eWearMask));
+				return (RLV_WEAR_LOCKED != (RlvAttachmentLocks::instance().canAttach(pItem) & eWearMask));
 			case LLAssetType::AT_GESTURE:
 				return true;
 			default:
@@ -835,7 +835,7 @@ bool rlvPredCanRemoveItem(const LLUUID& idItem)
 	if (isAgentAvatarValid())
 	{
 		const LLViewerObject* pAttachObj = gAgentAvatarp->getWornAttachment(idItem);
-		return (pAttachObj) && (!gRlvAttachmentLocks.isLockedAttachment(pAttachObj));
+		return (pAttachObj) && (!RlvAttachmentLocks::instance().isLockedAttachment(pAttachObj));
 	}
 
 	return false;
@@ -850,9 +850,9 @@ bool rlvPredCanRemoveItem(const LLViewerInventoryItem* pItem)
 		{
 			case LLAssetType::AT_BODYPART:
 			case LLAssetType::AT_CLOTHING:
-				return gRlvWearableLocks.canRemove(pItem);
+				return RlvWearableLocks::instance().canRemove(pItem);
 			case LLAssetType::AT_OBJECT:
-				return gRlvAttachmentLocks.canDetach(pItem);
+				return RlvAttachmentLocks::instance().canDetach(pItem);
 			case LLAssetType::AT_GESTURE:
 				return true;
 			case LLAssetType::AT_LINK:

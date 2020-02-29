@@ -2093,7 +2093,7 @@ U32 LLViewerObject::processUpdateMessage(LLMessageSystem *mesgsys,
 							{
 								// Rezzed object that's being worn as an attachment (we're assuming this will be due to llAttachToAvatar())
 								S32 idxAttachPt = ATTACHMENT_ID_FROM_STATE(getAttachmentState());
-								if (gRlvAttachmentLocks.isLockedAttachmentPoint(idxAttachPt, RLV_LOCK_ADD))
+								if (RlvAttachmentLocks::instance().isLockedAttachmentPoint(idxAttachPt, RLV_LOCK_ADD))
 								{
 									// If this will end up on an "add locked" attachment point then treat the attach as a user action
 									LLNameValue* nvItem = getNVPair("AttachItemID");

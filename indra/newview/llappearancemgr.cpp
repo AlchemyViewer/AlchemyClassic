@@ -2150,7 +2150,7 @@ void LLAppearanceMgr::updateCOF(LLInventoryModel::item_array_t& body_items_new,
 //	getDescendentsOfAssetType(category, body_items, LLAssetType::AT_BODYPART);
 // [RLVa:KB] - Checked: RLVa-2.0.3
 	// Filter out any new body parts that can't be worn before adding them
-	if ( (RlvActions::isRlvEnabled()) && ((gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_ADD))) )
+	if ( (RlvActions::isRlvEnabled()) && ((RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_ADD))) )
 		body_items_new.erase(std::remove_if(body_items_new.begin(), body_items_new.end(), RlvPredCanNotWearItem(RLV_WEAR_REPLACE)), body_items_new.end());
 	body_items.insert(body_items.end(), body_items_new.begin(), body_items_new.end());
 // [/RLVa:KB]
@@ -2168,7 +2168,7 @@ void LLAppearanceMgr::updateCOF(LLInventoryModel::item_array_t& body_items_new,
 	if (append)
 		getDescendentsOfAssetType(cof, wear_items, LLAssetType::AT_CLOTHING);
 // [RLVa:KB] - Checked: RLVa-2.0.3
-	else if ( (RlvActions::isRlvEnabled()) && ((gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_REMOVE))) )
+	else if ( (RlvActions::isRlvEnabled()) && ((RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_REMOVE))) )
 	{
 		// Make sure that all currently locked clothing layers remain in COF when replacing
 		getDescendentsOfAssetType(cof, wear_items, LLAssetType::AT_CLOTHING);
@@ -2178,7 +2178,7 @@ void LLAppearanceMgr::updateCOF(LLInventoryModel::item_array_t& body_items_new,
 //	getDescendentsOfAssetType(category, wear_items, LLAssetType::AT_CLOTHING);
 // [RLVa:KB] - Checked: RLVa-2.0.3
 	// Filter out any new wearables that can't be worn before adding them
-	if ( (RlvActions::isRlvEnabled()) && ((gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_ADD))) )
+	if ( (RlvActions::isRlvEnabled()) && ((RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_ADD))) )
 		wear_items_new.erase(std::remove_if(wear_items_new.begin(), wear_items_new.end(), RlvPredCanNotWearItem(RLV_WEAR)), wear_items_new.end());
 	wear_items.insert(wear_items.end(), wear_items_new.begin(), wear_items_new.end());
 // [/RLVa:KB]
@@ -2196,7 +2196,7 @@ void LLAppearanceMgr::updateCOF(LLInventoryModel::item_array_t& body_items_new,
 	if (append)
 		getDescendentsOfAssetType(cof, obj_items, LLAssetType::AT_OBJECT);
 // [RLVa:KB] - Checked: RLVa-2.0.3
-	else if ( (RlvActions::isRlvEnabled()) && ((gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_REMOVE))) )
+	else if ( (RlvActions::isRlvEnabled()) && ((RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_REMOVE))) )
 	{
 		// Make sure that all currently locked attachments remain in COF when replacing
 		getDescendentsOfAssetType(cof, obj_items, LLAssetType::AT_OBJECT);
@@ -2206,7 +2206,7 @@ void LLAppearanceMgr::updateCOF(LLInventoryModel::item_array_t& body_items_new,
 //	getDescendentsOfAssetType(category, obj_items, LLAssetType::AT_OBJECT);
 // [RLVa:KB] - Checked: RLVa-2.0.3
 	// Filter out any new attachments that can't be worn before adding them
-	if ( (RlvActions::isRlvEnabled()) && ((gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_ADD))) )
+	if ( (RlvActions::isRlvEnabled()) && ((RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) || (RlvFolderLocks::instance().hasLockedFolder(RLV_LOCK_ADD))) )
 		obj_items_new.erase(std::remove_if(obj_items_new.begin(), obj_items_new.end(), RlvPredCanNotWearItem(RLV_WEAR)), obj_items_new.end());
 	obj_items.insert(obj_items.end(), obj_items_new.begin(), obj_items_new.end());
 // [/RLVa:KB]
@@ -2358,10 +2358,10 @@ void LLAppearanceMgr::updateAgentWearables(LLWearableHoldingPattern* holder)
 					//     => if it's changed to debug-only then we make tge assumption that anything that makes it into COF is always OK
 #ifdef RLV_DEBUG
 					// NOTE: make sure we don't accidentally block setting the initial wearables
-					if ( (rlv_handler_t::isEnabled()) && (RLV_WEAR_LOCKED == gRlvWearableLocks.canWear(wearable->getType())) &&
+					if ( (rlv_handler_t::isEnabled()) && (RLV_WEAR_LOCKED == RlvWearableLocks::instance().canWear(wearable->getType())) &&
 						 (!gAgentWearables.getWearableFromItemID(item->getUUID())) && (gAgentWearables.areWearablesLoaded()) )
 					{
-						RLV_VERIFY(RLV_WEAR_LOCKED == gRlvWearableLocks.canWear(wearable->getType()));
+						RLV_VERIFY(RLV_WEAR_LOCKED == RlvWearableLocks::instance().canWear(wearable->getType()));
 						continue;
 					}
 #endif // RLV_DEBUG
@@ -2711,7 +2711,7 @@ void LLAppearanceMgr::updateAppearanceFromCOF(bool enforce_item_restrictions,
 #ifdef LL_RELEASE_FOR_DOWNLOAD
 			// Don't allow forcing an invalid wearable if the initial wearables aren't set yet, or if any wearable type is currently locked
 			if ( (!rlv_handler_t::isEnabled()) || 
-				 ((gAgentWearables.areInitalWearablesLoaded()) && (!gRlvWearableLocks.hasLockedWearableType(RLV_LOCK_REMOVE))) )
+				 ((gAgentWearables.areInitalWearablesLoaded()) && (!RlvWearableLocks::instance().hasLockedWearableType(RLV_LOCK_REMOVE))) )
 #endif // LL_RELEASE_FOR_DOWNLOAD
 			{
 				if (missing_type != LLWearableType::WT_INVALID && missing_type == found.mWearableType)

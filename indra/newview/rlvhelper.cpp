@@ -1147,7 +1147,7 @@ void RlvForceWear::forceFolder(const LLViewerInventoryCategory* pFolder, EWearAc
 					// The second time we encounter a given clothing type we'll always add (rather than replace the previous iteration)
 					eCurAction = (!fSeenWType[pItem->getWearableType()]) ? eCurAction : ACTION_WEAR_ADD;
 
-					ERlvWearMask eWearMask = gRlvWearableLocks.canWear(pRlvItem);
+					ERlvWearMask eWearMask = RlvWearableLocks::instance().canWear(pRlvItem);
 					if ( ((ACTION_WEAR_REPLACE == eCurAction) && (eWearMask & RLV_WEAR_REPLACE)) ||
 						 ((ACTION_WEAR_ADD == eCurAction) && (eWearMask & RLV_WEAR_ADD)) )
 					{
@@ -1168,7 +1168,7 @@ void RlvForceWear::forceFolder(const LLViewerInventoryCategory* pFolder, EWearAc
 			case LLAssetType::AT_OBJECT:
 				if (isWearAction(eAction))
 				{
-					ERlvWearMask eWearMask = gRlvAttachmentLocks.canAttach(pRlvItem);
+					ERlvWearMask eWearMask = RlvAttachmentLocks::instance().canAttach(pRlvItem);
 					if ( ((ACTION_WEAR_REPLACE == eCurAction) && (eWearMask & RLV_WEAR_REPLACE)) ||
 						 ((ACTION_WEAR_ADD == eCurAction) && (eWearMask & RLV_WEAR_ADD)) )
 					{
@@ -1237,8 +1237,8 @@ bool RlvForceWear::isForceDetachable(const LLViewerObject* pAttachObj, bool fChe
 	return 
 	  (
 		(pAttachObj) && (pAttachObj->isAttachment())
-		&& ( (idExcept.isNull()) ? (!gRlvAttachmentLocks.isLockedAttachment(pAttachObj))
-		                         : (!gRlvAttachmentLocks.isLockedAttachmentExcept(pAttachObj, idExcept)) )
+		&& ( (idExcept.isNull()) ? (!RlvAttachmentLocks::instance().isLockedAttachment(pAttachObj))
+		                         : (!RlvAttachmentLocks::instance().isLockedAttachmentExcept(pAttachObj, idExcept)) )
 		&& (isStrippable(pAttachObj->getAttachmentItemID()))
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		&& ( (!fCheckComposite) || (!RlvSettings::getEnableComposites()) || 
@@ -1310,8 +1310,8 @@ bool RlvForceWear::isForceRemovable(const LLViewerWearable* pWearable, bool fChe
 	return 
 	  (
 		(pWearable) && (LLAssetType::AT_CLOTHING == pWearable->getAssetType()) 
-		&& ( (idExcept.isNull()) ? !gRlvWearableLocks.isLockedWearable(pWearable)
-		                         : !gRlvWearableLocks.isLockedWearableExcept(pWearable, idExcept) )
+		&& ( (idExcept.isNull()) ? !RlvWearableLocks::instance().isLockedWearable(pWearable)
+		                         : !RlvWearableLocks::instance().isLockedWearableExcept(pWearable, idExcept) )
 		&& (isStrippable(pWearable->getItemID()))
 		#ifdef RLV_EXPERIMENTAL_COMPOSITEFOLDERS
 		&& ( (!fCheckComposite) || (!RlvSettings::getEnableComposites()) || 

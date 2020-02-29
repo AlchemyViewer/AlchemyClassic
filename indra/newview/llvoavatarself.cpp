@@ -1374,8 +1374,8 @@ const LLViewerJointAttachment *LLVOAvatarSelf::attachObject(LLViewerObject *view
 			RlvAttachmentLockWatchdog::instance().onAttach(viewer_object, attachment);
 			gRlvHandler.onAttach(viewer_object, attachment);
 
-			if ( (attachment->getIsHUDAttachment()) && (!gRlvAttachmentLocks.hasLockedHUD()) )
-				gRlvAttachmentLocks.updateLockedHUD();
+			if ( (attachment->getIsHUDAttachment()) && (!RlvAttachmentLocks::instance().hasLockedHUD()) )
+				RlvAttachmentLocks::instance().updateLockedHUD();
 		}
 // [/RLVa:KB]
 	}
@@ -1438,8 +1438,8 @@ BOOL LLVOAvatarSelf::detachObject(LLViewerObject *viewer_object)
 		}
 		
 // [RLVa:KB] - Checked: 2010-08-22 (RLVa-1.2.1a) | Added: RLVa-1.2.1a
-		if ( (rlv_handler_t::isEnabled()) && (viewer_object->isHUDAttachment()) && (gRlvAttachmentLocks.hasLockedHUD()) )
-			gRlvAttachmentLocks.updateLockedHUD();
+		if ( (rlv_handler_t::isEnabled()) && (viewer_object->isHUDAttachment()) && (RlvAttachmentLocks::instance().hasLockedHUD()) )
+			RlvAttachmentLocks::instance().updateLockedHUD();
 // [/RLVa:KB]
 
 		return TRUE;
@@ -1453,7 +1453,7 @@ BOOL LLVOAvatarSelf::detachAttachmentIntoInventory(const LLUUID &item_id)
 	LLInventoryItem* item = gInventory.getItem(item_id);
 //	if (item)
 // [RLVa:KB] - Checked: 2010-09-04 (RLVa-1.2.1c) | Added: RLVa-1.2.1c
-	if ( (item) && ((!rlv_handler_t::isEnabled()) || (gRlvAttachmentLocks.canDetach(item))) )
+	if ( (item) && ((!rlv_handler_t::isEnabled()) || (RlvAttachmentLocks::instance().canDetach(item))) )
 // [/RLVa:KB]
 	{
 		gMessageSystem->newMessageFast(_PREHASH_DetachAttachmentIntoInv);

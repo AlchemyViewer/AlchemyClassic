@@ -6538,7 +6538,7 @@ void rez_attachment(LLViewerInventoryItem* item, LLViewerJointAttachment* attach
 	// If no attachment point was specified, try looking it up from the item name
 	static LLCachedControl<bool> fRlvDeprecateAttachPt(gSavedSettings, "RLVaDebugDeprecateExplicitPoint", false);
 	if ( (rlv_handler_t::isEnabled()) && (!fRlvDeprecateAttachPt) && 
-	     (!attachment) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_ANY)) )
+	     (!attachment) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_ANY)) )
 	{
 		attachment = RlvAttachPtLookup::getAttachPoint(item);
 	}
@@ -6582,7 +6582,7 @@ void rez_attachment(LLViewerInventoryItem* item, LLViewerJointAttachment* attach
 	{
 // [RLVa:KB] - Checked: 2010-08-25 (RLVa-1.2.1)
 		// Block if we can't "replace wear" what's currently there
-		if ( (rlv_handler_t::isEnabled()) && ((gRlvAttachmentLocks.canAttach(attachment) & RLV_WEAR_REPLACE) == 0) )
+		if ( (rlv_handler_t::isEnabled()) && ((RlvAttachmentLocks::instance().canAttach(attachment) & RLV_WEAR_REPLACE) == 0) )
 		{
 			return;
 		}
@@ -6593,7 +6593,7 @@ void rez_attachment(LLViewerInventoryItem* item, LLViewerJointAttachment* attach
 	{
 // [RLVa:KB] - Checked: 2010-08-07 (RLVa-1.2.0)
 		// Block wearing anything on a non-attachable attachment point
-		if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.isLockedAttachmentPoint(attach_pt, RLV_LOCK_ADD)) )
+		if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().isLockedAttachmentPoint(attach_pt, RLV_LOCK_ADD)) )
 		{
 			return;
 		}
@@ -6673,7 +6673,7 @@ void LLObjectBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 				items.push_back(std::string("Detach From Yourself"));
 				items.push_back(std::string("Edit Object"));
 // [RLVa:KB] - Checked: 2010-02-27 (RLVa-1.2.0a) | Modified: RLVa-1.2.0a
-				if ( (rlv_handler_t::isEnabled()) && (!gRlvAttachmentLocks.canDetach(item)) )
+				if ( (rlv_handler_t::isEnabled()) && (!RlvAttachmentLocks::instance().canDetach(item)) )
 					disabled_items.push_back(std::string("Detach From Yourself"));
 // [/RLVa:KB]
 			}
@@ -6697,7 +6697,7 @@ void LLObjectBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 // [RLVa:KB] - Checked: 2010-09-03 (RLVa-1.2.1a) | Modified: RLVa-1.2.1a
 				else if (rlv_handler_t::isEnabled())
 				{
-					ERlvWearMask eWearMask = gRlvAttachmentLocks.canAttach(item);
+					ERlvWearMask eWearMask = RlvAttachmentLocks::instance().canAttach(item);
 					if ((eWearMask & RLV_WEAR_REPLACE) == 0)
 						disabled_items.push_back(std::string("Wearable And Object Wear"));
 					if ((eWearMask & RLV_WEAR_ADD) == 0)
@@ -6949,7 +6949,7 @@ void LLWearableBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 						disabled_items.push_back(std::string("Wearable And Object Wear"));
 						disabled_items.push_back(std::string("Wearable Add"));
 // [RLVa:KB] - Checked: 2010-04-04 (RLVa-1.2.0c) | Added: RLVa-1.2.0c
-						if ( (rlv_handler_t::isEnabled()) && (!gRlvWearableLocks.canRemove(item)) )
+						if ( (rlv_handler_t::isEnabled()) && (!RlvWearableLocks::instance().canRemove(item)) )
 							disabled_items.push_back(std::string("Take Off"));
 // [/RLVa:KB]
 					}
@@ -6962,7 +6962,7 @@ void LLWearableBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 // [RLVa:KB] - Checked: 2010-06-09 (RLVa-1.2.0g) | Modified: RLVa-1.2.0g
 						if (rlv_handler_t::isEnabled())
 						{
-							ERlvWearMask eWearMask = gRlvWearableLocks.canWear(item);
+							ERlvWearMask eWearMask = RlvWearableLocks::instance().canWear(item);
 							if ((eWearMask & RLV_WEAR_REPLACE) == 0)
 								disabled_items.push_back(std::string("Wearable And Object Wear"));
 							if ((eWearMask & RLV_WEAR_ADD) == 0)

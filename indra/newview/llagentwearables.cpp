@@ -1839,13 +1839,13 @@ void LLAgentWearables::userRemoveMultipleAttachments(llvo_vec_t& objects_to_remo
 
 // [RLVa:KB] - Checked: 2010-03-04 (RLVa-1.2.0)
 	// RELEASE-RLVa: [SL-3.4] Check our callers and verify that erasing elements from the passed vector won't break random things
-	if ( (rlv_handler_t::isEnabled()) && (gRlvAttachmentLocks.hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
+	if ( (rlv_handler_t::isEnabled()) && (RlvAttachmentLocks::instance().hasLockedAttachmentPoint(RLV_LOCK_REMOVE)) )
 	{
 		llvo_vec_t::iterator itObj = objects_to_remove.begin();
 		while (objects_to_remove.end() != itObj)
 		{
 			const LLViewerObject* pAttachObj = *itObj;
-			if (gRlvAttachmentLocks.isLockedAttachment(pAttachObj))
+			if (RlvAttachmentLocks::instance().isLockedAttachment(pAttachObj))
 			{
 				itObj = objects_to_remove.erase(itObj);
 

@@ -121,7 +121,7 @@ void LLPanelContents::getState(LLViewerObject *objectp )
 	{
 		// Don't allow creation of new scripts if it's non-detachable
 		if (objectp->isAttachment())
-			editable = !gRlvAttachmentLocks.isLockedAttachment(objectp->getRootEdit());
+			editable = !RlvAttachmentLocks::instance().isLockedAttachment(objectp->getRootEdit());
 
 		// Don't allow creation of new scripts if we're @unsit=n or @sittp=n restricted and we're sitting on the selection
 		if ( (editable) && ((gRlvHandler.hasBehaviour(RLV_BHVR_UNSIT)) || (gRlvHandler.hasBehaviour(RLV_BHVR_SITTP))) )
@@ -181,7 +181,7 @@ void LLPanelContents::onClickNewScript(void *userdata)
 // [RLVa:KB] - Checked: 2010-03-31 (RLVa-1.2.0c) | Modified: RLVa-1.0.5a
 		if (rlv_handler_t::isEnabled())	// Fallback code [see LLPanelContents::getState()]
 		{
-			if (gRlvAttachmentLocks.isLockedAttachment(object->getRootEdit()))
+			if (RlvAttachmentLocks::instance().isLockedAttachment(object->getRootEdit()))
 			{
 				return;					// Disallow creating new scripts in a locked attachment
 			}

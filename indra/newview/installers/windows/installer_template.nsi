@@ -99,6 +99,9 @@
   ;Verify CRC
   CRCCheck on
 
+  ; DPI Awareness
+  ManifestDPIAware true
+
 ;--------------------------------
 ;Interface Settings
 

@@ -787,7 +787,8 @@ skin_t manifestFromJson(const std::string& filename, const ESkinType type)
 			{
 				skin.mCompatVer = LLVersionInfo::getShortVersion();
 			}
-        } catch(nlohmann::json::exception &e)
+        } 
+		catch(const nlohmann::json::exception& e)
 		{
 			LL_WARNS() << "Failed to parse " << filename << ": " << e.what() << LL_ENDL;
 		}
@@ -906,7 +907,7 @@ void LLFloaterPreference::onAddSkin()
 						LLNotificationsUtil::add("AddSkinSuccess", LLSD().with("PACKAGE", name));
 					}
 				}
-                catch(nlohmann::json::exception &)
+                catch(const nlohmann::json::exception&)
 				{
 					LLNotificationsUtil::add("AddSkinCantParseManifest", LLSD().with("PACKAGE", package));
 				}

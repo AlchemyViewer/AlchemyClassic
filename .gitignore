@@ -17,6 +17,7 @@
 
 
 Pipfile.lock
+.env
 /build-*
 /clion-*
 indra/.distcc

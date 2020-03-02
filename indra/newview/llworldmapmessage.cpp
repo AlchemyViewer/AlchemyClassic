@@ -201,7 +201,7 @@ void LLWorldMapMessage::processMapBlockReply(LLMessageSystem* msg, void**)
 		// name shouldn't be empty, see EXT-4568
 		if (name.empty() && accesscode != 255)
 		{
-			LL_WARNS("World Map") << "MapBlockReply returned an empty region name; not inserting in the world map" << LL_ENDL;
+			LL_WARNS("WorldMap") << "MapBlockReply returned an empty region name; not inserting in the world map" << LL_ENDL;
 			continue;
 		}
 

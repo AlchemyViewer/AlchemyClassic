@@ -60,6 +60,7 @@
 #include "rlvactions.h"
 #include "rlvhelper.h"
 #include "rlvhandler.h"
+#include "rlvinventory.h"
 #include "rlvui.h"
 // [/RLVa:KB]
 
@@ -218,32 +219,36 @@ void inventory_offer_handler(LLOfferInfo* info)
         LLStringUtil::truncate(msg, indx);
     }
     bool bAutoAccept(false);
-    // Avoid the Accept/Discard dialog if the user so desires. JC
-	if ((gSavedSettings.getBOOL("AutoAcceptNewInventory")
-			|| gSavedSettings.getBOOL("AlchemyAutoAcceptNewInventory"))
-        && (info->mType == LLAssetType::AT_NOTECARD
+
+    bool al_accept_new_inv = gSavedSettings.getBOOL("AlchemyAutoAcceptNewInventory");
+    bool is_nc_lm_txtr = info->mType == LLAssetType::AT_NOTECARD
         || info->mType == LLAssetType::AT_LANDMARK
-        || info->mType == LLAssetType::AT_TEXTURE))
+        || info->mType == LLAssetType::AT_TEXTURE;
+
+    // Avoid the Accept/Discard dialog if the user so desires. JC
+    // For certain types, just accept the items into the inventory,
+    // and possibly open them on receipt depending upon "ShowNewInventory".
+    // Also accept all inventory types if secondary override is in effect
+    // But do not accept RLV folder gives automagically
+    if ((al_accept_new_inv || (gSavedSettings.getBOOL("AutoAcceptNewInventory")
+        && is_nc_lm_txtr))
+        && ((!rlv_handler_t::isEnabled()) || (!RlvInventory::instance().isGiveToRLVOffer(*info))))
     {
-        // For certain types, just accept the items into the inventory,
-        // and possibly open them on receipt depending upon "ShowNewInventory".
         bAutoAccept = true;
+        if (al_accept_new_inv && !is_nc_lm_txtr)
+        {
+            LLSD args;
+            args["NAME"] = LLSLURL(info->mFromGroup ? "group" : "agent", info->mFromID, "about").getSLURLString();
+            if (info->mFromObject)
+                args["ITEM"] = msg;
+            else
+            {
+                const std::string& verb = "select?name=" + LLURI::escape(msg);
+                args["ITEM"] = LLSLURL("inventory", info->mObjectID, verb.c_str()).getSLURLString();
+            }
+            LLNotificationsUtil::add("AutoAcceptedInventory", args);
+        }
     }
-	// Option to accept all inventory offers automatically
-	else if (gSavedSettings.getBOOL("AlchemyAutoAcceptNewInventory"))
-	{
-		bAutoAccept = true;
-		LLSD args;
-		args["NAME"] = LLSLURL(info->mFromGroup ? "group" : "agent", info->mFromID, "about").getSLURLString();
-		if (info->mFromObject)
-			args["ITEM"] = msg;
-		else
-		{
-			const std::string& verb = "select?name=" + LLURI::escape(msg);
-			args["ITEM"] = LLSLURL("inventory", info->mObjectID, verb.c_str()).getSLURLString();
-		}
-		LLNotificationsUtil::add("AutoAcceptedInventory", args);
-	}
 
     // Strip any SLURL from the message display. (DEV-2754)
         // try to find new slurl host

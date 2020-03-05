@@ -1381,11 +1381,11 @@ void LLWorld::getAvatars(uuid_vec_t* avatar_ids, std::vector<LLVector3d>* positi
 			{
 				if(positions != nullptr)
 				{
-					positions->emplace_back(pos_global);
+					positions->emplace_back(std::move(pos_global));
 				}
 				if(avatar_ids != nullptr)
 				{
-					avatar_ids->emplace_back(uuid);
+					avatar_ids->emplace_back(std::move(uuid));
 				}
 			}
 		}
@@ -1407,9 +1407,9 @@ void LLWorld::getAvatars(uuid_vec_t* avatar_ids, std::vector<LLVector3d>* positi
 				{
 					if (positions != nullptr)
 					{
-						positions->emplace_back(pos_global);
+						positions->emplace_back(std::move(pos_global));
 					}
-					avatar_ids->emplace_back(uuid);
+					avatar_ids->emplace_back(std::move(uuid));
 				}
 			}
 		}
@@ -1439,7 +1439,7 @@ void LLWorld::getAvatars(pos_map_t* umap, const LLVector3d& relative_to, F32 rad
 			if (!uuid.isNull()
 				&& dist_vec_squared(pos_global, relative_to) <= radius_squared)
 			{
-				umap->emplace(uuid, pos_global);
+				umap->emplace(std::move(uuid), std::move(pos_global));
 			}
 		}
 	}
@@ -1454,9 +1454,9 @@ void LLWorld::getAvatars(pos_map_t* umap, const LLVector3d& relative_to, F32 rad
 			if (uuid.isNull()) continue;
 
 			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global, regionp->getWidthScaleFactor());
-			if(dist_vec_squared(pos_global, relative_to) <= radius_squared)
+			if(dist_vec_squared(pos_global, relative_to) <= radius_squared && umap->find(uuid) == umap->end())
 			{
-				umap->emplace(uuid, pos_global);
+				umap->emplace(std::move(uuid), std::move(pos_global));
 			}
 		}
 	}
@@ -1486,7 +1486,7 @@ void LLWorld::getAvatars(region_gpos_map_t* umap, const LLVector3d& relative_to,
 			if (uuid.notNull() && region
 				&& dist_vec_squared(pos_global, relative_to) <= radius_squared)
 			{
-				umap->emplace(uuid, regionp_gpos_pair_t(region, pos_global));
+				umap->emplace(std::move(uuid), std::make_pair(region, std::move(pos_global)));
 			}
 		}
 	}
@@ -1501,9 +1501,9 @@ void LLWorld::getAvatars(region_gpos_map_t* umap, const LLVector3d& relative_to,
 			if (uuid.isNull()) continue;
 
 			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars[i], origin_global, regionp->getWidthScaleFactor());
-			if (dist_vec_squared(pos_global, relative_to) <= radius_squared)
+			if (dist_vec_squared(pos_global, relative_to) <= radius_squared && umap->find(uuid) == umap->end())
 			{
-				umap->emplace(uuid, regionp_gpos_pair_t(regionp, pos_global));
+				umap->emplace(std::move(uuid), std::make_pair(regionp, std::move(pos_global)));
 			}
 		}
 	}

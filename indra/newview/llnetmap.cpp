@@ -480,7 +480,7 @@ void LLNetMap::draw()
 		bool unknown_relative_z;
 		LLColor4 color;
 
-		LLWorld::getInstance()->getAvatars(&positions, gAgentCamera.getCameraPositionGlobal());
+		LLWorld::getInstance()->getAvatars(&positions);
 
 		// Draw avatars
 		for (const auto& pos_pair : positions)

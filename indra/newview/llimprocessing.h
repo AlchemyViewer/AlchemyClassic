@@ -33,22 +33,22 @@ class LLIMProcessing
 {
 public:
     // Pre-process message for IM manager
-    static void processNewMessage(LLUUID from_id,
+    static void processNewMessage(const LLUUID& from_id,
         BOOL from_group,
-        LLUUID to_id,
+        const LLUUID& to_id,
         U8 offline,
         EInstantMessage dialog, // U8
-        LLUUID session_id,
+        const LLUUID& session_id,
         U32 timestamp,
-        std::string agentName,
+        const std::string& agentName,
         std::string message,
         U32 parent_estate_id,
-        LLUUID region_id,
-        LLVector3 position,
+        const LLUUID& region_id,
+        const LLVector3& position,
         U8 *binary_bucket,
         S32 binary_bucket_size,
         LLHost &sender,
-        LLUUID aux_id = LLUUID::null);
+        const LLUUID& aux_id = LLUUID::null);
 
     // Either receives list of offline messages from 'ReadOfflineMsgs' capability
     // or uses legacy method

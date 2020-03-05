@@ -3190,7 +3190,7 @@ void LLAgent::sendAnimationRequests(const std::vector<LLUUID> &anim_ids, EAnimRe
 	msg->addUUIDFast(_PREHASH_AgentID, getID());
 	msg->addUUIDFast(_PREHASH_SessionID, getSessionID());
 
-	for (auto anim_id : anim_ids)
+	for (const auto& anim_id : anim_ids)
     {
 		if (anim_id.isNull())
 		{

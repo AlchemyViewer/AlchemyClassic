@@ -474,22 +474,22 @@ static void notification_display_name_callback(const LLUUID& id,
     LLNotificationsUtil::add(name, substitutions, payload);
 }
 
-void LLIMProcessing::processNewMessage(LLUUID from_id,
+void LLIMProcessing::processNewMessage(const LLUUID& from_id,
     BOOL from_group,
-    LLUUID to_id,
+    const LLUUID& to_id,
     U8 offline,
     EInstantMessage dialog, // U8
-    LLUUID session_id,
+    const LLUUID& session_id,
     U32 timestamp,
-    std::string agentName,
+    const std::string& agentName,
     std::string message,
     U32 parent_estate_id,
-    LLUUID region_id,
-    LLVector3 position,
+    const LLUUID& region_id,
+    const LLVector3& position,
     U8 *binary_bucket,
     S32 binary_bucket_size,
     LLHost &sender,
-    LLUUID aux_id)
+    const LLUUID& aux_id)
 {
     LLChat chat;
     std::string buffer;

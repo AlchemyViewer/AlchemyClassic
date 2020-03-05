@@ -1452,19 +1452,20 @@ bool LLAvatarActions::canFreezeEject(const uuid_vec_t& ids)
 		auto it = idRegions.find(id);
 		if (it != idRegions.cend())
 		{
-			const auto& region = it->second.first;
-			const auto& pos_global = it->second.second;
+			const LLViewerRegion* region = it->second.first;
+			const LLVector3d& pos_global = it->second.second;
 			if (region)
 			{
 				// Estate owners / managers can freeze
 				// Parcel owners can also freeze
-				const auto& local_pos = region->getPosRegionFromGlobal(pos_global);
-				LLParcel* parcel = LLViewerParcelMgr::getInstance()->selectParcelAt(pos_global)->getParcel();
+				LLParcelSelectionHandle selection = LLViewerParcelMgr::getInstance()->selectParcelAt(pos_global);
+				const LLParcel* parcel = selection->getParcel();
+				auto local_pos = region->getPosRegionFromGlobal(pos_global);
 
-				ret = region->isOwnedSelf(local_pos);
-				if (!ret || region->isOwnedGroup(local_pos))
+				if ((region->getOwner() == gAgent.getID() || region->isEstateManager() || region->isOwnedSelf(local_pos))
+					|| (region->isOwnedGroup(local_pos) && parcel && LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel, GP_LAND_ADMIN)))
 				{
-					ret = LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel, GP_LAND_ADMIN);
+					ret = true;
 				}
 				// We hit a false so bail out early in case of multi-select
 				if (!ret)

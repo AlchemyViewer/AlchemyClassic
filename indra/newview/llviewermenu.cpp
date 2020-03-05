@@ -3437,20 +3437,7 @@ bool enable_freeze_eject(const LLSD& avatar_id)
 	// Gods can always freeze
 	if (gAgent.isGodlike()) return true;
 
-	// Estate owners / managers can freeze
-	// Parcel owners can also freeze
-	const LLVector3& pos = avatar->getPositionRegion();
-	const LLVector3d& pos_global = avatar->getPositionGlobal();
-	LLParcel* parcel = LLViewerParcelMgr::getInstance()->selectParcelAt(pos_global)->getParcel();
-	LLViewerRegion* region = avatar->getRegion();
-	if (!region) return false;
-				
-	bool new_value = region->isOwnedSelf(pos);
-	if (!new_value || region->isOwnedGroup(pos))
-	{
-		new_value = LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel,GP_LAND_ADMIN);
-	}
-	return new_value;
+	return LLAvatarActions::canFreezeEject(avatar->getID());
 }
 
 bool callback_leave_group(const LLSD& notification, const LLSD& response)

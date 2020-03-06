@@ -203,8 +203,9 @@
   ;because this will make your installer start faster.
   
   !insertmacro MUI_RESERVEFILE_LANGDLL
-  ReserveFile "${NSISDIR}\Plugins\x86-unicode\NSISdl.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\INetC.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\nsDialogs.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\nsis7z.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\StartMenu.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\StdUtils.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\System.dll"
@@ -413,9 +414,9 @@ Section "Viewer"
 
   ;Download LibVLC
 !ifdef WIN64_BIN_BUILD
-  NSISdl::download "https://download.videolan.org/pub/videolan/vlc/3.0.8/win64/vlc-3.0.8-win64.7z" "$TEMP\AlchemyInst\libvlc.7z"
+  inetc::get /RESUME "Failed to download VLC media package. Retry?" "https://videolan.mirrors.hivelocity.net/vlc/3.0.8/win64/vlc-3.0.8-win64.7z" "$TEMP\AlchemyInst\libvlc.7z" /END
 !else
-  NSISdl::download "https://download.videolan.org/pub/videolan/vlc/3.0.8/win32/vlc-3.0.8-win32.7z" "$TEMP\AlchemyInst\libvlc.7z"
+  inetc::get /RESUME "Failed to download VLC media package. Retry?" "https://videolan.mirrors.hivelocity.net/vlc/3.0.8/win32/vlc-3.0.8-win32.7z" "$TEMP\AlchemyInst\libvlc.7z" /END
 !endif
   Nsis7z::ExtractWithDetails "$TEMP\AlchemyInst\libvlc.7z" "Unpacking media plugins %s..."
   Rename "$TEMP\AlchemyInst\vlc-3.0.8\libvlc.dll" "$INSTDIR\llplugin\libvlc.dll"
@@ -424,16 +425,16 @@ Section "Viewer"
 
   ;Download and install VC redist 
 !ifdef WIN64_BIN_BUILD
-  NSISdl::download "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$TEMP\AlchemyInst\vc_redist_16.x64.exe"
+  inetc::get /RESUME "Failed to download VS2019 redistributable package. Retry?" "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$TEMP\AlchemyInst\vc_redist_16.x64.exe" /END
   ExecWait "$TEMP\AlchemyInst\vc_redist_16.x64.exe /install /passive /norestart"
 
-  NSISdl::download "https://aka.ms/highdpimfc2013x64enu" "$TEMP\AlchemyInst\vc_redist_12.x64.exe"
+  inetc::get /RESUME "Failed to download VS2013 redistributable package. Retry?" "https://aka.ms/highdpimfc2013x64enu" "$TEMP\AlchemyInst\vc_redist_12.x64.exe" /END
   ExecWait "$TEMP\AlchemyInst\vc_redist_12.x64.exe /install /passive /norestart"
 !else
-  NSISdl::download "https://aka.ms/vs/16/release/vc_redist.x86.exe" "$TEMP\AlchemyInst\vc_redist_16.x86.exe"
+  inetc::get /RESUME "Failed to download VS2019 redistributable package. Retry?" "https://aka.ms/vs/16/release/vc_redist.x86.exe" "$TEMP\AlchemyInst\vc_redist_16.x86.exe" /END
   ExecWait "$TEMP\AlchemyInst\vc_redist_16.x86.exe /install /passive /norestart"
 
-  NSISdl::download "https://aka.ms/highdpimfc2013x86enu" "$TEMP\AlchemyInst\vc_redist_12.x86.exe"
+  inetc::get /RESUME "Failed to download VS2013 redistributable package. Retry?" "https://aka.ms/highdpimfc2013x86enu" "$TEMP\AlchemyInst\vc_redist_12.x86.exe" /END
   ExecWait "$TEMP\AlchemyInst\vc_redist_12.x86.exe /install /passive /norestart"
 !endif
 

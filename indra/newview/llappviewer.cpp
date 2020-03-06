@@ -3236,7 +3236,7 @@ LLSD LLAppViewer::getViewerInfo() const
 		info["VOICE_VERSION"] = LLTrans::getString("NotConnected");
 	}
 
-#if 1
+#if defined(CEF_VERSION)
 	std::ostringstream cef_ver_codec;
 	cef_ver_codec << "Dullahan: ";
 	cef_ver_codec << DULLAHAN_VERSION_MAJOR;
@@ -3366,6 +3366,7 @@ std::string LLAppViewer::getViewerInfoString(bool default_string) const
 	support << "\n" << LLTrans::getString("AboutOGL", args, default_string);
 	support << "\n\n" << LLTrans::getString("AboutSettings", args, default_string);
 	support << "\n\n" << LLTrans::getString("AboutLibs", args, default_string);
+	support << "\n";
 
 	if (info.has("COMPILER"))
 	{

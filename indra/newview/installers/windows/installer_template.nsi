@@ -32,6 +32,7 @@
 
   !include "LogicLib.nsh"
   !include "StdUtils.nsh"
+  !include "CPUFeatures.nsh"
   !include "FileFunc.nsh"
   !insertmacro GetParameters
   !insertmacro GetOptions
@@ -203,6 +204,7 @@
   ;because this will make your installer start faster.
   
   !insertmacro MUI_RESERVEFILE_LANGDLL
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\CPUFeatures.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\INetC.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\nsDialogs.dll"
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\nsis7z.dll"
@@ -292,15 +294,17 @@ FunctionEnd
 
 ;Checks for CPU compatibility
 Function CheckCPUFlags
-  Push $1
-  System::Call 'kernel32::IsProcessorFeaturePresent(i) i(10) .r1'
-  IntCmp $1 1 OK_SSE2
-  MessageBox MB_OKCANCEL $(MissingSSE2) /SD IDOK IDOK OK_SSE2
-  Quit
-
-  OK_SSE2:
-  Pop $1
-  Return
+!ifdef WIN64_BIN_BUILD
+	${IfNot} ${CPUSupports} "AVX1"
+    MessageBox MB_OK|MB_ICONSTOP "This version requires a CPU with AVX support."
+    Quit
+	${EndIf}
+!else
+	${IfNot} ${CPUSupports} "SSE2"
+    MessageBox MB_OK|MB_ICONSTOP "This version requires a CPU with SSE2 support."
+    Quit
+	${EndIf}
+!endif
 FunctionEnd
 
 ;Checks if installed version is same as installer and offers to cancel

@@ -6370,7 +6370,7 @@ void LLVOAvatar::addAttachmentOverridesForObject(LLViewerObject *vo, std::set<LL
 	}
 	const LLMeshSkinInfo*  pSkinData = nullptr;
 
-	if ( vobj && vobj->isMesh() && (pSkinData = vobj->getSkinInfo()) && vobj->getVolume() && vobj->getVolume()->isMeshAssetLoaded() && gMeshRepo.meshRezEnabled())
+	if ( vobj && vobj->isMesh() && (pSkinData = vobj->getSkinInfo()))
 	{
 		const size_t bindCnt = pSkinData->mAlternateBindMatrix.size();								
         const size_t jointCnt = pSkinData->mJointNames.size();

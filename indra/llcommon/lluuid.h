@@ -33,6 +33,7 @@
 #include <boost/functional/hash.hpp>
 #include "stdtypes.h"
 #include "llpreprocessor.h"
+#include <immintrin.h>
 
 class LLMutex;
 
@@ -56,10 +57,6 @@ public:
 	LLUUID() = default;
 	explicit LLUUID(const char *in_string); // Convert from string.
 	explicit LLUUID(const std::string& in_string); // Convert from string.
-	LLUUID(const LLUUID &rhs) = default;
-	LLUUID& operator=(const LLUUID& rhs) = default;
-	LLUUID& operator=(LLUUID&& rhs) = default;
-	~LLUUID() = default;
 
 	//
 	// MANIPULATORS
@@ -67,7 +64,9 @@ public:
 	void	generate();					// Generate a new UUID
 	void	generate(const std::string& stream); //Generate a new UUID based on hash of input stream
 
-	static LLUUID generateNewID(const std::string& stream = {});	//static version of above for use in initializer expressions such as constructor params, etc. 
+	//static versions of above for use in initializer expressions such as constructor params, etc. 
+	static LLUUID generateNewID();	
+	static LLUUID generateNewID(const std::string& stream);	//static version of above for use in initializer expressions such as constructor params, etc. 
 
 	BOOL	set(const char *in_string, BOOL emit = TRUE);	// Convert from string, if emit is FALSE, do not emit warnings
 	BOOL	set(const std::string& in_string, BOOL emit = TRUE);	// Convert from string, if emit is FALSE, do not emit warnings
@@ -80,23 +79,115 @@ public:
 	//
 	// ACCESSORS
 	//
-	BOOL	isNull() const;			// Faster than comparing to LLUUID::null.
-	BOOL	notNull() const;		// Faster than comparing to LLUUID::null.
+
+	// BEGIN BOOST
+	// Contains code from the Boost Library with license below.
+	/*
+	 *            Copyright Andrey Semashev 2013.
+	 * Distributed under the Boost Software License, Version 1.0.
+	 *    (See accompanying file LICENSE_1_0.txt or copy at
+	 *          http://www.boost.org/LICENSE_1_0.txt)
+	 */
+	LL_FORCE_INLINE __m128i load_unaligned_si128(const U8* p) const
+	{
+#if defined(AL_AVX)
+		return _mm_lddqu_si128(reinterpret_cast<const __m128i*>(p));
+#else
+		return _mm_loadu_si128(reinterpret_cast<const __m128i*>(p));
+#endif
+	}
+
+	BOOL isNull() const // Faster than comparing to LLUUID::null.
+	{
+		__m128i mm = load_unaligned_si128(mData);
+#if defined(AL_AVX)
+		return _mm_test_all_zeros(mm, mm) != 0;
+#else
+		mm = _mm_cmpeq_epi8(mm, _mm_setzero_si128());
+		return _mm_movemask_epi8(mm) == 0xFFFF;
+#endif
+	}
+
+	BOOL notNull() const // Faster than comparing to LLUUID::null.
+	{
+		return !isNull();
+	}
 	// JC: This is dangerous.  It allows UUIDs to be cast automatically
 	// to integers, among other things.  Use isNull() or notNull().
 	//		operator bool() const;
 
 	// JC: These must return real bool's (not BOOLs) or else use of the STL
 	// will generate bool-to-int performance warnings.
-	bool	operator==(const LLUUID &rhs) const;
-	bool	operator!=(const LLUUID &rhs) const;
-	bool	operator<(const LLUUID &rhs) const;
-	bool	operator>(const LLUUID &rhs) const;
+	bool operator==(const LLUUID& rhs) const
+	{
+		__m128i mm_left = load_unaligned_si128(mData);
+		__m128i mm_right = load_unaligned_si128(rhs.mData);
 
-	template <typename H>
-	friend H AbslHashValue(H h, const LLUUID& id) {
-		return H::combine_contiguous(std::move(h), id.mData, UUID_BYTES);
+		__m128i mm_cmp = _mm_cmpeq_epi32(mm_left, mm_right);
+#if defined(AL_AVX)
+		return _mm_test_all_ones(mm_cmp);
+#else
+		return _mm_movemask_epi8(mm_cmp) == 0xFFFF;
+#endif
 	}
+
+	bool operator!=(const LLUUID& rhs) const
+	{
+		return !((*this) == rhs);
+	}
+
+	bool operator<(const LLUUID& rhs) const
+	{
+		__m128i mm_left = load_unaligned_si128(mData);
+		__m128i mm_right = load_unaligned_si128(rhs.mData);
+
+		// To emulate lexicographical_compare behavior we have to perform two comparisons - the forward and reverse one.
+		// Then we know which bytes are equivalent and which ones are different, and for those different the comparison results
+		// will be opposite. Then we'll be able to find the first differing comparison result (for both forward and reverse ways),
+		// and depending on which way it is for, this will be the result of the operation. There are a few notes to consider:
+		//
+		// 1. Due to little endian byte order the first bytes go into the lower part of the xmm registers,
+		//    so the comparison results in the least significant bits will actually be the most signigicant for the final operation result.
+		//    This means we have to determine which of the comparison results have the least significant bit on, and this is achieved with
+		//    the "(x - 1) ^ x" trick.
+		// 2. Because there is only signed comparison in SSE/AVX, we have to invert byte comparison results whenever signs of the corresponding
+		//    bytes are different. I.e. in signed comparison it's -1 < 1, but in unsigned it is the opposite (255 > 1). To do that we XOR left and right,
+		//    making the most significant bit of each byte 1 if the signs are different, and later apply this mask with another XOR to the comparison results.
+		// 3. pcmpgtw compares for "greater" relation, so we swap the arguments to get what we need.
+
+		const __m128i mm_signs_mask = _mm_xor_si128(mm_left, mm_right);
+
+		__m128i mm_cmp = _mm_cmpgt_epi8(mm_right, mm_left), mm_rcmp = _mm_cmpgt_epi8(mm_left, mm_right);
+
+		mm_cmp = _mm_xor_si128(mm_signs_mask, mm_cmp);
+		mm_rcmp = _mm_xor_si128(mm_signs_mask, mm_rcmp);
+
+		uint32_t cmp = static_cast<uint32_t>(_mm_movemask_epi8(mm_cmp)), rcmp = static_cast<uint32_t>(_mm_movemask_epi8(mm_rcmp));
+
+		cmp = (cmp - 1u) ^ cmp;
+		rcmp = (rcmp - 1u) ^ rcmp;
+
+		return static_cast<uint16_t>(cmp) < static_cast<uint16_t>(rcmp);
+	}
+
+	bool operator>(const LLUUID& rhs) const
+	{
+		return rhs < (*this);
+	}
+
+	inline size_t hash() const
+	{
+		size_t seed = 0;
+		for (U8 i = 0; i < 4; ++i)
+		{
+			seed ^= static_cast<size_t>(mData[i * 4]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			seed ^= static_cast<size_t>(mData[i * 4 + 1]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			seed ^= static_cast<size_t>(mData[i * 4 + 2]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			seed ^= static_cast<size_t>(mData[i * 4 + 3]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		}
+		return seed;
+	}
+	// END BOOST
 
 	// xor functions. Useful since any two random uuids xored together
 	// will yield a determinate third random unique id that can be
@@ -125,19 +216,6 @@ public:
 	U16 getCRC16() const;
 	U32 getCRC32() const;
 
-	inline size_t hash() const
-	{
-		size_t seed = 0;
-		for (U8 i = 0; i < 4; ++i)
-		{
-			seed ^= static_cast<size_t>(mData[i * 4]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-			seed ^= static_cast<size_t>(mData[i * 4 + 1]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-			seed ^= static_cast<size_t>(mData[i * 4 + 2]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-			seed ^= static_cast<size_t>(mData[i * 4 + 3]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-		}
-		return seed;
-	}
-
 	static BOOL validate(const std::string& in_string); // Validate that the UUID string is legal.
 
 	static const LLUUID null;
@@ -150,8 +228,9 @@ public:
 
 	U8 mData[UUID_BYTES] = {};
 };
-//static_assert(std::is_trivial<LLUUID>{}, "LLUUID must be a trivial type");
-static_assert(std::is_standard_layout<LLUUID>{}, "LLUUID must be a standard layout type");
+static_assert(std::is_trivially_copyable<LLUUID>::value, "LLUUID must be trivial copy");
+static_assert(std::is_trivially_move_assignable<LLUUID>::value, "LLUUID must be trivial move");
+static_assert(std::is_standard_layout<LLUUID>::value, "LLUUID must be a standard layout type");
 
 typedef std::vector<LLUUID> uuid_vec_t;
 typedef std::set<LLUUID> uuid_set_t;

@@ -35,11 +35,6 @@
 
 const LLMaterialID LLMaterialID::null;
 
-LLMaterialID::LLMaterialID()
-{
-	clear();
-}
-
 LLMaterialID::LLMaterialID(const LLSD& pMaterialID)
 {
 	llassert(pMaterialID.isBinary());
@@ -61,41 +56,6 @@ LLMaterialID::LLMaterialID(const LLUUID& lluid)
 	set(lluid.mData);
 }
 
-bool LLMaterialID::operator == (const LLMaterialID& pOtherMaterialID) const
-{
-	return (compareToOtherMaterialID(pOtherMaterialID) == 0);
-}
-
-bool LLMaterialID::operator != (const LLMaterialID& pOtherMaterialID) const
-{
-	return (compareToOtherMaterialID(pOtherMaterialID) != 0);
-}
-
-bool LLMaterialID::operator < (const LLMaterialID& pOtherMaterialID) const
-{
-	return (compareToOtherMaterialID(pOtherMaterialID) < 0);
-}
-
-bool LLMaterialID::operator <= (const LLMaterialID& pOtherMaterialID) const
-{
-	return (compareToOtherMaterialID(pOtherMaterialID) <= 0);
-}
-
-bool LLMaterialID::operator > (const LLMaterialID& pOtherMaterialID) const
-{
-	return (compareToOtherMaterialID(pOtherMaterialID) > 0);
-}
-
-bool LLMaterialID::operator >= (const LLMaterialID& pOtherMaterialID) const
-{
-	return (compareToOtherMaterialID(pOtherMaterialID) >= 0);
-}
-
-bool LLMaterialID::isNull() const
-{
-	return (compareToOtherMaterialID(LLMaterialID::null) == 0);
-}
-
 const U8* LLMaterialID::get() const
 {
 	return mID;
@@ -106,12 +66,12 @@ void LLMaterialID::set(const void* pMemory)
 	llassert(pMemory != NULL);
 
 	// assumes that the required size of memory is available
-	memcpy(mID, pMemory, sizeof(mID));
+	memcpy(mID, pMemory, MATERIAL_ID_SIZE * sizeof(U8));
 }
 
 void LLMaterialID::clear()
 {
-	memset(mID, 0, sizeof(mID));
+	memset(mID, 0, MATERIAL_ID_SIZE * sizeof(U8));
 }
 
 LLSD LLMaterialID::asLLSD() const
@@ -150,9 +110,4 @@ void LLMaterialID::parseFromBinary (const LLSD::Binary& pMaterialID)
 {
 	llassert(pMaterialID.size() == (MATERIAL_ID_SIZE * sizeof(U8)));
 	memcpy(mID, &pMaterialID[0], MATERIAL_ID_SIZE * sizeof(U8));
-}
-
-int LLMaterialID::compareToOtherMaterialID(const LLMaterialID& pOtherMaterialID) const
-{
-	return memcmp(mID, pOtherMaterialID.mID, MATERIAL_ID_SIZE);
 }

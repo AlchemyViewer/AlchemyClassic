@@ -50,7 +50,7 @@ const LLTransactionID LLTransactionID::tnull;
 // static 
 LLMutex * LLUUID::mMutex = nullptr;
 
-static const U8 nullUUID[UUID_BYTES] = {}; // <alchemy/>
+
 
 /*
 
@@ -948,6 +948,14 @@ BOOL LLUUID::parseUUID(const std::string& buf, LLUUID* value)
 }
 
 //static
+LLUUID LLUUID::generateNewID()
+{
+	LLUUID new_id;
+	new_id.generate();
+	return new_id;
+}
+
+//static
 LLUUID LLUUID::generateNewID(const std::string& hash_string)
 {
 	LLUUID new_id;
@@ -982,19 +990,6 @@ LLAssetID LLTransactionID::makeAssetID(const LLUUID& session) const
 	memset(mData, 0, sizeof(mData)); // <alchemy/>
 }
 
-
-// Compare
- bool LLUUID::operator==(const LLUUID& rhs) const
-{
-	return memcmp(mData, rhs.mData, sizeof(mData)) == 0; // <alchemy/>
-}
-
-
- bool LLUUID::operator!=(const LLUUID& rhs) const
-{
-	return memcmp(mData, rhs.mData, sizeof(mData)) != 0; // <alchemy/>
-}
-
 /*
 // JC: This is dangerous.  It allows UUIDs to be cast automatically
 // to integers, among other things.  Use isNull() or notNull().
@@ -1004,18 +999,6 @@ LLAssetID LLTransactionID::makeAssetID(const LLUUID& session) const
 	return (word[0] | word[1] | word[2] | word[3]) > 0;
 }
 */
-
- BOOL LLUUID::notNull() const
-{
-	return memcmp(mData, nullUUID, sizeof(mData)) != 0; // <alchemy/>
-}
-
-// Faster than == LLUUID::null because doesn't require
-// as much memory access.
- BOOL LLUUID::isNull() const
-{
-	return memcmp(mData, nullUUID, sizeof(mData)) == 0; // <alchemy/>
-}
 
 LLUUID::LLUUID(const char *in_string)
 {
@@ -1037,18 +1020,6 @@ LLUUID::LLUUID(const std::string& in_string)
 	}
 
 	set(in_string);
-}
-
-// IW: DON'T "optimize" these w/ U32s or you'll scoogie the sort order
-// IW: this will make me very sad
-bool LLUUID::operator<(const LLUUID &rhs) const
-{
-	return memcmp(mData, rhs.mData, sizeof(mData)) < 0;
-}
-
-bool LLUUID::operator>(const LLUUID &rhs) const
-{
-	return memcmp(mData, rhs.mData, sizeof(mData)) > 0;
 }
 
  U16 LLUUID::getCRC16() const

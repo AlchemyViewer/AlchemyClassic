@@ -939,6 +939,7 @@ void LLMeshRepoThread::run()
                     else
                     {
                         // too many fails
+						LLMutexLock lock(mMutex);
                         mUnavailableQ.push(req);
                         LL_WARNS() << "Failed to load " << req.mMeshParams << " , skip" << LL_ENDL;
                     }
@@ -1037,85 +1038,85 @@ void LLMeshRepoThread::run()
 				LLMutexLock locker(mMutex);
 				for (const auto& req : incomplete)
 				{
-					mSkinReqQ.emplace(req);
+					mSkinReqQ.push(req);
+				}
+			}
+		}
+
+		// holding lock, try next list
+		// *TODO:  For UI/debug-oriented lists, we might drop the fine-
+		// grained locking as there's a lowered expectation of smoothness
+		// in these cases.
+		if (!mDecompositionRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
+		{
+			std::set<UUIDBasedRequest> incomplete;
+			while (!mDecompositionRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
+			{
+				mMutex->lock();
+				std::set<UUIDBasedRequest>::iterator iter = mDecompositionRequests.begin();
+				UUIDBasedRequest req = *iter;
+				mDecompositionRequests.erase(iter);
+				mMutex->unlock();
+				if (req.isDelayed())
+				{
+					incomplete.insert(req);
+				}
+				else if (!fetchMeshDecomposition(req.mId))
+				{
+					if (req.canRetry())
+					{
+						req.updateTime();
+						incomplete.insert(req);
+					}
+					else
+					{
+						LL_DEBUGS() << "mDecompositionRequests failed: " << req.mId << LL_ENDL;
+					}
 				}
 			}
 
-            // holding lock, try next list
-            // *TODO:  For UI/debug-oriented lists, we might drop the fine-
-            // grained locking as there's a lowered expectation of smoothness
-            // in these cases.
-            if (!mDecompositionRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
-            {
-                std::set<UUIDBasedRequest> incomplete;
-                while (!mDecompositionRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
-                {
-                    mMutex->lock();
-                    std::set<UUIDBasedRequest>::iterator iter = mDecompositionRequests.begin();
-                    UUIDBasedRequest req = *iter;
-                    mDecompositionRequests.erase(iter);
-                    mMutex->unlock();
-                    if (req.isDelayed())
-                    {
-                        incomplete.insert(req);
-                    }
-                    else if (!fetchMeshDecomposition(req.mId))
-                    {
-                        if (req.canRetry())
-                        {
-                            req.updateTime();
-                            incomplete.insert(req);
-                        }
-                        else
-                        {
-                            LL_DEBUGS() << "mDecompositionRequests failed: " << req.mId << LL_ENDL;
-                        }
-                    }
-                }
+			if (!incomplete.empty())
+			{
+				LLMutexLock locker(mMutex);
+				mDecompositionRequests.insert(incomplete.begin(), incomplete.end());
+			}
+		}
 
-                if (!incomplete.empty())
-                {
-                    LLMutexLock locker(mMutex);
-                    mDecompositionRequests.insert(incomplete.begin(), incomplete.end());
-                }
-            }
+		// holding lock, final list
+		if (!mPhysicsShapeRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
+		{
+			std::set<UUIDBasedRequest> incomplete;
+			while (!mPhysicsShapeRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
+			{
+				mMutex->lock();
+				std::set<UUIDBasedRequest>::iterator iter = mPhysicsShapeRequests.begin();
+				UUIDBasedRequest req = *iter;
+				mPhysicsShapeRequests.erase(iter);
+				mMutex->unlock();
+				if (req.isDelayed())
+				{
+					incomplete.insert(req);
+				}
+				else if (!fetchMeshPhysicsShape(req.mId))
+				{
+					if (req.canRetry())
+					{
+						req.updateTime();
+						incomplete.insert(req);
+					}
+					else
+					{
+						LL_DEBUGS() << "mPhysicsShapeRequests failed: " << req.mId << LL_ENDL;
+					}
+				}
+			}
 
-            // holding lock, final list
-            if (!mPhysicsShapeRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
-            {
-                std::set<UUIDBasedRequest> incomplete;
-                while (!mPhysicsShapeRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
-                {
-                    mMutex->lock();
-                    std::set<UUIDBasedRequest>::iterator iter = mPhysicsShapeRequests.begin();
-                    UUIDBasedRequest req = *iter;
-                    mPhysicsShapeRequests.erase(iter);
-                    mMutex->unlock();
-                    if (req.isDelayed())
-                    {
-                        incomplete.insert(req);
-                    }
-                    else if (!fetchMeshPhysicsShape(req.mId))
-                    {
-                        if (req.canRetry())
-                        {
-                            req.updateTime();
-                            incomplete.insert(req);
-                        }
-                        else
-                        {
-                            LL_DEBUGS() << "mPhysicsShapeRequests failed: " << req.mId << LL_ENDL;
-                        }
-                    }
-                }
-
-                if (!incomplete.empty())
-                {
-                    LLMutexLock locker(mMutex);
-                    mPhysicsShapeRequests.insert(incomplete.begin(), incomplete.end());
-                }
-            }
-        }
+			if (!incomplete.empty())
+			{
+				LLMutexLock locker(mMutex);
+				mPhysicsShapeRequests.insert(incomplete.begin(), incomplete.end());
+			}
+		}
 
 		// For dev purposes only.  A dynamic change could make this false
 		// and that shouldn't assert.
@@ -1816,16 +1817,19 @@ bool LLMeshRepoThread::fetchMeshLOD(const LLVolumeParams& mesh_params, S32 lod, 
 				}
 				else
 				{
+					LLMutexLock lock(mMutex);
 					mUnavailableQ.push(LODRequest(mesh_params, lod));
 				}
 			}
 			else
 			{
+				LLMutexLock lock(mMutex);
 				mUnavailableQ.push(LODRequest(mesh_params, lod));
 			}
 		}
 		else
 		{
+			LLMutexLock lock(mMutex);
 			mUnavailableQ.push(LODRequest(mesh_params, lod));
 		}
 	}
@@ -1887,8 +1891,8 @@ bool LLMeshRepoThread::headerReceived(const LLVolumeParams& mesh_params, U8* dat
 		
 		{
 			LLMutexLock lock(mHeaderMutex);
-			mMeshHeaderSize.emplace(mesh_id, header_size);
-			mMeshHeader.emplace(mesh_id, header);
+			mMeshHeaderSize.insert_or_assign(mesh_id, header_size);
+			mMeshHeader.insert_or_assign(mesh_id, header);
 		}
 
 		
@@ -1960,7 +1964,7 @@ bool LLMeshRepoThread::skinInfoReceived(const LLUUID& mesh_id, U8* data, S32 dat
 		// LL_DEBUGS(LOG_MESH) << "info pelvis offset" << info.mPelvisOffset << LL_ENDL;
 		{
 			LLMutexLock lock(mMutex);
-			mSkinInfoQ.emplace(info);
+			mSkinInfoQ.emplace(std::move(info));
 		}
 	}
 
@@ -3225,7 +3229,6 @@ void LLMeshHeaderHandler::processData(LLCore::BufferArray * /* body */, S32 /* b
 			lod_bytes = llmax(lod_bytes, header["skin"]["offset"].asInteger() + header["skin"]["size"].asInteger());
 			lod_bytes = llmax(lod_bytes, header["physics_convex"]["offset"].asInteger() + header["physics_convex"]["size"].asInteger());
 
-			S32 header_bytes = (S32) gMeshRepo.mThread->mMeshHeaderSize[mesh_id];
 			S32 bytes = lod_bytes + header_bytes; 
 
 		

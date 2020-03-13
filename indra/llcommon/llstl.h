@@ -228,6 +228,7 @@ inline typename T::mapped_type get_ptr_in_map(const T& inmap, typename T::key_ty
 	return get_if_there(inmap,key,NULL);
 };
 
+// Useful for replacing the removeObj() functionality of LLDynamicArray
 // Example:
 //  for (std::vector<T>::iterator iter = mList.begin(); iter != mList.end(); )
 //  {

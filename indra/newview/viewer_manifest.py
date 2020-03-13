@@ -425,17 +425,17 @@ class WindowsManifest(ViewerManifest):
             # Find alchemy-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
             self.path(src=os.path.join(self.args['dest'], 'alchemy-bin.exe'), dst=self.final_exe())
 
-            with self.prefix(src=os.path.join(pkgdir, "VMP")):
-                # include the compiled launcher scripts so that it gets included in the file_list
-                self.path('ALVersionChecker.exe')
+            # with self.prefix(src=os.path.join(pkgdir, "VMP")):
+            #     # include the compiled launcher scripts so that it gets included in the file_list
+            #     self.path('ALVersionChecker.exe')
 
-            with self.prefix(dst="vmp_icons"):
-                with self.prefix(src=self.icon_path()):
-                    self.path("alchemy.ico")
-                #VMP  Tkinter icons
-                with self.prefix(src="vmp_icons"):
-                    self.path("*.png")
-                    self.path("*.gif")
+            # with self.prefix(dst="vmp_icons"):
+            #     with self.prefix(src=self.icon_path()):
+            #         self.path("alchemy.ico")
+            #     #VMP  Tkinter icons
+            #     with self.prefix(src="vmp_icons"):
+            #         self.path("*.png")
+            #         self.path("*.gif")
 
         # Plugin host application
         self.path2basename(os.path.join(os.pardir,
@@ -729,7 +729,7 @@ class WindowsManifest(ViewerManifest):
         # Unlike the viewer binary, the VMP filenames are invariant with respect to version, os, etc.
         for exe in (
             self.final_exe(),
-            "ALVersionChecker.exe",
+            # "ALVersionChecker.exe",
             ):
             self.sign(exe)
             
@@ -840,13 +840,13 @@ class DarwinManifest(ViewerManifest):
                     self.path("alchemy.icns")
 
                 # Copy in the updater script and helper modules
-                self.path(src=os.path.join(pkgdir, 'VMP'), dst="updater")
+                # self.path(src=os.path.join(pkgdir, 'VMP'), dst="updater")
 
-                with self.prefix(src="", dst=os.path.join("updater", "icons")):
-                    self.path2basename(self.icon_path(), "alchemy.ico")
-                    with self.prefix(src="vmp_icons", dst=""):
-                        self.path("*.png")
-                        self.path("*.gif")
+                # with self.prefix(src="", dst=os.path.join("updater", "icons")):
+                #     self.path2basename(self.icon_path(), "alchemy.ico")
+                #     with self.prefix(src="vmp_icons", dst=""):
+                #         self.path("*.png")
+                #         self.path("*.gif")
 
                 with self.prefix(src_dst="cursors_mac"):
                     self.path("*.tif")

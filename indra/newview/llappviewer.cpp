@@ -1138,6 +1138,8 @@ bool LLAppViewer::init()
 
 	gGLActive = FALSE;
 
+#if 0
+
 #if LL_WINDOWS
 	std::string updater_path = gDirUtilp->getExpandedFilename(LL_PATH_EXECUTABLE, "ALVersionChecker.exe");
 #elif LL_DARWIN
@@ -1177,6 +1179,7 @@ bool LLAppViewer::init()
 			LL_WARNS("InitInfo") << "Failed to launch updater with params: " << updater << LL_ENDL;
 		}
 	}
+#endif
 
 	// Iterate over --leap command-line options. But this is a bit tricky: if
 	// there's only one, it won't be an array at all.

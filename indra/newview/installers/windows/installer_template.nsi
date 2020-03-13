@@ -225,12 +225,34 @@ FunctionEnd
 Function check_skip_finish
   StrCmp $SKIP_DIALOGS "true" 0 +4
   StrCmp $AUTOSTART "true" 0 +3
+  Call write_marker_if_needed
   Call launch_viewer
   Abort
 FunctionEnd
 
+Function write_marker_if_needed
+        Push $R0
+        Push $0
+        ;; MAINT-7812: Only write nsis.winstall file with /MARKER switch
+        ${GetParameters} $R0
+        ${GetOptions} $R0 "/MARKER" $0
+        ;; If no /marker switch, skip to ClearErrors
+        IfErrors +4 0
+        ;; $EXEDIR is where we find the installer file
+        ;; Put a marker file there so VMP will know we're done
+        ;; and it can delete the download directory next time.
+        ;; http://nsis.sourceforge.net/Write_text_to_a_file
+        FileOpen $0 "$EXEDIR\nsis.winstall" w
+        FileWrite $0 "NSIS done$\n"
+        FileClose $0
+
+        ClearErrors
+        Pop $0
+        Pop $R0
+FunctionEnd
+
 Function launch_viewer
-  ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\$INSTEXE" "open" "precheck $INSTDIR\$VIEWER_EXE $SHORTCUT_LANG_PARAM"
+  ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\$VIEWER_EXE" "open" "$SHORTCUT_LANG_PARAM"
 FunctionEnd
 
 Function create_desktop_shortcut
@@ -595,30 +617,6 @@ lbl_configure_default_lang:
 lbl_return:
   Pop $0
   Return
-FunctionEnd
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; After install completes, launch app
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Function .onInstSuccess
-        Push $R0
-        Push $0
-        ;; MAINT-7812: Only write nsis.winstall file with /marker switch
-        ${GetParameters} $R0
-        ${GetOptionsS} $R0 "/marker" $0
-        ;; If no /marker switch, skip to ClearErrors
-        IfErrors +4 0
-        ;; $EXEDIR is where we find the installer file
-        ;; Put a marker file there so VMP will know we're done
-        ;; and it can delete the download directory next time.
-        ;; http://nsis.sourceforge.net/Write_text_to_a_file
-        FileOpen $0 "$EXEDIR\nsis.winstall" w
-        FileWrite $0 "NSIS done$\n"
-        FileClose $0
-
-        ClearErrors
-        Pop $0
-        Pop $R0
 FunctionEnd
 
 ;--------------------------------

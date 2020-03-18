@@ -73,8 +73,7 @@ public:
 		extern const LLVector4a LL_V4A_ZERO;
 		return LL_V4A_ZERO;
 	}
-
-
+	
 	// Return a vector of all epsilon, where epsilon is a small float suitable for approximate equality checks
 	static inline const LLVector4a& getEpsilon()
 	{
@@ -96,10 +95,14 @@ public:
 	// CONSTRUCTORS 
 	////////////////////////////////////
 	
-	LLVector4a() = default;
-	/*{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
+#if SHOW_ASSERT
+	LLVector4a()
+	{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
 		ll_assert_aligned(this,16);
-	}*/
+	}
+#else
+	LLVector4a() = default;
+#endif
 	
 	LLVector4a(F32 x, F32 y, F32 z, F32 w = 0.f)
 	{
@@ -132,7 +135,7 @@ public:
 	inline void loadua(const F32* src);
 	
 	// Load only three floats beginning at address 'src'. Slowest method.
-	inline void load3(const F32* src, const F32 w=0.f);
+	inline void load3(const F32* src, const F32 w = 0.f);
 	
 	// Store to a 16-byte aligned memory address
 	inline void store4a(F32* dst) const;

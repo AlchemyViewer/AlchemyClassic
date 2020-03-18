@@ -833,7 +833,7 @@ protected:
 	
 	void showObjectContextMenu(S32 x,S32 y)
 	{
-		auto menu = mPopupMenuHandleObject.get();
+		LLMenuGL* menu = (LLMenuGL*)mPopupMenuHandleObject.get();
 		if (!menu)
 		{
 			LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;

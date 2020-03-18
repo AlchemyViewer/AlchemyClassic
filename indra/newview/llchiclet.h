@@ -252,7 +252,7 @@ public:
 	{};
 
 	
-	virtual ~LLIMChiclet() = default;
+	virtual ~LLIMChiclet();
 
 	/**
 	 * It is used for default setting up of chicklet:click handler, etc.  
@@ -325,7 +325,7 @@ protected:
 
 	bool canCreateMenu();
 
-	LLMenuGL* mPopupMenu;
+	LLHandle<LLMenuGL> mPopupMenuHandle;
 
 	bool mShowSpeaker;
 	bool mCounterEnabled;

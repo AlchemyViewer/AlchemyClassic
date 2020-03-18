@@ -87,9 +87,10 @@ void LLListContextMenu::show(LLView* spawning_view, const uuid_vec_t& uuids, S32
 
 void LLListContextMenu::hide()
 {
-	if(!mMenuHandle.isDead())
+	auto menu = mMenuHandle.get();
+	if(menu)
 	{
-		mMenuHandle.get()->hide();
+		menu->hide();
 	}
 }
 

@@ -549,14 +549,18 @@ BOOL LLPanelPicks::postBuild()
 
 	auto popup_menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>("menu_picks.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
 	if (popup_menu)
+	{
 		mPopupMenuHandle = popup_menu->getHandle();
-	
+	}
+
 	LLUICtrl::CommitCallbackRegistry::ScopedRegistrar plus_registar;
 	plus_registar.add("Picks.Plus.Action", boost::bind(&LLPanelPicks::onPlusMenuItemClicked, this, _2));
 	mEnableCallbackRegistrar.add("Picks.Plus.Enable", boost::bind(&LLPanelPicks::isActionEnabled, this, _2));
 	auto plus_menu = LLUICtrlFactory::getInstance()->createFromFile<LLToggleableMenu>("menu_picks_plus.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
 	if (plus_menu)
+	{
 		mPlusMenuHandle = plus_menu->getHandle();
+	}
 
 	return TRUE;
 }

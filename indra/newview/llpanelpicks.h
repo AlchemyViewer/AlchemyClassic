@@ -43,6 +43,7 @@ class LLClassifiedItem;
 class LLFlatListView;
 class LLPanelPickInfo;
 class LLPanelPickEdit;
+class LLContextMenu;
 class LLToggleableMenu;
 class LLPanelClassifiedInfo;
 class LLPanelClassifiedEdit;
@@ -133,7 +134,7 @@ private:
 	void createClassifiedInfoPanel();
 	void createClassifiedEditPanel(LLPanelClassifiedEdit** panel);
 
-	LLHandle<LLView> mPopupMenuHandle;
+	LLHandle<LLContextMenu> mPopupMenuHandle;
 	LLPanelProfile* mProfilePanel;
 	LLPanelPickInfo* mPickPanel;
 	LLFlatListView* mPicksList;

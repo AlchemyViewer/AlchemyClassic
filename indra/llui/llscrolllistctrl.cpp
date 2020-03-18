@@ -1889,6 +1889,7 @@ BOOL LLScrollListCtrl::handleRightMouseDown(S32 x, S32 y, MASK mask)
 					bool isFriend = *(*mIsFriendSignal)(uuid);
 					LLView* addFriendButton = menu->getChild<LLView>("add_friend");
 					LLView* removeFriendButton = menu->getChild<LLView>("remove_friend");
+
 					if (addFriendButton && removeFriendButton)
 					{
 						addFriendButton->setEnabled(!isFriend);

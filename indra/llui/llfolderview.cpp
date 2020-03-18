@@ -258,6 +258,7 @@ LLFolderView::~LLFolderView( void )
 	mStatusTextBox = nullptr;
 
 	if (mPopupMenuHandle.get()) mPopupMenuHandle.get()->die();
+	mPopupMenuHandle.markDead();
 
 	mAutoOpenItems.removeAllNodes();
 	clearSelection();

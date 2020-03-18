@@ -378,7 +378,8 @@ LLTeleportHistoryPanel::ContextMenu::~ContextMenu()
 
 void LLTeleportHistoryPanel::ContextMenu::show(LLView* spawning_view, S32 index, S32 x, S32 y)
 {
-	if (auto menu = mMenuHandle.get())
+	auto menu = mMenuHandle.get();
+	if (menu)
 	{
 		menu->die();
 		mMenuHandle.markDead();
@@ -387,7 +388,8 @@ void LLTeleportHistoryPanel::ContextMenu::show(LLView* spawning_view, S32 index,
 	mIndex = index;
 	mMenuHandle = createMenu();
 
-	auto menu = mMenuHandle.get();
+	menu = mMenuHandle.get();
+	if (menu)
 	{
 		menu->show(x, y);
 		LLMenuGL::showPopup(spawning_view, menu, x, y);
@@ -1000,7 +1002,7 @@ void LLTeleportHistoryPanel::onAccordionTabRightClick(LLView *view, S32 x, S32 y
 	// create the context menu from the XUI
 	llassert(LLMenuGL::sMenuContainer != NULL);
 	auto menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>(
-		"menu_teleport_history_tab.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+		"menu_teleport_history_tab.xml", LLMenuGL::sMenuContainer, LLViewerMenuHolderGL::child_registry_t::instance());
 	if (menu)
 	{
 		mAccordionTabMenuHandle = menu->getHandle();

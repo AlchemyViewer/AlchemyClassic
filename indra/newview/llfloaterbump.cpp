@@ -190,6 +190,7 @@ void LLFloaterBump::onScrollListRightClicked(LLUICtrl* ctrl, S32 x, S32 y)
 		{
 			mItemUUID = item->getUUID();
 			menu->buildDrawLabels();
+			menu->updateParent(LLMenuGL::sMenuContainer);
 
 			std::string mute_msg = (LLMuteList::getInstance()->isMuted(mItemUUID, mNames[mItemUUID])) ? "UnmuteAvatar" : "MuteAvatar";
 			menu->getChild<LLUICtrl>("Avatar Mute")->setValue(LLTrans::getString(mute_msg));

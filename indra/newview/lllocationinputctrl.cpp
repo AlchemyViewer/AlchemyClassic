@@ -659,10 +659,8 @@ void LLLocationInputCtrl::onInfoButtonClicked()
 	if (RlvHandler::instance().hasBehaviour(RLV_BHVR_SHOWLOC))
 		return;
 // [/RLVa:KB]
-	// <alchemy>
-	LLViewerParcelMgr::getInstance()->selectParcelAt(gAgent.getPositionGlobal());
+
 	LLFloaterReg::showInstance("about_land");
-	// </alchemy>
 }
 
 void LLLocationInputCtrl::onForSaleButtonClicked()
@@ -814,7 +812,6 @@ void LLLocationInputCtrl::refresh()
 // [/RLVa:KB]
 
 	refreshLocation();			// update location string
-	refreshMaturityButton();
 	refreshParcelIcons();
 	updateAddLandmarkButton();	// indicate whether current parcel has been landmarked 
 }
@@ -846,6 +843,8 @@ void LLLocationInputCtrl::refreshLocation()
 	mHumanReadableLocation = location_name;
 	setText(location_name);
 	isHumanReadableLocationVisible = true;
+
+	refreshMaturityButton();
 }
 
 // returns new right edge

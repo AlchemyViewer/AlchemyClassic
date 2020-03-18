@@ -48,14 +48,14 @@ class LLStreamingAudioInterface
 	virtual F32 getGain() = 0;
 	virtual std::string getURL() = 0;
 
-	virtual bool supportsAdjustableBufferSizes(){return false;}
-	virtual void setBufferSizes(U32 streambuffertime, U32 decodebuffertime) {}
+	virtual bool supportsAdjustableBufferSizes() = 0;
+	virtual void setBufferSizes(U32 streambuffertime, U32 decodebuffertime) = 0;
 
-	virtual bool supportsMetaData() { return false; }
-	virtual const LLSD *getMetaData() { return nullptr; }
-	virtual bool hasNewMetaData() { return false; }
-	virtual bool supportsWaveData() { return false; }
-	virtual bool getWaveData(float* arr, S32 count, S32 stride = 1){ return false; }
+	virtual bool supportsMetaData() = 0;
+	virtual const LLSD *getMetaData() = 0;
+	virtual bool hasNewMetaData() = 0;
+	virtual bool supportsWaveData() = 0;
+	virtual bool getWaveData(float* arr, S32 count, S32 stride = 1) = 0;
 };
 
 #endif // LL_STREAMINGAUDIO_H

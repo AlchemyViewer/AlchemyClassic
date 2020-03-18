@@ -36,10 +36,6 @@ LLListener_OpenAL::LLListener_OpenAL()
 {
 }
 
-LLListener_OpenAL::~LLListener_OpenAL()
-{
-}
-
 void LLListener_OpenAL::translate(const LLVector3& offset)
 {
 	//LL_INFOS() << "LLListener_OpenAL::translate() : " << offset << LL_ENDL;

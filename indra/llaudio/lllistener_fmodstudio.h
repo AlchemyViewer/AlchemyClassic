@@ -41,7 +41,7 @@ class LLListener_FMODSTUDIO final : public LLListener
 {
  public:  
 	LLListener_FMODSTUDIO(FMOD::System *system);
-	virtual ~LLListener_FMODSTUDIO();
+	virtual ~LLListener_FMODSTUDIO() = default;
 
 	void translate(const LLVector3& offset) final override;
 	void setPosition(const LLVector3& pos) final override;

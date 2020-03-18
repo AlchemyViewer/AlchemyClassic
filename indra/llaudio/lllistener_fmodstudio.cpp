@@ -42,11 +42,6 @@ LLListener_FMODSTUDIO::LLListener_FMODSTUDIO(FMOD::System *system)
 }
 
 //-----------------------------------------------------------------------
-LLListener_FMODSTUDIO::~LLListener_FMODSTUDIO()
-{
-}
-
-//-----------------------------------------------------------------------
 void LLListener_FMODSTUDIO::translate(const LLVector3& offset)
 {
 	LLListener::translate(offset);

@@ -568,7 +568,7 @@ LLVector3 LLAgentCamera::calcFocusOffset(LLViewerObject *object, const LLVector3
 BOOL LLAgentCamera::calcCameraMinDistance(F32 &obj_min_distance)
 {
 	BOOL soft_limit = FALSE; // is the bounding box to be treated literally (volumes) or as an approximation (avatars)
-    static LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
+    static const LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
 	if (!mFocusObject || mFocusObject->isDead() || 
 		mFocusObject->isMesh() ||
 		sDisableCameraConstraints)
@@ -1005,7 +1005,7 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 		if (new_distance > max_distance)
 		{
 			// Unless camera is unlocked
-            static LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
+            static const LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
 			if (!sDisableCameraConstraints)
 			{
 				return;
@@ -1918,7 +1918,7 @@ LLVector3d LLAgentCamera::calcCameraPositionTargetGlobal(BOOL *hit_limit)
 		// camera gets pushed out later wrt mCameraFOVZoomFactor...this is "raw" value
 		camera_position_global = focusPosGlobal + mCameraFocusOffset;
 	}
-	static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
+	static const LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
 	if (!disable_cam_constraints && !gAgent.isGodlike())
 	{
 		LLViewerRegion* regionp = LLWorld::getInstance()->getRegionFromPosGlobal(camera_position_global);
@@ -2126,7 +2126,7 @@ F32 LLAgentCamera::getCameraMinOffGround() const
 	{
 		return 0.f;
 	}
-	static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
+	static const LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
 	return disable_cam_constraints ? -1000.f : 0.5f;
 
 }

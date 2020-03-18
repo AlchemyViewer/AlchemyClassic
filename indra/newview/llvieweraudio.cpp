@@ -442,12 +442,12 @@ void audio_update_volume(bool force_update)
 		}
 
 		// handle secondary gains
-		static LLCachedControl<bool> sounds_mute(gSavedSettings, "MuteSounds");
-		static LLCachedControl<F32> sounds_volume(gSavedSettings, "AudioLevelSFX");
-		static LLCachedControl<bool> ui_mute(gSavedSettings, "MuteUI");
-		static LLCachedControl<F32> ui_volume(gSavedSettings, "AudioLevelUI");
-		static LLCachedControl<bool> ambient_mute(gSavedSettings, "MuteAmbient");
-		static LLCachedControl<F32> ambient_volume(gSavedSettings, "AudioLevelAmbient");
+		static const LLCachedControl<bool> sounds_mute(gSavedSettings, "MuteSounds");
+		static const LLCachedControl<bool> ui_mute(gSavedSettings, "MuteUI");
+		static const LLCachedControl<bool> ambient_mute(gSavedSettings, "MuteAmbient");
+		static const LLCachedControl<F32> sounds_volume(gSavedSettings, "AudioLevelSFX");
+		static const LLCachedControl<F32> ui_volume(gSavedSettings, "AudioLevelUI");
+		static const LLCachedControl<F32> ambient_volume(gSavedSettings, "AudioLevelAmbient");
 		gAudiop->setSecondaryGain(LLAudioEngine::AUDIO_TYPE_SFX, sounds_mute ? 0.f : sounds_volume);
 		gAudiop->setSecondaryGain(LLAudioEngine::AUDIO_TYPE_UI,  ui_mute ? 0.f : ui_volume);
 		gAudiop->setSecondaryGain(LLAudioEngine::AUDIO_TYPE_AMBIENT, ambient_mute ? 0.f : ambient_volume);
@@ -460,8 +460,8 @@ void audio_update_volume(bool force_update)
 			LLViewerAudio::getInstance()->setForcedTeleportFade(false);
 		}
 
-		static LLCachedControl<F32> music_volume_setting(gSavedSettings, "AudioLevelMusic");
-		static LLCachedControl<bool> music_muted(gSavedSettings, "MuteMusic");
+		static const LLCachedControl<F32> music_volume_setting(gSavedSettings, "AudioLevelMusic");
+		static const LLCachedControl<bool> music_muted(gSavedSettings, "MuteMusic");
 		const F32 fade_volume = LLViewerAudio::getInstance()->getFadeVolume();
 
 		const F32 music_volume = mute_volume * master_volume * music_volume_setting * fade_volume;
@@ -469,17 +469,17 @@ void audio_update_volume(bool force_update)
 	}
 
 	// Streaming Media
-	static LLCachedControl<F32> media_volume_setting(gSavedSettings, "AudioLevelMedia");
-	static LLCachedControl<bool> media_muted(gSavedSettings, "MuteMedia");
+	static const LLCachedControl<F32> media_volume_setting(gSavedSettings, "AudioLevelMedia");
+	static const LLCachedControl<bool> media_muted(gSavedSettings, "MuteMedia");
 	const F32 media_volume = mute_volume * master_volume * media_volume_setting;
 	LLViewerMedia::getInstance()->setVolume( media_muted ? 0.0f : media_volume );
 
 	// Voice, this is parametric singleton, it gets initialized when ready
 	if (LLVoiceClient::instanceExists())
 	{
-		static LLCachedControl<F32> voice_volume_setting(gSavedSettings, "AudioLevelVoice");
-		static LLCachedControl<bool> voice_mute(gSavedSettings, "MuteVoice");
-		static LLCachedControl<F32> mic_volume(gSavedSettings, "AudioLevelMic");
+		static const LLCachedControl<F32> voice_volume_setting(gSavedSettings, "AudioLevelVoice");
+		static const LLCachedControl<bool> voice_mute(gSavedSettings, "MuteVoice");
+		static const LLCachedControl<F32> mic_volume(gSavedSettings, "AudioLevelMic");
 		const F32 voice_volume = mute_volume * master_volume * voice_volume_setting;
 		LLVoiceClient *voice_inst = LLVoiceClient::getInstance();
 		voice_inst->setVoiceVolume(voice_mute ? 0.f : voice_volume);
@@ -539,10 +539,10 @@ void audio_update_wind(bool force_update)
 		// don't use the setter setMaxWindGain() because we don't
 		// want to screw up the fade-in on startup by setting actual source gain
 		// outside the fade-in.
-		static LLCachedControl<bool> mute_audio(gSavedSettings, "MuteAudio");
-		static LLCachedControl<F32> audio_level_master(gSavedSettings, "AudioLevelMaster");
-		static LLCachedControl<bool> mute_ambient(gSavedSettings, "MuteAmbient");
-		static LLCachedControl<F32> audio_level_ambient(gSavedSettings, "AudioLevelAmbient");
+		static const LLCachedControl<bool> mute_audio(gSavedSettings, "MuteAudio");
+		static const LLCachedControl<bool> mute_ambient(gSavedSettings, "MuteAmbient");
+		static const LLCachedControl<F32> audio_level_master(gSavedSettings, "AudioLevelMaster");
+		static const LLCachedControl<F32> audio_level_ambient(gSavedSettings, "AudioLevelAmbient");
 		F32 master_volume = mute_audio ? 0.f : audio_level_master;
 		F32 ambient_volume = mute_ambient ? 0.f : audio_level_ambient;
 		F32 max_wind_volume = master_volume * ambient_volume;

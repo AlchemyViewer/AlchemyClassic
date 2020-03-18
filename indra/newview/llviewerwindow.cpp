@@ -2990,12 +2990,12 @@ void LLViewerWindow::updateUI()
 
 	if (gLoggedInTime.getStarted())
 	{
-		static LLCachedControl<F32> dest_hint_timeout(gSavedSettings, "DestinationGuideHintTimeout");
+		static const LLCachedControl<F32> dest_hint_timeout(gSavedSettings, "DestinationGuideHintTimeout");
 		if (gLoggedInTime.getElapsedTimeF32() > dest_hint_timeout)
 		{
 			LLFirstUse::notUsingDestinationGuide();
 		}
-		static LLCachedControl<F32> sidepanel_hint_timeout(gSavedSettings, "SidePanelHintTimeout");
+		static const LLCachedControl<F32> sidepanel_hint_timeout(gSavedSettings, "SidePanelHintTimeout");
 		if (gLoggedInTime.getElapsedTimeF32() > sidepanel_hint_timeout)
 		{
 			LLFirstUse::notUsingSidePanel();
@@ -3554,7 +3554,7 @@ void LLViewerWindow::updateMouseDelta()
 
 	LLVector2 mouse_vel; 
 
-	static LLCachedControl<bool> mouseSmooth(gSavedSettings, "MouseSmooth");
+	static const LLCachedControl<bool> mouseSmooth(gSavedSettings, "MouseSmooth");
 	if (mouseSmooth)
 	{
 		static F32 fdx = 0.f;

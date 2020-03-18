@@ -488,7 +488,7 @@ void idle_afk_check()
 {
 	// check idle timers
 	F32 current_idle = gAwayTriggerTimer.getElapsedTimeF32();
-	static LLCachedControl<S32> afk_timeout_cc(gSavedSettings, "AFKTimeout");
+	static const LLCachedControl<S32> afk_timeout_cc(gSavedSettings, "AFKTimeout");
 // [RLVa:KB] - Checked: 2010-05-03 (RLVa-1.2.0g) | Modified: RLVa-1.2.0g
 	// Enforce an idle time of 30 minutes if @allowidle=n restricted
 	F32 afk_timeout = (!RlvHandler::instance().hasBehaviour(RLV_BHVR_ALLOWIDLE)) ? afk_timeout_cc : 60 * 30;
@@ -4679,7 +4679,7 @@ void LLAppViewer::idle()
 	// Smoothly weight toward current frame
 	gFPSClamped = (frame_rate_clamped + (4.f * gFPSClamped)) / 5.f;
 
-	static LLCachedControl<F32> qas(gSavedSettings, "QuitAfterSeconds");
+	static const LLCachedControl<F32> qas(gSavedSettings, "QuitAfterSeconds");
 	if (qas > 0.f)
 	{
 		if (gRenderStartTime.getElapsedTimeF32() > qas)
@@ -4724,7 +4724,7 @@ void LLAppViewer::idle()
 	    // Update simulator agent state
 	    //
 
-		static LLCachedControl<bool> rotateRight(gSavedSettings, "RotateRight");
+		static const LLCachedControl<bool> rotateRight(gSavedSettings, "RotateRight");
 		if (rotateRight)
 		{
 			gAgent.moveYaw(-1.f);
@@ -5260,7 +5260,7 @@ void LLAppViewer::idleNetwork()
 	gObjectList.mNumNewObjects = 0;
 	S32 total_decoded = 0;
 
-	static LLCachedControl<bool> speedTest(gSavedSettings, "SpeedTest");
+	static const LLCachedControl<bool> speedTest(gSavedSettings, "SpeedTest");
 	if (!speedTest)
 	{
 		LL_RECORD_BLOCK_TIME(FTM_IDLE_NETWORK); // decode

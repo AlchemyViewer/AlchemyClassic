@@ -210,7 +210,7 @@ void display_update_camera()
 // Write some stats to LL_INFOS()
 void display_stats()
 {
-	static LLCachedControl<F32> fps_log_freq(gSavedSettings, "FPSLogFrequency");
+	static const LLCachedControl<F32> fps_log_freq(gSavedSettings, "FPSLogFrequency");
 	if (fps_log_freq > 0.f && gRecentFPSTime.getElapsedTimeF32() >= fps_log_freq)
 	{
 		F32 fps = gRecentFrameCount / fps_log_freq;
@@ -218,8 +218,7 @@ void display_stats()
 		gRecentFrameCount = 0;
 		gRecentFPSTime.reset();
 	}
-
-	static LLCachedControl<F32> mem_log_freq(gSavedSettings, "MemoryLogFrequency");
+	static const LLCachedControl<F32> mem_log_freq(gSavedSettings, "MemoryLogFrequency");
 	if (mem_log_freq > 0.f && gRecentMemoryTime.getElapsedTimeF32() >= mem_log_freq)
 	{
 		gMemoryAllocated = U64Bytes(LLMemory::getCurrentRSS());
@@ -228,7 +227,7 @@ void display_stats()
 		LLMemory::logMemoryInfo(TRUE) ;
 		gRecentMemoryTime.reset();
 	}
-    static LLCachedControl<F32> asset_storage_log_freq(gSavedSettings, "AssetStorageLogFrequency");
+    static const LLCachedControl<F32> asset_storage_log_freq(gSavedSettings, "AssetStorageLogFrequency");
     if (asset_storage_log_freq > 0.f && gAssetStorageLogTime.getElapsedTimeF32() >= asset_storage_log_freq)
     {
         gAssetStorageLogTime.reset();

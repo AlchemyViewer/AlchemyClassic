@@ -334,8 +334,8 @@ static LLTrace::BlockTimerStatHandle FTM_FILTER("Filter Folder View");
 void LLFolderView::filter( LLFolderViewFilter& filter )
 {
 	LL_RECORD_BLOCK_TIME(FTM_FILTER);
-	static LLUICachedControl<S32> filter_item_max_time_visible("FilterItemsMaxTimePerFrameVisible", 10);
-	static LLUICachedControl<S32> filter_item_max_time_unvisible("FilterItemsMaxTimePerFrameUnvisible", 1);
+	static const LLUICachedControl<S32> filter_item_max_time_visible("FilterItemsMaxTimePerFrameVisible", 10);
+	static const LLUICachedControl<S32> filter_item_max_time_unvisible("FilterItemsMaxTimePerFrameUnvisible", 1);
 	filter.resetTime(llclamp(mParentPanel.get()->getVisible() ? static_cast<S32>(filter_item_max_time_visible) : static_cast<S32>(filter_item_max_time_unvisible), 1, 100));
 
     // Note: we filter the model, not the view
@@ -1477,9 +1477,9 @@ BOOL LLFolderView::handleRightMouseDown( S32 x, S32 y, MASK mask )
 		&& menu )
 	{
 		if (mCallbackRegistrar)
-		{
+        {
 			mCallbackRegistrar->pushScope();
-		}
+        }
 		if (mEnableRegistrar)
 		{
 			mEnableRegistrar->pushScope();
@@ -1494,9 +1494,9 @@ BOOL LLFolderView::handleRightMouseDown( S32 x, S32 y, MASK mask )
 			mEnableRegistrar->popScope();
 		}
 		if (mCallbackRegistrar)
-		{
+        {
 			mCallbackRegistrar->popScope();
-		}
+	    }
 	}
 	else
 	{

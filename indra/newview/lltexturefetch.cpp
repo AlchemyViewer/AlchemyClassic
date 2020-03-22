@@ -2629,7 +2629,7 @@ LLTextureFetch::~LLTextureFetch()
 	while (! mCommands.empty())
 	{
 		TFRequest * req(mCommands.front());
-		mCommands.erase(mCommands.begin());
+		mCommands.pop_front();
 		delete req;
 	}
 	mCommandsSize = 0;
@@ -2814,7 +2814,7 @@ void LLTextureFetch::removeFromHTTPQueue(const LLUUID& id, S32Bytes received_siz
 {
 	LLMutexLock lock(&mNetworkQueueMutex);								// +Mfnq
 	mHTTPTextureQueue.erase(id);
-	mHTTPTextureBits = (U32Bits)mHTTPTextureBits + received_size;
+	mHTTPTextureBits = U32Bits(mHTTPTextureBits) + received_size;
 }																		// -Mfnq
 
 // NB:  If you change deleteRequest() you should probably make
@@ -3894,7 +3894,7 @@ LLTextureFetch::TFRequest * LLTextureFetch::cmdDequeue()
 	if (! mCommands.empty())
 	{
 		ret = mCommands.front();
-		mCommands.erase(mCommands.begin());
+		mCommands.pop_front();
 	}
 	mCommandsSize = mCommands.size();
 	unlockQueue();														// -Mfq

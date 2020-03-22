@@ -344,7 +344,7 @@ private:
 	// is logically tied to LLQueuedThread's list of
 	// QueuedRequest instances and so must be covered by the
 	// same locks.
-	typedef std::vector<TFRequest *> command_queue_t;
+	typedef std::deque<TFRequest *> command_queue_t;
 	command_queue_t mCommands;											// Mfq
 	std::atomic<S32> mCommandsSize;
 

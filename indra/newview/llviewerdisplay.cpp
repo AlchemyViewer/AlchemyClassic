@@ -254,7 +254,7 @@ static LLTrace::BlockTimerStatHandle FTM_TELEPORT_DISPLAY("Teleport Display");
 // Paint the display!
 void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 {
-	LL_RECORD_BLOCK_TIME(FTM_RENDER);
+	LL_ALWAYS_RECORD_BLOCK_TIME(FTM_RENDER);
 	gViewerWindow->checkSettings();
 	LLVBOPool::deleteReleasedBuffers();
 

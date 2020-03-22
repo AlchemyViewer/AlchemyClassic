@@ -2978,13 +2978,13 @@ void append_xui_tooltip(LLView* viewp, LLToolTip::Params& params)
 	}
 }
 
-static LLTrace::BlockTimerStatHandle ftm("Update UI");
+static LLTrace::BlockTimerStatHandle FTM_UPDATE_UI("Update UI");
 
 // Update UI based on stored mouse position from mouse-move
 // event processing.
 void LLViewerWindow::updateUI()
 {
-	LL_RECORD_BLOCK_TIME(ftm);
+	LL_RECORD_BLOCK_TIME(FTM_UPDATE_UI);
 
 	static std::string last_handle_msg;
 

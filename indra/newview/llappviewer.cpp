@@ -1456,7 +1456,7 @@ bool LLAppViewer::doFrame()
 			{
 				pauseMainloopTimeout(); // *TODO: Remove. Messages shouldn't be stalling for 20+ seconds!
 
-				LL_RECORD_BLOCK_TIME(FTM_IDLE);
+				LL_ALWAYS_RECORD_BLOCK_TIME(FTM_IDLE);
 				idle();
 
 				resumeMainloopTimeout();

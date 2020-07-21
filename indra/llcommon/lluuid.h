@@ -35,6 +35,8 @@
 #include "llpreprocessor.h"
 #include <immintrin.h>
 
+#include "absl/hash/hash.h"
+
 class LLMutex;
 
 const S32 UUID_BYTES = 16;
@@ -174,20 +176,17 @@ public:
 	{
 		return rhs < (*this);
 	}
-
+	// END BOOST
 	inline size_t hash() const
 	{
-		size_t seed = 0;
-		for (U8 i = 0; i < 4; ++i)
-		{
-			seed ^= static_cast<size_t>(mData[i * 4]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-			seed ^= static_cast<size_t>(mData[i * 4 + 1]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-			seed ^= static_cast<size_t>(mData[i * 4 + 2]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-			seed ^= static_cast<size_t>(mData[i * 4 + 3]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-		}
-		return seed;
+		return absl::Hash<LLUUID>{}(*this);
 	}
 	// END BOOST
+	
+	template <typename H>
+	friend H AbslHashValue(H h, const LLUUID& id) {
+		return H::combine_contiguous(std::move(h), id.mData, UUID_BYTES);
+	}
 
 	// xor functions. Useful since any two random uuids xored together
 	// will yield a determinate third random unique id that can be
@@ -250,7 +249,6 @@ struct lluuid_less
 };
 
 typedef std::set<LLUUID, lluuid_less> uuid_list_t;
-
 
 namespace std {
 	template <> struct hash<LLUUID>

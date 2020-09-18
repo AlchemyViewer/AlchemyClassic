@@ -443,9 +443,9 @@ Section "Viewer"
 
   ;Download LibVLC
 !ifdef WIN64_BIN_BUILD
-  inetc::get /RESUME "Failed to download VLC media package. Retry?" "https://videolan.mirrors.hivelocity.net/vlc/3.0.8/win64/vlc-3.0.8-win64.7z" "$TEMP\AlchemyInst\libvlc.7z" /END
+  inetc::get /RESUME "Failed to download VLC media package. Retry?" "https://download.videolan.org/pub/videolan/vlc/3.0.8/win64/vlc-3.0.8-win64.7z" "$TEMP\AlchemyInst\libvlc.7z" /END
 !else
-  inetc::get /RESUME "Failed to download VLC media package. Retry?" "https://videolan.mirrors.hivelocity.net/vlc/3.0.8/win32/vlc-3.0.8-win32.7z" "$TEMP\AlchemyInst\libvlc.7z" /END
+  inetc::get /RESUME "Failed to download VLC media package. Retry?" "https://download.videolan.org/pub/videolan/vlc/3.0.8/win32/vlc-3.0.8-win32.7z" "$TEMP\AlchemyInst\libvlc.7z" /END
 !endif
   Nsis7z::ExtractWithDetails "$TEMP\AlchemyInst\libvlc.7z" "Unpacking media plugins %s..."
   Rename "$TEMP\AlchemyInst\vlc-3.0.8\libvlc.dll" "$INSTDIR\llplugin\libvlc.dll"

@@ -53,6 +53,7 @@ build:master:windows32:
     VIEWER_USE_CRASHPAD: "FALSE"
   only:
     - schedules
+    - web
 
 build:master:windows64:
   <<: *win_build
@@ -63,6 +64,7 @@ build:master:windows64:
     VIEWER_USE_CRASHPAD: "FALSE"
   only:
     - schedules
+    - web
 
 build:project:windows32:
   <<: *win_build

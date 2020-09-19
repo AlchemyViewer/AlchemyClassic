@@ -227,8 +227,8 @@ FunctionEnd
 
 Function check_skip_finish
   StrCmp $SKIP_DIALOGS "true" 0 +5
-  StrCmp $AUTOSTART "true" 0 +4
   Call write_marker_if_needed
+  StrCmp $AUTOSTART "true" 0 +3
   Call launch_viewer
   Abort
 FunctionEnd
